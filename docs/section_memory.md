@@ -1,0 +1,15 @@
+# 메모리
+
+* [[malloc(3)]], [[brk(2)]], [[malloc_trim(3)]], [[mallopt(3)]], [[malloc_info(3)]], [[malloc_stats(3)]], [[mallinfo(3)]], [[malloc_get_state(3)]], [[mcheck(3)]], [[mtrace(3)]], [[malloc_hook(3)]], [[posix_memalign(3)]], [[malloc_usable_size(3)]]
+* [[alloca(3)]]
+* [[end(3)]], [[getpagesize(2)]]
+* [[mmap(2)]], [[mmap2(2)]], [[mremap(2)]], [[msync(2)]], [[memfd_create(2)]], [[remap_file_pages(2)]]
+* [[pkeys(7)]], [[pkey_alloc(2)]], [[mprotect(2)]]
+* [[mincore(2)]], [[mlock(2)]], [[madvise(2)]], [[posix_madvise(3)]]
+* [[process_vm_readv(2)]]
+* [[cacheflush(2)]]
+* [[set_thread_area(2)]], [[modify_ldt(2)]]
+* [[userfaultfd(2)]], [[ioctl_userfaultfd(2)]]
+* [[bstring(3)]], [[string(3)]], [[bzero(3)]], [[memchr(3)]], [[memccpy(3)]], [[memfrob(3)]], [[memmem(3)]], [[strfry(3)]], [[stpcpy(3)]], [[stpncpy(3)]], [[strnlen(3)]], [[strsep(3)]], [[strtok(3)]], [[strverscmp(3)]], [[ffs(3)]]
+* [[argz_add(3)]], [[envz_add(3)]]
+* [[open_memstream(3)]], [[fmemopen(3)]], [[fopencookie(3)]]
