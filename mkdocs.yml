@@ -2,6 +2,16 @@ site_name: man-pages-ko
 site_url: https://wariua.github.io/man-pages-ko/
 site_description: 리눅스 매뉴얼 페이지 일부 한글 번역
 
+nav:
+  - File: 'section_file.md'
+  - IPC: 'section_ipc.md'
+  - Memory: 'section_memory.md'
+  - Network: 'section_network.md'
+  - Process: 'section_process.md'
+  - Thread: 'section_thread.md'
+  - 'Trouble Shooting': 'section_trouble_shooting.md'
+  - Others: 'section_others.md'
+
 theme:
   name: null
   custom_dir: 'cinder'
