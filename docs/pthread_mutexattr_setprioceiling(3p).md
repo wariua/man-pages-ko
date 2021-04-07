@@ -1,0 +1,1 @@
+[[pthread_mutexattr_getprioceiling(3p)]]

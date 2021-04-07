@@ -1,0 +1,102 @@
+## NAME
+
+getrandom - 일련의 난수 바이트 얻기
+
+## SYNOPSIS
+
+```c
+#include <sys/random.h>
+
+ssize_t getrandom(void *buf, size_t buflen, unsigned int flags);
+```
+
+## DESCRIPTION
+
+`getrandom()` 시스템 호출은 `buf`가 가리키는 버퍼를 `buflen` 개까지의 난수 바이트들로 채운다. 이 바이트들을 사용자 공간 난수 생성기의 시드로 사용하거나 암호학적 용도에 사용할 수 있다.
+
+기본적으로 `getrandom()`은 `urandom` 원천으로부터 (즉 `/dev/urandom` 장치와 같은 원천으로부터) 엔트로피를 뽑아낸다. `flags` 인자를 통해 이 동작을 바꿀 수 있다.
+
+`urandom` 원천이 초기화 되어 있는 경우에는 256바이트까지의 읽기는 항상 요청한 만큼의 바이트를 반환하며 시그널에 의해 중단되지 않게 된다. 더 큰 버퍼 크기에 대해선 그런 보장이 없다. 예를 들어 호출이 시그널 핸들러에 의해 중단되면 일부만 채워진 버퍼를 반환할 수도 있고 `EINTR` 오류로 실패할 수도 있다.
+
+`urandom` 원천이 아직 초기화 되어 있지 않은 경우에는 `flags`에 `GRND_NONBLOCK`을 지정하지 않았으면 `getrandom()`이 블록 하게 된다.
+
+`flags` 인자는 비트 마스크이며 다음 값들을 0개 또는 그 이상 OR 한 값을 담을 수 있다.
+
+<dl>
+<dt><code>GRND_RANDOM</code></dt>
+<dd>이 비트가 설정되어 있으면 <code>urandom</code> 원천 대신 <code>random</code> 원천으로부터 (즉 <code>/dev/random</code> 장치와 같은 원천으로부터) 난수 바이트를 뽑아낸다. <code>random</code> 원천은 환경 잡음에서 얻은 엔트로피를 기반으로 하도록 제한되어 있다. <code>random</code> 원천 내에 사용 가능한 바이트 수가 <code>buflen</code>에 요청한 값보다 작으면 사용 가능한 난수 바이트들만 반환한다. 사용 가능한 난수 바이트가 없는 경우의 동작 방식은 <code>flags</code> 인자에 <code>GRND_NONBLOCK</code>이 있는지 여부에 따라 다르다.</dd>
+
+<dt><code>GRND_NONBLOCK</code></dt>
+<dd>기본적으로 <code>getrandom()</code>이 <code>random</code> 원천으로부터 읽어들일 때 사용 가능한 난수 바이트가 없으면 블록 하며, <code>urandom</code> 원천으로부터 읽어들일 때 엔트로피 풀이 아직 초기화 되지 않았으면 블록 한다. <code>GRND_NONBLOCK</code> 플래그를 설정하면 이런 경우에 <code>getrandom()</code>이 블록 하지 않고 즉시 -1을 반환하며 <code>errno</code>를 <code>EAGAIN</code>으로 설정한다.</dd>
+</dl>
+
+## RETURN VALUE
+
+성공 시 `getrandom()`은 버퍼 `buf`로 복사된 바이트 수를 반환한다. `flags`에 `GRND_RANDOM`을 지정했는데 `random` 원천에 충분한 엔트로피가 있지 않았거나 시스템 호출이 시그널에 의해 중단되었다면 이 값이 `buflen`을 통해 요청한 바이트 수보다 작을 수도 있다.
+
+오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+
+## ERRORS
+
+<dl>
+<dt><code>EAGAIN</code></dt>
+<dd>요청한 만큼의 엔트로피가 사용 가능하지 않았으며 <code>GRND_NONBLOCK</code>을 설정하지 않았다면 <code>getrandom()</code>이 블록 했을 것이다.</dd>
+<dt><code>EFAULT</code></dt>
+<dd><code>buf</code>가 가리키는 주소가 접근 가능한 주소 공간 밖에 있다.</dd>
+<dt><code>EINTR</code></dt>
+<dd>호출이 시그널 핸들러에 의해 중단되었다. <tt>[[signal(7)]]</tt> 맨 페이지에서 <code>SA_RESTART</code> 플래그가 있거나 없을 때 "느린" 장치에 대한 <code>read(2)</code> 호출 중단을 어떻게 처리하는지에 대한 설명을 보라.</dd>
+<dt><code>EINVAL</code></dt>
+<dd><code>flags</code>에 유효하지 않은 플래그를 지정했다.</dd>
+<dt><code>ENOSYS</code></dt>
+<dd><code>getrandom()</code>의 glibc 래퍼 함수에서 기반 커널이 이 시스템 호출을 구현하고 있지 않다고 판단했다.</dd>
+</dl>
+
+## VERSIONS
+
+리눅스 커널 버전 3.17에서 `getrandom()`이 도입되었다. glibc 버전 2.25에서 지원이 추가되었다.
+
+## CONFORMING TO
+
+이 시스템 호출은 리눅스 전용이다.
+
+## NOTES
+
+난수를 얻는 데 사용할 수 있는 다양한 인터페이스들의 소개와 비교는 <tt>[[random(7)]]</tt>을 보라.
+
+`/dev/random` 및 `/dev/urandom`과 달리 `getrandom()`에는 경로명이나 파일 디스크립터 사용이 수반되지 않는다. 따라서 <tt>[[chroot(2)]]</tt> 때문에 `/dev` 경로명이 보이지 않게 되는 경우나 라이브러리에서 이 파일들 중 하나를 연 파일 디스크립터를 응용이 (가령 데몬이 개시 과정 중에) 닫는 경우에 `getrandom()`이 유용할 수 있다.
+
+### 반환하는 최대 바이트 수
+
+리눅스 3.19 현재 다음 제한이 적용된다.
+
+* `urandom` 원천으로부터 읽어들일 때 `int`의 크기가 32비트인 시스템에서 `getrandom()` 호출 한 번이 최대 33554431바이트를 반환한다.
+
+* `random` 원천으로부터 읽어들일 때 최대 512바이트를 반환한다.
+
+### 시그널 핸들러에 의한 중단
+
+`urandom` 원천으로부터 읽어들일 때 (`GRND_RANDOM`이 설정되어 있지 않을 때) `getrandom()`은 (`GRND_NONBLOCK` 플래그를 지정하지 않았다면) 엔트로피 풀이 초기화 될 때까지 블록 하게 된다. 많은 수의 (256 넘는) 바이트를 읽도록 요청하면 그 바이트들을 생성하여 커널 메모리에서 `buf`로 복사할 때까지 `getrandom()`이 블록 하게 된다. `random` 원천으로부터 읽어들일 때 (`GRND_RANDOM`이 설정되어 있을 때) `getrandom()`은 (`GRND_NONBLOCK` 플래그를 지정하지 않았다면) 사용 가능한 난수 바이트가 있게 될 때까지 블록 하게 된다.
+
+`urandom` 원천으로부터 읽고 있는 동안 블록 된 `getrandom()` 호출이 시그널 핸들러에 의해 중단되었을 때의 동작 방식은 엔트로피 버퍼의 최초 상태와 요청 크기인 `buflen`에 따라 달라진다. 아직 엔트로피가 초기화 되지 않았으면 `EINTR` 오류로 호출이 실패한다. 엔트로피 풀이 초기화 되었으며 요청 크기가 크면 (`buflen` > 256) 호출이 일부만 채워진 버퍼를 반환하며 성공하거나 `EINTR` 오류로 실패한다. 엔트로피 풀이 초기화 되었으며 요청 크기가 작으면 (`buflen` <= 256) `getrandom()`이 `EINTR`로 실패하지 않게 된다. 요청 받은 만큼의 바이트를 모두 반환하게 된다.
+
+`random` 원천으로부터 읽고 있는 중에 임의 크기의 블로킹 요청이 시그널 핸들러에 의해 중단될 수 있다. (호출이 `EINTR` 오류로 실패한다.)
+
+`urandom` 원천으로부터 작은 (<= 256바이트) 버퍼를 읽어들이는 것이 `getrandom()`의 선호 사용 방식이다.
+
+작은 `buflen` 값에 대한 특별한 처리는 요즘 glibc에서도 지원하는 OpenBSD의 <tt>[[getentropy(3)]]</tt>와의 호환성을 위해 설계된 것이다.
+
+`getrandom()` 사용자는 언제나 반환 값을 확인하여 오류가 발생했거나 요청보다 적은 바이트가 반환되었는지 판단*해야 한다*. `GRND_RANDOM`을 지정하지 않았고 `buflen`가 256 이하인 경우에는 요청보다 적은 바이트가 반환되는 경우가 절대 없을 테지만 세심한 프로그래머라면 그래도 확인할 것이다!
+
+## BUGS
+
+리눅스 3.19 현재 다음 버그가 존재한다.
+
+* CPU 부하에 따라 `getrandom()`이 요청한 바이트 모두를 읽기 전까지 시그널에 반응하지 않는다.
+
+## SEE ALSO
+
+<tt>[[getentropy(3)]]</tt>, <tt>[[random(4)]]</tt>, <tt>[[urandom(4)]]</tt>, <tt>[[random(7)]]</tt>, <tt>[[signal(7)]]</tt>
+
+----
+
+2017-09-15

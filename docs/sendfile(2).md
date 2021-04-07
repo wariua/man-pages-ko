@@ -1,0 +1,90 @@
+## NAME
+
+sendfile - 파일 디스크립터 간에 데이터 복사하기
+
+## SYNOPSIS
+
+```c
+#include <sys/sendfile.h>
+
+ssize_t sendfile(int out_fd, int in_fd, off_t *offset, size_t count);
+```
+
+## DESCRIPTION
+
+`sendfile()`은 한 파일 디스크립터와 다른 디스크립터 간에 데이터를 복사한다. 커널 내에서 복사가 이뤄지기 때문에 `sendfile()`은 사용자 공간과 데이터를 주고받아야 하는 `read(2)` 및 `write(2)` 조합보다 효율적이다.
+
+`in_fd`는 읽기 가능하게 열린 파일 디스크립터여야 하고 `out_fd`는 쓰기 가능하게 열린 디스크립터여야 한다.
+
+`offset`이 NULL이 아닌 경우에는 `sendfile()`이 `in_fd`에서 데이터를 읽기 시작할 파일 오프셋을 담은 변수를 가리킨다. `sendfile()` 반환 시에 그 변수는 읽어 들인 마지막 바이트 다음 바이트의 오프셋으로 설정된다. `offset`이 NULL이 아니면 `sendfile()`에서 `in_fd`의 파일 오프셋을 변경하지 않는다. NULL이면 `in_fd`에서 읽은 바이트 수를 반영하도록 파일 오프셋을 조정한다.
+
+`offset`이 NULL인 경우에는 파일 오프셋부터 시작해서 `in_fd`를 읽게 되며 호출 내에서 파일 오프셋을 갱신한다.
+
+`count`는 파일 디스크립터들 간에 복사할 바이트 수이다.
+
+`in_fd` 인자는 <tt>[[mmap(2)]]</tt> 방식 동작을 지원하는 파일에 대응해야 한다. (즉 소켓일 수 없다.)
+
+리눅스 커널 2.6.33 전에서는 `out_fd`가 소켓을 가리켜야 한다. 리눅스 2.6.33부터는 아무 파일이나 가능하다. 정규 파일이면 `sendfile()`에서 파일 오프셋을 적절히 바꾼다.
+
+## RETURN VALUE
+
+성공적으로 복사했으면 `out_fd`에 써넣은 바이트 수를 반환한다. `sendfile()` 호출이 성공하는 경우에도 요청보다 적은 바이트를 쓸 수도 있다. 호출자는 미전송 바이트가 있으면 호출을 재시도할 준비가 되어 있어야 한다. NOTES 참고.
+
+오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+
+## ERRORS
+
+<dl>
+<dt><code>EAGAIN</code></dt>
+<dd><code>O_NONBLOCK</code>으로 논블록 I/O를 택했으며 쓰기가 블록 되려 한다.</dd>
+<dt><code>EBADF</code></dt>
+<dd>입력 파일이 읽기 가능하게 열리지 않았거나 출력 파일이 쓰기 가능하게 열리지 않았다.</dd>
+<dt><code>EFAULT</code></dt>
+<dd>잘못된 주소.</dd>
+<dt><code>EINVAL</code></dt>
+<dd>디스크립터가 유효하지 않거나 잠겨 있다. 또는 <code>in_fd</code>에서 <tt>[[mmap(2)]]</tt> 방식 동작이 가능하지 않다. 또는 <code>count</code>가 음수이다.</dd>
+<dt><code>EINVAL</code></dt>
+<dd><code>out_fd</code>에 <code>O_APPEND</code> 플래그가 설정되어 있다. <code>sendfile()</code>에서 현재 지원하지 않는다.</dd>
+<dt><code>EIO</code></dt>
+<dd><code>in_fd</code>를 읽는 중 불특정 오류.</dd>
+<dt><code>ENOMEM</code></dt>
+<dd><code>in_fd</code>를 읽기에 메모리가 충분하지 않음.</dd>
+<dt><code>EOVERFLOW</code></dt>
+<dd><code>count</code>가 너무 커서 입력 파일이나 출력 파일의 최대 크기를 초과하게 됨.</dd>
+<dt><code>ESPIPE</code></dt>
+<dd><code>offset</code>이 NULL이 아닌데 입력 파일이 <code>seek(2)</code> 가능하지 않다.</dd>
+</dl>
+
+## VERSIONS
+
+리눅스 2.2에서 `sendfile()`이 처음 등장했다. glibc 2.1부터 포함 파일 `<sys/sendfile.h>`이 존재한다.
+
+## CONFORMING TO
+
+POSIX.1-2001이나 다른 표준에 명세되어 있지 않다.
+
+다른 유닉스 시스템들에서는 동작 방식과 함수 원형을 다르게 해서 `sendfile()`을 구현한다. 이식 가능한 프로그램에서는 사용하지 말아야 한다.
+
+## NOTES
+
+`sendfile()`은 최대 0x7ffff000 (2,147,479,552) 바이트까지 복사하며 실제 복사한 바이트 수를 반환한다. (32비트 시스템과 64비트 시스템 모두에서 그렇다.)
+
+`sendfile()`을 사용해서 TCP 소켓으로 파일을 보내려 하는데 파일 내용 앞에 어떤 헤더 데이터를 보내야 한다면 <tt>[[tcp(7)]]</tt>에 설명된 `TCP_CORK` 옵션을 쓰는 게 유용할 것이다. 패킷 수를 줄여서 성능을 최적화할 수 있다.
+
+리눅스 2.4 및 이전에서는 `out_fd`가 정규 파일을 가리킬 수도 있었다. 리눅스 2.6.x 커널 시리즈에서 가능하지 않게 되었다가 리눅스 2.6.33에서 다시 가능해졌다.
+
+원래의 리눅스 `sendfile()` 시스템 호출은 큰 파일 오프셋을 다룰 수 있도록 설계되지 않았다. 그래서 리눅스 2.4에서 `offset` 인자에 더 큰 타입을 쓰는 `sendfile64()`를 추가했다. glibc의 `sendfile()` 래퍼 함수에서 커널 차이를 투명하게 처리해 준다.
+
+`sendfile()`이 `EINVAL`이나 `ENOSYS`로 실패하는 경우에 응용에서 `read(2)`/`write(2)` 방식으로 되돌아갈 수도 있다.
+
+`out_fd`가 제로 카피를 지원하는 소켓이나 파이프를 가리키는 경우 호출자는 `out_fd`의 반대편에서 데이터를 모두 읽어서 소모할 때까지 `in_fd`가 가리키는 파일의 복사할 부분이 바뀌지 않고 유지되도록 해야 한다.
+
+리눅스 전용 <tt>[[splice(2)]]</tt> 호출은 한쪽이 (또는 양쪽 모두) 파이프라면 임의 파일 디스크립터 간에 데이터 복사를 지원한다.
+
+## SEE ALSO
+
+<tt>[[copy_file_range(2)]]</tt>, <tt>[[mmap(2)]]</tt>, <tt>[[open(2)]]</tt>, <tt>[[socket(2)]]</tt>, <tt>[[splice(2)]]</tt>
+
+----
+
+2017-09-15

@@ -1,0 +1,83 @@
+## NAME
+
+getpriority, setpriority - 프로그램 스케줄링 우선순위 얻기/설정하기
+
+## SYNOPSIS
+
+```c
+#include <sys/time.h>
+#include <sys/resource.h>
+
+int getpriority(int which, id_t who);
+int setpriority(int which, id_t who, int prio);
+```
+
+## DESCRIPTION
+
+`which`와 `who`로 나타내는 프로세스나 프로세스 그룹, 사용자의 스케줄링 우선순위를 `getpriority()` 호출로 얻고 `setpriority()` 호출로 설정한다. 이 시스템 호출로 다루는 프로세스 속성은 <tt>[[nice(2)]]</tt>로 다루는 것과 같은 ("나이스" 값이라고도 하는) 속성이다.
+
+`which` 값은 `PRIO_PROCESS`, `PRIO_PGRP`, `PRIO_USER` 중 하나이고 `who`는 `which`를 기준으로 해석한다. (`PRIO_PROCESS`에서는 프로세스 식별자, `PRIO_PGRP`에서는 프로세스 그룹 식별자, `PRIO_USER`에서는 사용자 ID.) `who`에서의 0 값은 (각각) 호출 프로세스, 호출 프로세스의 프로세스 그룹, 호출 프로세스의 실제 사용자 ID를 나타낸다.
+
+`prio` 인자는 -20에서 19까지 범위의 값이며 (하지만 아래 NOTES 참고), -20이 가장 높은 우선순위이고 19가 가장 낮은 우선순위이다. 이 범위 밖으로 우선순위를 설정하려고 시도하면 범위에 맞게 잘린다. 기본 우선순위는 0이고 낮은 값이 프로세스에게 더 높은 스케줄링 우선순위를 준다.
+
+`getpriority()` 호출은 지정한 프로세스들이 향유하는 가장 높은 우선순위 값(가장 낮은 수)을 반환한다. `setpriority()` 호출은 지정한 프로세스들 모두의 우선순위를 지정한 값으로 설정한다.
+
+전통적으로는 특권 프로세스만 나이스 값을 낮출 수 (즉 우선순위를 높게 설정할 수) 있었다. 하지만 리눅스 2.6.12부터는 비특권 프로세스가 적절한 `RLIMIT_NICE` 연성 제한을 가진 대상 프로세스의 나이스 값을 낮출 수 있다. 자세한 내용은 <tt>[[getrlimit(2)]]</tt>을 보라.
+
+## RETURN VALUE
+
+성공 시 `getpriority()`는 호출 스레드의 나이스 값을 반환하는데, 이 값은 음수일 수도 있다. 오류 시 -1을 반환하며 오류 원인을 나타내도록 `errno`를 설정한다. 성공한 `getpriority()` 호출이 적법하게 -1을 반환할 수 있기 때문에 -1이 오류인지 적법한 값인지 판단하려면 호출 전에 외부 변수 `errno`를 비우고서 후에 그 변수를 확인할 필요가 있다.
+
+`setpriority()`는 성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류 원인을 나타내도록 `errno`를 설정한다.
+
+## ERRORS
+
+<dl>
+<dt><code>EINVAL</code></dt>
+<dd><code>which</code>가 <code>PRIO_PROCESS</code>, <code>PRIO_PGRP</code>, <code>PRIO_USER</code> 중 하나가 아니다.</dd>
+<dt><code>ESRCH</code></dt>
+<dd>지정한 <code>which</code>와 <code>who</code> 값을 사용해 어떤 프로세스도 찾아낼 수 없었다.</dd>
+</dl>
+
+위에 보인 오류들에 더해서 `setpriority()`가 다음 경우에 실패할 수도 있다.
+
+<dl>
+<dt><code>EACCES</code></dt>
+<dd>호출자가 더 낮은 나이스 값을 (즉 더 높은 프로세스 우선순위를) 설정하려 했지만 필요한 특권을 가지고 있지 않다. (리눅스: <code>CAP_SYS_NICE</code> 역능을 가지고 있지 않다.)</dd>
+<dt><code>EPERM</code></dt>
+<dd>프로세스를 찾아냈지만 그 실효 사용자 ID가 호출자의 실효 사용자 ID나 실제 사용자 ID 어느 쪽과도 일치하지 않았으며, 특권도 없었다. (리눅스: <code>CAP_SYS_NICE</code> 역능을 가지고 있지 않다.) 하지만 아래 NOTES를 보라.</dd>
+</dl>
+
+## CONFORMING TO
+
+POSIX.1-2001, POSIX.1-2008, SVr4, 4.4BSD (4.2BSD에서 이 인터페이스들이 처음 등장).
+
+## NOTES
+
+나이스 값에 대한 더 자세한 내용은 <tt>[[sched(7)]]</tt>를 보라.
+
+*주의*: 리눅스 2.6.38에 "autogroup" 기능이 추가되면서 많은 경우에서 나이스 값이 더 이상 전통적 효과를 주지 않게 되었다. 자세한 내용은 <tt>[[sched(7)]]</tt>를 보라.
+
+<tt>[[fork(2)]]</tt>로 생성된 자식은 부모의 나이스 값을 물려받는다. <tt>[[execve(2)]]</tt>를 거치면서 나이스 값이 보존된다.
+
+`EPERM` 조건의 세부 내용이 시스템에 따라 다르다. 위 설명은 POSIX.1-2001에서 말하는 것인데 모든 시스템 V 계열 시스템들이 따르는 것 같다. 리눅스 커널 2.6.12 전에서는 호출자의 실제 사용자 ID나 실효 사용자 ID가 프로세스 `who`의 (실효 사용자 ID가 아닌) 실제 사용자와 일치하기를 요구했다. 리눅스 2.6.12 이후에서는 호출자의 실효 사용자 ID가 프로세스 `who`의 실제 사용자 ID나 실효 사용자 ID와 일치하기를 요구한다. BSD 계열 시스템들(SunOS 4.1.3, Ultrix 4.2, 4.3BSD, FreeBSD 4.3, OpenBSD-2.5, ...)은 모두 리눅스 2.6.12 이후와 같은 방식으로 동작한다.
+
+`<sys/time.h>`를 포함시키는 것이 요즘은 필요하지 않지만 이식성을 높여 준다. (실제로 `<sys/resource.h>`에서 정의하는 `rusage` 구조체에는 `<sys/time.h>`에 정의돼 있는  `struct timeval` 타입 필드들이 있다.)
+
+### C 라이브러리/커널 차이
+
+커널 내에서 실제로는 40..1 범위를 이용해 나이스 값을 표현한다. (음수는 오류 코드이기 때문이다.) 그리고 이 값이 `setpriority()` 및 `getpriority()` 시스템 호출에서 사용하는 값이다. 이 시스템 호출들에 대한 glibc 래퍼 함수들에서 `unice = 20 - knice` 식에 따라서 나이스 값의 사용자 공간 표현과 커널 표현 사이 변환을 처리한다. (그래서 커널의 40..1 범위가 사용자 공간에 보이는 -20..19 범위로 상응한다.)
+
+## BUGS
+
+POSIX에 따르면 나이스 값은 프로세스별 설정이다. 하지만 현재의 리눅스/NPTL POSIX 스레드 구현에서는 나이스 값이 스레드별 속성이다. 즉, 같은 프로세스 내의 스레드들이 서로 다른 나이스 값을 가질 수 있다. 이식 가능한 응용에서는 향후에 표준을 준수하도록 바뀔 수도 있는 리눅스 동작 방식에 의존하는 것을 피해야 한다.
+
+## SEE ALSO
+
+`nice(1)`, `renice(1)`, <tt>[[fork(2)]]</tt>, <tt>[[capabilities(7)]]</tt>, <tt>[[sched(7)]]</tt>
+
+리눅스 커널 소스 트리의 `Documentation/scheduler/sched-nice-design.txt` (리눅스 2.6.23부터).
+
+----
+
+2017-09-15

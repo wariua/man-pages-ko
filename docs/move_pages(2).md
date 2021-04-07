@@ -1,0 +1,117 @@
+## NAME
+
+move_pages - 프로세스의 개별 페이지들을 다른 노드로 옮기기
+
+## SYNOPSIS
+
+```c
+#include <numaif.h>
+
+long move_pages(int pid, unsigned long count, void **pages,
+                const int *nodes, int *status, int flags);
+```
+
+`-lnuma`로 링크.
+
+## DESCRIPTION
+
+`move_pages()`는 프로세스 `pid`의 지정한 `pages`를 `nodes`로 지정한 메모리 노드들로 옮긴다. 이동 결과가 `status`에 반영된다. `flags`는 이동할 페이지들에 대한 제약을 나타낸다.
+
+`pid`는 이동할 페이지들이 있는 프로세스의 ID이다. `pid`가 0이면 `move_pages()`는 호출 프로세스의 페이지를 옮긴다.
+
+다른 프로세스의 페이지를 옮기려면 다음 특권이 필요하다.
+
+* 4.12까지의 커널: 호출자에게 특권(`CAP_SYS_NICE`)이 있거나 호출 프로세스의 실제 내지 실효 사용자 ID가 대상 프로세스의 실제 내지 saved-set 사용자 ID와 일치해야 한다.
+
+* 이전 규칙 하에서는 커널에서 선정한 여러 가상 주소들을 호출자가 알아낼 수 있어서 호출자와 같은 UID가 소유하는 프로세스의 주소 공간 배치 난수화가 무력화 될 수 있었고, 그래서 리눅스 4.13부터 규칙이 바뀌었다. 리눅스 4.13부터는 대상 프로세스에 대한 ptrace 접근 모드 `PTRACE_MODE_READ_REALCREDS` 검사로 허가 여부를 결정한다. <tt>[[ptrace(2)]]</tt> 참고.
+
+`count`는 옮길 페이지 개수이다. 세 배열 `pages`, `nodes`, `status`의 크기를 규정한다.
+
+`pages`는 옮겨야 할 페이지들에 대한 포인터들의 배열이다. 이 포인터들은 페이지 경계에 맞춰 정렬돼 있어야 한다. `pid`로 지정한 프로세스에게 보이는 주소로 지정한다.
+
+`nodes`는 각 페이지에 대해 원하는 위치를 지정한 정수들의 배열이다. 배열의 각 항목은 노드 번호이다. `nodes`가 NULL일 수도 있는데, 그 경우 `move_pages()`는 페이지를 옮기지 않고 대신 각 페이지가 현재 자리한 노드를 `status` 배열로 반환한다. 옮겨야 할 페이지들을 알아내기 위해 각 페이지의 상태를 얻어야 할 수 있다.
+
+`status`는 정수들의 배열이며 각 페이지의 상태를 반환한다. `move_pages()`가 오류를 반환하지 않은 경우에만 배열이 유효한 값들을 담고 있다.
+
+`flags`는 옮길 페이지의 종류를 지정한다. `MPOL_MF_MOVE`는 프로세스에서 배타적으로 사용 중인 페이지들만 옮기라는 뜻이다. `MPOL_MF_MOVE_ALL`은 여러 프로세스들끼리 공유하는 페이지들도 옮길 수 있다는 뜻이다. `MPOL_MF_MOVE_ALL`을 쓰려면 프로세스가 특권(`CAP_SYS_NICE`)을 가지고 있어야 한다.
+
+### `status` 배열의 페이지 상태
+
+`status` 배열의 각 항목으로 다음 값들을 반환할 수 있다.
+
+<dl>
+<dt><code>0..MAX_NUMNODES</code></dt>
+<dd>페이지가 자리한 노드를 나타낸다.</dd>
+
+<dt><code>-EACCES</code></dt>
+<dd>페이지를 여러 프로세스가 맵 하고 있어서 <code>MPOL_MF_MOVE_ALL</code>을 지정해야만 옮길 수 있다.</dd>
+
+<dt><code>-EBUSY</code></dt>
+<dd>페이지가 현재 사용 중이어서 옮길 수 없다. 나중에 다시 시도하라. 페이지로 I/O를 하는 중이거나 다른 커널 서브시스템에서 페이지에 대한 참조를 잡고 있는 경우이다.</dd>
+
+<dt><code>-EFAULT</code></dt>
+<dd>제로 페이지이거나 프로세스가 맵 하지 않은 메모리 영역이다.</dd>
+
+<dt><code>-EIO</code></dt>
+<dd>페이지를 내려 쓸 수 없다. 페이지가 변경됐는데 변경된 페이지를 옮길 수 있게 해 주는 이전 함수를 파일 시스템에서 제공하지 않기 때문에 페이지를 옮기기 위해선 아래로 기록해야 한다.</dd>
+
+<dt><code>-EINVAL</code></dt>
+<dd>변경된 페이지를 이동할 수 없다. 파일 시스템에서 이전 함수를 제공하지 않으며 페이지를 내려 쓸 수 없다.</dd>
+
+<dt><code>-ENOENT</code></dt>
+<dd>페이지가 존재하지 않는다.</dd>
+
+<dt><code>-ENOMEM</code></dt>
+<dd>대상 노드에서 메모리를 할당할 수 없다.</dd>
+</dl>
+
+## RETURN VALUE
+
+성공 시 `move_pages()`는 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
+
+## ERRORS
+
+<dl>
+<dt><code>E2BIG</code></dt>
+<dd>옮길 페이지가 너무 많다.</dd>
+<dt><code>EACCES</code></dt>
+<dd>한 대상 노드를 현재 cpuset에서 허용하지 않는다.</dd>
+<dt><code>EFAULT</code></dt>
+<dd>매개변수 배열에 접근할 수 없다.</dd>
+<dt><code>EINVAL</code></dt>
+<dd><code>MPOL_MF_MOVE</code> 및 <code>MPOL_MF_MOVE_ALL</code> 외의 플래그를 지정했거나 커널 스레드의 페이지를 이동하려는 시도가 이뤄졌다.</dd>
+<dt><code>ENODEV</code></dt>
+<dd>한 대상 노드가 온라인이 아니다.</dd>
+<dt><code>ENOENT</code></dt>
+<dd>이동이 필요한 페이지를 찾지 못했다. 모든 페이지가 이미 대상 노드에 있거나, 존재하지 않거나, 주소가 유효하지 않거나, 여러 프로세스가 맵 하고 있어서 옮길 수 없다.</dd>
+<dt><code>EPERM</code></dt>
+<dd>호출자가 충분한 특권(<code>CAP_SYS_NICE</code>) 없이 <code>MPOL_MF_MOVE_ALL</code>을 지정했다. 또는 호출자가 다른 사용자에게 속한 프로세스의 페이지를 옮기려고 시도했는데 그렇게 하기 위한 특권(<code>CAP_SYS_NICE</code>)을 가지고 있지 않았다.</dd>
+<dt><code>ESRCH</code></dt>
+<dd>프로세스가 존재하지 않는다.</dd>
+</dl>
+
+## VERSIONS
+
+리눅스 버전 2.6.18에서 `move_pages()`가 처음 등장했다.
+
+## CONFORMING TO
+
+이 시스템 호출은 리눅스 전용이다.
+
+## NOTES
+
+라이브러리 지원에 대한 정보는 <tt>[[numa(7)]]</tt>를 보라.
+
+<tt>[[get_mempolicy(2)]]</tt>를 `MPOL_F_MEMS_ALLOWED` 플래그로 사용하면 현재 cpuset에서 허용하는 노드들의 집합을 얻을 수 있다. 참고로 그 정보는 수동 내지 자동으로 이뤄지는 cpuset 재구성으로 인해 언제든 바뀔 수 있다.
+
+이 함수를 사용하면 페이지들의 위치(노드)가 지정 주소(<tt>[[mbind(2)]]</tt>) 및/또는 지정 프로세스(<tt>[[set_mempolicy(2)]]</tt>)에 대해 설정한 메모리 정책과 어긋나게 될 수도 있다. 다시 말해 메모리 정책이 `move_pages()`에서 쓰는 목적지 노드를 제약하지 않는다.
+
+`<numaif.h>` 헤더는 glibc에 포함되어 있지 않으며 `libnuma-devel` 내지 그와 비슷한 패키지를 설치해야 한다.
+
+## SEE ALSO
+
+<tt>[[get_mempolicy(2)]]</tt>, <tt>[[mbind(2)]]</tt>, <tt>[[set_mempolicy(2)]]</tt>, <tt>[[numa(3)]]</tt>, <tt>[[numa_maps(5)]]</tt>, <tt>[[cpuset(7)]]</tt>, <tt>[[numa(7)]]</tt>, `migratepages(8)`, `numastat(8)`
+
+----
+
+2017-09-15

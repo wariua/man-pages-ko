@@ -1,0 +1,238 @@
+## NAME
+
+inode - 파일 아이노드 정보
+
+## DESCRIPTION
+
+각 파일에는 그 파일에 대한 메타데이터를 담은 아이노드(inode)가 있다. `stat` 구조체를 반환하는 <tt>[[stat(2)]]</tt>을 (또는 유사 호출을) 이용해서, 또는 `statx` 구조체를 반환하는 <tt>[[statx(2)]]</tt>를 이용해서 응용에서 그 메타정보를 얻을 수 있다.
+
+다음은 일반적으로 파일 아이노드 내에 있거나 연계돼 있는 정보들의 목록이다. <tt>[[stat(2)]]</tt> 및 <tt>[[statx(2)]]</tt>에서 반환하는 대응 구조체 필드의 이름이 적혀 있다.
+
+<dl>
+<dt>아이노드가 위치한 장치</dt>
+<dd>
+
+<code>stat.st_dev</code>. <code>statx.stx_dev_minor</code> 및 <code>statx.stx_dev_major</code>.
+
+각 아이노드는 (연관된 파일과 마찬가지로) 어떤 장치 상의 파일 시스템에 위치한다. (일반적 장치 분류를 나타내는) 주 ID와 (그 일반 분류 내에서 특정 인스턴스를 나타내는) 부 ID의 조합으로 그 장치를 식별한다.
+</dd>
+
+<dt>아이노드 번호</dt>
+<dd>
+
+<code>stat.st_ino</code>. <code>statx.stx_ino</code>.
+
+파일 시스템의 각 파일에는 고유한 아이노드 번호가 있다. 아이노드 번호는 한 파일 시스템 내에서만 유일성이 보장된다. (즉 다른 파일 시스템에서 같은 아이노드 번호를 쓸 수 있으며, 그래서 하드 링크가 파일 시스템 경계를 넘어갈 수 없다.) 이 필드는 파일의 아이노드 번호를 담고 있다.
+</dd>
+
+<dt>파일 종류 및 모드</dt>
+<dd>
+
+<code>stat.st_mode</code>. <code>statx.stx_mode</code>.
+
+아래의 파일 종류 및 모드 설명 참고.
+</dd>
+
+<dt>링크 수</dt>
+<dd>
+
+<code>stat.st_nlink<code>. <code>statx.stx_nlink</code>.
+
+이 필드는 파일에 대한 하드 링크 수를 담고 있다. <tt>[[link(2)]]</tt>를 써서 기존 파일에 대한 링크를 추가로 만든다.
+</dd>
+
+<dt>사용자 ID</dt>
+<dd>
+
+<code>stat.st_uid</code>. <code>statx.stx_uid</code>.
+
+이 필드는 파일 소유자의 사용자 ID를 기록한다. 파일이 새로 생성될 때 파일 사용자 ID는 생성 프로세스의 실효 사용자 ID다. <tt>[[chown(2)]]</tt>을 써서 파일의 사용자 ID를 바꿀 수 있다.
+</dd>
+
+<dt>그룹 ID</dt>
+<dd>
+
+<code>stat.st_gid</code>. <code>statx.stx_gid</code>.
+
+아이노드에 파일 그룹 소유자의 ID를 기록해 둔다. 파일이 새로 생성될 때 파일 그룹 ID는 부모 디렉터리에 set-group-ID 비트가 설정돼 있는지 여부에 따라 부모 디렉터리의 그룹 ID거나 호출 프로세스의 실효 그룹 ID다. (아래 참고.) <tt>[[chown(2)]]</tt>을 써서 파일의 그룹 ID를 바꿀 수 있다.
+</dd>
+
+<dt>이 아이노드가 나타내는 장치</dt>
+<dd>
+
+<code>stat.st_rdev</code>. <code>statx.stx_rdev_minor</code> 및 <code>statx.stx_rdev_major</code>.
+
+이 파일이 (아이노드가) 장치를 나타내는 경우에 아이노드에 그 장치의 주 ID와 부 ID를 기록해 둔다.
+</dd>
+
+<dt>파일 크기</dt>
+<dd>
+
+<code>stat.st_size</code>. <code>statx.stx_size</code>.
+
+이 필드는 (정규 파일이나 심볼릭 링크인 경우) 파일 크기를 바이트 단위로 알려 준다. 심볼릭 링크의 크기란 담고 있는 (종료 널 바이트 없는) 경로명의 길이다.
+</dd>
+
+<dt>선호 I/O 블록 크기</dt>
+<dd>
+
+<code>stat.st_blksize</code>. <code>statx.stx_blksize</code>.
+
+이 필드는 효율적인 파일 시스템 I/O를 위한 "선호" 블록 크기를 알려 준다. (더 작은 크기로 파일에 쓰기를 하면 비효율적인 읽기-변경-재기록이 일어날 수 있다.)
+</dd>
+
+<dt>파일에 할당된 블록 수</dt>
+<dd>
+
+<code>stat.st_blocks</code>. <code>statx.stx_blocks</code>.
+
+이 필드는 파일에 할당된 512바이트 단위 블록 수를 나타낸다. (파일에 구멍이 있을 때는 <code>st_size</code>/512보다 작을 수도 있다.)
+
+POSIX.1 표준에서는 <code>stat</code> 구조체의 <code>st_blocks</code> 멤버의 단위를 표준에서 규정하지 않는다고 언급한다. 많은 구현에서는 그 값이 512 바이트다. 몇몇 시스템에서는 1024 같은 다른 단위를 쓴다. 더불어 파일 시스템에 따라 그 단위가 다를 수도 있다.
+</dd>
+
+<dt>최근 접근 타임스탬프 (atime)</dt>
+<dd>
+
+<code>stat.st_atime</code>. <code>statx.stx_atime</code>.
+
+파일의 최근 접근 타임스탬프다. <tt>[[execve(2)]]</tt>, <tt>[[mknod(2)]]</tt>, <tt>[[pipe(2)]]</tt>, <tt>[[utime(2)]]</tt>, (0 바이트보다 큰) <code>read(2)</code> 등의 파일 접근에 의해 바뀐다. <tt>[[mmap(2)]]</tt> 같은 다른 인터페이스는 atime 타임스탬프를 갱신할 수도 있고 하지 않을 수도 있다.
+
+일부 파일 시스템 타입에서는 파일 및/또는 디렉터리 접근이 atime 타임스탬프 갱신을 일으키지 않도록 마운트 하는 게 가능하다. (<tt>[[mount(8)]]</tt>의 <code>noatime</code>, <code>nodiratime</code>, <code>relatime</code>, 그리고 <tt>[[mount(2)]]</tt>의 관련 정보 참고.) 더불어 <code>O_NOATIME</code> 플래그를 써서 파일을 열면 atime 타임스탬프가 갱신되지 않는다. <tt>[[open(2)]]</tt> 참고.
+</dd>
+
+<dt>파일 생성 (탄생) 타임스탬프 (btime)</dt>
+<dd>
+
+(<code>stat</code> 구조체로 반환되지 않음.) <code>statx.stx_btime</code>.
+
+파일의 생성 타임스탬프다. 파일 생성 시 설정되고 이후 바뀌지 않는다.
+
+btime 타임스탬프는 역사적으로 유닉스 시스템에 존재하지 않았으며 현재 대부분의 리눅스 파일 시스템들에서 지원하지 않는다.
+</dd>
+
+<dt>최근 수정 타임스탬프 (mtime)</dt>
+<dd>
+
+<code>stat.st_mtime</code>. <code>statx.stx_mtime</code>.
+
+파일의 최근 수정 타임스탬프다. <tt>[[mknod(2)]]</tt>, <tt>[[truncate(2)]]</tt>, <tt>[[utime(2)]]</tt>, (0 바이트보다 큰) <tt>[[write(2)]]</tt> 등의 파일 변경에 의해 바뀐다. 또한 디렉터리의 mtime 타임스탬프는 그 디렉터리 내의 파일 생성 및 삭제에 의해 바뀐다. 소유자, 그룹, 하드 링크 수, 모드의 변경에 의해선 mtime 타임스탬프가 바뀌지 *않는다*.
+</dd>
+
+<dt>최근 상태 변경 타임스탬프 (ctime)</dt>
+<dd>
+
+<code>stat.st_ctime</code>. <code>statx.stx_ctime</code>.
+
+파일의 최근 상태 변경 타임스탬프다. 아이노드 정보(즉 소유자, 그룹, 링크 수, 모드 등) 기록 내지 설정에 의해 바뀐다.
+</dd>
+</dl>
+
+타임스탬프 필드들은 *에포크(Epoch)*, 즉 1970-01-01 00:00:00 +0000, UTC를 영점으로 해서 (<tt>[[time(7)]] 참고) 측정한 시간을 알려 준다.
+
+XFS, JFS, Btrfs, ext4(리눅스 2.6.23부터)에서 나노초 타임스탬프를 지원한다. ext2, ext3, Reiserfs에서는 나노초 타임스탬프를 지원하지 않는다. 나노초 정밀도로 타임스탬프를 반환할 수 있도록 `stat` 및 `statx` 구조체의 타임스탬프 필드들은 나노초 항목을 포함한 구조체로 정의돼 있다. 자세한 건 <tt>[[stat(2)]]</tt> 및 <tt>[[statx(2)]]</tt>를 보라. 초보다 작은 단위의 타임스탬프를 지원하지 않는 파일 시스템에서는 `stat` 및 `statx` 구조체의 나노초 필드가 0 값으로 반환된다.
+
+### 파일 종류 및 모드
+
+`stat.st_mode` 필드는 (<tt>[[statx(2)]]</tt>인 경우 `statx.stx_mode` 필드는) 파일 종류 및 모드를 담고 있다.
+
+POSIX에서는 `stat.st_mode`에서 마스크 `S_IFMT`(아래 참고)에 해당하는 비트들을 *파일 종류*로, 마스크 07777에 해당하는 12비트를 *파일 모드 비트*로, 그리고 마지막 9비트(0777)를 *파일 권한 비트*라고 부른다.
+
+파일 종류로 다음 마스크 값들이 정의돼 있다.
+
+| | | |
+| --- | --- | --- |
+| `S_IFMT`   | `0170000` | 파일 종류 비트 필드 비트 마스크 |
+| | | |
+| `S_IFSOCK` | `0140000` | 소켓 |
+| `S_IFLNK`  | `0120000` | 심볼릭 링크 |
+| `S_IFREG`  | `0100000` | 정규 파일 |
+| `S_IFBLK`  | `0060000` | 블록 장치 |
+| `S_IFDIR`  | `0040000` | 디렉터리 |
+| `S_IFCHR`  | `0020000` | 문자 장치 |
+| `S_IFIFO`  | `0010000` | FIFO |
+
+그래서 (예를 들어) 정규 파일인지 확인하려면 다음과 같이 작성할 수 있다.
+
+```c
+stat(pathname, &sb);
+if ((sb.st_mode & S_IFMT) == S_IFREG) {
+    /* 정규 파일 처리 */
+}
+```
+
+위 형태의 검사가 흔하기 때문에 POSIX에서는 `st_mode`의 파일 종류 검사를 정확히 작성할 수 있도록 해 주는 매크로를 추가로 정의한다.
+
+| | |
+| --- | --- |
+| `S_ISREG(m)`  | 정규 파일인가? |
+| `S_ISDIR(m)`  | 디렉터리인가? |
+| `S_ISCHR(m)`  | 문자 장치인가? |
+| `S_ISBLK(m)`  | 블록 장치인가? |
+| `S_ISFIFO(m)` | FIFO(이름 있는 파이프)인가? |
+| `S_ISLNK(m)`  | 심볼릭 링크인가? (POSIX.1-1996에는 없음.) |
+| `S_ISSOCK(m)` | 소켓인가? (POSIX.1-1996에는 없음.) |
+
+그래서 앞의 코드를 다음과 같이 작성할 수 있다.
+
+```c
+stat(pathname, &sb);
+if (S_ISREG(sb.st_mode)) {
+    /* 정규 파일 처리 */
+}
+```
+
+위 파일 종류 검사 매크로 대다수는 기능 확인 매크로 `_BSD_SOURCE` (glibc 2.19 및 이전), `_SVID_SOURCE` (glibc 2.19 및 이전), `_DEFAULT_SOURCE` (glibc 2.20 및 이후) 중 하나라도 정의돼 있으면 그 정의가 제공된다. 추가로 `_XOPEN_SOURCE`가 정의돼 있으면 `S_IFSOCK` 및 `S_ISSOCK()`을 빼고 위의 매크로 전체의 정의가 제공된다.
+
+`S_IFSOCK` 정의는 `_XOPEN_SOURCE`를 500 이상의 값으로 정의하거나 (glibc 2.24부터), `_XOPEN_SOURCE`와 `_XOPEN_SOURCE_EXTENDED` 모두를 정의해서 드러낼 수 있다.
+
+`S_ISSOCK()` 정의는 기능 확인 매크로 `_BSD_SOURCE` (glibc 2.19 및 이전), `DEFAULT_SOURCE` (glibc 2.20 및 이후), 500 이상 값으로 `_XOPEN_SOURCE`, 200112L 이상 값으로 `_POSIX_C_SOURCE` 중 하나라도 정의돼 있거나 `_XOPEN_SOURCE`와 `_XOPEN_SOURCE_EXTENDED` 모두가 정의돼 있으면 드러난다.
+
+`st_mode` 필드의 파일 모드 부분을 위해 다음 마스크 값들이 정의돼 있다.
+
+| | | |
+| --- | --- | --- |
+| `S_ISUID` | `04000` | set-user-ID 비트 (<tt>[[execve(2)]]</tt> 참고) |
+| `S_ISGID` | `02000` | set-group-ID 비트 (아래 참고) |
+| `S_ISVTX` | `01000` | 스티키 비트 (아래 참고) |
+| | | |
+| `S_IRWXU` | `00700` | 소유자가 읽기, 쓰기, 실행 권한 가짐 |
+| `S_IRUSR` | `00400` | 소유자가 읽기 권한 가짐 |
+| `S_IWUSR` | `00200` | 소유자가 쓰기 권한 가짐 |
+| `S_IXUSR` | `00100` | 소유자가 실행 권한 가짐 |
+| | | |
+| `S_IRWXG` | `00070` | 그룹이 읽기, 쓰기, 실행 권한 가짐 |
+| `S_IRGRP` | `00040` | 그룹이 읽기 권한 가짐 |
+| `S_IWGRP` | `00020` | 그룹이 쓰기 권한 가짐 |
+| `S_IXGRP` | `00010` | 그룹이 실행 권한 가짐 |
+| | | |
+| `S_IRWXO` | `00007` | (그룹에 속하지 않는) 기타가 읽기, 쓰기, 실행 권한 가짐 |
+| `S_IROTH` | `00004` | 기타가 읽기 권한 가짐 |
+| `S_IWOTH` | `00002` | 기타가 쓰기 권한 가짐 |
+| `S_IXOTH` | `00001` | 기타가 실행 권한 가짐 |
+
+set-group-ID 비트(`S_ISGID`)에는 여러 가지 특수한 사용 방식이 있다. 디렉터리에서는 그 디렉터리에 BSD 동작 방식이 쓰여야 함을 나타낸다. 즉 거기서 생성되는 파일들이 호출 프로세스의 실효 그룹 ID가 아니라 디렉터리의 그룹 ID를 물려받으며, 거기서 생성되는 디렉터리에도 `S_ISGID` 비트가 설정된다. 실행 파일에서 set-group-ID 비트는 파일을 실행하는 프로세스의 실효 그룹 ID가 <tt>[[execve(2)]]</tt>에 기술된 대로 바뀌게 한다. 그룹 실행 비트(`S_IXGRP`)가 설정돼 있지 않은 파일에서 set-group-ID 비트는 강제적 파일/레코드 락킹을 나타낸다.
+
+디렉터리의 스티키 비트(`S_ISVTX`)는 그 디렉터리 안의 파일을 파일 소유자, 디렉터리 소유자, 특권 프로세스만 이름을 바꾸거나 삭제할 수 있다는 뜻이다.
+
+## CONFORMING TO
+
+`<sys/stat.h>`에서 `blkcnt_t` 내지 `blksize_t` 타입의 정의를 얻어야 한다면 (*어떤* 헤더 파일도 포함하기 전에) `_XOPEN_SOURCE`를 500 이상 값으로 정의하면 된다.
+
+POSIX.1-1990에서는 `S_IFMT`, `S_IFSOCK`, `S_IFLNK`, `S_IFREG`, `S_IFBLK`, `S_IFDIR`, `S_IFCHR`, `S_IFIFO`, `S_ISVTX` 상수를 기술하지 않았지만 대신 `S_ISDIR()` 등의 매크로 사용은 명세했다. `S_IF*` 상수들은 POSIX.1-2001 및 이후에 존재한다.
+
+`S_ISLNK()` 및 `S_ISSOCK()` 매크로는 POSIX.1-1996에는 없고 POSIX.1-2001에는 존재한다. 전자는 SVID 4에서 온 것이고 후자는 SUSv2에서 온 것이다.
+
+유닉스 V7(및 이후 시스템들)에는 `S_IREAD`, `S_IWRITE`, `S_IEXEC`가 있었던 반면 POSIX에는 동의어 `S_IRUSR`, `S_IWUSR`, `S_IXUSR`가 있다.
+
+## NOTES
+
+커널에서 자동 생성하는 가상 파일들에 대해 커널이 알려 주는 파일 크기(`stat.st_size`, `statx.stx_size`)가 정확하지 않다. 예를 들어 `/proc` 디렉터리의 많은 파일들에 대해 0 값이 반환되는 반면 `/sys`의 여러 파일들에 대해선 파일 내용이 더 작은데도 크기가 4096 바이트라고 나온다. 그런 파일들에서는 그냥 최대한으로 읽어 들이면 (그리고 그 결과를 문자열로 해석해야 하면 반환 버퍼 끝에 '\0'을 덧붙여 주면) 된다.
+
+## SEE ALSO
+
+`stat(1)`, <tt>[[stat(2)]]</tt>, <tt>[[statx(2)]]</tt>, <tt>[[symlink(7)]]</tt>
+
+----
+
+2019-05-09

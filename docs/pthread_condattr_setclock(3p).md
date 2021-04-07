@@ -1,0 +1,1 @@
+[[pthread_condattr_getclock(3p)]]
