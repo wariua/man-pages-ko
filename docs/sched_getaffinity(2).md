@@ -1,1 +1,1 @@
-[[sched_setaffinity(2)]]
+sched_setaffinity(2).md

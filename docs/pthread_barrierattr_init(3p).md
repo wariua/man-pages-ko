@@ -1,1 +1,1 @@
-[[pthread_barrierattr_destroy(3p)]]
+pthread_barrierattr_destroy(3p).md

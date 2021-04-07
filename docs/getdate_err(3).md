@@ -1,1 +1,1 @@
-[[getdate(3)]]
+getdate(3).md

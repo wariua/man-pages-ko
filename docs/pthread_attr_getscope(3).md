@@ -1,1 +1,1 @@
-[[pthread_attr_setscope(3)]]
+pthread_attr_setscope(3).md

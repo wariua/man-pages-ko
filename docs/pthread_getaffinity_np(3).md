@@ -1,1 +1,1 @@
-[[pthread_setaffinity_np(3)]]
+pthread_setaffinity_np(3).md

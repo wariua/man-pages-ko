@@ -1,1 +1,1 @@
-[[pthread_cond_timedwait(3p)]]
+pthread_cond_timedwait(3p).md

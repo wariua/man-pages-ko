@@ -1,1 +1,1 @@
-[[lsearch(3)]]
+lsearch(3).md

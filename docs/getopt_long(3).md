@@ -1,1 +1,1 @@
-[[getopt(3)]]
+getopt(3).md

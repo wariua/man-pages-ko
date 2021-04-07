@@ -1,1 +1,1 @@
-[[posix_memalign(3)]]
+posix_memalign(3).md

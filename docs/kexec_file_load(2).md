@@ -1,1 +1,1 @@
-[[kexec_load(2)]]
+kexec_load(2).md

@@ -1,1 +1,1 @@
-[[getcontext(3)]]
+getcontext(3).md

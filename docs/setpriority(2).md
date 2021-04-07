@@ -1,1 +1,1 @@
-[[getpriority(2)]]
+getpriority(2).md

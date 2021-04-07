@@ -1,1 +1,1 @@
-[[argz_add(3)]]
+argz_add(3).md

@@ -1,1 +1,1 @@
-[[adjtimex(2)]]
+adjtimex(2).md

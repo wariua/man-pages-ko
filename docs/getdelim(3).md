@@ -1,1 +1,1 @@
-[[getline(3)]]
+getline(3).md

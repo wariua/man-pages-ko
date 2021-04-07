@@ -1,1 +1,1 @@
-[[gethostname(2)]]
+gethostname(2).md

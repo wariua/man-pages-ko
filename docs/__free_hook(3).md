@@ -1,1 +1,1 @@
-[[malloc_hook(3)]]
+malloc_hook(3).md

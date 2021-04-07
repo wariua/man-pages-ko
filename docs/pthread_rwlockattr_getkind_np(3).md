@@ -1,1 +1,1 @@
-[[pthread_rwlockattr_setkind_np(3)]]
+pthread_rwlockattr_setkind_np(3).md

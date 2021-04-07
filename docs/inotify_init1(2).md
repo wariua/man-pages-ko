@@ -1,1 +1,1 @@
-[[inotify_init(2)]]
+inotify_init(2).md

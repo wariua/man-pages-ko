@@ -1,1 +1,1 @@
-[[pthread_mutex_destroy(3p)]]
+pthread_mutex_destroy(3p).md

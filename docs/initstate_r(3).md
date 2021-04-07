@@ -1,1 +1,1 @@
-[[random_r(3)]]
+random_r(3).md

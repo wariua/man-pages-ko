@@ -1,1 +1,1 @@
-[[pthread_spin_lock(3)]]
+pthread_spin_lock(3).md

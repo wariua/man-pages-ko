@@ -1,1 +1,1 @@
-[[pthread_condattr_getpshared(3p)]]
+pthread_condattr_getpshared(3p).md

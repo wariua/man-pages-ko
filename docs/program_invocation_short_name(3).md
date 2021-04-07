@@ -1,1 +1,1 @@
-[[program_invocation_name(3)]]
+program_invocation_name(3).md

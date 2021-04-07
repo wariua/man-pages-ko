@@ -1,1 +1,1 @@
-[[dladdr(3)]]
+dladdr(3).md

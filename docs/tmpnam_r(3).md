@@ -1,1 +1,1 @@
-[[tmpnam(3)]]
+tmpnam(3).md

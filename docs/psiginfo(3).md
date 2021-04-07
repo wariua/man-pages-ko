@@ -1,1 +1,1 @@
-[[psignal(3)]]
+psignal(3).md

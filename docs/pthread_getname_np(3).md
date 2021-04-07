@@ -1,1 +1,1 @@
-[[pthread_setname_np(3)]]
+pthread_setname_np(3).md

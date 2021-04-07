@@ -1,1 +1,1 @@
-[[pthread_barrierattr_getpshared(3p)]]
+pthread_barrierattr_getpshared(3p).md

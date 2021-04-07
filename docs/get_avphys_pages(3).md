@@ -1,1 +1,1 @@
-[[get_phys_pages(3)]]
+get_phys_pages(3).md

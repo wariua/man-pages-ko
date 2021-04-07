@@ -1,1 +1,1 @@
-[[pthread_getattr_default_np(3)]]
+pthread_getattr_default_np(3).md

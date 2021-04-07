@@ -1,1 +1,1 @@
-[[pthread_mutex_consistent(3)]]
+pthread_mutex_consistent(3).md

@@ -1,1 +1,1 @@
-[[insque(3)]]
+insque(3).md

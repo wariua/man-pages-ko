@@ -1,1 +1,1 @@
-[[xcrypt(3)]]
+xcrypt(3).md

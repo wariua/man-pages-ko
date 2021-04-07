@@ -1,1 +1,1 @@
-[[encrypt(3)]]
+encrypt(3).md

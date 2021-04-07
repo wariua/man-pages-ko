@@ -1,1 +1,1 @@
-[[strtoimax(3)]]
+strtoimax(3).md

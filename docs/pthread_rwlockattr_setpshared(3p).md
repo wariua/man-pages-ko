@@ -1,1 +1,1 @@
-[[pthread_rwlockattr_getpshared(3p)]]
+pthread_rwlockattr_getpshared(3p).md

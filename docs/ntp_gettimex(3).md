@@ -1,1 +1,1 @@
-[[ntp_gettime(3)]]
+ntp_gettime(3).md

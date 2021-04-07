@@ -1,1 +1,1 @@
-[[pthread_mutexattr_gettype(3p)]]
+pthread_mutexattr_gettype(3p).md

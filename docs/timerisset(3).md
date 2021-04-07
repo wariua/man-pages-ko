@@ -1,1 +1,1 @@
-[[timeradd(3)]]
+timeradd(3).md

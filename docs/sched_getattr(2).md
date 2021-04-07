@@ -1,1 +1,1 @@
-[[sched_setattr(2)]]
+sched_setattr(2).md

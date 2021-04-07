@@ -1,1 +1,1 @@
-[[drand48_r(3)]]
+drand48_r(3).md

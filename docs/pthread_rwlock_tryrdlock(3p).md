@@ -1,1 +1,1 @@
-[[pthread_rwlock_rdlock(3p)]]
+pthread_rwlock_rdlock(3p).md

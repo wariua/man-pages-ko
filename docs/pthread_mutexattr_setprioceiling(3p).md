@@ -1,1 +1,1 @@
-[[pthread_mutexattr_getprioceiling(3p)]]
+pthread_mutexattr_getprioceiling(3p).md

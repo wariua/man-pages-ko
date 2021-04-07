@@ -1,1 +1,1 @@
-[[pthread_attr_setinheritsched(3)]]
+pthread_attr_setinheritsched(3).md

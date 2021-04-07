@@ -1,1 +1,1 @@
-[[pthread_mutexattr_getpshared(3)]]
+pthread_mutexattr_getpshared(3).md

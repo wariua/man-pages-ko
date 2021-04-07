@@ -1,1 +1,1 @@
-[[pthread_attr_setdetachstate(3)]]
+pthread_attr_setdetachstate(3).md

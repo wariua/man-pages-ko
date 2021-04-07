@@ -1,1 +1,1 @@
-[[pthread_mutexattr_init(3)]]
+pthread_mutexattr_init(3).md

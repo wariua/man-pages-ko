@@ -1,1 +1,1 @@
-[[strfromd(3)]]
+strfromd(3).md

@@ -1,1 +1,1 @@
-[[pthread_condattr_destroy(3p)]]
+pthread_condattr_destroy(3p).md

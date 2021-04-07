@@ -1,1 +1,1 @@
-[[sigsetops(3)]]
+sigsetops(3).md

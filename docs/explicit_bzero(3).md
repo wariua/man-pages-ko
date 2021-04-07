@@ -1,1 +1,1 @@
-[[bzero(3)]]
+bzero(3).md

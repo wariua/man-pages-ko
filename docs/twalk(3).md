@@ -1,1 +1,1 @@
-[[tsearch(3)]]
+tsearch(3).md

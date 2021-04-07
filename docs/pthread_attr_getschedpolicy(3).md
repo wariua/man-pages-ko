@@ -1,1 +1,1 @@
-[[pthread_attr_setschedpolicy(3)]]
+pthread_attr_setschedpolicy(3).md

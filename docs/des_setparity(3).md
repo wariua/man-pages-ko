@@ -1,1 +1,1 @@
-[[des_crypt(3)]]
+des_crypt(3).md

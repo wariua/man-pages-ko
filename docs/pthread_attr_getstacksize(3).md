@@ -1,1 +1,1 @@
-[[pthread_attr_setstacksize(3)]]
+pthread_attr_setstacksize(3).md

@@ -1,1 +1,1 @@
-[[truncate(2)]]
+truncate(2).md

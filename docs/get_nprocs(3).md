@@ -1,1 +1,1 @@
-[[get_nprocs_conf(3)]]
+get_nprocs_conf(3).md

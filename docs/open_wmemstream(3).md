@@ -1,1 +1,1 @@
-[[open_memstream(3)]]
+open_memstream(3).md

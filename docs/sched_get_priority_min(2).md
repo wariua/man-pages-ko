@@ -1,1 +1,1 @@
-[[sched_get_priority_max(2)]]
+sched_get_priority_max(2).md

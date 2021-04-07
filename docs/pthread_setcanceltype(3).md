@@ -1,1 +1,1 @@
-[[pthread_setcancelstate(3)]]
+pthread_setcancelstate(3).md

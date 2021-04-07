@@ -1,1 +1,1 @@
-[[mcheck(3)]]
+mcheck(3).md

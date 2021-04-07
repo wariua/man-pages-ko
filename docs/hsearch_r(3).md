@@ -1,1 +1,1 @@
-[[hsearch(3)]]
+hsearch(3).md

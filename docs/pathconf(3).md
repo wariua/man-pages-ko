@@ -1,1 +1,1 @@
-[[fpathconf(3)]]
+fpathconf(3).md

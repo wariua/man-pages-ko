@@ -1,1 +1,1 @@
-[[memchr(3)]]
+memchr(3).md

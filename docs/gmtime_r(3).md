@@ -1,1 +1,1 @@
-[[ctime(3)]]
+ctime(3).md

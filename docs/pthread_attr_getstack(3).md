@@ -1,1 +1,1 @@
-[[pthread_attr_setstack(3)]]
+pthread_attr_setstack(3).md

@@ -1,1 +1,1 @@
-[[euidaccess(3)]]
+euidaccess(3).md

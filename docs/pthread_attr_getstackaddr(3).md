@@ -1,1 +1,1 @@
-[[pthread_attr_setstackaddr(3)]]
+pthread_attr_setstackaddr(3).md

@@ -1,1 +1,1 @@
-[[pthread_setschedparam(3)]]
+pthread_setschedparam(3).md

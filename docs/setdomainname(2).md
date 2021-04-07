@@ -1,1 +1,1 @@
-[[getdomainname(2)]]
+getdomainname(2).md

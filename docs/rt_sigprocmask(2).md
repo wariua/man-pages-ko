@@ -1,1 +1,1 @@
-[[sigprocmask(2)]]
+sigprocmask(2).md

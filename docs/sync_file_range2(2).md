@@ -1,1 +1,1 @@
-[[sync_file_range(2)]]
+sync_file_range(2).md

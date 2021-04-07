@@ -1,1 +1,1 @@
-[[pthread_rwlockattr_destroy(3p)]]
+pthread_rwlockattr_destroy(3p).md

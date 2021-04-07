@@ -1,1 +1,1 @@
-[[clock_getres(2)]]
+clock_getres(2).md

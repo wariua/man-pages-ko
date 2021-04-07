@@ -1,1 +1,1 @@
-[[strtol(3)]]
+strtol(3).md

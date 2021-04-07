@@ -1,1 +1,1 @@
-[[sigwaitinfo(2)]]
+sigwaitinfo(2).md

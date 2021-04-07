@@ -1,1 +1,1 @@
-[[sigqueue(3)]]
+sigqueue(3).md

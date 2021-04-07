@@ -1,1 +1,1 @@
-[[random(4)]]
+random(4).md

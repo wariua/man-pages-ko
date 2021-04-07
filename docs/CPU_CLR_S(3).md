@@ -1,1 +1,1 @@
-[[CPU_SET(3)]]
+CPU_SET(3).md
