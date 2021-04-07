@@ -1,1 +1,13 @@
-site_name: My Docs
+site_name: man-pages-ko
+site_url: https://wariua.github.io/man-pages-ko/
+site_description: 리눅스 매뉴얼 페이지 일부 한글 번역
+
+theme:
+  name: null
+  custom_dir: 'cinder'
+  disable_nav_previous_next: true
+  colorscheme: 'idea'
+
+markdown_extensions:
+  - wikilinks
+  - def_list
