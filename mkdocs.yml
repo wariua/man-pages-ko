@@ -8,6 +8,9 @@ theme:
   disable_nav_previous_next: true
   colorscheme: 'idea'
 
+extra_css:
+  - "css/style.css"
+
 markdown_extensions:
   - wikilinks
   - def_list

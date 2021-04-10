@@ -1,0 +1,14 @@
+dd { margin-left: 2em; margin-bottom: 0.5em; }
+
+pre>code { font-size: 15px; }
+table { font-size: 16px; }
+blockquote p { font-size: 16px; }
+
+code, tt { font-family: monospace ; font-size: 100%; padding: 2px; }
+code { color: #400; background-color: transparent; }
+
+body { background-color: #edeeed; }
+
+.table-striped>tbody>tr:nth-child(2n+1)>td, .table-striped>tbody>tr:nth-child(2n+1)>th { background-color: #f2f4f6; }
+
+.bs-sidebar { border-radius: 3px; }
