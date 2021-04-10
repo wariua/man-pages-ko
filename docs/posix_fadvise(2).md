@@ -12,10 +12,8 @@ int posix_fadvise(int fd, off_t offset, off_t len, int advice);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>posix_fadvise()</code>:</dt>
-<dd><code>_POSIX_C_SOURCE >= 200112L</code></dd>
-</dl>
+`posix_fadvise()`:
+:   `_POSIX_C_SOURCE >= 200112L`
 
 ## DESCRIPTION
 
@@ -25,44 +23,33 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 `advice`에 다음 값이 가능하다.
 
-<dl>
-<dt><code>POSIX_FADV_NORMAL</code></dt>
-<dd>지정한 데이터에 대한 접근 패턴에 관해 응용에서 해 줄 조언이 없음을 나타낸다. 열린 파일에 아무 조언도 주지 않으면 기본으로 상정하는 값이다.</dd>
+`POSIX_FADV_NORMAL`
+:   지정한 데이터에 대한 접근 패턴에 관해 응용에서 해 줄 조언이 없음을 나타낸다. 열린 파일에 아무 조언도 주지 않으면 기본으로 상정하는 값이다.
 
-<dt><code>POSIX_FADV_SEQUENTIAL</code></dt>
-<dd>응용에서 지정한 데이터에 순차적으로 (오프셋이 작은 데이터를 먼저 읽는 식으로) 접근할 예정이다.</dd>
+`POSIX_FADV_SEQUENTIAL`
+:   응용에서 지정한 데이터에 순차적으로 (오프셋이 작은 데이터를 먼저 읽는 식으로) 접근할 예정이다.
 
-<dt><code>POSIX_FADV_RANDOM</code></dt>
-<dd>지정한 데이터에 임의 순서로 접근하려 한다.</dd>
+`POSIX_FADV_RANDOM`
+:   지정한 데이터에 임의 순서로 접근하려 한다.
 
-<dt><code>POSIX_FADV_NOREUSE</code></dt>
-<dd>
+`POSIX_FADV_NOREUSE`
+:   지정한 데이터에 한 번만 접근하려 한다.
 
-지정한 데이터에 한 번만 접근하려 한다.
+    2.6.18 전의 커널에서 `POSIX_FADV_NOREUSE`는 `POSIX_FADV_WILLNEED`와 동작이 같았다. 버그였던 것 같다. 커널 2.6.18부터 이 플래그는 no-op이다.
 
-2.6.18 전의 커널에서 <code>POSIX_FADV_NOREUSE</code>는 <code>POSIX_FADV_WILLNEED</code>와 동작이 같았다. 버그였던 것 같다. 커널 2.6.18부터 이 플래그는 no-op이다.
-</dd>
+`POSIX_FADV_WILLNEED`
+:   지정한 데이터에 조만간 접근하려 한다.
 
-<dt><code>POSIX_FADV_WILLNEED</code></dt>
-<dd>
+    `POSIX_FADV_WILLNEED`는 지정한 영역을 페이지 캐시로 읽어 들이는 논블록 동작을 개시한다. 가상 메모리 부하에 따라 읽는 데이터 양을 커널이 줄일 수도 있다. (보통 몇 메가바이트 정도는 완전히 충족되고 그 이상으로는 잘 쓰지 않는다.)
 
-지정한 데이터에 조만간 접근하려 한다.
+`POSIX_FADV_DONTNEED`
+:   지정한 데이터에 당분간은 접근하지 않을 것이다.
 
-<code>POSIX_FADV_WILLNEED</code>는 지정한 영역을 페이지 캐시로 읽어 들이는 논블록 동작을 개시한다. 가상 메모리 부하에 따라 읽는 데이터 양을 커널이 줄일 수도 있다. (보통 몇 메가바이트 정도는 완전히 충족되고 그 이상으로는 잘 쓰지 않는다.)
-</dd>
+    `POSIX_FADV_DONTNEED`는 지정한 영역과 연계된 캐싱 된 페이지들을 해제 시도한다. 예를 들어 큰 파일을 스트리밍 할 때 유용하다. 프로그램에서 이미 사용한 데이터를 캐시에서 해제하라고 주기적으로 커널에게 요청할 수 있고, 그러면 캐시 내의 더 유용한 페이지들이 폐기되지 않을 수 있다.
 
-<dt><code>POSIX_FADV_DONTNEED</code></dt>
-<dd>
+    페이지 일부만 폐기하는 요청은 무시한다. 불필요한 데이터를 폐기하는 것보다 필요한 데이터를 보존하는 쪽이 중요하다. 데이터 폐기를 고려하게 하려면 `offset`과 `len`이 페이지에 정렬되어 있어야 한다.
 
-지정한 데이터에 당분간은 접근하지 않을 것이다.
-
-<code>POSIX_FADV_DONTNEED</code>는 지정한 영역과 연계된 캐싱 된 페이지들을 해제 시도한다. 예를 들어 큰 파일을 스트리밍 할 때 유용하다. 프로그램에서 이미 사용한 데이터를 캐시에서 해제하라고 주기적으로 커널에게 요청할 수 있고, 그러면 캐시 내의 더 유용한 페이지들이 폐기되지 않을 수 있다.
-
-페이지 일부만 폐기하는 요청은 무시한다. 불필요한 데이터를 폐기하는 것보다 필요한 데이터를 보존하는 쪽이 중요하다. 데이터 폐기를 고려하게 하려면 <code>offset</code>과 <code>len</code>이 페이지에 정렬되어 있어야 한다.
-
-지정 영역 내의 변경된 페이지들을 구현체가 기반 장치로 기록하려 시도할 <em>수도</em> 있다. 하지만 이를 보장하지는 않는다. 기록 안 된 변경 페이지가 있으면 해제되지 않을 것이다. 변경된 페이지가 해제되게 하고 싶으면 응용에서 먼저 <tt>[[fsync(2)]]</tt>나 <tt>[[fdatasync(2)]]</tt>를 호출해야 할 것이다.
-</dd>
-</dl>
+    지정 영역 내의 변경된 페이지들을 구현체가 기반 장치로 기록하려 시도할 *수도* 있다. 하지만 이를 보장하지는 않는다. 기록 안 된 변경 페이지가 있으면 해제되지 않을 것이다. 변경된 페이지가 해제되게 하고 싶으면 응용에서 먼저 <tt>[[fsync(2)]]</tt>나 <tt>[[fdatasync(2)]]</tt>를 호출해야 할 것이다.
 
 ## RETURN VALUE
 
@@ -70,14 +57,14 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## ERRORS
 
-<dl>
-<dt><code>EBADF</code></dt>
-<dd><code>fd</code> 인자가 유효한 파일 디스크립터가 아니다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>advice</code>에 유효하지 않은 값을 지정했다.</dd>
-<dt><code>ESPIPE</code></dt>
-<dd>지정한 파일 디스크립터가 파이프나 FIFO를 가리키고 있다. (POSIX에서 명세하는 오류는 <code>ESPIPE</code>이지만 커널 버전 2.6.16 전의 리눅스는 이 경우 <code>EINVAL</code>을 반환했다.)</dd>
-</dl>
+`EBADF`
+:   `fd` 인자가 유효한 파일 디스크립터가 아니다.
+
+`EINVAL`
+:   `advice`에 유효하지 않은 값을 지정했다.
+
+`ESPIPE`
+:   지정한 파일 디스크립터가 파이프나 FIFO를 가리키고 있다. (POSIX에서 명세하는 오류는 `ESPIPE`이지만 커널 버전 2.6.16 전의 리눅스는 이 경우 `EINVAL`을 반환했다.)
 
 ## VERSIONS
 

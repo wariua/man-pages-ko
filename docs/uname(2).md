@@ -36,10 +36,8 @@ struct utsname {
 
 ## ERRORS
 
-<dl>
-<dt><code>EFAULT</code></dt>
-<dd><code>buf</code>가 유효하지 않다.</dd>
-</dl>
+`EFAULT`
+:   `buf`가 유효하지 않다.
 
 ## CONFORMING TO
 

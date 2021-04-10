@@ -23,10 +23,8 @@ long int get_avphys_pages(void);
 
 ## ERRORS
 
-<dl>
-<dt><code>ENOSYS</code></dt>
-<dd>필요한 정보를 시스템이 제공하지 못했다. (<code>/proc</code> 파일 시스템이 마운트 되지 않아서일 수 있다.)</dd>
-</dl>
+`ENOSYS`
+:   필요한 정보를 시스템이 제공하지 못했다. (`/proc` 파일 시스템이 마운트 되지 않아서일 수 있다.)
 
 ## CONFORMING TO
 

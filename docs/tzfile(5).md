@@ -14,25 +14,23 @@ tzfile - 시간대 정보
 
 * 표준 바이트 순서(값의 상위 바이트 먼저)로 기록된 4바이트짜리 정수 값 여섯 개. 그 값들은 차례로 다음과 같다.
 
-  <dl>
-  <dt><code>tzh_ttisgmtcnt</code></dt>
-  <dd>파일에 저장된 UT/로컬 표시자 수.</dd>
+    `tzh_ttisgmtcnt`
+    :   파일에 저장된 UT/로컬 표시자 수.
 
-  <dt><code>tzh_ttisstdcnt</code></dt>
-  <dd>파일에 저장된 표준/벽시계 표시자 수.</dd>
+    `tzh_ttisstdcnt`
+    :   파일에 저장된 표준/벽시계 표시자 수.
 
-  <dt><code>tzh_leapcnt</code></dt>
-  <dd>파일에 데이터 항목이 저장돼 있는 윤초 수.</dd>
+    `tzh_leapcnt`
+    :   파일에 데이터 항목이 저장돼 있는 윤초 수.
 
-  <dt><code>tzh_timecnt</code></dt>
-  <dd>파일에 데이터 항목이 저장돼 있는 전환 시간 수.</dd>
+    `tzh_timecnt`
+    :   파일에 데이터 항목이 저장돼 있는 전환 시간 수.
 
-  <dt><code>tzh_typecnt</code></dt>
-  <dd>파일에 데이터 항목이 저장돼 있는 지역 시간 종류 개수. (0이 아니어야 함.)</dd>
+    `tzh_typecnt`
+    :   파일에 데이터 항목이 저장돼 있는 지역 시간 종류 개수. (0이 아니어야 함.)
 
-  <dt><code>tzh_charcnt</code></dt>
-  <dd>파일에 저장된 시간대 축약명 문자열들의 바이트 수.</dd>
-  </dl>
+    `tzh_charcnt`
+    :   파일에 저장된 시간대 축약명 문자열들의 바이트 수.
 
 위 헤더 다음으로 다음 필드들이 오는데, 헤더 내용에 따라 길이가 정해진다.
 
@@ -42,15 +40,13 @@ tzfile - 시간대 정보
 
 * 다음처럼 정의된 `ttinfo` 항목 `tzh_typecnt` 개.
 
-  ```c
-  struct ttinfo {
-       int32_t        tt_gmtoff;
-       unsigned char  tt_isdst;
-       unsigned char  tt_abbrind;
-  };
-  ```
+        struct ttinfo {
+             int32_t        tt_gmtoff;
+             unsigned char  tt_isdst;
+             unsigned char  tt_abbrind;
+        };
 
-  각 구조체는 표준 바이트 순서로 된 4바이트 부호 있는 정수 값 `tt_gmtoff`, 1바이트 값 `tt_isdst`, 1바이트 값 `tt_abbrind`로 이뤄진다. 각 구조체에서 `tt_gmtoff`는 UT에 더해야 할 초 수이고, `tt_isdst`는 <tt>[[localtime(3)]]</tt>에서 `tm_isdst`를 설정해야 하는지 여부를 나타내며, `tt_abbrind`는 파일에서 `ttinfo` 구조체(들) 다음에 오는 시간대 축약명 문자열 배열에서의 인덱스 역할을 한다.
+    각 구조체는 표준 바이트 순서로 된 4바이트 부호 있는 정수 값 `tt_gmtoff`, 1바이트 값 `tt_isdst`, 1바이트 값 `tt_abbrind`로 이뤄진다. 각 구조체에서 `tt_gmtoff`는 UT에 더해야 할 초 수이고, `tt_isdst`는 <tt>[[localtime(3)]]</tt>에서 `tm_isdst`를 설정해야 하는지 여부를 나타내며, `tt_abbrind`는 파일에서 `ttinfo` 구조체(들) 다음에 오는 시간대 축약명 문자열 배열에서의 인덱스 역할을 한다.
 
 * 표준 바이트 순서로 된 4바이트 값 `tzh_leapcnt` 쌍. 각 쌍의 첫 번째 값은 윤초가 일어나는 음수 아닌 시간이고 (<tt>[[time(2)]]</tt> 반환 값으로 나타냄), 두 번째는 그 시간부터의 기간 동안에 적용할 윤초 *총* 개수이다. 시간 오름차순으로 쌍들이 저장돼 있다. 각 전환은 양수 또는 음수 1초 만큼의 윤초이며, 전환 간에는 항상 최소 28일 빼기 1초만큼의 간격을 둔다.
 

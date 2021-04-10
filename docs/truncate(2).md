@@ -14,20 +14,15 @@ int ftruncate(int fd, off_t length);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>truncate()</code>:</dt>
-<dd>
-<code>_XOPEN_SOURCE >= 500</code><br>
-<code>    || /* glibc 2.12부터: */ _POSIX_C_SOURCE >= 200809L</code><br>
-<code>    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE</code>
-</dd>
-<dt><code>ftruncate()</code>:</dt>
-<dd>
-<code>_XOPEN_SOURCE >= 500</code><br>
-<code>    || /* glibc 2.3.5부터: */ _POSIX_C_SOURCE >= 200112L</code><br>
-<code>    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE</code>
-</dd>
-</dl>
+`truncate()`:
+:   `_XOPEN_SOURCE >= 500`<br>
+    `    || /* glibc 2.12부터: */ _POSIX_C_SOURCE >= 200809L`<br>
+    `    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE`
+
+`ftruncate()`:
+:   `_XOPEN_SOURCE >= 500`<br>
+    `    || /* glibc 2.3.5부터: */ _POSIX_C_SOURCE >= 200112L`<br>
+    `    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE`
 
 ## DESCRIPTION
 
@@ -49,51 +44,64 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 `truncate()`:
 
-<dl>
-<dt><code>EACCES</code></dt>
-<dd>경로 선두부의 어느 요소에 대해 탐색 권한이 거부되었다. 또는 지정한 파일이 사용자에게 쓰기 가능하지 않다. (<tt>[[path_resolution(7)]]</tt>도 참고.)</dd>
-<dt><code>EFAULT</code></dt>
-<dd><code>path</code> 인자가 프로세스에 할당된 주소 공간 밖을 가리키고 있다.</dd>
-<dt><code>EFBIG</code></dt>
-<dd><code>length</code> 인자가 최대 파일 크기보다 크다. (XSI)</dd>
-<dt><code>EINTR</code></dt>
-<dd>끝나기를 기다리며 블록돼 있는 동안 호출이 시그널 핸들러에 의해 중단되었다. <tt>[[fcntl(2)]]</tt> 및 <tt>[[signal(7)]]</tt> 참고.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>length</code> 인자가 음수이거나 최대 파일 크기보다 크다.</dd>
-<dt><code>EIO</code></dt>
-<dd>아이노드 갱신 중 I/O 오류가 발생했다.</dd>
-<dt><code>EISDIR</code></dt>
-<dd>지정한 파일이 디렉터리이다.</dd>
-<dt><code>ELOOP</code></dt>
-<dd>경로명을 변환하는 동안 너무 많은 심볼릭 링크를 만났다.</dd>
-<dt><code>ENAMETOOLONG</code></dt>
-<dd>경로명의 어느 요소가 255글자를 넘었다. 또는 전체 경로명이 1023글자를 넘었다.</dd>
-<dt><code>ENOENT</code></dt>
-<dd>지정한 파일이 존재하지 않는다.</dd>
-<dt><code>ENOTDIR</code></dt>
-<dd>경로 선두부의 한 요소가 디렉터리가 아니다.</dd>
-<dt><code>EPERM</code></dt>
-<dd>하위 파일 시스템에서 현재 크기 넘게 파일을 확장하는 걸 지원하지 않는다.</dd>
-<dt><code>EPERM</code></dt>
-<dd>파일 봉인 때문에 동작이 막혔다. <tt>[[fcntl(2)]]</tt> 참고.</dd>
-<dt><code>EROFS</code></dt>
-<dd>지정한 파일이 읽기 전용 파일 시스템에 위치해 있다.</dd>
-<dt><code>ETXTBSY</code></dt>
-<dd>파일이 실행 파일인데 현재 실행 중이다.</dd>
-</dl>
+`EACCES`
+:   경로 선두부의 어느 요소에 대해 탐색 권한이 거부되었다. 또는 지정한 파일이 사용자에게 쓰기 가능하지 않다. (<tt>[[path_resolution(7)]]</tt>도 참고.)
+
+`EFAULT`
+:   `path` 인자가 프로세스에 할당된 주소 공간 밖을 가리키고 있다.
+
+`EFBIG`
+:   `length` 인자가 최대 파일 크기보다 크다. (XSI)
+
+`EINTR`
+:   끝나기를 기다리며 블록돼 있는 동안 호출이 시그널 핸들러에 의해 중단되었다. <tt>[[fcntl(2)]]</tt> 및 <tt>[[signal(7)]]</tt> 참고.
+
+`EINVAL`
+:   `length` 인자가 음수이거나 최대 파일 크기보다 크다.
+
+`EIO`
+:   아이노드 갱신 중 I/O 오류가 발생했다.
+
+`EISDIR`
+:   지정한 파일이 디렉터리이다.
+
+`ELOOP`
+:   경로명을 변환하는 동안 너무 많은 심볼릭 링크를 만났다.
+
+`ENAMETOOLONG`
+:   경로명의 어느 요소가 255글자를 넘었다. 또는 전체 경로명이 1023글자를 넘었다.
+
+`ENOENT`
+:   지정한 파일이 존재하지 않는다.
+
+`ENOTDIR`
+:   경로 선두부의 한 요소가 디렉터리가 아니다.
+
+`EPERM`
+:   하위 파일 시스템에서 현재 크기 넘게 파일을 확장하는 걸 지원하지 않는다.
+
+`EPERM`
+:   파일 봉인 때문에 동작이 막혔다. <tt>[[fcntl(2)]]</tt> 참고.
+
+`EROFS`
+:   지정한 파일이 읽기 전용 파일 시스템에 위치해 있다.
+
+`ETXTBSY`
+:   파일이 실행 파일인데 현재 실행 중이다.
 
 같은 오류들이 `ftruncate()`에도 해당하되 `path`에서 뭔가 잘못될 수 있는 대신 파일 디스크립터 `fd`에서 뭔가 잘못될 수 있다.
 
-<dl>
-<dt><code>EBADF</code></dt>
-<dd><code>fd</code>가 유효한 파일 디스크립터가 아니다.</dd>
-<dt><code>EBADF</code> 또는 <code>EINVAL</code></dt>
-<dd><code>fd</code>가 쓰기 가능하게 열려 있지 않다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>fd</code>가 정규 파일이나 POSIX 공유 메모리 객체를 가리키고 있지 않다.</dd>
-<dt><code>EINVAL</code> 또는 <code>EBADF</code></dt>
-<dd>파일 디스크립터 <code>fd</code>가 쓰기 가능하게 열려 있지 않다. POSIX에서는 이 경우에 어느 쪽 오류도 허용하며, 이식 가능한 응용에서는 두 오류를 모두 처리하는 게 좋다. (리눅스에서는 <code>EINVAL</code>을 내놓는다.)</dd>
-</dl>
+`EBADF`
+:   `fd`가 유효한 파일 디스크립터가 아니다.
+
+`EBADF` 또는 `EINVAL`
+:   `fd`가 쓰기 가능하게 열려 있지 않다.
+
+`EINVAL`
+:   `fd`가 정규 파일이나 POSIX 공유 메모리 객체를 가리키고 있지 않다.
+
+`EINVAL` 또는 `EBADF`
+:   파일 디스크립터 `fd`가 쓰기 가능하게 열려 있지 않다. POSIX에서는 이 경우에 어느 쪽 오류도 허용하며, 이식 가능한 응용에서는 두 오류를 모두 처리하는 게 좋다. (리눅스에서는 `EINVAL`을 내놓는다.)
 
 ## CONFORMING TO
 

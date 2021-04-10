@@ -30,10 +30,8 @@ int swapcontext(ucontext_t *oucp, const ucontext_t *ucp);
 
 ## ERRORS
 
-<dl>
-<dt><code>ENOMEM</code></dt>
-<dd>남은 스택 공간이 충분하지 않음.</dd>
-</dl>
+`ENOMEM`
+:   남은 스택 공간이 충분하지 않음.
 
 ## VERSIONS
 

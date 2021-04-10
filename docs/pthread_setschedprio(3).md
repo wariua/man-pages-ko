@@ -22,14 +22,14 @@ int pthread_setschedprio(pthread_t thread, int prio);
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd>지정한 스레드의 스케줄링 정책에서 <code>prio</code>가 유효하지 않다.</dd>
-<dt><code>EPERM</code></dt>
-<dd>호출자가 지정한 우선순위를 설정하기 위한 적절한 특권을 가지고 있지 않다.</dd>
-<dt><code>ESRCH</code></dt>
-<dd>ID가 <code>thread</code>인 스레드를 찾을 수 없다.</dd>
-</dl>
+`EINVAL`
+:   지정한 스레드의 스케줄링 정책에서 `prio`가 유효하지 않다.
+
+`EPERM`
+:   호출자가 지정한 우선순위를 설정하기 위한 적절한 특권을 가지고 있지 않다.
+
+`ESRCH`
+:   ID가 `thread`인 스레드를 찾을 수 없다.
 
 POSIX.1에서는 `pthread_setschedparam(3)`에서 `ENOTSUP` 오류("우선순위를 지원하지 않는 값으로 설정하려고 시도했음")도 적고 있다.
 

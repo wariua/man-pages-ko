@@ -12,10 +12,8 @@ int sigqueue(pid_t pid, int sig, const union sigval value);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>sigqueue()</code>:</dt>
-<dd><code>_POSIX_C_SOURCE >= 199309L</code></dd>
-</dl>
+`sigqueue()`:
+:   `_POSIX_C_SOURCE >= 199309L`
 
 ## DESCRIPTION
 
@@ -38,16 +36,17 @@ union sigval {
 
 ## ERRORS
 
-<dl>
-<dt><code>EAGAIN</code></dt>
-<dd>큐에 넣을 수 있는 시그널 개수 한계에 도달했다. (자세한 내용은 <tt>[[signal(7)]]</tt>을 보라.)</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>sig</code>가 유효하지 않다.</dd>
-<dt><code>EPERM</code></dt>
-<dd>프로세스가 수신 프로세스로 시그널을 보낼 권한을 가지고 있지 않다. 필요한 권한에 대해선 <tt>[[kill(2)]]</tt>을 보라.</dd>
-<dt><code>ESRCH</code></dt>
-<dd><code>pid</code>에 일치하는 PID의 프로세스가 없다.</dd>
-</dl>
+`EAGAIN`
+:   큐에 넣을 수 있는 시그널 개수 한계에 도달했다. (자세한 내용은 <tt>[[signal(7)]]</tt>을 보라.)
+
+`EINVAL`
+:   `sig`가 유효하지 않다.
+
+`EPERM`
+:   프로세스가 수신 프로세스로 시그널을 보낼 권한을 가지고 있지 않다. 필요한 권한에 대해선 <tt>[[kill(2)]]</tt>을 보라.
+
+`ESRCH`
+:   `pid`에 일치하는 PID의 프로세스가 없다.
 
 ## VERSIONS
 

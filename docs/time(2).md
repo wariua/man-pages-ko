@@ -22,15 +22,10 @@ time_t time(time_t *tloc);
 
 ## ERRORS
 
-<dl>
-<dt><code>EFAULT</code></dt>
-<dd>
+`EFAULT`
+:   `tloc`이 접근 가능한 주소 공간 밖을 가리킨다. (하지만 BUGS 참고.)
 
-<code>tloc</code>이 접근 가능한 주소 공간 밖을 가리킨다. (하지만 BUGS 참고.)
-
-C 라이브러리의 <code>time()</code> 래퍼 함수가 <tt>[[vdso(7)]]</tt>에서 제공하는 구현체를 호출하는 (그래서 커널 내 트랩이 발생하지 않는) 시스템에서는 유효하지 않은 주소 사용 시 <code>SIGSEGV</code> 시그널이 유발될 수 있다.
-</dd>
-</dl>
+    C 라이브러리의 `time()` 래퍼 함수가 <tt>[[vdso(7)]]</tt>에서 제공하는 구현체를 호출하는 (그래서 커널 내 트랩이 발생하지 않는) 시스템에서는 유효하지 않은 주소 사용 시 `SIGSEGV` 시그널이 유발될 수 있다.
 
 ## CONFORMING TO
 

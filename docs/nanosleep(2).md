@@ -12,10 +12,8 @@ int nanosleep(const struct timespec *req, struct timespec *rem);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>nanosleep()</code></dt>
-<dd><code>_POSIX_C_SOURCE >= 199309L</code></dd>
-</dl>
+`nanosleep()`
+:   `_POSIX_C_SOURCE >= 199309L`
 
 ## DESCRIPTION
 
@@ -42,14 +40,14 @@ struct timespec {
 
 ## ERRORS
 
-<dl>
-<dt><code>EFAULT</code></dt>
-<dd>사용자 공간으로부터 정보를 복사하면서 문제 발생.</dd>
-<dt><code>EINTR</code></dt>
-<dd>스레드로 전달된 시그널에 의해 휴지가 중단되었다. (<tt>[[signal(7)]]</tt> 참고.) 남는 시간이 <code>*rem</code>에 기록되었으므로 스레드에서 바로 <code>nanosleep()</code>을 다시 호출해서 휴지를 이어갈 수 있다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>tv_nsec</code> 필드의 값이 0에서 999999999까지 범위 안이 아니거나 <code>tv_sec</code>이 음수이다.</dd>
-</dl>
+`EFAULT`
+:   사용자 공간으로부터 정보를 복사하면서 문제 발생.
+
+`EINTR`
+:   스레드로 전달된 시그널에 의해 휴지가 중단되었다. (<tt>[[signal(7)]]</tt> 참고.) 남는 시간이 `*rem`에 기록되었으므로 스레드에서 바로 `nanosleep()`을 다시 호출해서 휴지를 이어갈 수 있다.
+
+`EINVAL`
+:   `tv_nsec` 필드의 값이 0에서 999999999까지 범위 안이 아니거나 `tv_sec`이 음수이다.
 
 ## CONFORMING TO
 

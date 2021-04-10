@@ -8,24 +8,29 @@ POSIX 비동기 I/O(AIO) 인터페이스를 응용에서 이용하여 비동기�
 
 POSIX AIO 인터페이스는 다음 함수들로 이뤄져 있다.
 
-<dl>
-<dt><tt>[[aio_read(3)]]</tt></dt>
-<dd>읽기 요청을 큐에 넣는다. <code>read(2)</code>의 비동기 형태이다.</dd>
-<dt><tt>[[aio_write(3)]]</tt></dt>
-<dd>쓰기 요청을 큐에 넣는다. <code>write(2)</code>의 비동기 형태이다.</dd>
-<dt><tt>[[aio_fsync(3)]]</tt></dt>
-<dd>파일 디스크립터 상의 I/O 동작들에 대한 동기화 요청을 큐에 넣는다. <tt>[[fsync(2)]]</tt> 및 <tt>[[fdatasync(2)]]</tt>의 비동기 형태이다.</dd>
-<dt><tt>[[aio_error(3)]]</tt></dt>
-<dd>큐에 넣은 I/O 요청의 오류 상태를 얻는다.</dd>
-<dt><tt>[[aio_return(3)]]</tt></dt>
-<dd>완료된 I/O 요청의 반환 상태를 얻는다.</dd>
-<dt><tt>[[aio_suspend(3)]]</tt></dt>
-<dd>지정한 I/O 요청이 하나 이상 완료될 때까지 호출자를 멈춘다.</dd>
-<dt><tt>[[aio_cancel(3)]]</tt></dt>
-<dd>지정한 파일 디스크립터 상의 미처리 I/O 요청들을 취소 시도한다.</dd>
-<dt><tt>[[lio_listio(3)]]</tt></dt>
-<dd>한 번의 함수 호출로 여러 I/O 요청을 큐에 넣는다.</dd>
-</dl>
+<tt>[[aio_read(3)]]</tt>
+:   읽기 요청을 큐에 넣는다. `read(2)`의 비동기 형태이다.
+
+<tt>[[aio_write(3)]]</tt>
+:   쓰기 요청을 큐에 넣는다. `write(2)`의 비동기 형태이다.
+
+<tt>[[aio_fsync(3)]]</tt>
+:   파일 디스크립터 상의 I/O 동작들에 대한 동기화 요청을 큐에 넣는다. <tt>[[fsync(2)]]</tt> 및 <tt>[[fdatasync(2)]]</tt>의 비동기 형태이다.
+
+<tt>[[aio_error(3)]]</tt>
+:   큐에 넣은 I/O 요청의 오류 상태를 얻는다.
+
+<tt>[[aio_return(3)]]</tt>
+:   완료된 I/O 요청의 반환 상태를 얻는다.
+
+<tt>[[aio_suspend(3)]]</tt>
+:   지정한 I/O 요청이 하나 이상 완료될 때까지 호출자를 멈춘다.
+
+<tt>[[aio_cancel(3)]]</tt>
+:   지정한 파일 디스크립터 상의 미처리 I/O 요청들을 취소 시도한다.
+
+<tt>[[lio_listio(3)]]</tt>
+:   한 번의 함수 호출로 여러 I/O 요청을 큐에 넣는다.
 
 `aiocb`(비동기 I/O 제어 블록) 구조체가 I/O 동작을 제어하는 매개변수들을 정의한다. 위에 나열한 함수 모두에서 이 타입의 인자를 쓴다. 이 구조체는 다음 형태이다.
 
@@ -54,36 +59,36 @@ enum { LIO_READ, LIO_WRITE, LIO_NOP };
 
 이 구조체의 필드들은 다음과 같다.
 
-<dl>
-<dt><code>aio_fildes</code></dt>
-<dd>I/O 동작을 수행할 파일 디스크립터.</dd>
-<dt><code>aio_offset</code></dt>
-<dd>I/O 동작을 수행할 파일 오프셋.</dd>
-<dt><code>aio_buf</code></dt>
-<dd>읽기 또는 쓰기 동작에서 데이터 이동에 사용하는 버퍼.</dd>
-<dt><code>aio_nbytes</code></dt>
-<dd><code>aio_buf</code>가 가리키는 버퍼의 크기.</dd>
-<dt><code>aio_reqprio</code></dt>
-<dd>이 필드에 지정한 값을 호출 스레드의 실시간 우선순위에서 빼서 이 I/O 요청의 실행 우선순위를 결정한다. (<tt>[[pthread_setschedparam(3)]]</tt> 참고.) 지정하는 값이 0과 <code>sysconf(_SC_AIO_PRIO_DELTA_MAX)</code> 반환 값 사이에 있어야 한다. 파일 동기화 동작에서는 이 필드를 무시한다.</dd>
-<dt><code>aio_sigevent</code></dt>
-<dd>비동기 I/O 동작이 완료됐을 때 호출자가 알림을 받는 방법을 지정하는 구조체이다. <code>aio_sigevent.sigev_notify</code>에 가능한 값은 <code>SIGEV_NONE</code>, <code>SIGEV_SIGNAL</code>, <code>SIGEV_THREAD</code>이다. 자세한 내용은 <tt>[[sigevent(7)]]</tt> 참고.</dd>
-<dt><code>aio_lio_opcode</code></dt>
-<dd>수행할 동작 종류. <tt>[[lio_listio(3)]]</tt>에서만 사용.</dd>
-</dl>
+`aio_fildes`
+:   I/O 동작을 수행할 파일 디스크립터.
+
+`aio_offset`
+:   I/O 동작을 수행할 파일 오프셋.
+
+`aio_buf`
+:   읽기 또는 쓰기 동작에서 데이터 이동에 사용하는 버퍼.
+
+`aio_nbytes`
+:   `aio_buf`가 가리키는 버퍼의 크기.
+
+`aio_reqprio`
+:   이 필드에 지정한 값을 호출 스레드의 실시간 우선순위에서 빼서 이 I/O 요청의 실행 우선순위를 결정한다. (<tt>[[pthread_setschedparam(3)]]</tt> 참고.) 지정하는 값이 0과 `sysconf(_SC_AIO_PRIO_DELTA_MAX)` 반환 값 사이에 있어야 한다. 파일 동기화 동작에서는 이 필드를 무시한다.
+
+`aio_sigevent`
+:   비동기 I/O 동작이 완료됐을 때 호출자가 알림을 받는 방법을 지정하는 구조체이다. `aio_sigevent.sigev_notify`에 가능한 값은 `SIGEV_NONE`, `SIGEV_SIGNAL`, `SIGEV_THREAD`이다. 자세한 내용은 <tt>[[sigevent(7)]]</tt> 참고.
+
+`aio_lio_opcode`
+:   수행할 동작 종류. <tt>[[lio_listio(3)]]</tt>에서만 사용.
 
 위에 나열한 표준 함수들에 더해서 GNU C 라이브러리에서는 POSIX AIO API에 대한 다음 확장을 제공한다.
 
-<dl>
-<dt><tt>[[aio_init(3)]]</tt></dt>
-<dd>glibc POSIX AIO 구현의 동작을 조정하는 매개변수들을 설정한다.</dd>
-</dl>
+<tt>[[aio_init(3)]]</tt>
+:   glibc POSIX AIO 구현의 동작을 조정하는 매개변수들을 설정한다.
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>aiocb</code> 구조체의 <code>aio_reqprio</code> 필드가 0보다 작거나 <code>sysconf(_SC_AIO_PRIO_DELTA_MAX)</code> 호출이 반환한 한계치보다 크다.</dd>
-</dl>
+`EINVAL`
+:   `aiocb` 구조체의 `aio_reqprio` 필드가 0보다 작거나 `sysconf(_SC_AIO_PRIO_DELTA_MAX)` 호출이 반환한 한계치보다 크다.
 
 ## VERSIONS
 

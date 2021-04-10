@@ -18,10 +18,8 @@ int clock_settime(clockid_t clk_id, const struct timespec *tp);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>clock_getres()</code>, <code>clock_gettime()</code>, <code>clock_settime()</code>:</dt>
-<dd><code>_POSIX_C_SOURCE >= 199309L</code></dd>
-</dl>
+`clock_getres()`, `clock_gettime()`, `clock_settime()`:
+:   `_POSIX_C_SOURCE >= 199309L`
 
 ## DESCRIPTION
 
@@ -46,36 +44,31 @@ struct timespec {
 
 충분히 최신인 glibc 및 리눅스 커널에서는 다음 클럭들을 지원한다.
 
-<dl>
-<dt><code>CLOCK_REALTIME</code></dt>
-<dd>실제 시간을 (즉 벽시계 시간을) 재는 시스템 전역 클럭. 이 클럭을 설정하려면 적절한 특권이 필요하다. 이 클럭은 시스템 시간의 불연속적 도약(가령 시스템 관리자가 수동으로 클럭을 변경하는 경우)과 <tt>[[adjtime(3)]]</tt> 및 NTP가 수행하는 점진적 조정에 영향을 받는다.</dd>
+`CLOCK_REALTIME`
+:   실제 시간을 (즉 벽시계 시간을) 재는 시스템 전역 클럭. 이 클럭을 설정하려면 적절한 특권이 필요하다. 이 클럭은 시스템 시간의 불연속적 도약(가령 시스템 관리자가 수동으로 클럭을 변경하는 경우)과 <tt>[[adjtime(3)]]</tt> 및 NTP가 수행하는 점진적 조정에 영향을 받는다.
 
-<dt><code>CLOCK_REALTIME_COARSE</code> (리눅스 2.6.32부터. 리눅스 전용.)</dt>
-<dd><code>CLOCK_REALTIME</code>의 더 빠르지만 덜 정확한 버전. 아주 빠르되 정밀하지는 않은 타임스탬프가 필요할 때 쓰면 된다. 아키텍처별 지원이 필요하며, <tt>[[vdso(7)]]</tt> 내에서 이 플래그에 대한 아키텍처 지원도 필요할 것이다.</dd>
+`CLOCK_REALTIME_COARSE` (리눅스 2.6.32부터. 리눅스 전용.)
+:   `CLOCK_REALTIME`의 더 빠르지만 덜 정확한 버전. 아주 빠르되 정밀하지는 않은 타임스탬프가 필요할 때 쓰면 된다. 아키텍처별 지원이 필요하며, <tt>[[vdso(7)]]</tt> 내에서 이 플래그에 대한 아키텍처 지원도 필요할 것이다.
 
-<dt><code>CLOCK_MONOTONIC</code></dt>
-<dd>
+`CLOCK_MONOTONIC`
+:   "어떤 규정돼 있지 않은 시점"(POSIX의 서술)부터 단조 증가하는 시간을 나타내며 설정할 수 없는 클럭. 리눅스에서는 시스템이 부팅 하고 동작한 초 수에 해당한다.
 
-"어떤 규정돼 있지 않은 시점"(POSIX의 서술)부터 단조 증가하는 시간을 나타내며 설정할 수 없는 클럭. 리눅스에서는 시스템이 부팅 하고 동작한 초 수에 해당한다.
+    `CLOCK_MONOTONIC` 클럭은 시스템 시간의 불연속적 도약(가령 시스템 관리자가 수동으로 클럭을 변경하는 경우)에는 영향을 받지 않지만 <tt>[[adjtime(3)]]</tt> 및 NTP가 수행하는 점진적 조정에는 영향을 받는다. 시스템이 절전 대기 상태인 시간은 포함하지 않는다.
 
-<code>CLOCK_MONOTONIC</code> 클럭은 시스템 시간의 불연속적 도약(가령 시스템 관리자가 수동으로 클럭을 변경하는 경우)에는 영향을 받지 않지만 <tt>[[adjtime(3)]]</tt> 및 NTP가 수행하는 점진적 조정에는 영향을 받는다. 시스템이 절전 대기 상태인 시간은 포함하지 않는다.
-</dd>
+`CLOCK_MONOTONIC_COARSE` (리눅스 2.6.32부터. 리눅스 전용.)
+:   `CLOCK_MONOTONIC`의 더 빠르지만 덜 정확한 버전. 아주 빠르되 정밀하지는 않은 타임스탬프가 필요할 때 쓰면 된다. 아키텍처별 지원이 필요하며, <tt>[[vdso(7)]]</tt> 내에서 이 플래그에 대한 아키텍처 지원도 필요할 것이다.
 
-<dt><code>CLOCK_MONOTONIC_COARSE</code> (리눅스 2.6.32부터. 리눅스 전용.)</dt>
-<dd><code>CLOCK_MONOTONIC</code>의 더 빠르지만 덜 정확한 버전. 아주 빠르되 정밀하지는 않은 타임스탬프가 필요할 때 쓰면 된다. 아키텍처별 지원이 필요하며, <tt>[[vdso(7)]]</tt> 내에서 이 플래그에 대한 아키텍처 지원도 필요할 것이다.</dd>
+`CLOCK_MONOTONIC_RAW` (리눅스 2.6.28부터. 리눅스 전용.)
+:   `CLOCK_MONOTONIC`과 유사하되 NTP 조정이나 <tt>[[adjtime(3)]]</tt>이 수행하는 점진적 조정의 영향을 받지 않는 하드웨어 기반 시간에 대한 접근을 제공한다. 시스템이 절전 대기 상태인 시간은 포함하지 않는다.
 
-<dt><code>CLOCK_MONOTONIC_RAW</code> (리눅스 2.6.28부터. 리눅스 전용.)</dt>
-<dd><code>CLOCK_MONOTONIC</code>과 유사하되 NTP 조정이나 <tt>[[adjtime(3)]]</tt>이 수행하는 점진적 조정의 영향을 받지 않는 하드웨어 기반 시간에 대한 접근을 제공한다. 시스템이 절전 대기 상태인 시간은 포함하지 않는다.</dd>
+`CLOCK_BOOTTIME` (리눅스 2.6.39부터. 리눅스 전용.)
+:   `CLOCK_MONOTONIC`과 동일하되 시스템이 절전 대기 상태인 시간도 포함한다. <tt>[[settimeofday(2)]]</tt> 등을 이용해 시간을 바꾸면 불연속적일 수도 있는 `CLOCK_REALTIME`의 복잡함을 응용에서 다룰 필요 없이 절전 대기를 인식하는 단조 증가 클럭을 얻을 수 있다.
 
-<dt><code>CLOCK_BOOTTIME</code> (리눅스 2.6.39부터. 리눅스 전용.)</dt>
-<dd><code>CLOCK_MONOTONIC</code>과 동일하되 시스템이 절전 대기 상태인 시간도 포함한다. <tt>[[settimeofday(2)]]</tt> 등을 이용해 시간을 바꾸면 불연속적일 수도 있는 <code>CLOCK_REALTIME</code>의 복잡함을 응용에서 다룰 필요 없이 절전 대기를 인식하는 단조 증가 클럭을 얻을 수 있다.</dd>
+`CLOCK_PROCESS_CPUTIME_ID` (리눅스 2.6.12부터.)
+:   프로세스별 CPU 시간 클럭. (프로세스 내 모든 스레드들이 소모한 CPU 시간을 측정함.)
 
-<dt><code>CLOCK_PROCESS_CPUTIME_ID</code> (리눅스 2.6.12부터.)</dt>
-<dd>프로세스별 CPU 시간 클럭. (프로세스 내 모든 스레드들이 소모한 CPU 시간을 측정함.)</dd>
-
-<dt><code>CLOCK_THREAD_CPUTIME_ID</code> (리눅스 2.6.12부터.)</dt>
-<dd>스레드 한정 CPU 시간 클럭.</dd>
-</dl>
+`CLOCK_THREAD_CPUTIME_ID` (리눅스 2.6.12부터.)
+:   스레드 한정 CPU 시간 클럭.
 
 ## RETURN VALUE
 
@@ -83,16 +76,17 @@ struct timespec {
 
 ## ERRORS
 
-<dl>
-<dt><code>EFAULT</code></dt>
-<dd><code>tp</code>가 접근 가능한 주소 공간 밖을 가리키고 있다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>지정한 <code>clk_id</code>를 이 시스템에서 지원하지 않는다.</dd>
-<dt><code>EINVAL</code> (리눅스 4.3부터)</dt>
-<dd><code>clk_id</code>를 <code>CLOCK_REALTIME</code>으로 한 <code>clock_settime()</code> 호출에서 시간을 <code>CLOCK_MONOTINIC</code> 클럭 현재 값보다 작은 값으로 설정하려 했다.</dd>
-<dt><code>EPERM</code></dt>
-<dd><code>clock_settime()</code>에서 표시 클럭을 설정할 권한을 가지고 있지 않다.</dd>
-</dl>
+`EFAULT`
+:   `tp`가 접근 가능한 주소 공간 밖을 가리키고 있다.
+
+`EINVAL`
+:   지정한 `clk_id`를 이 시스템에서 지원하지 않는다.
+
+`EINVAL` (리눅스 4.3부터)
+:   `clk_id`를 `CLOCK_REALTIME`으로 한 `clock_settime()` 호출에서 시간을 `CLOCK_MONOTINIC` 클럭 현재 값보다 작은 값으로 설정하려 했다.
+
+`EPERM`
+:   `clock_settime()`에서 표시 클럭을 설정할 권한을 가지고 있지 않다.
 
 ## VERSIONS
 

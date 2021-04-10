@@ -31,10 +31,8 @@ int pthread_getconcurrency(void);
 
 `pthread_setconcurrency()`가 다음 오류로 실패할 수 있다.
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>new_level</code>이 음수이다.</dd>
-</dl>
+`EINVAL`
+:   `new_level`이 음수이다.
 
 POSIX.1에서는 `EAGAIN` 오류("`new_value`로 지정한 값이 시스템 자원 초과를 일으키게 됨")도 적고 있다.
 

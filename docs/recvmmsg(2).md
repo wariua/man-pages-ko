@@ -33,10 +33,8 @@ struct mmsghdr {
 
 `flags` 인자는 OR 한 플래그들을 담는다. <tt>[[recvmsg(2)]]</tt>에 기록된 것들에 더해 다음 플래그가 있다.
 
-<dl>
-<dt><code>MSG_WAITFORONE</code> (리눅스 2.6.34부터)</dt>
-<dd>첫 번째 메시지를 수신한 후에 <code>MSG_DONTWAIT</code>을 켠다.</dd>
-</dl>
+`MSG_WAITFORONE` (리눅스 2.6.34부터)
+:   첫 번째 메시지를 수신한 후에 `MSG_DONTWAIT`을 켠다.
 
 `timeout` 인자는 `struct timespec`(<tt>[[clock_gettime(2)]]</tt> 참고)을 가리키며 수신 동작의 타임아웃(초 더하기 나노초)을 지정한다. (하지만 BUGS 참고.) (이 시간을 시스템 클럭 해상도에 따라 올림 하게 되며 커널 스케줄링 지연도 있기 때문에 그 블록 시간을 약간 넘길 수도 있다.) `timeout`이 NULL이면 동작이 영원히 블록 한다.
 
@@ -52,10 +50,8 @@ struct mmsghdr {
 
 오류들이 <tt>[[recvmsg(2)]]</tt>에서와 같다. 추가로 다음 오류가 발생할 수 있다.
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>timeout</code>이 유효하지 않다.</dd>
-</dl>
+`EINVAL`
+:   `timeout`이 유효하지 않다.
 
 BUGS도 참고.
 

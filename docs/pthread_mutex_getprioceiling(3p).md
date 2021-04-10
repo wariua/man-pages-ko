@@ -4,7 +4,7 @@
 
 ## NAME
 
-pthread_mutex_getprioceiling, pthread_mutex_setprioceiling - 뮤텍스의 우선순위 상한 얻기 및 설정하기 (<strong>실시간 스레드</strong>)
+pthread_mutex_getprioceiling, pthread_mutex_setprioceiling - 뮤텍스의 우선순위 상한 얻기 및 설정하기 (**실시간 스레드**)
 
 ## SYNOPSIS
 
@@ -33,42 +33,43 @@ int pthread_mutex_setprioceiling(pthread_mutex_t *restrict mutex,
 
 다음 경우에 이 함수들이 실패한다.
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>mutex</code>의 프로토콜 속성이 <code>PTHREAD_PRIO_NONE</code>이다.</dd>
-<dt><code>EPERM</code></dt>
-<dd>구현에서 작업 수행에 적절한 특권을 요구하며 호출자가 적절한 특권을 가지고 있지 않다.</dd>
-</dl>
+`EINVAL`
+:   `mutex`의 프로토콜 속성이 `PTHREAD_PRIO_NONE`이다.
+
+`EPERM`
+:   구현에서 작업 수행에 적절한 특권을 요구하며 호출자가 적절한 특권을 가지고 있지 않다.
 
 다음 경우에 `pthread_mutex_setprioceiling()` 함수가 실패한다.
 
-<dl>
-<dt><code>EAGAIN</code></dt>
-<dd><code>mutex</code>의 재귀 락 최대 횟수를 초과했기 때문에 뮤텍스를 획득할 수 없다.</dd>
-<dt><code>EDEADLK</code></dt>
-<dd>뮤텍스 유형이 <code>PTHREAD_MUTEX_ERRORCHECK</code>이며 현재 스레드가 이미 그 뮤텍스를 소유하고 있다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>프로토콜 속성 값을 <code>PTHREAD_PRIO_PROTECT</code>로 해서 뮤텍스를 생성했으며 호출 스레드의 우선순위가 뮤텍스의 현재 우선순위 상한보다 높으며 구현의 뮤텍스 잠그기 과정에서 우선순위 보호 프로토콜을 준수한다.</dd>
-<dt><code>ENOTRECOVERABLE</code></dt>
-<dd>뮤텍스가 견고 뮤텍스이며 뮤텍스가 보호하는 상태가 복구 가능하지 않다.</dd>
-<dt><code>EOWNERDEAD</code></dt>
-<dd>뮤텍스가 견고 뮤텍스이며 이전 소유자 스레드를 포함한 프로세스가 뮤텍스 락을 잡은 채로 종료했다. 호출 스레드가 뮤텍스 락을 획득하게 되며 상태를 정상으로 만드는 것은 새 소유자의 몫이다. (<code>pthread_mutex_lock()</code> 참고.)</dd>
-</dl>
+`EAGAIN`
+:   `mutex`의 재귀 락 최대 횟수를 초과했기 때문에 뮤텍스를 획득할 수 없다.
+
+`EDEADLK`
+:   뮤텍스 유형이 `PTHREAD_MUTEX_ERRORCHECK`이며 현재 스레드가 이미 그 뮤텍스를 소유하고 있다.
+
+`EINVAL`
+:   프로토콜 속성 값을 `PTHREAD_PRIO_PROTECT`로 해서 뮤텍스를 생성했으며 호출 스레드의 우선순위가 뮤텍스의 현재 우선순위 상한보다 높으며 구현의 뮤텍스 잠그기 과정에서 우선순위 보호 프로토콜을 준수한다.
+
+`ENOTRECOVERABLE`
+:   뮤텍스가 견고 뮤텍스이며 뮤텍스가 보호하는 상태가 복구 가능하지 않다.
+
+`EOWNERDEAD`
+:   뮤텍스가 견고 뮤텍스이며 이전 소유자 스레드를 포함한 프로세스가 뮤텍스 락을 잡은 채로 종료했다. 호출 스레드가 뮤텍스 락을 획득하게 되며 상태를 정상으로 만드는 것은 새 소유자의 몫이다. (`pthread_mutex_lock()` 참고.)
 
 다음 경우에 `pthread_mutex_setprioceiling()` 함수가 실패할 수도 있다.
 
-<dl>
-<dt><code>EDEADLK</code></dt>
-<dd>교착 조건을 탐지했다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>prioceiling</code>으로 요청한 우선순위가 범위를 벗어난다.</dd>
-<dt><code>EOWNERDEAD</code></dt>
-<dd>뮤텍스가 견고 뮤텍스이며 이전 소유자 스레드가 뮤텍스 락을 잡은 채로 종료했다. 호출 스레드가 뮤텍스 락을 획득하게 되며 상태를 정상으로 만드는 것은 새 소유자의 몫이다. (<code>pthread_mutex_lock()</code> 참고.)</dd>
-</dl>
+`EDEADLK`
+:   교착 조건을 탐지했다.
+
+`EINVAL`
+:   `prioceiling`으로 요청한 우선순위가 범위를 벗어난다.
+
+`EOWNERDEAD`
+:   뮤텍스가 견고 뮤텍스이며 이전 소유자 스레드가 뮤텍스 락을 잡은 채로 종료했다. 호출 스레드가 뮤텍스 락을 획득하게 되며 상태를 정상으로 만드는 것은 새 소유자의 몫이다. (`pthread_mutex_lock()` 참고.)
 
 이 함수들은 오류 코드 `[EINTR]`을 반환하지 않는다.
 
-<em>이하는 규범적이지 않은 내용이다.</em>
+*이하는 규범적이지 않은 내용이다.*
 
 ## EXAMPLES
 
@@ -94,9 +95,9 @@ POSIX.1-2008 Base Definitions 권, `<pthread.h>`
 
 ## COPYRIGHT
 
-Portions of this text are reprinted and reproduced in electronic form from IEEE Std 1003.1, 2013 Edition, Standard for Information Technology -- Portable Operating System Interface (POSIX), The Open Group Base Specifications Issue 7, Copyright (C) 2013 by the Institute of Electrical and Electronics Engineers, Inc and The Open Group. (This is POSIX.1-2008 with the 2013 Technical Corrigendum 1 applied.) In the event of any discrepancy between this version and the original IEEE and The Open Group Standard, the original IEEE and The Open Group Standard is the referee document. The original Standard can be obtained online at http://www.unix.org/online.html .
+Portions of this text are reprinted and reproduced in electronic form from IEEE Std 1003.1, 2013 Edition, Standard for Information Technology -- Portable Operating System Interface (POSIX), The Open Group Base Specifications Issue 7, Copyright (C) 2013 by the Institute of Electrical and Electronics Engineers, Inc and The Open Group. (This is POSIX.1-2008 with the 2013 Technical Corrigendum 1 applied.) In the event of any discrepancy between this version and the original IEEE and The Open Group Standard, the original IEEE and The Open Group Standard is the referee document. The original Standard can be obtained online at <http://www.unix.org/online.html>.
 
-Any typographical or formatting errors that appear in this page are most likely to have been introduced during the conversion of the source files to man page format. To report such errors, see https://www.kernel.org/doc/man-pages/reporting_bugs.html .
+Any typographical or formatting errors that appear in this page are most likely to have been introduced during the conversion of the source files to man page format. To report such errors, see <https://www.kernel.org/doc/man-pages/reporting_bugs.html>.
 
 ----
 

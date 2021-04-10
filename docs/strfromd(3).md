@@ -17,10 +17,8 @@ int strfroml(char *restrict str, size_t n,
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>strfromd()</code>, <code>strfromf()</code>, <code>strfroml()</code>:</dt>
-<dd><code>__STDC_WANT_IEC_60559_BFP_EXT__</code></dd>
-</dl>
+`strfromd()`, `strfromf()`, `strfroml()`:
+:   `__STDC_WANT_IEC_60559_BFP_EXT__`
 
 ## DESCRIPTION
 
@@ -58,18 +56,13 @@ glibc 버전 2.25부터 `strfromd()`, `strfromf()`, `strfroml()` 함수가 사�
 
 ## ATTRIBUTES
 
-이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>와 GNU C 라이브러리 매뉴얼 <strong>POSIX Safety Concepts</strong> 절을 보라.
+이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>와 GNU C 라이브러리 매뉴얼 **POSIX Safety Concepts** 절을 보라.
 
-<table>
-<thead>
-<tr><th>인터페이스</th><th>속성</th><th>값</th></tr>
-</thead>
-<tbody>
-<tr><td rowspan="3"><code>strfromd()</code>,<br><code>strfromf()</code>,<br><code>strfroml()</code></td><td>스레드 안전성</td><td>MT-Safe locale</td></tr>
-<tr><td>비동기 시그널 안전성</td><td>AS-Unsafe heap</td></tr>
-<tr><td>비동기 취소 안전성</td><td>AC-Unsafe mem</td></tr>
-</tbody>
-</table>
+| 인터페이스 | 속성 | 값 |
+| --- | --- | --- |
+| `strfromd()`,<br>`strfromf()`,<br>`strfroml()` | 스레드 안전성        | MT-Safe locale |
+| `strfromd()`,<br>`strfromf()`,<br>`strfroml()` | 비동기 시그널 안전성 | AS-Unsafe heap |
+| `strfromd()`,<br>`strfromf()`,<br>`strfroml()` | 비동기 취소 안전성   | AC-Unsafe mem  |
 
 참고: 예비 속성들이다.
 

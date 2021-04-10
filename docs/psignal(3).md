@@ -15,28 +15,22 @@ extern const char *const sys_siglist[];
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>psignal()</code>:</dt>
-<dd>
- <dl>
- <dt>glibc 2.19부터:</dt>
- <dd><code>_DEFAULT_SOURCE</code></dd>
- <dt>glibc 2.19 및 이전:</dt>
- <dd><code>_BSD_SOURCE || _SVID_SOURCE</code></dd>
- </dl>
-</dd>
-<dt><code>psiginfo()</code>:</dt>
-<dd><code>_POSIX_C_SOURCE >= 200809L</code></dd>
-<dt><code>sys_siglist</code>:</dt>
-<dd>
- <dl>
- <dt>glibc 2.19부터:</dt>
- <dd><code>_DEFAULT_SOURCE</code></dd>
- <dt>glibc 2.19 및 이전:</dt>
- <dd><code>_BSD_SOURCE</code></dd>
- </dl>
-</dd>
-</dl>
+`psignal()`:
+:   glibc 2.19부터:
+    :   `_DEFAULT_SOURCE`
+
+    glibc 2.19 및 이전:
+    :   `_BSD_SOURCE || _SVID_SOURCE`
+
+`psiginfo()`:
+:   `_POSIX_C_SOURCE >= 200809L`
+
+`sys_siglist`:
+:   glibc 2.19부터:
+    :   `_DEFAULT_SOURCE`
+
+    glibc 2.19 및 이전:
+    :   `_BSD_SOURCE`
 
 ## DESCRIPTION
 

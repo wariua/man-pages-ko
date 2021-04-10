@@ -12,27 +12,18 @@ char *mktemp(char *template);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>mktemp()</code>:</dt>
-<dd>
- <dl>
- <dt>glibc 2.12부터:</dt>
- <dd>
-<code>(_XOPEN_SOURCE >= 500) && ! (_POSIX_C_SOURCE >= 200112L)</code><br>
-<code>    || /* glibc 2.19부터: */ _DEFAULT_SOURCE</code><br>
-<code>    || /* glibc <= 2.19: */ _SVID_SOURCE || _BSD_SOURCE</code>
- </dd>
- <dt>glibc 2.12 전:</dt>
- <dd>
-<code>_BSD_SOURCE || _SVID_SOURCE || _XOPEN_SOURCE >= 500</code>
- </dd>
- </dl>
-</dd>
-</dl>
+`mktemp()`:
+:   glibc 2.12부터:
+    :   `(_XOPEN_SOURCE >= 500) && ! (_POSIX_C_SOURCE >= 200112L)`<br>
+        `    || /* glibc 2.19부터: */ _DEFAULT_SOURCE`<br>
+        `    || /* glibc <= 2.19: */ _SVID_SOURCE || _BSD_SOURCE`
+ 
+    glibc 2.12 전:
+    :   `_BSD_SOURCE || _SVID_SOURCE || _XOPEN_SOURCE >= 500`
 
 ## DESCRIPTION
 
-<em>이 함수를 절대 쓰지 말 것.</em> BUGS 참고.
+*이 함수를 절대 쓰지 말 것.* BUGS 참고.
 
 `mktemp()` 함수는 `template`을 가지고 유일한 임시 파일명을 만들어 낸다. `template`의 마지막 여섯 글자가 XXXXXX여야 하며 그 글자들을 바꿔서 유일한 파일명을 만든다. 변경이 이뤄지므로 `template`이 문자열 상수여서는 안 되며 문자 배열로 선언하는 게 좋다.
 
@@ -42,10 +33,8 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>template</code>의 마지막 여섯 글자가 XXXXXX가 아니다.</dd>
-</dl>
+`EINVAL`
+:   `template`의 마지막 여섯 글자가 XXXXXX가 아니다.
 
 ## ATTRIBUTES
 

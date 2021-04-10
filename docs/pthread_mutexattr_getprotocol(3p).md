@@ -4,7 +4,7 @@
 
 ## NAME
 
-pthread_mutexattr_getprotocol, pthread_mutexattr_setprotocol - 뮤텍스 속성 객체의 프로토콜 속성 얻기 및 설정하기 (<strong>실시간 스레드</strong>)
+pthread_mutexattr_getprotocol, pthread_mutexattr_setprotocol - 뮤텍스 속성 객체의 프로토콜 속성 얻기 및 설정하기 (**실시간 스레드**)
 
 ## SYNOPSIS
 
@@ -55,23 +55,20 @@ int pthread_mutexattr_setprotocol(pthread_mutexattr_t *attr,
 
 다음 경우에 `pthread_mutexattr_setprotocol()` 함수가 실패한다.
 
-<dl>
-<dt><code>ENOTSUP</code></dt>
-<dd><code>protocol</code>로 지정한 값이 지원하지 않는 값이다.</dd>
-</dl>
+`ENOTSUP`
+:   `protocol`로 지정한 값이 지원하지 않는 값이다.
 
 다음 경우에 `pthread_mutexattr_getprotocol()` 및 `pthread_mutexattr_setprotocol()` 함수가 실패할 수도 있다.
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>protocol</code>로 지정한 값이 유효하지 않다.</dd>
-<dt><code>EPERM</code></dt>
-<dd>호출자가 동작을 수행하기 위한 특권을 가지고 있지 않다.</dd>
-</dl>
+`EINVAL`
+:   `protocol`로 지정한 값이 유효하지 않다.
+
+`EPERM`
+:   호출자가 동작을 수행하기 위한 특권을 가지고 있지 않다.
 
 이 함수들은 오류 코드 `[EINTR]`을 반환하지 않는다.
 
-<em>이하는 규범적이지 않은 내용이다.</em>
+*이하는 규범적이지 않은 내용이다.*
 
 ## EXAMPLES
 
@@ -97,9 +94,9 @@ POSIX.1-2008 Base Definitions 권, `<pthread.h>`
 
 ## COPYRIGHT
 
-Portions of this text are reprinted and reproduced in electronic form from IEEE Std 1003.1, 2013 Edition, Standard for Information Technology -- Portable Operating System Interface (POSIX), The Open Group Base Specifications Issue 7, Copyright (C) 2013 by the Institute of Electrical and Electronics Engineers, Inc and The Open Group. (This is POSIX.1-2008 with the 2013 Technical Corrigendum 1 applied.) In the event of any discrepancy between this version and the original IEEE and The Open Group Standard, the original IEEE and The Open Group Standard is the referee document. The original Standard can be obtained online at http://www.unix.org/online.html .
+Portions of this text are reprinted and reproduced in electronic form from IEEE Std 1003.1, 2013 Edition, Standard for Information Technology -- Portable Operating System Interface (POSIX), The Open Group Base Specifications Issue 7, Copyright (C) 2013 by the Institute of Electrical and Electronics Engineers, Inc and The Open Group. (This is POSIX.1-2008 with the 2013 Technical Corrigendum 1 applied.) In the event of any discrepancy between this version and the original IEEE and The Open Group Standard, the original IEEE and The Open Group Standard is the referee document. The original Standard can be obtained online at <http://www.unix.org/online.html>.
 
-Any typographical or formatting errors that appear in this page are most likely to have been introduced during the conversion of the source files to man page format. To report such errors, see https://www.kernel.org/doc/man-pages/reporting_bugs.html .
+Any typographical or formatting errors that appear in this page are most likely to have been introduced during the conversion of the source files to man page format. To report such errors, see <https://www.kernel.org/doc/man-pages/reporting_bugs.html>.
 
 ----
 

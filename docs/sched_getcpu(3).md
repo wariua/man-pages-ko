@@ -12,20 +12,13 @@ int sched_getcpu(void);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>sched_getcpu()</code>:</dt>
-<dd>
- <dl>
- <dt>glibc 2.14부터:</dt>
- <dd><code>_GNU_SOURCE</code></dd>
- <dt>glibc 2.14 전:</dt>
- <dd>
- <code>_BSD_SOURCE || _SVID_SOURCE</code><br>
- <code>    /* _GNU_SOURCE로도 충분함 */</code>
- </dd>
- </dl>
-</dd>
-</dl>
+`sched_getcpu()`:
+:   glibc 2.14부터:
+    :   `_GNU_SOURCE`
+
+    glibc 2.14 전:
+    :   `_BSD_SOURCE || _SVID_SOURCE`<br>
+        `    /* _GNU_SOURCE로도 충분함 */`
 
 ## DESCRIPTION
 
@@ -37,10 +30,8 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## ERRORS
 
-<dl>
-<dt><code>ENOSYS</code></dt>
-<dd>이 커널에서 <tt>[[getcpu(2)]]</tt>를 구현하고 있지 않다.</dd>
-</dl>
+`ENOSYS`
+:   이 커널에서 <tt>[[getcpu(2)]]</tt>를 구현하고 있지 않다.
 
 ## VERSIONS
 

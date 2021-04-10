@@ -16,21 +16,16 @@ void *reallocarray(void *ptr, size_t nmemb, size_t size);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>reallocarray()</code>:</dt>
-<dd>
- <dl>
- <dt>glibc 2.29부터:</dt>
- <dd><code>_DEFAULT_SOURCE</code></dd>
- <dt>glibc 2.28 및 이전:</dt>
- <dd><code>_GNU_SOURCE</code></dd>
- </dl>
-</dd>
-</dl>
+`reallocarray()`:
+:   glibc 2.29부터:
+    :   `_DEFAULT_SOURCE`
+
+    glibc 2.28 및 이전:
+    :   `_GNU_SOURCE`
 
 ## DESCRIPTION
 
-`malloc()` 함수는 `size` 바이트를 할당하여 할당한 메모리에 대한 포인터를 반환한다. <em>그 메모리는 초기화 되어 있지 않다.</em> `size`가 0이면 `malloc()`은 NULL을 반환하거나, 이후 `free()`에 무사히 전달할 수 있는 고유한 포인터 값을 반환한다.
+`malloc()` 함수는 `size` 바이트를 할당하여 할당한 메모리에 대한 포인터를 반환한다. *그 메모리는 초기화 되어 있지 않다.* `size`가 0이면 `malloc()`은 NULL을 반환하거나, 이후 `free()`에 무사히 전달할 수 있는 고유한 포인터 값을 반환한다.
 
 `free()` 함수는 `ptr`이 가리키는 메모리 공간을 해제하는데 `ptr`은 이전의 `malloc()`, `calloc()`, `realloc()` 호출이 반환한 것이어야 한다. 그렇지 않으면, 또는 이미 `free(ptr)`을 호출했으면 규정되어 있지 않은 동작이 일어난다. `ptr`이 NULL이면 어떤 동작도 수행하지 않는다.
 
@@ -64,10 +59,8 @@ realloc(ptr, nmemb * size);
 
 `calloc()`, `malloc()`, `realloc()`, `reallocarray()`가 다음 오류로 실패할 수 있다.
 
-<dl>
-<dt><code>ENOMEM</code></dt>
-<dd>메모리 부족. 아마 응용이 <tt>[[getrlimit(2)]]</tt>에 기술된 <code>RLIMIT_AS</code>나 <code>RLIMIT_DATA</code> 제한에 걸렸을 것이다.</dd>
-</dl>
+`ENOMEM`
+:   메모리 부족. 아마 응용이 <tt>[[getrlimit(2)]]</tt>에 기술된 `RLIMIT_AS`나 `RLIMIT_DATA` 제한에 걸렸을 것이다.
 
 ## ATTRIBUTES
 
@@ -89,7 +82,7 @@ realloc(ptr, nmemb * size);
 
 보통은 `malloc()`이 힙에서 메모리를 할당하며 <tt>[[sbrk(2)]]</tt>를 이용해 필요한 만큼 힙의 크기를 조정한다. `MMAP_THRESHOLD`보다 큰 메모리 블록을 할당할 때 glibc의 `malloc()` 구현은 <tt>[[mmap(2)]]</tt>을 이용해 비공유 익명 매핑으로 메모리를 할당한다. `MMAP_THRESHOLD`는 기본적으로 128kB이고 <tt>[[mallopt(3)]]</tt>로 조정 가능하다. 리눅스 4.7 전에서는 <tt>[[mmap(2)]]</tt>으로 수행하는 할당이 `RLIMIT_DATA` 자원 제한의 영향을 받지 않았다. 리눅스 4.7부터는 <tt>[[mmap(2)]]</tt>으로 수행하는 할당에도 이 제한이 적용된다.
 
-다중 스레드 응용에서의 오염을 막기 위해 내부적으로 뮤텍스를 사용해서 이 함수들이 이용하는 메모리 관리 자료 구조들을 보호한다. 여러 스레드가 동시에 메모리를 할당 및 해제하는 다중 스레드 응용에서는 이 뮤텍스들에 대한 경쟁이 있을 수 있을 것이다. 다중 스레드 응용에서의 메모리 할당을 확장성 있게 처리하기 위해 glibc에서는 뮤텍스 경쟁을 탐지하는 경우 <em>메모리 할당 아레나(arena)</em>를 추가로 만든다. 각 아레나는 시스템이 내부적으로 (<tt>[[brk(2)]]</tt>나 <tt>[[mmap(2)]]</tt>으로) 할당해서 별도의 뮤텍스로 관리하는 커다란 메모리 영역이다.
+다중 스레드 응용에서의 오염을 막기 위해 내부적으로 뮤텍스를 사용해서 이 함수들이 이용하는 메모리 관리 자료 구조들을 보호한다. 여러 스레드가 동시에 메모리를 할당 및 해제하는 다중 스레드 응용에서는 이 뮤텍스들에 대한 경쟁이 있을 수 있을 것이다. 다중 스레드 응용에서의 메모리 할당을 확장성 있게 처리하기 위해 glibc에서는 뮤텍스 경쟁을 탐지하는 경우 *메모리 할당 아레나(arena)*를 추가로 만든다. 각 아레나는 시스템이 내부적으로 (<tt>[[brk(2)]]</tt>나 <tt>[[mmap(2)]]</tt>으로) 할당해서 별도의 뮤텍스로 관리하는 커다란 메모리 영역이다.
 
 SUSv2에서는 `malloc()`, `calloc()`, `realloc()`이 실패 시에 `errno`를 `ENOMEM`으로 설정하기를 요구한다. glibc에서는 이를 가정한다. (그리고 이 루틴들의 glibc 버전은 그렇게 동작한다.) `errno`를 설정하지 않는 자체 malloc 구현을 사용하는 경우에 특정 라이브러리 루틴들이 실패하면서 `errno`에 이유를 주지 않을 수도 있다.
 

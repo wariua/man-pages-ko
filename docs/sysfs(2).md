@@ -18,16 +18,14 @@ int sysfs(int option);
 
 (구식이 된) `sysfs()` 시스템 호출은 현재 커널 내의 파일 시스템 타입에 대한 정보를 반환한다. `sysfs()` 호출의 구체적 형태와 반환 정보는 적용되는 `option` 값에 따라 달라진다.
 
-<dl>
-<dt>1</dt>
-<dd>파일 시스템 식별 문자열 <code>fsname</code>을 파일 시스템 타입 인덱스로 바꾼다.</dd>
+1
+:   파일 시스템 식별 문자열 `fsname`을 파일 시스템 타입 인덱스로 바꾼다.
 
-<dt>2</dt>
-<dd>파일 시스템 타입 인덱스 <code>fs_index</code>를 널 종료 파일 시스템 식별 문자열로 바꾼다. 그 문자열이 <code>buf</code>가 가리키는 버퍼에 기록된다. <code>buf</code>에 그 문자열을 담을 충분한 공간이 있도록 해야 한다.</dd>
+2
+:   파일 시스템 타입 인덱스 `fs_index`를 널 종료 파일 시스템 식별 문자열로 바꾼다. 그 문자열이 `buf`가 가리키는 버퍼에 기록된다. `buf`에 그 문자열을 담을 충분한 공간이 있도록 해야 한다.
 
-<dt>3</dt>
-<dd>현재 커널 내의 파일 시스템 타입 총수를 반환한다.</dd>
-</dl>
+3
+:   현재 커널 내의 파일 시스템 타입 총수를 반환한다.
 
 파일 시스템 타입 인덱스는 0번부터 시작한다.
 
@@ -37,12 +35,11 @@ int sysfs(int option);
 
 ## ERRORS
 
-<dl>
-<dt><code>EFAULT</code></dt>
-<dd><code>fsname</code>이나 <code>buf</code>가 접근 가능한 주소 공간 밖에 있다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>fsname</code>이 유효한 파일 시스템 유형 식별자가 아니다. <code>fs_index</code>가 범위를 벗어난다. <code>option</code>이 유효하지 않다.</dd>
-</dl>
+`EFAULT`
+:   `fsname`이나 `buf`가 접근 가능한 주소 공간 밖에 있다.
+
+`EINVAL`
+:   `fsname`이 유효한 파일 시스템 유형 식별자가 아니다. `fs_index`가 범위를 벗어난다. `option`이 유효하지 않다.
 
 ## CONFORMING TO
 

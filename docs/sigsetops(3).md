@@ -20,10 +20,8 @@ int sigismember(const sigset_t *set, int signum);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>sigemptyset()</code>, <code>sigfillset()</code>, <code>sigaddset()</code>, <code>sigdelset()</code>, <code>sigismember()</code>:</dt>
-<dd><code>_POSIX_C_SOURCE</code></dd>
-</dl>
+`sigemptyset()`, `sigfillset()`, `sigaddset()`, `sigdelset()`, `sigismember()`:
+:   `_POSIX_C_SOURCE`
 
 ## DESCRIPTION
 
@@ -49,10 +47,8 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>signum</code>이 유효한 시그널이 아니다.</dd>
-</dl>
+`EINVAL`
+:   `signum`이 유효한 시그널이 아니다.
 
 ## ATTRIBUTES
 

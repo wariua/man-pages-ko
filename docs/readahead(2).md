@@ -23,12 +23,11 @@ ssize_t readahead(int fd, off64_t offset, size_t count);
 
 ## ERRORS
 
-<dl>
-<dt><code>EBADF</code></dt>
-<dd><code>fd</code>가 유효한 파일 디스크립터가 아니거나 읽기 가능하게 열리지 않았다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>fd</code>가 <code>readahead()</code>를 적용할 수 있는 파일 종류를 가리키지 않고 있다.</dd>
-</dl>
+`EBADF`
+:   `fd`가 유효한 파일 디스크립터가 아니거나 읽기 가능하게 열리지 않았다.
+
+`EINVAL`
+:   `fd`가 `readahead()`를 적용할 수 있는 파일 종류를 가리키지 않고 있다.
 
 ## VERSIONS
 

@@ -20,13 +20,11 @@ int pkey_free(int pkey);
 
 `pkey_alloc()`의 `access_rights` 인자에는 0개 이상의 비활성화 동작을 담을 수 있다.
 
-<dl>
-<dt><code>PKEY_DISABLE_ACCESS</code></dt>
-<dd>반환된 보호 키의 대상 메모리에 모든 데이터 접근을 못 하게 한다.</dd>
+`PKEY_DISABLE_ACCESS`
+:   반환된 보호 키의 대상 메모리에 모든 데이터 접근을 못 하게 한다.
 
-<dt><code>PKEY_DISABLE_WRITE</code></dt>
-<dd>반환된 보호 키의 대상 메모리에 쓰기 접근을 못 하게 한다.</dd>
-</dl>
+`PKEY_DISABLE_WRITE`
+:   반환된 보호 키의 대상 메모리에 쓰기 접근을 못 하게 한다.
 
 `pkey_free()`는 보호 키를 해제하고 이후 할당에 쓸 수 있게 만든다. 보호 키를 해제한 후에는 어떤 보호 키 관련 작업에도 더는 사용할 수 없다.
 
@@ -38,17 +36,13 @@ int pkey_free(int pkey);
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>pkey</code>, <code>flags</code>, <code>access_rights</code>가 유효하지 않다.</dd>
-<dt><code>ENOSPC</code></dt>
-<dd>
+`EINVAL`
+:   `pkey`, `flags`, `access_rights`가 유효하지 않다.
 
-(<code>pkey_alloc()</code>) 현재 프로세스에서 쓸 수 있는 모든 보호 키가 이미 할당되었다. 사용 가능한 키 개수는 아키텍처 및 구현에 따라 달라지며 커널 내부의 특정 키 사용 때문에 줄어들 수도 있다. 현재 x86에서는 사용자 프로그램에서 15개 키를 사용할 수 있다.
+`ENOSPC`
+:   (`pkey_alloc()`) 현재 프로세스에서 쓸 수 있는 모든 보호 키가 이미 할당되었다. 사용 가능한 키 개수는 아키텍처 및 구현에 따라 달라지며 커널 내부의 특정 키 사용 때문에 줄어들 수도 있다. 현재 x86에서는 사용자 프로그램에서 15개 키를 사용할 수 있다.
 
-프로세서나 운영 체제에서 보호 키를 지원하지 않는 경우에도 이 오류가 반환된다. 응용의 통제 범위 밖 요인들 때문에 사용 가능한 pkey 개수가 줄어들 수 있으므로 응용에서는 언제나 이 오류를 다룰 준비가 되어 있어야 할 것이다.
-</dd>
-</dl>
+    프로세서나 운영 체제에서 보호 키를 지원하지 않는 경우에도 이 오류가 반환된다. 응용의 통제 범위 밖 요인들 때문에 사용 가능한 pkey 개수가 줄어들 수 있으므로 응용에서는 언제나 이 오류를 다룰 준비가 되어 있어야 할 것이다.
 
 ## VERSIONS
 

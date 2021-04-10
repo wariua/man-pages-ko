@@ -36,16 +36,17 @@ struct sched_param {
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd>유효하지 않은 인자: <code>param</code>이 NULL이거나 <code>pid</code>가 음수이다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>(<code>sched_setparam()</code>) 현재 스케줄링 정책에 대해 <code>param</code> 인자가 말이 되지 않는다.</dd>
-<dt><code>EPERM</code></dt>
-<dd>(<code>sched_setparam()</code>) 호출자가 적절한 특권을 가지고 있지 않다. (리눅스: <code>CAP_SYS_NICE</code> 역능을 가지고 있지 않다.)</dd>
-<dt><code>ESRCH</code></dt>
-<dd>ID가 <code>pid</code>인 스레드를 찾을 수 없다.</dd>
-</dl>
+`EINVAL`
+:   유효하지 않은 인자: `param`이 NULL이거나 `pid`가 음수이다.
+
+`EINVAL`
+:   (`sched_setparam()`) 현재 스케줄링 정책에 대해 `param` 인자가 말이 되지 않는다.
+
+`EPERM`
+:   (`sched_setparam()`) 호출자가 적절한 특권을 가지고 있지 않다. (리눅스: `CAP_SYS_NICE` 역능을 가지고 있지 않다.)
+
+`ESRCH`
+:   ID가 `pid`인 스레드를 찾을 수 없다.
 
 ## CONFORMING TO
 

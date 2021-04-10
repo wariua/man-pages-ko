@@ -14,10 +14,8 @@ int clock_getcpuclockid(pid_t pid, clockid_t *clock_id);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>clock_getcpuclockid()</code>:</dt>
-<dd><code>_POSIX_C_SOURCE >= 200112L</code></dd>
-</dl>
+`clock_getcpuclockid()`:
+:   `_POSIX_C_SOURCE >= 200112L`
 
 ## DESCRIPTION
 
@@ -29,14 +27,14 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## ERRORS
 
-<dl>
-<dt><code>ENOSYS</code></dt>
-<dd>커널이 다른 프로세스의 프로세스별 CPU 시간 클럭 얻기를 지원하지 않는데 <code>pid</code>가 호출 프로세스를 지정하고 있지 않다.</dd>
-<dt><code>EPERM</code></dt>
-<dd><code>pid</code>로 지정한 프로세스의 CPU 시간 클럭에 접근할 권한을 호출자가 가지고 있지 않다. (POSIX.1-2001에서 명세함. 리눅스에서는 커널이 다른 프로세스의 프로세스별 CPU 시간 클럭 얻기를 지원하지 않는 경우가 아니라면 발생하지 않음.)</dd>
-<dt><code>ESRCH</code></dt>
-<dd>ID가 <code>pid</code>인 프로세스가 없다.</dd>
-</dl>
+`ENOSYS`
+:   커널이 다른 프로세스의 프로세스별 CPU 시간 클럭 얻기를 지원하지 않는데 `pid`가 호출 프로세스를 지정하고 있지 않다.
+
+`EPERM`
+:   `pid`로 지정한 프로세스의 CPU 시간 클럭에 접근할 권한을 호출자가 가지고 있지 않다. (POSIX.1-2001에서 명세함. 리눅스에서는 커널이 다른 프로세스의 프로세스별 CPU 시간 클럭 얻기를 지원하지 않는 경우가 아니라면 발생하지 않음.)
+
+`ESRCH`
+:   ID가 `pid`인 프로세스가 없다.
 
 ## VERSIONS
 

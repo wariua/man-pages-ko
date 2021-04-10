@@ -28,182 +28,110 @@ POSIX에서는 특정 옵션이 지원되는지, 또는 특정 구성 상수나 
 
 먼저 POSIX.1 호환 값들이다.
 
-<dl>
-<dt><code>ARG_MAX</code> - <code>_SC_ARG_MAX</code></dt>
-<dd>
-<tt>[[exec(3)]]</tt> 계열 함수에 대한 인자들의 최대 길이. <code>_POSIX_ARG_MAX</code>(4096)보다 작지 않아야 한다.
-</dd>
+`ARG_MAX` - `_SC_ARG_MAX`
+:   <tt>[[exec(3)]]</tt> 계열 함수에 대한 인자들의 최대 길이. `_POSIX_ARG_MAX`(4096)보다 작지 않아야 한다.
 
-<dt><code>CHILD_MAX</code> - <code>_SC_CHILD_MAX</code></dt>
-<dd>
-사용자 ID당 동시 프로세스 최대 개수. <code>_POSIX_CHILD_MAX</code>(25)보다 작지 않아야 한다.
-</dd>
+`CHILD_MAX` - `_SC_CHILD_MAX`
+:   사용자 ID당 동시 프로세스 최대 개수. `_POSIX_CHILD_MAX`(25)보다 작지 않아야 한다.
 
-<dt><code>HOST_NAME_MAX</code> - <code>_SC_HOST_NAME_MAX</code></dt>
-<dd>
-<tt>[[gethostname(2)]]</tt>이 반환하는 호스트명의 종료용 널 바이트 제외 최대 길이. <code>_POSIX_HOST_NAME_MAX</code>(255)보다 작지 않아야 한다.
-</dd>
+`HOST_NAME_MAX` - `_SC_HOST_NAME_MAX`
+:   <tt>[[gethostname(2)]]</tt>이 반환하는 호스트명의 종료용 널 바이트 제외 최대 길이. `_POSIX_HOST_NAME_MAX`(255)보다 작지 않아야 한다.
 
-<dt><code>LOGIN_NAME_MAX</code> - <code>_SC_LOGIN_NAME_MAX</code></dt>
-<dd>
-로그인 이름의 종료용 널 바이트 포함 최대 길이. <code>_POSIX_LOGIN_NAME_MAX</code>(9)보다 작지 않아야 한다.
-</dd>
+`LOGIN_NAME_MAX` - `_SC_LOGIN_NAME_MAX`
+:   로그인 이름의 종료용 널 바이트 포함 최대 길이. `_POSIX_LOGIN_NAME_MAX`(9)보다 작지 않아야 한다.
 
-<dt><code>NGROUPS_MAX</code> - <code>_SC_NGROUPS_MAX</code></dt>
-<dd>
-추가 그룹 ID의 최대 개수.
-</dd>
+`NGROUPS_MAX` - `_SC_NGROUPS_MAX`
+:   추가 그룹 ID의 최대 개수.
 
-<dt>클럭 틱 - <code>_SC_CLK_TCK</code></dt>
-<dd>
-초당 클럭 틱 수. 대응하는 변수는 구식이 되었다. 당연히 <code>CLK_TCK</code>라는 이름이었다. (참고: <code>CLOCKS_PER_SEC</code> 매크로는 정보를 안 준다. 분명 1000000일 것이다.)
-</dd>
+클럭 틱 - `_SC_CLK_TCK`
+:   초당 클럭 틱 수. 대응하는 변수는 구식이 되었다. 당연히 `CLK_TCK`라는 이름이었다. (참고: `CLOCKS_PER_SEC` 매크로는 정보를 안 준다. 분명 1000000일 것이다.)
 
-<dt><code>OPEN_MAX</code> - <code>_SC_OPEN_MAX</code></dt>
-<dd>
-프로세스가 어느 시점에 열어 둘 수 있는 파일의 최대 개수. <code>_POSIX_OPEN_MAX</code>(20)보다 작지 않아야 한다.
-</dd>
+`OPEN_MAX` - `_SC_OPEN_MAX`
+:   프로세스가 어느 시점에 열어 둘 수 있는 파일의 최대 개수. `_POSIX_OPEN_MAX`(20)보다 작지 않아야 한다.
 
-<dt><code>PAGESIZE</code> - <code>_SC_PAGESIZE</code></dt>
-<dd>
-페이지의 바이트 단위 크기. 1보다 작지 않아야 한다.
-</dd>
+`PAGESIZE` - `_SC_PAGESIZE`
+:   페이지의 바이트 단위 크기. 1보다 작지 않아야 한다.
 
-<dt><code>PAGE_SIZE</code> - <code>_SC_PAGE_SIZE</code></dt>
-<dd>
-<code>PAGESIZE</code>/<code>_SC_PAGESIZE</code>과 같은 의미. (POSIX에는 <code>PAGESIZE</code>와 <code>PAGE_SIZE</code> 둘 다 정의돼 있다.)
-</dd>
+`PAGE_SIZE` - `_SC_PAGE_SIZE`
+:   `PAGESIZE`/`_SC_PAGESIZE`과 같은 의미. (POSIX에는 `PAGESIZE`와 `PAGE_SIZE` 둘 다 정의돼 있다.)
 
-<dt><code>RE_DUP_MAX</code> - <code>_SC_RE_DUP_MAX</code></dt>
-<dd>
-<tt>[[regexec(3)]]</tt>와 <tt>[[regcomp(3)]]</tt>에서 허용하는 BRE 반복 횟수. <code>_POSIX2_RE_DUP_MAX</code>(255)보다 작지 않아야 한다.
-</dd>
+`RE_DUP_MAX` - `_SC_RE_DUP_MAX`
+:   <tt>[[regexec(3)]]</tt>와 <tt>[[regcomp(3)]]</tt>에서 허용하는 BRE 반복 횟수. `_POSIX2_RE_DUP_MAX`(255)보다 작지 않아야 한다.
 
-<dt><code>STREAM_MAX</code> - <code>_SC_STREAM_MAX</code></dt>
-<dd>
-프로세스가 어느 시점에 열어 둘 수 있는 스트림의 최대 개수. 정의되어 있는 경우 표준 C 매크로 <code>FOPEN_MAX</code>와 같은 값이다. <code>_POSIX_STREAM_MAX</code>(8)보다 작지 않아야 한다.
-</dd>
+`STREAM_MAX` - `_SC_STREAM_MAX`
+:   프로세스가 어느 시점에 열어 둘 수 있는 스트림의 최대 개수. 정의되어 있는 경우 표준 C 매크로 `FOPEN_MAX`와 같은 값이다. `_POSIX_STREAM_MAX`(8)보다 작지 않아야 한다.
 
-<dt><code>SYMLOOP_MAX</code> - <code>_SC_SYMLOOP_MAX</code></dt>
-<dd>
-결정 과정이 <code>ELOOP</code>을 반환하기 전에 경로명에 심볼릭 링크가 나올 수 있는 최대 횟수. <code>_POSIX_SYMLOOP_MAX</code>(8)보다 작지 않아야 한다.
-</dd>
+`SYMLOOP_MAX` - `_SC_SYMLOOP_MAX`
+:   결정 과정이 `ELOOP`을 반환하기 전에 경로명에 심볼릭 링크가 나올 수 있는 최대 횟수. `_POSIX_SYMLOOP_MAX`(8)보다 작지 않아야 한다.
 
-<dt><code>TTY_NAME_MAX</code> - <code>_SC_TTY_NAME_MAX</code></dt>
-<dd>
-터미널 장치 이름의 종료용 널 바이트 포함 최대 길이. <code>_POSIX_TTY_NAME_MAX</code>(9)보다 작지 않아야 한다.
-</dd>
+`TTY_NAME_MAX` - `_SC_TTY_NAME_MAX`
+:   터미널 장치 이름의 종료용 널 바이트 포함 최대 길이. `_POSIX_TTY_NAME_MAX`(9)보다 작지 않아야 한다.
 
-<dt><code>TZNAME_MAX</code> - <code>_SC_TZNAME_MAX</code></dt>
-<dd>
-타임존 이름의 최대 바이트 수. <code>_POSIX_TZNAME_MAX</code>(6)보다 작지 않아야 한다.
-</dd>
+`TZNAME_MAX` - `_SC_TZNAME_MAX`
+:   타임존 이름의 최대 바이트 수. `_POSIX_TZNAME_MAX`(6)보다 작지 않아야 한다.
 
-<dt><code>_POSIX_VERSION</code> - <code>_SC_VERSION</code></dt>
-<dd>
-POSIX.1 표준이 승인된 연도와 월을 <code>YYYYMML</code> 형식으로 나타낸다. 즉, <code>199009L</code> 값은 1990년 9월 리비전을 나타낸다.
-</dd>
-</dl>
+`_POSIX_VERSION` - `_SC_VERSION`
+:   POSIX.1 표준이 승인된 연도와 월을 `YYYYMML` 형식으로 나타낸다. 즉, `199009L` 값은 1990년 9월 리비전을 나타낸다.
 
 ### POSIX.2 변수들
 
 다음은 유틸리티들에 제한값을 주는 POSIX.2 값들이다.
 
-<dl>
-<dt><code>BC_BASE_MAX</code> - <code>_SC_BC_BASE_MAX</code></dt>
-<dd>
-<code>bc(1)</code> 유틸리티가 받아들이는 <code>obase</code> 최댓값을 나타낸다.
-</dd>
+`BC_BASE_MAX` - `_SC_BC_BASE_MAX`
+:   `bc(1)` 유틸리티가 받아들이는 `obase` 최댓값을 나타낸다.
 
-<dt><code>BC_DIM_MAX</code> - <code>_SC_BC_DIM_MAX</code></dt>
-<dd>
-<code>bc(1)</code>가 허용하는 배열 내 항목 최대 개수를 나타낸다.
-</dd>
+`BC_DIM_MAX` - `_SC_BC_DIM_MAX`
+:   `bc(1)`가 허용하는 배열 내 항목 최대 개수를 나타낸다.
 
-<dt><code>BC_SCALE_MAX</code> - <code>_SC_BC_SCALE_MAX</code></dt>
-<dd>
-<code>bc(1)</code>가 허용하는 <code>scale</code> 최댓값을 나타낸다.
-</dd>
+`BC_SCALE_MAX` - `_SC_BC_SCALE_MAX`
+:   `bc(1)`가 허용하는 `scale` 최댓값을 나타낸다.
 
-<dt><code>BC_STRING_MAX</code> - <code>_SC_BC_STRING_MAX</code></dt>
-<dd>
-<code>bc(1)</code>가 받아들이는 문자열 최대 길이를 나타낸다.
-</dd>
+`BC_STRING_MAX` - `_SC_BC_STRING_MAX`
+:   `bc(1)`가 받아들이는 문자열 최대 길이를 나타낸다.
 
-<dt><code>COLL_WEIGHTS_MAX</code> - <code>_SC_COLL_WEIGHTS_MAX</code></dt>
-<dd>
-로캘 정의 파일에서 <code>LC_COLLATE</code> <code>order</code> 키워드 항목에 부여할 수 있는 가중치의 최대 개수를 나타낸다.
-</dd>
+`COLL_WEIGHTS_MAX` - `_SC_COLL_WEIGHTS_MAX`
+:   로캘 정의 파일에서 `LC_COLLATE` `order` 키워드 항목에 부여할 수 있는 가중치의 최대 개수를 나타낸다.
 
-<dt><code>EXPR_NEST_MAX</code> - <code>_SC_EXPR_NEST_MAX</code></dt>
-<dd>
-<code>expr(1)</code>에서 괄호 안에 식을 넣을 수 있는 최대 횟수이다.
-</dd>
+`EXPR_NEST_MAX` - `_SC_EXPR_NEST_MAX`
+:   `expr(1)`에서 괄호 안에 식을 넣을 수 있는 최대 횟수이다.
 
-<dt><code>LINE_MAX</code> - <code>_SC_LINE_MAX</code></dt>
-<dd>
-표준 입력이나 파일에서 유틸리티가 읽는 입력 행의 최대 길이. 끝의 개행을 위한 공간을 포함한다.
-</dd>
+`LINE_MAX` - `_SC_LINE_MAX`
+:   표준 입력이나 파일에서 유틸리티가 읽는 입력 행의 최대 길이. 끝의 개행을 위한 공간을 포함한다.
 
-<dt><code>RE_DUP_MAX</code> - <code>_SC_RE_DUP_MAX</code></dt>
-<dd>
-구간 표기 <code>\{m,n\}</code> 사용 시 정규 표현식의 최대 반복 횟수.
-</dd>
+`RE_DUP_MAX` - `_SC_RE_DUP_MAX`
+:   구간 표기 `\{m,n\}` 사용 시 정규 표현식의 최대 반복 횟수.
 
-<dt><code>POSIX2_VERSION</code> - <code>_SC_2_VERSION</code></dt>
-<dd>
-POSIX.2 표준의 버전을 <code>YYYYMML</code> 형식으로 나타낸다.
-</dd>
+`POSIX2_VERSION` - `_SC_2_VERSION`
+:   POSIX.2 표준의 버전을 `YYYYMML` 형식으로 나타낸다.
 
-<dt><code>POSIX2_C_DEV</code> - <code>_SC_2_C_DEV</code></dt>
-<dd>
-POSIX.2 C 언어 개발 설비들을 지원하는지 여부를 나타낸다.
-</dd>
+`POSIX2_C_DEV` - `_SC_2_C_DEV`
+:   POSIX.2 C 언어 개발 설비들을 지원하는지 여부를 나타낸다.
 
-<dt><code>POSIX2_FORT_DEV</code> - <code>_SC_2_FORT_DEV</code></dt>
-<dd>
-POSIX.2 포트란 개발 유틸리티들을 지원하는지 여부를 나타낸다.
-</dd>
+`POSIX2_FORT_DEV` - `_SC_2_FORT_DEV`
+:   POSIX.2 포트란 개발 유틸리티들을 지원하는지 여부를 나타낸다.
 
-<dt><code>POSIX2_FORT_RUN</code> - <code>_SC_2_FORT_RUN</code></dt>
-<dd>
-POSIX.2 포트란 런타임 유틸리티들을 지원하는지 여부를 나타낸다.
-</dd>
+`POSIX2_FORT_RUN` - `_SC_2_FORT_RUN`
+:   POSIX.2 포트란 런타임 유틸리티들을 지원하는지 여부를 나타낸다.
 
-<dt><code>_POSIX2_LOCALEDEF</code> - <code>_SC_2_LOCALEDEF</code></dt>
-<dd>
-<code>localedef(1)</code>를 통한 POSIX.2 로캘 생성을 지원하는지 여부를 나타낸다.
-</dd>
+`_POSIX2_LOCALEDEF` - `_SC_2_LOCALEDEF`
+:   `localedef(1)`를 통한 POSIX.2 로캘 생성을 지원하는지 여부를 나타낸다.
 
-<dt><code>POSIX2_SW_DEV</code> - <code>_SC_2_SW_DEV</code></dt>
-<dd>
-POSIX.2 소프트웨어 개발 유틸리티 옵션을 지원하는지 여부를 나타낸다.
-</dd>
-</dl>
+`POSIX2_SW_DEV` - `_SC_2_SW_DEV`
+:   POSIX.2 소프트웨어 개발 유틸리티 옵션을 지원하는지 여부를 나타낸다.
 
 다음 값들도 존재하지만 표준이 아닐 수 있다.
 
-<dl>
-<dt> - <code>_SC_PHYS_PAGES</code></dt>
-<dd>
-물리적 메모리의 페이지 수. 이 값과 <code>_SC_PAGESIZE</code> 값을 곱하면 넘칠 수도 있음에 유의하라.
-</dd>
+\- `_SC_PHYS_PAGES`
+:   물리적 메모리의 페이지 수. 이 값과 `_SC_PAGESIZE` 값을 곱하면 넘칠 수도 있음에 유의하라.
 
-<dt> - <code>_SC_AVPHYS_PAGES</code></dt>
-<dd>
-물리적 메모리의 현재 사용 가능한 페이지 수.
-</dd>
+\- `_SC_AVPHYS_PAGES`
+:   물리적 메모리의 현재 사용 가능한 페이지 수.
 
-<dt> - <code>_SC_NPROCESSORS_CONF</code></dt>
-<dd>
-구성된 프로세서 개수. <tt>[[get_nprocs_conf(3)]]</tt>도 참고.
-</dd>
+\- `_SC_NPROCESSORS_CONF`
+:   구성된 프로세서 개수. <tt>[[get_nprocs_conf(3)]]</tt>도 참고.
 
-<dt> - <code>_SC_NPROCESSORS_ONLN</code></dt>
-<dd>
-현재 온라인인 (사용 가능한) 프로세서 개수. <tt>[[get_nprocs_conf(3)]]</tt>도 참고.
-</dd>
-</dl>
+\- `_SC_NPROCESSORS_ONLN`
+:   현재 온라인인 (사용 가능한) 프로세서 개수. <tt>[[get_nprocs_conf(3)]]</tt>도 참고.
 
 ## RETURN VALUE
 
@@ -219,10 +147,8 @@ POSIX.2 소프트웨어 개발 유틸리티 옵션을 지원하는지 여부를 
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>name</code>이 유효하지 않다.</dd>
-</dl>
+`EINVAL`
+:   `name`이 유효하지 않다.
 
 ## ATTRIBUTES
 

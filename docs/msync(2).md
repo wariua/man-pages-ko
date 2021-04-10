@@ -16,16 +16,14 @@ int msync(void *addr, size_t length, int flags);
 
 `flags` 인자에는 `MS_ASYNC`와 `MS_SYNC` 중 딱 하나를 지정해야 하며, 선택적으로 `MS_INVALIDATE` 비트까지 포함시킬 수 있다. 이 비트들의 의미는 다음과 같다.
 
-<dl>
-<dt><code>MS_ASYNC</code></dt>
-<dd>갱신을 예약하게 하고 호출은 즉시 반환한다.</dd>
+`MS_ASYNC`
+:   갱신을 예약하게 하고 호출은 즉시 반환한다.
 
-<dt><code>MS_SYNC</code></dt>
-<dd>갱신을 요청하고 완료되기를 기다린다.</dd>
+`MS_SYNC`
+:   갱신을 요청하고 완료되기를 기다린다.
 
-<dt><code>MS_INVALIDATE</code></dt>
-<dd>같은 파일의 다른 매핑들을 무효화하도록 요청한다. (그래서 방금 써넣은 최신 값들로 갱신될 수 있게 한다.)</dd>
-</dl>
+`MS_INVALIDATE`
+:   같은 파일의 다른 매핑들을 무효화하도록 요청한다. (그래서 방금 써넣은 최신 값들로 갱신될 수 있게 한다.)
 
 ## RETURN VALUE
 
@@ -33,14 +31,14 @@ int msync(void *addr, size_t length, int flags);
 
 ## ERRORS
 
-<dl>
-<dt><code>EBUSY</code></dt>
-<dd><code>flags</code>에 <code>MS_INVALIDATE</code>를 지정했는데 지정한 주소 범위에 메모리 잠금이 존재한다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>addr</code>이 <code>PAGESIZE</code>의 배수가 아니다. <code>flags</code>에 <code>MS_ASYNC | MS_INVALIDATE | MS_SYNC</code> 외의 비트가 설정돼 있다. <code>flags</code>에 <code>MS_SYNC</code>와 <code>MS_ASYNC</code>가 함께 설정돼 있다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>지정한 메모리가 (또는 그 일부가) 맵 되어 있지 않다.</dd>
-</dl>
+`EBUSY`
+:   `flags`에 `MS_INVALIDATE`를 지정했는데 지정한 주소 범위에 메모리 잠금이 존재한다.
+
+`EINVAL`
+:   `addr`이 `PAGESIZE`의 배수가 아니다. `flags`에 `MS_ASYNC | MS_INVALIDATE | MS_SYNC` 외의 비트가 설정돼 있다. `flags`에 `MS_SYNC`와 `MS_ASYNC`가 함께 설정돼 있다.
+
+`ENOMEM`
+:   지정한 메모리가 (또는 그 일부가) 맵 되어 있지 않다.
 
 ## CONFORMING TO
 

@@ -13,10 +13,8 @@ int kill(pid_t pid, int sig);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>kill()</code>:</dt>
-<dd><code>_POSIX_C_SOURCE</code></dd>
-</dl>
+`kill()`:
+:   `_POSIX_C_SOURCE`
 
 ## DESCRIPTION
 
@@ -40,14 +38,14 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd>유효하지 않은 시그널을 지정했다.</dd>
-<dt><code>EPERM</code></dt>
-<dd>프로세스에게 대상 프로세스들 중 어느 것에도 시그널을 보낼 권한이 없다.</dd>
-<dt><code>ESRCH</code></dt>
-<dd>프로세스 내지 프로세스 그룹이 존재하지 않는다. 참고로 존재하는 프로세스가 실행을 마쳤지만 아직 <tt>[[wait(2)]]</tt> 되지 않은 좀비일 수도 있다.</dd>
-</dl>
+`EINVAL`
+:   유효하지 않은 시그널을 지정했다.
+
+`EPERM`
+:   프로세스에게 대상 프로세스들 중 어느 것에도 시그널을 보낼 권한이 없다.
+
+`ESRCH`
+:   프로세스 내지 프로세스 그룹이 존재하지 않는다. 참고로 존재하는 프로세스가 실행을 마쳤지만 아직 <tt>[[wait(2)]]</tt> 되지 않은 좀비일 수도 있다.
 
 ## CONFORMING TO
 

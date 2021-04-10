@@ -19,13 +19,9 @@ int setstate_r(char *statebuf, struct random_data *buf);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>random_r()</code>, <code>srandom_r()</code>, <code>initstate_r()</code>, <code>setstate_r()</code>:</dt>
-<dd>
-<code>/* glibc 2.19부터: */ _DEFAULT_SOURCE</code><br>
-<code>    || /* glibc 버전 <= 2.19: */ _SVID_SOURCE || _BSD_SOURCE</code>
-</dd>
-</dl>
+`random_r()`, `srandom_r()`, `initstate_r()`, `setstate_r()`:
+:   `/* glibc 2.19부터: */ _DEFAULT_SOURCE`<br>
+    `    || /* glibc 버전 <= 2.19: */ _SVID_SOURCE || _BSD_SOURCE`
 
 ## DESCRIPTION
 
@@ -45,14 +41,14 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>initstate_r()</code>에 8바이트보다 작은 상태 배열을 지정했다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>setstate_r()</code>에 대한 <code>statebuf</code> 인자나 <code>buf</code> 인자가 NULL이었다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>random_r()</code>에 대한 <code>buf</code> 인자나 <code>result</code> 인자가 NULL이었다.</dd>
-</dl>
+`EINVAL`
+:   `initstate_r()`에 8바이트보다 작은 상태 배열을 지정했다.
+
+`EINVAL`
+:   `setstate_r()`에 대한 `statebuf` 인자나 `buf` 인자가 NULL이었다.
+
+`EINVAL`
+:   `random_r()`에 대한 `buf` 인자나 `result` 인자가 NULL이었다.
 
 ## ATTRIBUTES
 

@@ -39,19 +39,16 @@ struct timespec {
 
 이 함수들은 <tt>[[pthread_join(3)]]</tt>과 같은 오류로 실패할 수 있다. 더불어 `pthread_tryjoin_np()`가 다음 오류로 실패할 수 있다.
 
-<dl>
-<dt><code>EBUSY</code></dt>
-<dd>호출 시점에 <code>thread</code>가 아직 종료하지 않았다.</dd>
-</dl>
+`EBUSY`
+:   호출 시점에 `thread`가 아직 종료하지 않았다.
 
 더불어 `pthread_timedjoin_np()`가 다음 오류로 실패할 수 있다.
 
-<dl>
-<dt><code>ETIMEDOUT</code></dt>
-<dd><code>thread</code>가 종료하기 전에 호출 시한이 넘어갔다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>abstime</code> 값이 유효하지 않다. (<code>tv_sec</code>이 0보다 작거나 <code>tv_nsec</code>이 1e9보다 크다.)</dd>
-</dl>
+`ETIMEDOUT`
+:   `thread`가 종료하기 전에 호출 시한이 넘어갔다.
+
+`EINVAL`
+:   `abstime` 값이 유효하지 않다. (`tv_sec`이 0보다 작거나 `tv_nsec`이 1e9보다 크다.)
 
 `pthread_timedjoin_np()`는 절대 `EINTR` 오류를 반환하지 않는다.
 

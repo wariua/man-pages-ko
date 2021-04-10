@@ -14,17 +14,12 @@ time_t timegm(struct tm *tm);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>timelocal()</code>, <code>timegm()</code>:</dt>
-<dd>
- <dl>
- <dt>glibc 2.19부터:</dt>
- <dd><code>_DEFAULT_SOURCE</code></dd>
- <dt>glibc 2.19 및 이전:</dt>
- <dd><code>_BSD_SOURCE || _SVID_SOURCE</code></dd>
- </dl>
-</dd>
-</dl>
+`timelocal()`, `timegm()`:
+:   glibc 2.19부터:
+    :   `_DEFAULT_SOURCE`
+
+    glibc 2.19 및 이전:
+    :   `_BSD_SOURCE || _SVID_SOURCE`
 
 ## DESCRIPTION
 
@@ -36,10 +31,8 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## ERRORS
 
-<dl>
-<dt><code>EOVERFLOW</code></dt>
-<dd>결과를 표현할 수 없다.</dd>
-</dl>
+`EOVERFLOW`
+:   결과를 표현할 수 없다.
 
 ## ATTRIBUTES
 

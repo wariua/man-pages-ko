@@ -26,12 +26,11 @@ int getopt_long_only(int argc, char * const argv[],
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>getopt()</code>:</dt>
-<dd><code>_POSIX_C_SOURCE >= 2 || _XOPEN_SOURCE</code></dd>
-<dt><code>getopt_long()</code>, <code>getopt_long_only()</code>:</dt>
-<dd><code>_GNU_SOURCE</code></dd>
-</dl>
+`getopt()`:
+:   `_POSIX_C_SOURCE >= 2 || _XOPEN_SOURCE`
+
+`getopt_long()`, `getopt_long_only()`:
+:   `_GNU_SOURCE`
 
 ## DESCRIPTION
 
@@ -72,25 +71,23 @@ struct option {
 
 각 필드의 의미는 다음과 같다.
 
-<dl>
-<dt><code>name</code></dt>
-<dd>긴 옵션의 이름이다.</dd>
+`name`
+:   긴 옵션의 이름이다.
 
-<dt><code>has_arg</code></dt>
-<dd><code>no_argument</code>(0)이면 옵션에 인자를 받지 않고, <code>required_argument</code>(1)이면 옵션에 인자가 필수이고, <code>optional_argument</code>(2)이면 옵션에서 선택적 인자를 받는다.</dd>
+`has_arg`
+:   `no_argument`(0)이면 옵션에 인자를 받지 않고, `required_argument`(1)이면 옵션에 인자가 필수이고, `optional_argument`(2)이면 옵션에서 선택적 인자를 받는다.
 
-<dt><code>flag</code></dt>
-<dd>긴 옵션에 대한 결과를 어떻게 반환하는지 지정한다. <code>flag</code>가 NULL이면 <code>getopt_long()</code>이 <code>val</code>을 반환한다. (예를 들어 호출 프로그램에서는 <code>val</code>을 대응하는 짧은 옵션 문자로 설정할 수 있다.) 아니면 <code>getopt_long()</code>이 0을 반환하며, 옵션을 찾았으면 <code>flag</code>가 가리키는 변수를 <code>val</code>로 설정하고 찾지 못했으면 그대로 둔다.</dd>
+`flag`
+:   긴 옵션에 대한 결과를 어떻게 반환하는지 지정한다. `flag`가 NULL이면 `getopt_long()`이 `val`을 반환한다. (예를 들어 호출 프로그램에서는 `val`을 대응하는 짧은 옵션 문자로 설정할 수 있다.) 아니면 `getopt_long()`이 0을 반환하며, 옵션을 찾았으면 `flag`가 가리키는 변수를 `val`로 설정하고 찾지 못했으면 그대로 둔다.
 
-<dt><code>val</code></dt>
-<dd>반환되는 값, 또는 <code>flag</code>가 가리키는 변수에 넣을 값.</dd>
-</dl>
+`val`
+:   반환되는 값, 또는 `flag`가 가리키는 변수에 넣을 값.
 
 배열 마지막 항목이 0으로 채워져 있어야 한다.
 
 `longindex`가 NULL이 아니면 가리키는 변수를 `longopts`에서의 긴 옵션 인덱스로 설정한다.
 
-`getopt_long_only()는 `getopt_long()`과 비슷하되 "--"뿐 아니라 '-'로도 긴 옵션을 나타낼 수 있다. '-'로 ("--" 아님) 시작하는 옵션과 일치하는 긴 옵션이 없고 짧은 옵션은 있는 경우에는 짧은 옵션으로 파싱 한다.
+`getopt_long_only()`는 `getopt_long()`과 비슷하되 "--"뿐 아니라 '-'로도 긴 옵션을 나타낼 수 있다. '-'로 ("--" 아님) 시작하는 옵션과 일치하는 긴 옵션이 없고 짧은 옵션은 있는 경우에는 짧은 옵션으로 파싱 한다.
 
 ## RETURN VALUE
 
@@ -100,13 +97,11 @@ struct option {
 
 ## ENVIRONMENT
 
-<dl>
-<dt><code>POSIXLY_CORRECT</code></dt>
-<dd>설정된 경우 옵션 아닌 인자를 만나자마자 옵션 처리를 멈춘다.</dd>
+`POSIXLY_CORRECT`
+:   설정된 경우 옵션 아닌 인자를 만나자마자 옵션 처리를 멈춘다.
 
-<dt><code>_&lt;PID&gt;_GNU_nonoption_argv_flags_</code></dt>
-<dd><code>bash(1)</code> 2.0에서 이 변수를 사용했는데 어떤 인자가 와일드카드 확장의 결과이므로 옵션으로 다뤄선 안 된다는 걸 glibc에게 알려 주는 용도였다. <code>bash(1)</code> 버전 2.01에서 이 동작이 제거되었지만 glibc에는 지원이 남아 있다.</dd>
-</dl>
+`_<PID>_GNU_nonoption_argv_flags_`
+:   `bash(1)` 2.0에서 이 변수를 사용했는데 어떤 인자가 와일드카드 확장의 결과이므로 옵션으로 다뤄선 안 된다는 걸 glibc에게 알려 주는 용도였다. `bash(1)` 버전 2.01에서 이 동작이 제거되었지만 glibc에는 지원이 남아 있다.
 
 ## ATTRIBUTES
 
@@ -118,20 +113,15 @@ struct option {
 
 ## CONFORMING TO
 
-<dl>
-<dt><code>getopt()</code>:</dt>
-<dd>
+`getopt()`:
+:   환경 변수 `POSIXLY_CORRECT`가 설정돼 있다면 POSIX.1-2001, POSIX.1-2008, POSIX.2. 아니라면 `argv`의 항목들을 교환이 가능해야 하므로 진짜 `const`가 아니다. 다른 시스템과의 호환성을 위해 원형에서는 `const`인 것처럼 한다.
 
-환경 변수 <code>POSIXLY_CORRECT</code>가 설정돼 있다면 POSIX.1-2001, POSIX.1-2008, POSIX.2. 아니라면 <code>argv</code>의 항목들을 교환이 가능해야 하므로 진짜 <code>const</code>가 아니다. 다른 시스템과의 호환성을 위해 원형에서는 <code>const</code>인 것처럼 한다.
+    `optstring`에 '+' 및 '-'를 쓰는 것은 GNU 확장이다.
 
-<code>optstring</code>에 '+' 및 '-'를 쓰는 것은 GNU 확장이다.
+    일부 구식 구현들에서는 `getopt()`가 `<stdin.h>`에 선언돼 있었다. SUSv1에서는 선언이 `<unistd.h>`와 `<stdio.h>` 어느 쪽에서 나오든 허용했다. POSIX.1-1996에서 이 용도에 `<stdio.h>`를 쓰는 것을 LEGACY로 표시했다. POSIX.1-2001에서는 `<stdio.h>`에 선언이 나와야 한다고 요구하지 않는다.
 
-일부 구식 구현들에서는 <code>getopt()</code>가 <code>&lt;stdin.h&gt;</code>에 선언돼 있었다. SUSv1에서는 선언이 <code>&lt;unistd.h&gt;</code>와 <code>&lt;stdio.h&gt;</code> 어느 쪽에서 나오든 허용했다. POSIX.1-1996에서 이 용도에 <code>&lt;stdio.h&gt;</code>를 쓰는 것을 LEGACY로 표시했다. POSIX.1-2001에서는 <code>&lt;stdio.h&gt;</code>에 선언이 나와야 한다고 요구하지 않는다.
-</dd>
-
-<dt><code>getopt_long()</code> 및 <code>getopt_long_only()</code>:</dt>
-<dd>이 함수들은 GNU 확장이다.</dd>
-</dl>
+`getopt_long()` 및 `getopt_long_only()`:
+:   이 함수들은 GNU 확장이다.
 
 ## NOTES
 

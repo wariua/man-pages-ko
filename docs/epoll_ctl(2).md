@@ -16,16 +16,14 @@ int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event);
 
 `op` 인자에 유효한 값은 다음과 같다.
 
-<dl>
-<dt><code>EPOLL_CTL_ADD</code></dt>
-<dd>관심 목록에 <code>fd</code>를 추가하고 <code>fd</code>에 연결된 내부 파일에 <code>event</code>의 설정을 연계한다.</dd>
+`EPOLL_CTL_ADD`
+:   관심 목록에 `fd`를 추가하고 `fd`에 연결된 내부 파일에 `event`의 설정을 연계한다.
 
-<dt><code>EPOLL_CTL_MOD</code></dt>
-<dd>관심 목록에서 <code>fd</code>에 연계된 설정을 <code>event</code>의 새 설정으로 바꾼다.</dd>
+`EPOLL_CTL_MOD`
+:   관심 목록에서 `fd`에 연계된 설정을 `event`의 새 설정으로 바꾼다.
 
-<dt><code>EPOLL_CTL_DEL</code></dt>
-<dd>관심 목록에서 대상 파일 디스크립터 <code>fd</code>를 제거(등록 해제)한다. <code>event</code>는 무시되며 NULL일 수 있다. (하지만 아래 BUGS 참고.)</dd>
-</dl>
+`EPOLL_CTL_DEL`
+:   관심 목록에서 대상 파일 디스크립터 `fd`를 제거(등록 해제)한다. `event`는 무시되며 NULL일 수 있다. (하지만 아래 BUGS 참고.)
 
 `event` 인자는 파일 디스크립터 `fd`에 연결할 객체를 기술한다. `struct epoll_event`는 다음처럼 정의돼 있다.
 
@@ -45,51 +43,43 @@ struct epoll_event {
 
 `events` 멤버는 사용 가능한 다음 이벤트 종류들을 0개 이상 OR 해서 구성한 비트 마스크이다.
 
-<dl>
-<dt><code>EPOLLIN</code></dt>
-<dd>연계 파일이 <code>read(2)</code>에 사용 가능하다.</dd>
+`EPOLLIN`
+:   연계 파일이 `read(2)`에 사용 가능하다.
 
-<dt><code>EPOLLOUT</code></dt>
-<dd>연계 파일이 <code>write(2)</code>에 사용 가능하다.</dd>
+`EPOLLOUT`
+:   연계 파일이 `write(2)`에 사용 가능하다.
 
-<dt><code>EPOLLRDHUP</code> (리눅스 2.6.17부터)</dt>
-<dd>스트림 소켓의 상대가 연결을 닫았거나 연결의 쓰기 쪽을 닫았다. (이 플래그는 특히 에지 트리거 사용 시 간단한 코드 작성으로 상대의 shutdown을 탐지하는 데 유용하다.)</dd>
+`EPOLLRDHUP` (리눅스 2.6.17부터)
+:   스트림 소켓의 상대가 연결을 닫았거나 연결의 쓰기 쪽을 닫았다. (이 플래그는 특히 에지 트리거 사용 시 간단한 코드 작성으로 상대의 shutdown을 탐지하는 데 유용하다.)
 
-<dt><code>EPOLLPRI</code></dt>
-<dd>파일 디스크립터에 어떤 예외 상황이 있다. <tt>[[poll(2)]]</tt>의 <code>POLLPRI</code> 설명 참고.</dd>
+`EPOLLPRI`
+:   파일 디스크립터에 어떤 예외 상황이 있다. <tt>[[poll(2)]]</tt>의 `POLLPRI` 설명 참고.
 
-<dt><code>EPOLLERR</code></dt>
-<dd>연계 파일 디스크립터에서 오류 상황이 발생했다. 또 파이프의 읽기 쪽이 닫혔을 때 쓰기 쪽에서 이 이벤트가 보고된다. <tt>[[epoll_wait(2)]]</tt>은 항상 이 이벤트를 보고하므로 <code>events</code>에 설정하지 않아도 된다.</dd>
+`EPOLLERR`
+:   연계 파일 디스크립터에서 오류 상황이 발생했다. 또 파이프의 읽기 쪽이 닫혔을 때 쓰기 쪽에서 이 이벤트가 보고된다. <tt>[[epoll_wait(2)]]</tt>은 항상 이 이벤트를 보고하므로 `events`에 설정하지 않아도 된다.
 
-<dt><code>EPOLLHUP</code></dt>
-<dd>
+`EPOLLHUP`
+:   연계 파일 디스크립터에서 연결이 끊겼다. <tt>[[epoll_wait(2)]]</tt>은 항상 이 이벤트를 보고하므로 `events`에 설정하지 않아도 된다.
 
-연계 파일 디스크립터에서 연결이 끊겼다. <tt>[[epoll_wait(2)]]</tt>은 항상 이 이벤트를 보고하므로 <code>events</code>에 설정하지 않아도 된다.
+    참고로 파이프나 스트림 소켓 같은 채널에서 읽기를 할 때 이 이벤트는 상대가 채널의 그쪽 끝을 닫았다는 표시일 뿐이다. 그 채널의 미처리 데이터를 모두 소비한 후에야 채널 읽기가 0(파일 끝)을 반환하게 된다.
 
-참고로 파이프나 스트림 소켓 같은 채널에서 읽기를 할 때 이 이벤트는 상대가 채널의 그쪽 끝을 닫았다는 표시일 뿐이다. 그 채널의 미처리 데이터를 모두 소비한 후에야 채널 읽기가 0(파일 끝)을 반환하게 된다.
-</dd>
+`EPOLLET`
+:   연계 파일 디스크립터에 에지 트리거 동작을 설정한다. **epoll**의 기본 동작 방식은 레벨 트리거다. 에지 트리거 및 레벨 트리거 이벤트 배포 구조에 대한 자세한 정보는 <tt>[[epoll(7)]]</tt>을 보라.
 
-<dt><code>EPOLLET</code></dt>
-<dd>연계 파일 디스크립터에 에지 트리거 동작을 설정한다. <strong>epoll</strong>의 기본 동작 방식은 레벨 트리거다. 에지 트리거 및 레벨 트리거 이벤트 배포 구조에 대한 자세한 정보는 <tt>[[epoll(7)]]</tt>을 보라.</dd>
+`EPOLLONESHOT` (리눅스 2.6.2부터)
+:   연계 파일 디스크립터에 단발 동작을 설정한다. 즉 <tt>[[epoll_wait(2)]]</tt>으로 이벤트를 하나 꺼내고 나면 연계 파일 디스크립터가 내부적으로 비활성화되어 **epoll** 인터페이스가 다른 이벤트를 보고하지 않게 된다. 그 파일 디스크립터를 재활성화하려면 사용자가 새 이벤트 마스크로 `epoll_ctl()` `EPOLL_CTL_MOD`를 호출해야 한다.
 
-<dt><code>EPOLLONESHOT</code> (리눅스 2.6.2부터)</dt>
-<dd>연계 파일 디스크립터에 단발 동작을 설정한다. 즉 <tt>[[epoll_wait(2)]]</tt>으로 이벤트를 하나 꺼내고 나면 연계 파일 디스크립터가 내부적으로 비활성화되어 <strong>epoll</strong> 인터페이스가 다른 이벤트를 보고하지 않게 된다. 그 파일 디스크립터를 재활성화하려면 사용자가 새 이벤트 마스크로 <code>epoll_ctl()</code> <code>EPOLL_CTL_MOD</code>를 호출해야 한다.</dd>
+`EPOLLWAKEUP` (리눅스 3.5부터)
+:   `EPOLLONESHOT`과 `EPOLLET`가 설정돼 있지 않고 프로세스에게 `CAP_BLOCK_SUSPEND` 역능이 있으면 이 이벤트가 대기 중이거나 처리 중인 동안 시스템이 "대기"나 "하이버네이션"으로 들어가지 않게 한다. <tt>[[epoll_wait(2)]]</tt> 호출이 이벤트를 반환한 시점부터 시작해서 같은 <tt>[[epoll(7)]]</tt> 파일 디스크립터에 다시 <tt>[[epoll_wait(2)]]</tt> 호출하기, 그 파일 디스크립터 닫기, `EPOLL_CTL_DEL`로 이벤트 파일 디스크립터 제거하기, `EPOLL_CTL_MOD`로 이벤트 파일 디스크립터에서 `EPOLLWAKEUP` 없애기까지를 "처리 중"이라고 본다. BUGS도 참고.
 
-<dt><code>EPOLLWAKEUP</code> (리눅스 3.5부터)</dt>
-<dd><code>EPOLLONESHOT</code>과 <code>EPOLLET</code>가 설정돼 있지 않고 프로세스에게 <code>CAP_BLOCK_SUSPEND</code> 역능이 있으면 이 이벤트가 대기 중이거나 처리 중인 동안 시스템이 "대기"나 "하이버네이션"으로 들어가지 않게 한다. <tt>[[epoll_wait(2)]]</tt> 호출이 이벤트를 반환한 시점부터 시작해서 같은 <tt>[[epoll(7)]]</tt> 파일 디스크립터에 다시 <tt>[[epoll_wait(2)]]</tt> 호출하기, 그 파일 디스크립터 닫기, <code>EPOLL_CTL_DEL</code>로 이벤트 파일 디스크립터 제거하기, <code>EPOLL_CTL_MOD</code>로 이벤트 파일 디스크립터에서 <code>EPOLLWAKEUP</code> 없애기까지를 "처리 중"이라고 본다. BUGS도 참고.</dd>
+`EPOLLEXCLUSIVE` (리눅스 4.5부터)
+:   대상 파일 디스크립터 `fd`에 붙는 epoll 파일 디스크립터에 배타적 깨우기 모드를 설정한다. 깨우는 이벤트가 발생했는데 같은 대상 파일에 여러 개의 epoll 파일 디스크립터가 `EPOLLEXCLUSIVE`로 붙어 있으면 그 epoll 파일 디스크립터들 중 한 개 또는 그 이상이 <tt>[[epoll_wait(2)]]</tt>로 이벤트를 수신하게 된다. 이런 경우에 (`EPOLLEXCLUSIVE`가 설정돼 있지 않을 때의) 기본 동작은 모든 epoll 파일 디스크립터들이 이벤트를 수신하는 것이다. 따라서 특정 상황에서 단체로 깨어나기(thundering herd) 문제를 피하는 데 `EPOLLEXCLUSIVE`가 쓸모가 있다.
 
-<dt><code>EPOLLEXCLUSIVE</code> (리눅스 4.5부터)</dt>
-<dd>
+    여러 epoll 인스턴스에 같은 파일 디스크립터가 있는데 일부에는 `EPOLLEXCLUSIVE` 플래그를 썼고 나머지에는 그러지 않았다면 `EPOLLEXCLUSIVE`를 지정하지 않은 epoll 인스턴스는 모두에 이벤트가 제공되고 `EPOLLEXCLUSIVE`를 지정한 epoll 인스턴스는 그 중 최소 하나에 이벤트가 제공된다.
 
-대상 파일 디스크립터 <code>fd</code>에 붙는 epoll 파일 디스크립터에 배타적 깨우기 모드를 설정한다. 깨우는 이벤트가 발생했는데 같은 대상 파일에 여러 개의 epoll 파일 디스크립터가 <code>EPOLLEXCLUSIVE</code>로 붙어 있으면 그 epoll 파일 디스크립터들 중 한 개 또는 그 이상이 <tt>[[epoll_wait(2)]]</tt>로 이벤트를 수신하게 된다. 이런 경우에 (<code>EPOLLEXCLUSIVE</code>가 설정돼 있지 않을 때의) 기본 동작은 모든 epoll 파일 디스크립터들이 이벤트를 수신하는 것이다. 따라서 특정 상황에서 단체로 깨어나기(thundering herd) 문제를 피하는 데 <code>EPOLLEXCLUSIVE</code>가 쓸모가 있다.
+    `EPOLLEXCLUSIVE`와 함께 지정할 수 있는 값들은 `EPOLLIN`, `EPOLLOUT`, `EPOLLWAKEUP`, `EPOLLET`이다. `EPOLLHUP`과 `EPOLLERR`도 지정할 수는 있지만 그럴 필요가 없다. 언제나처럼 그 이벤트들은 `events`에 지정했는지 여부와 상관없이 발생하면 항상 보고된다. `events`에 그 외의 값을 지정하려고 하면 `EINVAL` 오류가 난다.
 
-여러 epoll 인스턴스에 같은 파일 디스크립터가 있는데 일부에는 <code>EPOLLEXCLUSIVE</code> 플래그를 썼고 나머지에는 그러지 않았다면 <code>EPOLLEXCLUSIVE</code>를 지정하지 않은 epoll 인스턴스는 모두에 이벤트가 제공되고 <code>EPOLLEXCLUSIVE</code>를 지정한 epoll 인스턴스는 그 중 최소 하나에 이벤트가 제공된다.
-
-<code>EPOLLEXCLUSIVE</code>와 함께 지정할 수 있는 값들은 <code>EPOLLIN</code>, <code>EPOLLOUT</code>, <code>EPOLLWAKEUP</code>, <code>EPOLLET</code>이다. <code>EPOLLHUP</code>과 <code>EPOLLERR</code>도 지정할 수는 있지만 그럴 필요가 없다. 언제나처럼 그 이벤트들은 <code>events</code>에 지정했는지 여부와 상관없이 발생하면 항상 보고된다. <code>events</code>에 그 외의 값을 지정하려고 하면 <code>EINVAL</code> 오류가 난다.
-
-<code>EPOLLEXCLUSIVE</code>는 <code>EPOLL_CTL_ADD</code> 동작에만 쓸 수 있다. <code>EPOLL_CTL_MOD</code>에 쓰려고 하면 오류가 난다. <code>epoll_ctl()</code>로 <code>EPOLLEXCLUSIVE</code>를 설정해 뒀으면 이후 같은 <code>epfd</code>, <code>fd</code> 짝에 <code>EPOLL_CTL_MOD</code>를 하면 오류가 난다. <code>events</code>에 <code>EPOLLEXCLUSIVE</code>를 지정하고 대상 파일 디스크립터 <code>fd</code>에 epoll 인스턴스를 지정해서 <code>epoll_ctl()</code>을 호출하는 것 역시 실패하게 된다. 이 경우 모두에서의 오류는 <code>EINVAL</code>이다.
-</dd>
-</dl>
+    `EPOLLEXCLUSIVE`는 `EPOLL_CTL_ADD` 동작에만 쓸 수 있다. `EPOLL_CTL_MOD`에 쓰려고 하면 오류가 난다. `epoll_ctl()`로 `EPOLLEXCLUSIVE`를 설정해 뒀으면 이후 같은 `epfd`, `fd` 짝에 `EPOLL_CTL_MOD`를 하면 오류가 난다. `events`에 `EPOLLEXCLUSIVE`를 지정하고 대상 파일 디스크립터 `fd`에 epoll 인스턴스를 지정해서 `epoll_ctl()`을 호출하는 것 역시 실패하게 된다. 이 경우 모두에서의 오류는 `EINVAL`이다.
 
 ## RETURN VALUE
 
@@ -97,32 +87,41 @@ struct epoll_event {
 
 ## ERRORS
 
-<dl>
-<dt><code>EBADF</code></dt>
-<dd><code>epfd</code>나 <code>fd</code>가 유효한 파일 디스크립터가 아니다.</dd>
-<dt><code>EEXIST</code></dt>
-<dd><code>op</code>가 <code>EPOLL_CTL_ADD</code>인데 제공된 파일 디스크립터 <code>fd</code>가 이미 그 epoll 인스턴스에 등록돼 있다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>epfd</code>가 <strong>epoll</strong> 파일 디스크립터가 아니거나, <code>fd</code>가 <code>epfd</code>와 같거나, 요청한 동작 <code>op</code>를 이 인터페이스에서 지원하지 않는다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>events</code>에 <code>EPOLLEXCLUSIVE</code>와 더불어 유효하지 않은 이벤트 종류를 지정했다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>op</code>가 <code>EPOLL_CTL_MOD</code>인데 <code>events</code>에 <code>EPOLLEXCLUSIVE</code>가 포함돼 있다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>op</code>가 <code>EPOLL_CTL_MOD</code>인데 앞서 그 <code>epfd</code>, <code>fd</code> 짝에 <code>EPOLLEXCLUSIVE</code> 플래그가 적용되었다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>event</code>에 <code>EPOLLEXCLUSIVE</code>를 지정했는데 <code>fd</code>가 epoll 인스턴스를 가리킨다.</dd>
-<dt><code>ELOOP</code></dt>
-<dd><code>fd</code>가 epoll 인스턴스를 가리키는데 이 <code>EPOLL_CTL_ADD</code> 동작으로 인해 epoll 인스턴스들이 서로를 감시하는 루프가 생기게 된다.</dd>
-<dt><code>ENOENT</code></dt>
-<dd><code>op</code>가 <code>EPOLL_CTL_MOD</code>나 <code>EPOLL_CTL_DEL</code>인데 <code>fd</code>가 그 epoll 인스턴스에 등록돼 있지 않다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>요청한 <code>op</code> 제어 동작을 처리하기에 충분한 메모리가 없다.</dd>
-<dt><code>ENOSPC</code></dt>
-<dd>epoll 인스턴스에 새 파일 디스크립터를 등록(<code>EPOLL_CTL_ADD</code>)하려 하는 중에 <code>/proc/sys/fs/epoll/max_user_watches</code>에 따른 제한에 걸렸다. 자세한 내용은 <tt>[[epoll(7)]]</tt> 참고.</dd>
-<dt><code>EPERM</code></dt>
-<dd>대상 파일 <code>fd</code>가 <strong>epoll</strong>을 지원하지 않는다. 예를 들어 <code>fd</code>가 정규 파일이나 디렉터리를 가리키면 이 오류가 발생할 수 있다.</dd>
-</dl>
+`EBADF`
+:   `epfd`나 `fd`가 유효한 파일 디스크립터가 아니다.
+
+`EEXIST`
+:   `op`가 `EPOLL_CTL_ADD`인데 제공된 파일 디스크립터 `fd`가 이미 그 epoll 인스턴스에 등록돼 있다.
+
+`EINVAL`
+:   `epfd`가 **epoll** 파일 디스크립터가 아니거나, `fd`가 `epfd`와 같거나, 요청한 동작 `op`를 이 인터페이스에서 지원하지 않는다.
+
+`EINVAL`
+:   `events`에 `EPOLLEXCLUSIVE`와 더불어 유효하지 않은 이벤트 종류를 지정했다.
+
+`EINVAL`
+:   `op`가 `EPOLL_CTL_MOD`인데 `events`에 `EPOLLEXCLUSIVE`가 포함돼 있다.
+
+`EINVAL`
+:   `op`가 `EPOLL_CTL_MOD`인데 앞서 그 `epfd`, `fd` 짝에 `EPOLLEXCLUSIVE` 플래그가 적용되었다.
+
+`EINVAL`
+:   `event`에 `EPOLLEXCLUSIVE`를 지정했는데 `fd`가 epoll 인스턴스를 가리킨다.
+
+`ELOOP`
+:   `fd`가 epoll 인스턴스를 가리키는데 이 `EPOLL_CTL_ADD` 동작으로 인해 epoll 인스턴스들이 서로를 감시하는 루프가 생기게 된다.
+
+`ENOENT`
+:   `op`가 `EPOLL_CTL_MOD`나 `EPOLL_CTL_DEL`인데 `fd`가 그 epoll 인스턴스에 등록돼 있지 않다.
+
+`ENOMEM`
+:   요청한 `op` 제어 동작을 처리하기에 충분한 메모리가 없다.
+
+`ENOSPC`
+:   epoll 인스턴스에 새 파일 디스크립터를 등록(`EPOLL_CTL_ADD`)하려 하는 중에 `/proc/sys/fs/epoll/max_user_watches`에 따른 제한에 걸렸다. 자세한 내용은 <tt>[[epoll(7)]]</tt> 참고.
+
+`EPERM`
+:   대상 파일 `fd`가 **epoll**을 지원하지 않는다. 예를 들어 `fd`가 정규 파일이나 디렉터리를 가리키면 이 오류가 발생할 수 있다.
 
 ## VERSIONS
 
@@ -140,7 +139,7 @@ struct epoll_event {
 
 커널 버전 2.6.9 전에서는 `EPOLL_CTL_DEL` 동작에서 `event`를 무시하는데도 그 인자에 널 아닌 포인터가 있어야 했다. 리눅스 2.6.9부터는 `EPOLL_CTL_DEL` 이용 시 `event`에 NULL을 지정할 수 있다. 2.6.9 전 커널로 이식 가능해야 하는 응용에서는 `event`에 널 아닌 포인터를 지정해 주는 게 좋다.
 
-`flags`에 `EPOLLWAKEUP`을 지정했지만 호출자에게 `CAP_BLOCK_SUSPEND` 역능이 없는 경우에는 `EPOLLWAKEUP` 플래그가 <em>조용히 무시된다</em>. 이런 유감스런 동작 방식이 필요한 이유는 최초 구현에서 `flags` 인자의 유효성 검사를 수행하지 않았던 데다가, 검사를 해서 호출자가 `CAP_BLOCK_SUSPEND` 역능을 가지고 있지 않으면 호출이 실패하도록 `EPOLLWAKEUP`을 추가하면 하필 임의적으로 (그리고 불필요하게) 그 비트를 설정했기 때문에 동작에 문제가 생길 기존 사용자 공간 응용이 적어도 한 가지 있었기 때문이다. 따라서 견고한 응용이라면 `EPOLLWAKEUP` 플래그를 쓰려 할 때 `CAP_BLOCK_SUSPEND` 역능을 가지고 있는지 확실히 확인하는 게 좋다.
+`flags`에 `EPOLLWAKEUP`을 지정했지만 호출자에게 `CAP_BLOCK_SUSPEND` 역능이 없는 경우에는 `EPOLLWAKEUP` 플래그가 *조용히 무시된다*. 이런 유감스런 동작 방식이 필요한 이유는 최초 구현에서 `flags` 인자의 유효성 검사를 수행하지 않았던 데다가, 검사를 해서 호출자가 `CAP_BLOCK_SUSPEND` 역능을 가지고 있지 않으면 호출이 실패하도록 `EPOLLWAKEUP`을 추가하면 하필 임의적으로 (그리고 불필요하게) 그 비트를 설정했기 때문에 동작에 문제가 생길 기존 사용자 공간 응용이 적어도 한 가지 있었기 때문이다. 따라서 견고한 응용이라면 `EPOLLWAKEUP` 플래그를 쓰려 할 때 `CAP_BLOCK_SUSPEND` 역능을 가지고 있는지 확실히 확인하는 게 좋다.
 
 ## SEE ALSO
 

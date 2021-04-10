@@ -18,7 +18,7 @@ int pthread_mutex_unlock(pthread_mutex_t *mutex);
 
 ## DESCRIPTION
 
-`pthread_mutex_lock()` 호출은 `mutex`가 가리키는 뮤텍스 객체를 잠그고 0이나 `[EOWNERDEAD]`를 반환한다. 뮤텍스가 이미 다른 스레드에 의해 잠겨 있으면 뮤텍스가 사용 가능해질 때까지 호출 스레드가 블록 한다. 이 동작이 반환할 때 `mutex`가 가리키는 뮤텍스 객체는 호출 스레드를 소유자로 해서 잠긴 상태이다. 이미 잠긴 뮤텍스를 스레드에서 다시 잠그려고 하면 `pthread_mutex_lock()`이 다음 표의 <strong>다시 잠그기</strong> 열에 나온 대로 동작한다. 잠근 적이 없거나 잠금을 푼 뮤텍스를 스레드에서 풀려고 하면 `pthread_mutex_unlock()`이 다음 표의 <strong>소유자 아닐 때 풀기</strong> 열에 나온 대로 동작한다.
+`pthread_mutex_lock()` 호출은 `mutex`가 가리키는 뮤텍스 객체를 잠그고 0이나 `[EOWNERDEAD]`를 반환한다. 뮤텍스가 이미 다른 스레드에 의해 잠겨 있으면 뮤텍스가 사용 가능해질 때까지 호출 스레드가 블록 한다. 이 동작이 반환할 때 `mutex`가 가리키는 뮤텍스 객체는 호출 스레드를 소유자로 해서 잠긴 상태이다. 이미 잠긴 뮤텍스를 스레드에서 다시 잠그려고 하면 `pthread_mutex_lock()`이 다음 표의 *다시 잠그기* 열에 나온 대로 동작한다. 잠근 적이 없거나 잠금을 푼 뮤텍스를 스레드에서 풀려고 하면 `pthread_mutex_unlock()`이 다음 표의 *소유자 아닐 때 풀기* 열에 나온 대로 동작한다.
 
 | 뮤텍스 유형 | 견고성    | 다시 잠그기         | 소유자 아닐 때 풀기 |
 | ----------- | --------- | ------------------- | ------------------- |
@@ -53,55 +53,46 @@ int pthread_mutex_unlock(pthread_mutex_t *mutex);
 
 다음 경우에 `pthread_mutex_lock()` 및 `pthread_mutex_trylock()` 함수가 실패한다.
 
-<dl>
-<dt><code>EAGAIN</code></dt>
-<dd><code>mutex</code>의 재귀 락 최대 횟수를 초과했기 때문에 뮤텍스를 획득할 수 없다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>프로토콜 속성 값을 <code>PTHREAD_PRIO_PROTECT</code>로 해서 <code>mutex</code>를 생성했으며 호출 스레드의 우선순위가 뮤텍스의 현재 우선순위 상한보다 높다.</dd>
-<dt><code>ENOTRECOVERABLE</code></dt>
-<dd>뮤텍스가 보호하는 상태가 복구 가능하지 않다.</dd>
-<dt><code>EOWNERDEAD</code></dt>
-<dd>뮤텍스가 견고 뮤텍스이며 이전 소유자 스레드를 포함한 프로세스가 뮤텍스 락을 잡은 채로 종료했다. 호출 스레드가 뮤텍스 락을 획득하게 되며 상태를 정상으로 만드는 것은 새 소유자의 몫이다.</dd>
-</dl>
+`EAGAIN`
+:   `mutex`의 재귀 락 최대 횟수를 초과했기 때문에 뮤텍스를 획득할 수 없다.
+
+`EINVAL`
+:   프로토콜 속성 값을 `PTHREAD_PRIO_PROTECT`로 해서 `mutex`를 생성했으며 호출 스레드의 우선순위가 뮤텍스의 현재 우선순위 상한보다 높다.
+
+`ENOTRECOVERABLE`
+:   뮤텍스가 보호하는 상태가 복구 가능하지 않다.
+
+`EOWNERDEAD`
+:   뮤텍스가 견고 뮤텍스이며 이전 소유자 스레드를 포함한 프로세스가 뮤텍스 락을 잡은 채로 종료했다. 호출 스레드가 뮤텍스 락을 획득하게 되며 상태를 정상으로 만드는 것은 새 소유자의 몫이다.
 
 다음 경우에 `pthread_mutex_lock()` 함수가 실패한다.
 
-<dl>
-<dt><code>EDEADLK</code></dt>
-<dd>뮤텍스 유형이 <code>PTHREAD_MUTEX_ERRORCHECK</code>이며 현재 스레드가 이미 그 뮤텍스를 소유하고 있다.</dd>
-</dl>
+`EDEADLK`
+:   뮤텍스 유형이 `PTHREAD_MUTEX_ERRORCHECK`이며 현재 스레드가 이미 그 뮤텍스를 소유하고 있다.
 
 다음 경우에 `pthread_mutex_trylock()` 함수가 실패한다.
 
-<dl>
-<dt><code>EBUSY</code></dt>
-<dd><code>mutex</code>가 이미 잠겨 있어서 획득할 수 없다.</dd>
-</dl>
+`EBUSY`
+:   `mutex`가 이미 잠겨 있어서 획득할 수 없다.
 
 다음 경우에 `pthread_mutex_unlock()` 함수가 실패한다.
 
-<dl>
-<dt><code>EPERM</code></dt>
-<dd>뮤텍스 유형이 <code>PTHREAD_MUTEX_ERRORCHECK</code>나 <code>PTHREAD_MUTEX_RECURSIVE</code>이거나 뮤텍스가 견고 뮤텍스이며 현재 스레드가 그 뮤텍스를 소유하고 있지 않다.</dd>
-</dl>
+`EPERM`
+:   뮤텍스 유형이 `PTHREAD_MUTEX_ERRORCHECK`나 `PTHREAD_MUTEX_RECURSIVE`이거나 뮤텍스가 견고 뮤텍스이며 현재 스레드가 그 뮤텍스를 소유하고 있지 않다.
 
 다음 경우에 `pthread_mutex_lock()` 및 `pthread_mutex_trylock()` 함수가 실패할 수도 있다.
 
-<dl>
-<dt><code>EOWNERDEAD</code></dt>
-<dd>뮤텍스가 견고 뮤텍스이며 이전 소유자 스레드가 뮤텍스 락을 잡은 채로 종료했다. 호출 스레드가 뮤텍스 락을 획득하게 되며 상태를 정상으로 만드는 것은 새 소유자의 몫이다.</dd>
-</dl>
+`EOWNERDEAD`
+:   뮤텍스가 견고 뮤텍스이며 이전 소유자 스레드가 뮤텍스 락을 잡은 채로 종료했다. 호출 스레드가 뮤텍스 락을 획득하게 되며 상태를 정상으로 만드는 것은 새 소유자의 몫이다.
 
 다음 경우에 `pthread_mutex_lock()` 함수가 실패할 수도 있다.
 
-<dl>
-<dt><code>EDEADLK</code></dt>
-<dd>교착 조건을 탐지했다.</dd>
-</dl>
+`EDEADLK`
+:   교착 조건을 탐지했다.
 
 이 함수들은 오류 코드 `[EINTR]`을 반환하지 않는다.
 
-<em>이하는 규범적이지 않은 내용이다.</em>
+*이하는 규범적이지 않은 내용이다.*
 
 ## EXAMPLES
 
@@ -121,7 +112,7 @@ int pthread_mutex_unlock(pthread_mutex_t *mutex);
 
 마찬가지로 뮤텍스 소유자의 스레드 ID를 추출할 수 있다면 좋을 수도 있겠지만 그러려면 뮤텍스를 잠글 때마다 현재 스레드 ID를 저장해야 할 것이고 이는 수용 불가능한 수준의 오버헤드를 유발할 수 있다. 비슷한 논의가 `mutex_tryunlock` 동작에도 적용된다.
 
-확장 뮤텍스 유형들에 대한 추가 근거는 POSIX.1-2008 Rationale (Informative) 권의 <em>Threads Extensions</em> 절을 보라.
+확장 뮤텍스 유형들에 대한 추가 근거는 POSIX.1-2008 Rationale (Informative) 권의 *Threads Extensions* 절을 보라.
 
 `mutex` 인자로 지정한 값이 초기화 된 뮤텍스 객체를 가리키고 있지 않음을 구현에서 감지하는 경우 함수를 실패 처리하고 `[EINVAL]` 오류를 보고하기를 권장한다.
 
@@ -133,13 +124,13 @@ int pthread_mutex_unlock(pthread_mutex_t *mutex);
 
 <tt>[[pthread_mutex_consistent()|pthread_mutex_consistent(3)]]</tt>, <tt>[[pthread_mutex_destroy()|pthread_mutex_destroy(3p)]]</tt>, <tt>[[pthread_mutex_timedlock()|pthread_mutex_timedlock(3p)]]</tt>, <tt>[[pthread_mutexattr_getrobust()|pthread_mutexattr_getrobust(3)]]</tt>
 
-POSIX.1-2008 Base Definitions 권, <em>4.11절 Memory Synchronization</em>, `<pthread.h>`
+POSIX.1-2008 Base Definitions 권, *4.11절 Memory Synchronization*, `<pthread.h>`
 
 ## COPYRIGHT
 
-Portions of this text are reprinted and reproduced in electronic form from IEEE Std 1003.1, 2013 Edition, Standard for Information Technology -- Portable Operating System Interface (POSIX), The Open Group Base Specifications Issue 7, Copyright (C) 2013 by the Institute of Electrical and Electronics Engineers, Inc and The Open Group. (This is POSIX.1-2008 with the 2013 Technical Corrigendum 1 applied.) In the event of any discrepancy between this version and the original IEEE and The Open Group Standard, the original IEEE and The Open Group Standard is the referee document. The original Standard can be obtained online at http://www.unix.org/online.html .
+Portions of this text are reprinted and reproduced in electronic form from IEEE Std 1003.1, 2013 Edition, Standard for Information Technology -- Portable Operating System Interface (POSIX), The Open Group Base Specifications Issue 7, Copyright (C) 2013 by the Institute of Electrical and Electronics Engineers, Inc and The Open Group. (This is POSIX.1-2008 with the 2013 Technical Corrigendum 1 applied.) In the event of any discrepancy between this version and the original IEEE and The Open Group Standard, the original IEEE and The Open Group Standard is the referee document. The original Standard can be obtained online at <http://www.unix.org/online.html>.
 
-Any typographical or formatting errors that appear in this page are most likely to have been introduced during the conversion of the source files to man page format. To report such errors, see https://www.kernel.org/doc/man-pages/reporting_bugs.html .
+Any typographical or formatting errors that appear in this page are most likely to have been introduced during the conversion of the source files to man page format. To report such errors, see <https://www.kernel.org/doc/man-pages/reporting_bugs.html>.
 
 ----
 

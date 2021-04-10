@@ -24,28 +24,35 @@ int inotify_add_watch(int fd, const char *pathname, uint32_t mask);
 
 ## ERRORS
 
-<dl>
-<dt><code>EACCES</code></dt>
-<dd>지정한 파일에 대해 읽기 권한이 거부되었다.</dd>
-<dt><code>EBADF</code></dt>
-<dd>지정한 파일 디스크립터가 유효하지 않다.</dd>
-<dt><code>EFAULT</code></dt>
-<dd><code>pathname</code>이 프로세스의 접근 가능한 주소 공간 밖을 가리키고 있다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>지정한 이벤트 마스크에 유효한 이벤트가 들어 있지 않다. 또는 <code>mask</code>에 <code>IF_MASK_ADD</code>와 <code>IN_MASK_CREATE</code>가 같이 들어 있다. 또는 <code>fd</code>가 inotify 파일 디스크립터가 아니다.</dd>
-<dt><code>ENAMETOOLONG</code></dt>
-<dd><code>pathname</code>이 너무 길다.</dd>
-<dt><code>ENOENT</code></dt>
-<dd><code>pathname</code>의 어느 디렉터리 요소가 존재하지 않거나 깨진 심볼릭 링크이다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>사용 가능한 커널 메모리가 충분하지 않다.</dd>
-<dt><code>ENOSPC</code></dt>
-<dd>inotify 감시 항목 총수에 대한 사용자별 제한에 도달했거나 커널에서 필요한 자원을 할당하는 데 실패했다.</dd>
-<dt><code>ENOTDIR</code></dt>
-<dd><code>mask</code>에 <code>IN_ONLYDIR</code>이 들어 있는데 <code>pathname</code>이 디렉터리가 아니다.</dd>
-<dt><code>EEXIST</code></dt>
-<dd><code>mask</code>에 <code>IN_MASK_CREATE</code>가 들어 있는데 <code>pathname</code>이 같은 <code>fd</code>로 이미 감시 중인 파일을 가리키고 있다.</dd>
-</dl>
+`EACCES`
+:   지정한 파일에 대해 읽기 권한이 거부되었다.
+
+`EBADF`
+:   지정한 파일 디스크립터가 유효하지 않다.
+
+`EFAULT`
+:   `pathname`이 프로세스의 접근 가능한 주소 공간 밖을 가리키고 있다.
+
+`EINVAL`
+:   지정한 이벤트 마스크에 유효한 이벤트가 들어 있지 않다. 또는 `mask`에 `IF_MASK_ADD`와 `IN_MASK_CREATE`가 같이 들어 있다. 또는 `fd`가 inotify 파일 디스크립터가 아니다.
+
+`ENAMETOOLONG`
+:   `pathname`이 너무 길다.
+
+`ENOENT`
+:   `pathname`의 어느 디렉터리 요소가 존재하지 않거나 깨진 심볼릭 링크이다.
+
+`ENOMEM`
+:   사용 가능한 커널 메모리가 충분하지 않다.
+
+`ENOSPC`
+:   inotify 감시 항목 총수에 대한 사용자별 제한에 도달했거나 커널에서 필요한 자원을 할당하는 데 실패했다.
+
+`ENOTDIR`
+:   `mask`에 `IN_ONLYDIR`이 들어 있는데 `pathname`이 디렉터리가 아니다.
+
+`EEXIST`
+:   `mask`에 `IN_MASK_CREATE`가 들어 있는데 `pathname`이 같은 `fd`로 이미 감시 중인 파일을 가리키고 있다.
 
 ## VERSIONS
 

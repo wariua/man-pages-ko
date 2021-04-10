@@ -12,10 +12,8 @@ size_t confstr(int name, char *buf, size_t len);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>confstr()</code>:</dt>
-<dd><code>_POSIX_C_SOURCE >= 2 || _XOPEN_SOURCE</code></dd>
-</dl>
+`confstr()`:
+:   `_POSIX_C_SOURCE >= 2 || _XOPEN_SOURCE`
 
 ## DESCRIPTION
 
@@ -23,16 +21,14 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 `name` 인자는 질의하려는 시스템 변수이다. 다음 변수들을 지원한다.
 
-<dl>
-<dt><code>_CS_GNU_LIBC_VERSION</code> (GNU C 라이브러리 전용. glibc 2.3.2부터)</dt>
-<dd>이 시스템의 GNU C 라이브러리 버전을 나타내는 문자열. (가령 "glibc 2.3.4")</dd>
+`_CS_GNU_LIBC_VERSION` (GNU C 라이브러리 전용. glibc 2.3.2부터)
+:   이 시스템의 GNU C 라이브러리 버전을 나타내는 문자열. (가령 "glibc 2.3.4")
 
-<dt><code>_CS_GNU_LIBPTHREAD_VERSION</code> (GNU C 라이브러리 전용. glibc 2.3.2부터)</dt>
-<dd>이 C 라이브러리에서 제공하는 POSIX 구현을 나타내는 문자열. (가령 "NPTL 2.3.4"나 "linuxthreads-0.10")</dd>
+`_CS_GNU_LIBPTHREAD_VERSION` (GNU C 라이브러리 전용. glibc 2.3.2부터)
+:   이 C 라이브러리에서 제공하는 POSIX 구현을 나타내는 문자열. (가령 "NPTL 2.3.4"나 "linuxthreads-0.10")
 
-<dt><code>_CS_PATH</code></dt>
-<dd>모든 POSIX.2 표준 유틸리티들을 찾을 수 있는 곳을 나타내는 <code>PATH</code> 변수를 위한 값.</dd>
-</dl>
+`_CS_PATH`
+:   모든 POSIX.2 표준 유틸리티들을 찾을 수 있는 곳을 나타내는 `PATH` 변수를 위한 값.
 
 `buf`가 NULL이 아니고 `len`이 0이 아니면 `confstr()`이 문자열 값을 `buf`로 복사하는데, 필요시 `len - 1` 바이트로 자르고 널 바이트(`'\0'`)로 끝낸다. `confstr()` 반환 값을 `len`과 비교하여 이 경우를 탐지할 수 있다.
 
@@ -46,10 +42,8 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>name</code>의 값이 유효하지 않다.</dd>
-</dl>
+`EINVAL`
+:   `name`의 값이 유효하지 않다.
 
 ## ATTRIBUTES
 

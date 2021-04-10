@@ -31,16 +31,17 @@ struct timespec {
 
 ## ERRORS
 
-<dl>
-<dt><code>EFAULT</code></dt>
-<dd>사용자 공간으로 정보를 복사하는 중의 문제.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>유효하지 않은 pid.</dd>
-<dt><code>ENOSYS</code></dt>
-<dd>시스템 호출이 아직 구현되어 있지 않음. (꽤 오래된 커널에서만)</dd>
-<dt><code>ESRCH</code></dt>
-<dd>ID가 <code>pid</code>인 프로세스를 찾을 수 없음.</dd>
-</dl>
+`EFAULT`
+:   사용자 공간으로 정보를 복사하는 중의 문제.
+
+`EINVAL`
+:   유효하지 않은 pid.
+
+`ENOSYS`
+:   시스템 호출이 아직 구현되어 있지 않음. (꽤 오래된 커널에서만)
+
+`ESRCH`
+:   ID가 `pid`인 프로세스를 찾을 수 없음.
 
 ## CONFORMING TO
 

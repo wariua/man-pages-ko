@@ -16,12 +16,11 @@ void siglongjmp(sigjmp_buf env, int val);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>setjmp()</code>:</dt>
-<dd>NOTES 참고.</dd>
-<dt><code>sigsetjmp()</code>:</dt>
-<dd><code>_POSIX_C_SOURCE</code></dd>
-</dl>
+`setjmp()`:
+:   NOTES 참고.
+
+`sigsetjmp()`:
+:   `_POSIX_C_SOURCE`
 
 ## DESCRIPTION
 

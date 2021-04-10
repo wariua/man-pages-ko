@@ -24,10 +24,8 @@ ssize_t process_vm_writev(pid_t pid,
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>process_vm_readv()</code>, <code>process_vm_writev()</code>:</dt>
-<dd><code>_GNU_SOURCE</code></dd>
-</dl>
+`process_vm_readv()`, `process_vm_writev()`:
+:   `_GNU_SOURCE`
 
 ## DESCRIPTION
 
@@ -70,24 +68,29 @@ struct iovec {
 
 ## ERRORS
 
-<dl>
-<dt><code>EFAULT</code></dt>
-<dd><code>local_iov</code>가 나타내는 메모리가 호출자의 접근 가능 메모리 공간 밖에 있다.</dd>
-<dt><code>EFAULT</code></dt>
-<dd><code>remote_iov</code>가 나타내는 메모리가 프로세스 <code>pid</code>의 접근 가능 메모리 공간 밖에 있다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>local_iov</code>나 <code>remote_iov</code>의 <code>iov_len</code> 값들의 합이 <code>ssize_t</code> 값 범위를 넘어간다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>flags</code>가 0이 아니다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>liovcnt</code>나 <code>riovcnt</code>가 너무 크다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd><code>iovec</code> 구조체의 내부 사본을 위한 메모리를 할당하지 못했다.</dd>
-<dt><code>EPERM</code></dt>
-<dd>호출자가 프로세스 <code>pid</code>의 주소 공간에 접근할 권한을 가지고 있지 않다.</dd>
-<dt><code>ESRCH</code></dt>
-<dd>ID가 <code>pid</code>인 프로세스가 존재하지 않는다.</dd>
-</dl>
+`EFAULT`
+:   `local_iov`가 나타내는 메모리가 호출자의 접근 가능 메모리 공간 밖에 있다.
+
+`EFAULT`
+:   `remote_iov`가 나타내는 메모리가 프로세스 `pid`의 접근 가능 메모리 공간 밖에 있다.
+
+`EINVAL`
+:   `local_iov`나 `remote_iov`의 `iov_len` 값들의 합이 `ssize_t` 값 범위를 넘어간다.
+
+`EINVAL`
+:   `flags`가 0이 아니다.
+
+`EINVAL`
+:   `liovcnt`나 `riovcnt`가 너무 크다.
+
+`ENOMEM`
+:   `iovec` 구조체의 내부 사본을 위한 메모리를 할당하지 못했다.
+
+`EPERM`
+:   호출자가 프로세스 `pid`의 주소 공간에 접근할 권한을 가지고 있지 않다.
+
+`ESRCH`
+:   ID가 `pid`인 프로세스가 존재하지 않는다.
 
 ## VERSIONS
 

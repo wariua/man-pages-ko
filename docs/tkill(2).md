@@ -26,18 +26,20 @@ int tgkill(int tgid, int tid, int sig);
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd>지정한 스레드 ID나 스레드 그룹 ID, 시그널이 유효하지 않다.</dd>
-<dt><code>EPERM</code></dt>
-<dd>권한 거부. 필요한 권한에 대해선 <tt>[[kill(2)]]</tt>을 보라.</dd>
-<dt><code>ESRCH</code></dt>
-<dd>지정한 스레드 ID를 (스레드 그룹 ID를) 가진 프로세스가 존재하지 않는다.</dd>
-<dt><code>EAGAIN</code></dt>
-<dd><code>RLIMIT_SIGPENDING</code> 자원 한계에 도달했고 <code>sig</code>가 실시간 시그널이다.</dd>
-<dt><code>EAGAIN</code></dt>
-<dd>사용 가능한 커널 메모리가 불충분했고 <code>sig</code>가 실시간 시그널이다.</dd>
-</dl>
+`EINVAL`
+:   지정한 스레드 ID나 스레드 그룹 ID, 시그널이 유효하지 않다.
+
+`EPERM`
+:   권한 거부. 필요한 권한에 대해선 <tt>[[kill(2)]]</tt>을 보라.
+
+`ESRCH`
+:   지정한 스레드 ID를 (스레드 그룹 ID를) 가진 프로세스가 존재하지 않는다.
+
+`EAGAIN`
+:   `RLIMIT_SIGPENDING` 자원 한계에 도달했고 `sig`가 실시간 시그널이다.
+
+`EAGAIN`
+:   사용 가능한 커널 메모리가 불충분했고 `sig`가 실시간 시그널이다.
 
 ## VERSIONS
 

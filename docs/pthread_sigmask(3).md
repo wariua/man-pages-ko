@@ -14,10 +14,8 @@ int pthread_sigmask(int how, const sigset_t *set, sigset_t *oldset);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>pthread_sigmask()</code>:</dt>
-<dd><code>_POSIX_C_SOURCE >= 199506L || _XOPEN_SOURCE >= 500</code></dd>
-</dl>
+`pthread_sigmask()`:
+:   `_POSIX_C_SOURCE >= 199506L || _XOPEN_SOURCE >= 500`
 
 ## DESCRIPTION
 

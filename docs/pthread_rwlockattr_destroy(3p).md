@@ -35,14 +35,12 @@ int pthread_rwlockattr_init(pthread_rwlockattr_t *attr);
 
 다음 경우에 `pthread_rwlockattr_init()` 함수가 실패한다.
 
-<dl>
-<dt><code>ENOMEM</code></dt>
-<dd>읽기-쓰기 락 속성 객체를 초기화 하기에 충분한 메모리가 없다.</dd>
-</dl>
+`ENOMEM`
+:   읽기-쓰기 락 속성 객체를 초기화 하기에 충분한 메모리가 없다.
 
 이 함수들은 오류 코드 `[EINTR]`을 반환하지 않는다.
 
-<em>이하는 규범적이지 않은 내용이다.</em>
+*이하는 규범적이지 않은 내용이다.*
 
 ## EXAMPLES
 
@@ -68,9 +66,9 @@ POSIX.1-2008 Base Definitions 권, `<pthread.h>`
 
 ## COPYRIGHT
 
-Portions of this text are reprinted and reproduced in electronic form from IEEE Std 1003.1, 2013 Edition, Standard for Information Technology -- Portable Operating System Interface (POSIX), The Open Group Base Specifications Issue 7, Copyright (C) 2013 by the Institute of Electrical and Electronics Engineers, Inc and The Open Group. (This is POSIX.1-2008 with the 2013 Technical Corrigendum 1 applied.) In the event of any discrepancy between this version and the original IEEE and The Open Group Standard, the original IEEE and The Open Group Standard is the referee document. The original Standard can be obtained online at http://www.unix.org/online.html .
+Portions of this text are reprinted and reproduced in electronic form from IEEE Std 1003.1, 2013 Edition, Standard for Information Technology -- Portable Operating System Interface (POSIX), The Open Group Base Specifications Issue 7, Copyright (C) 2013 by the Institute of Electrical and Electronics Engineers, Inc and The Open Group. (This is POSIX.1-2008 with the 2013 Technical Corrigendum 1 applied.) In the event of any discrepancy between this version and the original IEEE and The Open Group Standard, the original IEEE and The Open Group Standard is the referee document. The original Standard can be obtained online at <http://www.unix.org/online.html>.
 
-Any typographical or formatting errors that appear in this page are most likely to have been introduced during the conversion of the source files to man page format. To report such errors, see https://www.kernel.org/doc/man-pages/reporting_bugs.html .
+Any typographical or formatting errors that appear in this page are most likely to have been introduced during the conversion of the source files to man page format. To report such errors, see <https://www.kernel.org/doc/man-pages/reporting_bugs.html>.
 
 ----
 

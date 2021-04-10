@@ -19,30 +19,21 @@ int waitid(idtype_t idtype, id_t id, siginfo_t *infop, int options);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>waitid()</code>:</dt>
-<dd>
- <dl>
- <dt>glibc 2.26부터:</dt>
- <dd>
-<code>_XOPEN_SOURCE >= 500 ||</code><br>
-<code>    _POSIX_C_SOURCE >= 200809L</code>
- </dd>
- <dt>glibc 2.25 및 이전:</dt>
- <dd>
-<code>_XOPEN_SOURCE</code><br>
-<code>    || /* glibc 2.12부터: */ _POSIX_C_SOURCE >= 200809L</code><br>
-<code>    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE</code>
- </dd>
- </dl>
-</dd>
-</dl>
+`waitid()`:
+:   glibc 2.26부터:
+    :   `_XOPEN_SOURCE >= 500 ||`<br>
+        `    _POSIX_C_SOURCE >= 200809L`
+ 
+    glibc 2.25 및 이전:
+    :   `_XOPEN_SOURCE`<br>
+        `    || /* glibc 2.12부터: */ _POSIX_C_SOURCE >= 200809L`<br>
+        `    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE`
 
 ## DESCRIPTION
 
 이 시스템 호출들은 모두 호출 프로세스의 자식에서의 상태 변경을 기다리고 상태가 바뀐 자식에 대한 정보를 얻는 데 사용하는 것이다. 자식이 종료하는 것, 자식이 시그널에 의해 중지되는 것, 자식이 시그널에 의해 재개되는 것을 상태 변경으로 본다. 자식이 종료하는 경우에 wait을 수행하면 시스템이 자식과 연관된 자원들을 해제할 수 있게 된다. wait을 수행하지 않으면 종료한 자식이 "좀비" 상태로 남는다. (아래 NOTES 참고.)
 
-자식이 이미 상태를 바꾸었으면 이 호출들이 즉시 반환한다. 그렇지 않으면 자식이 상태를 바꾸거나 시그널 핸들러가 호출을 중단시킬 때까지 (<tt>[[sigaction(2)]]</tt>의 `SA_RESTART` 플래그로 시스템 호출을 자동 재시작하지 않는다고 가정) 블록 한다. 이 페이지 나머지에서는 상태가 바뀌었지만 아직 이 시스템 호출들 중 하나로 기다리지 않은 자식을 <em>기다릴 수 있다(waitable)</em>고 표현한다.
+자식이 이미 상태를 바꾸었으면 이 호출들이 즉시 반환한다. 그렇지 않으면 자식이 상태를 바꾸거나 시그널 핸들러가 호출을 중단시킬 때까지 (<tt>[[sigaction(2)]]</tt>의 `SA_RESTART` 플래그로 시스템 호출을 자동 재시작하지 않는다고 가정) 블록 한다. 이 페이지 나머지에서는 상태가 바뀌었지만 아직 이 시스템 호출들 중 하나로 기다리지 않은 자식을 *기다릴 수 있다(waitable)*고 표현한다.
 
 ### `wait()`과 `waitpid()`
 
@@ -56,76 +47,58 @@ waitpid(-1, &wstatus, 0);
 
 `pid`의 값은 다음일 수 있다.
 
-<dl>
-<dt><code>< -1</code></dt>
-<dd>프로세스 그룹 ID가 <code>pid</code>의 절댓값과 같은 아무 자식 프로세스나 기다리기</dd>
-<dt><code>-1</code></dt>
-<dd>아무 자식 프로세스나 기다리기</dd>
-<dt><code>0</code></dt>
-<dd>프로세스 그룹 ID가 호출 프로세스의 프로세스 그룹 ID와 같은 아무 자식 프로세스나 기다리기</dd>
-<dt><code>> 0</code></dt>
-<dd>프로세스 ID가 <code>pid</code> 값과 같은 자식 기다리기</dd>
-</dl>
+`< -1`
+:   프로세스 그룹 ID가 `pid`의 절댓값과 같은 아무 자식 프로세스나 기다리기
+
+`-1`
+:   아무 자식 프로세스나 기다리기
+
+`0`
+:   프로세스 그룹 ID가 호출 프로세스의 프로세스 그룹 ID와 같은 아무 자식 프로세스나 기다리기
+
+`> 0`
+:   프로세스 ID가 `pid` 값과 같은 자식 기다리기
 
 `options`의 값은 다음 상수들을 0개 또는 그 이상 OR 한 것이다.
 
-<dl>
-<dt><code>WNOHANG</code></dt>
-<dd>종료한 자식이 없으면 즉시 반환한다.</dd>
-<dt><code>WUNTRACED</code></dt>
-<dd>자식이 정지한 (하지만 <tt>[[ptrace(2)]]</tt> 추적 대상은 아닌) 경우에도 반환한다. 정지했으면서 <em>추적 대상인</em> 자식의 상태는 이 옵션을 지정하지 않아도 제공된다.</dd>
-<dt><code>WCONTINUED</code> (리눅스 2.6.10부터)</dt>
-<dd>정지했던 자식이 <code>SIGCONT</code> 전달로 재개된 경우에도 반환한다.</dd>
-</dl>
+`WNOHANG`
+:   종료한 자식이 없으면 즉시 반환한다.
+
+`WUNTRACED`
+:   자식이 정지한 (하지만 <tt>[[ptrace(2)]]</tt> 추적 대상은 아닌) 경우에도 반환한다. 정지했으면서 *추적 대상인* 자식의 상태는 이 옵션을 지정하지 않아도 제공된다.
+
+`WCONTINUED` (리눅스 2.6.10부터)
+:   정지했던 자식이 `SIGCONT` 전달로 재개된 경우에도 반환한다.
 
 (리눅스 전용 옵션들에 대해선 아래 참고.)
 
 `wstatus`가 NULL이 아니면 `wait()`과 `waitpid()`가 그 `int`에 상태 정보를 저장해 준다. 다음 매크로들로 그 정수를 조사할 수 있다. (`wait()`과 `waitpid()`에서처럼 정수 포인터를 받는 게 아니라 정수 자체를 인자로 받는다!)
 
-<dl>
-<dt><code>WIFEXITED(wstatus)</code></dt>
-<dd>
-자식이 정상적으로, 즉 <tt>[[exit(3)]]</tt>나 <tt>[[_exit(2)]]</tt>를 호출하거나 <code>main()</code>에서 반환하여 종료했으면 참을 반환한다.
-</dd>
+`WIFEXITED(wstatus)`
+:   자식이 정상적으로, 즉 <tt>[[exit(3)]]</tt>나 <tt>[[_exit(2)]]</tt>를 호출하거나 `main()`에서 반환하여 종료했으면 참을 반환한다.
 
-<dt><code>WEXITSTATUS(wstatus)</code></dt>
-<dd>
-자식의 종료 상태를 반환한다. 이 값은 자식이 <tt>[[exit(3)]]</tt>나 <tt>[[_exit(2)]]</tt> 호출에 지정한 <code>status</code> 인자나 <code>main()</code>의 return 문에 지정한 인자의 하위 8비트이다. 이 매크로는 <code>WIFEXITED</code>가 참을 반환했을 때만 써야 한다.
-</dd>
+`WEXITSTATUS(wstatus)`
+:   자식의 종료 상태를 반환한다. 이 값은 자식이 <tt>[[exit(3)]]</tt>나 <tt>[[_exit(2)]]</tt> 호출에 지정한 `status` 인자나 `main()`의 return 문에 지정한 인자의 하위 8비트이다. 이 매크로는 `WIFEXITED`가 참을 반환했을 때만 써야 한다.
 
-<dt><code>WIFSIGNALED(wstatus)</code></dt>
-<dd>
-자식 프로세스가 시그널로 종료되었으면 참을 반환한다.
-</dd>
+`WIFSIGNALED(wstatus)`
+:   자식 프로세스가 시그널로 종료되었으면 참을 반환한다.
 
-<dt><code>WTERMSIG(wstatus)</code></dt>
-<dd>
-자식 프로세스를 종료시킨 시그널의 번호를 반환한다. 이 매크로는 <code>WIFSIGNALED</code>가 참을 반환했을 때만 써야 한다.
-</dd>
+`WTERMSIG(wstatus)`
+:   자식 프로세스를 종료시킨 시그널의 번호를 반환한다. 이 매크로는 `WIFSIGNALED`가 참을 반환했을 때만 써야 한다.
 
-<dt><code>WCOREDUMP(wstatus)</code></dt>
-<dd>
+`WCOREDUMP(wstatus)`
+:   자식이 코어 덤프를 만들었으면 참을 반환한다. (<tt>[[core(5)]]</tt> 참고.) 이 매크로는 `WIFSIGNALED`가 참을 반환했을 때만 써야 한다.
 
-자식이 코어 덤프를 만들었으면 참을 반환한다. (<tt>[[core(5)]]</tt> 참고.) 이 매크로는 <code>WIFSIGNALED</code>가 참을 반환했을 때만 써야 한다.
+    이 매크로는 POSIX.1-2001에 명세되어 있지 않으며 어떤 유닉스 구현(가령 AIX, SunOS)에서는 사용 가능하지 않다. 그러니 `#ifdef WCOREDUMP ... #endif`로 감싸서 사용하라.
 
-이 매크로는 POSIX.1-2001에 명세되어 있지 않으며 어떤 유닉스 구현(가령 AIX, SunOS)에서는 사용 가능하지 않다. 그러니 <code>#ifdef WCOREDUMP ... #endif</code>로 감싸서 사용하라.
-</dd>
+`WIFSTOPPED(wstatus)`
+:   자식 프로세스가 시그널 전달로 인해 정지되었으면 참을 반환한다. `WUNTRACED`를 써서 호출했거나 자식을 추적 중인 경우(<tt>[[ptrace(2)]]</tt> 참고)에만 가능하다.
 
-<dt><code>WIFSTOPPED(wstatus)</code></dt>
-<dd>
-자식 프로세스가 시그널 전달로 인해 정지되었으면 참을 반환한다. <code>WUNTRACED</code>를 써서 호출했거나 자식을 추적 중인 경우(<tt>[[ptrace(2)]]</tt> 참고)에만 가능하다.
-</dd>
+`WSTOPSIG(wstatus)`
+:   자식이 정지하게 만든 시그널의 번호를 반환한다. 이 매크로는 `WIFSTOPPED`가 참을 반환했을 때만 써야 한다.
 
-<dt><code>WSTOPSIG(wstatus)</code></dt>
-<dd>
-자식이 정지하게 만든 시그널의 번호를 반환한다. 이 매크로는 <code>WIFSTOPPED</code>가 참을 반환했을 때만 써야 한다.
-</dd>
-
-<dt><code>WIFCONTINUED(wstatus)</code></dt>
-<dd>
-(리눅스 2.6.10부터) 자식 프로세스가 <code>SIGCONT</code> 전달로 인해 재개되었으면 참을 반환한다.
-</dd>
-</dl>
+`WIFCONTINUED(wstatus)`
+:   (리눅스 2.6.10부터) 자식 프로세스가 `SIGCONT` 전달로 인해 재개되었으면 참을 반환한다.
 
 ### `waitid()`
 
@@ -133,49 +106,50 @@ waitpid(-1, &wstatus, 0);
 
 `idtype` 및 `id` 인자로 다음과 같이 기다릴 자식(들)을 선택한다.
 
-<dl>
-<dt><code>idtype == P_PID</code></dt>
-<dd>프로세스 ID가 <code>id</code>와 일치하는 자식 기다리기.</dd>
-<dt><code>idtype == P_PGID</code></dt>
-<dd>프로세스 그룹 ID가 <code>id</code>와 일치하는 아무 자식이나 기다리기.</dd>
-<dt><code>idtype == P_ALL</code></dt>
-<dd>아무 자식이나 기다리기. <code>id</code>는 무시.</dd>
-</dl>
+`idtype == P_PID`
+:   프로세스 ID가 `id`와 일치하는 자식 기다리기.
+
+`idtype == P_PGID`
+:   프로세스 그룹 ID가 `id`와 일치하는 아무 자식이나 기다리기.
+
+`idtype == P_ALL`
+:   아무 자식이나 기다리기. `id`는 무시.
 
 `options`에서 다음 플래그들을 하나 이상 OR 하여 기다릴 자식 상태 변경 종류를 지정한다.
 
-<dl>
-<dt><code>WEXITED</code></dt>
-<dd>종료한 자식을 기다린다.</dd>
-<dt><code>WSTOPPED</code></dt>
-<dd>시그널 전달로 정지된 자식을 기다린다.</dd>
-<dt><code>WCONTINUED</code></dt>
-<dd>(앞서 정지되었다가) <code>SIGCONT</code> 전달로 재개된 자식을 기다린다.</dd>
-</dl>
+`WEXITED`
+:   종료한 자식을 기다린다.
+
+`WSTOPPED`
+:   시그널 전달로 정지된 자식을 기다린다.
+
+`WCONTINUED`
+:   (앞서 정지되었다가) `SIGCONT` 전달로 재개된 자식을 기다린다.
 
 `options`에서 추가로 다음 플래그들을 OR 할 수 있다.
 
-<dl>
-<dt><code>WNOHANG</code></dt>
-<dd><code>waitpid()</code>에서와 같음.</dd>
-<dt><code>WNOWAIT</code></dt>
-<dd>자식을 기다릴 수 있는 상태로 남겨둔다. 이후에 <code>wait</code> 호출을 다시 사용해 자식 상태 정보를 얻어올 수 있다.</dd>
-</dl>
+`WNOHANG`
+:   `waitpid()`에서와 같음.
+
+`WNOWAIT`
+:   자식을 기다릴 수 있는 상태로 남겨둔다. 이후에 `wait` 호출을 다시 사용해 자식 상태 정보를 얻어올 수 있다.
 
 성공 반환 시 `waitid()`는 `infop`가 가리키는 `siginfo_t` 구조체의 다음 필드들을 채운다.
 
-<dl>
-<dt><code>si_pid</code></dt>
-<dd>자식의 프로세스 ID.</dd>
-<dt><code>si_uid</code></dt>
-<dd>자식의 실제 사용자 ID. (다른 구현들에서는 대부분 이 필드를 설정하지 않는다.)</dd>
-<dt><code>si_signo</code></dt>
-<dd>항상 <code>SIGCHLD</code>로 설정.</dd>
-<dt><code>si_status</code></dt>
-<dd>자식이 <tt>[[_exit(2)]]</tt>에 (또는 <tt>[[exit(3)]]</tt>에) 준 종료 상태, 또는 자식을 종료시키거나 정지하거나 재개한 시그널. 이 필드를 어떻게 해석해야 하는지를 <code>si_code</code> 필드로 판단할 수 있다.</dd>
-<dt><code>si_code</code></dt>
-<dd>다음 중 하나로 설정: <code>CLD_EXITED</code> (자식이 <tt>[[_exit(2)]]</tt>를 호출했음), <code>CLD_KILLED</code> (자식이 시그널로 죽었음), <code>CLD_DUMPED</code> (자식이 시그널로 죽었고 코어를 덤프 했음), <code>CLD_STOPPED</code> (자식이 시그널로 중지됐음), <code>CLD_TRAPPED</code> (추적하는 자식이 트랩에 걸렸음), <code>CLD_CONTINUED</code> (자식이 <code>SIGCONT</code>로 재개됐음).</dd>
-</dl>
+`si_pid`
+:   자식의 프로세스 ID.
+
+`si_uid`
+:   자식의 실제 사용자 ID. (다른 구현들에서는 대부분 이 필드를 설정하지 않는다.)
+
+`si_signo`
+:   항상 `SIGCHLD`로 설정.
+
+`si_status`
+:   자식이 <tt>[[_exit(2)]]</tt>에 (또는 <tt>[[exit(3)]]</tt>에) 준 종료 상태, 또는 자식을 종료시키거나 정지하거나 재개한 시그널. 이 필드를 어떻게 해석해야 하는지를 `si_code` 필드로 판단할 수 있다.
+
+`si_code`
+:   다음 중 하나로 설정: `CLD_EXITED` (자식이 <tt>[[_exit(2)]]</tt>를 호출했음), `CLD_KILLED` (자식이 시그널로 죽었음), `CLD_DUMPED` (자식이 시그널로 죽었고 코어를 덤프 했음), `CLD_STOPPED` (자식이 시그널로 중지됐음), `CLD_TRAPPED` (추적하는 자식이 트랩에 걸렸음), `CLD_CONTINUED` (자식이 `SIGCONT`로 재개됐음).
 
 `options`에 `WNOHANG`을 지정했고 기다릴 수 있는 상태인 자식이 없으면 `waitid()`가 즉시 0을 반환하며 `infop`가 가리키는 `siginfo_t` 구조체의 상태는 구현에 따라 다르다. 이 경우를 자식이 기다릴 수 있는 상태였던 경우와 (이식성 있는 방식으로) 구별하려면 호출 전에 `si_pid` 필드를 0으로 만들고서 호출 반환 후에 이 필드에 0 아닌 값이 있는지 확인하면 된다.
 
@@ -193,16 +167,17 @@ POSIX.1-2008 기술 정오표 1(2013년)에서는 `options`에 `WNOHANG`을 지�
 
 ## ERRORS
 
-<dl>
-<dt><code>ECHILD</code></dt>
-<dd>(<code>wait()에서</code>) 호출 프로세스에게 아직 기다리지 않은 자식이 없다.</dd>
-<dt><code>ECHILD</code></dt>
-<dd>(<code>waitpid()</code>나 <code>waitid()</code>에서) <code>pid</code>나(<code>waitpid()</code>) <code>idtype</code> 및 <code>id</code>로(<code>waitid()</code>) 지정한 프로세스가 존재하지 않거나 호출 프로세스의 자식이 아니다. (<code>SIGCHLD</code>에 대한 동작이 <code>SIG_IGN</code>으로 설정돼 있으면 자기 자식에 대해서도 이렇게 될 수 있다. 스레드에 대한 <em>리눅스 참고 사항</em> 절도 참고.)</dd>
-<dt><code>EINTR</code></dt>
-<dd><code>WNOHANG</code>을 설정하지 않았으며 차단 안 된 시그널이나 <code>SIGCHLD</code>를 잡았다. <tt>[[signal(7)]]</tt> 참고.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>options</code> 인자가 유효하지 않다.</dd>
-</dl>
+`ECHILD`
+:   (`wait()에서`) 호출 프로세스에게 아직 기다리지 않은 자식이 없다.
+
+`ECHILD`
+:   (`waitpid()`나 `waitid()`에서) `pid`나(`waitpid()`) `idtype` 및 `id`로(`waitid()`) 지정한 프로세스가 존재하지 않거나 호출 프로세스의 자식이 아니다. (`SIGCHLD`에 대한 동작이 `SIG_IGN`으로 설정돼 있으면 자기 자식에 대해서도 이렇게 될 수 있다. 스레드에 대한 *리눅스 참고 사항* 절도 참고.)
+
+`EINTR`
+:   `WNOHANG`을 설정하지 않았으며 차단 안 된 시그널이나 `SIGCHLD`를 잡았다. <tt>[[signal(7)]]</tt> 참고.
+
+`EINVAL`
+:   `options` 인자가 유효하지 않다.
 
 ## CONFORMING TO
 
@@ -222,14 +197,14 @@ POSIX.1-2001에서는 `SIGCHLD` 처리 방식을 `SIG_IGN`로 설정하거나 `S
 
 다음 리눅스 전용 `options` 값들은 <tt>[[clone(2)]]</tt>으로 만든 자식들에 쓰기 위한 것이다. 리눅스 4.7부터 `waitid()`에도 쓸 수 있다.
 
-<dl>
-<dt><code>__WCLONE</code></dt>
-<dd>"클론" 자식만 기다린다. 없으면 "비클론" 자식만 기다린다. ("클론" 자식은 종료 시 자기 부모에게 시그널을 전달하지 않거나 <code>SIGCHLD</code> 아닌 시그널을 전달하는 자식이다.) <code>__WALL</code>도 지정한 경우 이 옵션은 무시한다.</dd>
-<dt><code>__WALL</code> (리눅스 2.4부터)</dt>
-<dd>종류("클론", "비클론")와 상관없이 모든 자식을 기다린다.</dd>
-<dt><code>__WNOTHREAD</code> (리눅스 2.4부터)</dt>
-<dd>같은 스레드 그룹의 다른 스레드의 자식을 기다리지 않는다. 리눅스 2.4 전에서는 이게 기본이었다.</dd>
-</dl>
+`__WCLONE`
+:   "클론" 자식만 기다린다. 없으면 "비클론" 자식만 기다린다. ("클론" 자식은 종료 시 자기 부모에게 시그널을 전달하지 않거나 `SIGCHLD` 아닌 시그널을 전달하는 자식이다.) `__WALL`도 지정한 경우 이 옵션은 무시한다.
+
+`__WALL` (리눅스 2.4부터)
+:   종류("클론", "비클론")와 상관없이 모든 자식을 기다린다.
+
+`__WNOTHREAD` (리눅스 2.4부터)
+:   같은 스레드 그룹의 다른 스레드의 자식을 기다리지 않는다. 리눅스 2.4 전에서는 이게 기본이었다.
 
 리눅스 4.7부터는 자식을 ptrace 하고 있으면 자동으로 `__WALL` 플래그를 함의한다.
 

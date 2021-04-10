@@ -19,30 +19,21 @@ void *pvalloc(size_t size);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>posix_memalign()</code>:</dt>
-<dd><code>_POSIX_C_SOURCE >= 200112L</code></dd>
+`posix_memalign()`:
+:   `_POSIX_C_SOURCE >= 200112L`
 
-<dt><code>aligned_alloc()</code>:</dt>
-<dd><code>_ISOC11_SOURCE</code></dd>
+`aligned_alloc()`:
+:   `_ISOC11_SOURCE`
 
-<dt><code>valloc()</code>:</dt>
-<dd>
- <dl>
- <dt>glibc 2.12부터:</dt>
- <dd>
-<code>(_XOPEN_SOURCE >= 500) && !(_POSIX_C_SOURCE >= 200112L)</code><br>
-<code>    || /* glibc 2.19부터: */ _DEFAULT_SOURCE</code><br>
-<code>    || /* glibc 버전 <= 2.19: */ _SVID_SOURCE || _BSD_SOURCE</code>
- </dd>
- <dt>glibc 2.12 전:</dt>
- <dd>
-<code>_BSD_SOURCE || _XOPEN_SOURCE >= 500</code>>><br>
-((비표준) 헤더 파일 <code>&lt;malloc.h&gt;</code>도 <code>valloc()</code> 선언을 드러낸다. 어떤 기능 확인 매크로도 필요하지 않다.)
- </dd>
- </dl>
-</dd>
-</dl>
+`valloc()`:
+:   glibc 2.12부터:
+    :   `(_XOPEN_SOURCE >= 500) && !(_POSIX_C_SOURCE >= 200112L)`<br>
+        `    || /* glibc 2.19부터: */ _DEFAULT_SOURCE`<br>
+        `    || /* glibc 버전 <= 2.19: */ _SVID_SOURCE || _BSD_SOURCE`
+ 
+    glibc 2.12 전:
+    :   `_BSD_SOURCE || _XOPEN_SOURCE >= 500`>><br>
+        ((비표준) 헤더 파일 `<malloc.h>`도 `valloc()` 선언을 드러낸다. 어떤 기능 확인 매크로도 필요하지 않다.)
 
 ## DESCRIPTION
 
@@ -66,12 +57,11 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>alignment</code> 인자가 2의 거듭제곱이 아니거나 <code>sizeof(void *)</code>의 배수가 아니다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>할당 요청을 충족할 충분한 메모리가 없다.</dd>
-</dl>
+`EINVAL`
+:   `alignment` 인자가 2의 거듭제곱이 아니거나 `sizeof(void *)`의 배수가 아니다.
+
+`ENOMEM`
+:   할당 요청을 충족할 충분한 메모리가 없다.
 
 ## VERSIONS
 

@@ -18,64 +18,59 @@ nft는 리눅스 커널 nftables 프레임워크의 패킷 필터링 및 분류 
 
 옵션 요약 전체를 보려면 `nft --help`를 실행하면 된다.
 
-<dl>
-<dt><code>-h</code>, <code>--help</code></dt>
-<dd>도움말 메시지와 전체 옵션을 보여 준다.</dd>
+`-h`, `--help`
+:   도움말 메시지와 전체 옵션을 보여 준다.
 
-<dt><code>-v</code>, <code>--version</code></dt>
-<dd>버전을 보여 준다.</dd>
+`-v`, `--version`
+:   버전을 보여 준다.
 
-<dt><code>-n</code>, <code>--numeric</code></dt>
-<dd>출력을 완전히 숫자로만 찍는다.</dd>
+`-n`, `--numeric`
+:   출력을 완전히 숫자로만 찍는다.
 
-<dt><code>-s</code>, <code>--stateless</code></dt>
-<dd>규칙과 상태 객체의 상태 정보를 생략한다.</dd>
+`-s`, `--stateless`
+:   규칙과 상태 객체의 상태 정보를 생략한다.
 
-<dt><code>-N</code>, <code>--reversedns</code></dt>
-<dd>DNS 역질의를 통해 IP 주소를 이름으로 변환한다. 네트워크 트래픽을 발생시키므로 목록 표시가 느려질 수 있다.</dd>
+`-N`, `--reversedns`
+:   DNS 역질의를 통해 IP 주소를 이름으로 변환한다. 네트워크 트래픽을 발생시키므로 목록 표시가 느려질 수 있다.
 
-<dt><code>-S</code>, <code>--service</code></dt>
-<dd><code>/etc/services</code>에 정의된 대로 포트 번호를 서비스 이름으로 변환한다.</dd>
+`-S`, `--service`
+:   `/etc/services`에 정의된 대로 포트 번호를 서비스 이름으로 변환한다.
 
-<dt><code>-u</code>, <code>--guid</code></dt>
-<dd><code>/etc/passwd</code> 및 <code>/etc/group</code>에 정의된 대로 숫자로 된 UID/GID를 이름으로 변환한다.</dd>
+`-u`, `--guid`
+:   `/etc/passwd` 및 `/etc/group`에 정의된 대로 숫자로 된 UID/GID를 이름으로 변환한다.
 
-<dt><code>-p</code>, <code>--numeric-protocol</code></dt>
-<dd>제4계층 프로토콜을 숫자로 표시한다.</dd>
+`-p`, `--numeric-protocol`
+:   제4계층 프로토콜을 숫자로 표시한다.
 
-<dt><code>-y</code>, <code>--numeric-priority</code></dt>
-<dd>기본 체인 우선순위를 숫자로 표시한다.</dd>
+`-y`, `--numeric-priority`
+:   기본 체인 우선순위를 숫자로 표시한다.
 
-<dt><code>-c</code>, <code>--check</code></dt>
-<dd>변경 사항을 실제 적용하지 않고 명령 유효성만 확인한다.</dd>
+`-c`, `--check`
+:   변경 사항을 실제 적용하지 않고 명령 유효성만 확인한다.
 
-<dt><code>-a</code>, <code>--handle</code></dt>
-<dd>출력 내용에서 객체 핸들을 보여 준다.</dd>
+`-a`, `--handle`
+:   출력 내용에서 객체 핸들을 보여 준다.
 
-<dt><code>-e</code>, <code>--echo</code></dt>
-<dd><code>add</code>나 <code>insert</code>, <code>replace</code> 명령으로 룰셋에 항목을 집어넣을 때 <code>nft monitor</code>처럼 알림을 찍는다.</dd>
+`-e`, `--echo`
+:   `add`나 `insert`, `replace` 명령으로 룰셋에 항목을 집어넣을 때 `nft monitor`처럼 알림을 찍는다.
 
-<dt><code>-j</code>, <code>--json</code></dt>
-<dd>JSON 형식으로 출력한다. 스키마 설명은 <code>libnftables-json(5)</code>을 보라.</dd>
+`-j`, `--json`
+:   JSON 형식으로 출력한다. 스키마 설명은 `libnftables-json(5)`을 보라.
 
-<dt><code>-I</code>, <code>--includepath directory</code></dt>
-<dd>포함 파일을 찾을 디렉터리 목록에 디렉터리 <code>directory</code>를 추가한다. 이 옵션은 여러 번 지정할 수 있다.</dd>
+`-I`, `--includepath directory`
+:   포함 파일을 찾을 디렉터리 목록에 디렉터리 `directory`를 추가한다. 이 옵션은 여러 번 지정할 수 있다.
 
-<dt><code>-f</code>, <code>--file filename</code></dt>
-<dd>
+`-f`, `--file filename`
+:   `filename`에서 입력을 읽어 들인다. `filename`이 `-`이면 stdin에서 읽는다.
 
-<code>filename</code>에서 입력을 읽어 들인다. <code>filename</code>이 <code>-</code>이면 stdin에서 읽는다.
-</dd>
+`-i`, `--interactive`
+:   대화형 readline CLI에서 입력을 읽어 들인다. `quit`으로 빠져나갈 수 있다. EOF 표시를 쓸 수도 있는데, 보통 CTRL-D이다.
 
-<dt><code>-i</code>, <code>--interactive</code></dt>
-<dd>대화형 readline CLI에서 입력을 읽어 들인다. <code>quit</code>으로 빠져나갈 수 있다. EOF 표시를 쓸 수도 있는데, 보통 CTRL-D이다.</dd>
+`-T`, `--numeric-time`
+:   시각, 요일, 시간 값을 숫자로 보인다.
 
-<dt><code>-T</code>, <code>--numeric-time</code></dt>
-<dd>시각, 요일, 시간 값을 숫자로 보인다.</dd>
-
-<dt><code>-t</code>, <code>--terse</code></dt>
-<dd>출력에서 집합 내용물을 생략한다.</dd>
-</dl>
+`-t`, `--terse`
+:   출력에서 집합 내용물을 생략한다.
 
 ## 입력 파일 형식
 
@@ -122,20 +117,23 @@ filter input iif $int_ifs accept
 
 주소 패밀리에 따라 어떤 종류의 패킷이 처리되는지 정해진다. 각 주소 패밀리별로 커널 패킷 처리 경로의 특정 지점들에 소위 훅이 있어서 그 훅에 대한 규칙이 존재하면 nftables를 호출한다.
 
-<dl>
-<dt><code>ip</code></dt>
-<dd>IPv4 주소 패밀리</dd>
-<dt><code>ip6</code></dt>
-<dd>IPv6 주소 패밀리</dd>
-<dt><code>inet</code></dt>
-<dd>인터넷(IPv4/IPv6) 주소 패밀리</dd>
-<dt><code>arp</code></dt>
-<dd>ARP 주소 패밀리, IPv4 ARP 패킷 처리</dd>
-<dt><code>bridge</code></dt>
-<dd>브리지 주소 패밀리, 브리지 장치를 통과하는 패킷 처리</dd>
-<dt><code>netdev</code></dt>
-<dd>netdev 주소 패밀리, 진입점에서 패킷 처리</dd>
-</dl>
+`ip`
+:   IPv4 주소 패밀리
+
+`ip6`
+:   IPv6 주소 패밀리
+
+`inet`
+:   인터넷(IPv4/IPv6) 주소 패밀리
+
+`arp`
+:   ARP 주소 패밀리, IPv4 ARP 패킷 처리
+
+`bridge`
+:   브리지 주소 패밀리, 브리지 장치를 통과하는 패킷 처리
+
+`netdev`
+:   netdev 주소 패밀리, 진입점에서 패킷 처리
 
 모든 nftables 객체는 주소 패밀리별 네임스페이스 안에 존재하며, 그래서 모든 식별자에는 주소 패밀리가 포함돼 있다. 주소 패밀리 없이 식별자를 지정하면 기본적으로 `ip` 패밀리를 쓴다.
 
@@ -188,13 +186,11 @@ Netdev 주소 패밀리는 진입점(ingress)에서 패킷을 처리한다.
 
 현재 커널 내에 위치한 테이블, 체인 등의 세트 전체를 나타내는 데 `ruleset` 키워드를 쓴다. 다음 `ruleset` 명령이 있다.
 
-<dl>
-<dt><code>list</code></dt>
-<dd>사람이 읽기 좋은 형식으로 룰셋을 출력한다.</dd>
+`list`
+:   사람이 읽기 좋은 형식으로 룰셋을 출력한다.
 
-<dt><code>flush</code></dt>
-<dd>룰셋 전체를 비운다. iptables와 달리 모든 테이블과 그 안에 담긴 모든 걸 제거한다는 점에 유의해야 한다. 실질적으로 빈 룰셋이 되며, 어떤 패킷 필터링도 일어나지 않게 되므로 커널에서는 수신한 모든 유효 패킷을 받아들인다.</dd>
-</dl>
+`flush`
+:   룰셋 전체를 비운다. iptables와 달리 모든 테이블과 그 안에 담긴 모든 걸 제거한다는 점에 유의해야 한다. 실질적으로 빈 룰셋이 되며, 어떤 패킷 필터링도 일어나지 않게 되므로 커널에서는 수신한 모든 유효 패킷을 받아들인다.
 
 `list`와 `flush`를 특정 주소 패밀리로 한정할 수도 있다. 유효한 패밀리 이름의 목록은 위의 "주소 패밀리" 절을 보라.
 
@@ -239,16 +235,17 @@ add table inet mytable { flags dormant; }
 add table inet mytable
 ```
 
-<dl>
-<dt><code>add</code></dt>
-<dd>지정한 이름으로 지정한 패밀리에 새 테이블 추가.</dd>
-<dt><code>delete</code></dt>
-<dd>지정한 테이블 삭제.</dd>
-<dt><code>list</code></dt>
-<dd>지정한 테이블의 모든 체인 및 규칙 나열.</dd>
-<dt><code>flush</code></dt>
-<dd>지정한 테이블의 모든 체인 및 규칙 비우기.</dd>
-</dl>
+`add`
+:   지정한 이름으로 지정한 패밀리에 새 테이블 추가.
+
+`delete`
+:   지정한 테이블 삭제.
+
+`list`
+:   지정한 테이블의 모든 체인 및 규칙 나열.
+
+`flush`
+:   지정한 테이블의 모든 체인 및 규칙 비우기.
 
 ## 체인
 
@@ -262,20 +259,23 @@ add table inet mytable
 
 체인은 규칙들을 담는 컨테이너다. 두 가지 종류가 있는데, 기본 체인과 일반 체인이다. 기본 체인은 네트워킹 스택에서 패킷이 진입하는 지점이다. 일반 체인은 점프 대상으로 쓸 수 있으며 규칙들로 구조를 만드는 데 쓴다.
 
-<dl>
-<dt><code>add</code></dt>
-<dd>지정한 테이블에 새 체인 추가. 훅과 우선순위 값을 지정하면 기본 체인으로 만들어서 네트워킹 스택에 연결한다.</dd>
-<dt><code>create</code></dt>
-<dd><code>add</code> 명령과 비슷하되 체인이 이미 존재하면 오류를 반환한다.</dd>
-<dt><code>delete</code></dt>
-<dd>지정한 체인 삭제. 체인에 어떤 규칙도 없어야 하고 점프 대상으로 쓰이고 있지 않아야 한다.</dd>
-<dt><code>rename</code></dt>
-<dd>지정한 체인의 이름 변경.</dd>
-<dt><code>list</code></dt>
-<dd>지정한 체인의 모든 규칙 나열.</dd>
-<dt><code>flush</code></dt>
-<dd>지정한 체인의 모든 규칙 비우기.</dd>
-</dl>
+`add`
+:   지정한 테이블에 새 체인 추가. 훅과 우선순위 값을 지정하면 기본 체인으로 만들어서 네트워킹 스택에 연결한다.
+
+`create`
+:   `add` 명령과 비슷하되 체인이 이미 존재하면 오류를 반환한다.
+
+`delete`
+:   지정한 체인 삭제. 체인에 어떤 규칙도 없어야 하고 점프 대상으로 쓰이고 있지 않아야 한다.
+
+`rename`
+:   지정한 체인의 이름 변경.
+
+`list`
+:   지정한 체인의 모든 규칙 나열.
+
+`flush`
+:   지정한 체인의 모든 규칙 비우기.
 
 기본 체인에선 `type`, `hook`, `priority` 매개변수가 필수다.
 
@@ -339,16 +339,17 @@ add와 insert 명령에서는 선택적으로 위치 지정이 가능한데, 기
 
 `comment`는 한 단어거나 큰 따옴표(")로 감싼 여러 단어 문자열이며 실제 규칙과 관련된 메모를 하는 데 쓸 수 있다. **주의**: 규칙 추가 시 bash를 쓴다면 따옴표에 이스케이프를 해 줘야 한다. 예: \\"enable ssh for servers\\".
 
-<dl>
-<dt><code>add</code></dt>
-<dd>문 목록으로 나타낸 새 규칙을 추가. 위치를 지정하지 않으면 지정한 체인에 규칙을 덧붙이고, 지정한 경우에는 지정한 규칙 뒤에 규칙을 삽입한다.</dd>
-<dt><code>insert</code></dt>
-<dd><code>add</code>와 같되 체인의 처음이나 지정한 규칙 앞에 규칙을 삽입.</dd>
-<dt><code>replace</code></dt>
-<dd><code>add</code>와 비슷하되 지정한 규칙을 교체.</dd>
-<dt><code>delete</code></dt>
-<dd>지정한 규칙 삭제.</dd>
-</dl>
+`add`
+:   문 목록으로 나타낸 새 규칙을 추가. 위치를 지정하지 않으면 지정한 체인에 규칙을 덧붙이고, 지정한 경우에는 지정한 규칙 뒤에 규칙을 삽입한다.
+
+`insert`
+:   `add`와 같되 체인의 처음이나 지정한 규칙 앞에 규칙을 삽입.
+
+`replace`
+:   `add`와 비슷하되 지정한 규칙을 교체.
+
+`delete`
+:   지정한 규칙 삭제.
 
 ##### ip 테이블 input 체인에 규칙 추가
 
@@ -402,20 +403,23 @@ nft add rule filter input ip saddr @allowed_hosts tcp dport @allowed_ports accep
 
 집합은 사용자 정의 데이터 타입인 원소 컨테이너다. 사용자 지정 이름으로 유일하게 식별되며 테이블에 붙는다. 집합 생성 시점에 지정할 수 있는 플래그들로 동작을 조정할 수 있다.
 
-<dl>
-<dt><code>add</code></dt>
-<dd>지정한 테이블에 새 집합 추가. 집합 속성을 지정하는 방법에 대해선 아래의 집합 지정 표 참고.</dd>
-<dt><code>delete</code></dt>
-<dd>지정한 집합 삭제.</dd>
-<dt><code>list</code></dt>
-<dd>지정한 집합의 원소 표시.</dd>
-<dt><code>flush</code></dt>
-<dd>지정한 집합의 모든 원소 제거.</dd>
-<dt><code>add element</code></dt>
-<dd>지정한 집합에 쉽표 구분 목록의 원소들을 추가.</dd>
-<dt><code>delete element</code></dt>
-<dd>지정한 집합에서 쉼표 구분 목록의 원소들을 삭제.</dd>
-</dl>
+`add`
+:   지정한 테이블에 새 집합 추가. 집합 속성을 지정하는 방법에 대해선 아래의 집합 지정 표 참고.
+
+`delete`
+:   지정한 집합 삭제.
+
+`list`
+:   지정한 집합의 원소 표시.
+
+`flush`
+:   지정한 집합의 모든 원소 제거.
+
+`add element`
+:   지정한 집합에 쉽표 구분 목록의 원소들을 추가.
+
+`delete element`
+:   지정한 집합에서 쉼표 구분 목록의 원소들을 삭제.
 
 표 8: 집합 지정
 
@@ -441,20 +445,23 @@ nft add rule filter input ip saddr @allowed_hosts tcp dport @allowed_ports accep
 
 맵은 입력으로 하는 어떤 특정 키에 따라 데이터를 저장한다. 사용자 지정 이름으로 유일하게 식별되며 테이블에 붙는다.
 
-<dl>
-<dt><code>add</code></dt>
-<dd>지정한 테이블에 새 맵 추가.</dd>
-<dt><code>delete</code></dt>
-<dd>지정한 맵 삭제.</dd>
-<dt><code>list</code></dt>
-<dd>지정한 맵의 원소 표시.</dd>
-<dt><code>flush</code></dt>
-<dd>지정한 맵의 모든 원소 제거.</dd>
-<dt><code>add element</code></dt>
-<dd>지정한 맵에 쉼표 구분 목록의 원소들을 추가.</dd>
-<dt><code>delete element</code></dt>
-<dd>지정한 맵에서 쉼표 구분 목록의 원소들을 삭제.</dd>
-</dl>
+`add`
+:   지정한 테이블에 새 맵 추가.
+
+`delete`
+:   지정한 맵 삭제.
+
+`list`
+:   지정한 맵의 원소 표시.
+
+`flush`
+:   지정한 맵의 모든 원소 제거.
+
+`add element`
+:   지정한 맵에 쉼표 구분 목록의 원소들을 추가.
+
+`delete element`
+:   지정한 맵에서 쉼표 구분 목록의 원소들을 삭제.
 
 표 9: 맵 지정
 
@@ -479,14 +486,14 @@ nft add rule filter input ip saddr @allowed_hosts tcp dport @allowed_ports accep
 
 `priority`는 부호 있는 정수나 (0을 나타내는) `filter`일 수 있다. 더하기와 빼기를 써서 상대 우선순위를 지정할 수 있다. 가령 `filter + 5`는 `5`를 나타낸다.
 
-<dl>
-<dt><code>add</code></dt>
-<dd>지정한 패밀리에 지정한 이름으로 새 플로테이블 추가.</dd>
-<dt><code>delete</code></dt>
-<dd>지정한 플로테이블 삭제.</dd>
-<dt><code>list</code></dt>
-<dd>모든 플로테이블 나열.</dd>
-</dl>
+`add`
+:   지정한 패밀리에 지정한 이름으로 새 플로테이블 추가.
+
+`delete`
+:   지정한 플로테이블 삭제.
+
+`list`
+:   모든 플로테이블 나열.
 
 ## 상태 객체
 
@@ -499,16 +506,17 @@ nft add rule filter input ip saddr @allowed_hosts tcp dport @allowed_ports accep
 
 상태 객체는 테이블에 붙으며 유일한 이름으로 식별된다. 규칙들에서 상태 정보를 모은 것이며 규칙에서 참조하려면 "타입 이름" 키워드를 쓴다. 가령 "counter 이름"으로 쓴다.
 
-<dl>
-<dt><code>add</code></dt>
-<dd>지정한 테이블에 새 상태 객체 추가.</dd>
-<dt><code>delete</code></dt>
-<dd>지정한 객체 삭제.</dd>
-<dt><code>list</code></dt>
-<dd>객체가 담은 상태 정보 표시.</dd>
-<dt><code>reset</code></dt>
-<dd>상태 객체 나열 및 재설정.</dd>
-</dl>
+`add`
+:   지정한 테이블에 새 상태 객체 추가.
+
+`delete`
+:   지정한 객체 삭제.
+
+`list`
+:   객체가 담은 상태 정보 표시.
+
+`reset`
+:   상태 객체 나열 및 재설정.
 
 ### ct helper
 
@@ -1797,7 +1805,7 @@ filter input tcp dport 22 meter test { ip saddr ct count over 2 } reject
 
 `libnftables(3)`, `libnftables-json(5)`, `iptables(8)`, `ip6tables(8)`, `arptables(8)`, `ebtables(8)`, `ip(8)`, `tc(8)`
 
-공식 위키: https://wiki.nftables.org
+공식 위키: <https://wiki.nftables.org>
 
 ## AUTHORS
 
@@ -1809,7 +1817,7 @@ Copyright © 2008-2014 Patrick McHardy <kaber@trash.net> Copyright © 2013-2018 
 
 nftables is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License version 2 as published by the Free Software Foundation.
 
-This documentation is licensed under the terms of the Creative Commons Attribution-ShareAlike 4.0 license, CC BY-SA 4.0 http://creativecommons.org/licenses/by-sa/4.0/.
+This documentation is licensed under the terms of the Creative Commons Attribution-ShareAlike 4.0 license, CC BY-SA 4.0 <http://creativecommons.org/licenses/by-sa/4.0/>.
 
 ----
 

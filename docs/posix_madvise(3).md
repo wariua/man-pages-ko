@@ -12,10 +12,8 @@ int posix_madvise(void *addr, size_t len, int advice);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>posix_madvise()</code>:</dt>
-<dd><code>_POSIX_C_SOURCE >= 200112L</code></dd>
-</dl>
+`posix_madvise()`:
+:   `_POSIX_C_SOURCE >= 200112L`
 
 ## DESCRIPTION
 
@@ -23,22 +21,20 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 `advice` 인자는 다음 중 하나이다.
 
-<dl>
-<dt><code>POSIX_MADV_NORMAL</code></dt>
-<dd>지정한 주소 범위의 메모리 사용 패턴에 관해 응용에서 해 줄 특별한 조언이 없다. 기본 동작 방식이다.</dd>
+`POSIX_MADV_NORMAL`
+:   지정한 주소 범위의 메모리 사용 패턴에 관해 응용에서 해 줄 특별한 조언이 없다. 기본 동작 방식이다.
 
-<dt><code>POSIX_MADV_SEQUENTIAL</code></dt>
-<dd>응용에서 지정한 주소 범위에 순차적으로, 낮은 주소부터 높은 주소로 접근할 예정이다.</dd>
+`POSIX_MADV_SEQUENTIAL`
+:   응용에서 지정한 주소 범위에 순차적으로, 낮은 주소부터 높은 주소로 접근할 예정이다.
 
-<dt><code>POSIX_MADV_RANDOM</code></dt>
-<dd>응용에서 지정한 주소 범위에 임의 순서로 접근할 예정이다. 따라서 미리 읽기가 평상시보다 쓸모가 없을 수 있다.</dd>
+`POSIX_MADV_RANDOM`
+:   응용에서 지정한 주소 범위에 임의 순서로 접근할 예정이다. 따라서 미리 읽기가 평상시보다 쓸모가 없을 수 있다.
 
-<dt><code>POSIX_MADV_WILLNEED</code></dt>
-<dd>응용에서 지정한 주소 범위에 조만간 접근할 예정이다. 따라서 미리 읽기가 이득일 수 있다.</dd>
+`POSIX_MADV_WILLNEED`
+:   응용에서 지정한 주소 범위에 조만간 접근할 예정이다. 따라서 미리 읽기가 이득일 수 있다.
 
-<dt><code>POSIX_MADV_DONTNEED</code></dt>
-<dd>응용에서 지정한 주소 범위에 당분간은 접근하지 않을 예정이다.</dd>
-</dl>
+`POSIX_MADV_DONTNEED`
+:   응용에서 지정한 주소 범위에 당분간은 접근하지 않을 예정이다.
 
 ## RETURN VALUE
 
@@ -46,14 +42,14 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>addr</code>이 시스템 페이지 크기의 배수가 아니거나 <code>len</code>이 음수이다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>advice</code>가 유효하지 않다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>지정한 범위 내의 주소 일부 내지 전체가 호출자 주소 공간 밖에 있다.</dd>
-</dl>
+`EINVAL`
+:   `addr`이 시스템 페이지 크기의 배수가 아니거나 `len`이 음수이다.
+
+`EINVAL`
+:   `advice`가 유효하지 않다.
+
+`ENOMEM`
+:   지정한 범위 내의 주소 일부 내지 전체가 호출자 주소 공간 밖에 있다.
 
 ## VERSIONS
 

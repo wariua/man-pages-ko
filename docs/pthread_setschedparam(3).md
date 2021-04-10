@@ -41,19 +41,16 @@ struct sched_param {
 
 두 함수 모두 다음 오류로 실패할 수 있다.
 
-<dl>
-<dt><code>ESRCH</code></dt>
-<dd>ID가 <code>thread</code>인 스레드를 찾을 수 없다.</dd>
-</dl>
+`ESRCH`
+:   ID가 `thread`인 스레드를 찾을 수 없다.
 
 `pthread_setschedparam()`이 추가로 다음 오류로 실패할 수도 있다.
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>policy</code>가 알 수 없는 정책이거나, <code>policy</code>에서 <code>param</code>이 말이 되지 않는다.</dd>
-<dt><code>EPERM</code></dt>
-<dd>호출자가 지정한 스케줄링 정책 및 매개변수를 설정하기 위한 적절한 특권을 가지고 있지 않다.</dd>
-</dl>
+`EINVAL`
+:   `policy`가 알 수 없는 정책이거나, `policy`에서 `param`이 말이 되지 않는다.
+
+`EPERM`
+:   호출자가 지정한 스케줄링 정책 및 매개변수를 설정하기 위한 적절한 특권을 가지고 있지 않다.
 
 POSIX.1에서는 `pthread_setschedparam()`에서 `ENOTSUP` 오류("스케줄링 정책 및 매개변수를 지원하지 않는 값으로 설정하려고 시도했음")도 적고 있다.
 

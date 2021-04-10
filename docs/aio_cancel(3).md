@@ -28,28 +28,25 @@ int aio_cancel(int fd, struct aiocb *aiocbp);
 
 `aio_cancel()` 함수는 다음 값들 중 하나를 반환한다.
 
-<dl>
-<dt><code>AIO_CANCELED</code></dt>
-<dd>모든 요청들을 성공적으로 취소했다.</dd>
+`AIO_CANCELED`
+:   모든 요청들을 성공적으로 취소했다.
 
-<dt><code>AIO_NOTCANCELED</code></dt>
-<dd>지정한 요청들 중 적어도 한 개가 진행 중이어서 취소되지 않았다. 이 경우 <tt>[[aio_error(3)]]</tt>를 이용해 개별 요청의 상태를 확인할 수 있다.</dd>
+`AIO_NOTCANCELED`
+:   지정한 요청들 중 적어도 한 개가 진행 중이어서 취소되지 않았다. 이 경우 <tt>[[aio_error(3)]]</tt>를 이용해 개별 요청의 상태를 확인할 수 있다.
 
-<dt><code>AIO_ALLDONE</code></dt>
-<dd>모든 요청들이 호출 전에 이미 완료되었다.</dd>
+`AIO_ALLDONE`
+:   모든 요청들이 호출 전에 이미 완료되었다.
 
-<dt><code>-1</code></dt>
-<dd>오류가 발생했다. <code>errno</code>를 확인해서 오류 원인을 알 수 있다.</dd>
-</dl>
+`-1`
+:   오류가 발생했다. `errno`를 확인해서 오류 원인을 알 수 있다.
 
 ## ERRORS
 
-<dl>
-<dt><code>EBADF</code></dt>
-<dd><code>fd</code>가 유효한 파일 디스크립터가 아니다.</dd>
-<dt><code>ENOSYS</code></dt>
-<dd><code>aio_cancel()</code>이 구현돼 있지 않다.</dd>
-</dl>
+`EBADF`
+:   `fd`가 유효한 파일 디스크립터가 아니다.
+
+`ENOSYS`
+:   `aio_cancel()`이 구현돼 있지 않다.
 
 ## VERSIONS
 

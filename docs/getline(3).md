@@ -14,17 +14,12 @@ ssize_t getdelim(char **lineptr, size_t *n, int delim, FILE *stream);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>getline()</code>, <code>getdelim()</code></dt>
-<dd>
- <dl>
- <dt>glibc 2.10부터:</dt>
- <dd><code>_POSIX_C_SOURCE >= 200809L</code></dd>
- <dt>glibc 2.10 전:</dt>
- <dd><code>_GNU_SOURCE</code></dd>
- </dl>
-</dd>
-</dl>
+`getline()`, `getdelim()`:
+:   glibc 2.10부터:
+    :   `_POSIX_C_SOURCE >= 200809L`
+
+    glibc 2.10 전:
+    :   `_GNU_SOURCE`
 
 ## DESCRIPTION
 
@@ -46,12 +41,11 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd>잘못된 인자. (<code>n</code>이나 <code>lineptr</code>이 NULL이거나, <code>stream</code>이 유효하지 않음.)</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>행 버퍼 할당 내지 재할당 실패.</dd>
-</dl>
+`EINVAL`
+:   잘못된 인자. (`n`이나 `lineptr`이 NULL이거나, `stream`이 유효하지 않음.)
+
+`ENOMEM`
+:   행 버퍼 할당 내지 재할당 실패.
 
 ## ATTRIBUTES
 

@@ -43,7 +43,7 @@ struct sockaddr_vm {
 };
 ```
 
-`svm_family`는 항상 `AF_VSOCK`으로 설정한다. `svm_reserved1`은 항상 0으로 설정한다. `svn_port`는 포트 번호를 호스트 바이트 순서로 담는다. 1024 아래의 포트 번호를 <em>특권 포트</em>라고 한다. `CAP_NET_BIND_SERVICE` 역능을 가진 프로세스만 그 포트 번호에 `bind(2)` 할 수 있다.
+`svm_family`는 항상 `AF_VSOCK`으로 설정한다. `svm_reserved1`은 항상 0으로 설정한다. `svn_port`는 포트 번호를 호스트 바이트 순서로 담는다. 1024 아래의 포트 번호를 *특권 포트*라고 한다. `CAP_NET_BIND_SERVICE` 역능을 가진 프로세스만 그 포트 번호에 `bind(2)` 할 수 있다.
 
 특수 주소들이 여러 가지 있다. `VMADDR_CID_ANY`(-1U)는 아무 주소에 결속하라는 뜻이다. `VMADDR_CID_HYPERVISOR`(0)는 하이퍼바이저에 내장된 서비스를 위해 예약된 것이다. `VMADDR_CID_RESERVED`(1)는 사용해서는 안 된다. `VMADDR_CID_HOST`(2)는 호스트의 잘 알려진 주소이다.
 
@@ -57,42 +57,41 @@ struct sockaddr_vm {
 
 ### ioctl
 
-<dl>
-<dt><code>IOCTL_VM_SOCKETS_GET_LOCAL_CID</code></dt>
-<dd>
+`IOCTL_VM_SOCKETS_GET_LOCAL_CID`
+:   로컬 머신의 CID를 얻는다. 인자는 `unsigned int` 포인터이다.
 
-로컬 머신의 CID를 얻는다. 인자는 <code>unsigned int</code> 포인터이다.
+        ioctl(socket, IOCTL_VM_SOCKETS_GET_LOCAL_CID, &cid);
 
-```c
-ioctl(socket, IOCTL_VM_SOCKETS_GET_LOCAL_CID, &cid);
-```
-
-결속 시 <code>IOCTL_VM_SOCKETS_GET_LOCAL_CID</code>로 로컬 CID를 얻을 필요 없이 <code>VMADDR_CID_ANY</code>를 사용할 수 있다.
-</dd>
-</dl>
+    결속 시 `IOCTL_VM_SOCKETS_GET_LOCAL_CID`로 로컬 CID를 얻을 필요 없이 `VMADDR_CID_ANY`를 사용할 수 있다.
 
 ## ERRORS
 
-<dl>
-<dt><code>EACCES</code></dt>
-<dd><code>CAP_NET_BIND_SERVICE</code> 역능이 없어서 특권 포트에 결속할 수 없다.</dd>
-<dt><code>EADDRINUSE</code></dt>
-<dd>이미 사용 중인 포트에 결속할 수 없다.</dd>
-<dt><code>EADDRNOTAVAIL</code></dt>
-<dd>결속할 빈 포트를 찾을 수 없거나 로컬 아닌 CID에 결속할 수 없다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>유효하지 않은 매개변수. 이미 결속된 소켓을 결속하려 한 경우, 유효하지 않은 <code>sockaddr_vm</code> 구조체를 제공한 경우, 기타 입력 검증 오류.</dd>
-<dt><code>ENOPROTOOPT</code></dt>
-<dd><code>setsockopt(2)</code>나 <code>getsockopt(2)</code>에 유효하지 않은 소켓 옵션 사용.</dd>
-<dt><code>ENOTCONN</code></dt>
-<dd>연결 안 된 소켓이어서 동작을 수행할 수 없음.</dd>
-<dt><code>EOPNOTSUPP</code></dt>
-<dd>동작을 지원하지 않음. <code>MSG_OOB</code> 플래그가 <tt>[[send(2)]]</tt> 계열 시스템 호출에 구현되어 있지 않거나 <code>MSG_PEEK</code>이 <tt>[[recv(2)]]</tt> 계열 시스템 호출에 구현되어 있지 않음.</dd>
-<dt><code>EPROTONOSUPPORT</code></dt>
-<dd>유효하지 않은 소켓 프로토콜 번호. 프로토콜이 항상 0이어야 한다.</dd>
-<dt><code>ESOCKTNOSUPPORT</code></dt>
-<dd><tt>[[socket(2)]]</tt>에서 지원하지 않는 소켓 타입. <code>SOCK_STREAM</code>과 <code>SOCK_DGRAM</code>만 유효하다.</dd>
-</dl>
+`EACCES`
+:   `CAP_NET_BIND_SERVICE` 역능이 없어서 특권 포트에 결속할 수 없다.
+
+`EADDRINUSE`
+:   이미 사용 중인 포트에 결속할 수 없다.
+
+`EADDRNOTAVAIL`
+:   결속할 빈 포트를 찾을 수 없거나 로컬 아닌 CID에 결속할 수 없다.
+
+`EINVAL`
+:   유효하지 않은 매개변수. 이미 결속된 소켓을 결속하려 한 경우, 유효하지 않은 `sockaddr_vm` 구조체를 제공한 경우, 기타 입력 검증 오류.
+
+`ENOPROTOOPT`
+:   `setsockopt(2)`나 `getsockopt(2)`에 유효하지 않은 소켓 옵션 사용.
+
+`ENOTCONN`
+:   연결 안 된 소켓이어서 동작을 수행할 수 없음.
+
+`EOPNOTSUPP`
+:   동작을 지원하지 않음. `MSG_OOB` 플래그가 <tt>[[send(2)]]</tt> 계열 시스템 호출에 구현되어 있지 않거나 `MSG_PEEK`이 <tt>[[recv(2)]]</tt> 계열 시스템 호출에 구현되어 있지 않음.
+
+`EPROTONOSUPPORT`
+:   유효하지 않은 소켓 프로토콜 번호. 프로토콜이 항상 0이어야 한다.
+
+`ESOCKTNOSUPPORT`
+:   <tt>[[socket(2)]]</tt>에서 지원하지 않는 소켓 타입. `SOCK_STREAM`과 `SOCK_DGRAM`만 유효하다.
 
 ## VERSIONS
 

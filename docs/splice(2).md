@@ -28,27 +28,17 @@ ssize_t splice(int fd_in, loff_t *off_in, int fd_out,
 
 `flags` 인자는 다음 값을 0개 이상 OR 해서 구성한 비트 마스크이다.
 
-<dl>
-<dt><code>SPLICE_F_MOVE</code></dt>
-<dd>
-페이지 복사 대신 이동을 시도한다. 커널에게 주는 힌트일 뿐이다. 파이프의 페이지를 커널이 옮길 수 없거나 파이프 버퍼가 가리키는 페이지가 가득 차 있지 않으면 여전히 페이지를 복사할 수도 있다. 이 플래그의 초기 구현에 버그가 많았고, 그래서 리눅스 2.6.21부터는 no-op이다. (<code>splice()</code> 호출에서는 계속 허용한다.) 향후에 제대로 된 구현으로 되살아날 수도 있다.
-</dd>
+`SPLICE_F_MOVE`
+:   페이지 복사 대신 이동을 시도한다. 커널에게 주는 힌트일 뿐이다. 파이프의 페이지를 커널이 옮길 수 없거나 파이프 버퍼가 가리키는 페이지가 가득 차 있지 않으면 여전히 페이지를 복사할 수도 있다. 이 플래그의 초기 구현에 버그가 많았고, 그래서 리눅스 2.6.21부터는 no-op이다. (`splice()` 호출에서는 계속 허용한다.) 향후에 제대로 된 구현으로 되살아날 수도 있다.
 
-<dt><code>SPLICE_F_NONBLOCK</code></dt>
-<dd>
-I/O에서 블록 하지 않는다. 파이프 이어 붙이기 동작을 논블록 방식으로 만든다. 그래도 <code>splice()</code>가 블록 할 수도 있다. 이어 붙이는 파일 디스크립터에서 (<code>O_NONBLOCK</code> 플래그가 설정되어 있지 않다면) 블록 할 수도 있기 때문이다.
-</dd>
+`SPLICE_F_NONBLOCK`
+:   I/O에서 블록 하지 않는다. 파이프 이어 붙이기 동작을 논블록 방식으로 만든다. 그래도 `splice()`가 블록 할 수도 있다. 이어 붙이는 파일 디스크립터에서 (`O_NONBLOCK` 플래그가 설정되어 있지 않다면) 블록 할 수도 있기 때문이다.
 
-<dt><code>SPLICE_F_MORE</code></dt>
-<dd>
-이어지는 <code>splice()</code>로 데이터가 더 올 예정이다. <code>fd_out</code>이 소켓을 가리키는 경우에 유용한 힌트이다. (<tt>[[send(2)]]</tt>의 <code>MSG_MORE</code> 설명과 <tt>[[tcp(7)]]</tt>의 <code>TCP_CORK</code> 설명 참고.)
-</dd>
+`SPLICE_F_MORE`
+:   이어지는 `splice()`로 데이터가 더 올 예정이다. `fd_out`이 소켓을 가리키는 경우에 유용한 힌트이다. (<tt>[[send(2)]]</tt>의 `MSG_MORE` 설명과 <tt>[[tcp(7)]]</tt>의 `TCP_CORK` 설명 참고.)
 
-<dt><code>SPLICE_F_GIFT</code></dt>
-<dd>
-<code>splice()</code>에서는 쓰지 않는다. <tt>[[vmsplice(2)]]</tt> 참고.
-</dd>
-</dl>
+`SPLICE_F_GIFT`
+:   `splice()`에서는 쓰지 않는다. <tt>[[vmsplice(2)]]</tt> 참고.
 
 ## RETURN VALUE
 
@@ -60,26 +50,32 @@ I/O에서 블록 하지 않는다. 파이프 이어 붙이기 동작을 논블�
 
 ## ERRORS
 
-<dl>
-<dt><code>EAGAIN</code></dt>
-<dd><code>flags</code>에 <code>SPLICE_F_NONBLOCK</code>이 지정되었거나 파일 디스크립터들 중 하나에 논블로킹 표시(<code>O_NONBLOCK</code>)가 돼 있는데 동작이 블록 되려 한다.</dd>
-<dt><code>EBADF</code></dt>
-<dd>한쪽 내지 양쪽 파일 디스크립터가 유효하지 않거나 읽기-쓰기 모드가 올바르지 않다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>대상 파일 시스템에서 이어 붙이기를 지원하지 않는다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>대상 파일이 덧붙이기 모드로 열려 있다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>어느 파일 디스크립터도 파이프를 가리키고 있지 않다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>탐색 불가능 장치(가령 파이프)에 오프셋을 주었다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>fd_in</code>과 <code>fd_out</code>이 같은 파이프를 가리키고 있다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>메모리 부족.</dd>
-<dt><code>ESPIPE</code></dt>
-<dd><code>off_in</code>이나 <code>off_out</code>이 NULL이 아닌데 대응하는 파일 디스크립터가 파이프를 가리키고 있다.</dd>
-</dl>
+`EAGAIN`
+:   `flags`에 `SPLICE_F_NONBLOCK`이 지정되었거나 파일 디스크립터들 중 하나에 논블로킹 표시(`O_NONBLOCK`)가 돼 있는데 동작이 블록 되려 한다.
+
+`EBADF`
+:   한쪽 내지 양쪽 파일 디스크립터가 유효하지 않거나 읽기-쓰기 모드가 올바르지 않다.
+
+`EINVAL`
+:   대상 파일 시스템에서 이어 붙이기를 지원하지 않는다.
+
+`EINVAL`
+:   대상 파일이 덧붙이기 모드로 열려 있다.
+
+`EINVAL`
+:   어느 파일 디스크립터도 파이프를 가리키고 있지 않다.
+
+`EINVAL`
+:   탐색 불가능 장치(가령 파이프)에 오프셋을 주었다.
+
+`EINVAL`
+:   `fd_in`과 `fd_out`이 같은 파이프를 가리키고 있다.
+
+`ENOMEM`
+:   메모리 부족.
+
+`ESPIPE`
+:   `off_in`이나 `off_out`이 NULL이 아닌데 대응하는 파일 디스크립터가 파이프를 가리키고 있다.
 
 ## VERSIONS
 
@@ -93,14 +89,14 @@ I/O에서 블록 하지 않는다. 파이프 이어 붙이기 동작을 논블�
 
 세 가지 시스템 호출 `splice()`, <tt>[[vmsplice(2)]]</tt>, <tt>[[tee(2)]]</tt>를 통해 사용자 프로그램에서 임의 커널 버퍼를 완전히 제어할 수 있는데, 그 버퍼는 커널 내에서 파이프에 쓰는 버퍼와 같은 타입으로 구현되어 있다. 이 시스템 호출들은 대략 다음 작업을 수행한다.
 
-<dl>
-<dt><code>splice()</code></dt>
-<dd>버퍼에서 임의 파일 디스크립터로, 또는 반대로, 또는 한 버퍼에서 다른 버퍼로 데이터를 옮긴다.</dd>
-<dt><tt>[[tee(2)]]</tt></dt>
-<dd>한 버퍼에서 다른 버퍼로 데이터를 "복사"한다.</dd>
-<dt><tt>[[vmsplice(2)]]</tt></dt>
-<dd>사용자 공간에서 버퍼로 데이터를 "복사"한다.</dd>
-</dl>
+`splice()`
+:   버퍼에서 임의 파일 디스크립터로, 또는 반대로, 또는 한 버퍼에서 다른 버퍼로 데이터를 옮긴다.
+
+<tt>[[tee(2)]]</tt>
+:   한 버퍼에서 다른 버퍼로 데이터를 "복사"한다.
+
+<tt>[[vmsplice(2)]]</tt>
+:   사용자 공간에서 버퍼로 데이터를 "복사"한다.
 
 복사라고 하지만 일반적으로 실제 복사를 피한다. 이를 위해 커널에서는 커널 메모리 페이지에 대한 참조 카운트 포인터들의 집합으로 파이프 버퍼를 구현한다. 페이지를 가리키는 (출력 버퍼를 위한) 새 포인터를 생성하고 그 페이지에 대한 참조 카운트를 올리는 것으로 버퍼 내에 페이지 "사본"을 생성한다. 즉, 버퍼 페이지가 아니라 포인터만 복사한다.
 

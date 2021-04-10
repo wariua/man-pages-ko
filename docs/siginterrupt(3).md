@@ -12,14 +12,10 @@ int siginterrupt(int sig, int flag);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>siginterrupt()</code>:</dt>
-<dd>
-<code>_XOPEN_SOURCE >= 500</code><br>
-<code>    || /* glibc 2.12부터: */ _POSIX_C_SOURCE >= 200809L</code><br>
-<code>    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE</code>
-</dd>
-</dl>
+`siginterrupt()`:
+:   `_XOPEN_SOURCE >= 500`<br>
+    `    || /* glibc 2.12부터: */ _POSIX_C_SOURCE >= 200809L`<br>
+    `    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE`
 
 ## DESCRIPTION
 
@@ -35,10 +31,8 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd>지정한 시그널 번호가 유효하지 않다.</dd>
-</dl>
+`EINVAL`
+:   지정한 시그널 번호가 유효하지 않다.
 
 ## ATTRIBUTES
 

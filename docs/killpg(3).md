@@ -12,14 +12,10 @@ int killpg(int pgrp, int sig);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>killpg()</code>:</dt>
-<dd>
-<code>_XOPEN_SOURCE >= 500</code><br>
-<code>    || /* glibc 2.19부터: */ _DEFAULT_SOURCE</code><br>
-<code>    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE</code>
-</dd>
-</dl>
+`killpg()`:
+:   `_XOPEN_SOURCE >= 500`<br>
+    `    || /* glibc 2.19부터: */ _DEFAULT_SOURCE`<br>
+    `    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE`
 
 ## DESCRIPTION
 
@@ -35,16 +31,17 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>sig</code>가 유효한 시그널 번호가 아니다.</dd>
-<dt><code>EPERM</code></dt>
-<dd>프로세스에게 대상 프로세스 어느 것에도 시그널을 보낼 권한이 없다. 필요한 권한에 대해선 <tt>[[kill(2)]]</tt>을 보라.</dd>
-<dt><code>ESRCH</code></dt>
-<dd><code>pgrp</code>으로 지정한 프로세스 그룹에서 프로세스를 찾을 수 없다.</dd>
-<dt><code>ESRCH</code></dt>
-<dd>프로세스 그룹을 0으로 주었는데 보내는 프로세스에게 프로세스 그룹이 없다.</dd>
-</dl>
+`EINVAL`
+:   `sig`가 유효한 시그널 번호가 아니다.
+
+`EPERM`
+:   프로세스에게 대상 프로세스 어느 것에도 시그널을 보낼 권한이 없다. 필요한 권한에 대해선 <tt>[[kill(2)]]</tt>을 보라.
+
+`ESRCH`
+:   `pgrp`으로 지정한 프로세스 그룹에서 프로세스를 찾을 수 없다.
+
+`ESRCH`
+:   프로세스 그룹을 0으로 주었는데 보내는 프로세스에게 프로세스 그룹이 없다.
 
 ## CONFORMING TO
 

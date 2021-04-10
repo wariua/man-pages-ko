@@ -30,16 +30,17 @@ long migrate_pages(int pid, unsigned long maxnode,
 
 ## ERRORS
 
-<dl>
-<dt><code>EFAULT</code></dt>
-<dd><code>old_nodes</code>/<code>new_nodes</code>와 <code>maxnode</code>로 지정한 메모리 범위의 일부 내지 전체가 접근 가능한 주소 공간 밖을 가리킨다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>maxnode</code>에 지정한 값이 커널에서 두는 제한치를 초과한다. 또는 지원하는 가장 큰 노드보다 큰 노드 ID를 <code>old_nodes</code>나 <code>new_nodes</code>에 한 개 이상 지정했다. 또는 <code>new_nodes</code>로 지정한 노드 ID들 중에서 온라인이고 프로세스의 현재 cpuset 문맥에서 허용되는 게 없거나, 지정한 노드들 중에서 메모리를 담고 있는 게 없다.</dd>
-<dt><code>EPERM</code></dt>
-<dd><code>pid</code>로 지정한 프로세스의 페이지를 옮길 특권(<code>CAP_SYS_NICE</code>)이 부족하거나, 지정한 대상 노드에 접근하기 위한 특권(<code>CAP_SYS_NICE</code>)이 부족하다.</dd>
-<dt><code>ESRCH</code></dt>
-<dd><code>pid</code>에 일치하는 프로세스를 찾을 수 없다.</dd>
-</dl>
+`EFAULT`
+:   `old_nodes`/`new_nodes`와 `maxnode`로 지정한 메모리 범위의 일부 내지 전체가 접근 가능한 주소 공간 밖을 가리킨다.
+
+`EINVAL`
+:   `maxnode`에 지정한 값이 커널에서 두는 제한치를 초과한다. 또는 지원하는 가장 큰 노드보다 큰 노드 ID를 `old_nodes`나 `new_nodes`에 한 개 이상 지정했다. 또는 `new_nodes`로 지정한 노드 ID들 중에서 온라인이고 프로세스의 현재 cpuset 문맥에서 허용되는 게 없거나, 지정한 노드들 중에서 메모리를 담고 있는 게 없다.
+
+`EPERM`
+:   `pid`로 지정한 프로세스의 페이지를 옮길 특권(`CAP_SYS_NICE`)이 부족하거나, 지정한 대상 노드에 접근하기 위한 특권(`CAP_SYS_NICE`)이 부족하다.
+
+`ESRCH`
+:   `pid`에 일치하는 프로세스를 찾을 수 없다.
 
 ## VERSIONS
 

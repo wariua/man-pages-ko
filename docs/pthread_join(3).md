@@ -26,16 +26,17 @@ int pthread_join(pthread_t thread, void **retval);
 
 ## ERRORS
 
-<dl>
-<dt><code>EDEADLK</code></dt>
-<dd>교착을 탐지했다. (가령 두 스레드가 서로와 합류를 시도했다.) 또는 <code>thread</code>가 호출 스레드를 나타낸다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>thread</code>가 합류 가능 스레드가 아니다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>다른 스레드가 이미 그 스레드와 합류하려고 기다리는 중이다.</dd>
-<dt><code>ESRCH</code></dt>
-<dd>ID가 <code>thread</code>인 스레드를 찾을 수 없다.</dd>
-</dl>
+`EDEADLK`
+:   교착을 탐지했다. (가령 두 스레드가 서로와 합류를 시도했다.) 또는 `thread`가 호출 스레드를 나타낸다.
+
+`EINVAL`
+:   `thread`가 합류 가능 스레드가 아니다.
+
+`EINVAL`
+:   다른 스레드가 이미 그 스레드와 합류하려고 기다리는 중이다.
+
+`ESRCH`
+:   ID가 `thread`인 스레드를 찾을 수 없다.
 
 ## ATTRIBUTES
 

@@ -23,12 +23,11 @@ void *mmap2(void *addr, size_t length, int prot,
 
 ## ERRORS
 
-<dl>
-<dt><code>EFAULT</code></dt>
-<dd>사용자 공간으로부터 데이터를 가져오는 데 문제 발생.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>(페이지 크기가 4096바이트가 아닌 다양한 플랫폼에서) <code>offset * 4096</code>이 시스템 페이지 크기의 배수가 아니다.</dd>
-</dl>
+`EFAULT`
+:   사용자 공간으로부터 데이터를 가져오는 데 문제 발생.
+
+`EINVAL`
+:   (페이지 크기가 4096바이트가 아닌 다양한 플랫폼에서) `offset * 4096`이 시스템 페이지 크기의 배수가 아니다.
 
 `mmap2()`가 <tt>[[mmap(2)]]</tt>에서 기술하는 오류들 중 하나를 반환할 수도 있다.
 

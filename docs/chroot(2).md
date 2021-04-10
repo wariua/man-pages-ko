@@ -12,20 +12,14 @@ int chroot(const char *path);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>chroot()</code>:</dt>
-<dd>
- <dl>
- <dt>glibc 2.2.2부터:</dt>
- <dd>
-<code>_XOPEN_SOURCE && ! (_POSIX_C_SOURCE >= 200112L)</code><br>
-<code>    || /* glibc 2.20부터: */ _DEFAULT_SOURCE</code><br>
-<code>    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE</code>
- </dd>
- <dt>glibc 2.2.2 전:</dt>
- <dd>없음</dd>
- </dl>
-</dd>
+`chroot()`:
+:   glibc 2.2.2부터:
+    :   `_XOPEN_SOURCE && ! (_POSIX_C_SOURCE >= 200112L)`<br>
+        `    || /* glibc 2.20부터: */ _DEFAULT_SOURCE`<br>
+        `    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE`
+
+    glibc 2.2.2 전:
+    :   없음
 
 ## DESCRIPTION
 
@@ -53,26 +47,32 @@ mkdir foo; chroot foo; cd ..
 
 파일 시스템에 따라 다른 오류들을 반환할 수 있다. 아래에 나열한 것은 일반적인 오류들이다.
 
-<dl>
-<dt><code>EACCES</code></dt>
-<dd>경로 선두부의 어느 요소에 대해 탐색 권한이 거부되었다. (<tt>[[path_resolution(7)]]</tt> 참고.)</dd>
-<dt><code>EFAULT</code></dt>
-<dd><code>path</code>가 접근 가능한 주소 공간 밖을 가리키고 있다.</dd>
-<dt><code>EIO</code></dt>
-<dd>I/O 오류가 발생했다.</dd>
-<dt><code>ELOOP</code></dt>
-<dd><code>path</code>를 해석하는 동안 너무 많은 심볼릭 링크를 만났다.</dd>
-<dt><code>ENAMETOOLONG</code></dt>
-<dd><code>path</code>가 너무 길다.</dd>
-<dt><code>ENOENT</code></dt>
-<dd>파일이 존재하지 않는다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>사용 가능한 커널 메모리가 충분하지 않다.</dd>
-<dt><code>ENOTDIR</code></dt>
-<dd><code>path</code>의 한 요소가 디렉터리가 아니다.</dd>
-<dt><code>EPERM</code></dt>
-<dd>호출자에게 충분한 특권이 없다.</dd>
-</dl>
+`EACCES`
+:   경로 선두부의 어느 요소에 대해 탐색 권한이 거부되었다. (<tt>[[path_resolution(7)]]</tt> 참고.)
+
+`EFAULT`
+:   `path`가 접근 가능한 주소 공간 밖을 가리키고 있다.
+
+`EIO`
+:   I/O 오류가 발생했다.
+
+`ELOOP`
+:   `path`를 해석하는 동안 너무 많은 심볼릭 링크를 만났다.
+
+`ENAMETOOLONG`
+:   `path`가 너무 길다.
+
+`ENOENT`
+:   파일이 존재하지 않는다.
+
+`ENOMEM`
+:   사용 가능한 커널 메모리가 충분하지 않다.
+
+`ENOTDIR`
+:   `path`의 한 요소가 디렉터리가 아니다.
+
+`EPERM`
+:   호출자에게 충분한 특권이 없다.
 
 ## CONFORMING TO
 

@@ -28,16 +28,17 @@ struct iovec {
 
 `flags` 인자는 다음 값을 0개 이상 OR 해서 구성한 비트 마스크이다.
 
-<dl>
-<dt><code>SPLICE_F_MOVE</code></dt>
-<dd><code>vmsplice()</code>에서는 쓰지 않는다. <tt>[[splice(2)]]</tt> 참고.</dd>
-<dt><code>SPLICE_F_NONBLOCK</code></dt>
-<dd>I/O에서 블록 하지 않는다. 자세한 내용은 <tt>[[splice(2)]]</tt> 참고.</dd>
-<dt><code>SPLICE_F_MORE</code></dt>
-<dd>현재 <code>vmsplice()</code>에 아무 효과가 없지만 향후에 구현될 수도 있다. <tt>[[splice(2)]]</tt> 참고.</dd>
-<dt><code>SPLICE_F_GIFT</code></dt>
-<dd>사용자 페이지가 커널에 주는 선물이다. 응용에서 그 메모리를 절대 변경해서는 안 되며, 만약 그러면 페이지 캐시와 디스크 상의 데이터가 달라질 수 있다. 커널에 페이지를 선물한다는 것은 이어지는 <tt>[[splice(2)]]</tt> <code>SPLICE_F_MOVE</code>에서 그 페이지를 성공적으로 옮길 수 있다는 뜻이다. 이 플래그를 지정하지 않으면 이어지는 <tt>[[splice(2)]]</tt> <code>SPLICE_F_MOVE</code>에서 페이지를 복사해야 한다. 데이터의 위치와 길이 모두 페이지에 맞게 정렬되어 있어야 한다.</dd>
-</dl>
+`SPLICE_F_MOVE`
+:   `vmsplice()`에서는 쓰지 않는다. <tt>[[splice(2)]]</tt> 참고.
+
+`SPLICE_F_NONBLOCK`
+:   I/O에서 블록 하지 않는다. 자세한 내용은 <tt>[[splice(2)]]</tt> 참고.
+
+`SPLICE_F_MORE`
+:   현재 `vmsplice()`에 아무 효과가 없지만 향후에 구현될 수도 있다. <tt>[[splice(2)]]</tt> 참고.
+
+`SPLICE_F_GIFT`
+:   사용자 페이지가 커널에 주는 선물이다. 응용에서 그 메모리를 절대 변경해서는 안 되며, 만약 그러면 페이지 캐시와 디스크 상의 데이터가 달라질 수 있다. 커널에 페이지를 선물한다는 것은 이어지는 <tt>[[splice(2)]]</tt> `SPLICE_F_MOVE`에서 그 페이지를 성공적으로 옮길 수 있다는 뜻이다. 이 플래그를 지정하지 않으면 이어지는 <tt>[[splice(2)]]</tt> `SPLICE_F_MOVE`에서 페이지를 복사해야 한다. 데이터의 위치와 길이 모두 페이지에 맞게 정렬되어 있어야 한다.
 
 ## RETURN VALUE
 
@@ -45,16 +46,17 @@ struct iovec {
 
 ## ERRORS
 
-<dl>
-<dt><code>EAGAIN</code></dt>
-<dd><code>flags</code>에 <code>SPLICE_F_NONBLOCK</code>이 지정되었으며 동작이 블록 되려 한다.</dd>
-<dt><code>EBADF</code></dt>
-<dd><code>fd</code>가 유효하지 않거나 파이프를 가리키고 있지 않다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>nr_segs</code>가 <code>IOV_MAX</code>보다 크다. 또는 <code>SPLICE_F_GIFT</code>가 설정된 경우에서 메모리가 정렬되어 있지 않다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>메모리 부족.</dd>
-</dl>
+`EAGAIN`
+:   `flags`에 `SPLICE_F_NONBLOCK`이 지정되었으며 동작이 블록 되려 한다.
+
+`EBADF`
+:   `fd`가 유효하지 않거나 파이프를 가리키고 있지 않다.
+
+`EINVAL`
+:   `nr_segs`가 `IOV_MAX`보다 크다. 또는 `SPLICE_F_GIFT`가 설정된 경우에서 메모리가 정렬되어 있지 않다.
+
+`ENOMEM`
+:   메모리 부족.
 
 ## VERSIONS
 

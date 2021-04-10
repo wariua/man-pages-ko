@@ -32,21 +32,19 @@ int setpriority(int which, id_t who, int prio);
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>which</code>가 <code>PRIO_PROCESS</code>, <code>PRIO_PGRP</code>, <code>PRIO_USER</code> 중 하나가 아니다.</dd>
-<dt><code>ESRCH</code></dt>
-<dd>지정한 <code>which</code>와 <code>who</code> 값을 사용해 어떤 프로세스도 찾아낼 수 없었다.</dd>
-</dl>
+`EINVAL`
+:   `which`가 `PRIO_PROCESS`, `PRIO_PGRP`, `PRIO_USER` 중 하나가 아니다.
+
+`ESRCH`
+:   지정한 `which`와 `who` 값을 사용해 어떤 프로세스도 찾아낼 수 없었다.
 
 위에 보인 오류들에 더해서 `setpriority()`가 다음 경우에 실패할 수도 있다.
 
-<dl>
-<dt><code>EACCES</code></dt>
-<dd>호출자가 더 낮은 나이스 값을 (즉 더 높은 프로세스 우선순위를) 설정하려 했지만 필요한 특권을 가지고 있지 않다. (리눅스: <code>CAP_SYS_NICE</code> 역능을 가지고 있지 않다.)</dd>
-<dt><code>EPERM</code></dt>
-<dd>프로세스를 찾아냈지만 그 실효 사용자 ID가 호출자의 실효 사용자 ID나 실제 사용자 ID 어느 쪽과도 일치하지 않았으며, 특권도 없었다. (리눅스: <code>CAP_SYS_NICE</code> 역능을 가지고 있지 않다.) 하지만 아래 NOTES를 보라.</dd>
-</dl>
+`EACCES`
+:   호출자가 더 낮은 나이스 값을 (즉 더 높은 프로세스 우선순위를) 설정하려 했지만 필요한 특권을 가지고 있지 않다. (리눅스: `CAP_SYS_NICE` 역능을 가지고 있지 않다.)
+
+`EPERM`
+:   프로세스를 찾아냈지만 그 실효 사용자 ID가 호출자의 실효 사용자 ID나 실제 사용자 ID 어느 쪽과도 일치하지 않았으며, 특권도 없었다. (리눅스: `CAP_SYS_NICE` 역능을 가지고 있지 않다.) 하지만 아래 NOTES를 보라.
 
 ## CONFORMING TO
 

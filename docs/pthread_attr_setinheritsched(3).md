@@ -23,17 +23,11 @@ int pthread_attr_getinheritsched(const pthread_attr_t *attr,
 
 `inheritsched`에 다음 값들을 지정할 수 있다.
 
-<dl>
-<dt><code>PTHREAD_INHERIT_SCHED</code></dt>
-<dd>
-<code>attr</code>을 이용해 생성하는 스레드가 호출 스레드로부터 스케줄링 속성들을 물려받는다. <code>attr</code> 내의 스케줄링 정책들은 무시한다.
-</dd>
+`PTHREAD_INHERIT_SCHED`
+:   `attr`을 이용해 생성하는 스레드가 호출 스레드로부터 스케줄링 속성들을 물려받는다. `attr` 내의 스케줄링 정책들은 무시한다.
 
-<dt><code>PTHREAD_EXPLICIT_SCHED</code></dt>
-<dd>
-<code>attr</code>을 이용해 생성하는 스레드가 속성 객체에 지정된 값들로부터 스케줄링 속성들을 가져온다.
-</dd>
-</dl>
+`PTHREAD_EXPLICIT_SCHED`
+:   `attr`을 이용해 생성하는 스레드가 속성 객체에 지정된 값들로부터 스케줄링 속성들을 가져온다.
 
 새로 초기화 된 스레드 속성 객체에서 스케줄러 상속 속성의 기본 설정은 `PTHREAD_INHERIT_SCHED`이다.
 
@@ -47,10 +41,8 @@ int pthread_attr_getinheritsched(const pthread_attr_t *attr,
 
 `pthread_attr_setinheritsched()`가 다음 오류로 실패할 수 있다.
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>inheritsched</code>에 유효하지 않은 값.</dd>
-</dl>
+`EINVAL`
+:   `inheritsched`에 유효하지 않은 값.
 
 POSIX.1에서는 `pthread_attr_setinheritsched()`에서 선택적인 `ENOTSUP` 오류("속성을 지원하지 않는 값으로 설정하려고 시도했음")도 적고 있다.
 

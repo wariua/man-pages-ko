@@ -18,31 +18,22 @@ int ffsll(long long int i);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>ffs()</code>:</dt>
-<dd>
- <dl>
- <dt>glibc 1.12부터:</dt>
- <dd>
- <code>    _XOPEN_SOURCE >= 700</code><br>
- <code>    || ! (_POSIX_C_SOURCE >= 200809L)</code><br>
- <code>    || /* Glibc 2.19부터: */ _DEFAULT_SOURCE</code><br>
- <code>    || /* Glibc 버전 <= 2.19: */ _BSD_SOURCE || _SVID_SOURCE</code>
- </dd>
- <dt>glibc 1.12 전:</dt>
- <dd>없음</dd>
- </dl>
-</dd>
-<dt><code>ffsl()</code>, <code>ffsll()</code>:</dt>
-<dd>
- <dl>
- <dt>glibc 2.27부터:</dt>
- <dd><code>_DEFAULT_SOURCE</code></dd>
- <dt>glibc 2.27 전:</dt>
- <dd><code>_GNU_SOURCE</code></dd>
- </dl>
-</dd>
-</dl>
+`ffs()`:
+:   glibc 1.12부터:
+    :   `    _XOPEN_SOURCE >= 700`<br>
+        `    || ! (_POSIX_C_SOURCE >= 200809L)`<br>
+        `    || /* Glibc 2.19부터: */ _DEFAULT_SOURCE`<br>
+        `    || /* Glibc 버전 <= 2.19: */ _BSD_SOURCE || _SVID_SOURCE`
+
+    glibc 1.12 전:
+    :   없음
+
+`ffsl()`, `ffsll()`:
+:   glibc 2.27부터:
+    :   `_DEFAULT_SOURCE`
+
+    glibc 2.27 전:
+    :   `_GNU_SOURCE`
 
 ## DESCRIPTION
 

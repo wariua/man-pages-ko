@@ -23,35 +23,31 @@ int pkey_mprotect(void *addr, size_t len, int prot, int pkey);
 
 `prot`는 `PROT_NONE`이거나 다음 목록의 다른 값들을 비트 OR 한 것이다.
 
-<dl>
-<dt><code>PROT_NONE</code></dt>
-<dd>메모리에 전혀 접근할 수 없다.</dd>
+`PROT_NONE`
+:   메모리에 전혀 접근할 수 없다.
 
-<dt><code>PROT_READ</code></dt>
-<dd>메모리를 읽을 수 있다.</dd>
+`PROT_READ`
+:   메모리를 읽을 수 있다.
 
-<dt><code>PROT_WRITE</code></dt>
-<dd>메모리를 변경할 수 있다.</dd>
+`PROT_WRITE`
+:   메모리를 변경할 수 있다.
 
-<dt><code>PROT_EXEC</code></dt>
-<dd>메모리를 실행할 수 있다.</dd>
+`PROT_EXEC`
+:   메모리를 실행할 수 있다.
 
-<dt><code>PROT_SEM</code> (리눅스 2.5.7부터)</dt>
-<dd>메모리를 원자 연산에 쓸 수 있다. 이 플래그는 <tt>[[futex(2)]]</tt> 구현의 일부로서 (<code>FUTEX_WAIT</code> 같은 명령에 필요한 원자 연산 수행이 가능함을 보장하기 위해) 도입되었는데 현재는 어느 아키텍처에서도 쓰지 않는다.</dd>
+`PROT_SEM` (리눅스 2.5.7부터)
+:   메모리를 원자 연산에 쓸 수 있다. 이 플래그는 <tt>[[futex(2)]]</tt> 구현의 일부로서 (`FUTEX_WAIT` 같은 명령에 필요한 원자 연산 수행이 가능함을 보장하기 위해) 도입되었는데 현재는 어느 아키텍처에서도 쓰지 않는다.
 
-<dt><code>PROT_SAO</code> (리눅스 2.6.26부터)</dt>
-<dd>메모리에 강한 접근 순서(strong access ordering)가 있어야 한다. 이 기능은 PowerPC 아키텍처에 한정된 것이다. (아키텍처 명세 2.06 버전에서 SAO CPU 기능을 추가하며 POWER 7이나 PowerPC A2 등에서 사용 가능하다.)</dd>
-</dl>
+`PROT_SAO` (리눅스 2.6.26부터)
+:   메모리에 강한 접근 순서(strong access ordering)가 있어야 한다. 이 기능은 PowerPC 아키텍처에 한정된 것이다. (아키텍처 명세 2.06 버전에서 SAO CPU 기능을 추가하며 POWER 7이나 PowerPC A2 등에서 사용 가능하다.)
 
 추가로 (리눅스 2.6.0부터) `prot`에 다음 플래그들 중 하나를 설정할 수 있다.
 
-<dl>
-<dt><code>PROT_GROWSUP</code></dt>
-<dd>위로 자라는 매핑의 끝점까지 보호 모드를 적용한다. (스택이 위로 자라는, 가령 HP-PARISC 같은 아키텍처에서 스택 영역에 그런 매핑을 만든다.)</dd>
+`PROT_GROWSUP`
+:   위로 자라는 매핑의 끝점까지 보호 모드를 적용한다. (스택이 위로 자라는, 가령 HP-PARISC 같은 아키텍처에서 스택 영역에 그런 매핑을 만든다.)
 
-<dt><code>PROT_GROWSDOWN</code></dt>
-<dd>아래로 자라는 매핑의 시작점까지 보호 모드를 적용한다. (스택 세그먼트이거나 <code>MMAP_GROWSDOWN</code> 플래그를 설정해 맵 한 세그먼트일 것이다.)</dd>
-</dl>
+`PROT_GROWSDOWN`
+:   아래로 자라는 매핑의 시작점까지 보호 모드를 적용한다. (스택 세그먼트이거나 `MMAP_GROWSDOWN` 플래그를 설정해 맵 한 세그먼트일 것이다.)
 
 `mprotect()`처럼 `pkey_mprotect()`는 `addr`과 `len`으로 지정한 페이지들의 보호를 변경한다. `pkey` 인자는 그 메모리에 할당한 보호 키(<tt>[[pkeys(7)]]</tt> 참고)를 나타낸다. 보호 키는 <tt>[[pkey_alloc(2)]]</tt>으로 할당해서 `pkey_mprotect()`에게 전달해야 한다. 이 시스템 호출의 사용례는 <tt>[[pkeys(7)]]</tt>를 보라.
 
@@ -61,26 +57,32 @@ int pkey_mprotect(void *addr, size_t len, int prot, int pkey);
 
 ## ERRORS
 
-<dl>
-<dt><code>EACCES</code></dt>
-<dd>지정한 접근권을 메모리에 줄 수 없다. 예를 들어 읽기 전용으로만 접근할 수 있는 파일을 <tt>[[mmap(2)]]</tt> 하고서 <code>mprotect()</code>에게 <code>PROT_WRITE</code> 표시를 하라고 하는 경우에 발생할 수 있다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>addr</code>이 유효한 포인터가 아니거나 시스템 페이지 크기의 배수가 아니다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>(<code>pkey_mprotect()</code>) <code>pkey</code>가 <tt>[[pkey_alloc(2)]]</tt>으로 할당된 것이 아니다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>prot</code>에 <code>PROT_GROWSUP</code>과 <code>PROT_GROWSDOWN</code>을 모두 지정했다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>prot</code>에 유효하지 않은 플래그를 지정했다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>(PowerPC 아키텍처) <code>prot</code>에 <code>PROT_SAO</code>를 지정했지만 SAO 하드웨어 기능이 사용 가능하지 않다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>내부 커널 구조체를 할당할 수 없다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>[<code>addr</code>, <code>addr+len-1</code>] 구간 내의 주소가 프로세스의 주소 공간에서 유효하지 않거나, 한 개 이상의 맵 되지 않은 페이지를 나타낸다. (커널 2.4.19 전에서는 이 경우에 잘못해서 <code>EFAULT</code> 오류를 생성했다.)</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>메모리 영역의 보호를 변경하면 상이한 속성(가령 읽기 보호와 읽기/쓰기 보호)의 매핑 총개수가 허용 최대치를 초과하게 된다. (예를 들어 현재 <code>PROT_READ|PROT_WRITE</code>로 보호하는 영역 중간의 어느 범위를 <code>PROT_READ</code> 보호로 만들면 양쪽의 읽기/쓰기 매핑과 가운데의 읽기 전용 매핑을 합쳐서 세 개 매핑이 생긴다.)</dd>
-</dl>
+`EACCES`
+:   지정한 접근권을 메모리에 줄 수 없다. 예를 들어 읽기 전용으로만 접근할 수 있는 파일을 <tt>[[mmap(2)]]</tt> 하고서 `mprotect()`에게 `PROT_WRITE` 표시를 하라고 하는 경우에 발생할 수 있다.
+
+`EINVAL`
+:   `addr`이 유효한 포인터가 아니거나 시스템 페이지 크기의 배수가 아니다.
+
+`EINVAL`
+:   (`pkey_mprotect()`) `pkey`가 <tt>[[pkey_alloc(2)]]</tt>으로 할당된 것이 아니다.
+
+`EINVAL`
+:   `prot`에 `PROT_GROWSUP`과 `PROT_GROWSDOWN`을 모두 지정했다.
+
+`EINVAL`
+:   `prot`에 유효하지 않은 플래그를 지정했다.
+
+`EINVAL`
+:   (PowerPC 아키텍처) `prot`에 `PROT_SAO`를 지정했지만 SAO 하드웨어 기능이 사용 가능하지 않다.
+
+`ENOMEM`
+:   내부 커널 구조체를 할당할 수 없다.
+
+`ENOMEM`
+:   [`addr`, `addr+len-1`] 구간 내의 주소가 프로세스의 주소 공간에서 유효하지 않거나, 한 개 이상의 맵 되지 않은 페이지를 나타낸다. (커널 2.4.19 전에서는 이 경우에 잘못해서 `EFAULT` 오류를 생성했다.)
+
+`ENOMEM`
+:   메모리 영역의 보호를 변경하면 상이한 속성(가령 읽기 보호와 읽기/쓰기 보호)의 매핑 총개수가 허용 최대치를 초과하게 된다. (예를 들어 현재 `PROT_READ|PROT_WRITE`로 보호하는 영역 중간의 어느 범위를 `PROT_READ` 보호로 만들면 양쪽의 읽기/쓰기 매핑과 가운데의 읽기 전용 매핑을 합쳐서 세 개 매핑이 생긴다.)
 
 ## VERSIONS
 

@@ -32,14 +32,14 @@ CPU 친화성 마스크에 대한 더 자세한 내용은 <tt>[[sched_setaffinit
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd>(<code>pthread_attr_setaffinity_np()</code>) <code>cpuset</code>으로 커널에서 지원하는 집합을 벗어나는 CPU를 지정했다. (커널 구성 옵션 <code>CONFIG_NR_CPUS</code>가 CPU 집합 표현에 쓰는 커널 데이터 타입이 지원하는 집합의 범위를 규정한다.)</dd>
-<dt><code>EINVAL</code></dt>
-<dd>(<code>pthread_attr_getaffinity_np()</code>) <code>attr</code>이 가리키는 스레드 속성 객체의 친화성 마스크에서 어느 CPU가 <code>cpusetsize</code>로 지정한 범위 밖에 있다. (즉, <code>cpuset</code>이/<code>cpusetsize</code>가 너무 작다.)</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>(<code>pthread_attr_setaffinity_np()</code>) 메모리를 할당하지 못했다.</dd>
-</dl>
+`EINVAL`
+:   (`pthread_attr_setaffinity_np()`) `cpuset`으로 커널에서 지원하는 집합을 벗어나는 CPU를 지정했다. (커널 구성 옵션 `CONFIG_NR_CPUS`가 CPU 집합 표현에 쓰는 커널 데이터 타입이 지원하는 집합의 범위를 규정한다.)
+
+`EINVAL`
+:   (`pthread_attr_getaffinity_np()`) `attr`이 가리키는 스레드 속성 객체의 친화성 마스크에서 어느 CPU가 `cpusetsize`로 지정한 범위 밖에 있다. (즉, `cpuset`이/`cpusetsize`가 너무 작다.)
+
+`ENOMEM`
+:   (`pthread_attr_setaffinity_np()`) 메모리를 할당하지 못했다.
 
 ## VERSIONS
 

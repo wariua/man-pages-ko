@@ -34,26 +34,32 @@ ssize_t sendfile(int out_fd, int in_fd, off_t *offset, size_t count);
 
 ## ERRORS
 
-<dl>
-<dt><code>EAGAIN</code></dt>
-<dd><code>O_NONBLOCK</code>으로 논블록 I/O를 택했으며 쓰기가 블록 되려 한다.</dd>
-<dt><code>EBADF</code></dt>
-<dd>입력 파일이 읽기 가능하게 열리지 않았거나 출력 파일이 쓰기 가능하게 열리지 않았다.</dd>
-<dt><code>EFAULT</code></dt>
-<dd>잘못된 주소.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>디스크립터가 유효하지 않거나 잠겨 있다. 또는 <code>in_fd</code>에서 <tt>[[mmap(2)]]</tt> 방식 동작이 가능하지 않다. 또는 <code>count</code>가 음수이다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>out_fd</code>에 <code>O_APPEND</code> 플래그가 설정되어 있다. <code>sendfile()</code>에서 현재 지원하지 않는다.</dd>
-<dt><code>EIO</code></dt>
-<dd><code>in_fd</code>를 읽는 중 불특정 오류.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd><code>in_fd</code>를 읽기에 메모리가 충분하지 않음.</dd>
-<dt><code>EOVERFLOW</code></dt>
-<dd><code>count</code>가 너무 커서 입력 파일이나 출력 파일의 최대 크기를 초과하게 됨.</dd>
-<dt><code>ESPIPE</code></dt>
-<dd><code>offset</code>이 NULL이 아닌데 입력 파일이 <code>seek(2)</code> 가능하지 않다.</dd>
-</dl>
+`EAGAIN`
+:   `O_NONBLOCK`으로 논블록 I/O를 택했으며 쓰기가 블록 되려 한다.
+
+`EBADF`
+:   입력 파일이 읽기 가능하게 열리지 않았거나 출력 파일이 쓰기 가능하게 열리지 않았다.
+
+`EFAULT`
+:   잘못된 주소.
+
+`EINVAL`
+:   디스크립터가 유효하지 않거나 잠겨 있다. 또는 `in_fd`에서 <tt>[[mmap(2)]]</tt> 방식 동작이 가능하지 않다. 또는 `count`가 음수이다.
+
+`EINVAL`
+:   `out_fd`에 `O_APPEND` 플래그가 설정되어 있다. `sendfile()`에서 현재 지원하지 않는다.
+
+`EIO`
+:   `in_fd`를 읽는 중 불특정 오류.
+
+`ENOMEM`
+:   `in_fd`를 읽기에 메모리가 충분하지 않음.
+
+`EOVERFLOW`
+:   `count`가 너무 커서 입력 파일이나 출력 파일의 최대 크기를 초과하게 됨.
+
+`ESPIPE`
+:   `offset`이 NULL이 아닌데 입력 파일이 `seek(2)` 가능하지 않다.
 
 ## VERSIONS
 

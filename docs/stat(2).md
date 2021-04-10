@@ -22,24 +22,18 @@ int fstatat(int dirfd, const char *pathname, struct stat *statbuf,
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>lstat()</code>:</dt>
-<dd>
-<code>/* glibc 2.19 및 이전: */ _BSD_SOURCE</code><br>
-<code>    || /* glibc 2.20부터 */ _DEFAULT_SOURCE</code><br>
-<code>    || _XOPEN_SOURCE >= 500</code><br>
-<code>    || /* glibc 2.10부터: */ _POSIX_C_SOURCE >= 200112L</code>
-</dd>
-<dt><code>fstatat()</code>:</dt>
-<dd>
- <dl>
- <dt>glibc 2.10부터:</dt>
- <dd><code>_POSIX_C_SOURCE >= 200809L</code></dd>
- <dt>glibc 2.10 전:</dt>
- <dd><code>_ATFILE_SOURCE</code></dd>
- </dl>
-</dd>
-</dl>
+`lstat()`:
+:   `/* glibc 2.19 및 이전: */ _BSD_SOURCE`<br>
+    `    || /* glibc 2.20부터 */ _DEFAULT_SOURCE`<br>
+    `    || _XOPEN_SOURCE >= 500`<br>
+    `    || /* glibc 2.10부터: */ _POSIX_C_SOURCE >= 200112L`
+
+`fstatat()`:
+:   glibc 2.10부터:
+    :   `_POSIX_C_SOURCE >= 200809L`
+
+    glibc 2.10 전:
+    :   `_ATFILE_SOURCE`
 
 ## DESCRIPTION
 
@@ -88,46 +82,44 @@ struct stat {
 
 `stat` 구조체의 필드는 다음과 같다.
 
-<dl>
-<dt><code>st_dev</code></dt>
-<dd>이 필드는 이 파일이 위치한 장치를 기술한다. (이 필드의 장치 ID를 분해하는 데 <tt>[[major(3)]]</tt> 및 <tt>[[minor(3)]]</tt> 매크로가 유용할 수 있다.)</dd>
+`st_dev`
+:   이 필드는 이 파일이 위치한 장치를 기술한다. (이 필드의 장치 ID를 분해하는 데 <tt>[[major(3)]]</tt> 및 <tt>[[minor(3)]]</tt> 매크로가 유용할 수 있다.)
 
-<dt><code>st_ino</code></dt>
-<dd>이 필드는 파일의 아이노드 번호를 담는다.</dd>
+`st_ino`
+:   이 필드는 파일의 아이노드 번호를 담는다.
 
-<dt><code>st_mode</code></dt>
-<dd>이 필드는 파일 종류와 모드를 담는다. 자세한 내용은 <tt>[[inode(7)]]</tt> 참고.</dd>
+`st_mode`
+:   이 필드는 파일 종류와 모드를 담는다. 자세한 내용은 <tt>[[inode(7)]]</tt> 참고.
 
-<dt><code>st_nlink</code></dt>
-<dd>이 필드는 파일에 대한 하드 링크 수를 담는다.</dd>
+`st_nlink`
+:   이 필드는 파일에 대한 하드 링크 수를 담는다.
 
-<dt><code>st_uid</code></dt>
-<dd>이 필드는 파일 소유자의 사용자 ID를 담는다.</dd>
+`st_uid`
+:   이 필드는 파일 소유자의 사용자 ID를 담는다.
 
-<dt><code>st_gid</code></dt>
-<dd>이 필드는 파일 그룹 소유자의 ID를 담는다.</dd>
+`st_gid`
+:   이 필드는 파일 그룹 소유자의 ID를 담는다.
 
-<dt><code>st_rdev</code></dt>
-<dd>이 필드는 이 파일이 (아이노드가) 나타내는 장치를 기술한다.</dd>
+`st_rdev`
+:   이 필드는 이 파일이 (아이노드가) 나타내는 장치를 기술한다.
 
-<dt><code>st_size</code></dt>
-<dd>이 필드는 (정규 파일이나 심볼릭 링크인 경우) 바이트 단위 파일 크기를 알려 준다. 심볼릭 링크의 크기란 담고 있는 (종료 널 바이트 없는) 경로명의 길이다.</dd>
+`st_size`
+:   이 필드는 (정규 파일이나 심볼릭 링크인 경우) 바이트 단위 파일 크기를 알려 준다. 심볼릭 링크의 크기란 담고 있는 (종료 널 바이트 없는) 경로명의 길이다.
 
-<dt><code>st_blksize</code></dt>
-<dd>이 필드는 효율적인 파일 시스템 I/O를 위한 "선호" 블록 크기를 알려 준다.</dd>
+`st_blksize`
+:   이 필드는 효율적인 파일 시스템 I/O를 위한 "선호" 블록 크기를 알려 준다.
 
-<dt><code>st_blocks</code></dt>
-<dd>이 필드는 파일에 할당된 512바이트 단위 블록 수를 나타낸다. (파일에 구멍이 있을 때는 <code>st_size</code>/512보다 작을 수도 있다.</dd>
+`st_blocks`
+:   이 필드는 파일에 할당된 512바이트 단위 블록 수를 나타낸다. (파일에 구멍이 있을 때는 `st_size`/512보다 작을 수도 있다.
 
-<dt><code>st_atime</code></dt>
-<dd>파일의 최근 접근 타임스탬프다.</dd>
+`st_atime`
+:   파일의 최근 접근 타임스탬프다.
 
-<dt><code>st_mtime</code></dt>
-<dd>파일의 최근 수정 타임스탬프다.</dd>
+`st_mtime`
+:   파일의 최근 수정 타임스탬프다.
 
-<dt><code>st_ctime</code></dt>
-<dd>파일의 최근 상태 변경 타임스탬프다.</dd>
-</dl>
+`st_ctime`
+:   파일의 최근 상태 변경 타임스탬프다.
 
 위 필드들에 대한 더 자세한 내용은 <tt>[[inode(7)]]</tt>를 보라.
 
@@ -143,16 +135,14 @@ struct stat {
 
 `flags`는 0일 수도 있고 다음 플래그를 1개 이상 OR 해서 담을 수도 있다.
 
-<dl>
-<dt><code>AT_EMPTY_PATH</code> (리눅스 2.6.39부터)</dt>
-<dd><code>pathname</code>이 빈 문자열이면 (<tt>[[open(2)]]</tt> <code>O_PATH</code> 플래그로 얻은 것일 수도 있는) <code>dirfd</code>가 가리키는 파일에 대해 동작한다. 이 경우에 <code>dirfd</code>는 디렉터리만이 아니라 임의 종류의 파일을 가리킬 수 있으며 <code>fstatat()</code>의 동작 방식은 <code>fstat()</code>과 비슷하다. <code>dirfd</code>가 <code>AT_FDCWD</code>이면 현재 작업 디렉터리에 대해 호출이 동작한다. 이 플래그는 리눅스 전용이다. 이 정의를 얻으려면 <code>_GNU_SOURCE</code>를 정의해야 한다.</dd>
+`AT_EMPTY_PATH` (리눅스 2.6.39부터)
+:   `pathname`이 빈 문자열이면 (<tt>[[open(2)]]</tt> `O_PATH` 플래그로 얻은 것일 수도 있는) `dirfd`가 가리키는 파일에 대해 동작한다. 이 경우에 `dirfd`는 디렉터리만이 아니라 임의 종류의 파일을 가리킬 수 있으며 `fstatat()`의 동작 방식은 `fstat()`과 비슷하다. `dirfd`가 `AT_FDCWD`이면 현재 작업 디렉터리에 대해 호출이 동작한다. 이 플래그는 리눅스 전용이다. 이 정의를 얻으려면 `_GNU_SOURCE`를 정의해야 한다.
 
-<dt><code>AT_NO_AUTOMOUNT</code> (리눅스 2.6.38부터)</dt>
-<dd><code>pathname</code>의 마지막 요소("basename")가 자동 마운트 지점인 디렉터리인 경우에 자동 마운트를 하지 않는다. 이를 통해 (마운트 될 위치가 아니라) 자동 마운트 지점의 속성들을 호출자가 얻을 수 있다. 또한 리눅스 4.14부터는 automounter 간접 맵 등에 쓰이는 on-demand 디렉터리에 실재하지 않는 이름을 만들어 내지 않는다. 디렉터리들을 훑는 도구들에서 이 플래그를 사용해서 자동 마운트 지점인 디렉터리를 잔뜩 자동 마운트 하는 걸 방지할 수 있다. 마운트 지점에 이미 마운트가 됐으면 <code>AT_NO_AUTOMOUNT</code> 플래그에 아무 효력이 없다. 이 플래그는 리눅스 전용이다. 이 정의를 얻으려면 <code>_GNU_SOURCE</code>를 정의해야 한다. <code>stat()</code>과 <code>lstat()</code> 모두 <code>AT_NO_AUTOMOUNT</code>가 설정된 것처럼 동작한다.</dd>
+`AT_NO_AUTOMOUNT` (리눅스 2.6.38부터)
+:   `pathname`의 마지막 요소("basename")가 자동 마운트 지점인 디렉터리인 경우에 자동 마운트를 하지 않는다. 이를 통해 (마운트 될 위치가 아니라) 자동 마운트 지점의 속성들을 호출자가 얻을 수 있다. 또한 리눅스 4.14부터는 automounter 간접 맵 등에 쓰이는 on-demand 디렉터리에 실재하지 않는 이름을 만들어 내지 않는다. 디렉터리들을 훑는 도구들에서 이 플래그를 사용해서 자동 마운트 지점인 디렉터리를 잔뜩 자동 마운트 하는 걸 방지할 수 있다. 마운트 지점에 이미 마운트가 됐으면 `AT_NO_AUTOMOUNT` 플래그에 아무 효력이 없다. 이 플래그는 리눅스 전용이다. 이 정의를 얻으려면 `_GNU_SOURCE`를 정의해야 한다. `stat()`과 `lstat()` 모두 `AT_NO_AUTOMOUNT`가 설정된 것처럼 동작한다.
 
-<dt><code>AT_SYMLINK_NOFOLLOW</code></dt>
-<dd><code>pathname</code>이 심볼릭 링크인 경우 역참조를 하지 않는다. 대신 <code>lstat()</code>처럼 링크 자체에 대한 정보를 반환한다. (기본적으로 <code>fstatat()</code>은 <code>stat()</code>처럼 심볼릭 링크를 역참조 한다.)</dd>
-</dl>
+`AT_SYMLINK_NOFOLLOW`
+:   `pathname`이 심볼릭 링크인 경우 역참조를 하지 않는다. 대신 `lstat()`처럼 링크 자체에 대한 정보를 반환한다. (기본적으로 `fstatat()`은 `stat()`처럼 심볼릭 링크를 역참조 한다.)
 
 `fstatat()`의 필요성에 대한 설명은 <tt>[[openat(2)]]</tt>을 보라.
 
@@ -162,39 +152,46 @@ struct stat {
 
 ## ERRORS
 
-<dl>
-<dt><code>EACCES</code></dt>
-<dd><code>pathname</code>의 경로 선두부의 한 디렉터리에 대해 탐색 권한이 거부되었다. (<tt>[[path_resolution(7)]]</tt> 참고.)</dd>
-<dt><code>EBADF</code></dt>
-<dd><code>fd</code>가 유효한 열린 파일 디스크립터가 아니다.</dd>
-<dt><code>EFAULT</code></dt>
-<dd>잘못된 주소.</dd>
-<dt><code>ELOOP</code></dt>
-<dd>경로명을 순회하는 동안 너무 많은 심볼릭 링크를 만났다.</dd>
-<dt><code>ENAMETOOLONG</code></dt>
-<dd><code>pathname</code>이 너무 길다.</dd>
-<dt><code>ENOENT</code></dt>
-<dd><code>pathname</code>의 어느 요소가 존재하지 않거나 깨진 심볼릭 링크이다.</dd>
-<dt><code>ENOENT</code></dt>
-<dd><code>pathname</code>이 빈 문자열인데 <code>flags</code>에 <code>AT_EMPTY_PATH</code>를 지정하지 않았다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>메모리 (즉 커널 메모리) 부족.</dd>
-<dt><code>ENOTDIR</code></dt>
-<dd><code>pathname</code>의 경로 선두부의 어느 요소가 디렉터리가 아니다.</dd>
-<dt><code>EOVERFLOW</code></dt>
-<dd><code>pathname</code>이나 <code>fd</code>가 그 크기, 아이노드 번호, 블록 수를 각기 <code>off_t</code>, <code>ino_t</code>, <code>blkcnt_t</code> 타입으로 표현할 수 없는 파일을 가리키고 있다. 예를 들어 32비트 플랫폼에서 <code>-D_FILE_OFFSET_BITS=64</code> 없이 컴파일 한 응용이 크기가 <code>(1<<31)-1</code> 바이트를 넘는 파일을 열려고 하는 경우에 이 오류가 발생할 수 있다.</dd>
-</dl>
+`EACCES`
+:   `pathname`의 경로 선두부의 한 디렉터리에 대해 탐색 권한이 거부되었다. (<tt>[[path_resolution(7)]]</tt> 참고.)
+
+`EBADF`
+:   `fd`가 유효한 열린 파일 디스크립터가 아니다.
+
+`EFAULT`
+:   잘못된 주소.
+
+`ELOOP`
+:   경로명을 순회하는 동안 너무 많은 심볼릭 링크를 만났다.
+
+`ENAMETOOLONG`
+:   `pathname`이 너무 길다.
+
+`ENOENT`
+:   `pathname`의 어느 요소가 존재하지 않거나 깨진 심볼릭 링크이다.
+
+`ENOENT`
+:   `pathname`이 빈 문자열인데 `flags`에 `AT_EMPTY_PATH`를 지정하지 않았다.
+
+`ENOMEM`
+:   메모리 (즉 커널 메모리) 부족.
+
+`ENOTDIR`
+:   `pathname`의 경로 선두부의 어느 요소가 디렉터리가 아니다.
+
+`EOVERFLOW`
+:   `pathname`이나 `fd`가 그 크기, 아이노드 번호, 블록 수를 각기 `off_t`, `ino_t`, `blkcnt_t` 타입으로 표현할 수 없는 파일을 가리키고 있다. 예를 들어 32비트 플랫폼에서 `-D_FILE_OFFSET_BITS=64` 없이 컴파일 한 응용이 크기가 `(1<<31)-1` 바이트를 넘는 파일을 열려고 하는 경우에 이 오류가 발생할 수 있다.
 
 `fstatat()`에서 다음 오류들이 추가로 발생할 수 있다.
 
-<dl>
-<dt><code>EBADF</code></dt>
-<dd><code>dirfd</code>가 유효한 파일 디스크립터가 아니다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>flags</code>에 유효하지 않은 플래그를 지정했다.</dd>
-<dt><code>ENOTDIR</code></dt>
-<dd><code>pathname</code>이 상대 경로인데 <code>dirfd</code>가 디렉터리 아닌 파일을 가리키는 파일 디스크립터이다.</dd>
-</dl>
+`EBADF`
+:   `dirfd`가 유효한 파일 디스크립터가 아니다.
+
+`EINVAL`
+:   `flags`에 유효하지 않은 플래그를 지정했다.
+
+`ENOTDIR`
+:   `pathname`이 상대 경로인데 `dirfd`가 디렉터리 아닌 파일을 가리키는 파일 디스크립터이다.
 
 ## VERSIONS
 
@@ -224,16 +221,14 @@ POSIX.1-2001에 따르면 심볼릭 링크에 `lstat()`을 하면 `stat` 구조�
 
 각 버전에서 다루는 커널 내부 `stat` 구조체 버전은 다음과 같다.
 
-<dl>
-<dt><code>__old_kernel_stat</code></dt>
-<dd>원래 구조체. 필드들이 좀 작고 패딩 없음.</dd>
+`__old_kernel_stat`
+:   원래 구조체. 필드들이 좀 작고 패딩 없음.
 
-<dt><code>stat</code></dt>
-<dd><code>st_ino</code> 필드가 커지고 향후 확장을 위해 구조체 여러 부분에 패딩이 추가됨.</dd>
+`stat`
+:   `st_ino` 필드가 커지고 향후 확장을 위해 구조체 여러 부분에 패딩이 추가됨.
 
-<dt><code>stat64</code></dt>
-<dd><code>st_ino</code> 필드가 더 커지고, 리눅스 2.4에서 UID 및 GID를 32비트로 확장한 것에 맞춰 <code>st_uid</code> 및 <code>st_gid</code> 필드가 커지고, 여러 다른 필드들이 더 커지고 구조체에 패딩들이 추가됨. (리눅스 2.6에서 32비트 장치 ID와 타임스탬프 나노초 부분이 등장하면서 여러 패딩 바이트가 사라졌다.)</dd>
-</dl>
+`stat64`
+:   `st_ino` 필드가 더 커지고, 리눅스 2.4에서 UID 및 GID를 32비트로 확장한 것에 맞춰 `st_uid` 및 `st_gid` 필드가 커지고, 여러 다른 필드들이 더 커지고 구조체에 패딩들이 추가됨. (리눅스 2.6에서 32비트 장치 ID와 타임스탬프 나노초 부분이 등장하면서 여러 패딩 바이트가 사라졌다.)
 
 glibc의 `stat()` 래퍼 함수에서 이런 세부 사항을 응용에게 감춰 주고 커널이 제공하는 가장 최신 버전의 시스템 호출을 부르며 구식 바이너리를 위해 필요한 경우 반환된 정보를 다시 포장해 준다.
 

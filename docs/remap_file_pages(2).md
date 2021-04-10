@@ -40,12 +40,11 @@ int remap_file_pages(void *addr, size_t size, int prot,
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>addr</code>이 <code>MAP_SHARED</code> 플래그로 생성한 유효한 매핑을 가리키고 있지 않다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>addr</code>, <code>size</code>, <code>prot</code>, <code>pgoff</code>가 유효하지 않다.</dd>
-</dl>
+`EINVAL`
+:   `addr`이 `MAP_SHARED` 플래그로 생성한 유효한 매핑을 가리키고 있지 않다.
+
+`EINVAL`
+:   `addr`, `size`, `prot`, `pgoff`가 유효하지 않다.
 
 ## VERSIONS
 

@@ -22,14 +22,14 @@ int io_destroy(aio_context_t ctx_id);
 
 ## ERRORS
 
-<dl>
-<dt><code>EFAULT</code></dt>
-<dd>지정한 문맥이 유효하지 않다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>ctx_id</code>로 지정한 AIO 문맥이 유효하지 않다.</dd>
-<dt><code>ENOSYS</code></dt>
-<dd>이 아키텍처에 <code>io_destroy()</code>가 구현돼 있지 않다.</dd>
-</dl>
+`EFAULT`
+:   지정한 문맥이 유효하지 않다.
+
+`EINVAL`
+:   `ctx_id`로 지정한 AIO 문맥이 유효하지 않다.
+
+`ENOSYS`
+:   이 아키텍처에 `io_destroy()`가 구현돼 있지 않다.
 
 ## VERSIONS
 

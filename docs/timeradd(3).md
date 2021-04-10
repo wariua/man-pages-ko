@@ -22,17 +22,12 @@ int timercmp(struct timeval *a, struct timeval *b, CMP);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt>위의 모든 함수:</dt>
-<dd>
- <dl>
- <dt>glibc 2.19부터:</dt>
- <dd><code>_DEFAULT_SOURCE</code></dd>
- <dt>glibc 2.19 및 이전:</dt>
- <dd><code>_BSD_SOURCE</code></dd>
- </dl>
-</dd>
-</dl>
+위의 모든 함수:
+:   glibc 2.19부터:
+    :   `_DEFAULT_SOURCE`
+
+    glibc 2.19 및 이전:
+    :   `_BSD_SOURCE`
 
 ## DESCRIPTION
 

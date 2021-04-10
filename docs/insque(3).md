@@ -14,14 +14,10 @@ void remque(void *elem);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>insque()</code>, <code>remque()</code>:</dt>
-<dd>
-<code>_XOPEN_SOURCE >= 500</code><br>
-<code>    || /* Glibc 2.19부터: */ _DEFAULT_SOURCE</code><br>
-<code>    || /* Glibc 버전 <= 2.19: */ _SVID_SOURCE</code>
-</dd>
-</dl>
+`insque()`, `remque()`:
+:   `_XOPEN_SOURCE >= 500`<br>
+    `    || /* Glibc 2.19부터: */ _DEFAULT_SOURCE`<br>
+    `    || /* Glibc 버전 <= 2.19: */ _SVID_SOURCE`
 
 ## DESCRIPTION
 

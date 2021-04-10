@@ -39,31 +39,29 @@ long move_pages(int pid, unsigned long count, void **pages,
 
 `status` 배열의 각 항목으로 다음 값들을 반환할 수 있다.
 
-<dl>
-<dt><code>0..MAX_NUMNODES</code></dt>
-<dd>페이지가 자리한 노드를 나타낸다.</dd>
+`0..MAX_NUMNODES`
+:   페이지가 자리한 노드를 나타낸다.
 
-<dt><code>-EACCES</code></dt>
-<dd>페이지를 여러 프로세스가 맵 하고 있어서 <code>MPOL_MF_MOVE_ALL</code>을 지정해야만 옮길 수 있다.</dd>
+`-EACCES`
+:   페이지를 여러 프로세스가 맵 하고 있어서 `MPOL_MF_MOVE_ALL`을 지정해야만 옮길 수 있다.
 
-<dt><code>-EBUSY</code></dt>
-<dd>페이지가 현재 사용 중이어서 옮길 수 없다. 나중에 다시 시도하라. 페이지로 I/O를 하는 중이거나 다른 커널 서브시스템에서 페이지에 대한 참조를 잡고 있는 경우이다.</dd>
+`-EBUSY`
+:   페이지가 현재 사용 중이어서 옮길 수 없다. 나중에 다시 시도하라. 페이지로 I/O를 하는 중이거나 다른 커널 서브시스템에서 페이지에 대한 참조를 잡고 있는 경우이다.
 
-<dt><code>-EFAULT</code></dt>
-<dd>제로 페이지이거나 프로세스가 맵 하지 않은 메모리 영역이다.</dd>
+`-EFAULT`
+:   제로 페이지이거나 프로세스가 맵 하지 않은 메모리 영역이다.
 
-<dt><code>-EIO</code></dt>
-<dd>페이지를 내려 쓸 수 없다. 페이지가 변경됐는데 변경된 페이지를 옮길 수 있게 해 주는 이전 함수를 파일 시스템에서 제공하지 않기 때문에 페이지를 옮기기 위해선 아래로 기록해야 한다.</dd>
+`-EIO`
+:   페이지를 내려 쓸 수 없다. 페이지가 변경됐는데 변경된 페이지를 옮길 수 있게 해 주는 이전 함수를 파일 시스템에서 제공하지 않기 때문에 페이지를 옮기기 위해선 아래로 기록해야 한다.
 
-<dt><code>-EINVAL</code></dt>
-<dd>변경된 페이지를 이동할 수 없다. 파일 시스템에서 이전 함수를 제공하지 않으며 페이지를 내려 쓸 수 없다.</dd>
+`-EINVAL`
+:   변경된 페이지를 이동할 수 없다. 파일 시스템에서 이전 함수를 제공하지 않으며 페이지를 내려 쓸 수 없다.
 
-<dt><code>-ENOENT</code></dt>
-<dd>페이지가 존재하지 않는다.</dd>
+`-ENOENT`
+:   페이지가 존재하지 않는다.
 
-<dt><code>-ENOMEM</code></dt>
-<dd>대상 노드에서 메모리를 할당할 수 없다.</dd>
-</dl>
+`-ENOMEM`
+:   대상 노드에서 메모리를 할당할 수 없다.
 
 ## RETURN VALUE
 
@@ -71,24 +69,29 @@ long move_pages(int pid, unsigned long count, void **pages,
 
 ## ERRORS
 
-<dl>
-<dt><code>E2BIG</code></dt>
-<dd>옮길 페이지가 너무 많다.</dd>
-<dt><code>EACCES</code></dt>
-<dd>한 대상 노드를 현재 cpuset에서 허용하지 않는다.</dd>
-<dt><code>EFAULT</code></dt>
-<dd>매개변수 배열에 접근할 수 없다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>MPOL_MF_MOVE</code> 및 <code>MPOL_MF_MOVE_ALL</code> 외의 플래그를 지정했거나 커널 스레드의 페이지를 이동하려는 시도가 이뤄졌다.</dd>
-<dt><code>ENODEV</code></dt>
-<dd>한 대상 노드가 온라인이 아니다.</dd>
-<dt><code>ENOENT</code></dt>
-<dd>이동이 필요한 페이지를 찾지 못했다. 모든 페이지가 이미 대상 노드에 있거나, 존재하지 않거나, 주소가 유효하지 않거나, 여러 프로세스가 맵 하고 있어서 옮길 수 없다.</dd>
-<dt><code>EPERM</code></dt>
-<dd>호출자가 충분한 특권(<code>CAP_SYS_NICE</code>) 없이 <code>MPOL_MF_MOVE_ALL</code>을 지정했다. 또는 호출자가 다른 사용자에게 속한 프로세스의 페이지를 옮기려고 시도했는데 그렇게 하기 위한 특권(<code>CAP_SYS_NICE</code>)을 가지고 있지 않았다.</dd>
-<dt><code>ESRCH</code></dt>
-<dd>프로세스가 존재하지 않는다.</dd>
-</dl>
+`E2BIG`
+:   옮길 페이지가 너무 많다.
+
+`EACCES`
+:   한 대상 노드를 현재 cpuset에서 허용하지 않는다.
+
+`EFAULT`
+:   매개변수 배열에 접근할 수 없다.
+
+`EINVAL`
+:   `MPOL_MF_MOVE` 및 `MPOL_MF_MOVE_ALL` 외의 플래그를 지정했거나 커널 스레드의 페이지를 이동하려는 시도가 이뤄졌다.
+
+`ENODEV`
+:   한 대상 노드가 온라인이 아니다.
+
+`ENOENT`
+:   이동이 필요한 페이지를 찾지 못했다. 모든 페이지가 이미 대상 노드에 있거나, 존재하지 않거나, 주소가 유효하지 않거나, 여러 프로세스가 맵 하고 있어서 옮길 수 없다.
+
+`EPERM`
+:   호출자가 충분한 특권(`CAP_SYS_NICE`) 없이 `MPOL_MF_MOVE_ALL`을 지정했다. 또는 호출자가 다른 사용자에게 속한 프로세스의 페이지를 옮기려고 시도했는데 그렇게 하기 위한 특권(`CAP_SYS_NICE`)을 가지고 있지 않았다.
+
+`ESRCH`
+:   프로세스가 존재하지 않는다.
 
 ## VERSIONS
 

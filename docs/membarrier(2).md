@@ -26,59 +26,48 @@ asm volatile ("" : : : "memory")
 
 `cmd` 인자는 다음 중 하나이다.
 
-<dl>
-<dt><code>MEMBARRIER_CMD_QUERY</code> (리눅스 4.3부터)</dt>
-<dd>지원 명령 집합을 질의한다. 호출 반환 값은 지원 명령들의 비트 마스크이다. <code>MEMBARRIER_CMD_QUERY</code>의 값은 0이므로 그 비트 마스크에 포함되지 않는다. (<code>membarrier()</code>를 제공하는 커널에서) 이 명령은 항상 지원한다.</dd>
+`MEMBARRIER_CMD_QUERY` (리눅스 4.3부터)
+:   지원 명령 집합을 질의한다. 호출 반환 값은 지원 명령들의 비트 마스크이다. `MEMBARRIER_CMD_QUERY`의 값은 0이므로 그 비트 마스크에 포함되지 않는다. (`membarrier()`를 제공하는 커널에서) 이 명령은 항상 지원한다.
 
-<dt><code>MEMBARRIER_CMD_GLOBAL</code> (리눅스 4.16부터)</dt>
-<dd><code>membarrier()</code> 시스템 호출 진입과 반환 사이에서 시스템 상의 모든 프로세스의 스레드 모두가 사용자 공간 주소에 대한 모든 메모리 접근이 프로그램 순서와 일치하는 상태를 거치도록 한다. 이 명령은 시스템의 스레드 모두를 대상으로 한다.</dd>
+`MEMBARRIER_CMD_GLOBAL` (리눅스 4.16부터)
+:   `membarrier()` 시스템 호출 진입과 반환 사이에서 시스템 상의 모든 프로세스의 스레드 모두가 사용자 공간 주소에 대한 모든 메모리 접근이 프로그램 순서와 일치하는 상태를 거치도록 한다. 이 명령은 시스템의 스레드 모두를 대상으로 한다.
 
-<dt><code>MEMBARRIER_CMD_GLOBAL_EXPEDITED</code> (리눅스 4.16부터)</dt>
-<dd>
+`MEMBARRIER_CMD_GLOBAL_EXPEDITED` (리눅스 4.16부터)
+:   `MEMBARRIER_CMD_REGISTER_GLOBAL_EXPEDITED`로 미리 등록한 프로세스 모두의 실행 중인 스레드 모두에서 메모리 배리어를 실행한다.
 
-<code>MEMBARRIER_CMD_REGISTER_GLOBAL_EXPEDITED</code>로 미리 등록한 프로세스 모두의 실행 중인 스레드 모두에서 메모리 배리어를 실행한다.
+    시스템 호출 반환 시에, 실행 중인 스레드 모두가 사용자 공간 주소에 대한 모든 메모리 접근이 프로그램 순서와 일치하는 상태를 시스템 호출 진입과 반환 사이에서 거쳤다는 보장을 호출 스레드가 얻게 된다. (실행 중이 아닌 스레드는 실질적으로 그런 상태에 있는 것이다.) `MEMBARRIER_CMD_REGISTER_GLOBAL_EXPEDITED`로 미리 등록한 프로세스의 스레드에 대해서만 보장이 이뤄진다.
 
-시스템 호출 반환 시에, 실행 중인 스레드 모두가 사용자 공간 주소에 대한 모든 메모리 접근이 프로그램 순서와 일치하는 상태를 시스템 호출 진입과 반환 사이에서 거쳤다는 보장을 호출 스레드가 얻게 된다. (실행 중이 아닌 스레드는 실질적으로 그런 상태에 있는 것이다.) <code>MEMBARRIER_CMD_REGISTER_GLOBAL_EXPEDITED</code>로 미리 등록한 프로세스의 스레드에 대해서만 보장이 이뤄진다.
+    등록은 배리어를 받아들이겠다는 의도에 대한 것이므로 `MEMBARRIER_CMD_REGISTER_GLOBAL_EXPEDITED`를 쓴 적 없는 프로세스에서 `MEMBARRIER_CMD_GLOBAL_EXPEDITED`를 호출하는 것이 유효하다.
 
-등록은 배리어를 받아들이겠다는 의도에 대한 것이므로 <code>MEMBARRIER_CMD_REGISTER_GLOBAL_EXPEDITED</code>를 쓴 적 없는 프로세스에서 <code>MEMBARRIER_CMD_GLOBAL_EXPEDITED</code>를 호출하는 것이 유효하다.
+    "신속 처리(expedited)" 명령은 그렇지 않은 명령보다 빨리 완료된다. 절대 블록 하지 않는다. 하지만 추가 오버헤드를 유발하는 단점이 있다.
 
-"신속 처리(expedited)" 명령은 그렇지 않은 명령보다 빨리 완료된다. 절대 블록 하지 않는다. 하지만 추가 오버헤드를 유발하는 단점이 있다.
-</dd>
+`MEMBARRIER_CMD_REGISTER_GLOBAL_EXPEDITED` (리눅스 4.16부터)
+:   `MEMBARRIER_CMD_GLOBAL_EXPEDITED` 메모리 배리어를 받아들이려는 프로세스의 의도를 알린다.
 
-<dt><code>MEMBARRIER_CMD_REGISTER_GLOBAL_EXPEDITED</code> (리눅스 4.16부터)</dt>
-<dd><code>MEMBARRIER_CMD_GLOBAL_EXPEDITED</code> 메모리 배리어를 받아들이려는 프로세스의 의도를 알린다.</dd>
+`MEMBARRIER_CMD_PRIVATE_EXPEDITED` (리눅스 4.14부터)
+:   호출 스레드와 같은 프로세스에 속한 실행 중인 스레드 각각에서 메모리 배리어를 실행한다.
 
-<dt><code>MEMBARRIER_CMD_PRIVATE_EXPEDITED</code> (리눅스 4.14부터)</dt>
-<dd>
+    시스템 호출 반환 시에, 실행 중인 형제자매 스레드 모두가 사용자 공간 주소에 대한 모든 메모리 접근이 프로그램 순서와 일치하는 상태를 시스템 호출 진입과 반환 사이에서 거쳤다는 보장을 호출 스레드가 얻게 된다. (실행 중이 아닌 스레드는 실질적으로 그런 상태에 있는 것이다.) 호출 스레드와 같은 프로세스의 스레드에 대해서만 보장이 이뤄진다.
 
-호출 스레드와 같은 프로세스에 속한 실행 중인 스레드 각각에서 메모리 배리어를 실행한다.
+    "신속 처리" 명령은 그렇지 않은 명령보다 빨리 완료된다. 절대 블록 하지 않는다. 하지만 추가 오버헤드를 유발하는 단점이 있다.
 
-시스템 호출 반환 시에, 실행 중인 형제자매 스레드 모두가 사용자 공간 주소에 대한 모든 메모리 접근이 프로그램 순서와 일치하는 상태를 시스템 호출 진입과 반환 사이에서 거쳤다는 보장을 호출 스레드가 얻게 된다. (실행 중이 아닌 스레드는 실질적으로 그런 상태에 있는 것이다.) 호출 스레드와 같은 프로세스의 스레드에 대해서만 보장이 이뤄진다.
+    프로세스별 신속 처리 명령을 사용하려는 프로세스는 사용 전에 그 의도를 미리 알려야 한다.
 
-"신속 처리" 명령은 그렇지 않은 명령보다 빨리 완료된다. 절대 블록 하지 않는다. 하지만 추가 오버헤드를 유발하는 단점이 있다.
+`MEMBARRIER_CMD_REGISTER_PRIVATE_EXPEDITED` (리눅스 4.14부터)
+:   `MEMBARRIER_CMD_PRIVATE_EXPEDITED`를 사용하려는 프로세스의 의도를 알린다.
 
-프로세스별 신속 처리 명령을 사용하려는 프로세스는 사용 전에 그 의도를 미리 알려야 한다.
-</dd>
+`MEMBARRIER_CMD_PRIVATE_EXPEDITED_SYNC_CORE` (리눅스 4.16부터)
+:   `MEMBARRIER_CMD_PRIVATE_EXPEDITED`에서 기술한 메모리 순서 보장에 더해서, 시스템 호출 반환 시에 실행 중인 형제자매 스레드 모두가 코어 직렬화 인스트럭션을 실행했다는 보장을 호출 스레드가 얻게 된다. 호출 스레드와 같은 프로세스의 스레드에 대해서만 이 보장이 이뤄진다.
 
-<dt><code>MEMBARRIER_CMD_REGISTER_PRIVATE_EXPEDITED</code> (리눅스 4.14부터)</dt>
-<dd><code>MEMBARRIER_CMD_PRIVATE_EXPEDITED</code>를 사용하려는 프로세스의 의도를 알린다.</dd>
+    "신속 처리" 명령은 그렇지 않은 명령보다 빨리 완료된다. 절대 블록 하지 않는다. 하지만 추가 오버헤드를 유발하는 단점이 있다.
 
-<dt><code>MEMBARRIER_CMD_PRIVATE_EXPEDITED_SYNC_CORE</code> (리눅스 4.16부터)</dt>
-<dd>
+    프로세스별 신속 처리 코어 동기화 명령을 사용하려는 프로세스는 사용 전에 그 의도를 미리 알려야 한다.
 
-<code>MEMBARRIER_CMD_PRIVATE_EXPEDITED</code>에서 기술한 메모리 순서 보장에 더해서, 시스템 호출 반환 시에 실행 중인 형제자매 스레드 모두가 코어 직렬화 인스트럭션을 실행했다는 보장을 호출 스레드가 얻게 된다. 호출 스레드와 같은 프로세스의 스레드에 대해서만 이 보장이 이뤄진다.
+`MEMBARRIER_CMD_REGISTER_PRIVATE_EXPEDITED_SYNC_CORE` (리눅스 4.16부터)
+:   `MEMBARRIER_CMD_PRIVATE_EXPEDITED_SYNC_CORE`를 사용하려는 프로세스의 의도를 알린다.
 
-"신속 처리" 명령은 그렇지 않은 명령보다 빨리 완료된다. 절대 블록 하지 않는다. 하지만 추가 오버헤드를 유발하는 단점이 있다.
-
-프로세스별 신속 처리 코어 동기화 명령을 사용하려는 프로세스는 사용 전에 그 의도를 미리 알려야 한다.
-</dd>
-
-<dt><code>MEMBARRIER_CMD_REGISTER_PRIVATE_EXPEDITED_SYNC_CORE</code> (리눅스 4.16부터)</dt>
-<dd><code>MEMBARRIER_CMD_PRIVATE_EXPEDITED_SYNC_CORE</code>를 사용하려는 프로세스의 의도를 알린다.</dd>
-
-<dt><code>MEMBARRIER_CMD_SHARED</code> (리눅스 4.3부터)</dt>
-<dd>헤더 하위 호환성을 위해 존재하는 <code>MEMBARRIER_CMD_GLOBAL</code>의 별칭이다.</dd>
-</dl>
+`MEMBARRIER_CMD_SHARED` (리눅스 4.3부터)
+:   헤더 하위 호환성을 위해 존재하는 `MEMBARRIER_CMD_GLOBAL`의 별칭이다.
 
 `flags` 인자는 현재 사용하지 않으며 0으로 지정해야 한다.
 
@@ -100,14 +89,14 @@ asm volatile ("" : : : "memory")
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>cmd</code>가 유효하지 않거나, <code>flags</code>가 0이 아니거나, CPU 매개변수 <code>nohz_full</code>이 설정되어서 <code>MEMBARRIER_CMD_GLOBAL</code> 명령이 비활성화되어 있거나, <code>MEMBARRIER_CMD_PRIVATE_EXPEDITED_SYNC_CORE</code> 및 <code>MEMBARRIER_CMD_REGISTER_PRIVATE_EXPEDITED_SYNC_CORE</code> 명령이 아키텍처에 구현되어 있지 않다.</dd>
-<dt><code>ENOSYS</code></dt>
-<dd><code>membarrier()</code> 시스템 호출이 이 커널에 구현되어 있지 않다.</dd>
-<dt><code>EPERM</code></dt>
-<dd>현재 프로세스가 프로세스별 신속 처리 명령 사용에 앞서 신고를 하지 않았다.</dd>
-</dl>
+`EINVAL`
+:   `cmd`가 유효하지 않거나, `flags`가 0이 아니거나, CPU 매개변수 `nohz_full`이 설정되어서 `MEMBARRIER_CMD_GLOBAL` 명령이 비활성화되어 있거나, `MEMBARRIER_CMD_PRIVATE_EXPEDITED_SYNC_CORE` 및 `MEMBARRIER_CMD_REGISTER_PRIVATE_EXPEDITED_SYNC_CORE` 명령이 아키텍처에 구현되어 있지 않다.
+
+`ENOSYS`
+:   `membarrier()` 시스템 호출이 이 커널에 구현되어 있지 않다.
+
+`EPERM`
+:   현재 프로세스가 프로세스별 신속 처리 명령 사용에 앞서 신고를 하지 않았다.
 
 ## VERSIONS
 

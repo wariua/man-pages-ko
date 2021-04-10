@@ -12,14 +12,10 @@ char *mkdtemp(char *template);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>mkdtemp()</code>:</dt>
-<dd>
-<code>/* glibc 2.19부터: */ _DEFAULT_SOURCE</code><br>
-<code>|| /* glibc 2.19 및 이전: */ _BSD_SOURCE</code><br>
-<code>|| /* glibc 2.10부터: */ _POSIX_C_SOURCE >= 200809L</code>
-</dd>
-</dl>
+`mkdtemp()`:
+:   `/* glibc 2.19부터: */ _DEFAULT_SOURCE`<br>
+    `|| /* glibc 2.19 및 이전: */ _BSD_SOURCE`<br>
+    `|| /* glibc 2.10부터: */ _POSIX_C_SOURCE >= 200809L`
 
 ## DESCRIPTION
 
@@ -31,10 +27,8 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>template</code>의 마지막 여섯 글자가 XXXXXX가 아니다. 이때 <code>template</code>은 바뀌지 않는다.</dd>
-</dl>
+`EINVAL`
+:   `template`의 마지막 여섯 글자가 XXXXXX가 아니다. 이때 `template`은 바뀌지 않는다.
 
 `errno`에 가능한 다른 값들은 <tt>[[mkdir(2)]]</tt>을 보라.
 

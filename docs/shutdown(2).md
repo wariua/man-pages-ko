@@ -20,16 +20,17 @@ int shutdown(int sockfd, int how);
 
 ## ERRORS
 
-<dl>
-<dt><code>EBADF</code></dt>
-<dd><code>sockfd</code>가 유효한 파일 디스크립터가 아니다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>how</code>로 유효하지 않은 값을 지정하였다. (하지만 BUGS 참고.)</dd>
-<dt><code>ENOTCONN</code></dt>
-<dd>지정한 소켓이 연결되어 있지 않다.</dd>
-<dt><code>ENOTSOCK</code></dt>
-<dd>파일 디스크립터 <code>sockfd</code>가 소켓을 가리키고 있지 않다.</dd>
-</dl>
+`EBADF`
+:   `sockfd`가 유효한 파일 디스크립터가 아니다.
+
+`EINVAL`
+:   `how`로 유효하지 않은 값을 지정하였다. (하지만 BUGS 참고.)
+
+`ENOTCONN`
+:   지정한 소켓이 연결되어 있지 않다.
+
+`ENOTSOCK`
+:   파일 디스크립터 `sockfd`가 소켓을 가리키고 있지 않다.
 
 ## CONFORMING TO
 

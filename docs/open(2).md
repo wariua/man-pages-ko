@@ -20,17 +20,12 @@ int openat(int dirfd, const char *pathname, int flags, mode_t mode);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>openat()</code>:</dt>
-<dd>
- <dl>
- <dt>glibc 2.10부터:</dt>
- <dd><code>_POSIX_C_SOURCE >= 200809L</code></dd>
- <dt>glibc 2.10 전:</dt>
- <dd><code>_ATFILE_SOURCE</code></dd>
- </dl>
-</dd>
-</dl>
+`openat()`:
+:   glibc 2.10부터:
+    :   `_POSIX_C_SOURCE >= 200809L`
+
+    glibc 2.10 전:
+    :   `_ATFILE_SOURCE`
 
 ## DESCRIPTION
 
@@ -40,232 +35,190 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 기본적으로 새 파일 디스크립터는 <tt>[[execve(2)]]</tt>를 거칠 때 계속 열려 있도록 설정돼 있다. (즉 <tt>[[fcntl(2)]]</tt>에서 설명하는 파일 디스크립터 플래그 `FD_CLOEXEC`가 처음에는 비활성화돼 있다.) 아래에서 설명하는 `O_CLOEXEC` 플래그를 써서 이 기본 설정을 바꿀 수 있다. 파일 오프셋은 파일 시작점으로 설정돼 있다. (<tt>[[lseek(2)]]</tt> 참고.)
 
-`open()` 호출은 새로운 <em>열린 파일 기술 항목(open file description)</em>을 만든다. 이는 시스템 전역 열린 파일 테이블의 항목이다. 열린 파일 기술 항목에서는 파일 오프셋과 파일 상태 플래그(아래 참고)를 기록한다. 파일 디스크립터(file descriptor)는 열린 파일 기술 항목에 대한 참조이다. 이 참조는 `pathname`이 이후 제거되거나 다른 파일을 가리키게 바뀌더라도 영향을 받지 않는다. 열린 파일 기술 항목에 대한 더 자세한 내용은 NOTES를 보라.
+`open()` 호출은 새로운 *열린 파일 기술 항목(open file description)*을 만든다. 이는 시스템 전역 열린 파일 테이블의 항목이다. 열린 파일 기술 항목에서는 파일 오프셋과 파일 상태 플래그(아래 참고)를 기록한다. 파일 디스크립터(file descriptor)는 열린 파일 기술 항목에 대한 참조이다. 이 참조는 `pathname`이 이후 제거되거나 다른 파일을 가리키게 바뀌더라도 영향을 받지 않는다. 열린 파일 기술 항목에 대한 더 자세한 내용은 NOTES를 보라.
 
-인자 `flags`에는 <em>접근 모드</em> `O_RDONLY`, `O_WRONLY`, `O_RDWR` 중 하나가 포함돼야 한다. 각각 파일을 읽기 전용, 쓰기 전용, 읽기/쓰기로 열도록 요청한다.
+인자 `flags`에는 *접근 모드* `O_RDONLY`, `O_WRONLY`, `O_RDWR` 중 하나가 포함돼야 한다. 각각 파일을 읽기 전용, 쓰기 전용, 읽기/쓰기로 열도록 요청한다.
 
-`flags`에 추가로 파일 생성 플래그와 파일 상태 플래그를 0개 이상 비트 OR 할 수 있다. <em>파일 생성 플래그</em>는 `O_CLOEXEC`, `O_CREAT`, `O_DIRECTORY`, `O_EXCL`, `O_NOCTTY`, `O_NOFOLLOW`, `O_TMPFILE`, `O_TRUNC`이다. <em>파일 상태 플래그</em>는 아래 나열된 플래그들 중 나머지 전부이다. 이 두 플래그 종류의 차이는 파일 생성 플래그가 열기 동작 자체의 동작 방식에 영향을 주는 반면 파일 상태 플래그는 이어지는 I/O 동작들의 동작 방식에 영향을 준다는 점이다. 파일 상태 플래그는 읽어 올 수 있으며 (일부 경우에) 변경할 수 있다. 자세한 내용은 <tt>[[fcntl(2)]]</tt> 참고.
+`flags`에 추가로 파일 생성 플래그와 파일 상태 플래그를 0개 이상 비트 OR 할 수 있다. *파일 생성 플래그*는 `O_CLOEXEC`, `O_CREAT`, `O_DIRECTORY`, `O_EXCL`, `O_NOCTTY`, `O_NOFOLLOW`, `O_TMPFILE`, `O_TRUNC`이다. *파일 상태 플래그*는 아래 나열된 플래그들 중 나머지 전부이다. 이 두 플래그 종류의 차이는 파일 생성 플래그가 열기 동작 자체의 동작 방식에 영향을 주는 반면 파일 상태 플래그는 이어지는 I/O 동작들의 동작 방식에 영향을 준다는 점이다. 파일 상태 플래그는 읽어 올 수 있으며 (일부 경우에) 변경할 수 있다. 자세한 내용은 <tt>[[fcntl(2)]]</tt> 참고.
 
 파일 생성 플래그 및 파일 상태 플래그에 대한 전체 목록은 다음과 같다.
 
-<dl>
-<dt><code>O_APPEND</code></dt>
-<dd>
+`O_APPEND`
+:   파일을 덧붙이기 모드로 연다. `write(2)` 전마다 파일 오프셋을 <tt>[[lseek(2)]]</tt>으로 하듯 파일 끝으로 옮긴다. 그 파일 오프셋 변경과 쓰기 동작은 한 개의 원자적 단계로 수행된다.
 
-파일을 덧붙이기 모드로 연다. <code>write(2)</code> 전마다 파일 오프셋을 <code>[[lseek(2)]]</tt>으로 하듯 파일 끝으로 옮긴다. 그 파일 오프셋 변경과 쓰기 동작은 한 개의 원자적 단계로 수행된다.
+    여러 프로세스가 동시에 파일에 데이터를 덧붙이는 경우 NFS 파일 시스템 상에선 `O_APPEND`를 해도 파일 내용에 오류가 생길 수 있다. 파일에 덧붙이기 동작을 NFS에서 지원하지 않아서 클라이언트 커널에서 그걸 모사해야 하는데, 경쟁 조건 없이 하기가 불가능하기 때문이다.
 
-여러 프로세스가 동시에 파일에 데이터를 덧붙이는 경우 NFS 파일 시스템 상에선 <code>O_APPEND</code>를 해도 파일 내용에 오류가 생길 수 있다. 파일에 덧붙이기 동작을 NFS에서 지원하지 않아서 클라이언트 커널에서 그걸 모사해야 하는데, 경쟁 조건 없이 하기가 불가능하기 때문이다.
-</dd>
+`O_ASYNC`
+:   시그널 주도 I/O를 켠다. 이 파일 디스크립터에서 입력이나 출력이 가능해지면 시그널(기본은 `SIGIO`이되 <tt>[[fcntl(2)]]</tt>로 변경 가능)을 생성한다. 이 기능은 터미널, 유사 터미널, 소켓, 그리고 (리눅스 2.6부터) 파이프 및 FIFO에 대해서만 사용 가능하다. 자세한 내용은 <tt>[[fcntl(2)]]</tt>을 보라. 아래 BUGS도 참고.
 
-<dt><code>O_ASYNC</code></dt>
-<dd>시그널 주도 I/O를 켠다. 이 파일 디스크립터에서 입력이나 출력이 가능해지면 시그널(기본은 <code>SIGIO</code>이되 <tt>[[fcntl(2)]]</tt>로 변경 가능)을 생성한다. 이 기능은 터미널, 유사 터미널, 소켓, 그리고 (리눅스 2.6부터) 파이프 및 FIFO에 대해서만 사용 가능하다. 자세한 내용은 <tt>[[fcntl(2)]]</tt>을 보라. 아래 BUGS도 참고.</dd>
+`O_CLOEXEC` (리눅스 2.6.23부터)
+:   새 파일 디스크립터에 'exec에서 닫기' 플래그를 켠다. 이 플래그를 지정하면 프로그램에서 따로 <tt>[[fcntl(2)]]</tt> `F_SETFD` 동작으로 `FD_CLOEXEC` 플래그를 설정하지 않아도 된다.
 
-<dt><code>O_CLOEXEC</code> (리눅스 2.6.23부터)</dt>
-<dd>
+    참고로 일부 다중 스레드 프로그램에서는 이 플래그 사용이 필수적이다. 한 스레드가 파일 디스크립터를 열어서 <tt>[[fcntl(2)]]</tt>로 'exec에서 닫기' 플래그를 설정하려는데 동시에 다른 스레드에서 <tt>[[fork(2)]]</tt>와 <tt>[[execve(2)]]</tt>를 하는 경우에서 별도의 <tt>[[fcntl(2)]]</tt> `F_SETFD` 동작으로 `FD_CLOEXEC` 플래그를 설정하는 방식은 경쟁 조건을 피하는 데 충분치 않기 때문이다. 경쟁으로 인해 실행 순서에 따라선 `open()`이 반환한 파일 디스크립터가 <tt>[[fork(2)]]</tt>로 생긴 자식 프로세스에서 실행하는 프로그램에게 의도치 않게 누출될 수 있다. (원칙적으로 이런 종류의 경쟁은 'exec에서 닫기' 플래그를 설정해야 할 파일 디스크립터를 생성하는 모든 시스템 호출에서 가능하며, 그래서 여러 리눅스 시스템 호출에서 `O_CLOEXEC` 플래그 같은 방법을 제공해서 이 문제를 처리한다.)
 
-새 파일 디스크립터에 'exec에서 닫기' 플래그를 켠다. 이 플래그를 지정하면 프로그램에서 따로 <tt>[[fcntl(2)]]</tt> <code>F_SETFD</code> 동작으로 <code>FD_CLOEXEC</code> 플래그를 설정하지 않아도 된다.
+`O_CREAT`
+:   `pathname`이 존재하지 않으면 그 경로명으로 정규 파일을 만든다.
 
-참고로 일부 다중 스레드 프로그램에서는 이 플래그 사용이 필수적이다. 한 스레드가 파일 디스크립터를 열어서 <tt>[[fcntl(2)]]</tt>로 'exec에서 닫기' 플래그를 설정하려는데 동시에 다른 스레드에서 <tt>[[fork(2)]]</tt>와 <tt>[[execve(2)]]</tt>를 하는 경우에서 별도의 <tt>[[fcntl(2)]]</tt> <code>F_SETFD</code> 동작으로 <code>FD_CLOEXEC</code> 플래그를 설정하는 방식은 경쟁 조건을 피하는 데 충분치 않기 때문이다. 경쟁으로 인해 실행 순서에 따라선 <code>open()</code>이 반환한 파일 디스크립터가 <tt>[[fork(2)]]</tt>로 생긴 자식 프로세스에서 실행하는 프로그램에게 의도치 않게 누출될 수 있다. (원칙적으로 이런 종류의 경쟁은 'exec에서 닫기' 플래그를 설정해야 할 파일 디스크립터를 생성하는 모든 시스템 호출에서 가능하며, 그래서 여러 리눅스 시스템 호출에서 <code>O_CLOEXEC</code> 플래그 같은 방법을 제공해서 이 문제를 처리한다.)
-</dd>
+    새 파일의 소유자(사용자 ID)는 프로세스의 실효 사용자 ID로 설정한다.
 
-<dt><code>O_CREAT</code></dt>
-<dd>
+    새 파일의 그룹 소유(그룹 ID)는 프로세스의 실효 그룹 ID(시스템 V 방식)나 부모 디렉터리의 그룹 ID(BSD 방식) 중 하나로 설정한다. 리눅스에서는 부모 디렉터리에 set-group-ID 모드 비트가 설정돼 있는지 여부에 따라 동작이 다르다. 그 비트가 설정돼 있으면 BSD 방식을 따르고, 아니면 시스템 V 방식을 적용한다. 일부 파일 시스템에서는 (<tt>[[mount(8)]]</tt>에서 설명하는) 마운트 옵션 `bsdgroups` 및 `sysvgroups`에 따라서도 동작이 달라진다.
 
-<code>pathname</code>이 존재하지 않으면 그 경로명으로 정규 파일을 만든다.
+    `mode` 인자는 새 파일 생성 시 적용할 파일 모드 비트를 나타낸다. `flags`에 `O_CREAT`이나 `O_TMPFILE`를 지정할 때는 이 인자를 제공해야 한다. `O_CREAT`과 `O_TMPFILE` 어느 쪽도 지정하지 않은 경우에는 `mode`가 무시된다. 실효 모드는 프로세스의 `umask`를 일반적 방식으로 사용해 변경한 값이다. 즉 기본 ACL이 없는 경우 생성 파일의 모드는 `(mode & ~umask)`이다. 참고로 이 모드는 새로 생성되는 파일의 향후 접근에만 적용된다. 즉 읽기 전용 파일을 생성하게 돼 있는 `open()` 호출이 읽기/쓰기 가능한 파일 디스크립터를 반환하는 것도 충분히 가능하다.
 
-새 파일의 소유자(사용자 ID)는 프로세스의 실효 사용자 ID로 설정한다.
+    `mode`를 위한 다음 상수 심볼들이 제공된다.
 
-새 파일의 그룹 소유(그룹 ID)는 프로세스의 실효 그룹 ID(시스템 V 방식)나 부모 디렉터리의 그룹 ID(BSD 방식) 중 하나로 설정한다. 리눅스에서는 부모 디렉터리에 set-group-ID 모드 비트가 설정돼 있는지 여부에 따라 동작이 다르다. 그 비트가 설정돼 있으면 BSD 방식을 따르고, 아니면 시스템 V 방식을 적용한다. 일부 파일 시스템에서는 (<tt>[[mount(8)]]</tt>에서 설명하는) 마운트 옵션 <code>bsdgroups</code> 및 <code>sysvgroups</code>에 따라서도 동작이 달라진다.
+    | | | |
+    | - | - | - |
+    | `S_IRWXU` | 00700 | 사용자(파일 소유자)가 읽기, 쓰기, 실행 권한을 가짐 |
+    | `S_IRUSR` | 00400 | 사용자가 읽기 권한을 가짐 |
+    | `S_IWUSR` | 00200 | 사용자가 쓰기 권한을 가짐 |
+    | `S_IXUSR` | 00100 | 사용자가 실행 권한을 가짐 |
+    | `S_IRWXG` | 00070 | 그룹이 읽기, 쓰기, 실행 권한을 가짐 |
+    | `S_IRGRP` | 00040 | 그룹이 읽기 권한을 가짐 |
+    | `S_IWGRP` | 00020 | 그룹이 쓰기 권한을 가짐 |
+    | `S_IXGRP` | 00010 | 그룹이 실행 권한을 가짐 |
+    | `S_IRWXO` | 00007 | 기타가 읽기, 쓰기, 실행 권한을 가짐 |
+    | `S_IROTH` | 00004 | 기타가 읽기 권한을 가짐 |
+    | `S_IWOTH` | 00002 | 기타가 쓰기 권한을 가짐 |
+    | `S_IXOTH` | 00001 | 기타가 실행 권한을 가짐 |
 
-<code>mode</code> 인자는 새 파일 생성 시 적용할 파일 모드 비트를 나타낸다. <code>flags</code>에 <code>O_CREAT</code>이나 <code>O_TMPFILE</code>를 지정할 때는 이 인자를 제공해야 한다. <code>O_CREAT</code>과 <code>O_TMPFILE</code> 어느 쪽도 지정하지 않은 경우에는 <code>mode</code>가 무시된다. 실효 모드는 프로세스의 <code>umask</code>를 일반적 방식으로 사용해 변경한 값이다. 즉 기본 ACL이 없는 경우 생성 파일의 모드는 <code>(mode &amp; ~umask)</code>이다. 참고로 이 모드는 새로 생성되는 파일의 향후 접근에만 적용된다. 즉 읽기 전용 파일을 생성하게 돼 있는 <code>open()</code> 호출이 읽기/쓰기 가능한 파일 디스크립터를 반환하는 것도 충분히 가능하다.
+    POSIX에 따르면 `mode`에 설정된 다른 비트들의 효과는 명세되어 있지 않다. 리눅스에서는 `mode`에서 다음 비트들도 받는다.
 
-<code>mode</code>를 위한 다음 상수 심볼들이 제공된다.
+    | | | |
+    | - | - | - |
+    | `S_ISUID` | 0004000 | set-user-ID 비트 |
+    | `S_ISGID` | 0002000 | set-group-ID 비트 (<tt>[[inode(7)]]</tt> 참고) |
+    | `S_ISVTX` | 0001000 | 스티키 비트 (<tt>[[inode(7)]]</tt> 참고)  |
 
-| | | |
-| - | - | - |
-| `S_IRWXU` | 00700 | 사용자(파일 소유자)가 읽기, 쓰기, 실행 권한을 가짐 |
-| `S_IRUSR` | 00400 | 사용자가 읽기 권한을 가짐 |
-| `S_IWUSR` | 00200 | 사용자가 쓰기 권한을 가짐 |
-| `S_IXUSR` | 00100 | 사용자가 실행 권한을 가짐 |
-| `S_IRWXG` | 00070 | 그룹이 읽기, 쓰기, 실행 권한을 가짐 |
-| `S_IRGRP` | 00040 | 그룹이 읽기 권한을 가짐 |
-| `S_IWGRP` | 00020 | 그룹이 쓰기 권한을 가짐 |
-| `S_IXGRP` | 00010 | 그룹이 실행 권한을 가짐 |
-| `S_IRWXO` | 00007 | 기타가 읽기, 쓰기, 실행 권한을 가짐 |
-| `S_IROTH` | 00004 | 기타가 읽기 권한을 가짐 |
-| `S_IWOTH` | 00002 | 기타가 쓰기 권한을 가짐 |
-| `S_IXOTH` | 00001 | 기타가 실행 권한을 가짐 |
+`O_DIRECT` (리눅스 2.4.10부터)
+:   이 파일에 대한 I/O에서 캐시 효과를 최소화하려 노력한다. 일반적으로는 그렇게 하면 성능이 떨어지지만 응용에서 자체 캐싱을 하는 경우처럼 특수한 상황에서는 쓸모가 있다. 사용자 공간 버퍼와 직접 파일 I/O가 이뤄진다. `O_DIRECT` 플래그 그 자체에서 데이터를 동기적으로 전송하려는 노력을 하기는 하지만 데이터와 관련 메타데이터가 전송되는 `O_SYNC` 플래그의 보장을 해 주지는 않는다. 동기적 I/O를 보장하려면 `O_DIRECT`에 더해 `O_SYNC`를 사용해야 한다. 추가 설명은 아래 NOTES를 보라.
 
-POSIX에 따르면 <code>mode</code>에 설정된 다른 비트들의 효과는 명세되어 있지 않다. 리눅스에서는 <code>mode</code>에서 다음 비트들도 받는다.
+    블록 장치에 대한 비슷한 (하지만 구식이 된) 인터페이스를 `raw(8)`에서 설명한다.
 
-| | | |
-| - | - | - |
-| `S_ISUID` | 0004000 | set-user-ID 비트 |
-| `S_ISGID` | 0002000 | set-group-ID 비트 (<tt>[[inode(7)]]</tt> 참고) |
-| `S_ISVTX` | 0001000 | 스티키 비트 (<tt>[[inode(7)]]</tt> 참고)  |
-</dd>
+`O_DIRECTORY`
+:   `pathname`이 디렉터리가 아니면 열기가 실패하도록 한다. 이 플래그는 커널 버전 2.1.126에서 추가된 것인데, FIFO 내지 테이프 장치에서 <tt>[[opendir(3)]]</tt>을 호출할 때의 서비스 거부 문제를 피하기 위해서였다.
 
-<dt><code>O_DIRECT</code> (리눅스 2.4.10부터)</dt>
-<dd>
+`O_DSYNC`
+:   파일에서의 쓰기 동작이 동기 I/O *데이터* 무결성 완료 요건에 따라 완료되게 한다.
 
-이 파일에 대한 I/O에서 캐시 효과를 최소화하려 노력한다. 일반적으로는 그렇게 하면 성능이 떨어지지만 응용에서 자체 캐싱을 하는 경우처럼 특수한 상황에서는 쓸모가 있다. 사용자 공간 버퍼와 직접 파일 I/O가 이뤄진다. <code>O_DIRECT</code> 플래그 그 자체에서 데이터를 동기적으로 전송하려는 노력을 하기는 하지만 데이터와 관련 메타데이터가 전송되는 <code>O_SYNC</code> 플래그의 보장을 해 주지는 않는다. 동기적 I/O를 보장하려면 <code>O_DIRECT</code>에 더해 <code>O_SYNC</code>를 사용해야 한다. 추가 설명은 아래 NOTES를 보라.
+    `write(2)`(또는 비슷한 함수)가 반환하는 시점에 출력 데이터가, 그리고 그 데이터를 가져오는 데 필요할 파일 메타데이터가 있으면 그것까지 기반 하드웨어로 전송돼 있다. (즉 각 `write(2)` 뒤에 <tt>[[fdatasync(2)]]</tt> 호출을 붙인 것과 같다.) *아래 NOTES를 보라*.
 
-블록 장치에 대한 비슷한 (하지만 구식이 된) 인터페이스를 `raw(8)`에서 설명한다.
-</dd>
+`O_EXCL`
+:   이 호출에서 꼭 파일을 만들도록 한다. 이 플래그가 `O_CREAT`와 함께 지정돼 있는데 `pathname`이 이미 존재하면 `open()`이 `EEXIST` 오류로 실패한다.
 
-<dt><code>O_DIRECTORY</code></dt>
-<dd><code>pathname</code>이 디렉터리가 아니면 열기가 실패하도록 한다. 이 플래그는 커널 버전 2.1.126에서 추가된 것인데, FIFO 내지 테이프 장치에서 <tt>[[opendir(3)]]</tt>을 호출할 때의 서비스 거부 문제를 피하기 위해서였다.</dd>
+    그 두 플래그가 지정된 경우에는 심볼릭 링크를 따라가지 않는다. `pathname`이 심볼릭 링크이면 그게 어디를 가리키는지와 상관없이 `open()`이 실패한다.
 
-<dt><code>O_DSYNC</code></dt>
-<dd>
+    일반적으로 `O_CREAT` 없이 사용 시 `O_EXCL`의 동작 방식은 규정돼 있지 않다. 여기에 한 가지 예외가 있는데, 리눅스 2.6 및 이후에서는 `pathname`이 블록 장치를 가리키는 경우 `O_EXCL`을 `O_CREAT` 없이 쓸 수 있다. 그 블록 장치를 시스템에서 사용 중이면 (가령 마운트 돼 있으면) `open()`이 `EBUSY` 오류로 실패한다.
 
-파일에서의 쓰기 동작이 동기 I/O <em>데이터</em> 무결성 완료 요건에 따라 완료되게 한다.
+    NFS인 경우, 커널 2.6 내지 이후에서 NFSv3 내지 이후 버전을 쓸 때만 `O_EXCL`을 지원한다. 락킹 작업 수행에 있어 이에 의존하는 프로그램이 있다면 `O_EXCL`을 지원하지 않는 NFS 환경에서 경쟁 조건이 있게 된다. 락 파일을 이용해 원자적 파일 락킹을 수행하고 싶은데 NFS의 `O_EXCL` 지원에 의지하는 건 피하고 싶은 이식 가능한 프로그램에서는 같은 파일 시스템 상에 (가령 호스트명과 PID를 합쳐서) 유일한 파일을 만들고 <tt>[[link(2)]]</tt>를 사용해 그 락 파일에 대한 링크를 만들 수 있다. <tt>[[link(2)]]</tt>가 0을 반환한다면 락이 성공한 것이다. 그렇지 않은 경우 그 유일한 파일에 <tt>[[stat(2)]]</tt>을 해서 링크 카운트가 2로 올라갔는지 확인한다. 그렇다면 그 경우 역시 락이 성공한 것이다.
 
-<code>write(2)</code>(또는 비슷한 함수)가 반환하는 시점에 출력 데이터가, 그리고 그 데이터를 가져오는 데 필요할 파일 메타데이터가 있으면 그것까지 기반 하드웨어로 전송돼 있다. (즉 각 <code>write(2)</code> 뒤에 <tt>[[fdatasync(2)]]</tt> 호출을 붙인 것과 같다.) <em>아래 NOTES를 보라</em>.
-</dd>
+`O_LARGEFILE`
+:   (LFS) `off_t`로 크기를 표현할 수 없는 (하지만 `off64_t`로는 할 수 있는) 파일을 여는 것을 허용한다. 이 정의를 쓸 수 있으려면 (*어떤* 헤더 파일도 포함시키기 전에) `_LARGEFILE64_SOURCE` 매크로가 정의돼 있어야 한다. 하지만 32비트 시스템에서 큰 파일에 접근하는 바람직한 방법은 (`O_LARGEFILE`을 쓰는 게 아니라) 기능 확인 매크로 `_FILE_OFFSET_BITS`를 64로 설정하는 것이다. (<tt>[[feature_test_macros(7)]]</tt> 참고.)
 
-<dt><code>O_EXCL</code></dt>
-<dd>
+`O_NOATIME` (리눅스 2.6.8부터)
+:   파일을 `read(2)` 할 때 파일 최근 접근 시간(아이노드의 `st_atime`)을 갱신하지 않는다.
 
-이 호출에서 꼭 파일을 만들도록 한다. 이 플래그가 <code>O_CREAT</code>와 함께 지정돼 있는데 <code>pathname</code>이 이미 존재하면 <code>open()</code>이 <code>EEXIST</code> 오류로 실패한다.
+    다음 중 한 조건이라도 참인 경우에만 이 플래그를 쓸 수 있다.
 
-그 두 플래그가 지정된 경우에는 심볼릭 링크를 따라가지 않는다. <code>pathname</code>이 심볼릭 링크이면 그게 어디를 가리키는지와 상관없이 <code>open()</code>이 실패한다.
+    * 프로세스의 실효 UID가 파일의 소유자 UID와 일치한다.
 
-일반적으로 <code>O_CREAT</code> 없이 사용 시 <code>O_EXCL</code>의 동작 방식은 규정돼 있지 않다. 여기에 한 가지 예외가 있는데, 리눅스 2.6 및 이후에서는 <code>pathname</code>이 블록 장치를 가리키는 경우 <code>O_EXCL</code>을 <code>O_CREAT</code> 없이 쓸 수 있다. 그 블록 장치를 시스템에서 사용 중이면 (가령 마운트 돼 있으면) <code>open()</code>이 <code>EBUSY</code> 오류로 실패한다.
+    * 호출 프로세스가 자기 사용자 네임스페이스에서 `CAP_FOWNER` 역능을 가지고 있으며 그 네임스페이스에 파일 소유자 UID의 매핑이 있다.
 
-NFS인 경우, 커널 2.6 내지 이후에서 NFSv3 내지 이후 버전을 쓸 때만 <code>O_EXCL</code>을 지원한다. 락킹 작업 수행에 있어 이에 의존하는 프로그램이 있다면 <code>O_EXCL</code>을 지원하지 않는 NFS 환경에서 경쟁 조건이 있게 된다. 락 파일을 이용해 원자적 파일 락킹을 수행하고 싶은데 NFS의 <code>O_EXCL</code> 지원에 의지하는 건 피하고 싶은 이식 가능한 프로그램에서는 같은 파일 시스템 상에 (가령 호스트명과 PID를 합쳐서) 유일한 파일을 만들고 <tt>[[link(2)]]</tt>를 사용해 그 락 파일에 대한 링크를 만들 수 있다. <tt>[[link(2)]]</tt>가 0을 반환한다면 락이 성공한 것이다. 그렇지 않은 경우 그 유일한 파일에 <tt>[[stat(2)]]</tt>을 해서 링크 카운트가 2로 올라갔는지 확인한다. 그렇다면 그 경우 역시 락이 성공한 것이다.
-</dd>
+    이 플래그는 사용 시 디스크 활동량을 크게 떨어뜨릴 수 있는 색인 프로그램이나 백업 프로그램에서 쓰기 위한 것이다. 모든 파일 시스템에서 이 플래그가 효과가 있지는 않을 수도 있다. 한 예로 서버에서 접근 시간을 유지하는 NFS가 있다.
 
-<dt><code>O_LARGEFILE</code></dt>
-<dd>(LFS) <code>off_t</code>로 크기를 표현할 수 없는 (하지만 <code>off64_t</code>로는 할 수 있는) 파일을 여는 것을 허용한다. 이 정의를 쓸 수 있으려면 (<em>어떤</em> 헤더 파일도 포함시키기 전에) <code>_LARGEFILE64_SOURCE</code> 매크로가 정의돼 있어야 한다. 하지만 32비트 시스템에서 큰 파일에 접근하는 바람직한 방법은 (<code>O_LARGEFILE</code>을 쓰는 게 아니라) 기능 확인 매크로 <code>_FILE_OFFSET_BITS</code>를 64로 설정하는 것이다. (<tt>[[feature_test_macros(7)]]</tt> 참고.)</dd>
+`O_NOCTTY`
+:   `pathname`이 터미널 장치(<tt>[[tty(4)]]</tt> 참고)를 가리키는 경우에 프로세스에 제어 터미널이 없더라도 그 장치가 프로세스의 제어 터미널이 되지 않게 한다.
 
-<dt><code>O_NOATIME</code> (리눅스 2.6.8부터)</dt>
-<dd>
+`O_NOFOLLOW`
+:   `pathname`이 심볼릭 링크이면 열기가 `ELOOP` 오류로 실패한다. 경로명 앞쪽 부분의 심볼릭 링크는 여전히 따라간다. (참고로 이 경우 발생할 수 있는 `ELOOP` 오류는 경로명 선두부 구성 항목들을 해석하는 과정에서 너무 많은 심볼릭 링크를 발견해서 열기가 실패하는 경우와 구별이 불가능하다.)
 
-파일을 <code>read(2)</code> 할 때 파일 최근 접근 시간(아이노드의 `st_atime`)을 갱신하지 않는다.
+    이 플래그는 FreeBSD 확장이며 리눅스에는 버전 2.1.126에 추가되었다. 그 뒤 POSIX.1-2008에서 표준화되었다.
 
-다음 중 한 조건이라도 참인 경우에만 이 플래그를 쓸 수 있다.
+    아래의 `O_PATH`도 참고.
 
-* 프로세스의 실효 UID가 파일의 소유자 UID와 일치한다.
+`O_NONBLOCK` 또는 `O_NDELAY`
+:   가능한 경우 파일을 논블로킹 모드로 연다. 그 `open()` 동작이나 반환된 파일 디스크립터에 대한 이후의 어떤 I/O 동작에서도 호출 프로세스가 대기하지 않게 된다.
 
-* 호출 프로세스가 자기 사용자 네임스페이스에서 <code>CAP_FOWNER</code> 역능을 가지고 있으며 그 네임스페이스에 파일 소유자 UID의 매핑이 있다.
+    참고로 이 플래그 설정은 <tt>[[poll(2)]]</tt>, <tt>[[select(2)]]</tt>, <tt>[[epoll(7)]]</tt> 등의 동작에는 아무 영향도 주지 않는다. 그 인터페이스들은 파일 디스크립터가 "준비" 상태인지를, 즉 `O_NONBLOCK` 플래그가 *설정 안 된* 파일 디스크립터에 수행하는 I/O 동작이 블록 할 것인지를 호출자에게 알려줄 뿐이다.
 
-이 플래그는 사용 시 디스크 활동량을 크게 떨어뜨릴 수 있는 색인 프로그램이나 백업 프로그램에서 쓰기 위한 것이다. 모든 파일 시스템에서 이 플래그가 효과가 있지는 않을 수도 있다. 한 예로 서버에서 접근 시간을 유지하는 NFS가 있다.
-</dd>
+    참고로 정규 파일과 블록 장치에 대해선 이 플래그가 효과가 없다. 즉 `O_NONBLOCK`이 설정돼 있는지와 관계없이 장치 활동이 필요할 때는 I/O 동작이 (잠시) 블록 하게 된다. 결국에는 `O_NONBLOCK` 동작 방식이 구현될 수도 있으므로 응용에서는 정규 파일 및 블록 장치에 이 플래그 지정 시 블로킹 동작을 확신하지 않는 게 좋다.
 
-<dt><code>O_NOCTTY</code></dt>
-<dd><code>pathname</code>이 터미널 장치(<tt>[[tty(4)]]</tt> 참고)를 가리키는 경우에 프로세스에 제어 터미널이 없더라도 그 장치가 프로세스의 제어 터미널이 되지 않게 한다.</dd>
+    FIFO(이름 있는 파이프) 처리에 대해선 <tt>[[fifo(7)]]</tt>를 보라. 강제적 파일 락 및 파일 리스와 관련한 `O_NONBLOCK`의 효과에 대한 설명은 <tt>[[fcntl(2)]]</tt>을 보라.
 
-<dt><code>O_NOFOLLOW</code></dt>
-<dd>
+`O_PATH` (리눅스 2.6.39부터)
+:   파일 시스템 트리 내 위치를 나타내는 것과 순수하게 파일 디스크립터 수준에서만 이뤄지는 동작을 수행하는 두 용도에 쓸 수 있는 파일 디스크립터를 얻는다. 파일 자체를 열지 않으며 다른 파일 동작들(가령 `read(2)`, `write(2)`, <tt>[[fchmod(2)]]</tt>, <tt>[[fchown(2)]]</tt>, <tt>[[fgetxattr(2)]]</tt>, `ioctl(2)`, <tt>[[mmap(2)]]</tt>)은 `EBADF` 오류로 실패한다.
 
-<code>pathname</code>이 심볼릭 링크이면 열기가 <code>ELOOP</code> 오류로 실패한다. 경로명 앞쪽 부분의 심볼릭 링크는 여전히 따라간다. (참고로 이 경우 발생할 수 있는 <code>ELOOP</code> 오류는 경로명 선두부 구성 항목들을 해석하는 과정에서 너무 많은 심볼릭 링크를 발견해서 열기가 실패하는 경우와 구별이 불가능하다.)
+    결과 파일 디스크립터에 다음 동작을 수행할 *수 있다*.
 
-이 플래그는 FreeBSD 확장이며 리눅스에는 버전 2.1.126에 추가되었다. 그 뒤 POSIX.1-2008에서 표준화되었다.
+    * <tt>[[close(2)]]</tt>
 
-아래의 <code>O_PATH</code>도 참고.
-</dd>
+    * <tt>[[fchdir(2)]]</tt>, 파일 디스크립터가 디렉터리를 가리키는 경우 (리눅스 3.5부터)
 
-<dt><code>O_NONBLOCK</code> 또는 <code>O_NDELAY</code></dt>
-<dd>
+    * <tt>[[fstat(2)]]</tt> (리눅스 3.6부터)
 
-가능한 경우 파일을 논블로킹 모드로 연다. 그 <code>open()</code> 동작이나 반환된 파일 디스크립터에 대한 이후의 어떤 I/O 동작에서도 호출 프로세스가 대기하지 않게 된다.
+    * <tt>[[fstatfs(2)]]</tt> (리눅스 3.12부터)
 
-참고로 이 플래그 설정은 <tt>[[poll(2)]]</tt>, <tt>[[select(2)]]</tt>, <tt>[[epoll(7)]]</tt> 등의 동작에는 아무 영향도 주지 않는다. 그 인터페이스들은 파일 디스크립터가 "준비" 상태인지를, 즉 <code>O_NONBLOCK</code> 플래그가 <em>설정 안 된</em> 파일 디스크립터에 수행하는 I/O 동작이 블록 할 것인지를 호출자에게 알려줄 뿐이다.
+    * 파일 디스크립터 복제 (<tt>[[dup(2)]]</tt>, <tt>[[fcntl(2)]]</tt> `F_DUPFD` 등)
 
-참고로 정규 파일과 블록 장치에 대해선 이 플래그가 효과가 없다. 즉 <code>O_NONBLOCK</code>이 설정돼 있는지와 관계없이 장치 활동이 필요할 때는 I/O 동작이 (잠시) 블록 하게 된다. 결국에는 <code>O_NONBLOCK</code> 동작 방식이 구현될 수도 있으므로 응용에서는 정규 파일 및 블록 장치에 이 플래그 지정 시 블로킹 동작을 확신하지 않는 게 좋다.
+    * 파일 디스크립터 플래그 얻기 및 설정하기 (<tt>[[fcntl(2)]]</tt>의 `F_GETFD` 및 `F_SETFD`)
 
-FIFO(이름 있는 파이프) 처리에 대해선 <tt>[[fifo(7)]]</tt>를 보라. 강제적 파일 락 및 파일 리스와 관련한 <code>O_NONBLOCK</code>의 효과에 대한 설명은 <tt>[[fcntl(2)]]</tt>을 보라.
-</dd>
+    * <tt>[[fcntl(2)]]</tt> `F_GETFL` 동작으로 열린 파일 상태 플래그 얻기. 반환되는 플래그에 `O_PATH` 비트가 포함돼 있게 된다.
 
-<dt><code>O_PATH</code> (리눅스 2.6.39부터)</dt>
-<dd>
+    * 파일 디스크립터를 `openat()` 및 기타 "\*at()" 시스템 호출의 `dirfd` 인자로 전달하기. 파일이 디렉터리가 아닌 경우에도 `AT_EMPTY_PATH`로 (또는 `AT_SYMLINK_FOLLOW`로 procfs를 통해) <tt>[[linkat(2)]]</tt> 하는 것도 포함된다.
 
-파일 시스템 트리 내 위치를 나타내는 것과 순수하게 파일 디스크립터 수준에서만 이뤄지는 동작을 수행하는 두 용도에 쓸 수 있는 파일 디스크립터를 얻는다. 파일 자체를 열지 않으며 다른 파일 동작들(가령 <code>read(2)</code>, <code>write(2)</code>, <tt>[[fchmod(2)]]</tt>, <tt>[[fchown(2)]]</tt>, <tt>[[fgetxattr(2)]]</tt>, <code>ioctl(2)</code>, <tt>[[mmap(2)]]</tt>)은 <code>EBADF</code> 오류로 실패한다.
+    * 파일 디스크립터를 유닉스 도메인 소켓을 통해 다른 프로세스로 보내기. (<tt>[[unix(7)]]</tt>의 `SCM_RIGHTS` 참고)
 
-결과 파일 디스크립터에 다음 동작을 수행할 <em>수 있다</em>.
+    `flags`에 `O_PATH`가 지정돼 있을 시 `O_CLOEXEC`, `O_DIRECTORY`, `O_NOFOLLOW` 외의 플래그 비트들은 무시한다.
 
-* <tt>[[close(2)]]</tt>
+    `O_PATH` 플래그로 파일이나 디렉터리를 열 때는 객체 자체에 대한 어떤 권한도 필요치 않다. (하지만 경로 선두부 디렉터리들에 대한 실행 권한은 필요하다.) 이후의 동작에 따라 적절한 파일 권한 검사가 이뤄질 수 있다. (가령 <tt>[[fchdir(2)]]</tt>에서는 파일 디스크립터 인자가 가리키는 디렉터리에 대한 실행 권한이 필요하다.) 반면 파일 시스템 객체를 `O_RDONLY`로 열어서 참조를 얻으려면 그 객체에 대한 읽기 권한이 호출자에게 있어야 한다. 이후의 동작(가령 <tt>[[fchdir(2)]]</tt>, <tt>[[fstat(2)]]</tt>)에서 그 객체에 대한 읽기 권한이 필요하지 않더라도 그렇다.
 
-* <tt>[[fchdir(2)]]</tt>, 파일 디스크립터가 디렉터리를 가리키는 경우 (리눅스 3.5부터)
+    `pathname`이 심볼릭 링크이고 `O_NOFOLLOW` 플래그가 함께 지정돼 있는 경우에는 그 심볼릭 링크를 가리키는 파일 디스크립터를 반환한다. 이 파일 디스크립터를 <tt>[[fchownat(2)]]</tt>, <tt>[[fstatat(2)]]</tt>, <tt>[[linkat(2)]]</tt>, <tt>[[readlinkat(2)]]</tt>의 `dirfd` 인자에 빈 경로명과 함께 쓸 수 있으며, 그러면 호출이 그 심볼릭 링크에 대해서 동작한다.
 
-* <tt>[[fstat(2)]]</tt> (리눅스 3.6부터)
+    `pathname`이 automount 지점을 가리키는데 아직 작동을 안 해서 거기 다른 파일 시스템이 마운트 돼 있지 않은 경우에는 마운트를 작동시키지 않으면서 그 automount 디렉터리를 가리키는 파일 디스크립터를 반환한다. 그러면 <tt>[[fstatfs(2)]]</tt>를 사용해 그게 실제로 작동 안 한 automount 지점인지 (`.f_type == AUTOFS_SUPER_MAGIC`) 알아낼 수 있다.
 
-* <tt>[[fstatfs(2)]]</tt> (리눅스 3.12부터)
+    정규 파일에 있어 `O_PATH`의 용도 한 가지는 POSIX.1의 `O_EXEC`와 동등한 기능성을 제공하는 것이다. 다음과 같은 단계를 통해 실행 권한은 있지만 읽기 권한은 없는 파일을 열어서 그 파일을 실행할 수 있다.
 
-* 파일 디스크립터 복제 (<tt>[[dup(2)]]</tt>, <tt>[[fcntl(2)]]</tt> <code>F_DUPFD</code> 등)
+        char buf[PATH_MAX];
+        fd = open("some_prog", O_PATH);
+        snprintf(buf, PATH_MAX, "/proc/self/fd/%d", fd);
+        execl(buf, "some_prog", (char *) NULL);
 
-* 파일 디스크립터 플래그 얻기 및 설정하기 (<tt>[[fcntl(2)]]</tt>의 <code>F_GETFD</code> 및 <code>F_SETFD</code>)
+    `O_PATH` 파일 디스크립터를 <tt>[[fexecve(3)]]</tt> 인자로 줄 수도 있다.
 
-* <tt>[[fcntl(2)]]</tt> <code>F_GETFL</code> 동작으로 열린 파일 상태 플래그 얻기. 반환되는 플래그에 <code>O_PATH</code> 비트가 포함돼 있게 된다.
+`O_SYNC`
+:   파일에서의 쓰기 동작이 (`O_DSYNC`에서 제공하는 동기 I/O *데이터* 무결성 완료가 아니라) 동기 I/O *파일* 무결성 완료 요건에 따라 완료되게 한다.
 
-* 파일 디스크립터를 <code>openat()</code> 및 기타 "*at()" 시스템 호출의 <code>dirfd</code> 인자로 전달하기. 파일이 디렉터리가 아닌 경우에도 <code>AT_EMPTY_PATH</code>로 (또는 <code>AT_SYMLINK_FOLLOW</code>로 procfs를 통해) <tt>[[linkat(2)]]</tt> 하는 것도 포함된다.
+    `write(2)`(또는 비슷한 함수)가 반환하는 시점에 출력 데이터와 관련 파일 메타데이터가 기반 하드웨어로 전송돼 있다. (즉 각 `write(2)` 뒤에 <tt>[[fsync(2)]]</tt> 호출을 붙인 것과 같다.) *아래 NOTES를 보라*.
 
-* 파일 디스크립터를 유닉스 도메인 소켓을 통해 다른 프로세스로 보내기. (<tt>[[unix(7)]]</tt>의 <code>SCM_RIGHTS</code> 참고)
+`O_TMPFILE` (리눅스 3.11부터)
+:   이름 없는 임시 정규 파일을 만든다. `pathname` 인자가 디렉터리를 지정하며 그 디렉터리의 파일 시스템 내에 이름 없는 아이노드가 생기게 된다. 그렇게 생긴 파일에 써넣은 내용은 그 파일에 이름을 주지 않는 한 마지막 파일 디스크립터가 닫힐 때 사라지게 된다.
 
-<code>flags</code>에 <code>O_PATH</code>가 지정돼 있을 시 <code>O_CLOEXEC</code>, <code>O_DIRECTORY</code>, <code>O_NOFOLLOW</code> 외의 플래그 비트들은 무시한다.
+    `O_TMPFILE`은 `O_RDWR`나 `O_WRONLY`와 함께 지정해야 하며, 선택적으로 `O_EXCL`과 함께 지정할 수 있다. `O_EXCL`을 지정하지 않은 경우에는 다음 코드처럼 <tt>[[linkat(2)]]</tt>으로 그 임시 파일을 파일 시스템 내로 링크 해서 영속 파일로 만들 수 있다.
 
-<code>O_PATH</code> 플래그로 파일이나 디렉터리를 열 때는 객체 자체에 대한 어떤 권한도 필요치 않다. (하지만 경로 선두부 디렉터리들에 대한 실행 권한은 필요하다.) 이후의 동작에 따라 적절한 파일 권한 검사가 이뤄질 수 있다. (가령 <tt>[[fchdir(2)]]</tt>에서는 파일 디스크립터 인자가 가리키는 디렉터리에 대한 실행 권한이 필요하다.) 반면 파일 시스템 객체를 <code>O_RDONLY</code>로 열어서 참조를 얻으려면 그 객체에 대한 읽기 권한이 호출자에게 있어야 한다. 이후의 동작(가령 <tt>[[fchdir(2)]]</tt>, <tt>[[fstat(2)]]</tt>)에서 그 객체에 대한 읽기 권한이 필요하지 않더라도 그렇다.
+        char path[PATH_MAX];
+        fd = open("/path/to/dir", O_TMPFILE | O_RDWR,
+                                S_ISUSR | S_IWUSR);
 
-<code>pathname</code>이 심볼릭 링크이고 <code>O_NOFOLLOW</code> 플래그가 함께 지정돼 있는 경우에는 그 심볼릭 링크를 가리키는 파일 디스크립터를 반환한다. 이 파일 디스크립터를 <tt>[[fchownat(2)]]</tt>, <tt>[[fstatat(2)]]</tt>, <tt>[[linkat(2)]]</tt>, <tt>[[readlinkat(2)]]</tt>의 <code>dirfd</code> 인자에 빈 경로명과 함께 쓸 수 있으며, 그러면 호출이 그 심볼릭 링크에 대해서 동작한다.
+        /* 'fd'에서 파일 I/O... */
 
-<code>pathname</code>이 automount 지점을 가리키는데 아직 작동을 안 해서 거기 다른 파일 시스템이 마운트 돼 있지 않은 경우에는 마운트를 작동시키지 않으면서 그 automount 디렉터리를 가리키는 파일 디스크립터를 반환한다. 그러면 <tt>[[fstatfs(2)]]</tt>를 사용해 그게 실제로 작동 안 한 automount 지점인지 (<code>.f_type == AUTOFS_SUPER_MAGIC</code>) 알아낼 수 있다.
+        snprintf(path, PATH_MAX, "/proc/self/fd/%d", fd);
+        linkat(AT_FDCWD, path, AT_FDCWD, "/path/for/file",
+                                AT_SYMLINK_FOLLOW);
 
-정규 파일에 있어 <code>O_PATH</code>의 용도 한 가지는 POSIX.1의 <code>O_EXEC</code>와 동등한 기능성을 제공하는 것이다. 다음과 같은 단계를 통해 실행 권한은 있지만 읽기 권한은 없는 파일을 열어서 그 파일을 실행할 수 있다.
+    이 경우 `open()`의 `mode` 인자가 `O_CREAT`에서처럼 파일 권한 모드를 결정한다.
 
-```c
-char buf[PATH_MAX];
-fd = open("some_prog", O_PATH);
-snprintf(buf, PATH_MAX, "/proc/self/fd/%d", fd);
-execl(buf, "some_prog", (char *) NULL);
-```
+    `O_TMPFILE`과 `O_EXCL`을 함께 지정하면 위 방식으로 임시 파일을 파일 시스템 내로 링크 하지 못하게 한다. (참고로 이 경우에서 `O_EXCL`의 의미는 다른 경우에서 `O_EXCL`의 의미와 다르다.)
 
-<code>O_PATH</code> 파일 디스크립터를 <tt>[[fexecve(3)]]</tt> 인자로 줄 수도 있다.
-</dd>
+    `O_TMPFILE`의 주된 용도가 두 가지가 있다.
 
-<dt><code>O_SYNC</code></dt>
-<dd>
+    * 향상된 <tt>[[tmpfile(3)]]</tt> 기능성: (1) 닫힐 때 자동으로 삭제되고 (2) 어떤 경로명을 통해서도 절대 도달할 수 없으며 (3) 심볼릭 링크 공격 대상이 아니며 (4) 호출자가 유일한 이름을 만들어 낼 필요가 없는 임시 파일을 경쟁 없는 방식으로 생성한다.
 
-파일에서의 쓰기 동작이 (<code>O_DSYNC</code>에서 제공하는 동기 I/O <em>데이터</em> 무결성 완료가 아니라) 동기 I/O <em>파일</em> 무결성 완료 요건에 따라 완료되게 한다.
+    * 처음에는 안 보이는 파일을 만들고서 데이터를 채우고 적절한 파일 시스템 속성을 갖도록 조정(<tt>[[fchown(2)]]</tt>, <tt>[[fchmod(2)]]</tt>, <tt>[[fsetxattr(2)]]</tt> 등)한 다음에 (위에 설명한 것처럼 <tt>[[linkat(2)]]</tt>을 써서) 완전한 상태로 파일 시스템 내로 원자적으로 링크 하기.
 
-<code>write(2)</code>(또는 비슷한 함수)가 반환하는 시점에 출력 데이터와 관련 파일 메타데이터가 기반 하드웨어로 전송돼 있다. (즉 각 <code>write(2)</code> 뒤에 <tt>[[fsync(2)]]</tt> 호출을 붙인 것과 같다.) <em>아래 NOTES를 보라</em>.
-</dd>
+    `O_TMPFILE`에는 기반 파일 시스템의 지원이 필요하다. 리눅스 파일 시스템들 중 일부만 지원을 제공한다. 최초 구현에서는 ext2, ext3, ext4, UDF, Minix, shmem 파일 시스템에서 지원을 제공했다. 이어서 XFS (리눅스 3.15), Btrfs (리눅스 3.16), F2FS (리눅스 3.16), ubifs (리눅스 4.9) 파일 시스템 지원이 추가되었다.
 
-<dt><code>O_TMPFILE</code> (리눅스 3.11부터)</dt>
-<dd>
-
-이름 없는 임시 정규 파일을 만든다. <code>pathname</code> 인자가 디렉터리를 지정하며 그 디렉터리의 파일 시스템 내에 이름 없는 아이노드가 생기게 된다. 그렇게 생긴 파일에 써넣은 내용은 그 파일에 이름을 주지 않는 한 마지막 파일 디스크립터가 닫힐 때 사라지게 된다.
-
-`O_TMPFILE`은 `O_RDWR`나 `O_WRONLY`와 함께 지정해야 하며, 선택적으로 <code>O_EXCL</code>과 함께 지정할 수 있다. <code>O_EXCL</code>을 지정하지 않은 경우에는 다음 코드처럼 <tt>[[linkat(2)]]</tt>으로 그 임시 파일을 파일 시스템 내로 링크 해서 영속 파일로 만들 수 있다.
-
-```c
-char path[PATH_MAX];
-fd = open("/path/to/dir", O_TMPFILE | O_RDWR,
-                        S_ISUSR | S_IWUSR);
-
-/* 'fd'에서 파일 I/O... */
-
-snprintf(path, PATH_MAX, "/proc/self/fd/%d", fd);
-linkat(AT_FDCWD, path, AT_FDCWD, "/path/for/file",
-                        AT_SYMLINK_FOLLOW);
-```
-
-이 경우 <code>open()</code>의 <code>mode</code> 인자가 <code>O_CREAT</code>에서처럼 파일 권한 모드를 결정한다.
-
-<code>O_TMPFILE</code>과 <code>O_EXCL</code>을 함께 지정하면 위 방식으로 임시 파일을 파일 시스템 내로 링크 하지 못하게 한다. (참고로 이 경우에서 <code>O_EXCL</code>의 의미는 다른 경우에서 <code>O_EXCL</code>의 의미와 다르다.)
-
-<code>O_TMPFILE</code>의 주된 용도가 두 가지가 있다.
-
-* 향상된 <tt>[[tmpfile(3)]]</tt> 기능성: (1) 닫힐 때 자동으로 삭제되고 (2) 어떤 경로명을 통해서도 절대 도달할 수 없으며 (3) 심볼릭 링크 공격 대상이 아니며 (4) 호출자가 유일한 이름을 만들어 낼 필요가 없는 임시 파일을 경쟁 없는 방식으로 생성한다.
-
-* 처음에는 안 보이는 파일을 만들고서 데이터를 채우고 적절한 파일 시스템 속성을 갖도록 조정(<tt>[[fchown(2)]]</tt>, <tt>[[fchmod(2)]]</tt>, <tt>[[fsetxattr(2)]]</tt> 등)한 다음에 (위에 설명한 것처럼 <tt>[[linkat(2)]]</tt>을 써서) 완전한 상태로 파일 시스템 내로 원자적으로 링크 하기.
-
-<code>O_TMPFILE</code>에는 기반 파일 시스템의 지원이 필요하다. 리눅스 파일 시스템들 중 일부만 지원을 제공한다. 최초 구현에서는 ext2, ext3, ext4, UDF, Minix, shmem 파일 시스템에서 지원을 제공했다. 이어서 XFS (리눅스 3.15), Btrfs (리눅스 3.16), F2FS (리눅스 3.16), ubifs (리눅스 4.9) 파일 시스템 지원이 추가되었다.
-</dd>
-
-<dt><code>O_TRUNC</code></dt>
-<dd>파일이 이미 존재하고 정규 파일이며 접근 모드에서 쓰기를 허용(즉 <code>O_RDWR</code>나 <code>O_WRONLY</code>)하면 파일을 길이 0으로 잘라낸다. 파일이 FIFO나 터미널 장치 파일이면 <code>O_TRUNC</code> 플래그를 무시한다. 그 외 경우에 <code>O_TRUNC</code>의 효과는 명세돼 있지 않다.</dd>
-</dl>
+`O_TRUNC`
+:   파일이 이미 존재하고 정규 파일이며 접근 모드에서 쓰기를 허용(즉 `O_RDWR`나 `O_WRONLY`)하면 파일을 길이 0으로 잘라낸다. 파일이 FIFO나 터미널 장치 파일이면 `O_TRUNC` 플래그를 무시한다. 그 외 경우에 `O_TRUNC`의 효과는 명세돼 있지 않다.
 
 ### `creat()`
 
@@ -289,91 +242,124 @@ linkat(AT_FDCWD, path, AT_FDCWD, "/path/for/file",
 
 `open()`, `openat()`, `creat()`이 다음 오류로 실패할 수 있다.
 
-<dl>
-<dt><code>EACCES</code></dt>
-<dd>파일에 요청한 접근 방식이 허용되지 않거나, <code>pathname</code> 경로 선두부의 한 디렉터리에 대해 탐색 권한이 거부되었거나, 파일이 아직 존재하지 않고 부모 디렉터리에 대한 쓰기 접근이 허용되지 않는다. (<tt>[[path_resolution(7)]]</tt>도 참고.)</dd>
-<dt><code>EDQUOT</code></dt>
-<dd><code>O_CREAT</code>를 지정한 경우에서 파일이 존재하지 않으며 그 파일 시스템 상에서 사용자의 디스크 블록 내지 아이노드 쿼터가 고갈되었다.</dd>
-<dt><code>EEXIST</code></dt>
-<dd><code>pathname</code>이 이미 존재하는데 <code>O_CREAT</code>와 <code>O_EXCL</code>을 썼다.</dd>
-<dt><code>EFAULT</code></dt>
-<dd><code>pathname</code>이 접근 가능한 주소 공간 밖을 가리킨다.</dd>
-<dt><code>EFBIG</code></dt>
-<dd><code>EOVERFLOW</code>를 보라.</dd>
-<dt><code>EINTR</code></dt>
-<dd>느린 장치(가령 FIFO. <tt>[[fifo(7)]]</tt> 참고) 열기가 끝나기를 기다리며 블록돼 있는 동안 호출이 시그널 인터럽트에 의해 중단되었다. <tt>[[signal(7)]]</tt> 참고.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>파일 시스템에서 <code>O_DIRECT</code> 플래그를 지원하지 않는다. 추가 정보는 <strong>NOTES</strong> 참고.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>flags</code>에 유효하지 않은 값.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>flags</code>에 <code>O_TMPFILE</code>을 지정했는데 <code>O_WRONLY</code>나 <code>O_RDWR</code> 어느 것도 지정하지 않았다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>flags</code>에 <code>O_CREAT</code>을 지정했는데 새 파일 <code>pathname</code>의 마지막 부분("basename")이 유효하지 않다. (가령 기반 파일 시스템에서 허용하지 않는 문자를 담고 있다.)</dd>
-<dt><code>EISDIR</code></dt>
-<dd><code>pathname</code>이 디렉터리를 가리키는데 요청한 접근 방식에 쓰기가 수반된다. (즉 <code>O_WRONLY</code>나 <code>O_RDWR</code>를 설정했다.)</dd>
-<dt><code>EISDIR</code></dt>
-<dd><code>pathname</code>이 기존 디렉터리를 가리키며 <code>flags</code>에 <code>O_TMPFILE</code>을 <code>O_WRONLY</code>나 <code>O_RDWR</code>와 함께 지정했는데 이 커널 버전에서 <code>O_TMPFILE</code> 기능을 제공하지 않는다.</dd>
-<dt><code>ELOOP</code></dt>
-<dd><code>pathname</code>을 해석하는 동안 너무 많은 심볼릭 링크를 만났다.</dd>
-<dt><code>ELOOP</code></dt>
-<dd><code>pathname</code>이 심볼릭 링크인데 <code>flags</code>에 <code>O_NOFOLLOW</code>를 지정하고 <code>O_PATH</code>는 지정하지 않았다.</dd>
-<dt><code>EMFILE</code></dt>
-<dd>열린 파일 디스크립터 개수에 대한 프로세스별 제한에 도달했다. (<tt>[[getrlimit(2)]]</tt>의 <code>RLIMIT_NOFILE</code> 설명 참고.)</dd>
-<dt><code>ENAMETOOLONG</code></dt>
-<dd><code>pathname</code>이 너무 길다.</dd>
-<dt><code>ENFILE</code></dt>
-<dd>열린 파일 총개수에 대한 시스템 전역 제한에 도달했다.</dd>
-<dt><code>ENODEV</code></dt>
-<dd><code>pathname</code>이 장치 특수 파일을 가리키는데 대응하는 장치가 존재하지 않는다. (이는 리눅스 커널 버그이다. 이 경우에 <code>ENXIO</code>를 반환해야 한다.)</dd>
-<dt><code>ENOENT</code></dt>
-<dd><code>O_CREAT</code>을 설정하지 않았고 지명한 파일이 존재하지 않는다.</dd>
-<dt><code>ENOENT</code></dt>
-<dd><code>pathname</code>의 어느 디렉터리 요소가 존재하지 않거나 깨진 심볼릭 링크이다.</dd>
-<dt><code>ENOENT</code></dt>
-<dd><code>pathname</code>이 존재하지 않는 디렉터리를 가리키며, <code>flags</code>에 <code>O_TMPFILE</code>을 <code>O_WRONLY</code>나 <code>O_RDWR</code>와 함께 지정했는데 이 커널 버전에서 <code>O_TMPFILE</code> 기능을 제공하지 않는다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>지명한 파일이 FIFO인데 파이프용 메모리 할당에 대한 사용자별 경성 제한에 도달했고 호출자에게 특권이 없어서 FIFO 버퍼를 위한 메모리를 할당할 수 없다. <tt>[[pipe(7)]]</tt> 참고.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>사용 가능한 커널 메모리가 충분하지 않다.</dd>
-<dt><code>ENOSPC</code></dt>
-<dd><code>pathname</code>을 생성해야 하는데 <code>pathname</code>을 담은 장치에 새 파일을 위한 공간이 없다.</dd>
-<dt><code>ENOTDIR</code></dt>
-<dd><code>pathname</code>에서 디렉터리로 쓰인 요소가 실제로는 디렉터리가 아니거나, <code>O_DIRECTORY</code>를 지정했는데 <code>pathname</code>이 디렉터리가 아니다.</dd>
-<dt><code>ENXIO</code></dt>
-<dd><code>O_NONBLOCK | O_WRONLY</code>를 설정했고 지명한 파일이 FIFO인데 그 FIFO를 읽기용으로 열고 있는 프로세스가 없다.</dd>
-<dt><code>ENXIO</code></dt>
-<dd>파일이 장치 특수 파일인데 대응하는 장치가 존재하지 않는다.</dd>
-<dt><code>ENXIO</code></dt>
-<dd>파일이 유닉스 도메인 소켓이다.</dd>
-<dt><code>EOPNOTSUPP</code></dt>
-<dd><code>pathname</code>을 담고 있는 파일 시스템에서 <code>O_TMPFILE</code>을 지원하지 않는다.</dd>
-<dt><code>EOVERFLOW</code></dt>
-<dd><code>pathname</code>이 열기에 너무 큰 정규 파일을 가리키고 있다. 일반적인 시나리오는 32비트 플랫폼에서 <code>-D_FILE_OFFSET_BITS=64</code> 없이 컴파일 한 응용이 크기가 <code>(1<<31)-1</code> 바이트를 넘는 파일을 열려고 하는 경우이다. 위의 <code>O_LARGEFILE</code>도 보라. POSIX.1에 명세된 오류인데, 리눅스 커널 2.6.24 전에선 이 경우에 <code>EFBIG</code> 오류를 내놓았다.</dd>
-<dt><code>EPERM</code></dt>
-<dd><code>O_NOATIME</code> 플래그를 지정했지만 호출자의 실효 사용자 ID가 파일의 소유자와 일치하지 않으며 호출자에게 특권이 없다.</dd>
-<dt><code>EPERM</code></dt>
-<dd>파일 봉인 때문에 동작이 막혔다. <tt>[[fcntl(2)]]</tt> 참고.</dd>
-<dt><code>EROFS</code></dt>
-<dd><code>pathname</code>이 읽기 전용 파일 시스템 상의 파일을 가리키는데 쓰기 접근을 요청했다.</dd>
-<dt><code>ETXTBSY</code></dt>
-<dd><code>pathname</code>이 현재 실행 중인 실행 이미지를 가리키는데 쓰기 접근을 요청했다.</dd>
-<dt><code>ETXTBSY</code></dt>
-<dd><code>pathname</code>이 현재 스왑 파일로 사용 중인 파일을 가리키는데 <code>O_TRUNC</code> 플래그를 지정했다.</dd>
-<dt><code>ETXTBSY</code></dt>
-<dd><code>pathname</code>이 현재 커널에서 (가령 모듈/펌웨어 적재를 위해) 읽는 중인 파일을 가리키는데 쓰기 접근을 요청했다.</dd>
-<dt><code>EWOULDBLOCK</code></dt>
-<dd><code>O_NONBLOCK</code> 플래그를 지정했는데 파일에 호환 불가능한 리스가 잡혀 있다. (<tt>[[fcntl(2)]]</tt> 참고.)</dd>
-</dl>
+`EACCES`
+:   파일에 요청한 접근 방식이 허용되지 않거나, `pathname` 경로 선두부의 한 디렉터리에 대해 탐색 권한이 거부되었거나, 파일이 아직 존재하지 않고 부모 디렉터리에 대한 쓰기 접근이 허용되지 않는다. (<tt>[[path_resolution(7)]]</tt>도 참고.)
+
+`EDQUOT`
+:   `O_CREAT`를 지정한 경우에서 파일이 존재하지 않으며 그 파일 시스템 상에서 사용자의 디스크 블록 내지 아이노드 쿼터가 고갈되었다.
+
+`EEXIST`
+:   `pathname`이 이미 존재하는데 `O_CREAT`와 `O_EXCL`을 썼다.
+
+`EFAULT`
+:   `pathname`이 접근 가능한 주소 공간 밖을 가리킨다.
+
+`EFBIG`
+:   `EOVERFLOW`를 보라.
+
+`EINTR`
+:   느린 장치(가령 FIFO. <tt>[[fifo(7)]]</tt> 참고) 열기가 끝나기를 기다리며 블록돼 있는 동안 호출이 시그널 인터럽트에 의해 중단되었다. <tt>[[signal(7)]]</tt> 참고.
+
+`EINVAL`
+:   파일 시스템에서 `O_DIRECT` 플래그를 지원하지 않는다. 추가 정보는 **NOTES** 참고.
+
+`EINVAL`
+:   `flags`에 유효하지 않은 값.
+
+`EINVAL`
+:   `flags`에 `O_TMPFILE`을 지정했는데 `O_WRONLY`나 `O_RDWR` 어느 것도 지정하지 않았다.
+
+`EINVAL`
+:   `flags`에 `O_CREAT`을 지정했는데 새 파일 `pathname`의 마지막 부분("basename")이 유효하지 않다. (가령 기반 파일 시스템에서 허용하지 않는 문자를 담고 있다.)
+
+`EISDIR`
+:   `pathname`이 디렉터리를 가리키는데 요청한 접근 방식에 쓰기가 수반된다. (즉 `O_WRONLY`나 `O_RDWR`를 설정했다.)
+
+`EISDIR`
+:   `pathname`이 기존 디렉터리를 가리키며 `flags`에 `O_TMPFILE`을 `O_WRONLY`나 `O_RDWR`와 함께 지정했는데 이 커널 버전에서 `O_TMPFILE` 기능을 제공하지 않는다.
+
+`ELOOP`
+:   `pathname`을 해석하는 동안 너무 많은 심볼릭 링크를 만났다.
+
+`ELOOP`
+:   `pathname`이 심볼릭 링크인데 `flags`에 `O_NOFOLLOW`를 지정하고 `O_PATH`는 지정하지 않았다.
+
+`EMFILE`
+:   열린 파일 디스크립터 개수에 대한 프로세스별 제한에 도달했다. (<tt>[[getrlimit(2)]]</tt>의 `RLIMIT_NOFILE` 설명 참고.)
+
+`ENAMETOOLONG`
+:   `pathname`이 너무 길다.
+
+`ENFILE`
+:   열린 파일 총개수에 대한 시스템 전역 제한에 도달했다.
+
+`ENODEV`
+:   `pathname`이 장치 특수 파일을 가리키는데 대응하는 장치가 존재하지 않는다. (이는 리눅스 커널 버그이다. 이 경우에 `ENXIO`를 반환해야 한다.)
+
+`ENOENT`
+:   `O_CREAT`을 설정하지 않았고 지명한 파일이 존재하지 않는다.
+
+`ENOENT`
+:   `pathname`의 어느 디렉터리 요소가 존재하지 않거나 깨진 심볼릭 링크이다.
+
+`ENOENT`
+:   `pathname`이 존재하지 않는 디렉터리를 가리키며, `flags`에 `O_TMPFILE`을 `O_WRONLY`나 `O_RDWR`와 함께 지정했는데 이 커널 버전에서 `O_TMPFILE` 기능을 제공하지 않는다.
+
+`ENOMEM`
+:   지명한 파일이 FIFO인데 파이프용 메모리 할당에 대한 사용자별 경성 제한에 도달했고 호출자에게 특권이 없어서 FIFO 버퍼를 위한 메모리를 할당할 수 없다. <tt>[[pipe(7)]]</tt> 참고.
+
+`ENOMEM`
+:   사용 가능한 커널 메모리가 충분하지 않다.
+
+`ENOSPC`
+:   `pathname`을 생성해야 하는데 `pathname`을 담은 장치에 새 파일을 위한 공간이 없다.
+
+`ENOTDIR`
+:   `pathname`에서 디렉터리로 쓰인 요소가 실제로는 디렉터리가 아니거나, `O_DIRECTORY`를 지정했는데 `pathname`이 디렉터리가 아니다.
+
+`ENXIO`
+:   `O_NONBLOCK | O_WRONLY`를 설정했고 지명한 파일이 FIFO인데 그 FIFO를 읽기용으로 열고 있는 프로세스가 없다.
+
+`ENXIO`
+:   파일이 장치 특수 파일인데 대응하는 장치가 존재하지 않는다.
+
+`ENXIO`
+:   파일이 유닉스 도메인 소켓이다.
+
+`EOPNOTSUPP`
+:   `pathname`을 담고 있는 파일 시스템에서 `O_TMPFILE`을 지원하지 않는다.
+
+`EOVERFLOW`
+:   `pathname`이 열기에 너무 큰 정규 파일을 가리키고 있다. 일반적인 시나리오는 32비트 플랫폼에서 `-D_FILE_OFFSET_BITS=64` 없이 컴파일 한 응용이 크기가 `(1<<31)-1` 바이트를 넘는 파일을 열려고 하는 경우이다. 위의 `O_LARGEFILE`도 보라. POSIX.1에 명세된 오류인데, 리눅스 커널 2.6.24 전에선 이 경우에 `EFBIG` 오류를 내놓았다.
+
+`EPERM`
+:   `O_NOATIME` 플래그를 지정했지만 호출자의 실효 사용자 ID가 파일의 소유자와 일치하지 않으며 호출자에게 특권이 없다.
+
+`EPERM`
+:   파일 봉인 때문에 동작이 막혔다. <tt>[[fcntl(2)]]</tt> 참고.
+
+`EROFS`
+:   `pathname`이 읽기 전용 파일 시스템 상의 파일을 가리키는데 쓰기 접근을 요청했다.
+
+`ETXTBSY`
+:   `pathname`이 현재 실행 중인 실행 이미지를 가리키는데 쓰기 접근을 요청했다.
+
+`ETXTBSY`
+:   `pathname`이 현재 스왑 파일로 사용 중인 파일을 가리키는데 `O_TRUNC` 플래그를 지정했다.
+
+`ETXTBSY`
+:   `pathname`이 현재 커널에서 (가령 모듈/펌웨어 적재를 위해) 읽는 중인 파일을 가리키는데 쓰기 접근을 요청했다.
+
+`EWOULDBLOCK`
+:   `O_NONBLOCK` 플래그를 지정했는데 파일에 호환 불가능한 리스가 잡혀 있다. (<tt>[[fcntl(2)]]</tt> 참고.)
 
 `openat()`에서 추가로 다음 오류가 발생할 수 있다.
 
-<dl>
-<dt><code>EBADF</code></dt>
-<dd><code>dirfd</code>가 유효한 파일 디스크립터가 아니다.</dd>
-<dt><code>ENOTDIR</code></dt>
-<dd><code>pathname</code>이 상대 경로명이고 <code>dirfd</code>가 디렉터리 아닌 파일을 가리키는 파일 디스크립터이다.</dd>
-</dl>
+`EBADF`
+:   `dirfd`가 유효한 파일 디스크립터가 아니다.
+
+`ENOTDIR`
+:   `pathname`이 상대 경로명이고 `dirfd`가 디렉터리 아닌 파일을 가리키는 파일 디스크립터이다.
 
 ## VERSIONS
 
@@ -389,7 +375,7 @@ linkat(AT_FDCWD, path, AT_FDCWD, "/path/for/file",
 
 `O_CLOEXEC`, `O_DIRECTORY`, `O_NOFOLLOW` 플래그는 POSIX.1-2001에는 명세돼 있지 않고 POSIX-1.2008에는 명세돼 있다. glibc 2.12부터 200809L과 같거나 그보다 큰 값으로 `_POSIX_C_SOURCE`를 정의하거나 700과 같거나 그보다 큰 값으로 `_XOPEN_SOURCE`를 정의하면 그 정의들을 이용할 수 있다.
 
-<tt>[[feature_test_macros(7)]]</tt>에서 지적하듯 `_POSIX_C_SOURCE`, `_XOPEN_SOURCE`, `_GNU_SOURCE` 같은 기능 확인 매크로는 <em>어떤</em> 헤더 파일도 포함시키기 전에 정의돼 있어야 한다.
+<tt>[[feature_test_macros(7)]]</tt>에서 지적하듯 `_POSIX_C_SOURCE`, `_XOPEN_SOURCE`, `_GNU_SOURCE` 같은 기능 확인 매크로는 *어떤* 헤더 파일도 포함시키기 전에 정의돼 있어야 한다.
 
 ## NOTES
 
@@ -409,7 +395,7 @@ linkat(AT_FDCWD, path, AT_FDCWD, "/path/for/file",
 
 열린 파일 기술 항목(open file description)은 POSIX에서 시스템 전역 열린 파일 테이블의 항목들을 나타내는 데 쓰는 용어다. 다른 맥락에서는 이 객체를 "열린 파일 객체", "파일 핸들", "열린 파일 테이블 항목", (커널 개발자 용어로) `struct file` 등으로 다양하게 부른다.
 
-파일 디스크립터를 (<tt>[[dup(2)]]</tt> 등으로) 복제할 때 사본은 원래 파일 디스크립터와 같은 열린 파일 기술 항목을 가리키며, 따라서 두 파일 디스크립터가 파일 오프셋과 파일 상태 플래그를 공유한다. 그런 공유가 프로세스 사이에서도 이뤄질 수 있다. <code>[[fork(2)]]</tt>를 통해 생성된 자식 프로세스는 부모 프로세스의 파일 디스크립터들의 사본을 물려받으며 그 사본은 같은 열린 파일 기술 항목을 가리킨다.
+파일 디스크립터를 (<tt>[[dup(2)]]</tt> 등으로) 복제할 때 사본은 원래 파일 디스크립터와 같은 열린 파일 기술 항목을 가리키며, 따라서 두 파일 디스크립터가 파일 오프셋과 파일 상태 플래그를 공유한다. 그런 공유가 프로세스 사이에서도 이뤄질 수 있다. <tt>[[fork(2)]]</tt>를 통해 생성된 자식 프로세스는 부모 프로세스의 파일 디스크립터들의 사본을 물려받으며 그 사본은 같은 열린 파일 기술 항목을 가리킨다.
 
 각 파일 `open()`마다 새 열린 파일 기술 항목을 만든다. 즉 한 파일 노드에 대응하는 열린 파일 기술 항목이 여럿 있을 수 있다.
 
@@ -445,7 +431,7 @@ FIFO의 읽기 쪽 내지 쓰기 쪽을 여는 동작은 (다른 프로세스나
 
 ### 파일 접근 모드
 
-`flags`에 지정할 수 있는 다른 값들과 달리 <em>접근 모드</em> 값인 `O_RDONLY`, `O_WRONLY`, `O_RDWR`은 개별 비트를 나타내는 게 아니다. 대신 함께 `flags`의 하위 두 비트를 규정하며, 각기 0, 1, 2로 정의돼 있다. 달리 말해 `O_RDONLY | O_WRONLY`는 논리적 오류이며 전혀 `O_RDWR`와 같은 의미가 아니다.
+`flags`에 지정할 수 있는 다른 값들과 달리 *접근 모드* 값인 `O_RDONLY`, `O_WRONLY`, `O_RDWR`은 개별 비트를 나타내는 게 아니다. 대신 함께 `flags`의 하위 두 비트를 규정하며, 각기 0, 1, 2로 정의돼 있다. 달리 말해 `O_RDONLY | O_WRONLY`는 논리적 오류이며 전혀 `O_RDWR`와 같은 의미가 아니다.
 
 리눅스에서는 `flags`에 비표준 접근 모드 3(이진수로 11)을 따로 두고 있는데, 파일에서 읽기 및 쓰기 권한을 검사하되 읽기 및 쓰기에 사용할 수 없는 파일 디스크립터를 반환하는 걸 뜻한다. 일부 리눅스 드라이버에서 장치별 `ioctl(2)` 동작에만 사용해야 하는 파일 디스크립터를 반환하게 하는 데 이 비표준 접근 모드를 쓴다.
 

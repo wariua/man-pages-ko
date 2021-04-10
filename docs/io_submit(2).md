@@ -38,86 +38,69 @@ struct iocb {
 
 이 구조체의 필드들은 다음과 같다.
 
-<dl>
-<dt><code>aio_data</code></dt>
-<dd>I/O 완료 시 이 데이터가 <code>io_event</code> 구조체의 <code>data</code> 필드로 복사된다. (<tt>[[io_getevents(2)]]</tt> 참고.)</dd>
+`aio_data`
+:   I/O 완료 시 이 데이터가 `io_event` 구조체의 `data` 필드로 복사된다. (<tt>[[io_getevents(2)]]</tt> 참고.)
 
-<dt><code>aio_key</code></dt>
-<dd>커널 내부용 필드이다. <code>io_submit()</code> 호출 후에 이 필드를 변경하지 말 것.</dd>
+`aio_key`
+:   커널 내부용 필드이다. `io_submit()` 호출 후에 이 필드를 변경하지 말 것.
 
-<dt><code>aio_rw_flags</code></dt>
-<dd>
+`aio_rw_flags`
+:   구조체와 함께 전달하는 읽기/쓰기 플래그들이다. 유효한 값은 다음과 같다.
 
-구조체와 함께 전달하는 읽기/쓰기 플래그들이다. 유효한 값은 다음과 같다.
+    `RWF_APPEND` (리눅스 4.16부터)
+    :   파일 끝에 데이터를 덧붙임. <tt>[[pwritev2(2)]]</tt>에 있는 같은 이름의 플래그 설명과 <tt>[[open(2)]]</tt>의 `O_APPEND` 설명 참고.
 
- <dl>
- <dt><code>RWF_APPEND</code> (리눅스 4.16부터)</dt>
- <dd>파일 끝에 데이터를 덧붙임. <tt>[[pwritev2(2)]]</tt>에 있는 같은 이름의 플래그 설명과 <tt>[[open(2)]]</tt>의 <code>O_APPEND</code> 설명 참고.</dd>
+    `RWF_DSYNC` (리눅스 4.7부터)
+    :   동기화 I/O 데이터 무결성 요건에 따라 쓰기 동작이 완료됨. <tt>[[pwritev2(2)]]</tt>에 있는 같은 이름의 플래그 설명과 <tt>[[open(2)]]</tt>의 `O_DSYNC` 설명 참고.
 
- <dt><code>RWF_DSYNC</code> (리눅스 4.7부터)</dt>
- <dd>동기화 I/O 데이터 무결성 요건에 따라 쓰기 동작이 완료됨. <tt>[[pwritev2(2)]]</tt>에 있는 같은 이름의 플래그 설명과 <tt>[[open(2)]]</tt>의 <code>O_DSYNC</code> 설명 참고.</dd>
+    `RWF_HIPRI` (리눅스 4.6부터)
+    :   높은 우선도 요청. 가능하면 폴링.
 
- <dt><code>RWF_HIPRI</code> (리눅스 4.6부터)</dt>
- <dd>높은 우선도 요청. 가능하면 폴링.</dd>
+    `RWF_NOWAIT` (리눅스 4.14부터)
+    :   커널 내에서 파일 블록 할당이나 변경 페이지 플러싱, 뮤텍스 락 같은 동작이나 혼잡한 블록 장치 때문에 I/O가 블록 되려는 경우에 대기하지 않는다. 이 중 한 조건이라도 해당하면 `io_event` 구조체의 `res` 필드에 반환 값 `-EAGAIN`을 담아서 제어 블록을 즉시 반환한다. (<tt>[[io_getevents(2)]]</tt> 참고.)
 
- <dt><code>RWF_NOWAIT</code> (리눅스 4.14부터)</dt>
- <dd>커널 내에서 파일 블록 할당이나 변경 페이지 플러싱, 뮤텍스 락 같은 동작이나 혼잡한 블록 장치 때문에 I/O가 블록 되려는 경우에 대기하지 않는다. 이 중 한 조건이라도 해당하면 <code>io_event</code> 구조체의 <code>res</code> 필드에 반환 값 <code>-EAGAIN</code>을 담아서 제어 블록을 즉시 반환한다. (<tt>[[io_getevents(2)]]</tt> 참고.)</dd>
+    `RWF_SYNC` (리눅스 4.7부터)
+    :   동기화 I/O 파일 무결성 요건에 따라 쓰기 동작이 완료됨. <tt>[[pwritev2(2)]]</tt>에 있는 같은 이름의 플래그 설명과 <tt>[[open(2)]]</tt>의 `O_SYNC` 설명 참고.
 
- <dt><code>RWF_SYNC</code> (리눅스 4.7부터)</dt>
- <dd>동기화 I/O 파일 무결성 요건에 따라 쓰기 동작이 완료됨. <tt>[[pwritev2(2)]]</tt>에 있는 같은 이름의 플래그 설명과 <tt>[[open(2)]]</tt>의 <code>O_SYNC</code> 설명 참고.</dd>
- </dl>
-</dd>
+`aio_opcode`
+:   `iocb` 구조체로 수행할 I/O 종류를 나타낸다. 유효한 값들이 `linux/aio_abi.h`에 열거형으로 정의돼 있다.
 
-<dt><code>aio_opcode</code></dt>
-<dd>
+        enum {
+            IOCB_CMD_PREAD = 0,
+            IOCB_CMD_PWRITE = 1,
+            IOCB_CMD_FSYNC = 2,
+            IOCB_CMD_FDSYNC = 3,
+            IOCB_CMD_NOOP = 6,
+            IOCB_CMD_PREADV = 7,
+            IOCB_CMD_PWRITEV = 8,
+        };
 
-<code>iocb</code> 구조체로 수행할 I/O 종류를 나타낸다. 유효한 값들이 <code>linux/aio_abi.h</code>에 열거형으로 정의돼 있다.
+`aio_reqprio`
+:   요청 우선순위를 나타낸다.
 
-```c
-enum {
-    IOCB_CMD_PREAD = 0,
-    IOCB_CMD_PWRITE = 1,
-    IOCB_CMD_FSYNC = 2,
-    IOCB_CMD_FDSYNC = 3,
-    IOCB_CMD_NOOP = 6,
-    IOCB_CMD_PREADV = 7,
-    IOCB_CMD_PWRITEV = 8,
-};
-```
-</dd>
+`aio_fildes`
+:   I/O 동작을 수행할 파일 디스크립터이다.
 
-<dt><code>aio_reqprio</code></dt>
-<dd>요청 우선순위를 나타낸다.</dd>
+`aio_buf`
+:   읽기 또는 쓰기 동작에서 데이터 이동에 사용할 버퍼이다.
 
-<dt><code>aio_fildes</code></dt>
-<dd>I/O 동작을 수행할 파일 디스크립터이다.</dd>
+`aio_nbytes`
+:   `aio_buf`가 가리키는 버퍼의 크기이다.
 
-<dt><code>aio_buf</code></dt>
-<dd>읽기 또는 쓰기 동작에서 데이터 이동에 사용할 버퍼이다.</dd>
+`aio_offset`
+:   I/O 동작을 수행할 파일 오프셋이다.
 
-<dt><code>aio_nbytes</code></dt>
-<dd><code>aio_buf</code>가 가리키는 버퍼의 크기이다.</dd>
+`aio_flags`
+:   `iocb` 구조체에 연계할 플래그들의 집합이다. 유효한 값은 다음과 같다.
 
-<dt><code>aio_offset</code></dt>
-<dd>I/O 동작을 수행할 파일 오프셋이다.</dd>
+    `IOCB_FLAG_RESFD`
+    :   비동기 I/O 제어 로직에서 완료 시 `aio_resfd`에 있는 파일 디스크립터로 알림을 줘야 한다.
 
-<dt><code>aio_flags</code></dt>
-<dd>
+    `IOCB_FLAG_IOPRIO` (리눅스 4.18부터)
+    :   `aio_reqprio` 필드를 `linux/ioprio.h`에 정의된 `IOPRIO_VALUE`로 해석한다.
 
-<code>iocb</code> 구조체에 연계할 플래그들의 집합이다. 유효한 값은 다음과 같다.
-
- <dl>
- <dt><code>IOCB_FLAG_RESFD</code></dt>
- <dd>비동기 I/O 제어 로직에서 완료 시 <code>aio_resfd</code>에 있는 파일 디스크립터로 알림을 줘야 한다.</dd>
-
- <dt><code>IOCB_FLAG_IOPRIO</code> (리눅스 4.18부터)</dt>
- <dd><code>aio_reqprio</code> 필드를 <code>linux/ioprio.h</code>에 정의된 <code>IOPRIO_VALUE</code>로 해석한다.</dd>
- </dl>
-</dd>
-
-<dt><code>aio_resfd</code></dt>
-<dd>비동기 I/O 완료 시에 알림을 보낼 파일 디스크립터이다.</dd>
-</dl>
+`aio_resfd`
+:   비동기 I/O 완료 시에 알림을 보낼 파일 디스크립터이다.
 
 ## RETURN VALUE
 
@@ -125,20 +108,23 @@ enum {
 
 ## ERRORS
 
-<dl>
-<dt><code>EAGAIN</code></dt>
-<dd><code>iocb</code>를 큐에 넣기 위한 자원이 충분치 않다.</dd>
-<dt><code>EBADF</code></dt>
-<dd>첫 번째 <code>iocb</code>에 지정한 파일 디스크립터가 유효하지 않다.</dd>
-<dt><code>EFAULT</code></dt>
-<dd>한 자료 구조가 유효하지 않은 데이터를 가리키고 있다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>ctx_id</code>로 지정한 AIO 문맥이 유효하지 않다. <code>nr</code>이 0보다 작다. <code>*iocbpp[0]</code>에 있는 <code>iocb</code>가 제대로 초기화 되어 있지 않다. 지정한 동작이 <code>iocb</code>의 파일 디스크립터에 유효하지 않다. <code>aio_reqprio</code> 필드의 값이 유효하지 않다.</dd>
-<dt><code>ENOSYS</code></dt>
-<dd>이 아키텍처에 <code>io_submit()</code>이 구현돼 있지 않다.</dd>
-<dt><code>EPERM</code></dt>
-<dd><code>aio_reqprio</code> 필드가 클래스 <code>IOPRIO_CLASS_RT</code>로 설정돼 있지만 제출 동작을 하는 문맥에 <code>CAP_SYS_ADMIN</code> 역능이 없다.</dd>
-</dl>
+`EAGAIN`
+:   `iocb`를 큐에 넣기 위한 자원이 충분치 않다.
+
+`EBADF`
+:   첫 번째 `iocb`에 지정한 파일 디스크립터가 유효하지 않다.
+
+`EFAULT`
+:   한 자료 구조가 유효하지 않은 데이터를 가리키고 있다.
+
+`EINVAL`
+:   `ctx_id`로 지정한 AIO 문맥이 유효하지 않다. `nr`이 0보다 작다. `*iocbpp[0]`에 있는 `iocb`가 제대로 초기화 되어 있지 않다. 지정한 동작이 `iocb`의 파일 디스크립터에 유효하지 않다. `aio_reqprio` 필드의 값이 유효하지 않다.
+
+`ENOSYS`
+:   이 아키텍처에 `io_submit()`이 구현돼 있지 않다.
+
+`EPERM`
+:   `aio_reqprio` 필드가 클래스 `IOPRIO_CLASS_RT`로 설정돼 있지만 제출 동작을 하는 문맥에 `CAP_SYS_ADMIN` 역능이 없다.
 
 ## VERSIONS
 

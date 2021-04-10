@@ -33,10 +33,8 @@ int pthread_atfork(void (*prepare)(void), void (*parent)(void),
 
 ## ERRORS
 
-<dl>
-<dt><code>ENOMEM</code></dt>
-<dd>핸들러 항목을 기록하기 위한 메모리를 할당할 수 없다.</dd>
-</dl>
+`ENOMEM`
+:   핸들러 항목을 기록하기 위한 메모리를 할당할 수 없다.
 
 ## CONFORMING TO
 

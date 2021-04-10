@@ -21,13 +21,11 @@ int pthread_mutexattr_setpshared(pthread_mutexattr_t *attr,
 
 프로세스 공유 속성은 다음 값들 중 하나일 수 있다.
 
-<dl>
-<dt><code>PTHREAD_PROCESS_PRIVATE</code></dt>
-<dd>이 속성 객체로 생성하는 뮤텍스를 뮤텍스 초기화를 한 프로세스 내의 스레드들 사이에서만 공유한다. 프로세스 공유 뮤텍스 속성의 기본값이다.</dd>
+`PTHREAD_PROCESS_PRIVATE`
+:   이 속성 객체로 생성하는 뮤텍스를 뮤텍스 초기화를 한 프로세스 내의 스레드들 사이에서만 공유한다. 프로세스 공유 뮤텍스 속성의 기본값이다.
 
-<dt><code>PTHREAD_PROCESS_SHARED</code></dt>
-<dd>이 속성 객체로 생성하는 뮤텍스를 다른 프로세스의 스레드를 포함해 그 객체를 담은 메모리에 접근권이 있는 모든 스레드들 사이에 공유할 수 있다.</dd>
-</dl>
+`PTHREAD_PROCESS_SHARED`
+:   이 속성 객체로 생성하는 뮤텍스를 다른 프로세스의 스레드를 포함해 그 객체를 담은 메모리에 접근권이 있는 모든 스레드들 사이에 공유할 수 있다.
 
 `pthread_mutexattr_getpshared()`는 `attr`이 가리키는 뮤텍스 속성 객체의 프로세스 공유 속성 값을 `pshared`가 가리키는 위치에 넣는다.
 
@@ -41,12 +39,11 @@ int pthread_mutexattr_setpshared(pthread_mutexattr_t *attr,
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>pshared</code>에 지정한 값이 유효하지 않다.</dd>
-<dt><code>ENOTSUP</code></dt>
-<dd><code>pshared</code>가 <code>PTHREAD_PROCESS_SHARED</code>인데 구현에서 프로세스 공유 뮤텍스를 지원하지 않는다.
-</dl>
+`EINVAL`
+:   `pshared`에 지정한 값이 유효하지 않다.
+
+`ENOTSUP`
+:   `pshared`가 `PTHREAD_PROCESS_SHARED`인데 구현에서 프로세스 공유 뮤텍스를 지원하지 않는다.
 
 ## CONFORMING TO
 

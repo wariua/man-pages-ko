@@ -13,16 +13,12 @@ char *tmpnam_r(char *s);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>tmpnam_r()</code>:</dt>
-<dd>
- <dl>
- <dt>glibc 2.19부터:</dt>
- <dd><code>_DEFAULT_SOURCE</code></dd>
- <dt>glibc 2.19까지:</dt>
- <dd><code>_BSD_SOURCE || _SVID_SOURCE</code></dd>
- </dl>
-</dd>
+`tmpnam_r()`:
+:   glibc 2.19부터:
+    :   `_DEFAULT_SOURCE`
+
+    glibc 2.19까지:
+    :   `_BSD_SOURCE || _SVID_SOURCE`
 
 ## DESCRIPTION
 

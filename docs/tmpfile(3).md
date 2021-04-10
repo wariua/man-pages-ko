@@ -20,22 +20,26 @@ FILE *tmpfile(void);
 
 ## ERRORS
 
-<dl>
-<dt><code>EACCES</code></dt>
-<dd>파일의 경로 선두부의 디렉터리에 대해 탐색 권한이 거부되었다.</dd>
-<dt><code>EEXIST</code></dt>
-<dd>유일한 파일명을 만들어 낼 수 없음.</dd>
-<dt><code>EINTR</code></dt>
-<dd>시그널에 의해 호출이 중단되었다. <tt>[[signal(7)]]</tt> 참고.</dd>
-<dt><code>EMFILE</code></dt>
-<dd>열린 파일 디스크립터 개수에 대한 프로세스별 제한에 도달했다.</dd>
-<dt><code>ENFILE</code></dt>
-<dd>열린 파일 총개수에 대한 시스템 전역 제한에 도달했다.</dd>
-<dt><code>ENOSPC</code></dt>
-<dd>디렉터리에 새 파일명을 추가할 공간이 없다.</dd>
-<dt><code>EROFS</code></dt>
-<dd>읽기 전용 파일 시스템.</dd>
-</dl>
+`EACCES`
+:   파일의 경로 선두부의 디렉터리에 대해 탐색 권한이 거부되었다.
+
+`EEXIST`
+:   유일한 파일명을 만들어 낼 수 없음.
+
+`EINTR`
+:   시그널에 의해 호출이 중단되었다. <tt>[[signal(7)]]</tt> 참고.
+
+`EMFILE`
+:   열린 파일 디스크립터 개수에 대한 프로세스별 제한에 도달했다.
+
+`ENFILE`
+:   열린 파일 총개수에 대한 시스템 전역 제한에 도달했다.
+
+`ENOSPC`
+:   디렉터리에 새 파일명을 추가할 공간이 없다.
+
+`EROFS`
+:   읽기 전용 파일 시스템.
 
 ## ATTRIBUTES
 

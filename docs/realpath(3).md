@@ -13,14 +13,10 @@ char *realpath(const char *path, char *resolved_path);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>realpath()</code>:</dt>
-<dd>
-<code>_XOPEN_SOURCE >= 500</code><br>
-<code>    || /* glibc 2.19부터: */ _DEFAULT_SOURCE</code><br>
-<code>    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE</code>
-</dd>
-</dl>
+`realpath()`:
+:   `_XOPEN_SOURCE >= 500`<br>
+    `    || /* glibc 2.19부터: */ _DEFAULT_SOURCE`<br>
+    `    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE`
 
 ## DESCRIPTION
 
@@ -36,24 +32,29 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## ERRORS
 
-<dl>
-<dt><code>EACCES</code></dt>
-<dd>경로 선두부의 어느 요소에 대해 읽기 내지 탐색 권한이 거부되었다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>path</code>가 NULL이다. (glibc 버전 2.3 전에서는 <code>resolved_path</code>가 NULL인 경우에도 이 오류를 반환한다.)</dd>
-<dt><code>EIO</code></dt>
-<dd>파일 시스템에서 읽기를 하는 동안 I/O 오류가 발생했다.</dd>
-<dt><code>ELOOP</code></dt>
-<dd>경로명을 변환하는 동안 너무 많은 심볼릭 링크를 만났다.</dd>
-<dt><code>ENAMETOOLONG</code></dt>
-<dd>경로명의 어느 요소가 <code>NAME_MAX</code> 글자를 넘었다. 또는 전체 경로명이 <code>PATH_MAX</code> 글자를 넘었다.</dd>
-<dt><code>ENOENT</code></dt>
-<dd>해당 파일이 존재하지 않는다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>메모리 부족.</dd>
-<dt><code>ENOTDIR</code></dt>
-<dd>경로 선두부의 한 요소가 디렉터리가 아니다.</dd>
-</dl>
+`EACCES`
+:   경로 선두부의 어느 요소에 대해 읽기 내지 탐색 권한이 거부되었다.
+
+`EINVAL`
+:   `path`가 NULL이다. (glibc 버전 2.3 전에서는 `resolved_path`가 NULL인 경우에도 이 오류를 반환한다.)
+
+`EIO`
+:   파일 시스템에서 읽기를 하는 동안 I/O 오류가 발생했다.
+
+`ELOOP`
+:   경로명을 변환하는 동안 너무 많은 심볼릭 링크를 만났다.
+
+`ENAMETOOLONG`
+:   경로명의 어느 요소가 `NAME_MAX` 글자를 넘었다. 또는 전체 경로명이 `PATH_MAX` 글자를 넘었다.
+
+`ENOENT`
+:   해당 파일이 존재하지 않는다.
+
+`ENOMEM`
+:   메모리 부족.
+
+`ENOTDIR`
+:   경로 선두부의 한 요소가 디렉터리가 아니다.
 
 ## ATTRIBUTES
 

@@ -33,24 +33,29 @@ ssize_t copy_file_range(int fd_in, loff_t *off_in,
 
 ## ERRORS
 
-<dl>
-<dt><code>EBADF</code></dt>
-<dd>한 개 이상의 파일 디스크립터가 유효하지 않다. 또는 <code>fd_in</code>이 읽기 가능하게 열려 있지 않다. 또는 <code>fd_out</code>이 쓰기 가능하게 열려 있지 않다. 또는 <code>fd_out</code>이 가리키는 열린 파일 기술 항목(<tt>[[open(2)]]</tt> 참고)에 <code>O_APPEND</code> 플래그가 설정되어 있다.</dd>
-<dt><code>EFBIG</code></dt>
-<dd>구현에서 정의하는 파일 최대 크기나 프로세스의 파일 크기 제한을 초과하도록 파일 쓰기 시도가 이뤄졌거나, 가능한 최대 오프셋을 넘는 위치에서 쓰기 시도가 이뤄졌다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>요청 범위가 출발 파일의 끝을 벗어난다. 또는 <code>flags</code> 인자가 0이 아니다.</dd>
-<dt><code>EIO</code></dt>
-<dd>복사 중에 저수준 I/O 오류가 발생했다.</dd>
-<dt><code>EISDIR</code></dt>
-<dd><code>fd_in</code>이나 <code>fd_out</code>이 디렉터리를 가리키고 있다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>메모리 부족.</dd>
-<dt><code>ENOSPC</code></dt>
-<dd>대상 파일 시스템에 복사를 완료하기 위한 충분한 공간이 없다.</dd>
-<dt><code>EXDEV</code></dt>
-<dd><code>file_in</code>과 <code>file_out</code>이 가리키는 파일이 같은 파일 시스템 상에 있지 않다.</dd>
-</dl>
+`EBADF`
+:   한 개 이상의 파일 디스크립터가 유효하지 않다. 또는 `fd_in`이 읽기 가능하게 열려 있지 않다. 또는 `fd_out`이 쓰기 가능하게 열려 있지 않다. 또는 `fd_out`이 가리키는 열린 파일 기술 항목(<tt>[[open(2)]]</tt> 참고)에 `O_APPEND` 플래그가 설정되어 있다.
+
+`EFBIG`
+:   구현에서 정의하는 파일 최대 크기나 프로세스의 파일 크기 제한을 초과하도록 파일 쓰기 시도가 이뤄졌거나, 가능한 최대 오프셋을 넘는 위치에서 쓰기 시도가 이뤄졌다.
+
+`EINVAL`
+:   요청 범위가 출발 파일의 끝을 벗어난다. 또는 `flags` 인자가 0이 아니다.
+
+`EIO`
+:   복사 중에 저수준 I/O 오류가 발생했다.
+
+`EISDIR`
+:   `fd_in`이나 `fd_out`이 디렉터리를 가리키고 있다.
+
+`ENOMEM`
+:   메모리 부족.
+
+`ENOSPC`
+:   대상 파일 시스템에 복사를 완료하기 위한 충분한 공간이 없다.
+
+`EXDEV`
+:   `file_in`과 `file_out`이 가리키는 파일이 같은 파일 시스템 상에 있지 않다.
 
 ## VERSIONS
 

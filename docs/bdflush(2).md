@@ -33,16 +33,17 @@ int bdflush(int func, long data);
 
 ## ERRORS
 
-<dl>
-<dt><code>EBUSY</code></dt>
-<dd>다른 프로세스에서 이미 진입한 후에 데몬 코드에 진입하려고 시도하였다.</dd>
-<dt><code>EFAULT</code></dt>
-<dd><code>address</code>가 접근 가능한 주소 공간 밖을 가리킨다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>유효하지 않은 매개변수 번호에 읽거나 쓰려고 시도했거나, 매개변수에 유효하지 않은 값을 쓰려고 시도했다.</dd>
-<dt><code>EPERM</code></dt>
-<dd>호출자에게 <code>CAP_SYS_ADMIN</code> 역능이 없다.</dd>
-</dl>
+`EBUSY`
+:   다른 프로세스에서 이미 진입한 후에 데몬 코드에 진입하려고 시도하였다.
+
+`EFAULT`
+:   `address`가 접근 가능한 주소 공간 밖을 가리킨다.
+
+`EINVAL`
+:   유효하지 않은 매개변수 번호에 읽거나 쓰려고 시도했거나, 매개변수에 유효하지 않은 값을 쓰려고 시도했다.
+
+`EPERM`
+:   호출자에게 `CAP_SYS_ADMIN` 역능이 없다.
 
 ## VERSIONS
 

@@ -23,16 +23,17 @@ int io_cancel(aio_context_t ctx_id, struct iocb *iocb,
 
 ## ERRORS
 
-<dl>
-<dt><code>EAGAIN</code></dt>
-<dd>지정한 <code>iocb</code>가 취소되지 않았다.</dd>
-<dt><code>EFAULT</code></dt>
-<dd>한 자료 구조가 유효하지 않은 데이터를 가리키고 있다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>ctx_id</code>로 지정한 AIO 문맥이 유효하지 않다.</dd>
-<dt><code>ENOSYS</code></dt>
-<dd>이 아키텍처에 <code>io_cancel()</code>이 구현돼 있지 않다.</dd>
-</dl>
+`EAGAIN`
+:   지정한 `iocb`가 취소되지 않았다.
+
+`EFAULT`
+:   한 자료 구조가 유효하지 않은 데이터를 가리키고 있다.
+
+`EINVAL`
+:   `ctx_id`로 지정한 AIO 문맥이 유효하지 않다.
+
+`ENOSYS`
+:   이 아키텍처에 `io_cancel()`이 구현돼 있지 않다.
 
 ## VERSIONS
 

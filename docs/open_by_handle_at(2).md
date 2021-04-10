@@ -81,39 +81,46 @@ struct file_handle {
 
 `name_to_handle_at()`이 다음 오류로 실패할 수 있다.
 
-<dl>
-<dt><code>EFAULT</code></dt>
-<dd><code>pathname</code>이나 <code>mount_id</code>, <code>handle</code>이 접근 가능한 주소 공간 밖을 가리킨다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>flags</code>에 유효하지 않은 비트 값이 포함돼 있다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>handle-&gt;handle_bytes</code>가 <code>MAX_HANDLE_SZ</code>보다 크다.</dd>
-<dt><code>ENOENT</code></dt>
-<dd><code>pathname</code>이 빈 문자열인데 <code>flags</code>에 <code>AT_EMPTY_PATH</code>를 지정하지 않았다.</dd>
-<dt><code>ENOTDIR</code></dt>
-<dd><code>dirfd</code>로 준 파일 디스크립터가 디렉터리를 가리키고 있지 않으며, <code>flags</code>에 <code>AT_EMPTY_PATH</code>가 있으면서 <code>pathname</code>이 빈 문자열인 경우가 아니다.</dd>
-<dt><code>EOPNOTSUPP</code></dt>
-<dd>파일 시스템에서 경로명을 파일 핸들로 디코딩 하는 걸 지원하지 않는다.</dd>
-<dt><code>EOVERFLOW</code></dt>
-<dd>호출로 전달한 <code>handle-&gt;handle_bytes</code> 값이 너무 작다. 이 오류 발생 시 핸들에 필요한 크기를 나타내도록 <code>handle-&gt;handle_bytes</code>가 갱신된다.</dd>
-</dl>
+`EFAULT`
+:   `pathname`이나 `mount_id`, `handle`이 접근 가능한 주소 공간 밖을 가리킨다.
+
+`EINVAL`
+:   `flags`에 유효하지 않은 비트 값이 포함돼 있다.
+
+`EINVAL`
+:   `handle->handle_bytes`가 `MAX_HANDLE_SZ`보다 크다.
+
+`ENOENT`
+:   `pathname`이 빈 문자열인데 `flags`에 `AT_EMPTY_PATH`를 지정하지 않았다.
+
+`ENOTDIR`
+:   `dirfd`로 준 파일 디스크립터가 디렉터리를 가리키고 있지 않으며, `flags`에 `AT_EMPTY_PATH`가 있으면서 `pathname`이 빈 문자열인 경우가 아니다.
+
+`EOPNOTSUPP`
+:   파일 시스템에서 경로명을 파일 핸들로 디코딩 하는 걸 지원하지 않는다.
+
+`EOVERFLOW`
+:   호출로 전달한 `handle->handle_bytes` 값이 너무 작다. 이 오류 발생 시 핸들에 필요한 크기를 나타내도록 `handle->handle_bytes`가 갱신된다.
 
 `open_by_handle_at()`이 다음 오류로 실패할 수 있다.
 
-<dl>
-<dt><code>EBADF</code></dt>
-<dd><code>mount_fd</code>가 열린 파일 디스크립터가 아니다.</dd>
-<dt><code>EFAULT</code></dt>
-<dd><code>handle</code>이 접근 가능한 주소 공간 밖을 가리킨다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>handle-&gt;handle_bytes</code>가 <code>MAX_HANDLE_SZ</code>보다 크거나 0과 같다.</dd>
-<dt><code>ELOOP</code></dt>
-<dd><code>handle</code>이 심볼릭 링크를 가리키는데 <code>flags</code>에 <code>O_PATH</code>가 지정돼 있지 않다.</dd>
-<dt><code>EPERM</code></dt>
-<dd>호출자에게 <code>CAP_DAC_READ_SEARCH</code> 역능이 없다.</dd>
-<dt><code>ESTALE</code></dt>
-<dd>지정한 <code>handle</code>이 유효하지 않다. 예를 들어 파일이 삭제됐을 때 이 오류가 발생하게 된다.</dd>
-</dl>
+`EBADF`
+:   `mount_fd`가 열린 파일 디스크립터가 아니다.
+
+`EFAULT`
+:   `handle`이 접근 가능한 주소 공간 밖을 가리킨다.
+
+`EINVAL`
+:   `handle->handle_bytes`가 `MAX_HANDLE_SZ`보다 크거나 0과 같다.
+
+`ELOOP`
+:   `handle`이 심볼릭 링크를 가리키는데 `flags`에 `O_PATH`가 지정돼 있지 않다.
+
+`EPERM`
+:   호출자에게 `CAP_DAC_READ_SEARCH` 역능이 없다.
+
+`ESTALE`
+:   지정한 `handle`이 유효하지 않다. 예를 들어 파일이 삭제됐을 때 이 오류가 발생하게 된다.
 
 ## VERSIONS
 
@@ -392,7 +399,7 @@ main(int argc, char *argv[])
 
 <tt>[[open(2)]]</tt>, `libblkid(3)`, `blkid(8)`, `findfs(8)`, <tt>[[mount(8)]]</tt>
 
-`util-linux` 최신 릴리스의 `libblkid` 및 `libmount` 문서 (https://www.kernel.org/pub/linux/utils/util-linux/)
+`util-linux` 최신 릴리스의 `libblkid` 및 `libmount` 문서 (<https://www.kernel.org/pub/linux/utils/util-linux/>)
 
 ----
 

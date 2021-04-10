@@ -46,76 +46,62 @@ RTC와 시스템 클럭의 핵심 차이는 시스템이 저전력 상태(꺼진
 
 RTC 장치에 연결된 파일 디스크립터에서 다음 `ioctl(2)` 요청들이 정의돼 있다.
 
-<dl>
-<dt><code>RTC_RD_TIME</code></dt>
-<dd>
+`RTC_RD_TIME`
+:   다음 구조체로 RTC의 시간을 반환한다.
 
-다음 구조체로 RTC의 시간을 반환한다.
+        struct rtc_time {
+            int tm_sec;
+            int tm_min;
+            int tm_hour;
+            int tm_mday;
+            int tm_mon;
+            int tm_year;
+            int tm_wday;     /* 사용 안 함 */
+            int tm_yday;     /* 사용 안 함 */
+            int tm_isdst;    /* 사용 안 함 */
+        };
 
-```c
-struct rtc_time {
-    int tm_sec;
-    int tm_min;
-    int tm_hour;
-    int tm_mday;
-    int tm_mon;
-    int tm_year;
-    int tm_wday;     /* 사용 안 함 */
-    int tm_yday;     /* 사용 안 함 */
-    int tm_isdst;    /* 사용 안 함 */
-};
-```
+    이 구조체 필드들의 의미와 범위는 <tt>[[gmtime(3)]]</tt>에 설명된 `tm` 구조체와 같다. `ioctl(2)` 세 번째 인자로 이 구조체에 대한 포인터를 전달해야 한다.
 
-이 구조체 필드들의 의미와 범위는 <tt>[[gmtime(3)]]</tt>에 설명된 <code>tm</code> 구조체와 같다. <code>ioctl(2)</code> 세 번째 인자로 이 구조체에 대한 포인터를 전달해야 한다.
-</dd>
+`RTC_SET_TIME`
+:   이 RTC의 시간을 `ioctl(2)` 세 번째 인자가 가리키는 `rtc_time` 구조체가 나타내는 시간으로 설정한다. RTC 시간을 설정하려면 프로세스에게 특권이 있어야 한다. (즉 `CAP_SYS_TIME` 역능이 있어야 한다.)
 
-<dt><code>RTC_SET_TIME</code></dt>
-<dd>이 RTC의 시간을 <code>ioctl(2)</code> 세 번째 인자가 가리키는 <code>rtc_time</code> 구조체가 나타내는 시간으로 설정한다. RTC 시간을 설정하려면 프로세스에게 특권이 있어야 한다. (즉 <code>CAP_SYS_TIME</code> 역능이 있어야 한다.)</dd>
+`RTC_ALM_READ`, `RTC_ALM_SET`
+:   알람을 지원하는 RTC에 대해서 알람 시간을 읽거나 설정한다. 알람 인터럽트를 켜거나 끄는 건 `RTC_AIE_ON` 및 `RTC_AIE_OFF` 요청을 써서 따로 해야 한다. `ioctl(2)` 세 번째 인자는 `rtc_time` 구조체에 대한 포인터이다. 그 구조체의 `tm_sec`, `tm_min`, `tm_hour` 필드만 쓴다.
 
-<dt><code>RTC_ALM_READ</code>, <code>RTC_ALM_SET</code></dt>
-<dd>알람을 지원하는 RTC에 대해서 알람 시간을 읽거나 설정한다. 알람 인터럽트를 켜거나 끄는 건 <code>RTC_AIE_ON</code> 및 <code>RTC_AIE_OFF</code> 요청을 써서 따로 해야 한다. <code>ioctl(2)</code> 세 번째 인자는 <code>rtc_time</code> 구조체에 대한 포인터이다. 그 구조체의 <code>tm_sec</code>, <code>tm_min</code>, <code>tm_hour</code> 필드만 쓴다.</dd>
+`RTC_IRQP_READ`, `RTC_IRQP_SET`
+:   주기적 인터럽트를 지원하는 RTC에 대해서 주기적 인터럽트의 빈도를 읽거나 설정한다. 주기적 인터럽트를 켜거나 끄는 건 `RTC_PIE_ON` 및 `RTC_PIE_OFF` 요청을 써서 따로 해야 한다. `ioctl(2)` 세 번째 인자는 각각 `unsigned long *`와 `unsigned long`이다. 그 값이 초당 인터럽트 빈도이다. 허용 가능한 빈도는 2에서 8192까지 범위 내의 2의 배수들이다. 특권 프로세스만 (즉 `CAP_SYS_RESOURCE` 역능을 가진 프로세스만) `/proc/sys/dev/rtc/max-user-freq`에 지정된 값보다 높게 빈도를 설정할 수 있다. (이 파일에 기본으로 들어 있는 값은 64이다.)
 
-<dt><code>RTC_IRQP_READ</code>, <code>RTC_IRQP_SET</code></dt>
-<dd>주기적 인터럽트를 지원하는 RTC에 대해서 주기적 인터럽트의 빈도를 읽거나 설정한다. 주기적 인터럽트를 켜거나 끄는 건 <code>RTC_PIE_ON</code> 및 <code>RTC_PIE_OFF</code> 요청을 써서 따로 해야 한다. <code>ioctl(2)</code> 세 번째 인자는 각각 <code>unsigned long *</code>와 <code>unsigned long</code>이다. 그 값이 초당 인터럽트 빈도이다. 허용 가능한 빈도는 2에서 8192까지 범위 내의 2의 배수들이다. 특권 프로세스만 (즉 <code>CAP_SYS_RESOURCE</code> 역능을 가진 프로세스만) <code>/proc/sys/dev/rtc/max-user-freq</code>에 지정된 값보다 높게 빈도를 설정할 수 있다. (이 파일에 기본으로 들어 있는 값은 64이다.)</dd>
+`RTC_AIE_ON`, `RTC_AIE_OFF`
+:   알람을 지원하는 RTC에 대해서 알람 인터럽트를 켜거나 끈다. `ioctl(2)` 세 번째 인자는 무시한다.
 
-<dt><code>RTC_AIE_ON</code>, <code>RTC_AIE_OFF</code></dt>
-<dd>알람을 지원하는 RTC에 대해서 알람 인터럽트를 켜거나 끈다. <code>ioctl(2)</code> 세 번째 인자는 무시한다.</dd>
+`RTC_UIE_ON`, `RTC_UIE_OFF`
+:   초당 일회 방식 인터럽트를 지원하는 RTC에 대해서 모든 클럭 갱신 인터럽트를 켜거나 끈다. `ioctl(2)` 세 번째 인자는 무시한다.
 
-<dt><code>RTC_UIE_ON</code>, <code>RTC_UIE_OFF</code></dt>
-<dd>초당 일회 방식 인터럽트를 지원하는 RTC에 대해서 모든 클럭 갱신 인터럽트를 켜거나 끈다. <code>ioctl(2)</code> 세 번째 인자는 무시한다.</dd>
+`RTC_PIE_ON`, `RTC_PIE_OFF`
+:   주기적 인터럽트를 지원하는 RTC에 대해서 주기적 인터럽트를 켜거나 끈다. `ioctl(2)` 세 번째 인자는 무시한다. 현재 빈도가 `/proc/sys/dev/rtc/max-user-freq`에 지정된 값보다 높게 설정돼 있는 경우 특권 프로세스만 (즉 `CAP_SYS_RESOURCE` 역능을 가진 프로세스만) 주기적 인터럽트를 켤 수 있다.
 
-<dt><code>RTC_PIE_ON</code>, <code>RTC_PIE_OFF</code></dt>
-<dd>주기적 인터럽트를 지원하는 RTC에 대해서 주기적 인터럽트를 켜거나 끈다. <code>ioctl(2)</code> 세 번째 인자는 무시한다. 현재 빈도가 <code>/proc/sys/dev/rtc/max-user-freq</code>에 지정된 값보다 높게 설정돼 있는 경우 특권 프로세스만 (즉 <code>CAP_SYS_RESOURCE</code> 역능을 가진 프로세스만) 주기적 인터럽트를 켤 수 있다.</dd>
+`RTC_EPOCH_READ`, `RTC_EPOCH_SET`
+:   여러 RTC들에선 8비트 레지스터로 연도를 나타내고 8비트 이진 값으로 또는 BCD 값으로 해석한다. 어느 경우든 이 RTC의 에포크를 기준으로 그 값을 해석한다. 많은 시스템에선 RTC의 에포크가 1900으로 초기화 돼 있지만 Alpha나 MIPS에서는 RTC의 연도 레지스터 값에 따라 1952나 1980, 2000으로 초기화 돼 있을 수도 있다. 일부 RTC들에선 이 동작들을 사용해 RTC의 에포크를 읽거나 설정할 수 있다. `ioctl(2)` 세 번째 인자는 각각 `unsigned long *`와 `unsigned long`이며 반환(할당) 값이 에포크이다. RTC의 에포크를 설정하려면 프로세스에게 특권이 있어야 (즉 `CAP_SYS_TIME` 역능이 있어야) 한다.
 
-<dt><code>RTC_EPOCH_READ</code>, <code>RTC_EPOCH_SET</code></dt>
-<dd>여러 RTC들에선 8비트 레지스터로 연도를 나타내고 8비트 이진 값으로 또는 BCD 값으로 해석한다. 어느 경우든 이 RTC의 에포크를 기준으로 그 값을 해석한다. 많은 시스템에선 RTC의 에포크가 1900으로 초기화 돼 있지만 Alpha나 MIPS에서는 RTC의 연도 레지스터 값에 따라 1952나 1980, 2000으로 초기화 돼 있을 수도 있다. 일부 RTC들에선 이 동작들을 사용해 RTC의 에포크를 읽거나 설정할 수 있다. <code>ioctl(2)</code> 세 번째 인자는 각각 <code>unsigned long *</code>와 <code>unsigned long</code>이며 반환(할당) 값이 에포크이다. RTC의 에포크를 설정하려면 프로세스에게 특권이 있어야 (즉 <code>CAP_SYS_TIME</code> 역능이 있어야) 한다.</dd>
+`RTC_WKALM_RD`, `RTC_WKALM_SET`
+:   일부 RTC들은 더 강력한 알람 인터페이스를 제공하며, 이 ioctl을 이용해 그 RTC의 알람 시간을 다음 구조체로 읽거나 쓸 수 있다.
 
-<dt><code>RTC_WKALM_RD</code>, <code>RTC_WKALM_SET</code></dt>
-<dd>
+        struct rtc_wkalrm {
+            unsigned char enabled;
+            unsigned char pending;
+            struct rtc_time time;
+        };
 
-일부 RTC들은 더 강력한 알람 인터페이스를 제공하며, 이 ioctl을 이용해 그 RTC의 알람 시간을 다음 구조체로 읽거나 쓸 수 있다.
-
-```c
-struct rtc_wkalrm {
-    unsigned char enabled;
-    unsigned char pending;
-    struct rtc_time time;
-};
-```
-
-<code>enabled</code> 플래그는 알람 인터럽트를 켜고 끄거나 현재 상태를 읽는 데 쓴다. 이 호출 사용 시 <code>RTC_AIE_ON</code> 및 <code>RTC_AIE_OFF</code>는 쓰지 않는다. <code>pending</code> 플래그는 <code>RTC_WKALM_RD</code>에서 미처리 인터럽트를 알려 주기 위한 것이다. (그래서 EFI 펌웨어가 관리하는 RTC를 다룰 때를 빼면 리눅스에서는 쓸 일이 거의 없다.) <code>time</code> 필드는 <code>RTC_ALM_READ</code> 및 <code>RTC_ALM_SET</code>에서와 마찬가지이되 <code>tm_mday</code>, <code>tm_mon</code>, <code>tm_year</code> 필드도 유효하다. 이 구조체에 대한 포인터를 <code>ioctl(2)</code> 세 번째 인자로 전달해야 한다.
-</dd>
-</dl>
+    `enabled` 플래그는 알람 인터럽트를 켜고 끄거나 현재 상태를 읽는 데 쓴다. 이 호출 사용 시 `RTC_AIE_ON` 및 `RTC_AIE_OFF`는 쓰지 않는다. `pending` 플래그는 `RTC_WKALM_RD`에서 미처리 인터럽트를 알려 주기 위한 것이다. (그래서 EFI 펌웨어가 관리하는 RTC를 다룰 때를 빼면 리눅스에서는 쓸 일이 거의 없다.) `time` 필드는 `RTC_ALM_READ` 및 `RTC_ALM_SET`에서와 마찬가지이되 `tm_mday`, `tm_mon`, `tm_year` 필드도 유효하다. 이 구조체에 대한 포인터를 `ioctl(2)` 세 번째 인자로 전달해야 한다.
 
 ## FILES
 
-<dl>
-<dt><code>/dev/rtc</code>, <code>/dev/rtc0</code>, <code>/dev/rtc1</code> 등</dt>
-<dd>RTC 특수 문자 장치 파일.</dd>
+`/dev/rtc`, `/dev/rtc0`, `/dev/rtc1` 등
+:   RTC 특수 문자 장치 파일.
 
-<dt><code>/proc/driver/rtc</code></dt>
-<dd>(첫 번째) RTC의 상태.</dd>
-</dl>
+`/proc/driver/rtc`
+:   (첫 번째) RTC의 상태.
 
 ## NOTES
 

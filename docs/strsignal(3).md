@@ -14,17 +14,12 @@ extern const char * const sys_siglist[];
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>strsignal()</code>:</dt>
-<dd>
- <dl>
- <dt>glibc 2.10부터:</dt>
- <dd><code>_POSIX_C_SOURCE >= 200809L</code></dd>
- <dt>glibc 2.10 전:</dt>
- <dd><code>_GNU_SOURCE</code></dd>
- </dl>
-</dd>
-</dl>
+`strsignal()`:
+:   glibc 2.10부터:
+    :   `_POSIX_C_SOURCE >= 200809L`
+
+    glibc 2.10 전:
+    :   `_GNU_SOURCE`
 
 ## DESCRIPTION
 

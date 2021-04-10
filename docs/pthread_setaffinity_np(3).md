@@ -32,18 +32,20 @@ CPU 친화성 마스크에 대한 더 자세한 내용은 <tt>[[sched_setaffinit
 
 ## ERRORS
 
-<dl>
-<dt><code>EFAULT</code></dt>
-<dd>제공한 메모리 주소가 유효하지 않다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>(<code>pthread_setaffinity_np()</code>) 친화성 비트 마스크 <code>mask</code>가 현재 물리적으로 시스템 상에 있으면서 <tt>[[cpuset(7)]]</tt>에서 기술하는 "cpuset" 메커니즘으로 부과할 수 있는 제약에 따라 스레드에게 허용된 프로세서를 하나도 포함하고 있지 않다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>(<code>pthread_setaffinity_np()</code>) <code>cpuset</code>으로 커널에서 지원하는 집합을 벗어나는 CPU를 지정했다. (커널 구성 옵션 <code>CONFIG_NR_CPUS</code>가 CPU 집합 표현에 쓰는 커널 데이터 타입이 지원하는 집합의 범위를 규정한다.)</dd>
-<dt><code>EINVAL</code></dt>
-<dd>(<code>pthread_getaffinity_np()</code>) <code>cpusetsize</code>가 커널에서 쓰는 친화성 마스크의 크기보다 작다.</dd>
-<dt><code>ESRCH</code></dt>
-<dd>ID가 <code>thread</code>인 스레드를 찾을 수 없다.</dd>
-</dl>
+`EFAULT`
+:   제공한 메모리 주소가 유효하지 않다.
+
+`EINVAL`
+:   (`pthread_setaffinity_np()`) 친화성 비트 마스크 `mask`가 현재 물리적으로 시스템 상에 있으면서 <tt>[[cpuset(7)]]</tt>에서 기술하는 "cpuset" 메커니즘으로 부과할 수 있는 제약에 따라 스레드에게 허용된 프로세서를 하나도 포함하고 있지 않다.
+
+`EINVAL`
+:   (`pthread_setaffinity_np()`) `cpuset`으로 커널에서 지원하는 집합을 벗어나는 CPU를 지정했다. (커널 구성 옵션 `CONFIG_NR_CPUS`가 CPU 집합 표현에 쓰는 커널 데이터 타입이 지원하는 집합의 범위를 규정한다.)
+
+`EINVAL`
+:   (`pthread_getaffinity_np()`) `cpusetsize`가 커널에서 쓰는 친화성 마스크의 크기보다 작다.
+
+`ESRCH`
+:   ID가 `thread`인 스레드를 찾을 수 없다.
 
 ## VERSIONS
 

@@ -26,16 +26,17 @@ int DES_FAILED(int status);
 
 ## RETURN VALUE
 
-<dl>
-<dt><code>DESERR_NONE</code></dt>
-<dd>오류 없음.</dd>
-<dt><code>DESERR_NOHWDEVICE</code></dt>
-<dd>암호화가 성공하긴 했지만 요청한 하드웨어가 아니라 소프트웨어에서 이뤄졌다.</dd>
-<dt><code>DESERR_HWERROR</code></dt>
-<dd>하드웨어나 드라이버에서 오류가 발생했다.</dd>
-<dt><code>DESERR_BADPARAM</code></dt>
-<dd>루틴 인자가 잘못되었다.</dd>
-</dl>
+`DESERR_NONE`
+:   오류 없음.
+
+`DESERR_NOHWDEVICE`
+:   암호화가 성공하긴 했지만 요청한 하드웨어가 아니라 소프트웨어에서 이뤄졌다.
+
+`DESERR_HWERROR`
+:   하드웨어나 드라이버에서 오류가 발생했다.
+
+`DESERR_BADPARAM`
+:   루틴 인자가 잘못되었다.
 
 결과 상태 `stat`이 있을 때 처음 두 가지 상태에 대해서만 매크로 `DES_FAILED(stat)`이 거짓이다.
 

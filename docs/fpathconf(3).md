@@ -21,55 +21,34 @@ long pathconf(const char *path, int name);
 
 `name`을 다음 상수들 중 하나로 설정하면 다음 구성 옵션들을 반환한다.
 
-<dl>
-<dt><code>_PC_LINK_MAX</code></dt>
-<dd>
-파일에 대한 링크의 최대 개수. <code>fd</code> 내지 <code>path</code>가 디렉터리를 가리키는 경우에는 그 디렉터리 전체에 값이 적용되는 것이다. 대응하는 매크로는 <code>_POSIX_LINK_MAX</code>다.
-</dd>
+`_PC_LINK_MAX`
+:   파일에 대한 링크의 최대 개수. `fd` 내지 `path`가 디렉터리를 가리키는 경우에는 그 디렉터리 전체에 값이 적용되는 것이다. 대응하는 매크로는 `_POSIX_LINK_MAX`다.
 
-<dt><code>_PC_MAX_CANON</code></dt>
-<dd>
-형식 있는 입력 행의 최대 길이이며 <code>fd</code> 내지 <code>path</code>가 터미널을 가리켜야 한다. 대응하는 매크로는 <code>_POSIX_MAX_CANON</code>이다.
-</dd>
+`_PC_MAX_CANON`
+:   형식 있는 입력 행의 최대 길이이며 `fd` 내지 `path`가 터미널을 가리켜야 한다. 대응하는 매크로는 `_POSIX_MAX_CANON`이다.
 
-<dt><code>_PC_MAX_INPUT</code></dt>
-<dd>
-입력 행의 최대 길이이며 <code>fd</code> 내지 <code>path</code>가 터미널을 가리켜야 한다. 대응하는 매크로는 <code>_POSIX_MAX_INPUT</code>이다.
-</dd>
+`_PC_MAX_INPUT`
+:   입력 행의 최대 길이이며 `fd` 내지 `path`가 터미널을 가리켜야 한다. 대응하는 매크로는 `_POSIX_MAX_INPUT`이다.
 
-<dt><code>_PC_NAME_MAX</code></dt>
-<dd>
-디렉터리 <code>path</code> 내지 <code>fd</code> 내에 프로세스가 생성할 수 있는 파일명의 최대 길이. 대응하는 매크로는 <code>_POSIX_NAME_MAX</code>이다.
-</dd>
+`_PC_NAME_MAX`
+:   디렉터리 `path` 내지 `fd` 내에 프로세스가 생성할 수 있는 파일명의 최대 길이. 대응하는 매크로는 `_POSIX_NAME_MAX`이다.
 
-<dt><code>_PC_PATH_MAX</code></dt>
-<dd>
-<code>path</code> 내지 <code>fd</code>가 현재 작업 디렉터리일 때 상대 경로명의 최대 길이. 대응하는 매크로는 <code>_POSIX_PATH_MAX</code>이다.
-</dd>
+`_PC_PATH_MAX`
+:   `path` 내지 `fd`가 현재 작업 디렉터리일 때 상대 경로명의 최대 길이. 대응하는 매크로는 `_POSIX_PATH_MAX`이다.
 
-<dt><code>_PC_PIPE_BUF</code></dt>
-<dd>
-FIFO나 파이프에 원자적으로 기록할 수 있는 최대 바이트 수. <code>fpathconf()</code>의 경우 <code>fd</code>가 파이프나 FIFO를 가리켜야 한다. <code>pathconf()</code>의 경우 <code>path</code>가 FIFO나 디렉터리를 가리켜야 하며, 후자의 경우 반환 값은 그 디렉터리에 생성되는 FIFO에 해당하는 것이다. 대응하는 매크로는 <code>_POSIX_PIPE_BUF</code>이다.
-</dd>
+`_PC_PIPE_BUF`
+:   FIFO나 파이프에 원자적으로 기록할 수 있는 최대 바이트 수. `fpathconf()`의 경우 `fd`가 파이프나 FIFO를 가리켜야 한다. `pathconf()`의 경우 `path`가 FIFO나 디렉터리를 가리켜야 하며, 후자의 경우 반환 값은 그 디렉터리에 생성되는 FIFO에 해당하는 것이다. 대응하는 매크로는 `_POSIX_PIPE_BUF`이다.
 
-<dt><code>_PC_CHOWN_RESTRICTED</code></dt>
-<dd>
+`_PC_CHOWN_RESTRICTED`
+:   <tt>[[chown(2)]]</tt> 및 <tt>[[fchown(2)]]</tt>을 사용해 파일의 사용자 ID를 바꾸는 것이 적절한 특권을 가진 프로세스로 제한되어 있고, 파일의 그룹 ID를 프로세스의 실효 그룹 ID나 추가 그룹 ID들 중 하나가 아닌 값으로 바꾸는 것이 적절한 특권을 가진 프로세스로 제한되어 있으면 양수 값을 반환한다. POSIX.1에 따르면 이 변수는 항상 -1이 아닌 값으로 정의되어 있어야 한다. 대응하는 매크로는 `_POSIX_CHOWN_RESTRICTED`이다.
 
-<tt>[[chown(2)]]</tt> 및 <tt>[[fchown(2)]]</tt>을 사용해 파일의 사용자 ID를 바꾸는 것이 적절한 특권을 가진 프로세스로 제한되어 있고, 파일의 그룹 ID를 프로세스의 실효 그룹 ID나 추가 그룹 ID들 중 하나가 아닌 값으로 바꾸는 것이 적절한 특권을 가진 프로세스로 제한되어 있으면 양수 값을 반환한다. POSIX.1에 따르면 이 변수는 항상 -1이 아닌 값으로 정의되어 있어야 한다. 대응하는 매크로는 <code>_POSIX_CHOWN_RESTRICTED</code>이다.
+    `fd` 내지 `path`가 디렉터리를 가리키는 경우에는 그 디렉터리 내의 모든 파일들에 값이 적용되는 것이다.
 
-<code>fd</code> 내지 <code>path</code>가 디렉터리를 가리키는 경우에는 그 디렉터리 내의 모든 파일들에 값이 적용되는 것이다.
-</dd>
+`_PC_NO_TRUNC`
+:   `_POSIX_NAME_MAX`보다 긴 파일명에 접근하려 하면 오류가 발생하는 경우 0 아닌 값을 반환한다. 대응하는 매크로는 `_POSIX_NO_TRUNC`이다.
 
-<dt><code>_PC_NO_TRUNC</code></dt>
-<dd>
-<code>_POSIX_NAME_MAX</code>보다 긴 파일명에 접근하려 하면 오류가 발생하는 경우 0 아닌 값을 반환한다. 대응하는 매크로는 <code>_POSIX_NO_TRUNC</code>이다.
-</dd>
-
-<dt><code>_PC_VDISABLE</code></dt>
-<dd>
-특수 문자 처리를 끌 수 있으면 0 아닌 값을 반환하며 <code>fd</code> 내지 <code>path</code>가 터미널을 가리켜야 한다.
-</dd>
-</dl>
+`_PC_VDISABLE`
+:   특수 문자 처리를 끌 수 있으면 0 아닌 값을 반환하며 `fd` 내지 `path`가 터미널을 가리켜야 한다.
 
 ## RETURN VALUE
 
@@ -85,24 +64,29 @@ FIFO나 파이프에 원자적으로 기록할 수 있는 최대 바이트 수. 
 
 ## ERRORS
 
-<dl>
-<dt><code>EACCES</code></dt>
-<dd>(<code>pathconf()</code>) <code>path</code>의 경로 선두부 내의 한 디렉터리에 대해 탐색 권한이 거부되었다.</dd>
-<dt><code>EBADF</code></dt>
-<dd>(<code>fpathconf()</code>) <code>fd</code>가 유효한 파일 디스크립터가 아니다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>name</code>이 유효하지 않다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>구현에서 <code>name</code>과 지정 파일의 연계를 지원하지 않는다.</dd>
-<dt><code>ELOOP</code></dt>
-<dd>(<code>pathconf()</code>) <code>path</code>를 해석하는 동안 너무 많은 심볼릭 링크를 만났다.</dd>
-<dt><code>ENAMETOOLONG</code></dt>
-<dd>(<code>pathconf()</code>) <code>path</code>가 너무 길다.</dd>
-<dt><code>ENOENT</code></dt>
-<dd>(<code>pathconf()</code>) <code>path</code>의 어느 요소가 존재하지 않거나 <code>path</code>가 빈 문자열이다.</dd>
-<dt><code>ENOTDIR</code></dt>
-<dd>(<code>pathconf()</code>) <code>path</code>에 디렉터리로 쓰인 어느 요소가 실제로는 디렉터리가 아니다.</dd>
-</dl>
+`EACCES`
+:   (`pathconf()`) `path`의 경로 선두부 내의 한 디렉터리에 대해 탐색 권한이 거부되었다.
+
+`EBADF`
+:   (`fpathconf()`) `fd`가 유효한 파일 디스크립터가 아니다.
+
+`EINVAL`
+:   `name`이 유효하지 않다.
+
+`EINVAL`
+:   구현에서 `name`과 지정 파일의 연계를 지원하지 않는다.
+
+`ELOOP`
+:   (`pathconf()`) `path`를 해석하는 동안 너무 많은 심볼릭 링크를 만났다.
+
+`ENAMETOOLONG`
+:   (`pathconf()`) `path`가 너무 길다.
+
+`ENOENT`
+:   (`pathconf()`) `path`의 어느 요소가 존재하지 않거나 `path`가 빈 문자열이다.
+
+`ENOTDIR`
+:   (`pathconf()`) `path`에 디렉터리로 쓰인 어느 요소가 실제로는 디렉터리가 아니다.
 
 ## ATTRIBUTES
 

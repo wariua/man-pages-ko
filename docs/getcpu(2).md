@@ -26,10 +26,8 @@ int getcpu(unsigned *cpu, unsigned *node, struct getcpu_cache *tcache);
 
 ## ERRORS
 
-<dl>
-<dt><code>EFAULT</code></dt>
-<dd>인자가 호출 프로세스의 주소 공간 밖을 가리키고 있다.</dd>
-</dl>
+`EFAULT`
+:   인자가 호출 프로세스의 주소 공간 밖을 가리키고 있다.
 
 ## VERSIONS
 

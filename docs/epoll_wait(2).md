@@ -74,16 +74,17 @@ pthread_sigmask(SIG_SETMASK, &origmask, NULL);
 
 ## ERRORS
 
-<dl>
-<dt><code>EBADF</code></dt>
-<dd><code>epfd</code>가 유요한 파일 디스크립터가 아니다.</dd>
-<dt><code>EFAULT</code></dt>
-<dd><code>events</code>가 가리키는 메모리 영역이 쓰기 권한으로 접근 가능하지 않다.</dd>
-<dt><code>EINTR</code></dt>
-<dd>(1) 요청한 한 이벤트가 발생하거나 (2) <code>timeout</code>이 만료하기 전에 호출이 시그널 핸들러에 의해 중단되었다. <tt>[[signal(7)]]</tt> 참고.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>epfd</code>가 <strong>epoll</strong> 파일 디스크립터가 아니거나, <code>maxevents</code>가 0보다 작거나 같다.</dd>
-</dl>
+`EBADF`
+:   `epfd`가 유요한 파일 디스크립터가 아니다.
+
+`EFAULT`
+:   `events`가 가리키는 메모리 영역이 쓰기 권한으로 접근 가능하지 않다.
+
+`EINTR`
+:   (1) 요청한 한 이벤트가 발생하거나 (2) `timeout`이 만료하기 전에 호출이 시그널 핸들러에 의해 중단되었다. <tt>[[signal(7)]]</tt> 참고.
+
+`EINVAL`
+:   `epfd`가 **epoll** 파일 디스크립터가 아니거나, `maxevents`가 0보다 작거나 같다.
 
 ## VERSIONS
 

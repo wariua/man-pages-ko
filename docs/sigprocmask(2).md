@@ -21,10 +21,8 @@ int sigprocmask(int how, const old_kernel_sigset_t *set,
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>sigprocmask()</code>:</dt>
-<dd><code>_POSIX_C_SOURCE</code></dd>
-</dl>
+`sigprocmask()`:
+:   `_POSIX_C_SOURCE`
 
 ## DESCRIPTION
 
@@ -32,16 +30,14 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 다음과 같이 `how` 값에 따라 호출의 동작 방식이 달라진다.
 
-<dl>
-<dt><code>SIG_BLOCK</code></dt>
-<dd>현재 집합과 <code>set</code> 인자의 교집합이 차단 시그널 집합이 된다.</dd>
+`SIG_BLOCK`
+:   현재 집합과 `set` 인자의 교집합이 차단 시그널 집합이 된다.
 
-<dt><code>SIG_UNBLOCK</code></dt>
-<dd>현재 차단 시그널 집합에서 <code>set</code>의 시그널들을 제거한다. 막혀 있지 않은 시그널을 제거하려는 것도 허용한다.</dd>
+`SIG_UNBLOCK`
+:   현재 차단 시그널 집합에서 `set`의 시그널들을 제거한다. 막혀 있지 않은 시그널을 제거하려는 것도 허용한다.
 
-<dt><code>SIG_SETMASK</code></dt>
-<dd>차단 시그널 집합을 <code>set</code> 인자로 설정한다.</dd>
-</dl>
+`SIG_SETMASK`
+:   차단 시그널 집합을 `set` 인자로 설정한다.
 
 `oldset`이 NULL이 아니면 이전 시그널 마스크 값을 `oldset`에 저장한다.
 
@@ -57,12 +53,11 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## ERRORS
 
-<dl>
-<dt><code>EFAULT</code></dt>
-<dd><code>set</code>이나 <code>oldset</code> 인자가 프로세스에게 할당된 주소 공간 밖을 가리키고 있다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>how</code>로 지정한 값이 유효하지 않거나 <code>sigsetsize</code>로 전달한 크기를 커널이 지원하지 않는다.</dd>
-</dl>
+`EFAULT`
+:   `set`이나 `oldset` 인자가 프로세스에게 할당된 주소 공간 밖을 가리키고 있다.
+
+`EINVAL`
+:   `how`로 지정한 값이 유효하지 않거나 `sigsetsize`로 전달한 크기를 커널이 지원하지 않는다.
 
 ## CONFORMING TO
 

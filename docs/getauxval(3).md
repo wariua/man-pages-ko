@@ -18,85 +18,83 @@ unsigned long getauxval(unsigned long type);
 
 각 `type`별로 반환되는 값이 아래 목록에 나와 있다. 모든 아키텍처에 모든 `type` 값들이 있는 건 아니다.
 
-<dl>
-<dt><code>AT_BASE</code></dt>
-<dd>프로그램 인터프리터(일반적으로 동적 링커)의 기준 주소.</dd>
+`AT_BASE`
+:   프로그램 인터프리터(일반적으로 동적 링커)의 기준 주소.
 
-<dt><code>AT_BASE_PLATFORM</code></dt>
-<dd>실제 플랫폼을 나타내는 문자열. <code>AT_PLATFORM</code>과 다를 수도 있음 (PowerPC 한정).</dd>
+`AT_BASE_PLATFORM`
+:   실제 플랫폼을 나타내는 문자열. `AT_PLATFORM`과 다를 수도 있음 (PowerPC 한정).
 
-<dt><code>AT_CLKTCK</code></dt>
-<dd><tt>[[times(2)]]</tt>의 카운트 빈도. <code>sysconf(_SC_CLK_TCK)</code>로도 이 값을 얻을 수 있다.</dd>
+`AT_CLKTCK`
+:   <tt>[[times(2)]]</tt>의 카운트 빈도. `sysconf(_SC_CLK_TCK)`로도 이 값을 얻을 수 있다.
 
-<dt><code>AT_DCACHEBSIZE</code></dt>
-<dd>데이터 캐시 블록 크기.</dd>
+`AT_DCACHEBSIZE`
+:   데이터 캐시 블록 크기.
 
-<dt><code>AT_EGID</code></dt>
-<dd>스레드의 실효 그룹 ID.</dd>
+`AT_EGID`
+:   스레드의 실효 그룹 ID.
 
-<dt><code>AT_ENTRY</code></dt>
-<dd>실행 파일의 진입점 주소.</dd>
+`AT_ENTRY`
+:   실행 파일의 진입점 주소.
 
-<dt><code>AT_EUID</code></dt>
-<dd>스레드의 실효 사용자 ID.</dd>
+`AT_EUID`
+:   스레드의 실효 사용자 ID.
 
-<dt><code>AT_EXECFD</code></dt>
-<dd>프로그램의 파일 디스크립터.</dd>
+`AT_EXECFD`
+:   프로그램의 파일 디스크립터.
 
-<dt><code>AT_EXECFN</code></dt>
-<dd>프로그램 실행에 쓰인 경로명.</dd>
+`AT_EXECFN`
+:   프로그램 실행에 쓰인 경로명.
 
-<dt><code>AT_FLAGS</code></dt>
-<dd>플래그 (사용 안 함).</dd>
+`AT_FLAGS`
+:   플래그 (사용 안 함).
 
-<dt><code>AT_FPUCW</code></dt>
-<dd>사용한 FPU 컨트롤 워드 (SuperH 아키텍처 한정). 커널에서 수행한 FPU 초기화에 대한 일부 정보를 준다.</dd>
+`AT_FPUCW`
+:   사용한 FPU 컨트롤 워드 (SuperH 아키텍처 한정). 커널에서 수행한 FPU 초기화에 대한 일부 정보를 준다.
 
-<dt><code>AT_GID</code></dt>
-<dd>스레드의 실제 그룹 ID.</dd>
+`AT_GID`
+:   스레드의 실제 그룹 ID.
 
-<dt><code>AT_HWCAP</code></dt>
-<dd>아키텍처 및 ABI에 따라 달라지는 비트 마스크이며 세부적인 프로세서 능력들을 나타낸다. 비트 마스크의 내용물은 하드웨어에 따라 다르다. (예를 들어 인텔 x86 아키텍처에 관한 세부 사항은 커널 소스 파일의 <code>arch/x86/include/asm/cpufeature.h</code> 참고. 거기 기술된 배열의 첫 번째 32비트 워드가 반환되는 값이다.) 사람이 읽을 수 있는 형태의 같은 정보를 <code>/proc/cpuinfo</code>에서 볼 수 있다.</dd>
+`AT_HWCAP`
+:   아키텍처 및 ABI에 따라 달라지는 비트 마스크이며 세부적인 프로세서 능력들을 나타낸다. 비트 마스크의 내용물은 하드웨어에 따라 다르다. (예를 들어 인텔 x86 아키텍처에 관한 세부 사항은 커널 소스 파일의 `arch/x86/include/asm/cpufeature.h` 참고. 거기 기술된 배열의 첫 번째 32비트 워드가 반환되는 값이다.) 사람이 읽을 수 있는 형태의 같은 정보를 `/proc/cpuinfo`에서 볼 수 있다.
 
-<dt><code>AT_HWCAP2</code> (glibc 2.18부터)</dt>
-<dd>프로세서 기능에 대한 더 많은 머신별 힌트.</dd>
+`AT_HWCAP2` (glibc 2.18부터)
+:   프로세서 기능에 대한 더 많은 머신별 힌트.
 
-<dt><code>AT_ICACHEBSIZE</code></dt>
-<dd>인스트럭션 캐시 블록 크기.</dd>
+`AT_ICACHEBSIZE`
+:   인스트럭션 캐시 블록 크기.
 
-<dt><code>AT_PAGESZ</code></dt>
-<dd>시스템 페이지 크기. (<code>sysconf(_SC_PAGESIZE)</code>가 반환하는 값과 동일.)</dd>
+`AT_PAGESZ`
+:   시스템 페이지 크기. (`sysconf(_SC_PAGESIZE)`가 반환하는 값과 동일.)
 
-<dt><code>AT_PHDR</code></dt>
-<dd>실행 파일의 프로그램 헤더들의 주소.</dd>
+`AT_PHDR`
+:   실행 파일의 프로그램 헤더들의 주소.
 
-<dt><code>AT_PHENT</code></dt>
-<dd>프로그램 헤더 항목 크기.</dd>
+`AT_PHENT`
+:   프로그램 헤더 항목 크기.
 
-<dt><code>AT_PHNUM</code></dt>
-<dd>프로그램 헤더 개수.</dd>
+`AT_PHNUM`
+:   프로그램 헤더 개수.
 
-<dt><code>AT_PLATFORM</code></dt>
-<dd>프로그램이 돌고 있는 하드웨어 플랫폼을 나타내는 문자열에 대한 포인터. 동적 링커에서 <code>rpath</code> 값 해석 시 이 값을 사용한다.</dd>
+`AT_PLATFORM`
+:   프로그램이 돌고 있는 하드웨어 플랫폼을 나타내는 문자열에 대한 포인터. 동적 링커에서 `rpath` 값 해석 시 이 값을 사용한다.
 
-<dt><code>AT_RANDOM</code></dt>
-<dd>난수 값을 담은 열여섯 바이트의 주소.</dd>
+`AT_RANDOM`
+:   난수 값을 담은 열여섯 바이트의 주소.
 
-<dt><code>AT_SECURE</code></dt>
-<dd>이 실행 파일이 안전하게 다뤄지고 있으면 0 아닌 값을 가진다. 0 아닌 값이 보통은 프로세스가 set-user-ID 내지 set-group-ID 바이너리를 실행하고 있음을 (그래서 실제 UID 내지 GID가 실효 UID 내지 GID와 다름을), 또는 역능을 가진 바이너리 파일을 실행해서 역능(<tt>[[capabilities(7)]]</tt> 참고)을 얻었음을 나타낸다. 또는 리눅스 보안 모듈에 의한 것일 수도 있다. 이 값이 0이 아닐 때 동적 링커에서는 특정 환경 변수들의 사용을 비활성화하며 (<tt>[[ld-linux.so(8)]]</tt> 참고) glibc에서도 여타 동작 방식들을 바꾼다. (<tt>[[secure_getenv(3)]]</tt> 참고.)</dd>
+`AT_SECURE`
+:   이 실행 파일이 안전하게 다뤄지고 있으면 0 아닌 값을 가진다. 0 아닌 값이 보통은 프로세스가 set-user-ID 내지 set-group-ID 바이너리를 실행하고 있음을 (그래서 실제 UID 내지 GID가 실효 UID 내지 GID와 다름을), 또는 역능을 가진 바이너리 파일을 실행해서 역능(<tt>[[capabilities(7)]]</tt> 참고)을 얻었음을 나타낸다. 또는 리눅스 보안 모듈에 의한 것일 수도 있다. 이 값이 0이 아닐 때 동적 링커에서는 특정 환경 변수들의 사용을 비활성화하며 (<tt>[[ld-linux.so(8)]]</tt> 참고) glibc에서도 여타 동작 방식들을 바꾼다. (<tt>[[secure_getenv(3)]]</tt> 참고.)
 
-<dt><code>AT_SYSINFO</code></dt>
-<dd>vDSO 내의 시스템 호출 함수 진입점. 모든 아키텍처에 있는/필요한 것은 아님 (가령 x86-64에는 없음).</dd>
+`AT_SYSINFO`
+:   vDSO 내의 시스템 호출 함수 진입점. 모든 아키텍처에 있는/필요한 것은 아님 (가령 x86-64에는 없음).
 
-<dt><code>AT_SYSINFO_EHDR</code></dt>
-<dd>커널에서 특정 시스템 호출들의 빠른 구현을 제공하기 위해 생성하는 가상 동적 공유 오브젝트(vDSO)를 담은 페이지의 주소.</dd>
+`AT_SYSINFO_EHDR`
+:   커널에서 특정 시스템 호출들의 빠른 구현을 제공하기 위해 생성하는 가상 동적 공유 오브젝트(vDSO)를 담은 페이지의 주소.
 
-<dt><code>AT_UCACHEBSIZE</code></dt>
-<dd>통합 캐시 블록 크기.</dd>
+`AT_UCACHEBSIZE`
+:   통합 캐시 블록 크기.
 
-<dt><code>AT_UID</code></dt>
-<dd>스레드의 실재 사용자 ID.</dd>
-</dl>
+`AT_UID`
+:   스레드의 실재 사용자 ID.
 
 ## RETURN VALUE
 
@@ -104,10 +102,8 @@ unsigned long getauxval(unsigned long type);
 
 ## ERRORS
 
-<dl>
-<dt><code>ENOENT</code> (glibc 2.19부터)</dt>
-<dd>보조 벡터에서 <code>type</code>에 대응하는 항목을 찾을 수 없다.</dd>
-</dl>
+`ENOENT` (glibc 2.19부터)
+:   보조 벡터에서 `type`에 대응하는 항목을 찾을 수 없다.
 
 ## VERSIONS
 

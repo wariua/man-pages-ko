@@ -18,12 +18,11 @@ int getdate_r(const char *string, struct tm *res);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>getdate()</code>:</dt>
-<dd><code>_XOPEN_SOURCE >= 500</code></dd>
-<dt><code>getdate_r()</code>:</dt>
-<dd><code>_GNU_SOURCE</code></dd>
-</dl>
+`getdate()`:
+:   `_XOPEN_SOURCE >= 500`
+
+`getdate_r()`:
+:   `_GNU_SOURCE`
 
 ## DESCRIPTION
 
@@ -74,13 +73,11 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## ENVIRONMENT
 
-<dl>
-<dt><code>DATEMSK</code></dt>
-<dd>서식 패턴을 담은 파일.</dd>
+`DATEMSK`
+:   서식 패턴을 담은 파일.
 
-<dt><code>TZ</code>, <code>LC_TIME</code></dt>
-<dd><tt>[[strptime(3)]]</tt>에서 쓰는 변수들.</dd>
-</dl>
+`TZ`, `LC_TIME`
+:   <tt>[[strptime(3)]]</tt>에서 쓰는 변수들.
 
 ## ATTRIBUTES
 

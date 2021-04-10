@@ -17,17 +17,12 @@ int faccessat(int dirfd, const char *pathname, int mode, int flags);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>faccessat()</code>:</dt>
-<dd>
- <dl>
- <dt>glibc 2.10부터:</dt>
- <dd><code>_POSIX_C_SOURCE >= 200809L</code></dd>
- <dt>glibc 2.10 전:</dt>
- <dd><code>_ATFILE_SOURCE</code></dd>
- </dl>
-</dd>
-</dl>
+`faccessat()`:
+:   glibc 2.10부터:
+    :   `_POSIX_C_SOURCE >= 200809L`
+
+    glibc 2.10 전:
+    :   `_ATFILE_SOURCE`
 
 ## DESCRIPTION
 
@@ -37,7 +32,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 호출 프로세스의 *실제* UID 및 GID로 검사를 수행한다. 즉 파일에 대한 동작(가령 <tt>[[open(2)]]</tt>)을 실제 시도할 때처럼 실효 ID로 하는 게 아니다. 마찬가지로 루트 사용자에 대해 실효 역능 집합이 아니라 허용 역능 집합을 검사에 사용한다. 루트 아닌 사용자에 대해선 검사에 빈 역능 집합을 쓴다.
 
-이 때문에 set-user-ID 프로그램과 역능을 부여받은 프로그램에서 자기를 호출한 사용자의 권한을 쉽게 판단할 수 있다. 달리 말하자면 `access()`는 "내가 이 파일을 읽을/쓸/실행할 수 있는가?"라는 질문에 답하지 않는다. 살짝 다른 질문, 즉 "(내가 setuid 바이너리라고 하고) <em>나를 호출한 사용자가</em> 이 파일을 읽을/쓸/실행할 수 있는가?"에 답한다. 그래서 set-user-ID 프로그램인 경우에, 악의적 사용자가 읽을 수 없어야 되는 파일을 읽게끔 만드는 걸 막을 수 있게 된다.
+이 때문에 set-user-ID 프로그램과 역능을 부여받은 프로그램에서 자기를 호출한 사용자의 권한을 쉽게 판단할 수 있다. 달리 말하자면 `access()`는 "내가 이 파일을 읽을/쓸/실행할 수 있는가?"라는 질문에 답하지 않는다. 살짝 다른 질문, 즉 "(내가 setuid 바이너리라고 하고) *나를 호출한 사용자가* 이 파일을 읽을/쓸/실행할 수 있는가?"에 답한다. 그래서 set-user-ID 프로그램인 경우에, 악의적 사용자가 읽을 수 없어야 되는 파일을 읽게끔 만드는 걸 막을 수 있게 된다.
 
 호출 프로세스에게 특권이 있는 (즉 실재 UID가 0인) 경우에는 정규 파일의 소유자, 그룹, 기타 중 어디에든 실행 권한이 켜져 있으면 그 파일에 대한 `X_OK` 검사가 성공한다.
 
@@ -53,13 +48,11 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 `flags`는 다음 값들을 0개 이상 OR 해서 구성한다.
 
-<dl>
-<dt><code>AT_EACCESS</code></dt>
-<dd>실효 사용자 및 그룹 ID로 접근 검사를 수행한다. 기본적으로 <code>faccessat()</code>에서는 (<code>access()</code>처럼) 실제 ID를 사용한다.</dd>
+`AT_EACCESS`
+:   실효 사용자 및 그룹 ID로 접근 검사를 수행한다. 기본적으로 `faccessat()`에서는 (`access()`처럼) 실제 ID를 사용한다.
 
-<dt><code>AT_SYMLINK_NOFOLLOW</code></dt>
-<dd><code>pathname</code>이 심볼릭 링크인 경우 역참조를 하지 않는다. 대신 링크 자체에 대한 정보를 반환한다.</dd>
-</dl>
+`AT_SYMLINK_NOFOLLOW`
+:   `pathname`이 심볼릭 링크인 경우 역참조를 하지 않는다. 대신 링크 자체에 대한 정보를 반환한다.
 
 `faccessat()`의 필요성에 대한 설명은 <tt>[[openat(2)]]</tt>을 보라.
 
@@ -71,46 +64,51 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 다음 경우에 `access()`와 `faccessat()`이 실패한다.
 
-<dl>
-<dt><code>EACCES</code></dt>
-<dd>요청한 접근이 파일에 대해서 거부될 것이다. 또는 <code>pathname</code>의 경로 선두부의 한 디렉터리에 대해 탐색 권한이 거부되었다. (<tt>[[path_resolution(7)]]</tt> 참고.)</dd>
-<dt><code>ELOOP</code></dt>
-<dd><code>pathname</code>을 해석하는 동안 너무 많은 심볼릭 링크를 만났다.</dd>
-<dt><code>ENAMETOOLONG</code></dt>
-<dd><code>pathname</code>이 너무 길다.</dd>
-<dt><code>ENOENT</code></dt>
-<dd><code>pathname</code>의 어느 요소가 존재하지 않거나 깨진 심볼릭 링크이다.</dd>
-<dt><code>ENOTDIR</code></dt>
-<dd><code>pathname</code>에서 디렉터리로 쓰인 요소가 실제로는 디렉터리가 아니다.</dd>
-<dt><code>EROFS</code></dt>
-<dd>읽기 전용 파일 시스템 상의 파일에 쓰기 권한을 요청했다.</dd>
-</dl>
+`EACCES`
+:   요청한 접근이 파일에 대해서 거부될 것이다. 또는 `pathname`의 경로 선두부의 한 디렉터리에 대해 탐색 권한이 거부되었다. (<tt>[[path_resolution(7)]]</tt> 참고.)
+
+`ELOOP`
+:   `pathname`을 해석하는 동안 너무 많은 심볼릭 링크를 만났다.
+
+`ENAMETOOLONG`
+:   `pathname`이 너무 길다.
+
+`ENOENT`
+:   `pathname`의 어느 요소가 존재하지 않거나 깨진 심볼릭 링크이다.
+
+`ENOTDIR`
+:   `pathname`에서 디렉터리로 쓰인 요소가 실제로는 디렉터리가 아니다.
+
+`EROFS`
+:   읽기 전용 파일 시스템 상의 파일에 쓰기 권한을 요청했다.
 
 다음 경우에 `access()`와 `faccessat()`이 실패할 수도 있다.
 
-<dl>
-<dt><code>EFAULT</code></dt>
-<dd><code>pathname</code>이 접근 가능한 주소 공간 밖을 가리킨다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>mode</code>를 잘못 지정했다.</dd>
-<dt><code>EIO</code></dt>
-<dd>I/O 오류가 발생했다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>사용 가능한 커널 메모리가 충분하지 않다.</dd>
-<dt><code>ETXTBSY</code></dt>
-<dd>실행 중인 실행 파일에 쓰기 접근을 요청했다.</dd>
-</dl>
+`EFAULT`
+:   `pathname`이 접근 가능한 주소 공간 밖을 가리킨다.
+
+`EINVAL`
+:   `mode`를 잘못 지정했다.
+
+`EIO`
+:   I/O 오류가 발생했다.
+
+`ENOMEM`
+:   사용 가능한 커널 메모리가 충분하지 않다.
+
+`ETXTBSY`
+:   실행 중인 실행 파일에 쓰기 접근을 요청했다.
 
 `faccessat()`에서 추가로 다음 오류가 발생할 수 있다.
 
-<dl>
-<dt><code>EBADF</code></dt>
-<dd><code>dirfd</code>가 유효한 파일 디스크립터가 아니다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>flags</code>에 유효하지 않은 플래그를 지정했다.</dd>
-<dt><code>ENOTDIR</code></dt>
-<dd><code>pathname</code>이 상대 경로이고 <code>dirfd</code>가 디렉터리 아닌 파일을 가리키는 파일 디스크립터이다.</dd>
-</dl>
+`EBADF`
+:   `dirfd`가 유효한 파일 디스크립터가 아니다.
+
+`EINVAL`
+:   `flags`에 유효하지 않은 플래그를 지정했다.
+
+`ENOTDIR`
+:   `pathname`이 상대 경로이고 `dirfd`가 디렉터리 아닌 파일을 가리키는 파일 디스크립터이다.
 
 ## VERSIONS
 
@@ -124,7 +122,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## NOTES
 
-**경고**: 예를 들어 <tt>[[open(2)]]</tt>으로 실제 파일을 열기 전에 이 호출들을 사용해서 파일을 열 권한이 사용자에게 있는지 검사하는 방식은 보안상의 구멍을 만든다. 검사 시점과 파일을 열어서 조작하는 시점 사이의 짧은 간격을 사용자가 악용할 수도 있기 때문이다. <strong>그런 이유로 이 시스템 호출 사용을 피하는 게 좋다.</strong> (방금 서술한 예에서 안전한 대안은 프로세스의 실효 사용자 ID를 실제 ID로 잠시 전환하고서 <tt>[[open(2)]]</tt>을 호출하는 것이다.)
+**경고**: 예를 들어 <tt>[[open(2)]]</tt>으로 실제 파일을 열기 전에 이 호출들을 사용해서 파일을 열 권한이 사용자에게 있는지 검사하는 방식은 보안상의 구멍을 만든다. 검사 시점과 파일을 열어서 조작하는 시점 사이의 짧은 간격을 사용자가 악용할 수도 있기 때문이다. **그런 이유로 이 시스템 호출 사용을 피하는 게 좋다.** (방금 서술한 예에서 안전한 대안은 프로세스의 실효 사용자 ID를 실제 ID로 잠시 전환하고서 <tt>[[open(2)]]</tt>을 호출하는 것이다.)
 
 `access()`는 항상 심볼릭 링크를 역참조한다. 심볼릭 링크에 대해 권한을 검사해야 하면 `faccessat()`를 `AT_SYMLINK_NOFOLLOW` 플래그로 사용하면 된다.
 

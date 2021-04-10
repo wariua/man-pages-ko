@@ -41,14 +41,14 @@ DES 알고리듬 자체에 있는 몇 가지 특이성 때문에 `crypt()` 인�
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>salt</code>가 잘못된 형식이다.</dd>
-<dt><code>ENOSYS</code></dt>
-<dd><code>crypt()</code> 함수가 구현돼 있지 않다. 미국 수출 규제 때문일 수 있다.</dd>
-<dt><code>EPERM</code></dt>
-<dd><code>/proc/sys/crypto/fips_enabled</code>에 0 아닌 값이 있는데 DES 같은 약한 방식 암호화를 사용하려는 시도가 이뤄졌다.</dd>
-</dl>
+`EINVAL`
+:   `salt`가 잘못된 형식이다.
+
+`ENOSYS`
+:   `crypt()` 함수가 구현돼 있지 않다. 미국 수출 규제 때문일 수 있다.
+
+`EPERM`
+:   `/proc/sys/crypto/fips_enabled`에 0 아닌 값이 있는데 DES 같은 약한 방식 암호화를 사용하려는 시도가 이뤄졌다.
 
 ## ATTRIBUTES
 

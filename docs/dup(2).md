@@ -51,22 +51,26 @@ int dup3(int oldfd, int newfd, int flags);
 
 ## ERRORS
 
-<dl>
-<dt><code>EBADF</code></dt>
-<dd><code>oldfd</code>가 열린 파일 디스크립터가 아니다.</dd>
-<dt><code>EBADF</code></dt>
-<dd><code>newfd</code>가 파일 디스크립터 허용 범위를 벗어난다. (<tt>[[getrlimit(2)]]</tt>의 <code>RLIMIT_NOFILE</code> 설명 참고.)</dd>
-<dt><code>EBUSY</code></dt>
-<dd>(리눅스 한정) <tt>[[open(2)]]</tt>과 <code>dup()</code>의 경쟁 조건 시에 <code>dup2()</code>나 <code>dup3()</code>에서 반환할 수 있다.</dd>
-<dt><code>EINTR</code></dt>
-<dd><code>dup2()</code>나 <code>dup3()</code> 호출이 시그널에 의해 중단되었다. <tt>[[signal(7)]]</tt> 참고.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>(<code>dup3()</code>) <code>flags</code>에 유효하지 않은 값이 있다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>(<code>dup3()</code>) <code>oldfd</code>가 <code>newfd</code>와 같다.</dd>
-<dt><code>EMFILE</code></dt>
-<dd>열린 파일 디스크립터 개수에 대한 프로세스별 제한에 도달했다. (<tt>[[getrlimit(2)]]</tt>의 <code>RLIMIT_NOFILE</code> 설명 참고.)</dd>
-</dl>
+`EBADF`
+:   `oldfd`가 열린 파일 디스크립터가 아니다.
+
+`EBADF`
+:   `newfd`가 파일 디스크립터 허용 범위를 벗어난다. (<tt>[[getrlimit(2)]]</tt>의 `RLIMIT_NOFILE` 설명 참고.)
+
+`EBUSY`
+:   (리눅스 한정) <tt>[[open(2)]]</tt>과 `dup()`의 경쟁 조건 시에 `dup2()`나 `dup3()`에서 반환할 수 있다.
+
+`EINTR`
+:   `dup2()`나 `dup3()` 호출이 시그널에 의해 중단되었다. <tt>[[signal(7)]]</tt> 참고.
+
+`EINVAL`
+:   (`dup3()`) `flags`에 유효하지 않은 값이 있다.
+
+`EINVAL`
+:   (`dup3()`) `oldfd`가 `newfd`와 같다.
+
+`EMFILE`
+:   열린 파일 디스크립터 개수에 대한 프로세스별 제한에 도달했다. (<tt>[[getrlimit(2)]]</tt>의 `RLIMIT_NOFILE` 설명 참고.)
 
 ## VERSIONS
 

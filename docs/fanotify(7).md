@@ -16,7 +16,7 @@ fanotify API를 통해 파일 시스템 이벤트 알림을 받고 이벤트를 
 
 fanotify 알림 그룹이란 커널 내부 객체로서 이벤트가 생성될 파일, 디렉터리, 파일 시스템, 마운트 지점들의 목록을 가지고 있다.
 
-fanotify 알림 그룹 내의 각 항목마다 <em>표시(mark)</em> 마스크와 <em>무시(ignore)</em> 마스크라는 두 가지 비트 마스크가 있다. 표시 마스크는 이벤트가 생성될 파일 활동들을 규정한다. 무시 마스크는 이벤트가 생성되지 않을 활동들을 규정한다. 이렇게 두 가지 마스크가 있어서 어떤 파일 시스템이나 마운트 지점, 디렉터리에 이벤트를 받는다고 표시하면서 동시에 어떤 마운트 지점 내지 디렉터리 아래의 특정 객체들에 대한 이벤트를 무시할 수 있다.
+fanotify 알림 그룹 내의 각 항목마다 *표시(mark)* 마스크와 *무시(ignore)* 마스크라는 두 가지 비트 마스크가 있다. 표시 마스크는 이벤트가 생성될 파일 활동들을 규정한다. 무시 마스크는 이벤트가 생성되지 않을 활동들을 규정한다. 이렇게 두 가지 마스크가 있어서 어떤 파일 시스템이나 마운트 지점, 디렉터리에 이벤트를 받는다고 표시하면서 동시에 어떤 마운트 지점 내지 디렉터리 아래의 특정 객체들에 대한 이벤트를 무시할 수 있다.
 
 <tt>[[fanotify_mark(2)]]</tt> 시스템 호출은 알림 그룹에 파일이나 디렉터리, 파일 시스템, 마운트를 추가하면서 어떤 이벤트를 보고해야 (또는 무시해야) 하는지 지정한다. 또는 그런 항목을 제거하거나 변경한다.
 
@@ -66,153 +66,123 @@ struct fanotify_event_info_fid {
 
 `fanotify_event_metadata` 구조체의 필드들은 다음과 같다.
 
-<dl>
-<dt><code>event_len</code></dt>
-<dd>이 이벤트에 대한 데이터 길이이자 버퍼 내 다음 이벤트로의 오프셋이다. <code>FAN_REPORT_FID</code>를 안 쓰면 <code>event_len</code>의 값은 항상 <code>FAN_EVENT_METADATA_LEN</code>이다. <code>FAN_REPORT_FID</code>를 쓰면 <code>event_len</code>에 가변 길이 파일 식별자 크기까지 더해진다.</dd>
+`event_len`
+:   이 이벤트에 대한 데이터 길이이자 버퍼 내 다음 이벤트로의 오프셋이다. `FAN_REPORT_FID`를 안 쓰면 `event_len`의 값은 항상 `FAN_EVENT_METADATA_LEN`이다. `FAN_REPORT_FID`를 쓰면 `event_len`에 가변 길이 파일 식별자 크기까지 더해진다.
 
-<dt><code>vers</code></dt>
-<dd>이 필드는 구조체의 버전 번호를 담는다. 그 번호를 <code>FANOTIFY_METADATA_VERSION</code>과 비교해서 런타임에 반환된 구조체가 컴파일 타임에 정의돼 있던 구조체와 일치하는지 검증해야 한다. 일치하지 않는 경우 응용에서 fanotify 파일 디스크립터 사용 시도를 포기하는 게 좋다.</dd>
+`vers`
+:   이 필드는 구조체의 버전 번호를 담는다. 그 번호를 `FANOTIFY_METADATA_VERSION`과 비교해서 런타임에 반환된 구조체가 컴파일 타임에 정의돼 있던 구조체와 일치하는지 검증해야 한다. 일치하지 않는 경우 응용에서 fanotify 파일 디스크립터 사용 시도를 포기하는 게 좋다.
 
-<dt><code>reserved</code></dt>
-<dd>이 필드는 사용하지 않는다.</dd>
+`reserved`
+:   이 필드는 사용하지 않는다.
 
-<dt><code>metadata_len</code></dt>
-<dd>구조체의 길이이다. 이 필드는 이벤트 유형에 따른 선택적 헤더를 구현할 수 있도록 도입된 것이다. 현재 구현에서는 그런 선택적 헤더가 없다.</dd>
+`metadata_len`
+:   구조체의 길이이다. 이 필드는 이벤트 유형에 따른 선택적 헤더를 구현할 수 있도록 도입된 것이다. 현재 구현에서는 그런 선택적 헤더가 없다.
 
-<dt><code>mask</code></dt>
-<dd>이벤트를 기술하는 비트 마스크이다. (아래 참고.)</dd>
+`mask`
+:   이벤트를 기술하는 비트 마스크이다. (아래 참고.)
 
-<dt><code>fd</code></dt>
-<dd>
+`fd`
+:   접근이 이뤄지고 있는 객체에 대한 열린 파일 디스크립터이다. 큐 넘침이 일어난 경우에는 `FAN_NOFD`이다. 응용에서 `FAN_REPORT_FID`를 써서 fanotify 파일 디스크립터를 초기화 했다면 수신하는 이벤트마다 이 값이 `FAN_NOFD`로 설정돼 있게 된다. 이 파일 디스크립터를 사용해 감시하는 파일 내지 디렉터리의 내용에 접근할 수 있다. 읽는 쪽 응용에서 파일 디스크립터를 닫을 책임이 있다.
 
-접근이 이뤄지고 있는 객체에 대한 열린 파일 디스크립터이다. 큐 넘침이 일어난 경우에는 <code>FAN_NOFD</code>이다. 응용에서 <code>FAN_REPORT_FID</code>를 써서 fanotify 파일 디스크립터를 초기화 했다면 수신하는 이벤트마다 이 값이 <code>FAN_NOFD</code>로 설정돼 있게 된다. 이 파일 디스크립터를 사용해 감시하는 파일 내지 디렉터리의 내용에 접근할 수 있다. 읽는 쪽 응용에서 파일 디스크립터를 닫을 책임이 있다.
+    <tt>[[fanotify_init(2)]]</tt> 호출 시에 (`event_f_flags` 인자를 통해) 이 파일 디스크립터에 대응하는 열린 파일 기술 항목에 설정할 다양한 파일 상태 플래그들을 지정할 수 있다. 더불어 그 열린 파일 기술 항목에는 (커널 내부용인) `FMODE_NONOTIFY` 파일 상태 플래그가 설정된다. 이 플래그는 fanotify 이벤트 생성을 막는다. 그래서 fanotify 이벤트 수신자가 이 파일 디스크립터를 이용해 알림 대상 파일 내지 디렉터리에 접근할 때 이벤트가 추가로 생기지 않게 된다.
 
-<tt>[[fanotify_init(2)]]</tt> 호출 시에 (<code>event_f_flags</code> 인자를 통해) 이 파일 디스크립터에 대응하는 열린 파일 기술 항목에 설정할 다양한 파일 상태 플래그들을 지정할 수 있다. 더불어 그 열린 파일 기술 항목에는 (커널 내부용인) <code>FMODE_NONOTIFY</code> 파일 상태 플래그가 설정된다. 이 플래그는 fanotify 이벤트 생성을 막는다. 그래서 fanotify 이벤트 수신자가 이 파일 디스크립터를 이용해 알림 대상 파일 내지 디렉터리에 접근할 때 이벤트가 추가로 생기지 않게 된다.
-</dd>
+`pid`
+:   <tt>[[fanotify_init(2)]]</tt>에서 `FAN_REPORT_FID` 플래그를 설정했다면 이벤트를 유발한 스레드의 TID다. 아니라면 이벤트를 유발한 프로세스의 PID다.
 
-<dt><code>pid</code></dt>
-<dd>
-
-<tt>[[fanotify_init(2)]]</tt>에서 <code>FAN_REPORT_FID</code> 플래그를 설정했다면 이벤트를 유발한 스레드의 TID다. 아니라면 이벤트를 유발한 프로세스의 PID다.
-
-fanotify 이벤트 청취 프로그램에서 이 PID를 <tt>[[getpid(2)]]</tt>가 반환하는 PID와 비교해서 이벤트를 유발한 것이 자기 자신인지 아니면 다른 프로세스의 파일 접근 때문인지 판단할 수 있다.
-</dd>
-</dl>
+    fanotify 이벤트 청취 프로그램에서 이 PID를 <tt>[[getpid(2)]]</tt>가 반환하는 PID와 비교해서 이벤트를 유발한 것이 자기 자신인지 아니면 다른 프로세스의 파일 접근 때문인지 판단할 수 있다.
 
 `mask`의 비트 마스크는 한 파일 시스템 객체에 어떤 이벤트들이 일어났는지를 나타낸다. 감시 중인 파일 시스템 객체에 여러 이벤트가 일어나면 이 마스크에 여러 비트가 설정될 수 있다. 특히 같은 파일 시스템 객체에 대한 동일 프로세스에서 유래한 연속된 이벤트들이 한 이벤트로 합쳐질 수도 있다. 단, 절대로 허가 이벤트 두 개가 질의 항목 하나로 합쳐지지는 않는다.
 
 `mask`에 등장할 수 있는 비트들은 다음과 같다.
 
-<dl>
-<dt><code>FAN_ACCESS</code></dt>
-<dd>파일이나 디렉터리에 (BUGS 참고) 접근(읽기)이 이뤄졌다.</dd>
+`FAN_ACCESS`
+:   파일이나 디렉터리에 (BUGS 참고) 접근(읽기)이 이뤄졌다.
 
-<dt><code>FAN_OPEN</code></dt>
-<dd>파일이나 디렉터리가 열렸다.</dd>
+`FAN_OPEN`
+:   파일이나 디렉터리가 열렸다.
 
-<dt><code>FAN_OPEN_EXEC</code></dt>
-<dd>파일이 실행하려는 의도로 열렸다. 자세한 내용은 <tt>[[fanotify_mark(2)]]</tt>의 NOTES 참고.</dd>
+`FAN_OPEN_EXEC`
+:   파일이 실행하려는 의도로 열렸다. 자세한 내용은 <tt>[[fanotify_mark(2)]]</tt>의 NOTES 참고.
 
-<dt><code>FAN_ATTRIB</code></dt>
-<dd>파일이나 디렉터리의 메타데이터가 변경됐다.</dd>
+`FAN_ATTRIB`
+:   파일이나 디렉터리의 메타데이터가 변경됐다.
 
-<dt><code>FAN_CREATE</code></dt>
-<dd>감시하는 부모 내에서 파일이나 디렉터리가 생성됐다.</dd>
+`FAN_CREATE`
+:   감시하는 부모 내에서 파일이나 디렉터리가 생성됐다.
 
-<dt><code>FAN_DELETE</code></dt>
-<dd>감시하는 부모 내에서 파일이나 디렉터리가 삭제됐다.</dd>
+`FAN_DELETE`
+:   감시하는 부모 내에서 파일이나 디렉터리가 삭제됐다.
 
-<dt><code>FAN_DELETE_SELF</code></dt>
-<dd>감시하는 파일이나 디렉터리 자체가 삭제됐다.</dd>
+`FAN_DELETE_SELF`
+:   감시하는 파일이나 디렉터리 자체가 삭제됐다.
 
-<dt><code>FAN_MOVED_FROM</code></dt>
-<dd>감시하는 부모 디렉터리에 있던 파일이나 디렉터리가 이동됐다.</dd>
+`FAN_MOVED_FROM`
+:   감시하는 부모 디렉터리에 있던 파일이나 디렉터리가 이동됐다.
 
-<dt><code>FAN_MOVED_TO</code></dt>
-<dd>감시하는 부모 디렉터리로 파일이나 디렉터리가 이동됐다.</dd>
+`FAN_MOVED_TO`
+:   감시하는 부모 디렉터리로 파일이나 디렉터리가 이동됐다.
 
-<dt><code>FAN_MOVE_SELF</code></dt>
-<dd>감시하는 파일이나 디렉터리가 이동됐다.</dd>
+`FAN_MOVE_SELF`
+:   감시하는 파일이나 디렉터리가 이동됐다.
 
-<dt><code>FAN_MODIFY</code></dt>
-<dd>파일이 변경됐다.</dd>
+`FAN_MODIFY`
+:   파일이 변경됐다.
 
-<dt><code>FAN_CLOSE_WRITE</code></dt>
-<dd>쓰기용(<code>O_WRONLY</code>나 <code>O_RDWR</code>)으로 열린 파일이 닫혔다.</dd>
+`FAN_CLOSE_WRITE`
+:   쓰기용(`O_WRONLY`나 `O_RDWR`)으로 열린 파일이 닫혔다.
 
-<dt><code>FAN_CLOSE_NOWRITE</code></dt>
-<dd>읽기 전용(<code>O_RDONLY</code>)으로 열린 파일이나 디렉터리가 닫혔다.</dd>
+`FAN_CLOSE_NOWRITE`
+:   읽기 전용(`O_RDONLY`)으로 열린 파일이나 디렉터리가 닫혔다.
 
-<dt><code>FAN_Q_OVERFLOW</code></dt>
-<dd>이벤트 큐가 제한치인 16384개 항목을 초과했다. <tt>[[fanotify_init(2)]]</tt>을 호출할 때 <code>FAN_UNLIMITED_QUEUE</code> 플래그를 지정하면 그 제한을 무시할 수 있다.</dd>
+`FAN_Q_OVERFLOW`
+:   이벤트 큐가 제한치인 16384개 항목을 초과했다. <tt>[[fanotify_init(2)]]</tt>을 호출할 때 `FAN_UNLIMITED_QUEUE` 플래그를 지정하면 그 제한을 무시할 수 있다.
 
-<dt><code>FAN_ACCESS_PERM</code></dt>
-<dd>어느 응용에서 가령 <code>read(2)</code>나 <tt>[[readdir(2)]]</tt>을 이용해 파일이나 디렉터리를 읽고 싶어 한다. 그 파일 시스템 객체 접근을 인가해야 할지 결정하는 응답을 (아래 설명하는 대로) 줘야 한다.</dd>
+`FAN_ACCESS_PERM`
+:   어느 응용에서 가령 `read(2)`나 <tt>[[readdir(2)]]</tt>을 이용해 파일이나 디렉터리를 읽고 싶어 한다. 그 파일 시스템 객체 접근을 인가해야 할지 결정하는 응답을 (아래 설명하는 대로) 줘야 한다.
 
-<dt><code>FAN_OPEN_PERM</code></dt>
-<dd>어느 응용에서 파일이나 디렉터리를 열고 싶어 한다. 그 파일 시스템 객체 열기를 인가해야 할지 결정하는 응답을 줘야 한다.</dd>
+`FAN_OPEN_PERM`
+:   어느 응용에서 파일이나 디렉터리를 열고 싶어 한다. 그 파일 시스템 객체 열기를 인가해야 할지 결정하는 응답을 줘야 한다.
 
-<dt><code>FAN_OPEN_EXEC_PERM</code></dt>
-<dd>어느 응용에서 실행을 위해 파일을 열고 싶어 한다. 그 파일 시스템 객체의 실행 목적 열기를 인가해야 할지 결정하는 응답을 줘야 한다. 자세한 내용은 <tt>[[fanotify_mark(2)]]</tt>의 NOTES 참고.</dd>
-</dl>
+`FAN_OPEN_EXEC_PERM`
+:   어느 응용에서 실행을 위해 파일을 열고 싶어 한다. 그 파일 시스템 객체의 실행 목적 열기를 인가해야 할지 결정하는 응답을 줘야 한다. 자세한 내용은 <tt>[[fanotify_mark(2)]]</tt>의 NOTES 참고.
 
 닫기 이벤트 확인에 다음 비트 마스크를 사용할 수도 있다.
 
-<dl>
-<dt><code>FAN_CLOSE</code></dt>
-<dd>
+`FAN_CLOSE`
+:   파일이 닫혔다. 다음과 같다.
 
-파일이 닫혔다. 다음과 같다.
-
-```c
-FAN_CLOSE_WRITE | FAN_CLOSE_NOWRITE
-```
-</dd>
-</dl>
+        FAN_CLOSE_WRITE | FAN_CLOSE_NOWRITE
 
 이동 이벤트 확인에 다음 비트 마스크를 사용할 수도 있다.
 
-<dl>
-<dt><code>FAN_MOVE</code></dt>
-<dd>
+`FAN_MOVE`
+:   파일이나 디렉터리가 이동됐다. 다음과 같다.
 
-파일이나 디렉터리가 이동됐다. 다음과 같다.
-
-```c
-FAN_MOVED_FROM | FAN_MOVED_TO
-```
-</dd>
-</dl>
+        FAN_MOVED_FROM | FAN_MOVED_TO
 
 `fanotify_event_info_fid` 구조체의 필드들은 다음과 같다.
 
-<dl>
-<dt><code>hdr</code></dt>
-<dd><code>fanotify_event_info_header</code> 타입 구조체다. 이벤트에 덧붙은 추가 정보를 기술하는 정보를 담은 범용 헤더다. 예를 들어 <code>FAN_REPORT_FID</code>를 써서 fanotify 파일 디스크립터를 생성했을 때 이 헤더의 <code>info_type</code> 필드가 <code>FAN_EVENT_INFO_TYPE_FID</code>로 설정된다. 이벤트 리스너에서는 이 필드를 이용해 이벤트에 대해 수신한 추가 정보가 올바른 종류인지 확인할 수 있다. 그리고 <code>fanotify_event_info_header</code>에는 <code>len</code> 필드가 있다. 현재 구현에서 <code>len</code>의 값은 항상 <code>(event_len - FAN_EVENT_METADATA_LEN)</code>이다.</dd>
+`hdr`
+:   `fanotify_event_info_header` 타입 구조체다. 이벤트에 덧붙은 추가 정보를 기술하는 정보를 담은 범용 헤더다. 예를 들어 `FAN_REPORT_FID`를 써서 fanotify 파일 디스크립터를 생성했을 때 이 헤더의 `info_type` 필드가 `FAN_EVENT_INFO_TYPE_FID`로 설정된다. 이벤트 리스너에서는 이 필드를 이용해 이벤트에 대해 수신한 추가 정보가 올바른 종류인지 확인할 수 있다. 그리고 `fanotify_event_info_header`에는 `len` 필드가 있다. 현재 구현에서 `len`의 값은 항상 `(event_len - FAN_EVENT_METADATA_LEN)`이다.
 
-<dt><code>fsid</code></dt>
-<dd>이벤트 연관 객체를 담은 파일 시스템의 고유 식별자다. <code>__kernel_fsid_t</code> 타입의 구조체이고 <tt>[[statfs(2)]]</tt> 호출 시의 <code>f_fsid</code>와 같은 값을 담고 있다.</dd>
+`fsid`
+:   이벤트 연관 객체를 담은 파일 시스템의 고유 식별자다. `__kernel_fsid_t` 타입의 구조체이고 <tt>[[statfs(2)]]</tt> 호출 시의 `f_fsid`와 같은 값을 담고 있다.
 
-<dt><code>file_handle</code></dt>
-<dd><code>file_handle</code> 타입의 가변 길이 구조체다. 파일 시스템 상의 특정 객체에 대응하는 불투명한 핸들이며 <tt>[[name_to_handle_at(2)]]</tt>이 반환하는 것과 같은 것이다. 이를 이용해 파일 시스템 상의 파일을 유일하게 식별할 수 있으며 <tt>[[open_by_handle_at(2)]]</tt>에 인자로 줄 수 있다. 참고로 <code>FAN_CREATE</code>, <code>FAN_DELETE</code>, <code>FAN_MOVE</code> 같은 디렉터리 항목 이벤트에서 <code>file_handle</code>은 생성/삭제/이동된 자식 객체가 아니라 변경된 디렉터리를 나타낸다. 자식 객체를 감시 중이라면 <code>FAN_ATTRIB</code>, <code>FAN_DELETE_SELF</code>, <code>FAN_MOVE_SELF</code> 이벤트가 자식 객체에 대한 <code>file_handle</code> 정보를 전달해 준다.</dd>
-</dl>
+`file_handle`
+:   `file_handle` 타입의 가변 길이 구조체다. 파일 시스템 상의 특정 객체에 대응하는 불투명한 핸들이며 <tt>[[name_to_handle_at(2)]]</tt>이 반환하는 것과 같은 것이다. 이를 이용해 파일 시스템 상의 파일을 유일하게 식별할 수 있으며 <tt>[[open_by_handle_at(2)]]</tt>에 인자로 줄 수 있다. 참고로 `FAN_CREATE`, `FAN_DELETE`, `FAN_MOVE` 같은 디렉터리 항목 이벤트에서 `file_handle`은 생성/삭제/이동된 자식 객체가 아니라 변경된 디렉터리를 나타낸다. 자식 객체를 감시 중이라면 `FAN_ATTRIB`, `FAN_DELETE_SELF`, `FAN_MOVE_SELF` 이벤트가 자식 객체에 대한 `file_handle` 정보를 전달해 준다.
 
 fanotify 파일 디스크립터에 대해 `read(2)`가 반환한 fanotify 이벤트 메타데이터들이 담긴 버퍼를 순회하기 위한 다음 매크로들이 있다.
 
-<dl>
-<dt><code>FAN_EVENT_OK(meta, len)</code></dt>
-<dd>이 매크로는 버퍼의 남은 길이 <code>len</code>을 메타데이터 구조체의 길이 및 <code>meta</code>가 가리키는 메타데이터 구조체의 <code>event_len</code> 필드와 비교해 본다.</dd>
+`FAN_EVENT_OK(meta, len)`
+:   이 매크로는 버퍼의 남은 길이 `len`을 메타데이터 구조체의 길이 및 `meta`가 가리키는 메타데이터 구조체의 `event_len` 필드와 비교해 본다.
 
-<dt><code>FAN_EVENT_NEXT(meta, len)</code></dt>
-<dd>이 매크로는 <code>meta</code>가 가리키는 메타데이터 구조체의 <code>event_len</code> 필드에 있는 길이 값을 이용해 <code>meta</code> 다음에 오는 메타데이터 구조체의 주소를 계산한다. <code>len</code>은 현재 버퍼에 남아 있는 메타데이터 바이트 수이다. <code>meta</code> 다음에 있는 메타데이터 구조체에 대한 포인터를 반환하며 건너뛴 메타데이터 구조체의 바이트 수만큼 <code>len</code>을 줄인다. (즉 <code>len</code>에서 <code>meta-&gt;event_len</code>을 뺀다.)</dd>
-</dl>
+`FAN_EVENT_NEXT(meta, len)`
+:   이 매크로는 `meta`가 가리키는 메타데이터 구조체의 `event_len` 필드에 있는 길이 값을 이용해 `meta` 다음에 오는 메타데이터 구조체의 주소를 계산한다. `len`은 현재 버퍼에 남아 있는 메타데이터 바이트 수이다. `meta` 다음에 있는 메타데이터 구조체에 대한 포인터를 반환하며 건너뛴 메타데이터 구조체의 바이트 수만큼 `len`을 줄인다. (즉 `len`에서 `meta->event_len`을 뺀다.)
 
 또한 다음 매크로가 있다.
 
-<dl>
-<dt><code>FAN_EVENT_METADATA_LEN</code></dt>
-<dd>이 매크로는 <code>fanotify_event_metadata</code> 구조체의 (바이트 단위) 크기를 반환한다. 이벤트 메타데이터의 최소 크기(그리고 현재는 유일한 크기)이다.</dd>
-</dl>
+`FAN_EVENT_METADATA_LEN`
+:   이 매크로는 `fanotify_event_metadata` 구조체의 (바이트 단위) 크기를 반환한다. 이벤트 메타데이터의 최소 크기(그리고 현재는 유일한 크기)이다.
 
 ### fanotify 파일 디스크립터에서 이벤트 감시하기
 
@@ -231,13 +201,11 @@ struct fanotify_response {
 
 이 구조체의 필드들은 다음과 같다.
 
-<dl>
-<dt><code>fd</code></dt>
-<dd><code>fanotify_event_metadata</code> 구조체에서 온 파일 디스크립터이다.</dd>
+`fd`
+:   `fanotify_event_metadata` 구조체에서 온 파일 디스크립터이다.
 
-<dt><code>response</code></dt>
-<dd>이 필드는 동작을 인가할지 여부를 나타낸다. 파일 동작을 허용하는 <code>FAN_ALLOW</code>거나 파일 동작을 거부하는 <code>FAN_DENY</code>여야 한다.</dd>
-</dl>
+`response`
+:   이 필드는 동작을 인가할지 여부를 나타낸다. 파일 동작을 허용하는 `FAN_ALLOW`거나 파일 동작을 거부하는 `FAN_DENY`여야 한다.
 
 접근을 거부하면 요청 측 응용 호출이 `EPERM` 오류를 받게 된다.
 
@@ -253,25 +221,25 @@ fanotify 알림 그룹을 가리키는 모든 파일 디스크립터가 닫힐 �
 
 fanotify 파일 디스크립터에서 읽기를 할 때 일반적인 `read(2)` 오류에 더해서 다음 오류가 발생할 수 있다.
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd>버퍼가 이벤트를 담기에 너무 작다.</dd>
-<dt><code>EMFILE</code></dt>
-<dd>열린 파일 디스크립터 개수에 대한 프로세스별 제한에 도달했다. <tt>[[getrlimit(2)]]</tt>의 <code>RLIMIT_NOFILE</code> 설명 참고.</dd>
-<dt><code>ENFILE</code></dt>
-<dd>열린 파일 총개수에 대한 시스템 전역 제한에 도달했다. <tt>[[proc(5)]]</tt>의 <code>/proc/sys/fs/file-max</code> 참고.</dd>
-<dt><code>ETXTBSY</code></dt>
-<dd><tt>[[fanotify_init(2)]]</tt> 호출 시 <code>event_f_flags</code> 인자에 <code>O_RDWR</code>나 <code>O_WRONLY</code>를 지정했으며 현재 실행 중인 감시 대상 파일에 이벤트가 발생한 경우 <code>read(2)</code>가 이 오류를 반환한다.</dd>
-</dl>
+`EINVAL`
+:   버퍼가 이벤트를 담기에 너무 작다.
+
+`EMFILE`
+:   열린 파일 디스크립터 개수에 대한 프로세스별 제한에 도달했다. <tt>[[getrlimit(2)]]</tt>의 `RLIMIT_NOFILE` 설명 참고.
+
+`ENFILE`
+:   열린 파일 총개수에 대한 시스템 전역 제한에 도달했다. <tt>[[proc(5)]]</tt>의 `/proc/sys/fs/file-max` 참고.
+
+`ETXTBSY`
+:   <tt>[[fanotify_init(2)]]</tt> 호출 시 `event_f_flags` 인자에 `O_RDWR`나 `O_WRONLY`를 지정했으며 현재 실행 중인 감시 대상 파일에 이벤트가 발생한 경우 `read(2)`가 이 오류를 반환한다.
 
 fanotify 파일 디스크립터에 쓰기를 할 때 일반적인 `write(2)` 오류에 더해서 다음 오류가 발생할 수 있다.
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd>커널 구성에서 fanotify 접근 허가가 켜져 있지 않거나 응답 구조체의 <code>response</code> 값이 유효하지 않다.</dd>
-<dt><code>ENOENT</code></dt>
-<dd>응답 구조체의 파일 디스크립터 <code>fd</code>가 유효하지 않다. 허가 이벤트에 대한 응답을 이미 써 준 경우에 이 오류가 발생할 수 있다.</dd>
-</dl>
+`EINVAL`
+:   커널 구성에서 fanotify 접근 허가가 켜져 있지 않거나 응답 구조체의 `response` 값이 유효하지 않다.
+
+`ENOENT`
+:   응답 구조체의 파일 디스크립터 `fd`가 유효하지 않다. 허가 이벤트에 대한 응답을 이미 써 준 경우에 이 오류가 발생할 수 있다.
 
 ## VERSIONS
 

@@ -24,13 +24,9 @@ time_t mktime(struct tm *tm);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>asctime_r()</code>, <code>ctime_r()</code>, <code>gmtime_r()</code>, <code>localtime_r()</code>:</dt>
-<dd>
-<code>_POSIX_C_SOURCE</code><br>
-<code>    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE || _SVID_SOURCE</code>
-</dd>
-</dl>
+`asctime_r()`, `ctime_r()`, `gmtime_r()`, `localtime_r()`:
+:   `_POSIX_C_SOURCE`<br>
+    `    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE || _SVID_SOURCE`
 
 ## DESCRIPTION
 
@@ -56,34 +52,32 @@ struct tm {
 
 `tm` 구조체의 멤버는 다음과 같다.
 
-<dl>
-<dt><code>tm_sec</code></dt>
-<dd>해당 분 이후의 초 수. 보통은 0에서 59까지 범위지만 윤초를 위해 60까지도 가능하다.</dd>
+`tm_sec`
+:   해당 분 이후의 초 수. 보통은 0에서 59까지 범위지만 윤초를 위해 60까지도 가능하다.
 
-<dt><code>tm_min</code></dt>
-<dd>해당 시 이후의 분 수. 0에서 59까지 범위.</dd>
+`tm_min`
+:   해당 시 이후의 분 수. 0에서 59까지 범위.
 
-<dt><code>tm_hour</code></dt>
-<dd>자정 이후의 시간 수. 0에서 23까지 범위.</dd>
+`tm_hour`
+:   자정 이후의 시간 수. 0에서 23까지 범위.
 
-<dt><code>tm_mday</code></dt>
-<dd>월 중 날짜. 1에서 31까지 범위.</dd>
+`tm_mday`
+:   월 중 날짜. 1에서 31까지 범위.
 
-<dt><code>tm_mon</code></dt>
-<dd>1월 이후의 달 수. 0에서 11까지 범위.</dd>
+`tm_mon`
+:   1월 이후의 달 수. 0에서 11까지 범위.
 
-<dt><code>tm_year</code></dt>
-<dd>1900년 이후의 년 수.</dd>
+`tm_year`
+:   1900년 이후의 년 수.
 
-<dt><code>tm_wday</code></dt>
-<dd>일요일 이후의 날 수. 0에서 6까지 범위.</dd>
+`tm_wday`
+:   일요일 이후의 날 수. 0에서 6까지 범위.
 
-<dt><code>tm_yday</code></dt>
-<dd>1월 1일 이후의 날 수. 0에서 365까지 범위.</dd>
+`tm_yday`
+:   1월 1일 이후의 날 수. 0에서 365까지 범위.
 
-<dt><code>tm_isdst</code></dt>
-<dd>기술한 시간에 일광 절약 시간이 시행 중인지 여부를 나타내는 플래그. 일광 절약 시간이 시행 중이면 값이 양수이고, 아니면 0이며, 가용 정보가 없으면 음수이다.</dd>
-</dl>
+`tm_isdst`
+:   기술한 시간에 일광 절약 시간이 시행 중인지 여부를 나타내는 플래그. 일광 절약 시간이 시행 중이면 값이 양수이고, 아니면 0이며, 가용 정보가 없으면 음수이다.
 
 `ctime(t)` 호출은 `asctime(localtime(t))`와 동등하다. 달력 시간 `t`를 다음 형태의 널 종료 문자열로 바꾼다.
 
@@ -121,10 +115,8 @@ struct tm {
 
 ## ERRORS
 
-<dl>
-<dt><code>EOVERFLOW</code></dt>
-<dd>결과를 표현할 수 없다.</dd>
-</dl>
+`EOVERFLOW`
+:   결과를 표현할 수 없다.
 
 ## ATTRIBUTES
 

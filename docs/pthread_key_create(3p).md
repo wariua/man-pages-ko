@@ -32,16 +32,15 @@ int pthread_key_create(pthread_key_t *key, void (*destructor)(void*));
 
 다음 경우에 `pthread_key_create()` 함수가 실패한다.
 
-<dl>
-<dt><code>EAGAIN</code></dt>
-<dd>시스템에서 스레드별 데이터 키를 하나 더 만드는 데 필요한 자원이 부족하거나, 프로세스당 키 총개수에 대한 시스템 제한인 <code>PTHREAD_KEYS_MAX</code>를 초과했다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>키를 생성하기에 충분한 메모리가 없다.</dd>
-</dl>
+`EAGAIN`
+:   시스템에서 스레드별 데이터 키를 하나 더 만드는 데 필요한 자원이 부족하거나, 프로세스당 키 총개수에 대한 시스템 제한인 `PTHREAD_KEYS_MAX`를 초과했다.
+
+`ENOMEM`
+:   키를 생성하기에 충분한 메모리가 없다.
 
 `pthread_key_create()` 함수는 오류 코드 `[EINTR]`을 반환하지 않는다.
 
-<em>이하는 규범적이지 않은 내용이다.</em>
+*이하는 규범적이지 않은 내용이다.*
 
 ## EXAMPLES
 
@@ -132,9 +131,9 @@ POSIX.1-2008 Base Definitions 권, `<pthread.h>`
 
 ## COPYRIGHT
 
-Portions of this text are reprinted and reproduced in electronic form from IEEE Std 1003.1, 2013 Edition, Standard for Information Technology -- Portable Operating System Interface (POSIX), The Open Group Base Specifications Issue 7, Copyright (C) 2013 by the Institute of Electrical and Electronics Engineers, Inc and The Open Group. (This is POSIX.1-2008 with the 2013 Technical Corrigendum 1 applied.) In the event of any discrepancy between this version and the original IEEE and The Open Group Standard, the original IEEE and The Open Group Standard is the referee document. The original Standard can be obtained online at http://www.unix.org/online.html .
+Portions of this text are reprinted and reproduced in electronic form from IEEE Std 1003.1, 2013 Edition, Standard for Information Technology -- Portable Operating System Interface (POSIX), The Open Group Base Specifications Issue 7, Copyright (C) 2013 by the Institute of Electrical and Electronics Engineers, Inc and The Open Group. (This is POSIX.1-2008 with the 2013 Technical Corrigendum 1 applied.) In the event of any discrepancy between this version and the original IEEE and The Open Group Standard, the original IEEE and The Open Group Standard is the referee document. The original Standard can be obtained online at <http://www.unix.org/online.html>.
 
-Any typographical or formatting errors that appear in this page are most likely to have been introduced during the conversion of the source files to man page format. To report such errors, see https://www.kernel.org/doc/man-pages/reporting_bugs.html .
+Any typographical or formatting errors that appear in this page are most likely to have been introduced during the conversion of the source files to man page format. To report such errors, see <https://www.kernel.org/doc/man-pages/reporting_bugs.html>.
 
 ----
 

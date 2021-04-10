@@ -14,10 +14,8 @@ int pthread_mutex_consistent(pthread_mutex_t *mutex);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>pthread_mutex_consistent()</code>:</dt>
-<dd><code>_POSIX_C_SOURCE >= 200809L</code></dd>
-</dl>
+`pthread_mutex_consistent()`:
+:   `_POSIX_C_SOURCE >= 200809L`
 
 ## DESCRIPTION
 
@@ -29,10 +27,8 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd>뮤텍스가 견고가 아니거나 비일관 상태가 아니다.</dd>
-</dl>
+`EINVAL`
+:   뮤텍스가 견고가 아니거나 비일관 상태가 아니다.
 
 ## VERSIONS
 

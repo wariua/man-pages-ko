@@ -13,17 +13,12 @@ int mincore(void *addr, size_t length, unsigned char *vec);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>mincore()</code>:</dt>
-<dd>
- <dl>
- <dt>glibc 2.19부터:</dt>
- <dd><code>_DEFAULT_SOURCE</code></dd>
- <dt>glibc 2.19 및 이전:</dt>
- <dd><code>_BSD_SOURCE || _SVID_SOURCE</code></dd>
- </dl>
-</dd>
-</dl>
+`mincore()`:
+:   glibc 2.19부터:
+    :   `_DEFAULT_SOURCE`
+
+    glibc 2.19 및 이전:
+    :   `_BSD_SOURCE || _SVID_SOURCE`
 
 ## DESCRIPTION
 
@@ -39,18 +34,20 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## ERRORS
 
-<dl>
-<dt><code>EAGAIN</code></dt>
-<dd>커널에 일시적으로 자원이 부족하다.</dd>
-<dt><code>EFAULT</code></dt>
-<dd><code>vec</code>이 유효하지 않은 주소를 가리키고 있다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>addr</code>이 페이지 크기의 배수가 아니다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd><code>length</code>가 <code>(TASK_SIZE - addr)</code>보다 크다. (<code>length</code>에 음수 값을 지정하면 그 값을 큰 부호 없는 정수로 해석하기 때문에 이렇게 될 수 있다.) 리눅스 2.6.11 및 이전에서는 이 경우에 <code>EINVAL</code> 오류를 반환했다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd><code>addr</code>에서 <code>addr + length</code>까지에 맵 안 된 메모리가 포함되어 있다.</dd>
-</dl>
+`EAGAIN`
+:   커널에 일시적으로 자원이 부족하다.
+
+`EFAULT`
+:   `vec`이 유효하지 않은 주소를 가리키고 있다.
+
+`EINVAL`
+:   `addr`이 페이지 크기의 배수가 아니다.
+
+`ENOMEM`
+:   `length`가 `(TASK_SIZE - addr)`보다 크다. (`length`에 음수 값을 지정하면 그 값을 큰 부호 없는 정수로 해석하기 때문에 이렇게 될 수 있다.) 리눅스 2.6.11 및 이전에서는 이 경우에 `EINVAL` 오류를 반환했다.
+
+`ENOMEM`
+:   `addr`에서 `addr + length`까지에 맵 안 된 메모리가 포함되어 있다.
 
 ## VERSIONS
 

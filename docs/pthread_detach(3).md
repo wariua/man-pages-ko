@@ -24,12 +24,11 @@ int pthread_detach(pthread_t thread);
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>thread</code>가 합류 가능 스레드가 아니다.</dd>
-<dt><code>ESRCH</code></dt>
-<dd>ID가 <code>thread</code>인 스레드를 찾을 수 없다.</dd>
-</dl>
+`EINVAL`
+:   `thread`가 합류 가능 스레드가 아니다.
+
+`ESRCH`
+:   ID가 `thread`인 스레드를 찾을 수 없다.
 
 ## ATTRIBUTES
 

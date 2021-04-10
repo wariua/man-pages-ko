@@ -41,10 +41,8 @@ struct sched_param {
 
 `pthread_attr_setschedparam()`이 다음 오류로 실패할 수 있다.
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>attr</code>의 현재 스케줄링 정책에서 <code>param</code>에 지정한 우선순위가 말이 되지 않음.</dd>
-</dl>
+`EINVAL`
+:   `attr`의 현재 스케줄링 정책에서 `param`에 지정한 우선순위가 말이 되지 않음.
 
 POSIX.1에서는 `pthread_attr_setschedparam()`에서 `ENOTSUP` 오류도 적고 있다. 리눅스에서는 절대 이 값을 반환하지 않는다. (그렇기는 하지만 이식 가능하고 미래를 대비하는 응용에서는 이 오류 반환 값을 처리해야 할 것이다.)
 

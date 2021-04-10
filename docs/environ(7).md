@@ -14,37 +14,35 @@ extern char **environ;
 
 관행상 `environ`의 문자열들은 "`name=value`" 형태다. 자주 쓰는 것들로 다음이 있다.
 
-<dl>
-<dt><code>USER</code></dt>
-<dd>로그인 한 사용자의 이름. (일부 BSD 유래 프로그램들에서 사용.)</dd>
+`USER`
+:   로그인 한 사용자의 이름. (일부 BSD 유래 프로그램들에서 사용.)
 
-<dt><code>LOGNAME</code></dt>
-<dd>로그인 한 사용자의 이름. (일부 시스템 V 유래 프로그램들에서 사용.)</dd>
+`LOGNAME`
+:   로그인 한 사용자의 이름. (일부 시스템 V 유래 프로그램들에서 사용.)
 
-<dt><code>HOME</code></dt>
-<dd>사용자의 로그인 디렉터리. 암호 파일 <code>passwd(5)</code>에서 가져와서 <code>login(1)</code>에서 설정.</dd>
+`HOME`
+:   사용자의 로그인 디렉터리. 암호 파일 `passwd(5)`에서 가져와서 `login(1)`에서 설정.
 
-<dt><code>LANG</code></dt>
-<dd>로캘 카테고리들에 사용할 로캘 이름. <code>LC_ALL</code>이, 또는 더 상세한 환경 변수 <code>LC_COLLATE</code>, <code>LC_CTYPE</code>, <code>LC_MESSAGES</code>, <code>LC_MONETARY</code>, <code>LC_NUMERIC</code>, <code>LC_TIME</code> 등이 있으면 그게 우선시됨. (<code>LC_*</code> 환경 변수들에 대한 자세한 내용은 <tt>[[locale(7)]]</tt> 참고.)</dd>
+`LANG`
+:   로캘 카테고리들에 사용할 로캘 이름. `LC_ALL`이, 또는 더 상세한 환경 변수 `LC_COLLATE`, `LC_CTYPE`, `LC_MESSAGES`, `LC_MONETARY`, `LC_NUMERIC`, `LC_TIME` 등이 있으면 그게 우선시됨. (`LC_*` 환경 변수들에 대한 자세한 내용은 <tt>[[locale(7)]]</tt> 참고.)
 
-<dt><code>PATH</code></dt>
-<dd><code>sh(1)</code> 및 기타 여러 프로그램에서 경로명을 불완전하게 알고 있는 파일을 탐색할 때 적용하는 디렉터리 선두부들의 목록. 선두부들이 ':'로 구분돼 있다. (이와 비슷하게 일부 셸에는 디렉터리 변경 명령 대상을 찾는 데 쓰는 <code>CDPATH</code>가 있고, <code>man(1)</code>에서 매뉴얼 페이지를 찾는 데 쓰는 <code>MANPATH</code>가 있기도 하다.)</dd>
+`PATH`
+:   `sh(1)` 및 기타 여러 프로그램에서 경로명을 불완전하게 알고 있는 파일을 탐색할 때 적용하는 디렉터리 선두부들의 목록. 선두부들이 ':'로 구분돼 있다. (이와 비슷하게 일부 셸에는 디렉터리 변경 명령 대상을 찾는 데 쓰는 `CDPATH`가 있고, `man(1)`에서 매뉴얼 페이지를 찾는 데 쓰는 `MANPATH`가 있기도 하다.)
 
-<dt><code>PWD</code></dt>
-<dd>현재 작업 디렉터리. 일부 셸에서 설정해 준다.</dd>
+`PWD`
+:   현재 작업 디렉터리. 일부 셸에서 설정해 준다.
 
-<dt><code>SHELL</code></dt>
-<dd>사용자 로그인 셸의 경로명.</dd>
+`SHELL`
+:   사용자 로그인 셸의 경로명.
 
-<dt><code>TERM</code></dt>
-<dd>출력 방식을 맞출 터미널 종류.</dd>
+`TERM`
+:   출력 방식을 맞출 터미널 종류.
 
-<dt><code>PAGER</code></dt>
-<dd>텍스트 파일 표시를 위한 사용자 선호 유틸리티.</dd>
+`PAGER`
+:   텍스트 파일 표시를 위한 사용자 선호 유틸리티.
 
-<dt><code>EDITOR</code>/<code>VISUAL</code></dt>
-<dd>텍스트 파일 편집을 위한 사용자 선호 유틸리티.</dd>
-</dl>
+`EDITOR`/`VISUAL`
+:   텍스트 파일 편집을 위한 사용자 선호 유틸리티.
 
 `sh(1)`에서는 `export` 명령으로, `csh(1)`을 쓴다면 `setenv` 명령으로 셸의 환경에 이름을 넣을 수 있다.
 

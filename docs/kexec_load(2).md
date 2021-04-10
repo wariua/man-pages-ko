@@ -23,13 +23,11 @@ long kexec_file_load(int kernel_fd, int initrd_fd,
 
 `flags` 인자는 호출의 동작을 제어하는 비트 마스크이다. `flags`에 다음 값들을 지정할 수 있다.
 
-<dl>
-<dt><code>KEXEC_ON_CRASH</code> (리눅스 2.6.13부터)</dt>
-<dd>시스템 크래시 발생 시 새 커널을 자동으로 실행한다. 이 "크래시 커널"을 부팅 때 커널 명령행 매개변수 <code>crashkernel</code>로 정한 예약된 메모리 영역으로 적재한다. 그 예약 메모리의 위치는 <code>/proc/iomem</code> 파일의 "Crash kernel"이라는 항목을 통해 사용자 공간으로 노출된다. 사용자 공간 응용에서 그 파일을 파싱 해서 예약된 메모리를 목적지로 하는 세그먼트 목록(아래 참고)을 준비할 수 있다. 이 플래그를 지정하면 커널에서는 <code>segments</code>에 지정한 대상 세그먼트들이 그 예약 영역 안에 있는지 확인한다.</dd>
+`KEXEC_ON_CRASH` (리눅스 2.6.13부터)
+:   시스템 크래시 발생 시 새 커널을 자동으로 실행한다. 이 "크래시 커널"을 부팅 때 커널 명령행 매개변수 `crashkernel`로 정한 예약된 메모리 영역으로 적재한다. 그 예약 메모리의 위치는 `/proc/iomem` 파일의 "Crash kernel"이라는 항목을 통해 사용자 공간으로 노출된다. 사용자 공간 응용에서 그 파일을 파싱 해서 예약된 메모리를 목적지로 하는 세그먼트 목록(아래 참고)을 준비할 수 있다. 이 플래그를 지정하면 커널에서는 `segments`에 지정한 대상 세그먼트들이 그 예약 영역 안에 있는지 확인한다.
 
-<dt><code>KEXEC_PRESERVE_CONTEXT</code> (리눅스 2.6.27부터)</dt>
-<dd>새 커널을 실행하기 전에 시스템 하드웨어 및 소프트웨어 상태를 보존한다. 시스템 일시 정지에 쓸 수 있을 것이다. 커널이 <code>CONFIG_KEXEC_JUMP</code>로 구성된 경우에만 이 플래그를 쓸 수 있으며, <code>nr_segments</code>가 0보다 큰 경우에만 효력이 있다.</dd>
-</dl>
+`KEXEC_PRESERVE_CONTEXT` (리눅스 2.6.27부터)
+:   새 커널을 실행하기 전에 시스템 하드웨어 및 소프트웨어 상태를 보존한다. 시스템 일시 정지에 쓸 수 있을 것이다. 커널이 `CONFIG_KEXEC_JUMP`로 구성된 경우에만 이 플래그를 쓸 수 있으며, `nr_segments`가 0보다 큰 경우에만 효력이 있다.
 
 `flags`의 (마스크 0xffff0000에 해당하는) 상위 비트들은 실행할 커널의 아키텍처를 담는다. 현재 아키텍처를 쓰려면 상수 `KEXEC_ARCH_DEFAULT`를, 아니면 아키텍처 상수 `KEXEC_ARCH_386`, `KEXEC_ARCH_68K`, `KEXEC_ARCH_X86_64`, `KEXEC_ARCH_PPC`, `KEXEC_ARCH_PPC64`, `KEXEC_ARCH_IA_64`, `KEXEC_ARCH_ARM`, `KEXEC_ARCH_S390`, `KEXEC_ARCH_SH`, `KEXEC_ARCH_MIPS`, `KEXEC_ARCH_MIPS_LE` 중 하나를 지정(OR)하면 된다. 시스템의 CPU 상에서 실행 가능한 아키텍처여야 한다.
 
@@ -64,16 +62,14 @@ struct kexec_segment {
 
 `flags` 인자는 호출의 동작 방식을 변경하는 비트 마스크이다. `flags`에 다음 값들을 지정할 수 있다.
 
-<dl>
-<dt><code>KEXEC_FILE_UNLOAD</code></dt>
-<dd>현재 적재된 커널을 내린다.</dd>
+`KEXEC_FILE_UNLOAD`
+:   현재 적재된 커널을 내린다.
 
-<dt><code>KEXEC_FILE_ON_CRASH</code></dt>
-<dd>(<code>KEXEC_ON_CRASH</code>처럼) 크래시 커널을 위해 예약된 메모리 영역에 새 커널을 적재한다. 현재 돌고 있는 커널이 죽으면 이 커널로 부팅 한다.</dd>
+`KEXEC_FILE_ON_CRASH`
+:   (`KEXEC_ON_CRASH`처럼) 크래시 커널을 위해 예약된 메모리 영역에 새 커널을 적재한다. 현재 돌고 있는 커널이 죽으면 이 커널로 부팅 한다.
 
-<dt><code>KEXEC_FILE_NO_INITRAMFS</code></dt>
-<dd>initrd/initramfs 적재는 선택적이다. initramfs를 적재하지 않을 경우 이 플래그를 지정하면 된다. 이 플래그가 설정돼 있으면 <code>initrd_fd</code> 값을 무시한다.</dd>
-</dl>
+`KEXEC_FILE_NO_INITRAMFS`
+:   initrd/initramfs 적재는 선택적이다. initramfs를 적재하지 않을 경우 이 플래그를 지정하면 된다. 이 플래그가 설정돼 있으면 `initrd_fd` 값을 무시한다.
 
 `kexec_file_load()` 시스템 호출은 서명된 커널들만 "kexec" 적재를 하도록 한정해야 하는 시스템을 위해 추가된 것이다. 커널이 `CONFIG_KEXEC_FILE`로 구성된 경우에만 이 시스템 호출이 사용 가능하다.
 
@@ -83,34 +79,44 @@ struct kexec_segment {
 
 ## ERRORS
 
-<dl>
-<dt><code>EADDRNOTAVAIL</code></dt>
-<dd><code>KEXEC_ON_CRASH</code> 플래그를 지정했는데 <code>segments</code> 항목들 중 하나의 <code>mem</code> 및 <code>memsz</code> 필드로 지정한 영역이 크래시 커널을 위해 예약된 메모리 영역 밖에 있다.</dd>
-<dt><code>EADDRNOTAVAIL</code></dt>
-<dd><code>segments</code> 항목들 중 하나에서 <code>mem</code>이나 <code>memsz</code> 필드 값이 시스템 페이지 크기의 배수가 아니다.</dd>
-<dt><code>EBADF</code></dt>
-<dd><code>kernel_fd</code>나 <code>initrd_fd</code>가 유효한 파일 디스크립터가 아니다.</dd>
-<dt><code>EBUSY</code></dt>
-<dd>다른 크래시 커널이 이미 적재돼 있거나 이미 크래시 커널을 쓰고 있다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>flags</code>가 유효하지 않다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>segments</code> 항목들 중 하나에서 <code>bufsz</code> 필드의 값이 대응하는 <code>memsz</code> 필드 값을 초과한다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>nr_segments</code>가 <code>KEXEC_SEGMENT_MAX</code>(16)를 초과한다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>둘 이상의 커널 대상 버퍼가 겹친다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>cmdline[cmdline_len-1]</code>의 값이 '<code>\0</code>'이 아니다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>kernel_fd</code>나 <code>initrd_fd</code>가 가리키는 파일이 비어 있다 (길이가 0이다).</dd>
-<dt><code>ENOEXEC</code></dt>
-<dd><code>kernel_fd</code>가 열린 파일을 가리키고 있지 않거나 커널에서 그 파일을 적재할 수 없다. 현재 그 파일은 bzImage여야 하고 메모리의 4GiB 위에 적재 가능한 x86 커널을 담고 있어야 한다. (커널 소스 파일 <code>Documentation/x86/boot.txt</code> 참고.)</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>메모리를 할당할 수 없다.</dd>
-<dt><code>EPERM</code></dt>
-<dd>호출자가 <code>CAP_SYS_BOOT</code> 역능을 가지고 있지 않다.</dd>
-</dl>
+`EADDRNOTAVAIL`
+:   `KEXEC_ON_CRASH` 플래그를 지정했는데 `segments` 항목들 중 하나의 `mem` 및 `memsz` 필드로 지정한 영역이 크래시 커널을 위해 예약된 메모리 영역 밖에 있다.
+
+`EADDRNOTAVAIL`
+:   `segments` 항목들 중 하나에서 `mem`이나 `memsz` 필드 값이 시스템 페이지 크기의 배수가 아니다.
+
+`EBADF`
+:   `kernel_fd`나 `initrd_fd`가 유효한 파일 디스크립터가 아니다.
+
+`EBUSY`
+:   다른 크래시 커널이 이미 적재돼 있거나 이미 크래시 커널을 쓰고 있다.
+
+`EINVAL`
+:   `flags`가 유효하지 않다.
+
+`EINVAL`
+:   `segments` 항목들 중 하나에서 `bufsz` 필드의 값이 대응하는 `memsz` 필드 값을 초과한다.
+
+`EINVAL`
+:   `nr_segments`가 `KEXEC_SEGMENT_MAX`(16)를 초과한다.
+
+`EINVAL`
+:   둘 이상의 커널 대상 버퍼가 겹친다.
+
+`EINVAL`
+:   `cmdline[cmdline_len-1]`의 값이 '`\0`'이 아니다.
+
+`EINVAL`
+:   `kernel_fd`나 `initrd_fd`가 가리키는 파일이 비어 있다 (길이가 0이다).
+
+`ENOEXEC`
+:   `kernel_fd`가 열린 파일을 가리키고 있지 않거나 커널에서 그 파일을 적재할 수 없다. 현재 그 파일은 bzImage여야 하고 메모리의 4GiB 위에 적재 가능한 x86 커널을 담고 있어야 한다. (커널 소스 파일 `Documentation/x86/boot.txt` 참고.)
+
+`ENOMEM`
+:   메모리를 할당할 수 없다.
+
+`EPERM`
+:   호출자가 `CAP_SYS_BOOT` 역능을 가지고 있지 않다.
 
 ## VERSIONS
 

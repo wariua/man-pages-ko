@@ -43,79 +43,56 @@ typedef struct {
 
 네 필드는 다음과 같다.
 
-<dl>
-<dt><code>cookie_read_function_t *read</code></dt>
-<dd>
+`cookie_read_function_t *read`
+:   이 함수는 스트림의 읽기 동작을 구현한다. 호출 시 인자 세 개를 받는다.
 
-이 함수는 스트림의 읽기 동작을 구현한다. 호출 시 인자 세 개를 받는다.
+        ssize_t read(void *cookie, char *buf, size_t size);
 
-```c
-ssize_t read(void *cookie, char *buf, size_t size);
-```
+    `buf` 인자와 `size` 인자는 각각 입력 데이터를 넣을 수 있는 버퍼와 그 버퍼의 크기이다. 함수 결과로 `read` 함수는 `buf`로 복사한 바이트 수를, 또는 파일 끝이면 0을, 또는 오류 시 -1을 반환해야 한다. `read` 함수는 스트림 오프셋을 적절히 갱신해야 한다.
 
-<code>buf</code> 인자와 <code>size</code> 인자는 각각 입력 데이터를 넣을 수 있는 버퍼와 그 버퍼의 크기이다. 함수 결과로 <code>read</code> 함수는 <code>buf</code>로 복사한 바이트 수를, 또는 파일 끝이면 0을, 또는 오류 시 -1을 반환해야 한다. <code>read</code> 함수는 스트림 오프셋을 적절히 갱신해야 한다.
+    `*read`가 널 포인터이면 맞춤형 스트림 읽기가 항상 파일 끝을 반환한다.
 
-<code>*read</code>가 널 포인터이면 맞춤형 스트림 읽기가 항상 파일 끝을 반환한다.
-</dd>
+`cookie_write_function_t *write`
+:   이 함수는 스트림의 쓰기 동작을 구현한다. 호출 시 인자 세 개를 받는다.
 
-<dt><code>cookie_write_function_t *write</code></dt>
-<dd>
+        ssize_t write(void *cookie, const char *buf, size_t size);
 
-이 함수는 스트림의 쓰기 동작을 구현한다. 호출 시 인자 세 개를 받는다.
+    `buf` 인자와 `size` 인자는 각각 스트림으로 출력할 데이터가 있는 버퍼와 그 버퍼의 크기이다. 함수 결과로 `write` 함수는 `buf`로부터 복사한 바이트 수를, 또는 오류 시 0을 반환해야 한다. (함수가 음수 값을 반환해선 안 된다.) `write` 함수는 스트림 오프셋을 적절히 갱신해야 한다.
 
-```c
-ssize_t write(void *cookie, const char *buf, size_t size);
-```
+    `*write`가 널 포인터이면 스트림에 대한 출력이 버려진다.
 
-<code>buf</code> 인자와 <code>size</code> 인자는 각각 스트림으로 출력할 데이터가 있는 버퍼와 그 버퍼의 크기이다. 함수 결과로 <code>write</code> 함수는 <code>buf</code>로부터 복사한 바이트 수를, 또는 오류 시 0을 반환해야 한다. (함수가 음수 값을 반환해선 안 된다.) <code>write</code> 함수는 스트림 오프셋을 적절히 갱신해야 한다.
+`cookie_seek_function_t *seek`
+:   이 함수는 스트림의 탐색 동작을 구현한다. 호출 시 인자 세 개를 받는다.
 
-<code>*write</code>가 널 포인터이면 스트림에 대한 출력이 버려진다.
-</dd>
+    int seek(void *cookie, off64_t *offset, int whence);
 
-<dt><code>cookie_seek_function_t *seek</code></dt>
-<dd>
+    `*offset` 인자는 새 파일 오프셋을 나타내는데, `whence`에 다음 중 어느 값이 있느냐에 따라 달라진다.
 
-이 함수는 스트림의 탐색 동작을 구현한다. 호출 시 인자 세 개를 받는다.
+    `SEEK_SET`
+    :   스트림 오프셋을 스트림 시작점 기준 `*offset` 바이트로 설정해야 한다.
 
-```c
-int seek(void *cookie, off64_t *offset, int whence);
-```
+    `SEEK_CUR`
+    :   현재 스트림 오프셋에 `*offset`을 더해야 한다.
 
-<code>*offset</code> 인자는 새 파일 오프셋을 나타내는데, <code>whence</code>에 다음 중 어느 값이 있느냐에 따라 달라진다.
+    `SEEK_END`
+    :   스트림 오프셋을 스트림 크기 더하기 `*offset`으로 설정해야 한다.
 
- <dl>
- <dt><code>SEEK_SET</code></dt>
- <dd>스트림 오프셋을 스트림 시작점 기준 <code>*offset</code> 바이트로 설정해야 한다.</dd>
+    반환 전에 `seek` 함수는 새 스트림 오프셋을 나타내도록 `*offset`을 갱신해야 한다.
 
- <dt><code>SEEK_CUR</code></dt>
- <dd>현재 스트림 오프셋에 <code>*offset</code>을 더해야 한다.</dd>
+    함수 결과로 `seek` 함수는 성공 시 0을 반환하고 오류 시 -1을 반환해야 한다.
 
- <dt><code>SEEK_END</code></dt>
- <dd>스트림 오프셋을 스트림 크기 더하기 <code>*offset</code>으로 설정해야 한다.</dd>
- </dl>
+    `*seek`이 널 포인터이면 스트림에서 탐색 동작을 수행하는 게 불가능하다.
 
-반환 전에 <code>seek</code> 함수는 새 스트림 오프셋을 나타내도록 <code>*offset</code>을 갱신해야 한다.
+`cookie_close_function_t *close`
+:   이 함수는 스트림을 닫는다. 스트림을 위해 할당했던 버퍼를 해제하는 것 같은 일을 훅 함수에서 할 수 있다. 호출 시 인자 한 개를 받는다.
 
-함수 결과로 <code>seek</code> 함수는 성공 시 0을 반환하고 오류 시 -1을 반환해야 한다.
+        int close(void *cookie);
 
-<code>*seek</code>이 널 포인터이면 스트림에서 탐색 동작을 수행하는 게 불가능하다.
-</dd>
+    `cookie` 인자는 프로그래머가 `fopencookie()` 호출 시 제공했던 쿠키이다.
 
-<dt><code>cookie_close_function_t *close</code></dt>
-<dd>
+    함수 결과로 `close` 함수는 성공 시 0을 반환하고 오류 시 `EOF`를 반환해야 한다.
 
-이 함수는 스트림을 닫는다. 스트림을 위해 할당했던 버퍼를 해제하는 것 같은 일을 훅 함수에서 할 수 있다. 호출 시 인자 한 개를 받는다.
-
-```c
-int close(void *cookie);
-```
-
-<code>cookie</code> 인자는 프로그래머가 <code>fopencookie()</code> 호출 시 제공했던 쿠키이다.
-
-함수 결과로 <code>close</code> 함수는 성공 시 0을 반환하고 오류 시 <code>EOF</code>를 반환해야 한다.
-
-<code>*close</code>가 NULL이면 스트림을 닫을 때 별다른 동작을 수행하지 않는다.
-</dd>
+    `*close`가 NULL이면 스트림을 닫을 때 별다른 동작을 수행하지 않는다.
 
 ## RETURN VALUE
 

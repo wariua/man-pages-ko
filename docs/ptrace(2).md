@@ -35,287 +35,177 @@ ptrace(PTRACE_foo, pid, ...)
 
 `request` 값이 수행할 행동을 결정한다.
 
-<dl>
-<dt><code>PTRACE_TRACEME</code></dt>
-<dd>
-
-이 프로세스가 부모에 의해 추적될 것임을 나타낸다. 부모가 추적할 예정이 아니라면 이 요청을 하지 말아야 할 것이다. (<code>pid</code>, <code>addr</code>, <code>data</code>는 무시한다.)
-
-<code>PTRACE_TRACEME</code> 요청은 피추적자에서만 사용한다. 나머지 요청들은 추적자에서만 사용한다. 이어지는 요청들에서 <code>pid</code>는 동작 대상 피추적자의 스레드 ID를 나타낸다. <code>PTRACE_ATTACH</code>, <code>PTRACE_SEIZE</code>, <code>PTRACE_INTERRUPT</code>, <code>PTRACE_KILL</code> 외의 요청들에서는 피추적자가 멈춰 있어야 한다.
-</dd>
-
-<dt><code>PTRACE_PEEKTEXT</code>, <code>PTRACE_PEEKDATA</code></dt>
-<dd>
-피추적자 메모리의 주소 <code>addr</code>에서 워드를 읽고 그 워드를 <code>ptrace()</code> 호출의 결과로 반환한다. 리눅스에서 텍스트와 데이터의 주소 공간이 따로 있지 않으므로 이 두 요청은 현재 동등하다. (<code>data</code>는 무시한다. 하지만 NOTES 참고.)
-</dd>
-
-<dt><code>PTRACE_PEEKUSER</code></dt>
-<dd>
-피추적자 USER 영역의 오프셋 <code>addr</code>에서 워드를 읽는다. USER 영역은 레지스터들과 기타 프로세스에 대한 정보를 담고 있다 (<code>&lt;sys/user.h&gt;</code> 참고). 그 워드를 <code>ptrace()</code> 호출의 결과로 반환한다. 보통은 오프셋이 워드에 정렬되어 있어야 하지만 아키텍처에 따라 다를 수도 있다. NOTES 참고. (<code>data</code>는 무시한다. 하지만 NOTES 참고.)
-</dd>
-
-<dt><code>PTRACE_POKETEXT</code>, <code>PTRACE_POKEDATA</code></dt>
-<dd>
-워드 <code>data</code>를 피추적자 메모리의 주소 <code>addr</code>로 복사한다. <code>PTRACE_PEEKTEXT</code> 및 <code>PTRACE_PEEKDATA</code>처럼 이 두 요청은 현재 동등하다.
-</dd>
+`PTRACE_TRACEME`
+:   이 프로세스가 부모에 의해 추적될 것임을 나타낸다. 부모가 추적할 예정이 아니라면 이 요청을 하지 말아야 할 것이다. (`pid`, `addr`, `data`는 무시한다.)
 
-<dt><code>PTRACE_POKEUSER</code></dt>
-<dd>
-워드 <code>data</code>를 피추적자 USER 영역의 오프셋 <code>addr</code>로 복사한다. <code>PTRACE_PEEKUSER</code>처럼 오프셋이 보통은 워드에 정렬되어 있어야 한다. 커널의 무결성을 유지하기 위해 USER 영역에 대한 일부 변경은 허용하지 않는다.
-</dd>
+    `PTRACE_TRACEME` 요청은 피추적자에서만 사용한다. 나머지 요청들은 추적자에서만 사용한다. 이어지는 요청들에서 `pid`는 동작 대상 피추적자의 스레드 ID를 나타낸다. `PTRACE_ATTACH`, `PTRACE_SEIZE`, `PTRACE_INTERRUPT`, `PTRACE_KILL` 외의 요청들에서는 피추적자가 멈춰 있어야 한다.
 
-<dt><code>PTRACE_GETREGS</code>, <code>PTRACE_GETFPREGS</code></dt>
-<dd>
-각각 피추적자의 범용 레지스터들이나 부동 소수점 레지스터들을 추적자 내의 주소 <code>data</code>로 복사한다. 이 데이터의 형식에 대한 정보는 <code>&lt;sys/user.h&gt;</code>를 보라. (<code>addr</code>은 무시한다.) 참고로 SPARC 시스템에서는 <code>data</code>와 <code>addr</code>의 의미가 뒤집혀 있다. 즉, <code>data</code>를 무시하고 주소 <code>addr</code>로 레지스터들을 복사한다. 모든 아키텍처에 <code>PTRACE_GETREGS</code>와 <code>PTRACE_GETFPREGS</code>가 있는 건 아니다.
-</dd>
+`PTRACE_PEEKTEXT`, `PTRACE_PEEKDATA`
+:   피추적자 메모리의 주소 `addr`에서 워드를 읽고 그 워드를 `ptrace()` 호출의 결과로 반환한다. 리눅스에서 텍스트와 데이터의 주소 공간이 따로 있지 않으므로 이 두 요청은 현재 동등하다. (`data`는 무시한다. 하지만 NOTES 참고.)
 
-<dt><code>PTRACE_GETREGSET</code> (리눅스 2.6.34부터)</dt>
-<dd>
-피추적자의 레지스터들을 읽는다. <code>addr</code>이 아키텍처별 방식으로 읽을 레지스터들의 종류를 나타낸다. <code>NT_PRSTATUS</code>(숫자 값 1)는 일반적으로 범용 레지스터들을 읽게 만든다. 예를 들어 CPU에 부동 소수점 및/또는 벡터 레지스터가 있으면 <code>addr</code>을 대응 <code>NT_foo</code> 상수로 설정해서 그 레지스터들을 가져올 수 있다. <code>data</code>는 목적지 버퍼의 위치와 길이를 기술하는 <code>struct iovec</code>을 가리킨다. 반환 시 실제 반환되는 바이트 수를 나타내도록 커널이 <code>iov.len</code>을 변경한다.
-</dd>
+`PTRACE_PEEKUSER`
+:   피추적자 USER 영역의 오프셋 `addr`에서 워드를 읽는다. USER 영역은 레지스터들과 기타 프로세스에 대한 정보를 담고 있다 (`<sys/user.h>` 참고). 그 워드를 `ptrace()` 호출의 결과로 반환한다. 보통은 오프셋이 워드에 정렬되어 있어야 하지만 아키텍처에 따라 다를 수도 있다. NOTES 참고. (`data`는 무시한다. 하지만 NOTES 참고.)
 
-<dt><code>PTRACE_SETREGS</code>, <code>PTRACE_SETFPREGS</code></dt>
-<dd>
-각각 피추적자의 범용 레지스터들이나 부동 소수점 레지스터들을 추적자 내의 주소 <code>data</code>에서 온 값으로 변경한다. <code>PTRACE_POKEUSER</code>처럼 일부 범용 레지스터 변경이 허용되지 않을 수도 있다. (<code>addr</code>은 무시한다.) 참고로 SPARCS 시스템에서는 <code>data</code>와 <code>addr</code>의 의미가 뒤집혀 있다. 즉, <code>data</code>를 무시하고 주소 <code>addr</code>로부터 레지스터들을 복사한다. 모든 아키텍처에 <code>PTRACE_SETREGS</code>와 <code>PTRACE_SETFPREGS</code>가 있는 건 아니다.
-</dd>
+`PTRACE_POKETEXT`, `PTRACE_POKEDATA`
+:   워드 `data`를 피추적자 메모리의 주소 `addr`로 복사한다. `PTRACE_PEEKTEXT` 및 `PTRACE_PEEKDATA`처럼 이 두 요청은 현재 동등하다.
 
-<dt><code>PTRACE_SETREGSET</code> (리눅스 2.6.34부터)</dt>
-<dd>
-피추적자의 레지스터들을 변경한다. <code>addr</code>과 <code>data</code>의 의미는 <code>PTRACE_GETREGSET</code>과 유사하다.
-</dd>
+`PTRACE_POKEUSER`
+:   워드 `data`를 피추적자 USER 영역의 오프셋 `addr`로 복사한다. `PTRACE_PEEKUSER`처럼 오프셋이 보통은 워드에 정렬되어 있어야 한다. 커널의 무결성을 유지하기 위해 USER 영역에 대한 일부 변경은 허용하지 않는다.
 
-<dt><code>PTRACE_GETSIGINFO</code> (리눅스 2.3.99-pre6부터)</dt>
-<dd>
-정지를 유발한 시그널에 대한 정보를 가져온다. 피추적자로부터 <code>siginfo_t</code> 구조체(<tt>[[sigaction(2)]]</tt> 참고)를 추적자 내의 주소 <code>data</code>로 복사한다. (<code>addr</code>은 무시한다.)
-</dd>
+`PTRACE_GETREGS`, `PTRACE_GETFPREGS`
+:   각각 피추적자의 범용 레지스터들이나 부동 소수점 레지스터들을 추적자 내의 주소 `data`로 복사한다. 이 데이터의 형식에 대한 정보는 `<sys/user.h>`를 보라. (`addr`은 무시한다.) 참고로 SPARC 시스템에서는 `data`와 `addr`의 의미가 뒤집혀 있다. 즉, `data`를 무시하고 주소 `addr`로 레지스터들을 복사한다. 모든 아키텍처에 `PTRACE_GETREGS`와 `PTRACE_GETFPREGS`가 있는 건 아니다.
 
-<dt><code>PTRACE_SETSIGINFO</code> (리눅스 2.3.99-pre6부터)</dt>
-<dd>
-시그널 정보를 설정한다. 추적자 내의 주소 <code>data</code>로부터 <code>siginfo_t</code> 구조체를 피추적자로 복사한다. 피추적자에게 정상적으로 전달되었을 것이면서 추적자에게 잡힌 시그널에만 영향을 주게 된다. 정상적인 시그널과 <code>ptrace()</code> 자체에서 생성한 인조 시그널을 구별하는 것이 어려울 수도 있다. (<code>addr</code>은 무시한다.)
-</dd>
+`PTRACE_GETREGSET` (리눅스 2.6.34부터)
+:   피추적자의 레지스터들을 읽는다. `addr`이 아키텍처별 방식으로 읽을 레지스터들의 종류를 나타낸다. `NT_PRSTATUS`(숫자 값 1)는 일반적으로 범용 레지스터들을 읽게 만든다. 예를 들어 CPU에 부동 소수점 및/또는 벡터 레지스터가 있으면 `addr`을 대응 `NT_foo` 상수로 설정해서 그 레지스터들을 가져올 수 있다. `data`는 목적지 버퍼의 위치와 길이를 기술하는 `struct iovec`을 가리킨다. 반환 시 실제 반환되는 바이트 수를 나타내도록 커널이 `iov.len`을 변경한다.
 
-<dt><code>PTRACE_PEEKSIGINFO</code> (리눅스 3.10부터)</dt>
-<dd>
+`PTRACE_SETREGS`, `PTRACE_SETFPREGS`
+:   각각 피추적자의 범용 레지스터들이나 부동 소수점 레지스터들을 추적자 내의 주소 `data`에서 온 값으로 변경한다. `PTRACE_POKEUSER`처럼 일부 범용 레지스터 변경이 허용되지 않을 수도 있다. (`addr`은 무시한다.) 참고로 SPARCS 시스템에서는 `data`와 `addr`의 의미가 뒤집혀 있다. 즉, `data`를 무시하고 주소 `addr`로부터 레지스터들을 복사한다. 모든 아키텍처에 `PTRACE_SETREGS`와 `PTRACE_SETFPREGS`가 있는 건 아니다.
 
-큐에서 시그널을 제거하지 않으면서 <code>siginfo_t</code> 구조체를 가져온다. <code>addr</code>은 몇 번째 시그널부터 몇 개나 복사해야 할지 지정하는 <code>ptrace_peeksiginfo_args</code> 구조체 포인터이다. <code>data</code>가 가리키는 버퍼로 <code>siginfo_t</code> 구조체들을 복사한다. 반환 값은 복사한 시그널 수를 담고 있다. (0은 지정한 위치에 해당하는 시그널이 없음을 나타낸다.) 반환되는 <code>siginfo</code> 구조체의 <code>si_code</code> 필드가 다른 방식으로는 사용자 공간에 노출되지 않는 정보(<code>__SI_CHLD</code>, <code>__SI_FAULT</code> 등)를 포함한다.
+`PTRACE_SETREGSET` (리눅스 2.6.34부터)
+:   피추적자의 레지스터들을 변경한다. `addr`과 `data`의 의미는 `PTRACE_GETREGSET`과 유사하다.
 
-```c
-struct ptrace_peeksiginfo_args {
-    u64 off;    /* 시그널 복사를 시작할 큐에서의 위치 */
-    u32 flags;  /* PTRACE_PEEKSIGINFO_SHARED 또는 0 */
-    s32 nr;     /* 복사할 시그널 개수 */
-};
-```
+`PTRACE_GETSIGINFO` (리눅스 2.3.99-pre6부터)
+:   정지를 유발한 시그널에 대한 정보를 가져온다. 피추적자로부터 `siginfo_t` 구조체(<tt>[[sigaction(2)]]</tt> 참고)를 추적자 내의 주소 `data`로 복사한다. (`addr`은 무시한다.)
 
-현재 유일하게 있는 플래그는 프로세스별 시그널 큐에서 시그널을 가져오기 위한 <code>PTRACE_PEEKSIGINFO_SHARED</code>이다. 이 플래그가 설정돼 있지 않으면 지정한 스레드의 스레드별 큐에서 시그널을 읽는다.
-</dd>
+`PTRACE_SETSIGINFO` (리눅스 2.3.99-pre6부터)
+:   시그널 정보를 설정한다. 추적자 내의 주소 `data`로부터 `siginfo_t` 구조체를 피추적자로 복사한다. 피추적자에게 정상적으로 전달되었을 것이면서 추적자에게 잡힌 시그널에만 영향을 주게 된다. 정상적인 시그널과 `ptrace()` 자체에서 생성한 인조 시그널을 구별하는 것이 어려울 수도 있다. (`addr`은 무시한다.)
 
-<dt><code>PTRACE_GETSIGMASK</code> (리눅스 3.11부터)</dt>
-<dd>
-블록 된 시그널 마스크(<tt>[[sigprocmask(2)]]</tt> 참고) 사본을 <code>data</code>가 가리키는 버퍼에 집어넣는다. <code>data</code>는 <code>sigset_t</code> 타입 버퍼에 대한 포인터여야 한다. <code>addr</code> 인자는 <code>data</code>가 가리키는 버퍼의 크기를 (즉 <code>sizeof(sigset_t)</code>를) 담는다.
-</dd>
+`PTRACE_PEEKSIGINFO` (리눅스 3.10부터)
+:   큐에서 시그널을 제거하지 않으면서 `siginfo_t` 구조체를 가져온다. `addr`은 몇 번째 시그널부터 몇 개나 복사해야 할지 지정하는 `ptrace_peeksiginfo_args` 구조체 포인터이다. `data`가 가리키는 버퍼로 `siginfo_t` 구조체들을 복사한다. 반환 값은 복사한 시그널 수를 담고 있다. (0은 지정한 위치에 해당하는 시그널이 없음을 나타낸다.) 반환되는 `siginfo` 구조체의 `si_code` 필드가 다른 방식으로는 사용자 공간에 노출되지 않는 정보(`__SI_CHLD`, `__SI_FAULT` 등)를 포함한다.
 
-<dt><code>PTRACE_SETSIGMASK</code> (리눅스 3.11부터)</dt>
-<dd>
-블록 된 시그널 마스크(<tt>[[sigprocmask(2)]]</tt> 참고)를 <code>data</code>가 가리키는 버퍼에 지정한 값으로 바꾼다. <code>data</code>는 <code>sigset_t</code> 타입 버퍼에 대한 포인터여야 한다. <code>addr</code> 인자는 <code>data</code>가 가리키는 버퍼의 크기를 (즉 <code>sizeof(sigset_t)</code>를) 담는다.
-</dd>
+        struct ptrace_peeksiginfo_args {
+            u64 off;    /* 시그널 복사를 시작할 큐에서의 위치 */
+            u32 flags;  /* PTRACE_PEEKSIGINFO_SHARED 또는 0 */
+            s32 nr;     /* 복사할 시그널 개수 */
+        };
 
-<dt><code>PTRACE_SETOPTIONS</code> (리눅스 2.4.6부터. BUGS 절의 경고 참고)</dt>
-<dd>
+    현재 유일하게 있는 플래그는 프로세스별 시그널 큐에서 시그널을 가져오기 위한 `PTRACE_PEEKSIGINFO_SHARED`이다. 이 플래그가 설정돼 있지 않으면 지정한 스레드의 스레드별 큐에서 시그널을 읽는다.
 
-<code>data</code>에서 가져온 ptrace 옵션들을 설정한다. (<code>addr</code>은 무시한다.) <code>data</code>는 옵션들의 비트 마스크로 해석하며, 다음 플래그들로 옵션을 지정한다.
+`PTRACE_GETSIGMASK` (리눅스 3.11부터)
+:   블록 된 시그널 마스크(<tt>[[sigprocmask(2)]]</tt> 참고) 사본을 `data`가 가리키는 버퍼에 집어넣는다. `data`는 `sigset_t` 타입 버퍼에 대한 포인터여야 한다. `addr` 인자는 `data`가 가리키는 버퍼의 크기를 (즉 `sizeof(sigset_t)`를) 담는다.
 
- <dl>
- <dt><code>PTRACE_O_EXITKILL</code> (리눅스 3.8부터)</dt>
- <dd>
- 추적자가 끝날 때 피추적자에게 <code>SIGKILL</code> 시그널을 보낸다. 피추적자가 절대 추적자의 통제를 벗어나지 못하게 하고 싶은 ptrace 간수들에게 이 옵션이 유용하다.
- </dd>
+`PTRACE_SETSIGMASK` (리눅스 3.11부터)
+:   블록 된 시그널 마스크(<tt>[[sigprocmask(2)]]</tt> 참고)를 `data`가 가리키는 버퍼에 지정한 값으로 바꾼다. `data`는 `sigset_t` 타입 버퍼에 대한 포인터여야 한다. `addr` 인자는 `data`가 가리키는 버퍼의 크기를 (즉 `sizeof(sigset_t)`를) 담는다.
 
- <dt><code>PTRACE_O_TRACECLONE</code> (리눅스 2.5.46부터)</dt>
- <dd>
+`PTRACE_SETOPTIONS` (리눅스 2.4.6부터. BUGS 절의 경고 참고)
+:   `data`에서 가져온 ptrace 옵션들을 설정한다. (`addr`은 무시한다.) `data`는 옵션들의 비트 마스크로 해석하며, 다음 플래그들로 옵션을 지정한다.
 
- 다음 번 <tt>[[clone(2)]]</tt>에서 피추적자를 멈추고 새로 clone 된 프로세스 추적을 자동으로 시작한다. 새 프로세스는 <code>SIGSTOP</code>으로, 또는 <code>PTRACE_SEIZE</code> 사용 시 <code>PTRACE_EVENT_STOP</code>으로 시작하게 된다. 추적자의 <tt>[[waitpid(2)]]</tt>가 다음과 같은 <code>status</code> 값을 반환하게 된다.
+    `PTRACE_O_EXITKILL` (리눅스 3.8부터)
+    :   추적자가 끝날 때 피추적자에게 `SIGKILL` 시그널을 보낸다. 피추적자가 절대 추적자의 통제를 벗어나지 못하게 하고 싶은 ptrace 간수들에게 이 옵션이 유용하다.
 
-```
-status>>8 == (SIGTRAP | (PTRACE_EVENT_CLONE<<8))
-```
+    `PTRACE_O_TRACECLONE` (리눅스 2.5.46부터)
+    :   다음 번 <tt>[[clone(2)]]</tt>에서 피추적자를 멈추고 새로 clone 된 프로세스 추적을 자동으로 시작한다. 새 프로세스는 `SIGSTOP`으로, 또는 `PTRACE_SEIZE` 사용 시 `PTRACE_EVENT_STOP`으로 시작하게 된다. 추적자의 <tt>[[waitpid(2)]]</tt>가 다음과 같은 `status` 값을 반환하게 된다.
 
- <code>PTRACE_GETEVENTMSG</code>로 새 프로세스의 PID를 가져올 수 있다.
+            status>>8 == (SIGTRAP | (PTRACE_EVENT_CLONE<<8))
 
- 이 옵션이 모든 경우의 <tt>[[clone(2)]]</tt> 호출을 잡지는 못할 수도 있다. 피추적자가 <code>CLONE_VFORK</code> 플래그로 <tt>[[clone(2)]]</tt>을 호출한 경우 <code>PTRACE_O_TRACEVFORK</code>가 설정돼 있으면 <code>PTRACE_EVENT_VFORK</code>가 대신 전달된다. 또는 피추적자가 종료 시그널을 <code>SIGCHLD</code>로 설정해서 <tt>[[clone(2)]]</tt>을 호출하는 경우 <code>PTRACE_O_TRACEFORK</code>가 설정돼 있으면 <code>PTRACE_EVENT_FORK</code>가 전달된다.
- </dd>
+        `PTRACE_GETEVENTMSG`로 새 프로세스의 PID를 가져올 수 있다.
 
- <dt><code>PTRACE_O_TRACEEXEC</code> (리눅스 2.5.46부터)</dt>
- <dd>
+        이 옵션이 모든 경우의 <tt>[[clone(2)]]</tt> 호출을 잡지는 못할 수도 있다. 피추적자가 `CLONE_VFORK` 플래그로 <tt>[[clone(2)]]</tt>을 호출한 경우 `PTRACE_O_TRACEVFORK`가 설정돼 있으면 `PTRACE_EVENT_VFORK`가 대신 전달된다. 또는 피추적자가 종료 시그널을 `SIGCHLD`로 설정해서 <tt>[[clone(2)]]</tt>을 호출하는 경우 `PTRACE_O_TRACEFORK`가 설정돼 있으면 `PTRACE_EVENT_FORK`가 전달된다.
 
- 다음 번 <tt>[[execve(2)]]</tt>에서 피추적자를 멈춘다. 추적자의 <tt>[[waitpid(2)]]</tt>가 다음과 같은 <code>status</code> 값을 반환하게 된다.
+    `PTRACE_O_TRACEEXEC` (리눅스 2.5.46부터)
+    :   다음 번 <tt>[[execve(2)]]</tt>에서 피추적자를 멈춘다. 추적자의 <tt>[[waitpid(2)]]</tt>가 다음과 같은 `status` 값을 반환하게 된다.
 
-```
-status>>8 == (SIGTRAP | (PTRACE_EVENT_EXEC<<8))
-```
+            status>>8 == (SIGTRAP | (PTRACE_EVENT_EXEC<<8))
 
- exec 하는 스레드가 스레드 그룹 리더가 아닌 경우 이 정지 전에 그 스레드의 ID를 스레드 그룹 리더의 ID로 재설정한다. 리눅스 3.0부터 <code>PTRACE_GETEVENTMSG</code>로 이전 스레드 ID를 가져올 수 있다.
- </dd>
+        exec 하는 스레드가 스레드 그룹 리더가 아닌 경우 이 정지 전에 그 스레드의 ID를 스레드 그룹 리더의 ID로 재설정한다. 리눅스 3.0부터 `PTRACE_GETEVENTMSG`로 이전 스레드 ID를 가져올 수 있다.
 
- <dt><code>PTRACE_O_TRACEEXIT</code> (리눅스 2.5.60부터)</dt>
- <dd>
+    `PTRACE_O_TRACEEXIT` (리눅스 2.5.60부터)
+    :   exit에서 피추적자를 멈춘다. 추적자의 <tt>[[waitpid(2)]]</tt>가 다음과 같은 `status` 값을 반환하게 된다.
 
- exit에서 피추적자를 멈춘다. 추적자의 <tt>[[waitpid(2)]]</tt>가 다음과 같은 <code>status</code> 값을 반환하게 된다.
+            status>>8 == (SIGTRAP | (PTRACE_EVENT_EXIT<<8))
 
-```
-status>>8 == (SIGTRAP | (PTRACE_EVENT_EXIT<<8))
-```
+        `PTRACE_GETEVENTMSG`로 피추적자의 종료 상태를 가져올 수 있다.
 
- <code>PTRACE_GETEVENTMSG</code>로 피추적자의 종료 상태를 가져올 수 있다.
+        피추적자가 멈추는 것은 프로세스 종료 초반에 레지스터들이 아직 사용 가능할 때이고, 그래서 어디서 종료가 일어났는지 추적자가 볼 수 있다. 반면 정상적인 종료 알림은 프로세스가 종료를 끝낸 후에 이뤄진다. 문맥에 접근 가능하기는 하지만 이 시점에서 추적자가 종료가 일어나지 않게 막을 수는 없다.
 
- 피추적자가 멈추는 것은 프로세스 종료 초반에 레지스터들이 아직 사용 가능할 때이고, 그래서 어디서 종료가 일어났는지 추적자가 볼 수 있다. 반면 정상적인 종료 알림은 프로세스가 종료를 끝낸 후에 이뤄진다. 문맥에 접근 가능하기는 하지만 이 시점에서 추적자가 종료가 일어나지 않게 막을 수는 없다.
- </dd>
+    `PTRACE_O_TRACEFORK` (리눅스 2.5.46부터)
+    :   다음 번 <tt>[[fork(2)]]</tt>에서 피추적자를 멈추고 새로 fork 된 프로세스 추적을 자동으로 시작한다. 새 프로세스는 `SIGSTOP`으로, 또는 `PTRACE_SEIZE` 사용 시 `PTRACE_EVENT_STOP`으로 시작하게 된다. 추적자의 <tt>[[waitpid(2)]]</tt>가 다음과 같은 `status` 값을 반환하게 된다.
 
- <dt><code>PTRACE_O_TRACEFORK</code> (리눅스 2.5.46부터)</dt>
- <dd>
+            status>>8 == (SIGTRAP | (PTRACE_EVENT_FORK<<8))
 
- 다음 번 <tt>[[fork(2)]]</tt>에서 피추적자를 멈추고 새로 fork 된 프로세스 추적을 자동으로 시작한다. 새 프로세스는 <code>SIGSTOP</code>으로, 또는 <code>PTRACE_SEIZE</code> 사용 시 <code>PTRACE_EVENT_STOP</code>으로 시작하게 된다. 추적자의 <tt>[[waitpid(2)]]</tt>가 다음과 같은 <code>status</code> 값을 반환하게 된다.
+        `PTRACE_GETEVENTMSG`로 새 프로세스의 PID를 가져올 수 있다.
 
-```
-status>>8 == (SIGTRAP | (PTRACE_EVENT_FORK<<8))
-```
+    `PTRACE_O_TRACESYSGOOD` (리눅스 2.4.6부터)
+    :   시스템 호출 트랩을 전달할 때 시그널 번호에 7번 비트를 설정한다. (즉, `SIGTRAP|0x80`을 전달한다.) 이렇게 하면 정상적인 트랩과 시스템 호출에 의한 트랩을 추적자가 쉽게 구별할 수 있다.
 
- <code>PTRACE_GETEVENTMSG</code>로 새 프로세스의 PID를 가져올 수 있다.
- </dd>
+    `PTRACE_O_TRACEVFORK` (리눅스 2.5.46부터)
+    :   다음 번 <tt>[[vfork(2)]]</tt>에서 피추적자를 멈추고 새로 vfork 된 프로세스 추적을 자동으로 시작한다. 새 프로세스는 `SIGSTOP`으로, 또는 `PTRACE_SEIZE` 사용 시 `PTRACE_EVENT_STOP`으로 시작하게 된다. 추적자의 <tt>[[waitpid(2)]]</tt>가 다음과 같은 `status` 값을 반환하게 된다.
 
- <dt><code>PTRACE_O_TRACESYSGOOD</code> (리눅스 2.4.6부터)</dt>
- <dd>
- 시스템 호출 트랩을 전달할 때 시그널 번호에 7번 비트를 설정한다. (즉, <code>SIGTRAP|0x80</code>을 전달한다.) 이렇게 하면 정상적인 트랩과 시스템 호출에 의한 트랩을 추적자가 쉽게 구별할 수 있다.
- </dd>
+            status>>8 == (SIGTRAP | (PTRACE_EVENT_VFORK<<8))
 
- <dt><code>PTRACE_O_TRACEVFORK</code> (리눅스 2.5.46부터)</dt>
- <dd>
+        `PTRACE_GETEVENTMSG`로 새 프로세스의 PID를 가져올 수 있다.
 
- 다음 번 <tt>[[vfork(2)]]</tt>에서 피추적자를 멈추고 새로 vfork 된 프로세스 추적을 자동으로 시작한다. 새 프로세스는 <code>SIGSTOP</code>으로, 또는 <code>PTRACE_SEIZE</code> 사용 시 <code>PTRACE_EVENT_STOP</code>으로 시작하게 된다. 추적자의 <tt>[[waitpid(2)]]</tt>가 다음과 같은 <code>status</code> 값을 반환하게 된다.
+    `PTRACE_O_TRACEVFORKDONE` (리눅스 2.5.60부터)
+    :   다음 번 <tt>[[vfork(2)]]</tt> 완료 시 피추적자를 멈춘다. 추적자의 <tt>[[waitpid(2)]]</tt>가 다음과 같은 `status` 값을 반환하게 된다.
 
-```
-status>>8 == (SIGTRAP | (PTRACE_EVENT_VFORK<<8))
-```
+            status>>8 == (SIGTRAP | (PTRACE_EVENT_VFORK_DONE<<8))
 
- <code>PTRACE_GETEVENTMSG</code>로 새 프로세스의 PID를 가져올 수 있다.
- </dd>
+        (리눅스 2.6.18부터) `PTRACE_GETEVENTMSG`로 새 프로세스의 PID를 가져올 수 있다.
 
- <dt><code>PTRACE_O_TRACEVFORKDONE</code> (리눅스 2.5.60부터)</dt>
- <dd>
+    `PTRACE_O_TRACESECCOMP` (리눅스 3.5부터)
+    :   <tt>[[seccomp(2)]]</tt> `SECCOMP_RET_TRACE` 규칙이 걸렸을 때 피추적자를 멈춘다. 추적자의 <tt>[[waitpid(2)]]</tt>가 다음과 같은 `status` 값을 반환하게 된다.
 
- 다음 번 <tt>[[vfork(2)]]</tt> 완료 시 피추적자를 멈춘다. 추적자의 <tt>[[waitpid(2)]]</tt>가 다음과 같은 <code>status</code> 값을 반환하게 된다.
+            status>>8 == (SIGTRAP | (PTRACE_EVENT_SECCOMP<<8))
 
-```
-status>>8 == (SIGTRAP | (PTRACE_EVENT_VFORK_DONE<<8))
-```
+        이 때문에 `PTRACE_EVENT` 정지가 발생하면 그건 시스템-호출-진입-정지(syscall-enter-stop)와 비슷하다. 자세한 내용은 아래의 `PTRACE_EVENT_SECCOMP`에 대한 내용을 보라. `PTRACE_GETEVENTMSG`로 seccomp 이벤트 메시지 데이터(seccomp 필터 규칙에서 `SECCOMP_RET_DATA` 부분)를 가져올 수 있다.
 
- (리눅스 2.6.18부터) <code>PTRACE_GETEVENTMSG</code>로 새 프로세스의 PID를 가져올 수 있다.
- </dd>
+    `PTRACE_O_SUSPEND_SECCOMP` (리눅스 4.3부터)
+    :   피추적자의 seccomp 보호를 일시 중단한다. 모드와 상관없이 적용되며 피추적자가 아직 seccomp 필터를 설치하지 않았을 때 사용할 수 있다. 즉, 유효한 사용 방식은 피추적자가 seccomp 필터를 설치하기 전에 seccomp 보호를 일시 중단하고, 피추적자가 필터를 설치하게 하고, 이후 필터를 재개해야 할 때 이 플래그를 비우는 것이다. 이 옵션을 위해선 추적자에게 `CAP_SYS_ADMIN` 역능이 있어야 하고, 어떤 seccomp 보호도 설치되어 있지 않아야 하고, 자체에 `PTRACE_O_SUSPEND_SECCOMP`가 설정되어 있지 않아야 한다.
 
- <dt><code>PTRACE_O_TRACESECCOMP</code> (리눅스 3.5부터)</dt>
- <dd>
+`PTRACE_GETEVENTMSG` (리눅스 2.5.46부터)
+:   방금 발생한 ptrace 이벤트에 대한 메시지를 (`unsigned long`으로) 가져와서 추적자 내의 주소 `data`에 집어넣는다. `PTRACE_EVENT_EXIT`에서는 피추적자의 종료 상태이다. `PTRACE_EVENT_FORK`, `PTRACE_EVENT_VFORK`, `PTRACE_EVENT_VFORK_DONE`, `PTRACE_EVENT_CLONE`에서는 새 프로세스의 PID이다. `PTRACE_EVENT_SECCOMP`에서는 걸린 규칙과 연계된 <tt>[[seccomp(2)]]</tt> 필터의 `SECCOMP_RET_DATA`이다. (`addr`은 무시한다.)
 
- <tt>[[seccomp(2)]]</tt> <code>SECCOMP_RET_TRACE</code> 규칙이 걸렸을 때 피추적자를 멈춘다. 추적자의 <tt>[[waitpid(2)]]</tt>가 다음과 같은 <code>status</code> 값을 반환하게 된다.
+`PTRACE_CONT`
+:   정지된 피추적 프로세스를 재시작한다. `data`가 0이 아니면 피추적자에게 보낼 시그널 번호로 해석한다. 0이면 시그널을 보내지 않는다. 그래서 예를 들어 피추적자로 보낸 시그널이 전달될지 여부를 추적자가 제어할 수 있다. (`addr`은 무시한다.)
 
-```
-status>>8 == (SIGTRAP | (PTRACE_EVENT_SECCOMP<<8))
-```
+`PTRACE_SYSCALL`, `PTRACE_SINGLESTEP`
+:   `PTRACE_CONT`처럼 정지된 피추적 프로세스를 재시작하되 다음 번 시스템 호출 진입이나 퇴장에서 또는 한 인스트럭션 실행 후에 피추적자가 멈추도록 해 놓는다. (평상시와 마찬가지로 시그널 수신 시에도 피추적자가 멈추게 된다.) 추적자 관점에서는 피추적자가 `SIGTRAP`을 수신해서 멈춘 것으로 보이게 된다. 그래서 예를 들어 `PTRACE_SYSCALL`의 경우 첫 번째 정지 때 시스템 호출의 인자를 검사하고서 다시 `PTRACE_SYSCALL`을 해서 두 번째 정지 때 그 시스템 호출의 반환 값을 검사할 수 있다. `data` 인자는 `PTRACE_CONT`에서처럼 처리한다.
 
- 이 때문에 <code>PTRACE_EVENT</code> 정지가 발생하면 그건 시스템-호출-진입-정지(syscall-enter-stop)와 비슷하다. 자세한 내용은 아래의 <code>PTRACE_EVENT_SECCOMP</code>에 대한 내용을 보라. <code>PTRACE_GETEVENTMSG</code>로 seccomp 이벤트 메시지 데이터(seccomp 필터 규칙에서 <code>SECCOMP_RET_DATA</code> 부분)를 가져올 수 있다.
- </dd>
+`PTRACE_SYSEMU`, `PTRACE_SYSEMU_SINGLESTEP` (리눅스 2.6.14부터)
+:   `PTRACE_SYSEMU`의 경우 속행 후 다음 시스템 호출 진입에서 정지하며, 그 시스템 호출은 실행되지 않게 된다. 아래의 시스템-호출-정지(syscall-stop)에 대한 내용을 보라. `PTRACE_SYSEMU_SINGLESTEP`의 경우 똑같이 하되 시스템 호출이 아니면 단계 실행(singlestep)을 한다. 피추적자의 모든 시스템 호출을 에뮬레이트 하려 하는 사용자 모드 리눅스(User Mode Linux) 같은 프로그램에서 이 호출을 사용한다. `data` 인자는 `PTRACE_CONT`에서처럼 처리한다. `addr`은 무시한다. 현재 x86에서만 이 요청들을 지원한다.
 
- <dt><code>PTRACE_O_SUSPEND_SECCOMP</code> (리눅스 4.3부터)</dt>
- <dd>
- 피추적자의 seccomp 보호를 일시 중단한다. 모드와 상관없이 적용되며 피추적자가 아직 seccomp 필터를 설치하지 않았을 때 사용할 수 있다. 즉, 유효한 사용 방식은 피추적자가 seccomp 필터를 설치하기 전에 seccomp 보호를 일시 중단하고, 피추적자가 필터를 설치하게 하고, 이후 필터를 재개해야 할 때 이 플래그를 비우는 것이다. 이 옵션을 위해선 추적자에게 <code>CAP_SYS_ADMIN</code> 역능이 있어야 하고, 어떤 seccomp 보호도 설치되어 있지 않아야 하고, 자체에 <code>PTRACE_O_SUSPEND_SECCOMP</code>가 설정되어 있지 않아야 한다.
- </dd>
- </dl>
-</dd>
+`PTRACE_LISTEN` (리눅스 3.4부터)
+:   정지된 피추적자를 재시작하되 실행은 막는다. 그렇게 하면 피추적자의 상태는 `SIGSTOP`(또는 다른 정지형 시그널)으로 정지된 프로세스와 비슷해진다. 추가적인 내용은 "그룹-정지(group-stop)" 부절을 보라. `PTRACE_LISTEN`은 `PTRACE_SEIZE`로 붙인 피추적자에만 동작한다.
 
-<dt><code>PTRACE_GETEVENTMSG</code> (리눅스 2.5.46부터)</dt>
-<dd>
-방금 발생한 ptrace 이벤트에 대한 메시지를 (<code>unsigned long</code>으로) 가져와서 추적자 내의 주소 <code>data</code>에 집어넣는다. <code>PTRACE_EVENT_EXIT</code>에서는 피추적자의 종료 상태이다. <code>PTRACE_EVENT_FORK</code>, <code>PTRACE_EVENT_VFORK</code>, <code>PTRACE_EVENT_VFORK_DONE</code>, <code>PTRACE_EVENT_CLONE</code>에서는 새 프로세스의 PID이다. <code>PTRACE_EVENT_SECCOMP</code>에서는 걸린 규칙과 연계된 <tt>[[seccomp(2)]]</tt> 필터의 <code>SECCOMP_RET_DATA</code>이다. (<code>addr</code>은 무시한다.)
-</dd>
+`PTRACE_KILL`
+:   피추적자에게 `SIGKILL`을 보내서 종료시킨다. (`addr`과 `data`는 무시한다.)
 
-<dt><code>PTRACE_CONT</code></dt>
-<dd>
-정지된 피추적 프로세스를 재시작한다. <code>data</code>가 0이 아니면 피추적자에게 보낼 시그널 번호로 해석한다. 0이면 시그널을 보내지 않는다. 그래서 예를 들어 피추적자로 보낸 시그널이 전달될지 여부를 추적자가 제어할 수 있다. (<code>addr</code>은 무시한다.)
-</dd>
+    *이 동작은 제거 예정이므로 사용하지 말 것!* 대신 <tt>[[kill(2)]]</tt>이나 <tt>[[tgkill(2)]]</tt>을 이용해 직접 `SIGKILL`을 보내면 된다. `PTRACE_KILL`의 문제는 피추적자가 시그널-전달-정지(signal-delivery-stop) 상태여야 하고 안 그러면 동작하지 않을 수 있다는 점이다. (즉 성공적으로 완료하고서 피추적자를 죽이지 않을 수가 있다.) 반면 직접 `SIGKILL`을 보내는 방식에는 그런 제한이 없다.
 
-<dt><code>PTRACE_SYSCALL</code>, <code>PTRACE_SINGLESTEP</code></dt>
-<dd>
-<code>PTRACE_CONT</code>처럼 정지된 피추적 프로세스를 재시작하되 다음 번 시스템 호출 진입이나 퇴장에서 또는 한 인스트럭션 실행 후에 피추적자가 멈추도록 해 놓는다. (평상시와 마찬가지로 시그널 수신 시에도 피추적자가 멈추게 된다.) 추적자 관점에서는 피추적자가 <code>SIGTRAP</code>을 수신해서 멈춘 것으로 보이게 된다. 그래서 예를 들어 <code>PTRACE_SYSCALL</code>의 경우 첫 번째 정지 때 시스템 호출의 인자를 검사하고서 다시 <code>PTRACE_SYSCALL</code>을 해서 두 번째 정지 때 그 시스템 호출의 반환 값을 검사할 수 있다. <code>data</code> 인자는 <code>PTRACE_CONT</code>에서처럼 처리한다.
-</dd>
+`PTRACE_INTERRUPT` (리눅스 3.4부터)
+:   피추적자를 멈춘다. 피추적자가 커널 공간에서 실행 내지 슬립 중이면 시스템 호출을 중단시키고 시스템-호출-퇴장-정지(syscall-exit-stop)를 보고한다. (중단된 시스템 호출이 피추적자 재시작 때 재시작된다.) 피추적자가 이미 시그널로 정지되었고 그리로 `PTRACE_LISTEN`을 보냈으면 피추적자가 `PTRACE_EVENT_STOP`으로 멈추고 `WSTOPSIG(status)`가 정지 시그널을 반환한다. 다른 ptrace-정지가 동시에 발생하면 (가령 피추적자로 시그널이 전송되면) 그 ptrace-정지가 일어난다. 위의 어느 경우도 적용되지 않으면 (예를 들어 피추적자가 사용자 공간에서 돌고 있으면) `PTRACE_EVENT_STOP`으로 멈추고 `WSTOPSIG(status)`는 `SIGTRAP`이다. `PTRACE_INTERRUPT`는 `PTRACE_SEIZE`로 붙인 피추적자에만 동작한다.
 
-<dt><code>PTRACE_SYSEMU</code>, <code>PTRACE_SYSEMU_SINGLESTEP</code> (리눅스 2.6.14부터)</dt>
-<dd>
-<code>PTRACE_SYSEMU</code>의 경우 속행 후 다음 시스템 호출 진입에서 정지하며, 그 시스템 호출은 실행되지 않게 된다. 아래의 시스템-호출-정지(syscall-stop)에 대한 내용을 보라. <code>PTRACE_SYSEMU_SINGLESTEP</code>의 경우 똑같이 하되 시스템 호출이 아니면 단계 실행(singlestep)을 한다. 피추적자의 모든 시스템 호출을 에뮬레이트 하려 하는 사용자 모드 리눅스(User Mode Linux) 같은 프로그램에서 이 호출을 사용한다. <code>data</code> 인자는 <code>PTRACE_CONT</code>에서처럼 처리한다. <code>addr</code>은 무시한다. 현재 x86에서만 이 요청들을 지원한다.
-</dd>
+`PTRACE_ATTACH`
+:   `pid`로 지정한 프로세스에 붙어서 그 프로세스를 호출 프로세스의 피추적자로 만든다. 피추적자에게 `SIGSTOP`이 전송되지만 이 호출 완료 시점에 피추적자가 반드시 멈춰 있지는 않을 것이다. <tt>[[waitpid(2)]]</tt>를 사용해서 피추적자가 멈추기를 기다리면 된다. 자세한 내용은 "붙기와 떨어지기" 부절을 보라. (`addr`과 `data`는 무시한다.)
 
-<dt><code>PTRACE_LISTEN</code> (리눅스 3.4부터)</dt>
-<dd>
-정지된 피추적자를 재시작하되 실행은 막는다. 그렇게 하면 피추적자의 상태는 <code>SIGSTOP</code>(또는 다른 정지형 시그널)으로 정지된 프로세스와 비슷해진다. 추가적인 내용은 "그룹-정지(group-stop)" 부절을 보라. <code>PTRACE_LISTEN</code>은 <code>PTRACE_SEIZE</code>로 붙인 피추적자에만 동작한다.
-</dd>
+    `PTRACE_ATTACH` 수행 권한은 ptrace 접근 모드 `PTRACE_MODE_ATTACH_REALCREDS` 검사로 결정된다. 아래 참고.
 
-<dt><code>PTRACE_KILL</code></dt>
-<dd>
+`PTRACE_SEIZE` (리눅스 3.4부터)
+:   `pid`로 지정한 프로세스에 붙어서 그 프로세스를 호출 프로세스의 피추적자로 만든다. `PTRACE_ATTACH`와 달리 `PTRACE_SEIZE`는 프로세스를 정지시키지 않는다. 그룹-정지(group-stop)는 `PTRACE_EVENT_STOP`으로 보고되고 `WSTOPSIG(status)`가 정지 시그널을 반환한다. 자동으로 붙는 자식들은 `PTRACE_EVENT_STOP`으로 멈추고 `WSTOPSIG(status)`가 `SIGTRAP`을 반환하며 `SIGSTOP` 시그널은 전달되지 않는다. <tt>[[execve(2)]]</tt>에서 추가 `SIGTRAP`이 전달되지 않는다. `PTRACE_SEIZE`로 잡은 프로세스만 `PTRACE_INTERRUPT` 및 `PTRACE_LISTEN` 명령을 받아들일 수 있다. 이런 "장악(seize)" 동작 방식을 `PTRACE_O_TRACEFORK`, `PTRACE_O_TRACEVFORK`, `PTRACE_O_TRACECLONE`으로 자동으로 붙는 자식들이 물려받는다. `addr`이 0이어야 한다. `data`는 즉시 활성화시킬 ptrace 옵션들의 비트 마스크를 담는다.
 
-피추적자에게 <code>SIGKILL</code>을 보내서 종료시킨다. (<code>addr</code>과 <code>data</code>는 무시한다.)
+    `PTRACE_SEIZE` 수행 권한은 ptrace 접근 모드 `PTRACE_MODE_ATTACH_REALCREDS` 검사로 결정된다. 아래 참고.
 
-<em>이 동작은 제거 예정이므로 사용하지 말 것!</em> 대신 <tt>[[kill(2)]]</tt>이나 <tt>[[tgkill(2)]]</tt>을 이용해 직접 <code>SIGKILL</code>을 보내면 된다. <code>PTRACE_KILL</code>의 문제는 피추적자가 시그널-전달-정지(signal-delivery-stop) 상태여야 하고 안 그러면 동작하지 않을 수 있다는 점이다. (즉 성공적으로 완료하고서 피추적자를 죽이지 않을 수가 있다.) 반면 직접 <code>SIGKILL</code>을 보내는 방식에는 그런 제한이 없다.
-</dd>
+`PTRACE_SECCOMP_GET_FILTER` (리눅스 4.4부터)
+:   이 동작을 통해 추적자가 피추적자의 전통적 BPF 필터를 얻어올 수 있다.
 
-<dt><code>PTRACE_INTERRUPT</code> (리눅스 3.4부터)</dt>
-<dd>
-피추적자를 멈춘다. 피추적자가 커널 공간에서 실행 내지 슬립 중이면 시스템 호출을 중단시키고 시스템-호출-퇴장-정지(syscall-exit-stop)를 보고한다. (중단된 시스템 호출이 피추적자 재시작 때 재시작된다.) 피추적자가 이미 시그널로 정지되었고 그리로 <code>PTRACE_LISTEN</code>을 보냈으면 피추적자가 <code>PTRACE_EVENT_STOP</code>으로 멈추고 <code>WSTOPSIG(status)</code>가 정지 시그널을 반환한다. 다른 ptrace-정지가 동시에 발생하면 (가령 피추적자로 시그널이 전송되면) 그 ptrace-정지가 일어난다. 위의 어느 경우도 적용되지 않으면 (예를 들어 피추적자가 사용자 공간에서 돌고 있으면) <code>PTRACE_EVENT_STOP</code>으로 멈추고 <code>WSTOPSIG(status)</code>는 <code>SIGTRAP</code>이다. <code>PTRACE_INTERRUPT</code>는 <code>PTRACE_SEIZE</code>로 붙인 피추적자에만 동작한다.
-</dd>
+    `addr`은 얻어올 필터의 인덱스를 나타내는 정수이다. 가장 최근 설치된 필터의 인덱스가 0이다. `addr`이 설치된 필터 수보다 크면 동작이 `ENOENT` 오류로 실패한다.
 
-<dt><code>PTRACE_ATTACH</code></dt>
-<dd>
+    `data`는 BPF 프로그램을 저장하기에 충분히 큰 `struct sock_filter` 배열에 대한 포인터이거나, 프로그램을 저장하려는 것이 아니면 NULL이다.
 
-<code>pid</code>로 지정한 프로세스에 붙어서 그 프로세스를 호출 프로세스의 피추적자로 만든다. 피추적자에게 <code>SIGSTOP</code>이 전송되지만 이 호출 완료 시점에 피추적자가 반드시 멈춰 있지는 않을 것이다. <tt>[[waitpid(2)]]</tt>를 사용해서 피추적자가 멈추기를 기다리면 된다. 자세한 내용은 "붙기와 떨어지기" 부절을 보라. (<code>addr</code>과 <code>data</code>는 무시한다.)
+    성공 시 반환 값은 BPF 프로그램 내 인스트럭션 수이다. `data`가 NULL이었으면 이 반환 값을 이용해 정확한 크기의 `struct sock_filter` 배열을 후속 호출에 줄 수 있다.
 
-<code>PTRACE_ATTACH</code> 수행 권한은 ptrace 접근 모드 <code>PTRACE_MODE_ATTACH_REALCREDS</code> 검사로 결정된다. 아래 참고.
-</dd>
+    호출자가 `CAP_SYS_ADMIN` 역능을 가지고 있지 않거나 호출자가 seccomp 엄격 내지 필터 모드에 있으면 이 동작이 `EACCES` 오류로 실패한다. `addr`이 가리키는 필터가 전통적 BPF 필터가 아니면 동작이 `EMEDIUMTYPE` 오류로 실패한다.
 
-<dt><code>PTRACE_SEIZE</code> (리눅스 3.4부터)</dt>
-<dd>
+    커널을 `CONFIG_SECCOMP_FILTER`와 `CONFIG_CHECKPOINT_RESTORE` 옵션 모두로 구성한 경우에만 이 동작이 사용 가능하다.
 
-<code>pid</code>로 지정한 프로세스에 붙어서 그 프로세스를 호출 프로세스의 피추적자로 만든다. <code>PTRACE_ATTACH</code>와 달리 <code>PTRACE_SEIZE</code>는 프로세스를 정지시키지 않는다. 그룹-정지(group-stop)는 <code>PTRACE_EVENT_STOP</code>으로 보고되고 <code>WSTOPSIG(status)</code>가 정지 시그널을 반환한다. 자동으로 붙는 자식들은 <code>PTRACE_EVENT_STOP</code>으로 멈추고 <code>WSTOPSIG(status)</code>가 <code>SIGTRAP</code>을 반환하며 <code>SIGSTOP</code> 시그널은 전달되지 않는다. <tt>[[execve(2)]]</tt>에서 추가 <code>SIGTRAP</code>이 전달되지 않는다. <code>PTRACE_SEIZE</code>로 잡은 프로세스만 <code>PTRACE_INTERRUPT</code> 및 <code>PTRACE_LISTEN</code> 명령을 받아들일 수 있다. 이런 "장악(seize)" 동작 방식을 <code>PTRACE_O_TRACEFORK</code>, <code>PTRACE_O_TRACEVFORK</code>, <code>PTRACE_O_TRACECLONE</code>으로 자동으로 붙는 자식들이 물려받는다. <code>addr</code>이 0이어야 한다. <code>data</code>는 즉시 활성화시킬 ptrace 옵션들의 비트 마스크를 담는다.
+`PTRACE_DETACH`
+:   `PTRACE_CONT`처럼 정지된 피추적자를 재시작하되 먼저 그 프로세스에서 떨어진다. 리눅스에서는 어떤 방법으로 추적을 개시했던지 간에 이 방식으로 피추적자에서 떨어질 수 있다. (`addr`은 무시한다.)
 
-<code>PTRACE_SEIZE</code> 수행 권한은 ptrace 접근 모드 <code>PTRACE_MODE_ATTACH_REALCREDS</code> 검사로 결정된다. 아래 참고.
-</dd>
+`PTRACE_GET_THREAD_AREA` (리눅스 2.6.0부터)
+:   이 동작은 <tt>[[get_thread_area(2)]]</tt>와 비슷한 일을 수행한다. GDT에서 인덱스가 `addr`인 TLS 항목을 읽어서 그 항목의 사본을 `data`가 가리키는 `struct user_desc`로 복사한다. (<tt>[[get_thread_area(2)]]</tt>와 달리 `struct user_desc`의 `entry_number`를 무시한다.)
 
-<dt><code>PTRACE_SECCOMP_GET_FILTER</code> (리눅스 4.4부터)</dt>
-<dd>
-
-이 동작을 통해 추적자가 피추적자의 전통적 BPF 필터를 얻어올 수 있다.
-
-<code>addr</code>은 얻어올 필터의 인덱스를 나타내는 정수이다. 가장 최근 설치된 필터의 인덱스가 0이다. <code>addr</code>이 설치된 필터 수보다 크면 동작이 <code>ENOENT</code> 오류로 실패한다.
-
-<code>data</code>는 BPF 프로그램을 저장하기에 충분히 큰 <code>struct sock_filter</code> 배열에 대한 포인터이거나, 프로그램을 저장하려는 것이 아니면 NULL이다.
-
-성공 시 반환 값은 BPF 프로그램 내 인스트럭션 수이다. <code>data</code>가 NULL이었으면 이 반환 값을 이용해 정확한 크기의 <code>struct sock_filter</code> 배열을 후속 호출에 줄 수 있다.
-
-호출자가 <code>CAP_SYS_ADMIN</code> 역능을 가지고 있지 않거나 호출자가 seccomp 엄격 내지 필터 모드에 있으면 이 동작이 <code>EACCES</code> 오류로 실패한다. <code>addr</code>이 가리키는 필터가 전통적 BPF 필터가 아니면 동작이 <code>EMEDIUMTYPE</code> 오류로 실패한다.
-
-커널을 <code>CONFIG_SECCOMP_FILTER</code>와 <code>CONFIG_CHECKPOINT_RESTORE</code> 옵션 모두로 구성한 경우에만 이 동작이 사용 가능하다.
-</dd>
-
-<dt><code>PTRACE_DETACH</code></dt>
-<dd>
-<code>PTRACE_CONT</code>처럼 정지된 피추적자를 재시작하되 먼저 그 프로세스에서 떨어진다. 리눅스에서는 어떤 방법으로 추적을 개시했던지 간에 이 방식으로 피추적자에서 떨어질 수 있다. (<code>addr</code>은 무시한다.)
-</dd>
-
-<dt><code>PTRACE_GET_THREAD_AREA</code> (리눅스 2.6.0부터)</dt>
-<dd>
-이 동작은 <tt>[[get_thread_area(2)]]</tt>와 비슷한 일을 수행한다. GDT에서 인덱스가 <code>addr</code>인 TLS 항목을 읽어서 그 항목의 사본을 <code>data</code>가 가리키는 <code>struct user_desc</code>로 복사한다. (<tt>[[get_thread_area(2)]]</tt>와 달리 <code>struct user_desc</code>의 <code>entry_number</code>를 무시한다.)
-</dd>
-
-<dt><code>PTRACE_SET_THREAD_AREA</code> (리눅스 2.6.0부터)</dt>
-<dd>
-이 동작은 <tt>[[set_thread_area(2)]]</tt>와 비슷한 일을 수행한다. GDT에서 인덱스가 <code>addr</code>인 TLS 항목을 <code>data</code>가 가리키는 <code>struct user_desc</code>에 준 데이터로 설정한다. (<tt>[[set_thread_area(2)]]</tt>와 달리 <code>struct user_desc</code>의 <code>entry_number</code>를 무시한다. 다시 말해 이 ptrace 동작을 사용해 빈 TLS 항목을 할당할 수는 없다.)
-</dd>
-</dl>
+`PTRACE_SET_THREAD_AREA` (리눅스 2.6.0부터)
+:   이 동작은 <tt>[[set_thread_area(2)]]</tt>와 비슷한 일을 수행한다. GDT에서 인덱스가 `addr`인 TLS 항목을 `data`가 가리키는 `struct user_desc`에 준 데이터로 설정한다. (<tt>[[set_thread_area(2)]]</tt>와 달리 `struct user_desc`의 `entry_number`를 무시한다. 다시 말해 이 ptrace 동작을 사용해 빈 TLS 항목을 할당할 수는 없다.)
 
 ### ptrace 하의 죽음
 
@@ -341,7 +231,7 @@ ptrace에 의해 정지된 피추적자가 존재한다고 추적자가 가정�
 
 피추적자가 멈춰 있을 때의 상태가 여러 가지 있는데 ptrace 논의에서 이를 뭉뚱그려 말하는 경우가 많다. 따라서 정확한 용어를 사용하는 것이 중요하다.
 
-이 매뉴얼 페이지에서는 피추적자가 추적자로부터 ptrace 명령을 받아들일 준비가 되어 있는 모든 정지 상태를 <em>ptrace-정지(ptrace-stop)</em>라고 한다. ptrace-정지를 다시 <em>시그널-전달-정지(signal-delivery-stop)</em>, <em>그룹-정지(group-stop)</em>, <em>시스템-호출-정지(syscall-stop)</em>, <em><code>PTRACE_EVENT</code> 정지(<code>PTRACE_EVENT</code> stop)</em> 등으로 나눌 수 있다. 이 정지 상태들을 아래에서 자세히 설명한다.
+이 매뉴얼 페이지에서는 피추적자가 추적자로부터 ptrace 명령을 받아들일 준비가 되어 있는 모든 정지 상태를 *ptrace-정지(ptrace-stop)*라고 한다. ptrace-정지를 다시 *시그널-전달-정지(signal-delivery-stop)*, *그룹-정지(group-stop)*, *시스템-호출-정지(syscall-stop)*, *`PTRACE_EVENT` 정지(`PTRACE_EVENT` stop)* 등으로 나눌 수 있다. 이 정지 상태들을 아래에서 자세히 설명한다.
 
 동작 중인 피추적자가 ptrace-정지에 들어가면 <tt>[[waitpid(2)]]</tt>를 (또는 다른 "wait" 시스템 호출들 중 하나를) 하고 있는 추적자에게 알림을 보낸다. 이 매뉴얼 페이지 대부분에서는 추적자가 다음과 같이 기다린다고 가정한다.
 
@@ -349,7 +239,7 @@ ptrace에 의해 정지된 피추적자가 존재한다고 추적자가 가정�
 pid = waitpid(pid_or_minus_1, &status, __WALL);
 ```
 
-0보다 큰 `pid` 반환과 <code>WIFSTOPPED(status)</code> 참이 ptrace로 정지된 피추적자임을 알려 준다.
+0보다 큰 `pid` 반환과 `WIFSTOPPED(status)` 참이 ptrace로 정지된 피추적자임을 알려 준다.
 
 `__WALL` 플래그는 `WSTOPPED`와 `WEXITED` 플래그를 포함하지 않지만 그 기능성을 함의한다.
 
@@ -371,7 +261,7 @@ if (errno == ESRCH) {
 
 ### 시그널-전달-정지
 
-(다중 스레드일 수 있는) 프로세스가 `SIGKILL` 외의 시그널을 수신했을 때 커널에서는 그 시그널을 처리할 스레드를 임의로 선정한다. (시그널을 <tt>[[tgkill(2)]]</tt>로 생성하는 경우에는 추적자가 대상 스레드를 명시적으로 선택할 수 있다.) 선택된 스레드가 추적되고 있으면 시그널-전달-정지로 들어간다. 이 시점에서 시그널은 아직 프로세스에게 전달되지 않았고 추적자에 의해 억제될 수 있다. 추적자가 시그널을 억제하지 않는 경우 다음 ptrace 재시작 요청에서 피추적자에게 시그널을 보내게 된다. 시그널 전달의 이 두 번째 단계를 이 매뉴얼에서 <em>시그널 주입</em>이라고 한다. 참고로 시그널이 블록 되어 있으면 블록이 해제될 때까지 시그널-전달-정지가 일어나지 않는다. 단 블록 할 수 없는 `SIGSTOP`은 언제나처럼 예외이다.
+(다중 스레드일 수 있는) 프로세스가 `SIGKILL` 외의 시그널을 수신했을 때 커널에서는 그 시그널을 처리할 스레드를 임의로 선정한다. (시그널을 <tt>[[tgkill(2)]]</tt>로 생성하는 경우에는 추적자가 대상 스레드를 명시적으로 선택할 수 있다.) 선택된 스레드가 추적되고 있으면 시그널-전달-정지로 들어간다. 이 시점에서 시그널은 아직 프로세스에게 전달되지 않았고 추적자에 의해 억제될 수 있다. 추적자가 시그널을 억제하지 않는 경우 다음 ptrace 재시작 요청에서 피추적자에게 시그널을 보내게 된다. 시그널 전달의 이 두 번째 단계를 이 매뉴얼에서 *시그널 주입*이라고 한다. 참고로 시그널이 블록 되어 있으면 블록이 해제될 때까지 시그널-전달-정지가 일어나지 않는다. 단 블록 할 수 없는 `SIGSTOP`은 언제나처럼 예외이다.
 
 <tt>[[waitpid(2)]]</tt>가 `WIFSTOPPED(status)`를 참으로 반환하는 것으로 추적자가 시그널-전달-정지를 목격하며, `WSTOPSIG(status)`가 시그널을 반환한다. 시그널이 `SIGTRAP`이면 다른 종류의 ptrace 정지일 수도 있다. 자세한 내용은 아래의 "시스템-호출-정지" 및 "execve" 절을 보라. `WSTOPSIG(status)`가 정지형(stopping) 시그널을 반환하는 경우 그룹-정지일 수도 있다. 아래를 보라.
 
@@ -383,7 +273,7 @@ if (errno == ESRCH) {
 ptrace(PTRACE_restart, pid, 0, sig)
 ```
 
-여기서 `PTRACE_restart`는 ptrace 재시작 요청들 중 하나이다. `sig`가 0이면 시그널을 전달하지 않는다. 그렇지 않으면 시그널 `sig`를 전달한다. 이 매뉴얼 페이지에서는 이 동작을 <em>시그널 주입</em>이라고 해서 시그널-전달-정지와 구분한다.
+여기서 `PTRACE_restart`는 ptrace 재시작 요청들 중 하나이다. `sig`가 0이면 시그널을 전달하지 않는다. 그렇지 않으면 시그널 `sig`를 전달한다. 이 매뉴얼 페이지에서는 이 동작을 *시그널 주입*이라고 해서 시그널-전달-정지와 구분한다.
 
 `sig` 값이 `WSTOPSIG(status)` 값과 다를 수도 있다. 즉, 추적자가 다른 시그널을 주입시킬 수 있다.
 
@@ -439,29 +329,31 @@ ptrace(PTRACE_GETSIGINFO, pid, 0, &siginfo)
 
 다음 이벤트들이 있다.
 
-<dl>
-<dt><code>PTRACE_EVENT_VFORK</code></dt>
-<dd><tt>[[vfork(2)]]</tt>나 <code>CLONE_VFORK</code> 플래그 사용 <tt>[[clone(2)]]</tt>에서 반환하기 전에 멈춘다. 이 정지 후에 피추적자를 속행시키면 자식이 exit/exec 하기를 기다린 후에 실행을 계속할 것이다. (즉 일반적인 <tt>[[vfork(2)]]</tt> 동작이다.)</dd>
-<dt><code>PTRACE_EVENT_FORK</code></dt>
-<dd><tt>[[fork(2)]]</tt>나 종료 시그널을 <code>SIGCHLD</code>로 설정한 <tt>[[clone(2)]]</tt>에서 반환하기 전에 멈춘다.</dd>
-<dt><code>PTRACE_EVENT_CLONE</code></dt>
-<dd><tt>[[clone(2)]]</tt>에서 반환하기 전에 멈춘다.</dd>
-<dt><code>PTRACE_EVENT_VFORK_DONE</code></dt>
-<dd><tt>[[vfork(2)]]</tt>나 <code>CLONE_VFORK</code> 플래그 사용 <tt>[[clone(2)]]</tt>에서 반환하기 전에, 그러면서 자식이 exit나 exec로 피추적자를 풀어 준 후에 멈춘다.</dd>
-</dl>
+`PTRACE_EVENT_VFORK`
+:   <tt>[[vfork(2)]]</tt>나 `CLONE_VFORK` 플래그 사용 <tt>[[clone(2)]]</tt>에서 반환하기 전에 멈춘다. 이 정지 후에 피추적자를 속행시키면 자식이 exit/exec 하기를 기다린 후에 실행을 계속할 것이다. (즉 일반적인 <tt>[[vfork(2)]]</tt> 동작이다.)
+
+`PTRACE_EVENT_FORK`
+:   <tt>[[fork(2)]]</tt>나 종료 시그널을 `SIGCHLD`로 설정한 <tt>[[clone(2)]]</tt>에서 반환하기 전에 멈춘다.
+
+`PTRACE_EVENT_CLONE`
+:   <tt>[[clone(2)]]</tt>에서 반환하기 전에 멈춘다.
+
+`PTRACE_EVENT_VFORK_DONE`
+:   <tt>[[vfork(2)]]</tt>나 `CLONE_VFORK` 플래그 사용 <tt>[[clone(2)]]</tt>에서 반환하기 전에, 그러면서 자식이 exit나 exec로 피추적자를 풀어 준 후에 멈춘다.
 
 위의 네 가지 정지 모두 새로 생성된 스레드가 아니라 부모(즉 피추적자)에서 정지가 일어난다. `PTRACE_GETEVENTMSG`를 이용해 새 스레드의 ID를 가져올 수 있다.
 
-<dl>
-<dt><code>PTRACE_EVENT_EXEC</code></dt>
-<dd><tt>[[execve(2)]]</tt> 반환 전에 정지한다. 리눅스 3.0부터 <code>PTRACE_GETEVENTMSG</code>가 이전 스레드 ID를 반환한다.</dd>
-<dt><code>PTRACE_EVENT_EXIT</code></dt>
-<dd>종료(<tt>[[exit_group(2)]]</tt>으로 죽는 것 포함)나 시그널 죽음, 다중 스레드 프로세스에서 <tt>[[execve(2)]]</tt>에 의한 종료 전에 정지한다. <code>PTRACE_GETEVENTMSG</code>가 종료 상태를 반환한다. ("진짜" 종료가 일어났을 때와 달리) 레지스터를 조사할 수 있다. 피추적자가 여전히 살아 있다. <code>PTRACE_CONT</code>나 <code>PTRACE_DETACH</code> 해 주어야 종료가 마무리된다.</dd>
-<dt><code>PTRACE_EVENT_STOP</code></dt>
-<dd><code>PTRACE_INTERRUPT</code> 명령이나 그룹-정지, 새 자식에 붙었을 때의 (<code>PTRACE_SEIZE</code>로 붙은 경우에만) 최초 ptrace 정지에 의해 유발되는 정지.</dd>
-<dt><code>PTRACE_EVENT_SECCOMP</code></dt>
-<dd>추적자가 <code>PTRACE_O_TRACESECCOMP</code>를 설정했을 때 피추적자 시스템 호출 진입 시 <tt>[[seccomp(2)]]</tt> 규칙에 의한 정지. seccomp 이벤트 메시지 데이터(seccomp 필터 규칙의 <code>SECCOMP_RET_DATA</code> 부분)를 <code>PTRACE_GETEVENTMSG</code>로 가져올 수 있다. 이 정지의 동작 방식을 아래의 별도 절에서 자세히 설명한다.</dd>
-</dl>
+`PTRACE_EVENT_EXEC`
+:   <tt>[[execve(2)]]</tt> 반환 전에 정지한다. 리눅스 3.0부터 `PTRACE_GETEVENTMSG`가 이전 스레드 ID를 반환한다.
+
+`PTRACE_EVENT_EXIT`
+:   종료(<tt>[[exit_group(2)]]</tt>으로 죽는 것 포함)나 시그널 죽음, 다중 스레드 프로세스에서 <tt>[[execve(2)]]</tt>에 의한 종료 전에 정지한다. `PTRACE_GETEVENTMSG`가 종료 상태를 반환한다. ("진짜" 종료가 일어났을 때와 달리) 레지스터를 조사할 수 있다. 피추적자가 여전히 살아 있다. `PTRACE_CONT`나 `PTRACE_DETACH` 해 주어야 종료가 마무리된다.
+
+`PTRACE_EVENT_STOP`
+:   `PTRACE_INTERRUPT` 명령이나 그룹-정지, 새 자식에 붙었을 때의 (`PTRACE_SEIZE`로 붙은 경우에만) 최초 ptrace 정지에 의해 유발되는 정지.
+
+`PTRACE_EVENT_SECCOMP`
+:   추적자가 `PTRACE_O_TRACESECCOMP`를 설정했을 때 피추적자 시스템 호출 진입 시 <tt>[[seccomp(2)]]</tt> 규칙에 의한 정지. seccomp 이벤트 메시지 데이터(seccomp 필터 규칙의 `SECCOMP_RET_DATA` 부분)를 `PTRACE_GETEVENTMSG`로 가져올 수 있다. 이 정지의 동작 방식을 아래의 별도 절에서 자세히 설명한다.
 
 `PTRACE_EVENT` 정지에서 `PTRACE_GETSIGINFO`는 `si_signo`에 `SIGTRAP`을 반환하며 `si_code`가 `(event<<8) | SIGTRAP`으로 설정되어 있다.
 
@@ -475,14 +367,14 @@ ptrace(PTRACE_GETSIGINFO, pid, 0, &siginfo)
 
 시스템-호출-정지를 `SIGTRAP` 시그널-전달-정지와 구별하려면 `PTRACE_GETSIGINFO`를 질의해서 다음 경우를 확인하면 된다.
 
-<dl>
-<dt><code>si_code <= 0</code></dt>
-<dd>시스템 호출(<tt>[[tgkill(2)]]</tt>, <tt>[[kill(2)]]</tt>, <tt>[[sigqueue(3)]]</tt> 등)</dd> 같은 사용자 공간 행동이나 POSIX 타이머의 만료, POSIX 메시지 큐에서의 상태 변화, 비동기 I/O 요청의 완료에 의해서 <code>SIGTRAP</code>이 전달되었다.
-<dt><code>si_code == SI_KERNEL</code> (0x80)</dt>
-<dd>커널이 <code>SIGTRAP</code>을 보냈다.</dd>
-<dt><code>si_code == SIGTRAP</code> 또는 <code>si_code == (SIGTRAP|0x80)</code></dt>
-<dd>시스템-호출-정지이다.</dd>
-</dl>
+`si_code <= 0`
+:   시스템 호출(<tt>[[tgkill(2)]]</tt>, <tt>[[kill(2)]]</tt>, <tt>[[sigqueue(3)]]</tt> 등) 같은 사용자 공간 행동이나 POSIX 타이머의 만료, POSIX 메시지 큐에서의 상태 변화, 비동기 I/O 요청의 완료에 의해서 `SIGTRAP`이 전달되었다.
+
+`si_code == SI_KERNEL` (0x80)
+:   커널이 `SIGTRAP`을 보냈다.
+
+`si_code == SIGTRAP` 또는 `si_code == (SIGTRAP|0x80)`
+:   시스템-호출-정지이다.
 
 하지만 시스템-호출-정지가 매우 자주 (시스템 호출당 두 번씩) 일어나므로 시스템-호출-정지마다 `PTRACE_GETSIGINFO`를 수행하는 것은 비용이 좀 높을 수도 있다.
 
@@ -657,20 +549,23 @@ ptrace API는 <tt>[[waitpid(2)]]</tt>를 통한 표준 유닉스 부모/자식 �
 
 ## ERRORS
 
-<dl>
-<dt><code>EBUSY</code></dt>
-<dd>(i386 한정) 디버그 레지스터 할당 내지 해제 중에 오류가 있었다.</dd>
-<dt><code>EFAULT</code></dt>
-<dd>추적자나 피추적자의 메모리 내의 유효하지 않은 영역에 대한 읽기나 쓰기 시도가 있었다. 아마 그 영역이 매핑 되어 있지 않거나 접근 가능하지 않아서일 것이다. 유감스럽게도 리눅스에서는 이 문제의 여러 변종들이 다소 임의적으로 <code>EIO</code>나 <code>EFAULT</code>를 반환한다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>유효하지 않은 옵션을 설정하려고 시도했다.</dd>
-<dt><code>EIO</code></dt>
-<dd><code>request</code>가 유효하지 않거나, 추적자가 피추적자의 메모리 내의 유효하지 않은 영역에 대한 읽기나 쓰기 시도가 있었거나, 워드 정렬 위반이 있었거나, 재시작 요청 중에 유효하지 않은 시그널을 지정했다.</dd>
-<dt><code>EPERM</code></dt>
-<dd>지정한 프로세스를 추적할 수 없다. 추적자가 충분한 특권을 가지고 있지 않아서일 수 있다. (필요한 역능은 <code>CAP_SYS_PTRACE</code>이다.) 비특권 프로세스가 시그널을 보낼 수 없는 프로세스들을 추적할 수 없는 것이고, 또 당연한 이유로 set-user-ID/set-group-ID 프로그램을 돌리는 프로세스를 추적할 수 없다. 또는, 프로세스가 이미 추적되고 있거나 (2.6.26 전의 커널에서) 프로세스가 `init(1)` (PID 1)이다.</dd>
-<dt><code>ESRCH</code></dt>
-<dd>지정한 프로세스가 존재하지 않거나, 현재 호출자가 추적 중이 아니거나, (피추적자가 멈춰 있어야 하는 요청들에서) 멈춰있지 않다.</dd>
-</dl>
+`EBUSY`
+:   (i386 한정) 디버그 레지스터 할당 내지 해제 중에 오류가 있었다.
+
+`EFAULT`
+:   추적자나 피추적자의 메모리 내의 유효하지 않은 영역에 대한 읽기나 쓰기 시도가 있었다. 아마 그 영역이 매핑 되어 있지 않거나 접근 가능하지 않아서일 것이다. 유감스럽게도 리눅스에서는 이 문제의 여러 변종들이 다소 임의적으로 `EIO`나 `EFAULT`를 반환한다.
+
+`EINVAL`
+:   유효하지 않은 옵션을 설정하려고 시도했다.
+
+`EIO`
+:   `request`가 유효하지 않거나, 추적자가 피추적자의 메모리 내의 유효하지 않은 영역에 대한 읽기나 쓰기 시도가 있었거나, 워드 정렬 위반이 있었거나, 재시작 요청 중에 유효하지 않은 시그널을 지정했다.
+
+`EPERM`
+:   지정한 프로세스를 추적할 수 없다. 추적자가 충분한 특권을 가지고 있지 않아서일 수 있다. (필요한 역능은 `CAP_SYS_PTRACE`이다.) 비특권 프로세스가 시그널을 보낼 수 없는 프로세스들을 추적할 수 없는 것이고, 또 당연한 이유로 set-user-ID/set-group-ID 프로그램을 돌리는 프로세스를 추적할 수 없다. 또는, 프로세스가 이미 추적되고 있거나 (2.6.26 전의 커널에서) 프로세스가 `init(1)` (PID 1)이다.
+
+`ESRCH`
+:   지정한 프로세스가 존재하지 않거나, 현재 호출자가 추적 중이 아니거나, (피추적자가 멈춰 있어야 하는 요청들에서) 멈춰있지 않다.
 
 ## CONFORMING TO
 
@@ -696,41 +591,38 @@ SVr4, 4.3BSD.
 
 리눅스 2.6.27 전에서는 모든 접근 검사가 한 종류였다. 리눅스 2.6.27부터는 두 가지 접근 모드 단계를 구별한다.
 
-<dl>
-<dt><code>PTRACE_MODE_READ</code></dt>
-<dd>"읽기" 동작이나 덜 위험한 동작들: <tt>[[get_robust_list(2)]]</tt>, <tt>[[kcmp(2)]]</tt>, <code>/proc/[pid]/auxv</code>이나 <code>/proc/[pid]/environ</code>, <code>/proc/[pid]/stat</code> 읽기, <code>/proc/[pid]/ns/*</code> 파일 <tt>[[readlink(2)]]</tt></dd>
-<dt><code>PTRACE_MODE_ATTACH</code></dt>
-<dd>"쓰기" 동작이나 더 위험한 동작들: 다른 프로세스에 ptrace 붙기 (<code>PTRACE_ATTACH</code>)나 <tt>[[process_vm_writev(2)]]</tt> 호출. (리눅스 2.6.27 전에서는 <code>PTRACE_MODE_ATTACH</code>가 기본인 것과 같았다.)</dd>
-</dl>
+`PTRACE_MODE_READ`
+:   "읽기" 동작이나 덜 위험한 동작들: <tt>[[get_robust_list(2)]]</tt>, <tt>[[kcmp(2)]]</tt>, `/proc/[pid]/auxv`이나 `/proc/[pid]/environ`, `/proc/[pid]/stat` 읽기, `/proc/[pid]/ns/*` 파일 <tt>[[readlink(2)]]</tt>
+
+`PTRACE_MODE_ATTACH`
+:   "쓰기" 동작이나 더 위험한 동작들: 다른 프로세스에 ptrace 붙기 (`PTRACE_ATTACH`)나 <tt>[[process_vm_writev(2)]]</tt> 호출. (리눅스 2.6.27 전에서는 `PTRACE_MODE_ATTACH`가 기본인 것과 같았다.)
 
 리눅스 4.5부터 위 접근 모드 검사를 다음 수식자 중 하나와 결합(OR)한다.
 
-<dl>
-<dt><code>PTRACE_MODE_FSCREDS</code></dt>
-<dd>LSM 검사에 호출자의 파일 시스템 UID/GID (<tt>[[credentials(7)]]</tt> 참고) 또는 실효 역능 사용.</dd>
-<dt><code>PTRACE_MODE_REALCREDS</code></dt>
-<dd>LSM 검사에 호출자의 실제 UID/GID나 허용 역능 사용. 리눅스 4.5 전에서는 이 방식이 기본인 것과 같았다.</dd>
-</dl>
+`PTRACE_MODE_FSCREDS`
+:   LSM 검사에 호출자의 파일 시스템 UID/GID (<tt>[[credentials(7)]]</tt> 참고) 또는 실효 역능 사용.
+
+`PTRACE_MODE_REALCREDS`
+:   LSM 검사에 호출자의 실제 UID/GID나 허용 역능 사용. 리눅스 4.5 전에서는 이 방식이 기본인 것과 같았다.
 
 위 크리덴셜 수식자와 앞서 언급한 접근 모드를 결합해서 쓰는 게 일반적이므로 커널 소스에는 그 조합들에 대한 매크로가 정의되어 있다.
 
-<dl>
-<dt><code>PTRACE_MODE_READ_FSCREDS</code></dt>
-<dd><code>PTRACE_MODE_READ | PTRACE_MODE_FSCREDS</code>로 정의.</dd>
-<dt><code>PTRACE_MODE_READ_REALCREDS</code></dt>
-<dd><code>PTRACE_MODE_READ | PTRACE_MODE_REALCREDS</code>로 정의.</dd>
-<dt><code>PTRACE_MODE_ATTACH_FSCREDS</code></dt>
-<dd><code>PTRACE_MODE_ATTACH | PTRACE_MODE_FSCREDS</code>로 정의.</dd>
-<dt><code>PTRACE_MODE_ATTACH_READLCREDS</code></dt>
-<dd><code>PTRACE_MODE_ATTACH | PTRACE_MODE_REALCREDS</code>로 정의.</dd>
-</dl>
+`PTRACE_MODE_READ_FSCREDS`
+:   `PTRACE_MODE_READ | PTRACE_MODE_FSCREDS`로 정의.
+
+`PTRACE_MODE_READ_REALCREDS`
+:   `PTRACE_MODE_READ | PTRACE_MODE_REALCREDS`로 정의.
+
+`PTRACE_MODE_ATTACH_FSCREDS`
+:   `PTRACE_MODE_ATTACH | PTRACE_MODE_FSCREDS`로 정의.
+
+`PTRACE_MODE_ATTACH_READLCREDS`
+:   `PTRACE_MODE_ATTACH | PTRACE_MODE_REALCREDS`로 정의.
 
 접근 모드에 수식자 하나를 더 OR 할 수 있다.
 
-<dl>
-<dt><code>PTRACE_MODE_NOAUDIT</code> (리눅스 3.3부터)</dt>
-<dd>이 접근 모드 검사를 감사하지 않는다. 이 수식자는 호출자에게 오류를 반환시키기보다는 출력이 걸러지거나 검열되게 하기만 하는 (<code>/proc/[pid]/stat</code> 읽을 때의 검사 같은) ptrace 접근 모드 검사에 쓰인다. 그런 경우에 파일 접근은 보안 위반이 아니므로 보안 감사 기록을 생성할 이유가 없다. 이 수식자는 특정 접근 검사에 대해 보안 기록 생성을 억제한다.</dd>
-</dl>
+`PTRACE_MODE_NOAUDIT` (리눅스 3.3부터)
+:   이 접근 모드 검사를 감사하지 않는다. 이 수식자는 호출자에게 오류를 반환시키기보다는 출력이 걸러지거나 검열되게 하기만 하는 (`/proc/[pid]/stat` 읽을 때의 검사 같은) ptrace 접근 모드 검사에 쓰인다. 그런 경우에 파일 접근은 보안 위반이 아니므로 보안 감사 기록을 생성할 이유가 없다. 이 수식자는 특정 접근 검사에 대해 보안 기록 생성을 억제한다.
 
 참고로 이 부절에서 서술한 `PTRACE_MODE_*` 상수들은 모두 커널 내부용이어서 사용자 공간에 보이지 않는다. 여기서 상수 이름을 언급한 것은 여러 시스템 호출과 여러 (가령 `/proc` 아래의) 가상 파일 접근에 대해 수행하는 다양한 ptrace 접근 모드 검사들의 종류에 이름을 붙이기 위해서이다. 이 이름을 다른 매뉴얼 페이지에서 사용해서 다양한 커널 검사를 간단한 방식으로 지칭한다.
 
@@ -776,38 +668,25 @@ Yama 리눅스 보안 모듈(LSM)이 설치된 (즉 `CONFIG_SECURITY_YAMA`로 �
 
 `CAP_SYS_PTRACE` 역능을 가진 프로세스가 `/proc/sys/kernel/yama/ptrace_scope` 파일을 다음 값들 중 하나로 갱신할 수 있다.
 
-<dl>
-<dt>0 ("전통적 ptrace 권한")</dt>
-<dd>
+0 ("전통적 ptrace 권한")
+:   `PTRACE_MODE_ATTACH` 검사를 수행하는 동작에 (commoncap과 다른 LSM에서 부과하는 것 이상으로) 추가로 제약을 가하지 않는다.
 
-<code>PTRACE_MODE_ATTACH</code> 검사를 수행하는 동작에 (commoncap과 다른 LSM에서 부과하는 것 이상으로) 추가로 제약을 가하지 않는다.
+    `PTRACE_TRACEME` 사용에 변화가 없다.
 
-<code>PTRACE_TRACEME</code> 사용에 변화가 없다.
-</dd>
+1 ("제약된 ptrace") [기본값]
+:   `PTRACE_MODE_ATTACH` 검사가 필요한 동작을 수행할 때 호출 프로세스가 대상 프로세스의 사용자 네임스페이스에서 `CAP_SYS_PTRACE` 역능을 가지고 있거나 대상 프로세스와 기정 관계를 가지고 있어야 한다. 기본적으로 기정 관계란 대상 프로세스가 호출자의 자손이어야 한다는 것이다.
 
-<dt>1 ("제약된 ptrace") [기본값]</dt>
-<dd>
+    대상 프로세스에서 <tt>[[prctl(2)]]</tt> `PR_SET_PTRACER` 동작을 사용해서 그 대상에 `PTRACE_MODE_ATTACH` 동작을 수행할 수 있게 허용할 추가 PID를 선언할 수 있다. 자세한 내용은 커널 소스 파일 `Documentation/admin-guide/LSM/Yama.rst`를 (리눅스 4.13 전에선 `Documentation/security/Yama.txt`를) 보라.
 
-<code>PTRACE_MODE_ATTACH</code> 검사가 필요한 동작을 수행할 때 호출 프로세스가 대상 프로세스의 사용자 네임스페이스에서 <code>CAP_SYS_PTRACE</code> 역능을 가지고 있거나 대상 프로세스와 기정 관계를 가지고 있어야 한다. 기본적으로 기정 관계란 대상 프로세스가 호출자의 자손이어야 한다는 것이다.
+    `PTRACE_TRACEME` 사용에 변화가 없다.
 
-대상 프로세스에서 <tt>[[prctl(2)]]</tt> <code>PR_SET_PTRACER</code> 동작을 사용해서 그 대상에 <code>PTRACE_MODE_ATTACH</code> 동작을 수행할 수 있게 허용할 추가 PID를 선언할 수 있다. 자세한 내용은 커널 소스 파일 <code>Documentation/admin-guide/LSM/Yama.rst</code>를 (리눅스 4.13 전에선 <code>Documentation/security/Yama.txt</code>를) 보라.
+2 ("관리자만 붙기")
+:    대상 프로세스의 사용자 네임스페이스에서 `CAP_SYS_PTRACE` 역능을 가진 프로세스만 `PTRACE_MODE_ATTACH` 동작 수행이나 `PTRACE_TRACEME` 사용 자식 추적을 할 수 있다.
 
-<code>PTRACE_TRACEME</code> 사용에 변화가 없다.
-</dd>
+3 ("붙기 불가능")
+:   어떤 프로세스도 `PTRACE_MODE_ATTACH` 동작 수행이나 `PTRACE_TRACEME` 사용 자식 추적을 수행할 수 없다.
 
-<dt>2 ("관리자만 붙기")</dt>
-<dd>
-대상 프로세스의 사용자 네임스페이스에서 <code>CAP_SYS_PTRACE</code> 역능을 가진 프로세스만 <code>PTRACE_MODE_ATTACH</code> 동작 수행이나 <code>PTRACE_TRACEME</code> 사용 자식 추적을 할 수 있다.
-</dd>
-
-<dt>3 ("붙기 불가능")</dt>
-<dd>
-
-어떤 프로세스도 <code>PTRACE_MODE_ATTACH</code> 동작 수행이나 <code>PTRACE_TRACEME</code> 사용 자식 추적을 수행할 수 없다.
-
-파일에 이 값을 한번 써넣고 나면 바꿀 수 없다.
-</dd>
-</dl>
+    파일에 이 값을 한번 써넣고 나면 바꿀 수 없다.
 
 1과 2 값과 관련해서, 새 사용자 네임스페이스를 생성하면 Yama가 제공하는 보호가 실질적으로 무력화된다는 점에 유의해야 한다. 실효 UID가 자식 사용자 네임스페이스 생성자의 UID와 일치하는 부모 네임스페이스 내의 프로세스가 그 자식 사용자 네임스페이스 (그리고 더 먼 자손들) 내에서 동작을 수행할 때 (`CAP_SYS_PTRACE`를 포함한) 모든 역능을 가지기 때문이다. 그래서 프로세스가 스스로 샌드박스에 들어가려고 네임스페이스를 사용하려 할 때 Yama LSM이 제공하는 보호를 의도치 않게 약화시키게 된다.
 

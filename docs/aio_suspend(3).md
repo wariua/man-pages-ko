@@ -33,14 +33,14 @@ int aio_suspend(const struct aiocb * const aiocb_list[],
 
 ## ERRORS
 
-<dl>
-<dt><code>EAGAIN</code></dt>
-<dd>지정한 동작 하나라도 완료되기 전에 호출이 타임아웃 되었다.</dd>
-<dt><code>EINTR</code></dt>
-<dd>시그널로 호출이 끝났다. (기다리던 동작들 중 하나의 완료 알림일 수도 있다.) <tt>[[signal(7)]]</tt> 참고.</dd>
-<dt><code>ENOSYS</code></dt>
-<dd><code>aio_suspend()</code>가 구현돼 있지 않다.</dd>
-</dl>
+`EAGAIN`
+:   지정한 동작 하나라도 완료되기 전에 호출이 타임아웃 되었다.
+
+`EINTR`
+:   시그널로 호출이 끝났다. (기다리던 동작들 중 하나의 완료 알림일 수도 있다.) <tt>[[signal(7)]]</tt> 참고.
+
+`ENOSYS`
+:   `aio_suspend()`가 구현돼 있지 않다.
 
 ## VERSIONS
 

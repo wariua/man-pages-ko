@@ -62,10 +62,8 @@ struct sysinfo {
 
 ## ERRORS
 
-<dl>
-<dt><code>EFAULT</code></dt>
-<dd><code>info</code>가 유효한 주소가 아니다.</dd>
-</dl>
+`EFAULT`
+:   `info`가 유효한 주소가 아니다.
 
 ## VERSIONS
 

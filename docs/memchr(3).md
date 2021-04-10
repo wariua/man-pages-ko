@@ -16,10 +16,8 @@ void *rawmemchr(const void *s, int c);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>memrchr()</code>, <code>rawmemchr()</code>:</dt>
-<dd><code>_GNU_SOURCE</code></dd>
-</dl>
+`memrchr()`, `rawmemchr()`:
+:   `_GNU_SOURCE`
 
 ## DESCRIPTION
 

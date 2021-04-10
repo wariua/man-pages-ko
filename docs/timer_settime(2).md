@@ -17,10 +17,8 @@ int timer_gettime(timer_t timerid, struct itimerspec *curr_value);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>timer_settime()</code>, <code>timer_gettime()</code>:</dt>
-<dd><code>_POSIX_C_SOURCE >= 199309L</code></dd>
-</dl>
+`timer_settime()`, `timer_gettime()`:
+:   `_POSIX_C_SOURCE >= 199309L`
 
 ## DESCRIPTION
 
@@ -60,19 +58,16 @@ struct itimerspec {
 
 이 함수들은 다음 오류로 실패할 수 있다.
 
-<dl>
-<dt><code>EFAULT</code></dt>
-<dd><code>new_value</code>나 <code>old_value</code>, <code>curr_value</code>가 유효한 포인터가 아니다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>timerid</code>가 유효하지 않다.</dd>
-</dl>
+`EFAULT`
+:   `new_value`나 `old_value`, `curr_value`가 유효한 포인터가 아니다.
 
-<code>timer_settime()</code>은 다음 오류로 실패할 수도 있다.
+`EINVAL`
+:   `timerid`가 유효하지 않다.
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>new_value.it_value</code>가 음수이다. 또는 <code>new_value.it_value.tv_nsec</code>이 음수이거나 999,999,999보다 크다.</dd>
-</dl>
+`timer_settime()`은 다음 오류로 실패할 수도 있다.
+
+`EINVAL`
+:   `new_value.it_value`가 음수이다. 또는 `new_value.it_value.tv_nsec`이 음수이거나 999,999,999보다 크다.
 
 ## VERSIONS
 

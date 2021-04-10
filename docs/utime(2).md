@@ -53,18 +53,20 @@ struct timeval {
 
 ## ERRORS
 
-<dl>
-<dt><code>EACCES</code></dt>
-<dd><code>path</code>의 경로 선두부의 한 디렉터리에 대해 탐색 권한이 거부되었다. (<tt>[[path_resolution(7)]]</tt> 참고.)</dd>
-<dt><code>EACCES</code></dt>
-<dd><code>times</code>가 NULL이고, 호출자의 실효 사용자 ID가 파일의 소유자와 일치하지 않고, 호출자가 파일에 쓰기 접근권을 가지고 있지 않고, 호출자에게 특권이 없다 (리눅스: <code>CAP_DAC_OVERRIDE</code> 역능과 <code>CAP_FOWNER</code> 역능 어느 쪽도 없다).</dd>
-<dt><code>ENOENT</code></dt>
-<dd><code>filename</code>이 존재하지 않는다.</dd>
-<dt><code>EPERM</code></dt>
-<dd><code>times</code>가 NULL이 아니고, 호출자의 실효 UID가 파일의 소유자와 일치하지 않으며, 호출자에게 특권이 없다 (리눅스: <code>CAP_FOWNER</code> 역능이 없다).</dd>
-<dt><code>EROFS</code></dt>
-<dd><code>path</code>가 읽기 전용 파일 시스템에 위치해 있다.</dd>
-</dl>
+`EACCES`
+:   `path`의 경로 선두부의 한 디렉터리에 대해 탐색 권한이 거부되었다. (<tt>[[path_resolution(7)]]</tt> 참고.)
+
+`EACCES`
+:   `times`가 NULL이고, 호출자의 실효 사용자 ID가 파일의 소유자와 일치하지 않고, 호출자가 파일에 쓰기 접근권을 가지고 있지 않고, 호출자에게 특권이 없다 (리눅스: `CAP_DAC_OVERRIDE` 역능과 `CAP_FOWNER` 역능 어느 쪽도 없다).
+
+`ENOENT`
+:   `filename`이 존재하지 않는다.
+
+`EPERM`
+:   `times`가 NULL이 아니고, 호출자의 실효 UID가 파일의 소유자와 일치하지 않으며, 호출자에게 특권이 없다 (리눅스: `CAP_FOWNER` 역능이 없다).
+
+`EROFS`
+:   `path`가 읽기 전용 파일 시스템에 위치해 있다.
 
 ## CONFORMING TO
 

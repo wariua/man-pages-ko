@@ -32,22 +32,20 @@ enum mcheck_status mprobe(void *ptr);
 
 다음은 `mprobe()`가 반환하거나 `abortfunc` 호출 시 `mstatus` 인자로 전달되는 값들에 대한 설명이다.
 
-<dl>
-<dt><code>MCHECK_DISABLED</code> (<code>mprobe()</code> 한정)</dt>
-<dd>메모리 할당 함수를 처음 호출하기 전에 <code>mcheck()</code>를 호출하지 않았다. 무모순성 검사가 불가능하다.</dd>
+`MCHECK_DISABLED` (`mprobe()` 한정)
+:   메모리 할당 함수를 처음 호출하기 전에 `mcheck()`를 호출하지 않았다. 무모순성 검사가 불가능하다.
 
-<dt><code>MCHECK_OK</code> (<code>mprobe()</code> 한정)</dt>
-<dd>모순성을 탐지하지 못했다.</dd>
+`MCHECK_OK` (`mprobe()` 한정)
+:   모순성을 탐지하지 못했다.
 
-<dt><code>MCHECK_HEAD</code></dt>
-<dd>할당 블록 앞의 메모리가 손상됐다.</dd>
+`MCHECK_HEAD`
+:   할당 블록 앞의 메모리가 손상됐다.
 
-<dt><code>MCHECK_TAIL</code></dt>
-<dd>할당 블록 뒤의 메모리가 손상됐다.</dd>
+`MCHECK_TAIL`
+:   할당 블록 뒤의 메모리가 손상됐다.
 
-<dt><code>MCHECK_FREE</code></dt>
-<dd>메모리 블록을 두 번 해제했다.</dd>
-</dl>
+`MCHECK_FREE`
+:   메모리 블록을 두 번 해제했다.
 
 ## RETURN VALUE
 

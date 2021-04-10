@@ -31,31 +31,29 @@ int reboot(int cmd);
 
 `cmd` 인자는 다음 값을 가질 수 있다.
 
-<dl>
-<dt><code>LINUX_REBOOT_CMD_CAD_OFF</code></dt>
-<dd>(<code>RB_DISABLE_CAD</code>, 0). CAD를 끈다. 그러면 CAD 키 입력 시 init(1번 프로세스)에게 <code>SIGINT</code> 시그널이 가고, 그 프로세스에서 적절한 동작(아마도 모든 프로세스 죽이고, sync 하고, 재부팅 하기)을 정할 수 있다.</dd>
+`LINUX_REBOOT_CMD_CAD_OFF`
+:   (`RB_DISABLE_CAD`, 0). CAD를 끈다. 그러면 CAD 키 입력 시 init(1번 프로세스)에게 `SIGINT` 시그널이 가고, 그 프로세스에서 적절한 동작(아마도 모든 프로세스 죽이고, sync 하고, 재부팅 하기)을 정할 수 있다.
 
-<dt><code>LINUX_REBOOT_CMD_CAD_ON</code></dt>
-<dd>(<code>RB_ENABLE_CAD</code>, 0x89abcdef). CAD를 켠다. 그러면 CAD 키 입력 시 즉시 <code>LINUX_REBOOT_CMD_RESTART</code>에 대응하는 동작이 이뤄진다.</dd>
+`LINUX_REBOOT_CMD_CAD_ON`
+:   (`RB_ENABLE_CAD`, 0x89abcdef). CAD를 켠다. 그러면 CAD 키 입력 시 즉시 `LINUX_REBOOT_CMD_RESTART`에 대응하는 동작이 이뤄진다.
 
-<dt><code>LINUX_REBOOT_CMD_HALT</code></dt>
-<dd>(<code>RB_HALT_SYSTEM</code>, 0xcdef0123, 리눅스 1.1.76부터). "System halted." 메시지를 찍고서 시스템을 멈춘다. ROM 모니터가 있으면 그리로 제어가 간다. 미리 <tt>[[sync(2)]]</tt> 하지 않았으면 데이터가 유실된다.</dd>
+`LINUX_REBOOT_CMD_HALT`
+:   (`RB_HALT_SYSTEM`, 0xcdef0123, 리눅스 1.1.76부터). "System halted." 메시지를 찍고서 시스템을 멈춘다. ROM 모니터가 있으면 그리로 제어가 간다. 미리 <tt>[[sync(2)]]</tt> 하지 않았으면 데이터가 유실된다.
 
-<dt><code>LINUX_REBOOT_CMD_KEXEC</code></dt>
-<dd>(<code>RB_KEXEC</code>, 0x45584543, 리눅스 2.6.13부터). <tt>[[kexec_load(2)]]</tt>로 미리 적재해 둔 커널을 실행한다. 커널이 <code>CONFIG_KEXEC</code>로 구성된 경우에만 이 옵션을 쓸 수 있다.</dd>
+`LINUX_REBOOT_CMD_KEXEC`
+:   (`RB_KEXEC`, 0x45584543, 리눅스 2.6.13부터). <tt>[[kexec_load(2)]]</tt>로 미리 적재해 둔 커널을 실행한다. 커널이 `CONFIG_KEXEC`로 구성된 경우에만 이 옵션을 쓸 수 있다.
 
-<dt><code>LINUX_REBOOT_CMD_POWER_OFF</code></dt>
-<dd>(<code>RB_POWER_OFF</code>, 0x4321fedc, 리눅스 2.1.30부터). "Power down." 메시지를 찍고서 시스템을 멈추고, 가능한 경우 시스템의 전원을 모두 제거한다. 미리 <tt>[[sync(2)]]</tt> 하지 않았으면 데이터가 유실된다.</dd>
+`LINUX_REBOOT_CMD_POWER_OFF`
+:   (`RB_POWER_OFF`, 0x4321fedc, 리눅스 2.1.30부터). "Power down." 메시지를 찍고서 시스템을 멈추고, 가능한 경우 시스템의 전원을 모두 제거한다. 미리 <tt>[[sync(2)]]</tt> 하지 않았으면 데이터가 유실된다.
 
-<dt><code>LINUX_REBOOT_CMD_RESTART</code></dt>
-<dd>(<code>RB_AUTOBOOT</code>, 0x1234567). "Restarting system." 메시지를 찍고서 즉시 기본 재시작 동작을 수행한다. 미리 <tt>[[sync(2)]]</tt> 하지 않았으면 데이터가 유실된다.</dd>
+`LINUX_REBOOT_CMD_RESTART`
+:   (`RB_AUTOBOOT`, 0x1234567). "Restarting system." 메시지를 찍고서 즉시 기본 재시작 동작을 수행한다. 미리 <tt>[[sync(2)]]</tt> 하지 않았으면 데이터가 유실된다.
 
-<dt><code>LINUX_REBOOT_CMD_RESTART2</code></dt>
-<dd>(0xa1b2c3d4, 리눅스 2.1.30부터). "Restarting system with command '%s'" 메시지를 찍고서 즉시 (<code>arg</code>에 준 명령 문자열을 사용해) 재시작을 수행한다. 미리 <tt>[[sync(2)]]</tt> 하지 않았으면 데이터가 유실된다.</dd>
+`LINUX_REBOOT_CMD_RESTART2`
+:   (0xa1b2c3d4, 리눅스 2.1.30부터). "Restarting system with command '%s'" 메시지를 찍고서 즉시 (`arg`에 준 명령 문자열을 사용해) 재시작을 수행한다. 미리 <tt>[[sync(2)]]</tt> 하지 않았으면 데이터가 유실된다.
 
-<dt><code>LINUX_REBOOT_CMD_SW_SUSPEND</code></dt>
-<dd>(<code>RB_SW_SUSPEND</code>, 0xd000fce1, 리눅스 2.5.18부터). 시스템을 디스크에 저장하고 중지(하이버네이션)한다. 커널이 <code>CONFIG_HIBERNATION</code>으로 구성된 경우에만 이 옵션을 쓸 수 있다.</dd>
-</dl>
+`LINUX_REBOOT_CMD_SW_SUSPEND`
+:   (`RB_SW_SUSPEND`, 0xd000fce1, 리눅스 2.5.18부터). 시스템을 디스크에 저장하고 중지(하이버네이션)한다. 커널이 `CONFIG_HIBERNATION`으로 구성된 경우에만 이 옵션을 쓸 수 있다.
 
 수퍼유저만 `reboot()`를 호출할 수 있다.
 
@@ -67,13 +65,11 @@ int reboot(int cmd);
 
 이 경우 `reboot()` 호출 시 `cmd`에 줄 수 있는 값들은 다음과 같다.
 
-<dl>
-<dt><code>LINUX_REBOOT_CMD_RESTART</code>, <code>LINUX_REBOOT_CMD_RESTART2</code></dt>
-<dd>"init" 프로세스가 종료된다. 부모 프로세스에서의 <tt>[[wait(2)]]</tt>은 자식이 <code>SIGHUP</code> 시그널로 죽었다고 보고한다.</dd>
+`LINUX_REBOOT_CMD_RESTART`, `LINUX_REBOOT_CMD_RESTART2`
+:   "init" 프로세스가 종료된다. 부모 프로세스에서의 <tt>[[wait(2)]]</tt>은 자식이 `SIGHUP` 시그널로 죽었다고 보고한다.
 
-<dt><code>LINUX_REBOOT_CMD_POWER_OFF</code>, <code>LINUX_REBOOT_CMD_HALT</code></dt>
-<dd>"init" 프로세스가 종료된다. 부모 프로세스에서의 <tt>[[wait(2)]]</tt>은 자식이 <code>SIGINT</code> 시그널로 죽었다고 보고한다.</dd>
-</dl>
+`LINUX_REBOOT_CMD_POWER_OFF`, `LINUX_REBOOT_CMD_HALT`
+:   "init" 프로세스가 종료된다. 부모 프로세스에서의 <tt>[[wait(2)]]</tt>은 자식이 `SIGINT` 시그널로 죽었다고 보고한다.
 
 다른 `cmd` 값들에 대해선 `reboot()`가 -1을 반환하고 `errno`를 `EINVAL`로 설정한다.
 
@@ -83,14 +79,14 @@ int reboot(int cmd);
 
 ## ERRORS
 
-<dl>
-<dt><code>EFAULT</code></dt>
-<dd><code>LINUX_REBOOT_CMD_RESTART2</code>에서 사용자 공간 데이터를 가져오는 데 문제 발생.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>매직 넘버나 <code>cmd</code> 잘못됨.</dd>
-<dt><code>EPERM</code></dt>
-<dd>호출 프로세스가 <code>reboot()</code>를 호출할 충분한 특권을 가지고 있지 않음. 호출자가 자기 사용자 네임스페이스 내에서 <code>CAP_SYS_BOOT</code>를 가지고 있어야 한다.</dd>
-</dl>
+`EFAULT`
+:   `LINUX_REBOOT_CMD_RESTART2`에서 사용자 공간 데이터를 가져오는 데 문제 발생.
+
+`EINVAL`
+:   매직 넘버나 `cmd` 잘못됨.
+
+`EPERM`
+:   호출 프로세스가 `reboot()`를 호출할 충분한 특권을 가지고 있지 않음. 호출자가 자기 사용자 네임스페이스 내에서 `CAP_SYS_BOOT`를 가지고 있어야 한다.
 
 ## CONFORMING TO
 

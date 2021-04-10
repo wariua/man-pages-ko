@@ -26,17 +26,12 @@ ssize_t pwritev2(int fd, const struct iovec *iov, int iovcnt,
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>preadv()</code>, <code>pwritev()</code>:</dt>
-<dd>
- <dl>
- <dt>glibc 2.19부터:</dt>
- <dd><code>_DEFAULT_SOURCE</code></dd>
- <dt>glibc 2.19 및 이전:</dt>
- <dd><code>_BSD_SOURCE</code></dd>
- </dl>
-</dd>
-</dl>
+`preadv()`, `pwritev()`:
+:   glibc 2.19부터:
+    :   `_DEFAULT_SOURCE`
+
+    glibc 2.19 및 이전:
+    :   `_BSD_SOURCE`
 
 ## DESCRIPTION
 
@@ -77,22 +72,20 @@ struct iovec {
 
 `flags` 인자는 다음 플래그를 0개 이상 비트 OR 한 값을 담는다.
 
-<dl>
-<dt><code>RWF_DSYNC</code> (리눅스 4.7부터)</dt>
-<dd>쓰기별로 지정할 수 있는 <tt>[[open(2)]]</tt> <code>O_DSYNC</code> 플래그의 등가물. 이 플래그는 <code>pwritev2()</code>에만 유효하며 시스템 호출로 기록하는 데이터 범위에만 적용된다.</dd>
+`RWF_DSYNC` (리눅스 4.7부터)
+:   쓰기별로 지정할 수 있는 <tt>[[open(2)]]</tt> `O_DSYNC` 플래그의 등가물. 이 플래그는 `pwritev2()`에만 유효하며 시스템 호출로 기록하는 데이터 범위에만 적용된다.
 
-<dt><code>RWF_HIPRI</code> (리눅스 4.6부터)</dt>
-<dd>우선도 높은 읽기/쓰기. 블록 기반 파일 시스템에서 장치 폴링을 할 수 있게 허용한다. 지연이 낮아지지만 자원을 더 쓸 수도 있다. (현재 이 기능은 <code>O_DIRECT</code> 플래그로 연 파일 디스크립터에서만 사용 가능하다.)</dd>
+`RWF_HIPRI` (리눅스 4.6부터)
+:   우선도 높은 읽기/쓰기. 블록 기반 파일 시스템에서 장치 폴링을 할 수 있게 허용한다. 지연이 낮아지지만 자원을 더 쓸 수도 있다. (현재 이 기능은 `O_DIRECT` 플래그로 연 파일 디스크립터에서만 사용 가능하다.)
 
-<dt><code>RWF_SYNC</code> (리눅스 4.7부터)</dt>
-<dd>쓰기별로 지정할 수 있는 <tt>[[open(2)]]</tt> <code>O_SYNC</code> 플래그의 등가물. 이 플래그는 <code>pwritev2()</code>에만 유효하며 시스템 호출로 기록하는 데이터 범위에만 적용된다.</dd>
+`RWF_SYNC` (리눅스 4.7부터)
+:   쓰기별로 지정할 수 있는 <tt>[[open(2)]]</tt> `O_SYNC` 플래그의 등가물. 이 플래그는 `pwritev2()`에만 유효하며 시스템 호출로 기록하는 데이터 범위에만 적용된다.
 
-<dt><code>RWF_NOWAIT</code> (리눅스 4.14부터)</dt>
-<dd>즉시 사용 가능하지 않은 데이터를 기다리지 않는다. 이 플래그를 지정하면 기반 저장소로부터 데이터를 읽어 와야 하거나 락을 기다려야 하는 경우에 <code>preadv2()</code> 시스템 호출이 즉시 반환하게 된다. 일부 데이터를 성공적으로 읽었으면 읽은 바이트 수를 반환한다. 읽은 바이트가 없으면 -1을 반환하고 <code>errno</code>를 <code>EAGAIN</code>으로 설정한다. 현재 이 플래그는 <code>preadv2()</code>에만 유효하다.</dd>
+`RWF_NOWAIT` (리눅스 4.14부터)
+:   즉시 사용 가능하지 않은 데이터를 기다리지 않는다. 이 플래그를 지정하면 기반 저장소로부터 데이터를 읽어 와야 하거나 락을 기다려야 하는 경우에 `preadv2()` 시스템 호출이 즉시 반환하게 된다. 일부 데이터를 성공적으로 읽었으면 읽은 바이트 수를 반환한다. 읽은 바이트가 없으면 -1을 반환하고 `errno`를 `EAGAIN`으로 설정한다. 현재 이 플래그는 `preadv2()`에만 유효하다.
 
-<dt><code>RWF_APPEND</code> (리눅스 4.16부터)</dt>
-<dd>쓰기별로 지정할 수 있는 <tt>[[open(2)]]</tt> <code>O_APPEND</code> 플래그의 등가물. 이 플래그는 <code>pwritev2()</code>에만 유효하며 시스템 호출로 기록하는 데이터 범위에만 적용된다. <code>offset</code> 인자가 쓰기 동작에 영향을 주지 않으며 항상 파일 끝에 데이터를 덧붙인다. 다만 <code>offset</code> 인자가 -1이면 현재 파일 오프셋을 갱신한다.</dd>
-</dl>
+`RWF_APPEND` (리눅스 4.16부터)
+:   쓰기별로 지정할 수 있는 <tt>[[open(2)]]</tt> `O_APPEND` 플래그의 등가물. 이 플래그는 `pwritev2()`에만 유효하며 시스템 호출로 기록하는 데이터 범위에만 적용된다. `offset` 인자가 쓰기 동작에 영향을 주지 않으며 항상 파일 끝에 데이터를 덧붙인다. 다만 `offset` 인자가 -1이면 현재 파일 오프셋을 갱신한다.
 
 ## RETURN VALUE
 
@@ -106,14 +99,14 @@ struct iovec {
 
 오류는 `read(2)` 및 `write(2)`에서와 같다. 더불어 `preadv()`, `preadv2()`, `pwritev()`, `pwritev2()`가 <tt>[[lseek(2)]]</tt>과 같은 이유로 실패할 수도 있다. 추가로 다음 오류들이 정의돼 있다.
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>iov_len</code> 값들의 합이 <code>ssize_t</code> 값을 넘치게 한다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>벡터 카운트 <code>iovcnt</code>가 0보다 작거나 허용 최대치보다 크다.</dd>
-<dt><code>EOPNOTSUPP</code></dt>
-<dd><code>flags</code>에 알 수 없는 플래그를 지정했다.</dd>
-</dl>
+`EINVAL`
+:   `iov_len` 값들의 합이 `ssize_t` 값을 넘치게 한다.
+
+`EINVAL`
+:   벡터 카운트 `iovcnt`가 0보다 작거나 허용 최대치보다 크다.
+
+`EOPNOTSUPP`
+:   `flags`에 알 수 없는 플래그를 지정했다.
 
 ## VERSIONS
 

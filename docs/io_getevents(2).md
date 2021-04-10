@@ -39,16 +39,17 @@ struct timespec {
 
 ## ERRORS
 
-<dl>
-<dt><code>EFAULT</code></dt>
-<dd><code>events</code>나 <code>timeout</code>이 유효하지 않은 포인터이다.</dd>
-<dt><code>EINTR</code></dt>
-<dd>시그널 핸들러에 의해 중단되었다. <tt>[[signal(7)]]</tt> 참고.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>ctx_id</code>가 유효하지 않다. <code>min_nr</code>이 범위 밖이거나 <code>nr</code>이 범위 밖이다.</dd>
-<dt><code>ENOSYS</code></dt>
-<dd>이 아키텍처에 <code>io_getevents()</code>가 구현돼 있지 않다.</dd>
-</dl>
+`EFAULT`
+:   `events`나 `timeout`이 유효하지 않은 포인터이다.
+
+`EINTR`
+:   시그널 핸들러에 의해 중단되었다. <tt>[[signal(7)]]</tt> 참고.
+
+`EINVAL`
+:   `ctx_id`가 유효하지 않다. `min_nr`이 범위 밖이거나 `nr`이 범위 밖이다.
+
+`ENOSYS`
+:   이 아키텍처에 `io_getevents()`가 구현돼 있지 않다.
 
 ## VERSIONS
 

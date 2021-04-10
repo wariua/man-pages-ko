@@ -13,29 +13,20 @@ int sethostname(const char *name, size_t len);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>gethostname()</code>:</dt>
-<dd>
- <dl>
- <dt>glibc 2.12부터:</dt>
- <dd>
-<code>_BSD_SOURCE || _XOPEN_SOURCE >= 500</code><br>
-<code>|| /* glibc 2.12부터: */ _POSIX_C_SOURCE >= 200112L</code>
- </dd>
- </dl>
-</dd>
-<dt><code>sethostname()</code>:</dt>
-<dd>
- <dl>
- <dt>glibc 2.21부터:</dt>
- <dd><code>_DEFAULT_SOURCE</code></dd>
- <dt>glibc 2.19 및 2.20:</dt>
- <dd><code>_DEFAULT_SOURCE || (_XOPEN_SOURCE && _XOPEN_SOURCE < 500)</code></dd>
- <dt>glibc 2.19까지:</dt>
- <dd><code>_BSD_SOURCE || (_XOPEN_SOURCE && _XOPEN_SOURCE < 500)</code></dd>
- </dl>
-</dd>
-</dl>
+`gethostname()`:
+:   glibc 2.12부터:
+    :   `_BSD_SOURCE || _XOPEN_SOURCE >= 500`<br>
+        `|| /* glibc 2.12부터: */ _POSIX_C_SOURCE >= 200112L`
+
+`sethostname()`:
+:   glibc 2.21부터:
+    :   `_DEFAULT_SOURCE`
+
+    glibc 2.19 및 2.20:
+    :   `_DEFAULT_SOURCE || (_XOPEN_SOURCE && _XOPEN_SOURCE < 500)`
+
+    glibc 2.19까지:
+    :   `_BSD_SOURCE || (_XOPEN_SOURCE && _XOPEN_SOURCE < 500)`
 
 ## DESCRIPTION
 
@@ -51,16 +42,17 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## ERRORS
 
-<dl>
-<dt><code>EFAULT</code></dt>
-<dd><code>name</code>이 유효하지 않은 주소이다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>len</code>이 음수이거나, <code>sethostname()</code>에서 <code>len</code>이 허용 최대 길이보다 크다.</dd>
-<dt><code>ENAMETOOLONG</code></dt>
-<dd>(glibc <code>gethostname()</code>) <code>len</code>이 실제 크기보다 작다. (버전 2.1 전에서 glibc는 이 경우에 <code>EINVAL</code>을 사용한다.)</dd>
-<dt><code>EPERM</code></dt>
-<dd><code>sethostname()</code>에서 호출자가 자기 UTS 네임스페이스에 연계된 사용자 네임스페이스에서 <code>CAP_SYS_ADMIN</code> 역능을 가지고 있지 않다. (<tt>[[namespaces(7)]]</tt> 참고.)</dd>
-</dl>
+`EFAULT`
+:   `name`이 유효하지 않은 주소이다.
+
+`EINVAL`
+:   `len`이 음수이거나, `sethostname()`에서 `len`이 허용 최대 길이보다 크다.
+
+`ENAMETOOLONG`
+:   (glibc `gethostname()`) `len`이 실제 크기보다 작다. (버전 2.1 전에서 glibc는 이 경우에 `EINVAL`을 사용한다.)
+
+`EPERM`
+:   `sethostname()`에서 호출자가 자기 UTS 네임스페이스에 연계된 사용자 네임스페이스에서 `CAP_SYS_ADMIN` 역능을 가지고 있지 않다. (<tt>[[namespaces(7)]]</tt> 참고.)
 
 ## CONFORMING TO
 

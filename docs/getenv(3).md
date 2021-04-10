@@ -14,10 +14,8 @@ char *secure_getenv(const char *name);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>secure_getenv()</code>:</dt>
-<dd><code>_GNU_SOURCE</code></dd>
-</dl>
+`secure_getenv()`:
+:   `_GNU_SOURCE`
 
 ## DESCRIPTION
 

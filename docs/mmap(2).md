@@ -26,116 +26,99 @@ int munmap(void *addr, size_t length);
 
 `prot` 인자는 매핑에 원하는 메모리 보호 방식을 기술한다. (파일의 열기 모드와 충돌하지 않아야 한다.) `PROT_NONE`이거나 다음 플래그들 중 하나 이상을 비트 OR 한 것이다.
 
-<dl>
-<dt><code>PROT_EXEC</code></dt>
-<dd>페이지를 실행할 수 있다.</dd>
-<dt><code>PROT_READ</code></dt>
-<dd>페이지를 읽을 수 있다.</dd>
-<dt><code>PROT_WRITE</code></dt>
-<dd>페이지에 쓸 수 있다.</dd>
-<dt><code>PROT_NONE</code></dt>
-<dd>페이지에 접근할 수 없다.</dd>
-</dl>
+`PROT_EXEC`
+:   페이지를 실행할 수 있다.
+
+`PROT_READ`
+:   페이지를 읽을 수 있다.
+
+`PROT_WRITE`
+:   페이지에 쓸 수 있다.
+
+`PROT_NONE`
+:   페이지에 접근할 수 없다.
 
 `flags` 인자는 매핑에 대한 갱신 내용이 같은 영역을 맵 하고 있는 다른 프로세스에게 보이는지 여부를, 그리고 그 갱신 내용이 기반 파일까지 가게 되는지 여부를 결정한다. 다음 중 정확히 한 개 값을 `flags`에 집어넣어서 동작 방식을 정한다.
 
-<dl>
-<dt><code>MAP_SHARED</code></dt>
-<dd>매핑을 공유한다. 매핑에 대한 갱신 내용이 같은 영역을 맵 하고 있는 다른 프로세스에게 보이며 (파일 기반 매핑인 경우) 그 갱신 내용이 기반 파일까지 간다. (갱신 내용이 기반 파일로 가는 시점을 정확히 제어하려면 <tt>[[msync(2)]]</tt>를 사용해야 한다.)</dd>
+`MAP_SHARED`
+:   매핑을 공유한다. 매핑에 대한 갱신 내용이 같은 영역을 맵 하고 있는 다른 프로세스에게 보이며 (파일 기반 매핑인 경우) 그 갱신 내용이 기반 파일까지 간다. (갱신 내용이 기반 파일로 가는 시점을 정확히 제어하려면 <tt>[[msync(2)]]</tt>를 사용해야 한다.)
 
-<dt><code>MAP_SHARED_VALIDATE</code> (리눅스 4.15부터)</dt>
-<dd>이 플래그의 동작 방식은 <code>MAP_SHARED</code>와 같되, <code>MAP_SHARED</code> 매핑에서는 <code>flags</code>에 모르는 플래그가 있으면 무시한다는 점이 다르다. 반면 <code>MAP_SHARED_VALIDATE</code>로 매핑을 만들 때는 전달된 플래그들이 모두 알려진 것인지 커널에서 검사해서 모르는 플래그가 있으면 <code>EOPNOTSUPP</code> 오류로 매핑이 실패한다. 또 일부 매핑 플래그(가령 <code>MAP_SYNC</code>)를 사용하려면 이 매핑 유형이 필요하다.</dd>
+`MAP_SHARED_VALIDATE` (리눅스 4.15부터)
+:   이 플래그의 동작 방식은 `MAP_SHARED`와 같되, `MAP_SHARED` 매핑에서는 `flags`에 모르는 플래그가 있으면 무시한다는 점이 다르다. 반면 `MAP_SHARED_VALIDATE`로 매핑을 만들 때는 전달된 플래그들이 모두 알려진 것인지 커널에서 검사해서 모르는 플래그가 있으면 `EOPNOTSUPP` 오류로 매핑이 실패한다. 또 일부 매핑 플래그(가령 `MAP_SYNC`)를 사용하려면 이 매핑 유형이 필요하다.
 
-<dt><code>MAP_PRIVATE</code></dt>
-<dd>비공유 copy-on-write 매핑을 만든다. 매핑에 대한 갱신 내용이 같은 파일을 맵 하고 있는 다른 프로세스에게 보이지 않으며 기반 파일까지 가지 않는다. <code>mmap()</code> 호출 후에 파일에서 일어난 변경 내용이 맵 된 영역에 보이는지 여부는 명세되어 있지 않다.</dd>
-</dl>
+`MAP_PRIVATE`
+:   비공유 copy-on-write 매핑을 만든다. 매핑에 대한 갱신 내용이 같은 파일을 맵 하고 있는 다른 프로세스에게 보이지 않으며 기반 파일까지 가지 않는다. `mmap()` 호출 후에 파일에서 일어난 변경 내용이 맵 된 영역에 보이는지 여부는 명세되어 있지 않다.
 
 `MAP_SHARED`와 `MAP_PRIVATE` 모두 POSIX.1-2001 및 POSIX.1-2008에 기술돼 있다. `MAP_SHARED_VALIDATE`는 리눅스 확장이다.
 
 더불어 `flags`에 다음 값들을 0개 이상 OR 할 수 있다.
 
-<dl>
-<dt><code>MAP_32BIT</code> (리눅스 2.4.20, 2.6부터)</dt>
-<dd>매핑을 프로세스 주소 공간의 처음 2기가바이트 안에 넣는다. x86-64 상에서 64비트 프로그램에만 이 플래그를 지원한다. 스레드 스택을 메모리의 처음 2GB 내의 어딘가에 할당해서 일부 초기 64비트 프로세서들에서 문맥 전환 성능을 개선할 수 있도록 추가된 것이다. 요즘의 x86-64 프로세서에는 이런 성능 문제가 없기 때문에 이 플래그를 쓸 필요가 없다. <code>MAP_FIXED</code>가 설정돼 있는 경우 <code>MAP_32BIT</code> 플래그를 무시한다.</dd>
+`MAP_32BIT` (리눅스 2.4.20, 2.6부터)
+:   매핑을 프로세스 주소 공간의 처음 2기가바이트 안에 넣는다. x86-64 상에서 64비트 프로그램에만 이 플래그를 지원한다. 스레드 스택을 메모리의 처음 2GB 내의 어딘가에 할당해서 일부 초기 64비트 프로세서들에서 문맥 전환 성능을 개선할 수 있도록 추가된 것이다. 요즘의 x86-64 프로세서에는 이런 성능 문제가 없기 때문에 이 플래그를 쓸 필요가 없다. `MAP_FIXED`가 설정돼 있는 경우 `MAP_32BIT` 플래그를 무시한다.
 
-<dt><code>MAP_ANON</code></dt>
-<dd><code>MAP_ANONYMOUS</code>의 동의어. 제거 예정.</dd>
+`MAP_ANON`
+:   `MAP_ANONYMOUS`의 동의어. 제거 예정.
 
-<dt><code>MAP_ANONYMOUS</code></dt>
-<dd>매핑이 파일을 기반으로 하지 않으며 내용물이 0으로 채워진다. <code>fd</code> 인자를 무시한다. 하지만 일부 구현에서는 <code>MAP_ANONYMOUS</code> (또는 <code>MAP_ANON</code>) 지정 시 <code>fd</code>가 -1이기를 요구하므로 이식 가능한 응용에서는 그렇게 하는 게 좋다. <code>offset</code> 인자는 0이어야 할 것이다. <code>MAP_ANONYMOUS</code>를 <code>MAP_SHARED</code>와 결합해 쓰는 것은 리눅스 커널 2.4부터 지원한다.</dd>
+`MAP_ANONYMOUS`
+:   매핑이 파일을 기반으로 하지 않으며 내용물이 0으로 채워진다. `fd` 인자를 무시한다. 하지만 일부 구현에서는 `MAP_ANONYMOUS` (또는 `MAP_ANON`) 지정 시 `fd`가 -1이기를 요구하므로 이식 가능한 응용에서는 그렇게 하는 게 좋다. `offset` 인자는 0이어야 할 것이다. `MAP_ANONYMOUS`를 `MAP_SHARED`와 결합해 쓰는 것은 리눅스 커널 2.4부터 지원한다.
 
-<dt><code>MAP_DENYWRITE</code></dt>
-<dd>이 플래그는 무시한다. (예전에는 (리눅스 2.0 및 그 전에서는) 기반 파일에 대한 쓰기가 <code>ETXTBUSY</code>로 실패해야 한다는 뜻이었다. 하지만 서비스 거부 공격의 원인이 됐다.)</dd>
+`MAP_DENYWRITE`
+:   이 플래그는 무시한다. (예전에는 (리눅스 2.0 및 그 전에서는) 기반 파일에 대한 쓰기가 `ETXTBUSY`로 실패해야 한다는 뜻이었다. 하지만 서비스 거부 공격의 원인이 됐다.)
 
-<dt><code>MAP_EXECUTABLE</code></dt>
-<dd>이 플래그는 무시한다.</dd>
+`MAP_EXECUTABLE`
+:   이 플래그는 무시한다.
 
-<dt><code>MAP_FILE</code></dt>
-<dd>호환용 플래그. 무시한다.</dd>
+`MAP_FILE`
+:   호환용 플래그. 무시한다.
 
-<dt><code>MAP_FIXED</code></dt>
-<dd>
+`MAP_FIXED`
+:   `addr`을 힌트로 해석하지 않는다. 즉 정확히 그 주소에 매핑을 위치시킨다. `addr`이 적절히 정렬돼 있어야 한다. 대부분의 아키텍처에서는 페이지 크기의 배수이면 충분하지만 어떤 아키텍처에서는 추가 제약이 있을 수 있다. `addr`과 `len`으로 지정한 메모리 영역이 기존 매핑(들)의 페이지와 겹치는 경우에는 기존 매핑의 겹치는 부분을 버리게 된다. 지정한 주소를 사용할 수 없으면 `mmap()`이 실패하게 된다.
 
-<code>addr</code>을 힌트로 해석하지 않는다. 즉 정확히 그 주소에 매핑을 위치시킨다. <code>addr</code>이 적절히 정렬돼 있어야 한다. 대부분의 아키텍처에서는 페이지 크기의 배수이면 충분하지만 어떤 아키텍처에서는 추가 제약이 있을 수 있다. <code>addr</code>과 <code>len</code>으로 지정한 메모리 영역이 기존 매핑(들)의 페이지와 겹치는 경우에는 기존 매핑의 겹치는 부분을 버리게 된다. 지정한 주소를 사용할 수 없으면 `mmap()`이 실패하게 된다.
+    이식성이 있기를 바라는 소프트웨어에서는 `MAP_FIXED` 플래그를 조심해서 사용해야 한다. 프로세스 메모리 매핑들의 정확한 배치가 커널 버전, C 라이브러리 버전, 운영 체제 릴리스에 따라 크게 다를 수 있다는 점에 유념해야 한다. *NOTES에 있는 이 플래그에 대한 내용을 주의해서 읽어 보라!*
 
-이식성이 있기를 바라는 소프트웨어에서는 <code>MAP_FIXED</code> 플래그를 조심해서 사용해야 한다. 프로세스 메모리 매핑들의 정확한 배치가 커널 버전, C 라이브러리 버전, 운영 체제 릴리스에 따라 크게 다를 수 있다는 점에 유념해야 한다. <em>NOTES에 있는 이 플래그에 대한 내용을 주의해서 읽어 보라!</em>
-</dd>
+`MAP_FIXED_NOREPLACE` (리눅스 4.17부터)
+:   이 플래그의 동작 방식은 `addr` 강제라는 점에서 `MAP_FIXED`와 비슷한데, `MAP_FIXED_NOREPLACE`는 절대 기존 매핑 범위를 손상시키지 않는다는 점이 다르다. 요청 범위가 기존 매핑과 충돌하려는 경우에 이 호출은 `EEXIST` 오류로 실패한다. 따라서 이 플래그를 사용하면 (다른 스레드들에 대해) 원자적으로 주소 범위 매핑을 시도할 수 있다. 한 스레드만 성공하고 나머지는 실패를 보고하게 된다.
 
-<dt><code>MAP_FIXED_NOREPLACE</code> (리눅스 4.17부터)</dt>
-<dd>
+    참고로 `MAP_FIXED_NOREPLACE` 플래그를 인식하지 못하는 구식 커널들은 (기존 매핑과의 충돌을 탐지했을 때) 보통 "비-`MAP_FIXED`" 동작 방식으로 후퇴하게 된다. 즉 요청한 주소와 다른 주소를 반환하게 된다. 따라서 하위 호환성 있는 소프트웨어에서는 반환 주소가 요청 주소와 같은지 확인할 필요가 있다.
 
-이 플래그의 동작 방식은 <code>addr</code> 강제라는 점에서 <code>MAP_FIXED</code>와 비슷한데, <code>MAP_FIXED_NOREPLACE</code>는 절대 기존 매핑 범위를 손상시키지 않는다는 점이 다르다. 요청 범위가 기존 매핑과 충돌하려는 경우에 이 호출은 <code>EEXIST</code> 오류로 실패한다. 따라서 이 플래그를 사용하면 (다른 스레드들에 대해) 원자적으로 주소 범위 매핑을 시도할 수 있다. 한 스레드만 성공하고 나머지는 실패를 보고하게 된다.
+`MAP_GROWSDOWN`
+:   스택에 쓰는 플래그다. 매핑이 메모리에서 아래 방향으로 늘어나야 한다고 커널 가상 메모리 시스템에게 알린다. 반환 주소는 프로세스 가상 주소 공간에 실제 생성한 메모리 영역보다 한 페이지 아래의 주소이다. 매핑 아래의 그 "방호 구역" 페이지 내의 주소를 건드리면 매핑이 한 페이지만큼 성장하게 된다. 그 성장이 반복될 수 있으며, 매핑이 아래쪽 다음 매핑의 최상단 페이지로 성장해야 하는 시점에 "방호 구역" 페이지를 건드리면 `SIGSEGV` 시그널이 발생하게 된다.
 
-참고로 <code>MAP_FIXED_NOREPLACE</code> 플래그를 인식하지 못하는 구식 커널들은 (기존 매핑과의 충돌을 탐지했을 때) 보통 "비-<code>MAP_FIXED</code>" 동작 방식으로 후퇴하게 된다. 즉 요청한 주소와 다른 주소를 반환하게 된다. 따라서 하위 호환성 있는 소프트웨어에서는 반환 주소가 요청 주소와 같은지 확인할 필요가 있다.
-</dd>
+`MAP_HUGETLB` (리눅스 2.6.32부터)
+:   "거대 페이지"로 매핑을 할당한다. 자세한 내용은 리눅스 커널 소스 파일 `Documentation/admin-guide/mm/hugetlbpage.rst`를 보라. 아래 NOTES도 참고.
 
-<dt><code>MAP_GROWSDOWN</code></dt>
-<dd>스택에 쓰는 플래그다. 매핑이 메모리에서 아래 방향으로 늘어나야 한다고 커널 가상 메모리 시스템에게 알린다. 반환 주소는 프로세스 가상 주소 공간에 실제 생성한 메모리 영역보다 한 페이지 아래의 주소이다. 매핑 아래의 그 "방호 구역" 페이지 내의 주소를 건드리면 매핑이 한 페이지만큼 성장하게 된다. 그 성장이 반복될 수 있으며, 매핑이 아래쪽 다음 매핑의 최상단 페이지로 성장해야 하는 시점에 "방호 구역" 페이지를 건드리면 <code>SIGSEGV</code> 시그널이 발생하게 된다.</dd>
+`MAP_HUGE_2MB`, `MAP_HUGE_1GB` (리눅스 4.8부터)
+:   여러 가지 hugetlb 페이지 크기를 지원하는 시스템에서 `MAP_HUGETLB`와 조합해 사용해서 다른 hugetlb 페이지 크기(각각 2MB와 1GB)를 선택한다.
 
-<dt><code>MAP_HUGETLB</code> (리눅스 2.6.32부터)</dt>
-<dd>"거대 페이지"로 매핑을 할당한다. 자세한 내용은 리눅스 커널 소스 파일 <code>Documentation/admin-guide/mm/hugetlbpage.rst</code>를 보라. 아래 NOTES도 참고.</dd>
+    더 일반적으로는 오프셋 `MAP_HUGE_SHIFT`의 여섯 비트에 원하는 페이지 크기의 밑수 2 로그를 인코딩 해서 원하는 거대 페이지 크기를 설정할 수 있다. (이 비트 필드에서 0 값은 기본 거대 페이지 크기이다. 기본 거대 페이지 크기는 `/proc/meminfo`에 나오는 `Hugepagesize` 필드를 통해 알 수 있다.) 따라서 위 두 상수는 다음과 같이 정의돼 있다.
 
-<dt><code>MAP_HUGE_2MB</code>, <code>MAP_HUGE_1GB</code> (리눅스 4.8부터)</dt>
-<dd>
+        #define MAP_HUGE_2MB    (21 << MAP_HUGE_SHIFT)
+        #define MAP_HUGE_1GB    (30 << MAP_HUGE_SHIFT)
 
-여러 가지 hugetlb 페이지 크기를 지원하는 시스템에서 <code>MAP_HUGETLB</code>와 조합해 사용해서 다른 hugetlb 페이지 크기(각각 2MB와 1GB)를 선택한다.
+    `/sys/kernel/mm/hugepages`의 하위 디렉터리를 확인하면 시스템에서 지원하는 거대 페이지 크기들을 알 수 있다.
 
-더 일반적으로는 오프셋 <code>MAP_HUGE_SHIFT</code>의 여섯 비트에 원하는 페이지 크기의 밑수 2 로그를 인코딩 해서 원하는 거대 페이지 크기를 설정할 수 있다. (이 비트 필드에서 0 값은 기본 거대 페이지 크기이다. 기본 거대 페이지 크기는 <code>/proc/meminfo</code>에 나오는 <code>Hugepagesize</code> 필드를 통해 알 수 있다.) 따라서 위 두 상수는 다음과 같이 정의돼 있다.
+`MAP_LOCKED` (리눅스 2.5.37부터)
+:   맵 한 영역을 <tt>[[mlock(2)]]</tt>과 같은 방식으로 고정하게 표시한다. 여기선 전체 범위를 채우려고 (미리 폴트) 시도는 하지만 실패한 경우에 `mmap()` 호출이 실패하지 않는다. 따라서 이후에 메이저 폴트가 발생할 수도 있다. 즉 <tt>[[mlock(2)]]</tt>만큼 의미론이 강력하지 않다. 매핑 초기화 후의 메이저 폴트를 허용할 수 없다면 `mmap()`에 <tt>[[mlock(2)]]</tt>을 더해서 쓰는 게 좋다. 구식 커널에서는 `MAP_LOCKED` 플래그를 무시한다.
 
-```c
-#define MAP_HUGE_2MB    (21 << MAP_HUGE_SHIFT)
-#define MAP_HUGE_1GB    (30 << MAP_HUGE_SHIFT)
-```
+`MAP_NONBLOCK` (리눅스 2.5.46부터)
+:   이 플래그는 `MAP_POPULATE`와 함께 쓸 때만 의미가 있다. 미리 읽기를 수행하지 않는다. 즉 이미 램 내에 있는 페이지에만 페이지 테이블 항목을 만든다. 리눅스 2.6.23부터는 이 플래그를 쓰면 `MAP_POPULATE`가 아무것도 하지 않게 된다. 언젠가 `MAP_POPULATE`와 `MAP_NONBLOCK`의 조합이 재구현될 수도 있다.
 
-<code>/sys/kernel/mm/hugepages</code>의 하위 디렉터리를 확인하면 시스템에서 지원하는 거대 페이지 크기들을 알 수 있다.
-</dd>
+`MAP_NORESERVE`
+:   이 매핑을 위한 스왑 공간을 예비해 두지 않는다. 스왑 공간이 예비돼 있을 때는 매핑을 변경하는 게 가능하다고 보장된다. 스왑 공간이 예비돼 있지 않을 때는 사용 가능한 물리적 메모리가 없으면 쓰기 시 `SIGSEGV`를 받을 수도 있다. <tt>[[proc(5)]]</tt>의 `/proc/sys/vm/overcommit_memory` 파일 논의도 참고하라. 2.6 전의 커널에서는 비공유 쓰기 가능 매핑에만 이 플래그가 효과가 있었다.
 
-<dt><code>MAP_LOCKED</code> (리눅스 2.5.37부터)</dt>
-<dd>맵 한 영역을 <tt>[[mlock(2)]]</tt>과 같은 방식으로 고정하게 표시한다. 여기선 전체 범위를 채우려고 (미리 폴트) 시도는 하지만 실패한 경우에 <code>mmap()</code> 호출이 실패하지 않는다. 따라서 이후에 메이저 폴트가 발생할 수도 있다. 즉 <tt>[[mlock(2)]]</tt>만큼 의미론이 강력하지 않다. 매핑 초기화 후의 메이저 폴트를 허용할 수 없다면 <code>mmap()</code>에 <tt>[[mlock(2)]]</tt>을 더해서 쓰는 게 좋다. 구식 커널에서는 <code>MAP_LOCKED</code> 플래그를 무시한다.</dd>
+`MAP_POPULATE` (리눅스 2.5.46부터)
+:   매핑에 대한 페이지 테이블을 채운다 (미리 폴트). 파일 매핑인 경우 파일에서 미리 읽기를 하게 한다. 이후 페이지 폴트에서 막히는 걸 줄이는 데 도움이 될 것이다. 비공유 매핑에는 리눅스 2.6.23부터 `MAP_POPULATE`를 지원한다.
 
-<dt><code>MAP_NONBLOCK</code> (리눅스 2.5.46부터)</dt>
-<dd>이 플래그는 <code>MAP_POPULATE</code>와 함께 쓸 때만 의미가 있다. 미리 읽기를 수행하지 않는다. 즉 이미 램 내에 있는 페이지에만 페이지 테이블 항목을 만든다. 리눅스 2.6.23부터는 이 플래그를 쓰면 <code>MAP_POPULATE</code>가 아무것도 하지 않게 된다. 언젠가 <code>MAP_POPULATE</code>와 <code>MAP_NONBLOCK</code>의 조합이 재구현될 수도 있다.</dd>
+`MAP_STACK` (리눅스 2.6.27부터)
+:   프로세스나 스레드 스택에 적합한 주소에 매핑을 할당한다. 이 플래그는 현재 no-op지만 glibc 스레딩 구현에서 사용하는데, 일부 아키텍처에서 스택 할당에 특별한 처리를 요하는 경우 나중에 투명하게 지원을 구현할 수 있기 위해서다.
 
-<dt><code>MAP_NORESERVE</code></dt>
-<dd>이 매핑을 위한 스왑 공간을 예비해 두지 않는다. 스왑 공간이 예비돼 있을 때는 매핑을 변경하는 게 가능하다고 보장된다. 스왑 공간이 예비돼 있지 않을 때는 사용 가능한 물리적 메모리가 없으면 쓰기 시 <code>SIGSEGV</code>를 받을 수도 있다. <tt>[[proc(5)]]</tt>의 <code>/proc/sys/vm/overcommit_memory</code> 파일 논의도 참고하라. 2.6 전의 커널에서는 비공유 쓰기 가능 매핑에만 이 플래그가 효과가 있었다.</dd>
+`MAP_SYNC` (리눅스 4.15부터)
+:   이 플래그는 `MAP_SHARED_VALIDATE` 매핑 유형에만 사용 가능하다. `MAP_SHARED` 유형 매핑에서는 이 플래그를 조용히 무시한다. DAX(영속 메모리 직접 매핑) 지원 파일에서만 이 플래그를 지원한다. 그렇지 않은 파일에서 이 플래그로 매핑을 만들려고 하면 `EOPNOTSUPP` 오류가 발생한다.
 
-<dt><code>MAP_POPULATE</code> (리눅스 2.5.46부터)</dt>
-<dd>매핑에 대한 페이지 테이블을 채운다 (미리 폴트). 파일 매핑인 경우 파일에서 미리 읽기를 하게 한다. 이후 페이지 폴트에서 막히는 걸 줄이는 데 도움이 될 것이다. 비공유 매핑에는 리눅스 2.6.23부터 <code>MAP_POPULATE</code>를 지원한다.</dd>
+    이 플래그를 쓴 공유 파일 매핑에서는 프로세스 주소 공간에 어떤 메모리가 쓰기 가능하게 맵 되어 있는 동안에 시스템이 죽거나 재부팅 된 후에도 동일 파일의 동일 오프셋에서 그 내용을 볼 수 있다고 보장된다. 적절한 CPU 인스트럭션과 함께 사용하면 더 효율적인 방식으로 데이터 변경을 영속시키는 매핑이 가능해진다.
 
-<dt><code>MAP_STACK</code> (리눅스 2.6.27부터)</dt>
-<dd>프로세스나 스레드 스택에 적합한 주소에 매핑을 할당한다. 이 플래그는 현재 no-op지만 glibc 스레딩 구현에서 사용하는데, 일부 아키텍처에서 스택 할당에 특별한 처리를 요하는 경우 나중에 투명하게 지원을 구현할 수 있기 위해서다.</dd>
-
-<dt><code>MAP_SYNC</code> (리눅스 4.15부터)</dt>
-<dd>
-
-이 플래그는 <code>MAP_SHARED_VALIDATE</code> 매핑 유형에만 사용 가능하다. <code>MAP_SHARED</code> 유형 매핑에서는 이 플래그를 조용히 무시한다. DAX(영속 메모리 직접 매핑) 지원 파일에서만 이 플래그를 지원한다. 그렇지 않은 파일에서 이 플래그로 매핑을 만들려고 하면 <code>EOPNOTSUPP</code> 오류가 발생한다.
-
-이 플래그를 쓴 공유 파일 매핑에서는 프로세스 주소 공간에 어떤 메모리가 쓰기 가능하게 맵 되어 있는 동안에 시스템이 죽거나 재부팅 된 후에도 동일 파일의 동일 오프셋에서 그 내용을 볼 수 있다고 보장된다. 적절한 CPU 인스트럭션과 함께 사용하면 더 효율적인 방식으로 데이터 변경을 영속시키는 매핑이 가능해진다.
-</dd>
-
-<dt><code>MAP_UNINITIALIZED</code> (리눅스 2.6.33부터)</dt>
-<dd>익명 페이지 내용을 비우지 않는다. 이 플래그는 임베디드 장치에서 성능을 개선하기 위한 것이다. 커널이 <code>CONFIG_MMAP_ALLOW_UNINITIALIZED</code> 옵션으로 구성된 경우에만 이 플래그를 따른다. 보안적 함의 때문에 보통 임베디드 장치에서만 (즉 사용자 메모리 내용물에 완전한 통제가 이뤄지는 장치에서만) 이 옵션을 켠다.</dd>
-</dl>
+`MAP_UNINITIALIZED` (리눅스 2.6.33부터)
+:   익명 페이지 내용을 비우지 않는다. 이 플래그는 임베디드 장치에서 성능을 개선하기 위한 것이다. 커널이 `CONFIG_MMAP_ALLOW_UNINITIALIZED` 옵션으로 구성된 경우에만 이 플래그를 따른다. 보안적 함의 때문에 보통 임베디드 장치에서만 (즉 사용자 메모리 내용물에 완전한 통제가 이뤄지는 장치에서만) 이 옵션을 켠다.
 
 위 플래그들 중 `MAP_FIXED`만 POSIX.1-2001 및 POSIX.1-2008에 명세되어 있다. 하지만 많은 시스템에서 `MAP_ANONYMOUS`도 (또는 동의어인 `MAP_ANON`을) 지원한다.
 
@@ -157,49 +140,61 @@ int munmap(void *addr, size_t length);
 
 ## ERRORS
 
-<dl>
-<dt><code>EACCES</code></dt>
-<dd>파일 디스크립터가 비정규 파일을 가리키고 있다. 또는 파일 매핑을 요청했는데 <code>fd</code>가 읽기 가능하게 열려 있지 않다. 또는 <code>MAP_SHARED</code>를 요청했고 <code>PROT_WRITE</code>가 설정돼 있는데 <code>fd</code>가 읽기/쓰기 모드(<code>O_RDWR</code>)로 열려 있지 않다. 또는 <code>PROT_WRITE</code>가 설정돼 있는데 파일이 덧붙임 전용이다.</dd>
-<dt><code>EAGAIN</code></dt>
-<dd>파일이 잠겨 있거나 너무 많은 메모리가 고정돼 있다. (<tt>[[setrlimit(2)]]</tt> 참고.)</dd>
-<dt><code>EBADF</code></dt>
-<dd><code>fd</code>가 유효한 파일 디스크립터가 아니다. (그리고 <code>MAP_ANONYMOUS</code>를 설정하지 않았다.)</dd>
-<dt><code>EEXIST</code></dt>
-<dd><code>flags</code>에 <code>MAP_FIXED_NOREPLACE</code>를 지정했으며 <code>addr</code>과 <code>length</code>가 나타내는 범위가 기존 매핑과 충돌한다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>addr</code>, <code>length</code>, <code>offset</code>이 마음에 들지 않는다. (가령 너무 크거나 페이지 경계에 정렬돼 있지 않다.)</dd>
-<dt><code>EINVAL</code></dt>
-<dd>(리눅스 2.6.12부터) <code>length</code>가 0이다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>flags</code>에 <code>MAP_PRIVATE</code>과 <code>MAP_SHARED</code> 어느 쪽도 없거나 둘 다 포함돼 있다.</dd>
-<dt><code>ENFILE</code></dt>
-<dd>열린 파일 총개수에 대한 시스템 전역 제한에 도달했다.</dd>
-<dt><code>ENODEV</code></dt>
-<dd>지정한 파일의 기반 파일 시스템이 메모리 매핑을 지원하지 않는다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>사용 가능한 메모리가 없다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>프로세스의 매핑 최대 개수를 초과하려 했다. <code>munmap()</code>에서도 이 오류가 발생할 수 있는데, 기존 매핑의 중간 부분을 맵 해제하면 그 양쪽으로 작은 매핑 두 개가 생기기 때문이다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>(리눅스 4.7부터) 프로세스의 <code>RLIMIT_DATA</code> 제한(<tt>[[getrlimit(2)]]</tt>에서 설명함)을 초과하려 했다.</dd>
-<dt><code>EOVERFLOW</code></dt>
-<dd>32비트 아키텍처에 큰 파일 확장(즉 64비트 <code>off_t</code>)을 쓰는 경우: <code>length</code>를 위한 페이지 개수에 <code>offset</code>을 위한 페이지 개수를 더하면 <code>unsigned long</code>(32비트)을 넘게 된다.</dd>
-<dt><code>EPERM</code></dt>
-<dd><code>prot</code> 인자에서 <code>PROT_EXEC</code>를 요청하는데 맵 영역이 실행 불가능하게 마운트 된 파일 시스템 상의 파일에 속해 있다.</dd>
-<dt><code>EPERM</code></dt>
-<dd>파일 봉인 때문에 동작이 막혔다. <tt>[[fcntl(2)]]</tt> 참고.</dd>
-<dt><code>ETXTBSY</code></dt>
-<dd><code>MAP_DENYWRITE</code>가 설정돼 있지만 <code>fd</code>로 지정한 객체가 쓰기 가능하게 열려 있다.</dd>
-</dl>
+`EACCES`
+:   파일 디스크립터가 비정규 파일을 가리키고 있다. 또는 파일 매핑을 요청했는데 `fd`가 읽기 가능하게 열려 있지 않다. 또는 `MAP_SHARED`를 요청했고 `PROT_WRITE`가 설정돼 있는데 `fd`가 읽기/쓰기 모드(`O_RDWR`)로 열려 있지 않다. 또는 `PROT_WRITE`가 설정돼 있는데 파일이 덧붙임 전용이다.
+
+`EAGAIN`
+:   파일이 잠겨 있거나 너무 많은 메모리가 고정돼 있다. (<tt>[[setrlimit(2)]]</tt> 참고.)
+
+`EBADF`
+:   `fd`가 유효한 파일 디스크립터가 아니다. (그리고 `MAP_ANONYMOUS`를 설정하지 않았다.)
+
+`EEXIST`
+:   `flags`에 `MAP_FIXED_NOREPLACE`를 지정했으며 `addr`과 `length`가 나타내는 범위가 기존 매핑과 충돌한다.
+
+`EINVAL`
+:   `addr`, `length`, `offset`이 마음에 들지 않는다. (가령 너무 크거나 페이지 경계에 정렬돼 있지 않다.)
+
+`EINVAL`
+:   (리눅스 2.6.12부터) `length`가 0이다.
+
+`EINVAL`
+:   `flags`에 `MAP_PRIVATE`과 `MAP_SHARED` 어느 쪽도 없거나 둘 다 포함돼 있다.
+
+`ENFILE`
+:   열린 파일 총개수에 대한 시스템 전역 제한에 도달했다.
+
+`ENODEV`
+:   지정한 파일의 기반 파일 시스템이 메모리 매핑을 지원하지 않는다.
+
+`ENOMEM`
+:   사용 가능한 메모리가 없다.
+
+`ENOMEM`
+:   프로세스의 매핑 최대 개수를 초과하려 했다. `munmap()`에서도 이 오류가 발생할 수 있는데, 기존 매핑의 중간 부분을 맵 해제하면 그 양쪽으로 작은 매핑 두 개가 생기기 때문이다.
+
+`ENOMEM`
+:   (리눅스 4.7부터) 프로세스의 `RLIMIT_DATA` 제한(<tt>[[getrlimit(2)]]</tt>에서 설명함)을 초과하려 했다.
+
+`EOVERFLOW`
+:   32비트 아키텍처에 큰 파일 확장(즉 64비트 `off_t`)을 쓰는 경우: `length`를 위한 페이지 개수에 `offset`을 위한 페이지 개수를 더하면 `unsigned long`(32비트)을 넘게 된다.
+
+`EPERM`
+:   `prot` 인자에서 `PROT_EXEC`를 요청하는데 맵 영역이 실행 불가능하게 마운트 된 파일 시스템 상의 파일에 속해 있다.
+
+`EPERM`
+:   파일 봉인 때문에 동작이 막혔다. <tt>[[fcntl(2)]]</tt> 참고.
+
+`ETXTBSY`
+:   `MAP_DENYWRITE`가 설정돼 있지만 `fd`로 지정한 객체가 쓰기 가능하게 열려 있다.
 
 맵 한 영역을 사용할 때 다음 시그널이 발생할 수 있다.
 
-<dl>
-<dt><code>SIGSEGV</code></dt>
-<dd>읽기 전용으로 맵 한 영역에 쓰기를 시도했다.</dd>
-<dt><code>SIGBUG</code></dt>
-<dd>파일에 대응하지 않는 버퍼 부분에 접근을 시도했다. (예를 들어 파일 끝 너머에 접근하기. 다른 프로세스가 파일을 잘라내는 경우 포함.)</dd>
-</dl>
+`SIGSEGV`
+:   읽기 전용으로 맵 한 영역에 쓰기를 시도했다.
+
+`SIGBUG`
+:   파일에 대응하지 않는 버퍼 부분에 접근을 시도했다. (예를 들어 파일 끝 너머에 접근하기. 다른 프로세스가 파일을 잘라내는 경우 포함.)
 
 ## ATTRIBUTES
 

@@ -14,16 +14,13 @@ int syncfs(int fd);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>sync()</code>:</dt>
-<dd>
-<code>_XOPEN_SOURCE >= 500</code><br>
-<code>    || /* glibc 2.19부터: */ _DEFAULT_SOURCE</code><br>
-<code>    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE</code>
-</dd>
-<dt><code>syncfs()</code>:</dt>
-<dd><code>_GNU_SOURCE</code></dd>
-</dl>
+`sync()`:
+:   `_XOPEN_SOURCE >= 500`<br>
+    `    || /* glibc 2.19부터: */ _DEFAULT_SOURCE`<br>
+    `    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE`
+
+`syncfs()`:
+:   `_GNU_SOURCE`
 
 ## DESCRIPTION
 
@@ -41,10 +38,8 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 `syncfs()`는 적어도 다음 이유로 실패할 수 있다.
 
-<dl>
-<dt><code>EBADF</code></dt>
-<dd><code>fd</code>가 유효한 파일 디스크립터가 아니다.</dd>
-</dl>
+`EBADF`
+:   `fd`가 유효한 파일 디스크립터가 아니다.
 
 ## VERSIONS
 

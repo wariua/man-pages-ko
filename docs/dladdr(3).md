@@ -36,79 +36,67 @@ typedef struct {
 
 `dladdr1()` 함수는 `dladdr()`과 비슷하되 `extra_info` 인자를 통해 추가 정보를 반환한다. 반환되는 정보는 `flags`에 지정한 값에 따라 달라지는데, 다음 값들 중 하나를 지정할 수 있다.
 
-<dl>
-<dt><code>RTLD_DL_LINKMAP</code></dt>
-<dd>
+`RTLD_DL_LINKMAP`
+:   걸린 파일의 링크 맵에 대한 포인터를 반환한다. `extra_info` 인자가 `link_map` 구조체에 대한 포인터를 가리킨다. (즉 `struct link_map **`이다.) 그 구조체는 `<link.h>`에 다음과 같이 정의돼 있다.
 
-걸린 파일의 링크 맵에 대한 포인터를 반환한다. <code>extra_info</code> 인자가 <code>link_map</code> 구조체에 대한 포인터를 가리킨다. (즉 <code>struct link_map **</code>이다.) 그 구조체는 <code>&lt;link.h&gt;</code>에 다음과 같이 정의돼 있다.
+        struct link_map {
+            ElfW(Addr) l_addr;  /* ELF 파일 내 주소와
+                                   메모리 내 주소의 차이 */
+            char      *l_name;  /* 오브젝트를 찾은
+                                   절대 경로명 */
+            ElfW(Dyn) *l_ld;    /* 공유 오브젝트의
+                                   dynamic 섹션 */
+            struct link_map *l_next, *l_prev;
+                                /* 적재된 오브젝트들을 연결 */
 
-```c
-struct link_map {
-    ElfW(Addr) l_addr;  /* ELF 파일 내 주소와
-                           메모리 내 주소의 차이 */
-    char      *l_name;  /* 오브젝트를 찾은
-                           절대 경로명 */
-    ElfW(Dyn) *l_ld;    /* 공유 오브젝트의
-                           dynamic 섹션 */
-    struct link_map *l_next, *l_prev;
-                        /* 적재된 오브젝트들을 연결 */
+            /* 더해서 구현 내부용 필드들이
+               추가로 있음 */
+        };
 
-    /* 더해서 구현 내부용 필드들이
-       추가로 있음 */
-};
-```
-</dd>
+`RTLD_DL_SYMENT`
+:   대응하는 심볼의 ELF 심볼 테이블 항목에 대한 포인터를 얻는다. `extra_info` 인자가 심볼 포인터에 대한 포인터, 즉 `const ElfW(Sym) **`이다. `ElfW()` 매크로는 그 인자를 하드웨어 아키텍처에 맞는 ELF 데이터 타입 이름으로 바꿔 준다. 예를 들어 64비트 플랫폼에서 `ElfW(Sym)`은 데이터 타입 이름 `Elf64_Sym`을 내놓는데, 이는 `<elf.h>`에 다음처럼 정의돼 있다.
 
-<dt><code>RTLD_DL_SYMENT</code></dt>
-<dd>
+        typedef struct  {
+            Elf64_Word    st_name;     /* 심볼 이름 */
+            unsigned char st_info;     /* 심볼 타입 및 바인딩 */
+            unsigned char st_other;    /* 심볼 가시성 */
+            Elf64_Section st_shndx;    /* 섹션 인덱스 */
+            Elf64_Addr    st_value;    /* 심볼 값 */
+            Elf64_Xword   st_size;     /* 심볼 크기 */
+        } Elf64_Sym;
 
-대응하는 심볼의 ELF 심볼 테이블 항목에 대한 포인터를 얻는다. <code>extra_info</code> 인자가 심볼 포인터에 대한 포인터, 즉 <code>const ElfW(Sym) **</code>이다. <code>ElfW()</code> 매크로는 그 인자를 하드웨어 아키텍처에 맞는 ELF 데이터 타입 이름으로 바꿔 준다. 예를 들어 64비트 플랫폼에서 <code>ElfW(Sym)</code>은 데이터 타입 이름 <code>Elf64_Sym</code>을 내놓는데, 이는 <code>&lt;elf.h&gt;</code>에 다음처럼 정의돼 있다.
+    `st_name` 필드는 문자열 테이블의 인덱스이다.
 
-```c
-typedef struct  {
-    Elf64_Word    st_name;     /* 심볼 이름 */
-    unsigned char st_info;     /* 심볼 타입 및 바인딩 */
-    unsigned char st_other;    /* 심볼 가시성 */
-    Elf64_Section st_shndx;    /* 섹션 인덱스 */
-    Elf64_Addr    st_value;    /* 심볼 값 */
-    Elf64_Xword   st_size;     /* 심볼 크기 */
-} Elf64_Sym;
-```
+    `st_info` 필드는 심볼의 타입과 바인딩을 담는다. 매크로 `ELF64_ST_TYPE(st_info)`으로 (32비트 플랫폼에서는 `ELF32_ST_TYPE()`으로) 타입을 뽑아낼 수 있으며 다음 값들 중 하나가 나온다.
 
-<code>st_name</code> 필드는 문자열 테이블의 인덱스이다.
+    | 값              | 설명                                 |
+    | --------------- | ------------------------------------ |
+    | `STT_NOTYPE`    | 심볼 타입이 지정돼 있지 않음         |
+    | `STT_OBJECT`    | 심볼이 데이터 오브젝트임             |
+    | `STT_FUNC`      | 심볼이 코드 오브젝트임               |
+    | `STT_SECTION`   | 섹션에 연계된 심볼                   |
+    | `STT_FILE`      | 심볼 이름이 파일 이름임              |
+    | `STT_COMMON`    | 심볼이 공용 데이터 오브젝트임        |
+    | `STT_TLS`       | 심볼이 스레드 로컬 데이터 오브젝트임 |
+    | `STT_GNU_IFUNC` | 심볼이 간접 코드 오브젝트임          |
 
-<code>st_info</code> 필드는 심볼의 타입과 바인딩을 담는다. 매크로 <code>ELF64_ST_TYPE(st_info)</code>으로 (32비트 플랫폼에서는 <code>ELF32_ST_TYPE()</code>으로) 타입을 뽑아낼 수 있으며 다음 값들 중 하나가 나온다.
+    매크로 `ELF64_ST_BIND(st_info)`로 (32비트 플랫폼에서는 `ELF32_ST_BIND()`로) `st_info` 필드에서 심볼 바인딩을 뽑아낼 수 있으며 다음 값들 중 하나가 나온다.
 
-| 값              | 설명                                 |
-| --------------- | ------------------------------------ |
-| `STT_NOTYPE`    | 심볼 타입이 지정돼 있지 않음         |
-| `STT_OBJECT`    | 심볼이 데이터 오브젝트임             |
-| `STT_FUNC`      | 심볼이 코드 오브젝트임               |
-| `STT_SECTION`   | 섹션에 연계된 심볼                   |
-| `STT_FILE`      | 심볼 이름이 파일 이름임              |
-| `STT_COMMON`    | 심볼이 공용 데이터 오브젝트임        |
-| `STT_TLS`       | 심볼이 스레드 로컬 데이터 오브젝트임 |
-| `STT_GNU_IFUNC` | 심볼이 간접 코드 오브젝트임          |
+    | 값               | 설명      |
+    | ---------------- | --------- |
+    | `STB_LOCAL`      | 지역 심볼 |
+    | `STB_GLOBAL`     | 전역 심볼 |
+    | `STB_WEAK`       | 약한 심볼 |
+    | `STB_GNU_UNIQUE` | 유일 심볼 |
 
-매크로 <code>ELF64_ST_BIND(st_info)</code>로 (32비트 플랫폼에서는 <code>ELF32_ST_BIND()</code>로) <code>st_info</code> 필드에서 심볼 바인딩을 뽑아낼 수 있으며 다음 값들 중 하나가 나온다.
+    `st_other` 필드는 심볼의 가시성을 담고 있는데 매크로 `ELF64_ST_VISIBILITY(st_info)`로 (32비트 플랫폼에서는 `ELF32_ST_VISIBILITY()`로) 뽑아낼 수 있으며 다음 값들 중 하나가 나온다.
 
-| 값               | 설명      |
-| ---------------- | --------- |
-| `STB_LOCAL`      | 지역 심볼 |
-| `STB_GLOBAL`     | 전역 심볼 |
-| `STB_WEAK`       | 약한 심볼 |
-| `STB_GNU_UNIQUE` | 유일 심볼 |
-
-<code>st_other</code> 필드는 심볼의 가시성을 담고 있는데 매크로 <code>ELF64_ST_VISIBILITY(st_info)</code>로 (32비트 플랫폼에서는 <code>ELF32_ST_VISIBILITY()</code>로) 뽑아낼 수 있으며 다음 값들 중 하나가 나온다.
-
-| 값              | 설명                             |
-| --------------- | -------------------------------- |
-| `STV_DEFAULT`   | 심볼 가시성 기본 규칙            |
-| `STV_INTERNAL`  | 프로세서별 숨기기 수준           |
-| `STV_HIDDEN`    | 다른 모듈에서 사용 불가능한 심볼 |
-| `STV_PROTECTED` | 선취 불가능, 내보이지 않음       |
-</dd>
-</dl>
+    | 값              | 설명                             |
+    | --------------- | -------------------------------- |
+    | `STV_DEFAULT`   | 심볼 가시성 기본 규칙            |
+    | `STV_INTERNAL`  | 프로세서별 숨기기 수준           |
+    | `STV_HIDDEN`    | 다른 모듈에서 사용 불가능한 심볼 |
+    | `STV_PROTECTED` | 선취 불가능, 내보이지 않음       |
 
 ## RETURN VALUE
 

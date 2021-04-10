@@ -26,13 +26,11 @@ void *mremap(void *old_address, size_t old_size,
 
 `flags` 비트 마스크 인자는 0이거나 다음 플래그를 포함할 수 있다.
 
-<dl>
-<dt><code>MREMAP_MAYMOVE</code></dt>
-<dd>기본적으로 현재 위치에서 매핑을 확장할 충분한 공간이 없으면 <code>mremap()</code>이 실패한다. 이 플래그를 지정하면 필요시 커널에서 매핑을 재배치하는 것을 허용한다. 매핑이 재배치되면 이전 매핑 위치에 대한 절대 포인터가 유효하지 않게 된다. (매핑 시작 주소를 기준으로 한 오프셋을 쓰는 게 좋다.)</dd>
+`MREMAP_MAYMOVE`
+:   기본적으로 현재 위치에서 매핑을 확장할 충분한 공간이 없으면 `mremap()`이 실패한다. 이 플래그를 지정하면 필요시 커널에서 매핑을 재배치하는 것을 허용한다. 매핑이 재배치되면 이전 매핑 위치에 대한 절대 포인터가 유효하지 않게 된다. (매핑 시작 주소를 기준으로 한 오프셋을 쓰는 게 좋다.)
 
-<dt><code>MREMAP_FIXED</code> (리눅스 2.3.31부터)</dt>
-<dd>이 플래그는 <tt>[[mmap(2)]]</tt>의 <code>MAP_FIXED</code> 플래그와 비슷한 역할을 한다. 이 플래그를 지정하면 <code>mremap()</code>이 다섯 번째 인자 <code>void *new_address</code>를 받는데 그 인자는 매핑을 이동시킬 페이지 정렬 주소를 나타낸다. <code>new_address</code>와 <code>new_size</code>로 지정한 주소 범위에 기존 매핑이 있으면 맵을 해제한다. <code>MREMAP_FIXED</code>를 지정하는 경우 <code>MREMAP_MAYMOVE</code>도 함께 지정해야 한다.</dd>
-</dl>
+`MREMAP_FIXED` (리눅스 2.3.31부터)
+:   이 플래그는 <tt>[[mmap(2)]]</tt>의 `MAP_FIXED` 플래그와 비슷한 역할을 한다. 이 플래그를 지정하면 `mremap()`이 다섯 번째 인자 `void *new_address`를 받는데 그 인자는 매핑을 이동시킬 페이지 정렬 주소를 나타낸다. `new_address`와 `new_size`로 지정한 주소 범위에 기존 매핑이 있으면 맵을 해제한다. `MREMAP_FIXED`를 지정하는 경우 `MREMAP_MAYMOVE`도 함께 지정해야 한다.
 
 `old_address`와 `old_size`로 지정한 메모리 세그먼트가 (<tt>[[mlock(2)]]</tt> 등으로) 잠겨 있으면 세그먼트 크기 조정 및/또는 재배치 과정에서 그 잠김이 유지된다. 그에 따라 프로세스에 의해 잠긴 메모리 양이 바뀔 수 있다.
 
@@ -42,28 +40,26 @@ void *mremap(void *old_address, size_t old_size,
 
 ## ERRORS
 
-<dl>
-<dt><code>EAGAIN</code></dt>
-<dd>호출자가 잠긴 메모리 세그먼트를 확장하려 했는데 <code>RLIMIT_MEMLOCK</code> 자원 제한을 초과하지 않고는 불가능하다.</dd>
-<dt><code>EFAULT</code></dt>
-<dd>"세그멘테이션 폴트". <code>old_address</code>에서 <code>old_address+old_size</code>까지 범위 내의 어떤 주소가 이 프로세스에게 유효하지 않은 가상 메모리 주소이다. 요청한 주소 공간 전체를 포괄하는 매핑들이 존재하지만 그 매핑들이 서로 다른 유형인 경우에도 <code>EFAULT</code>를 받을 수 있다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>
+`EAGAIN`
+:   호출자가 잠긴 메모리 세그먼트를 확장하려 했는데 `RLIMIT_MEMLOCK` 자원 제한을 초과하지 않고는 불가능하다.
 
-유효하지 않은 인자를 주었다. 가능한 원인은 다음과 같다.
+`EFAULT`
+:   "세그멘테이션 폴트". `old_address`에서 `old_address+old_size`까지 범위 내의 어떤 주소가 이 프로세스에게 유효하지 않은 가상 메모리 주소이다. 요청한 주소 공간 전체를 포괄하는 매핑들이 존재하지만 그 매핑들이 서로 다른 유형인 경우에도 `EFAULT`를 받을 수 있다.
 
-* <code>old_address</code>가 페이지에 정렬되어 있지 않다.
-* <code>flags</code>에 <code>MREMAP_MAYMOVE</code>와 <code>MREMAP_FIXED</code> 외의 값을 지정했다.
-* <code>new_size</code>가 0이다.
-* <code>new_size</code>나 <code>new_address</code>가 유효하지 않다.
-* <code>new_address</code>와 <code>new_size</code>로 지정한 새 주소 범위가 <code>old_address</code>와 <code>old_size</code>로 지정한 이전 주소 범위와 겹친다.
-* <code>MREMAP_FIXED</code>를 지정하면서 <code>MREMAP_MAYMOVE</code>를 함께 지정하지 않았다.
-* <code>old_size</code>가 0인데 <code>old_address</code>가 공유 가능 매핑을 가리키고 있지 않다. (하지만 BUGS 참고.)
-* <code>old_size</code>가 0인데 <code>MREMAP_MAYMOVE</code> 플래그를 지정하지 않았다.
-</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>현재 가상 주소에서 메모리 영역을 확장할 수 없으며 <code>flags</code>에 <code>MREMAP_MAYMOVE</code>가 설정돼 있지 않다. 또는 쓸 수 있는 (가상) 메모리가 충분치 않다.</dd>
-</dl>
+`EINVAL`
+:   유효하지 않은 인자를 주었다. 가능한 원인은 다음과 같다.
+
+    * `old_address`가 페이지에 정렬되어 있지 않다.
+    * `flags`에 `MREMAP_MAYMOVE`와 `MREMAP_FIXED` 외의 값을 지정했다.
+    * `new_size`가 0이다.
+    * `new_size`나 `new_address`가 유효하지 않다.
+    * `new_address`와 `new_size`로 지정한 새 주소 범위가 `old_address`와 `old_size`로 지정한 이전 주소 범위와 겹친다.
+    * `MREMAP_FIXED`를 지정하면서 `MREMAP_MAYMOVE`를 함께 지정하지 않았다.
+    * `old_size`가 0인데 `old_address`가 공유 가능 매핑을 가리키고 있지 않다. (하지만 BUGS 참고.)
+    * `old_size`가 0인데 `MREMAP_MAYMOVE` 플래그를 지정하지 않았다.
+
+`ENOMEM`
+:   현재 가상 주소에서 메모리 영역을 확장할 수 없으며 `flags`에 `MREMAP_MAYMOVE`가 설정돼 있지 않다. 또는 쓸 수 있는 (가상) 메모리가 충분치 않다.
 
 ## CONFORMING TO
 
@@ -83,7 +79,7 @@ glibc 버전 2.4 전에서는 `MREMAP_FIXED` 정의를 노출하지 않았으며
 
 <tt>[[brk(2)]]</tt>, <tt>[[getpagesize(2)]]</tt>, <tt>[[getrlimit(2)]]</tt>, <tt>[[mlock(2)]]</tt>, <tt>[[mmap(2)]]</tt>, <tt>[[sbrk(2)]]</tt>, <tt>[[malloc(3)]]</tt>, <tt>[[realloc(3)]]</tt>
 
-메모리 페이징에 대한 자세한 내용은 좋아하는 운영 체제 교과서(가령 Andrew S. Tanenbaum의 <em>Modern Operating System</em>, Randolf Bentson의 <em>Inside Linux</em>, Maurice J. Bach의 <em>The Design of the UNIX Operating System</em>)를 보라.
+메모리 페이징에 대한 자세한 내용은 좋아하는 운영 체제 교과서(가령 Andrew S. Tanenbaum의 *Modern Operating System*, Randolf Bentson의 *Inside Linux*, Maurice J. Bach의 *The Design of the UNIX Operating System*)를 보라.
 
 ----
 

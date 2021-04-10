@@ -22,12 +22,11 @@ int inotify_rm_watch(int fd, int wd);
 
 ## ERRORS
 
-<dl>
-<dt><code>EBADF</code></dt>
-<dd><code>fd</code>가 유효한 파일 디스크립터가 아니다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>감시 디스크립터 <code>wd</code>가 유효하지 않다. 또는 <code>fd</code>가 inotify 파일 디스크립터가 아니다.</dd>
-</dl>
+`EBADF`
+:   `fd`가 유효한 파일 디스크립터가 아니다.
+
+`EINVAL`
+:   감시 디스크립터 `wd`가 유효하지 않다. 또는 `fd`가 inotify 파일 디스크립터가 아니다.
 
 ## VERSIONS
 

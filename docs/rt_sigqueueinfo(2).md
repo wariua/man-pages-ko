@@ -23,27 +23,17 @@ int rt_tgsigqueueinfo(pid_t tgid, pid_t tid, int sig,
 
 `uinfo` 인자는 시그널에 동반되는 데이터를 나타낸다. 이 인자는 <tt>[[sigaction(2)]]</tt>에 기술된 (그리고 `<sigaction.h>`를 포함시켜서 정의하는) `siginfo_t` 타입의 구조체에 대한 포인터이다. 호출자가 이 구조체의 다음 필드들을 설정해야 한다.
 
-<dl>
-<dt><code>si_code</code></dt>
-<dd>
-리눅스 커널 소스 파일 <code>include/asm-generic/siginfo.h</code>에 있는 <code>SI_*</code> 코드들 중 하나여야 하되 코드가 음수여야 하며 (즉 커널에서 <tt>[[kill(2)]]</tt>로 보낸 시그널을 나타내는 데 쓰는 <code>SI_USER</code>일 수 없으며) (리눅스 2.6.39부터) (커널에서 <tt>[[tgkill(2)]]</tt>로 보낸 시그널을 나타내는 데 쓰는) <code>SI_TKILL</code>일 수 없다는 제약이 있다.
-</dd>
+`si_code`
+:   리눅스 커널 소스 파일 `include/asm-generic/siginfo.h`에 있는 `SI_*` 코드들 중 하나여야 하되 코드가 음수여야 하며 (즉 커널에서 <tt>[[kill(2)]]</tt>로 보낸 시그널을 나타내는 데 쓰는 `SI_USER`일 수 없으며) (리눅스 2.6.39부터) (커널에서 <tt>[[tgkill(2)]]</tt>로 보낸 시그널을 나타내는 데 쓰는) `SI_TKILL`일 수 없다는 제약이 있다.
 
-<dt><code>si_pid</code></dt>
-<dd>
-프로세스 ID로 설정해야 하는데, 보통은 송신자의 프로세스 ID이다.
-</dd>
+`si_pid`
+:   프로세스 ID로 설정해야 하는데, 보통은 송신자의 프로세스 ID이다.
 
-<dt><code>si_uid</code></dt>
-<dd>
-사용자 ID로 설정해야 하는데, 보통은 송신자의 실제 사용자 ID이다.
-</dd>
+`si_uid`
+:   사용자 ID로 설정해야 하는데, 보통은 송신자의 실제 사용자 ID이다.
 
-<dt><code>si_value</code></dt>
-<dd>
-이 필드는 시그널에 동반시킬 사용자 데이터를 담는다. 더 자세한 정보는 <tt>[[sigqueue(3)]]</tt>의 마지막(<code>union sigval</code>) 인자 설명을 보라.
-</dd>
-</dl>
+`si_value`
+:   이 필드는 시그널에 동반시킬 사용자 데이터를 담는다. 더 자세한 정보는 <tt>[[sigqueue(3)]]</tt>의 마지막(`union sigval`) 인자 설명을 보라.
 
 커널에서 내부적으로 `si_signo` 필드를 `sig`에 지정된 값으로 설정해서 시그널 수신자가 그 필드를 통해서도 시그널 번호를 얻을 수 있도록 한다.
 
@@ -55,21 +45,19 @@ int rt_tgsigqueueinfo(pid_t tgid, pid_t tid, int sig,
 
 ## ERRORS
 
-<dl>
-<dt><code>EAGAIN</code></dt>
-<dd>큐에 넣을 수 있는 시그널 개수 한계에 도달했다. (자세한 내용은 <tt>[[signal(7)]]</tt>을 보라.)</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>sig</code>나 <code>tgid</code>, <code>tid</code>가 유효하지 않다.</dd>
-<dt><code>EPERM</code></dt>
-<dd>호출자가 대상에게 시그널을 보낼 권한을 가지고 있지 않다. 필요한 권한에 대해선 <tt>[[kill(2)]]</tt>을 보라. 또는 <code>uinfo->si_code</code>가 유효하지 않다.</dd>
-<dt><code>ESRCH</code></dt>
-<dd>
+`EAGAIN`
+:   큐에 넣을 수 있는 시그널 개수 한계에 도달했다. (자세한 내용은 <tt>[[signal(7)]]</tt>을 보라.)
 
-<code>rt_sigqueueinfo()</code>: <code>tgid</code>에 일치하는 스레드 그룹을 찾을 수 없다.
+`EINVAL`
+:   `sig`나 `tgid`, `tid`가 유효하지 않다.
 
-<code>rt_tgsigqueueinfo()</code>: <code>tgid</code>와 <code>tid</code>에 일치하는 스레드를 찾을 수 없다.
-</dd>
-</dl>
+`EPERM`
+:   호출자가 대상에게 시그널을 보낼 권한을 가지고 있지 않다. 필요한 권한에 대해선 <tt>[[kill(2)]]</tt>을 보라. 또는 `uinfo->si_code`가 유효하지 않다.
+
+`ESRCH`
+:   `rt_sigqueueinfo()`: `tgid`에 일치하는 스레드 그룹을 찾을 수 없다.
+
+    `rt_tgsigqueueinfo()`: `tgid`와 `tid`에 일치하는 스레드를 찾을 수 없다.
 
 ## VERSIONS
 

@@ -14,33 +14,23 @@ void *sbrk(intptr_t increment);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>brk()</code>, <code>sbrk()</code>:</dt>
-<dd>
- <dl>
- <dt>glibc 2.19부터:</dt>
- <dd>
-<code>_DEFAULT_SOURCE ||</code><br>
-<code>    (_XOPEN_SOURCE >= 500) &&</code><br>
-<code>    ! (_POSIX_C_SOURCE >= 200112L)</code>
- </dd>
- <dt>glibc 2.12부터 2.19까지:</dt>
- <dd>
-<code>_BSD_SOURCE || _SVID_SOURCE ||</code><br>
-<code>    (_XOPEN_SOURCE >= 500) &&</code><br>
-<code>    ! (_POSIX_C_SOURCE >= 200112L)</code>
- </dd>
- <dt>glibc 2.12 전:</dt>
- <dd>
-<code>_BSD_SOURCE || _SVID_SOURCE || _XOPEN_SOURCE >= 500</code>
- </dd>
- </dl>
-</dd>
-</dl>
+`brk()`, `sbrk()`:
+:   glibc 2.19부터:
+    :   `_DEFAULT_SOURCE ||`<br>
+        `    (_XOPEN_SOURCE >= 500) &&`<br>
+        `    ! (_POSIX_C_SOURCE >= 200112L)`
+
+    glibc 2.12부터 2.19까지:
+    :   `_BSD_SOURCE || _SVID_SOURCE ||`<br>
+        `    (_XOPEN_SOURCE >= 500) &&`<br>
+        `    ! (_POSIX_C_SOURCE >= 200112L)`
+
+    glibc 2.12 전:
+    :   `_BSD_SOURCE || _SVID_SOURCE || _XOPEN_SOURCE >= 500`
 
 ## DESCRIPTION
 
-`brk()`와 `sbrk()`는 <em>프로그램 단절점(program break)</em>의 위치를 바꾼다. 프로그램 단절점은 프로세스의 데이터 세그먼트 끝을 규정한다. (즉, 프로그램 단절점은 비초기화 데이터 세그먼트의 끝 다음의 첫 위치이다.) 프로그램 단절점을 올리면 프로세스에게 메모리를 할당하는 효과가 있고 단절점을 내리면 메모리를 해제하는 것이다.
+`brk()`와 `sbrk()`는 *프로그램 단절점(program break)*의 위치를 바꾼다. 프로그램 단절점은 프로세스의 데이터 세그먼트 끝을 규정한다. (즉, 프로그램 단절점은 비초기화 데이터 세그먼트의 끝 다음의 첫 위치이다.) 프로그램 단절점을 올리면 프로세스에게 메모리를 할당하는 효과가 있고 단절점을 내리면 메모리를 해제하는 것이다.
 
 `brk()`는 데이터 세그먼트의 끝을 `addr`에 지정한 값으로 설정한다. 단, 그 값이 적당하고, 시스템에 충분한 메모리가 있고, 프로세스가 자기 최대 데이터 크기(<tt>[[setrlimit(2)]]</tt> 참고)를 초과하지 않아야 한다.
 

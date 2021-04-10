@@ -30,10 +30,8 @@ int pselect(int nfds, fd_set *readfds, fd_set *writefds,
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>pselect()</code>:</dt>
-<dd><code>_POSIX_C_SOURCE >= 200112L</code></dd>
-</dl>
+`pselect()`:
+:   `_POSIX_C_SOURCE >= 200112L`
 
 ## DESCRIPTION
 
@@ -120,18 +118,20 @@ struct timespec {
 
 ## ERRORS
 
-<dl>
-<dt><code>EBADF</code></dt>
-<dd>한 집합에 유효하지 않은 파일 디스크립터가 있다. (아마 이미 닫혔거나 오류가 발생했던 파일 디스크립터일 것이다.) 하지만 BUGS 참고.</dd>
-<dt><code>EINTR</code></dt>
-<dd>시그널을 잡았다. <tt>[[signal(7)]]</tt> 참고.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>nfds</code>가 음수이거나 <code>RLIMIT_NOFILE</code> 자원 제한값(<tt>[[getrlimit(2)]]</tt> 참고)을 초과한다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>timeout</code>에 담긴 값이 유효하지 않다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>내부 테이블을 위한 메모리를 할당할 수 없다.</dd>
-</dl>
+`EBADF`
+:   한 집합에 유효하지 않은 파일 디스크립터가 있다. (아마 이미 닫혔거나 오류가 발생했던 파일 디스크립터일 것이다.) 하지만 BUGS 참고.
+
+`EINTR`
+:   시그널을 잡았다. <tt>[[signal(7)]]</tt> 참고.
+
+`EINVAL`
+:   `nfds`가 음수이거나 `RLIMIT_NOFILE` 자원 제한값(<tt>[[getrlimit(2)]]</tt> 참고)을 초과한다.
+
+`EINVAL`
+:   `timeout`에 담긴 값이 유효하지 않다.
+
+`ENOMEM`
+:   내부 테이블을 위한 메모리를 할당할 수 없다.
 
 ## VERSIONS
 

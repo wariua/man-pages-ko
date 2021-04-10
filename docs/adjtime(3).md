@@ -12,17 +12,12 @@ int adjtime(const struct timeval *delta, struct timeval *olddelta);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>adjtime()</code>:</dt>
-<dd>
- <dl>
- <dt>glibc 2.19부터:</dt>
- <dd><code>_DEFAULT_SOURCE</code></dd>
- <dt>glibc 2.19 및 이전:</dt>
- <dd><code>_BSD_SOURCE</code></dd>
- </dl>
-</dd>
-</dl>
+`adjtime()`:
+:   glibc 2.19부터:
+    :   `_DEFAULT_SOURCE`
+
+    glibc 2.19 및 이전:
+    :   `_BSD_SOURCE`
 
 ## DESCRIPTION
 
@@ -47,12 +42,11 @@ struct timeval {
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>delta</code>의 조정치가 허용 범위 밖이다.</dd>
-<dt><code>EPERM</code></dt>
-<dd>호출자에게 시간을 조정할 만한 특권이 없다. 리눅스에서는 <code>CAP_SYS_TIME</code> 역능이 필요하다.</dd>
-</dl>
+`EINVAL`
+:   `delta`의 조정치가 허용 범위 밖이다.
+
+`EPERM`
+:   호출자에게 시간을 조정할 만한 특권이 없다. 리눅스에서는 `CAP_SYS_TIME` 역능이 필요하다.
 
 ## ATTRIBUTES
 

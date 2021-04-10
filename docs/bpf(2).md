@@ -48,27 +48,25 @@ eBPF 프로그램을 다양한 이벤트에 연계할 수 있다. 그 이벤트�
 
 `cmd`로 주는 값은 다음 중 하나이다.
 
-<dl>
-<dt><code>BPF_MAP_CREATE</code></dt>
-<dd>맵을 생성하고 그 맵을 가리키는 파일 디스크립터를 반환한다. 새 파일 디스크립터에는 'exec에서 닫기' 파일 디스크립터 플래그(<tt>[[fcntl(2)]]</tt> 참고)가 자동으로 켜진다.</dd>
+`BPF_MAP_CREATE`
+:   맵을 생성하고 그 맵을 가리키는 파일 디스크립터를 반환한다. 새 파일 디스크립터에는 'exec에서 닫기' 파일 디스크립터 플래그(<tt>[[fcntl(2)]]</tt> 참고)가 자동으로 켜진다.
 
-<dt><code>BPF_MAP_LOOKUP_ELEM</code></dt>
-<dd>지정한 맵에서 키로 항목을 찾아서 그 값을 반환한다.</dd>
+`BPF_MAP_LOOKUP_ELEM`
+:   지정한 맵에서 키로 항목을 찾아서 그 값을 반환한다.
 
-<dt><code>BPF_MAP_UPDATE_ELEM</code></dt>
-<dd>지정한 맵에서 항목(키/값 쌍)을 생성하거나 갱신한다.</dd>
+`BPF_MAP_UPDATE_ELEM`
+:   지정한 맵에서 항목(키/값 쌍)을 생성하거나 갱신한다.
 
-<dt><code>BPF_MAP_DELETE_ELEM</code></dt>
-<dd>지정한 맵에서 키로 항목을 찾아서 삭제한다.</dd>
+`BPF_MAP_DELETE_ELEM`
+:   지정한 맵에서 키로 항목을 찾아서 삭제한다.
 
-<dt><code>BPF_MAP_GET_NEXT_KEY</code></dt>
-<dd>지정한 맵에서 키로 항목을 찾아서 다음 항목의 키를 반환한다.</dd>
+`BPF_MAP_GET_NEXT_KEY`
+:   지정한 맵에서 키로 항목을 찾아서 다음 항목의 키를 반환한다.
 
-<dt><code>BPF_PROG_LOAD</code></dt>
-<dd>eBPF 프로그램을 검증 및 적재하고 프로그램과 연계된 새 파일 디스크립터를 반환한다. 새 파일 디스크립터에는 'exec에서 닫기' 파일 디스크립터 플래그(<tt>[[fcntl(2)]]</tt> 참고)가 자동으로 켜진다.</dd>
-</dl>
+`BPF_PROG_LOAD`
+:   eBPF 프로그램을 검증 및 적재하고 프로그램과 연계된 새 파일 디스크립터를 반환한다. 새 파일 디스크립터에는 'exec에서 닫기' 파일 디스크립터 플래그(<tt>[[fcntl(2)]]</tt> 참고)가 자동으로 켜진다.
 
-<code>bpf_attr</code> 공용체는 여러 <code>bpf()</code> 명령에서 쓰는 다양한 익명 구조체들로 이뤄져 있다.
+`bpf_attr` 공용체는 여러 `bpf()` 명령에서 쓰는 다양한 익명 구조체들로 이뤄져 있다.
 
 ```c
 union bpf_attr {
@@ -239,14 +237,14 @@ bpf_update_elem(int fd, const void *key, const void *value,
 
 `flags` 인자는 다음 중 하나로 지정해야 한다.
 
-<dl>
-<dt><code>BPF_ANY</code></dt>
-<dd>새 항목을 생성하거나 기존 항목을 갱신한다.</dd>
-<dt><code>BPF_NOEXIST</code></dt>
-<dd>존재하지 않을 때 새 항목을 생성하기만 한다.</dd>
-<dt><code>BPF_EXIST</code></dt>
-<dd>기존 항목을 갱신한다.</dd>
-</dl>
+`BPF_ANY`
+:   새 항목을 생성하거나 기존 항목을 갱신한다.
+
+`BPF_NOEXIST`
+:   존재하지 않을 때 새 항목을 생성하기만 한다.
+
+`BPF_EXIST`
+:   기존 항목을 갱신한다.
 
 성공 시 동작이 0을 반환한다. 오류 시 -1을 반환하며 `errno`를 `EINVAL`이나 `EPERM`, `ENOMEM`, `E2BIG`으로 설정한다. `E2BIG`은 맵 내의 항목 수가 맵 생성 시 지정한 `max_entries` 제한에 도달했다는 뜻이다. `flags`가 `BPF_NOEXIST`인데 `key`를 가진 항목이 이미 맵에 존재하면 `EEXIST`를 반환한다. `flags`가 `BPF_EXIST`인데 `key`를 가진 항목이 맵에 존재하지 않으면 `ENOENT`를 반환한다.
 
@@ -297,66 +295,53 @@ bpf_get_next_key(int fd, const void *key, void *next_key)
 
 다음 종류의 맵을 지원한다.
 
-<dl>
-<dt><code>BPF_MAP_TYPE_HASH</code></dt>
-<dd>
+`BPF_MAP_TYPE_HASH`
+:   해시 테이블 맵의 특징은 다음과 같다.
 
-해시 테이블 맵의 특징은 다음과 같다.
+    * 사용자 공간 프로그램이 맵을 생성하고 없앤다. 사용자 공간 프로그램과 eBPF 프로그램 모두 검색, 갱신, 삭제 작업을 수행할 수 있다.
 
- * 사용자 공간 프로그램이 맵을 생성하고 없앤다. 사용자 공간 프로그램과 eBPF 프로그램 모두 검색, 갱신, 삭제 작업을 수행할 수 있다.
+    * 커널이 키/값 쌍의 할당과 해제를 맡는다.
 
- * 커널이 키/값 쌍의 할당과 해제를 맡는다.
+    * `max_entries` 한계에 도달하면 `map_update_elem()` 헬퍼가 삽입에 실패하게 된다. (그래서 eBPF 프로그램이 메모리를 고갈시키지 못한다.)
 
- * <code>max_entries</code> 한계에 도달하면 <code>map_update_elem()</code> 헬퍼가 삽입에 실패하게 된다. (그래서 eBPF 프로그램이 메모리를 고갈시키지 못한다.)
+    * `map_update_elem()`이 기존 항목을 원자적으로 교체한다.
 
- * <code>map_update_elem()</code>이 기존 항목을 원자적으로 교체한다.
+    해시 테이블 맵은 검색 속도에 최적화되어 있다.
 
-해시 테이블 맵은 검색 속도에 최적화되어 있다.
-</dd>
+`BPF_MAP_TYPE_ARRAY`
+:   배열 맵의 특징은 다음과 같다.
 
-<dt><code>BPF_MAP_TYPE_ARRAY</code></dt>
-<dd>
+    * 가능한 최고 속도의 검색에 최적화되어 있다. 향후에 검증기/JIT 컴파일러가 상수 키를 사용하는 `lookup()` 작업을 인식해서 이를 상수 포인터로 최적화할 수도 있다. 상수 아닌 키를 포인터 직접 계산으로 최적화하는 것도 가능한데, eBPF 프로그램의 수명 동안 포인터와 `value_size`가 고정돼 있기 때문이다. 다시 말해 검증기/JIT 컴파일러가 `array_map_lookup_elem()`을 '인라인'으로 만들면서도 여전히 사용자 공간에서 이 맵에 동시 접근 가능하도록 할 수 있다.
 
-배열 맵의 특징은 다음과 같다.
+    * 모든 배열 항목들은 사전 할당되며 초기화 시점에 0으로 초기화 된다.
 
- * 가능한 최고 속도의 검색에 최적화되어 있다. 향후에 검증기/JIT 컴파일러가 상수 키를 사용하는 <code>lookup()</code> 작업을 인식해서 이를 상수 포인터로 최적화할 수도 있다. 상수 아닌 키를 포인터 직접 계산으로 최적화하는 것도 가능한데, eBPF 프로그램의 수명 동안 포인터와 <code>value_size</code>가 고정돼 있기 때문이다. 다시 말해 검증기/JIT 컴파일러가 <code>array_map_lookup_elem()</code>을 '인라인'으로 만들면서도 여전히 사용자 공간에서 이 맵에 동시 접근 가능하도록 할 수 있다.
+    * 키는 배열 색인이며 정확히 4바이트여야 한다.
 
- * 모든 배열 항목들은 사전 할당되며 초기화 시점에 0으로 초기화 된다.
+    * `map_delete_elem()`이 `EINVAL` 오류로 실패한다. 항목들을 삭제할 수 없기 때문이다.
 
- * 키는 배열 색인이며 정확히 4바이트여야 한다.
+    * `map_update_elem()`이 **비원자적** 방식으로 항목을 교체한다. 원자적 갱신을 원하면 해시 테이블 맵을 사용해야 한다. 하지만 배열에서도 가능한 특별한 경우가 있는데, 32비트 및 64비트 원자 카운터에 원자적인 내장 `__sync_fetch_and_add()`를 사용할 수 있다. 예를 들어 값이 단일 카운터를 나타낸다면 값 전체에 적용할 수 있으며 여러 카운터를 담은 구조체인 경우에는 개별 카운터에 사용할 수 있을 것이다. 이벤트 합산 및 계수에 종종 유용하다.
 
- * <code>map_delete_elem()</code>이 <code>EINVAL</code> 오류로 실패한다. 항목들을 삭제할 수 없기 때문이다.
+    배열 맵을 다음과 같이 사용할 수 있다.
 
- * <code>map_update_elem()</code>이 <strong>비원자적</strong> 방식으로 항목을 교체한다. 원자적 갱신을 원하면 해시 테이블 맵을 사용해야 한다. 하지만 배열에서도 가능한 특별한 경우가 있는데, 32비트 및 64비트 원자 카운터에 원자적인 내장 <code>__sync_fetch_and_add()</code>를 사용할 수 있다. 예를 들어 값이 단일 카운터를 나타낸다면 값 전체에 적용할 수 있으며 여러 카운터를 담은 구조체인 경우에는 개별 카운터에 사용할 수 있을 것이다. 이벤트 합산 및 계수에 종종 유용하다.
+    * eBPF "전역" 변수: 한 항목짜리 배열에 키를 (색인) 0으로 하고 값을 '전역' 변수들의 집합으로 해서 eBPF 프로그램이 이를 이용해 이벤트 간에 상태를 유지할 수 있다.
 
-배열 맵을 다음과 같이 사용할 수 있다.
+    * 고정 항목들에 추적 이벤트 합산해 넣기.
 
- * eBPF "전역" 변수: 한 항목짜리 배열에 키를 (색인) 0으로 하고 값을 '전역' 변수들의 집합으로 해서 eBPF 프로그램이 이를 이용해 이벤트 간에 상태를 유지할 수 있다.
+    * 패킷 수나 패킷 크기 같은 네트워킹 이벤트 계수.
 
- * 고정 항목들에 추적 이벤트 합산해 넣기.
+`BPF_MAP_TYPE_PROG_ARRAY` (리눅스 4.2부터)
+:   프로그램 배열 맵은 특별한 종류의 배열 맵인데, 값으로 다른 eBPF 프로그램을 가리키는 파일 디스크립터만 담는다. 따라서 `key_size`와 `value_size` 모두 정확히 4바이트여야 한다. 이 맵은 `bpf_tail_call()` 헬퍼와 결합해서 사용한다.
 
- * 패킷 수나 패킷 크기 같은 네트워킹 이벤트 계수.
-</dd>
+    이게 뜻하는 바는 프로그램 배열 맵이 있는 eBPF 프로그램이 커널 쪽에서 다음을 호출하여 자기 프로그램 흐름을 해당 프로그램 배열 슬롯에 있는 프로그램의 흐름으로 교체할 수 있다는 것이다.
 
-<dt><code>BPF_MAP_TYPE_PROG_ARRAY</code> (리눅스 4.2부터)</dt>
-<dd>
+        void bpf_tail_call(void *context, void *prog_map,
+                           unsigned int index);
 
-프로그램 배열 맵은 특별한 종류의 배열 맵인데, 값으로 다른 eBPF 프로그램을 가리키는 파일 디스크립터만 담는다. 따라서 <code>key_size</code>와 <code>value_size</code> 모두 정확히 4바이트여야 한다. 이 맵은 <code>bpf_tail_call()</code> 헬퍼와 결합해서 사용한다.
+    이 배열을 다른 eBPF 프로그램으로 가는 일종의 점프 테이블로 볼 수 있다. 그렇게 호출된 프로그램은 같은 스택을 재사용하게 된다. 새 프로그램으로 점프를 수행하고 나면 이전 프로그램으로는 더 이상 돌아오지 않는다.
 
-이게 뜻하는 바는 프로그램 배열 맵이 있는 eBPF 프로그램이 커널 쪽에서 다음을 호출하여 자기 프로그램 흐름을 해당 프로그램 배열 슬롯에 있는 프로그램의 흐름으로 교체할 수 있다는 것이다.
+    (맵 슬롯에 유효한 프로그램 파일 디스크립터가 없거나, 지정한 검색 색인/키가 범위 밖이거나, 호출 깊이 제한 32번을 초과해서) 프로그램 배열의 주어진 색인에서 eBPF 프로그램을 찾을 수 없으면 현재 eBPF 프로그램 실행을 계속한다. 이 동작 방식을 이용해 기본 경우로 떨어지는 것을 구현할 수 있다.
 
-```c
-void bpf_tail_call(void *context, void *prog_map,
-                   unsigned int index);
-```
-
-이 배열을 다른 eBPF 프로그램으로 가는 일종의 점프 테이블로 볼 수 있다. 그렇게 호출된 프로그램은 같은 스택을 재사용하게 된다. 새 프로그램으로 점프를 수행하고 나면 이전 프로그램으로는 더 이상 돌아오지 않는다.
-
-(맵 슬롯에 유효한 프로그램 파일 디스크립터가 없거나, 지정한 검색 색인/키가 범위 밖이거나, 호출 깊이 제한 32번을 초과해서) 프로그램 배열의 주어진 색인에서 eBPF 프로그램을 찾을 수 없으면 현재 eBPF 프로그램 실행을 계속한다. 이 동작 방식을 이용해 기본 경우로 떨어지는 것을 구현할 수 있다.
-
-프로그램 배열 맵이 유용한 경우로 추적이나 네트워킹이 있는데, 개별 시스템 호출이나 프로토콜을 별개의 하위 프로그램에서 다루고 식별자를 맵 색인으로 사용할 수 있다. 이 방식으로 인해 성능이 향상될 수도 있으며 단일 eBPF 프로그램의 최대 인스트럭션 수 제한을 넘어설 수 있기도 한다. 가변적인 환경에서 사용자 공간 데몬이 예를 들어 전역 정책이 바뀌었을 때 런타임에 원자적으로 개별 하위 프로그램들을 새 버전으로 교체하여 전체 프로그램 동작을 바꿀 수도 있을 것이다.
-</dd>
-</dl>
+    프로그램 배열 맵이 유용한 경우로 추적이나 네트워킹이 있는데, 개별 시스템 호출이나 프로토콜을 별개의 하위 프로그램에서 다루고 식별자를 맵 색인으로 사용할 수 있다. 이 방식으로 인해 성능이 향상될 수도 있으며 단일 eBPF 프로그램의 최대 인스트럭션 수 제한을 넘어설 수 있기도 한다. 가변적인 환경에서 사용자 공간 데몬이 예를 들어 전역 정책이 바뀌었을 때 런타임에 원자적으로 개별 하위 프로그램들을 새 버전으로 교체하여 전체 프로그램 동작을 바꿀 수도 있을 것이다.
 
 ### eBPF 프로그램
 
@@ -427,39 +412,26 @@ eBPF 프로그램 종류(`prog_type`)가 프로그램에서 호출할 수 있는
 
 다음 종류의 프로그램을 지원한다.
 
-<dl>
-<dt><code>BPF_PROG_TYPE_SOCKET_FILTER</code> (리눅스 3.19부터)</dt>
-<dd>
+`BPF_PROG_TYPE_SOCKET_FILTER` (리눅스 3.19부터)
+:   현재 `BPF_PROG_TYPE_SOCKET_FILTER`에서 쓸 수 있는 함수들은 다음과 같다.
 
-현재 <code>BPF_PROG_TYPE_SOCKET_FILTER</code>에서 쓸 수 있는 함수들은 다음과 같다.
+        bpf_map_lookup_elem(map_fd, void *key)
+                            /* map_fd에서 키 검색 */
+        bpf_map_update_elem(map_fd, void *key, void *value)
+                            /* 키/값 갱신 */
+        bpf_map_delete_elem(map_fd, void *key)
+                            /* map_fd에서 키 삭제 */
 
-```c
-bpf_map_lookup_elem(map_fd, void *key)
-                    /* map_fd에서 키 검색 */
-bpf_map_update_elem(map_fd, void *key, void *value)
-                    /* 키/값 갱신 */
-bpf_map_delete_elem(map_fd, void *key)
-                    /* map_fd에서 키 삭제 */
-```
+    `bpf_context` 인자는 `struct __sk_buff`에 대한 포인터이다.
 
-<code>bpf_context</code> 인자는 <code>struct __sk_buff</code>에 대한 포인터이다.
-</dd>
+`BPF_PROG_TYPE_KPROBE` (리눅스 4.1부터)
+:   [작성 예정]
 
-<dt><code>BPF_PROG_TYPE_KPROBE</code> (리눅스 4.1부터)</dt>
-<dd>
-[작성 예정]
-</dd>
+`BPF_PROG_TYPE_SCHED_CLS` (리눅스 4.1부터)
+:   [작성 예정]
 
-<dt><code>BPF_PROG_TYPE_SCHED_CLS</code> (리눅스 4.1부터)</dt>
-<dd>
-[작성 예정]
-</dd>
-
-<dt><code>BPF_PROG_TYPE_SCHED_ACT</code> (리눅스 4.1부터)</dt>
-<dd>
-[작성 예정]
-</dd>
-</dl>
+`BPF_PROG_TYPE_SCHED_ACT` (리눅스 4.1부터)
+:   [작성 예정]
 
 ### 이벤트
 
@@ -550,43 +522,51 @@ main(int argc, char **argv)
 
 성공 호출 시 반환 값은 작업에 따라 다르다.
 
-<dl>
-<dt><code>BPF_MAP_CREATE</code></dt>
-<dd>eBPF 맵에 연계된 새 파일 디스크립터.</dd>
-<dt><code>BPF_PROG_LOAD</code></dt>
-<dd>eBPF 프로그램에 연계된 새 파일 디스크립터.</dd>
-<dt>다른 명령들</dt>
-<dd>0.</dd>
-</dl>
+`BPF_MAP_CREATE`
+:   eBPF 맵에 연계된 새 파일 디스크립터.
+
+`BPF_PROG_LOAD`
+:   eBPF 프로그램에 연계된 새 파일 디스크립터.
+
+다른 명령들
+:   0.
 
 오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
 
 ## ERRORS
 
-<dl>
-<dt><code>E2BIG</code></dt>
-<dd>eBPF 프로그램이 너무 크거나 맵이 <code>max_entries</code> 제한(최대 항목 수)에 도달했다.</dd>
-<dt><code>EACCES</code></dt>
-<dd><code>BPF_PROG_LOAD</code>에서, 모든 프로그램 인스트럭션이 유효하지만 프로그램이 안전하지 않아 보여서 거부되었다. 허용 안 된 메모리 영역이나 초기화 안 된 스택/레지스터에 접근해서일 수도 있고 함수 제약이 실제 종류와 일치하지 않아서일 수도 있고 정렬 안 된 메모리 접근이 있어서일 수도 있다. 이 경우 <code>log_level = 1</code>로 <code>bpf()</code>를 다시 호출해서 검증기가 제시한 구체적 이유를 <code>log_buf</code>에서 확인해 보는 게 좋다.</dd>
-<dt><code>EBADF</code></dt>
-<dd><code>fd</code>가 열린 파일 디스크립터가 아니다.</dd>
-<dt><code>EFAULT</code></dt>
-<dd>포인터들(<code>key</code>, <code>value</code>, <code>log_buf</code>, <code>insns</code>) 중 하나가 접근 가능한 주소 공간 밖이다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>cmd</code>에 지정한 값을 이 커널이 알지 못한다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>BPF_MAP_CREATE</code>에서, <code>map_type</code>이나 속성이 유효하지 않다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>BPF_MAP_*_ELEM</code> 명령들에서, <code>union bpf_attr</code>의 필드들 중 일부를 이 명령에서 사용하지 않는데 0으로 설정돼 있지 않다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>BPF_PROG_LOAD</code>에서, 유효하지 않은 프로그램 적재 시도를 나타낸다. 인식 불가능한 인스트럭션, 예약된 필드 사용, 범위 밖으로의 점프, 무한 루프, 알 수 없는 함수 호출 때문에 eBPF 프로그램이 유효하지 않다고 볼 수 있다.</dd>
-<dt><code>ENOENT</code></dt>
-<dd><code>BPF_MAP_LOOKUP_ELEM</code>이나 <code>BPF_MAP_DELETE_ELEM</code>에서, 해당 <code>key</code>를 가진 항목을 찾을 수 없음을 나타낸다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>충분한 메모리를 할당할 수 없다.</dd>
-<dt><code>EPERM</code></dt>
-<dd>충분한 특권 없이 (<code>CAP_SYS_ADMIN</code> 역능 없이) 호출을 했다.</dd>
-</dl>
+`E2BIG`
+:   eBPF 프로그램이 너무 크거나 맵이 `max_entries` 제한(최대 항목 수)에 도달했다.
+
+`EACCES`
+:   `BPF_PROG_LOAD`에서, 모든 프로그램 인스트럭션이 유효하지만 프로그램이 안전하지 않아 보여서 거부되었다. 허용 안 된 메모리 영역이나 초기화 안 된 스택/레지스터에 접근해서일 수도 있고 함수 제약이 실제 종류와 일치하지 않아서일 수도 있고 정렬 안 된 메모리 접근이 있어서일 수도 있다. 이 경우 `log_level = 1`로 `bpf()`를 다시 호출해서 검증기가 제시한 구체적 이유를 `log_buf`에서 확인해 보는 게 좋다.
+
+`EBADF`
+:   `fd`가 열린 파일 디스크립터가 아니다.
+
+`EFAULT`
+:   포인터들(`key`, `value`, `log_buf`, `insns`) 중 하나가 접근 가능한 주소 공간 밖이다.
+
+`EINVAL`
+:   `cmd`에 지정한 값을 이 커널이 알지 못한다.
+
+`EINVAL`
+:   `BPF_MAP_CREATE`에서, `map_type`이나 속성이 유효하지 않다.
+
+`EINVAL`
+:   `BPF_MAP_*_ELEM` 명령들에서, `union bpf_attr`의 필드들 중 일부를 이 명령에서 사용하지 않는데 0으로 설정돼 있지 않다.
+
+`EINVAL`
+:   `BPF_PROG_LOAD`에서, 유효하지 않은 프로그램 적재 시도를 나타낸다. 인식 불가능한 인스트럭션, 예약된 필드 사용, 범위 밖으로의 점프, 무한 루프, 알 수 없는 함수 호출 때문에 eBPF 프로그램이 유효하지 않다고 볼 수 있다.
+
+`ENOENT`
+:   `BPF_MAP_LOOKUP_ELEM`이나 `BPF_MAP_DELETE_ELEM`에서, 해당 `key`를 가진 항목을 찾을 수 없음을 나타낸다.
+
+`ENOMEM`
+:   충분한 메모리를 할당할 수 없다.
+
+`EPERM`
+:   충분한 특권 없이 (`CAP_SYS_ADMIN` 역능 없이) 호출을 했다.
 
 ## VERSIONS
 
@@ -606,14 +586,14 @@ eBPF 프로그램을 제약된 C로 작성해서 (`clang` 컴파일러를 이용
 
 커널에는 성능 향상을 위해 eBPF 바이트코드를 네이티브 머신 코드로 변환하는 JIT(just-in-time) 컴파일러가 포함돼 있다. 리눅스 4.15 전의 커널에서는 JIT 컴파일러가 기본적으로 꺼져 있으며 `/proc/sys/net/core/bpf_jit_enable` 파일에 다음 정수 문자열 중 하나를 써넣어서 동작 방식을 제어할 수 있다.
 
-<dl>
-<dt>0</dt>
-<dd>JIT 컴파일 끄기. (기본값)</dd>
-<dt>1</dt>
-<dd>일반 컴파일.</dd>
-<dt>2</dt>
-<dd>디버깅 모드. 생성된 명령 코드를 십육진수로 커널 로그로 찍는다. 그러면 커널 소스 트리에서 제공하는 <code>tools/net/bpf_jit_disasm.c</code> 프로그램을 이용해 그 명령 코드를 역어셈블 할 수 있다.</dd>
-</dl>
+0
+:   JIT 컴파일 끄기. (기본값)
+
+1
+:   일반 컴파일.
+
+2
+:   디버깅 모드. 생성된 명령 코드를 십육진수로 커널 로그로 찍는다. 그러면 커널 소스 트리에서 제공하는 `tools/net/bpf_jit_disasm.c` 프로그램을 이용해 그 명령 코드를 역어셈블 할 수 있다.
 
 리눅스 4.15부터 커널 구성에 `CONFIG_BPF_JIT_ALWAYS_ON` 옵션을 쓸 수 있다. 그렇게 하면 JIT 컴파일러가 항상 켜지며 `bpf_jit_enable`은 1로 초기화 되고 변경 불가능하다. (이 커널 구성 옵션은 BPF 인터프리터를 대상으로 하는 어느 스펙터 공격에 대한 완화책으로 나온 것이다.)
 

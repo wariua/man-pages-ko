@@ -63,19 +63,16 @@ typedef struct entry {
 
 `hcreate_r()`과 `hdestroy_r()`이 다음 이유로 실패할 수 있다.
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>htab</code>이 NULL이다.</dd>
-</dl>
+`EINVAL`
+:   `htab`이 NULL이다.
 
 `hsearch()`와 `hsearch_r()`이 다음 이유로 실패할 수 있다.
 
-<dl>
-<dt><code>ENOMEM</code></dt>
-<dd><code>action</code>이 <code>ENTER</code>였는데 테이블에서 <code>key</code>를 찾지 못했고 테이블에 새 항목을 추가할 공간이 없다.</dd>
-<dt><code>ESRCH</code></dt>
-<dd><code>action</code>이 <code>FIND</code>였는데 테이블에서 <code>key</code>를 찾지 못했다.</dd>
-</dl>
+`ENOMEM`
+:   `action`이 `ENTER`였는데 테이블에서 `key`를 찾지 못했고 테이블에 새 항목을 추가할 공간이 없다.
+
+`ESRCH`
+:   `action`이 `FIND`였는데 테이블에서 `key`를 찾지 못했다.
 
 POSIX.1에서는 `ENOMEM` 오류만 명세하고 있다.
 

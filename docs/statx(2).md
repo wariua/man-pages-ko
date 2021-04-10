@@ -70,52 +70,43 @@ struct statx_timestamp {
 
 `statx()`에서는 `pathname`, `dirfd`, `flags`를 사용해 다음 방식 중 하나로 대상 파일을 식별한다.
 
-<dl>
-<dt>절대 경로명</dt>
-<dd><code>pathname</code>이 슬래시로 시작하면 대상 파일을 나타내는 절대 경로명이다. 이 경우 <code>dirfd</code>는 무시한다.</dd>
+절대 경로명
+:   `pathname`이 슬래시로 시작하면 대상 파일을 나타내는 절대 경로명이다. 이 경우 `dirfd`는 무시한다.
 
-<dt>상대 경로명</dt>
-<dd><code>pathname</code>이 슬래시 아닌 문자로 시작하는 문자열이고 <code>dirfd</code>가 <code>AT_FDCWD</code>이면 <code>pathname</code>이 상대 경로명이고 프로세스의 현재 작업 디렉터리를 기준으로 해석한다.</dd>
+상대 경로명
+:   `pathname`이 슬래시 아닌 문자로 시작하는 문자열이고 `dirfd`가 `AT_FDCWD`이면 `pathname`이 상대 경로명이고 프로세스의 현재 작업 디렉터리를 기준으로 해석한다.
 
-<dt>디렉터리 기준 상태 경로명</dt>
-<dd><code>pathname</code>이 슬래시 아닌 문자로 시작하는 문자열이고 <code>dirfd</code>가 디렉터리를 가리키는 파일 디스크립터이면 <code>pathname</code>이 상대 경로명이고 <code>dirfd</code>가 가리키는 디렉터리를 기준으로 해석한다.</dd>
+디렉터리 기준 상태 경로명
+:   `pathname`이 슬래시 아닌 문자로 시작하는 문자열이고 `dirfd`가 디렉터리를 가리키는 파일 디스크립터이면 `pathname`이 상대 경로명이고 `dirfd`가 가리키는 디렉터리를 기준으로 해석한다.
 
-<dt>파일 디스크립터</dt>
-<dd><code>pathname</code>이 빈 문자열이고 <code>flags</code>에 <code>AT_EMPTY_PATH</code> 플래그(아래 참고)가 지정돼 있으면 파일 디스크립터 <code>dirfd</code>가 가리키는 파일이 대상 파일이다.</dd>
-</dl>
+파일 디스크립터
+:   `pathname`이 빈 문자열이고 `flags`에 `AT_EMPTY_PATH` 플래그(아래 참고)가 지정돼 있으면 파일 디스크립터 `dirfd`가 가리키는 파일이 대상 파일이다.
 
 `flags`를 이용해 경로명 기반 탐색 동작에 영향을 줄 수 있다. `flags` 값은 다음 상수를 0개 이상 OR 해서 구성한다.
 
-<dl>
-<dt><code>AT_EMPTY_PATH</code></dt>
-<dd>
+`AT_EMPTY_PATH`
+:   `pathname`이 빈 문자열이면 (<tt>[[open(2)]]</tt> `O_PATH` 플래그로 얻은 것일 수도 있는) `dirfd`가 가리키는 파일에 대해 동작한다. 이 경우에 `dirfd`는 디렉터리만이 아니라 임의 종류의 파일을 가리킬 수 있다.
 
-<code>pathname</code>이 빈 문자열이면 (<tt>[[open(2)]]</tt> <code>O_PATH</code> 플래그로 얻은 것일 수도 있는) <code>dirfd</code>가 가리키는 파일에 대해 동작한다. 이 경우에 <code>dirfd</code>는 디렉터리만이 아니라 임의 종류의 파일을 가리킬 수 있다.
+    `dirfd`가 `AT_FDCWD`이면 현재 작업 디렉터리에 대해 호출이 동작한다.
 
-<code>dirfd</code>가 <code>AT_FDCWD</code>이면 현재 작업 디렉터리에 대해 호출이 동작한다.
+    이 플래그는 리눅스 전용이다. 이 정의를 얻으려면 `_GNU_SOURCE`를 정의해야 한다.
 
-이 플래그는 리눅스 전용이다. 이 정의를 얻으려면 <code>_GNU_SOURCE</code>를 정의해야 한다.</dd>
-</dd>
+`AT_NO_AUTOMOUNT`
+:   `pathname`의 마지막 요소("basename")가 자동 마운트 지점인 디렉터리인 경우에 자동 마운트를 하지 않는다. 이를 통해 (마운트 될 위치가 아니라) 자동 마운트 지점의 속성들을 호출자가 얻을 수 있다. 디렉터리들을 훑는 도구들에서 이 플래그를 사용해서 자동 마운트 지점인 디렉터리를 잔뜩 자동 마운트 하는 걸 방지할 수 있다. 마운트 지점에 이미 마운트가 됐으면 `AT_NO_AUTOMOUNT` 플래그에 아무 효력이 없다. 이 플래그는 리눅스 전용이다. 이 정의를 얻으려면 `_GNU_SOURCE`를 정의해야 한다.
 
-<dt><code>AT_NO_AUTOMOUNT</code></dt>
-<dd><code>pathname</code>의 마지막 요소("basename")가 자동 마운트 지점인 디렉터리인 경우에 자동 마운트를 하지 않는다. 이를 통해 (마운트 될 위치가 아니라) 자동 마운트 지점의 속성들을 호출자가 얻을 수 있다. 디렉터리들을 훑는 도구들에서 이 플래그를 사용해서 자동 마운트 지점인 디렉터리를 잔뜩 자동 마운트 하는 걸 방지할 수 있다. 마운트 지점에 이미 마운트가 됐으면 <code>AT_NO_AUTOMOUNT</code> 플래그에 아무 효력이 없다. 이 플래그는 리눅스 전용이다. 이 정의를 얻으려면 <code>_GNU_SOURCE</code>를 정의해야 한다.</dd>
-
-<dt><code>AT_SYMLINK_NOFOLLOW</code></dt>
-<dd><code>pathname</code>이 심볼릭 링크인 경우 역참조를 하지 않는다. 대신 <code>lstat()</code>처럼 링크 자체에 대한 정보를 반환한다.</dd>
-</dl>
+`AT_SYMLINK_NOFOLLOW`
+:   `pathname`이 심볼릭 링크인 경우 역참조를 하지 않는다. 대신 `lstat()`처럼 링크 자체에 대한 정보를 반환한다.
 
 또한 `flags`를 이용해 원격 파일 시스템의 파일을 질의할 때 커널에서 하게 되는 동기화 방식을 제어할 수 있다. 다음 값들 중 하나를 OR 한다.
 
-<dl>
-<dt><code>AT_STATX_SYNC_AS_STAT</code></dt>
-<dd><tt>[[stat(2)]]</tt>과 똑같이 한다. 기본 방식이며 파일 시스템에 따라 달라진다.</dd>
+`AT_STATX_SYNC_AS_STAT`
+:   <tt>[[stat(2)]]</tt>과 똑같이 한다. 기본 방식이며 파일 시스템에 따라 달라진다.
 
-<dt><code>AT_STATX_FORCE_SYNC</code></dt>
-<dd>속성들이 서버와 동기화되도록 한다. 이를 위해 네트워크 파일 시스템에서 타임스탬프를 올바로 처리하기 위해 데이터 전송을 수행해야 할 수도 있다.</dd>
+`AT_STATX_FORCE_SYNC`
+:   속성들이 서버와 동기화되도록 한다. 이를 위해 네트워크 파일 시스템에서 타임스탬프를 올바로 처리하기 위해 데이터 전송을 수행해야 할 수도 있다.
 
-<dt><code>AT_STATX_DONT_SYNC</code></dt>
-<dd>아무것도 동기화하지 말고 가능하면 시스템에 캐시된 걸 써먹는다. 반환되는 정보가 근사치라는 의미일 수도 있지만 네트워크 파일 시스템에서는 (잡은 리스가 없는 경우에도) 서버로의 왕복이 필요치 않을 수도 있다.</dd>
-</dl>
+`AT_STATX_DONT_SYNC`
+:   아무것도 동기화하지 말고 가능하면 시스템에 캐시된 걸 써먹는다. 반환되는 정보가 근사치라는 의미일 수도 있지만 네트워크 파일 시스템에서는 (잡은 리스가 없는 경우에도) 서버로의 왕복이 필요치 않을 수도 있다.
 
 `statx()`의 `mask` 인자를 이용해 호출자가 관심 있는 필드가 뭔지 커널에게 알려 줄 수 있다. `mask`는 다음 상수들을 OR로 조합한 것이다.
 
@@ -152,55 +143,53 @@ struct statx_timestamp {
 
 (앞서 설명한) `stx_mask`를 빼고 `statx` 구조체의 필드들은 다음과 같다.
 
-<dl>
-<dt><code>stx_blksize</code></dt>
-<dd>효율적인 파일 시스템 I/O를 위한 "선호" 블록 크기.</dd>
+`stx_blksize`
+:   효율적인 파일 시스템 I/O를 위한 "선호" 블록 크기.
 
-<dt><code>stx_attributes</code></dt>
-<dd>파일에 대한 추가 상태 정보. (자세한 내용은 아래 참고.)</dd>
+`stx_attributes`
+:   파일에 대한 추가 상태 정보. (자세한 내용은 아래 참고.)
 
-<dt><code>stx_nlink</code></dt>
-<dd>파일에 대한 하드 링크 수.</dd>
+`stx_nlink`
+:   파일에 대한 하드 링크 수.
 
-<dt><code>stx_uid</code></dt>
-<dd>이 필드는 파일 소유자의 사용자 ID를 담는다.</dd>
+`stx_uid`
+:   이 필드는 파일 소유자의 사용자 ID를 담는다.
 
-<dt><code>stx_gid</code></dt>
-<dd>이 필드는 파일 그룹 소유자의 ID를 담는다.</dd>
+`stx_gid`
+:   이 필드는 파일 그룹 소유자의 ID를 담는다.
 
-<dt><code>stx_mode</code></dt>
-<dd>파일 종류와 모드. 자세한 내용은 <tt>[[inode(7)]]</tt> 참고.</dd>
+`stx_mode`
+:   파일 종류와 모드. 자세한 내용은 <tt>[[inode(7)]]</tt> 참고.
 
-<dt><code>stx_ino</code></dt>
-<dd>파일의 아이노드 번호.</dd>
+`stx_ino`
+:   파일의 아이노드 번호.
 
-<dt><code>stx_size</code></dt>
-<dd>(정규 파일이나 심볼릭 링크인 경우) 바이트 단위 파일 크기. 심볼릭 링크의 크기란 담고 있는 (종료 널 바이트 없는) 경로명의 길이다.</dd>
+`stx_size`
+:   (정규 파일이나 심볼릭 링크인 경우) 바이트 단위 파일 크기. 심볼릭 링크의 크기란 담고 있는 (종료 널 바이트 없는) 경로명의 길이다.
 
-<dt><code>stx_blocks</code></dt>
-<dd>매체 상에서 파일에 할당된 512바이트 단위 블록 수. (파일에 구멍이 있을 때는 <code>stx_size</code>/512보다 작을 수도 있다.)</dd>
+`stx_blocks`
+:   매체 상에서 파일에 할당된 512바이트 단위 블록 수. (파일에 구멍이 있을 때는 `stx_size`/512보다 작을 수도 있다.)
 
-<dt><code>stx_attributes_mask</code></dt>
-<dd><code>stx_attributes</code>의 어떤 비트들을 VFS와 파일 시스템에서 지원하는지 나타내는 마스크.</dd>
+`stx_attributes_mask`
+:   `stx_attributes`의 어떤 비트들을 VFS와 파일 시스템에서 지원하는지 나타내는 마스크.
 
-<dt><code>stx_atime</code></dt>
-<dd>파일의 최근 접근 타임스탬프.</dd>
+`stx_atime`
+:   파일의 최근 접근 타임스탬프.
 
-<dt><code>stx_btime</code></dt>
-<dd>파일의 생성 타임스탬프.</dd>
+`stx_btime`
+:   파일의 생성 타임스탬프.
 
-<dt><code>stx_ctime</code></dt>
-<dd>파일의 최근 상태 변경 타임스탬프.</dd>
+`stx_ctime`
+:   파일의 최근 상태 변경 타임스탬프.
 
-<dt><code>stx_mtime</code></dt>
-<dd>파일의 최근 수정 타임스탬프.</dd>
+`stx_mtime`
+:   파일의 최근 수정 타임스탬프.
 
-<dt><code>stx_dev_major</code> 및 <code>stx_dev_minor</code></dt>
-<dd>이 파일이 (아이노드가) 위치한 장치.</dd>
+`stx_dev_major` 및 `stx_dev_minor`
+:   이 파일이 (아이노드가) 위치한 장치.
 
-<dt><code>stx_rdev_major</code> 및 <code>stx_rdev_minor</code></dt>
-<dd>파일 종류가 블록 장치나 문자 장치인 경우 이 파일이 (아이노드가) 나타내는 장치.</dd>
-</dl>
+`stx_rdev_major` 및 `stx_rdev_minor`
+:   파일 종류가 블록 장치나 문자 장치인 경우 이 파일이 (아이노드가) 나타내는 장치.
 
 위 필드들에 대한 더 자세한 내용은 <tt>[[inode(7)]]</tt>를 보라.
 
@@ -210,22 +199,20 @@ struct statx_timestamp {
 
 플래그들은 다음과 같다.
 
-<dl>
-<dt><code>STATX_ATTR_COMPRESSED</code></dt>
-<dd>파일 시스템에서 파일을 압축했으며 접근에 자원이 추가로 필요할 수 있다.</dd>
+`STATX_ATTR_COMPRESSED`
+:   파일 시스템에서 파일을 압축했으며 접근에 자원이 추가로 필요할 수 있다.
 
-<dt><code>STATX_ATTR_IMMUTABLE</code></dt>
-<dd>파일을 수정할 수 없다. 즉 삭제하거나 이름을 바꿀 수 없고, 이 파일에 대한 하드 링크를 만들 수 없고, 파일에 데이터를 기록할 수 없다. <tt>[[chattr(1)]]</tt> 참고.</dd>
+`STATX_ATTR_IMMUTABLE`
+:   파일을 수정할 수 없다. 즉 삭제하거나 이름을 바꿀 수 없고, 이 파일에 대한 하드 링크를 만들 수 없고, 파일에 데이터를 기록할 수 없다. <tt>[[chattr(1)]]</tt> 참고.
 
-<dt><code>STATX_ATTR_APPEND</code></dt>
-<dd>파일을 덧붙이기 모드로 쓰기용으로만 열 수 있다. 임의 접근 쓰기가 허용되지 않는다. <tt>[[chattr(1)]]</tt> 참고.</dd>
+`STATX_ATTR_APPEND`
+:   파일을 덧붙이기 모드로 쓰기용으로만 열 수 있다. 임의 접근 쓰기가 허용되지 않는다. <tt>[[chattr(1)]]</tt> 참고.
 
-<dt><code>STATX_ATTR_NODUMP</code></dt>
-<dd><code>dump(8)</code> 같은 백업 프로그램이 돌 때 파일이 백업 대상이 아니다. <tt>[[chattr(1)]]</tt> 참고.</dd>
+`STATX_ATTR_NODUMP`
+:   `dump(8)` 같은 백업 프로그램이 돌 때 파일이 백업 대상이 아니다. <tt>[[chattr(1)]]</tt> 참고.
 
-<dt><code>STATX_ATTR_ENCRYPTED</code></dt>
-<dd>파일 시스템에서 파일을 암호화하기 위해선 키가 필요하다.</dd>
-</dl>
+`STATX_ATTR_ENCRYPTED`
+:   파일 시스템에서 파일을 암호화하기 위해선 키가 필요하다.
 
 ## RETURN VALUE
 
@@ -233,28 +220,35 @@ struct statx_timestamp {
 
 ## ERRORS
 
-<dl>
-<dt><code>EACCES</code></dt>
-<dd><code>pathname</code>의 경로 선두부의 한 디렉터리에 대해 탐색 권한이 거부되었다. (<tt>[[path_resolution(7)]]</tt> 참고.)</dd>
-<dt><code>EBADF</code></dt>
-<dd><code>dirfd</code>가 유효한 열린 파일 디스크립터가 아니다.</dd>
-<dt><code>EFAULT</code></dt>
-<dd><code>pathname</code>이나 <code>statxbuf</code>가 NULL이거나 프로세스의 접근 가능 주소 공간 밖의 위치를 가리키고 있다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>flags</code>에 유효하지 않은 플래그를 지정했다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>mask</code>에 예비 플래그를 지정했다.</dd>
-<dt><code>ELOOP</code></dt>
-<dd>경로명을 순회하는 동안 너무 많은 심볼릭 링크를 만났다.</dd>
-<dt><code>ENAMETOOLONG</code></dt>
-<dd><code>pathname</code>이 너무 길다.</dd>
-<dt><code>ENOENT</code></dt>
-<dd><code>pathname</code>의 어느 요소가 존재하지 않거나, <code>pathname</code>이 빈 문자열인데 <code>flags</code>에 <code>AT_EMPTY_PATH</code>를 지정하지 않았다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>메모리 (즉 커널 메모리) 부족.</dd>
-<dt><code>ENOTDIR</code></dt>
-<dd><code>pathname</code>의 경로 선두부의 어느 요소가 디렉터리가 아니거나, <code>pathname</code>이 상대 경로인데 <code>dirfd</code>가 디렉터리 아닌 파일을 가리키는 파일 디스크립터이다.</dd>
-</dl>
+`EACCES`
+:   `pathname`의 경로 선두부의 한 디렉터리에 대해 탐색 권한이 거부되었다. (<tt>[[path_resolution(7)]]</tt> 참고.)
+
+`EBADF`
+:   `dirfd`가 유효한 열린 파일 디스크립터가 아니다.
+
+`EFAULT`
+:   `pathname`이나 `statxbuf`가 NULL이거나 프로세스의 접근 가능 주소 공간 밖의 위치를 가리키고 있다.
+
+`EINVAL`
+:   `flags`에 유효하지 않은 플래그를 지정했다.
+
+`EINVAL`
+:   `mask`에 예비 플래그를 지정했다.
+
+`ELOOP`
+:   경로명을 순회하는 동안 너무 많은 심볼릭 링크를 만났다.
+
+`ENAMETOOLONG`
+:   `pathname`이 너무 길다.
+
+`ENOENT`
+:   `pathname`의 어느 요소가 존재하지 않거나, `pathname`이 빈 문자열인데 `flags`에 `AT_EMPTY_PATH`를 지정하지 않았다.
+
+`ENOMEM`
+:   메모리 (즉 커널 메모리) 부족.
+
+`ENOTDIR`
+:   `pathname`의 경로 선두부의 어느 요소가 디렉터리가 아니거나, `pathname`이 상대 경로인데 `dirfd`가 디렉터리 아닌 파일을 가리키는 파일 디스크립터이다.
 
 ## VERSIONS
 

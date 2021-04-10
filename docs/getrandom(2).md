@@ -22,13 +22,11 @@ ssize_t getrandom(void *buf, size_t buflen, unsigned int flags);
 
 `flags` 인자는 비트 마스크이며 다음 값들을 0개 또는 그 이상 OR 한 값을 담을 수 있다.
 
-<dl>
-<dt><code>GRND_RANDOM</code></dt>
-<dd>이 비트가 설정되어 있으면 <code>urandom</code> 원천 대신 <code>random</code> 원천으로부터 (즉 <code>/dev/random</code> 장치와 같은 원천으로부터) 난수 바이트를 뽑아낸다. <code>random</code> 원천은 환경 잡음에서 얻은 엔트로피를 기반으로 하도록 제한되어 있다. <code>random</code> 원천 내에 사용 가능한 바이트 수가 <code>buflen</code>에 요청한 값보다 작으면 사용 가능한 난수 바이트들만 반환한다. 사용 가능한 난수 바이트가 없는 경우의 동작 방식은 <code>flags</code> 인자에 <code>GRND_NONBLOCK</code>이 있는지 여부에 따라 다르다.</dd>
+`GRND_RANDOM`
+:   이 비트가 설정되어 있으면 `urandom` 원천 대신 `random` 원천으로부터 (즉 `/dev/random` 장치와 같은 원천으로부터) 난수 바이트를 뽑아낸다. `random` 원천은 환경 잡음에서 얻은 엔트로피를 기반으로 하도록 제한되어 있다. `random` 원천 내에 사용 가능한 바이트 수가 `buflen`에 요청한 값보다 작으면 사용 가능한 난수 바이트들만 반환한다. 사용 가능한 난수 바이트가 없는 경우의 동작 방식은 `flags` 인자에 `GRND_NONBLOCK`이 있는지 여부에 따라 다르다.
 
-<dt><code>GRND_NONBLOCK</code></dt>
-<dd>기본적으로 <code>getrandom()</code>이 <code>random</code> 원천으로부터 읽어들일 때 사용 가능한 난수 바이트가 없으면 블록 하며, <code>urandom</code> 원천으로부터 읽어들일 때 엔트로피 풀이 아직 초기화 되지 않았으면 블록 한다. <code>GRND_NONBLOCK</code> 플래그를 설정하면 이런 경우에 <code>getrandom()</code>이 블록 하지 않고 즉시 -1을 반환하며 <code>errno</code>를 <code>EAGAIN</code>으로 설정한다.</dd>
-</dl>
+`GRND_NONBLOCK`
+:   기본적으로 `getrandom()`이 `random` 원천으로부터 읽어들일 때 사용 가능한 난수 바이트가 없으면 블록 하며, `urandom` 원천으로부터 읽어들일 때 엔트로피 풀이 아직 초기화 되지 않았으면 블록 한다. `GRND_NONBLOCK` 플래그를 설정하면 이런 경우에 `getrandom()`이 블록 하지 않고 즉시 -1을 반환하며 `errno`를 `EAGAIN`으로 설정한다.
 
 ## RETURN VALUE
 
@@ -38,18 +36,20 @@ ssize_t getrandom(void *buf, size_t buflen, unsigned int flags);
 
 ## ERRORS
 
-<dl>
-<dt><code>EAGAIN</code></dt>
-<dd>요청한 만큼의 엔트로피가 사용 가능하지 않았으며 <code>GRND_NONBLOCK</code>을 설정하지 않았다면 <code>getrandom()</code>이 블록 했을 것이다.</dd>
-<dt><code>EFAULT</code></dt>
-<dd><code>buf</code>가 가리키는 주소가 접근 가능한 주소 공간 밖에 있다.</dd>
-<dt><code>EINTR</code></dt>
-<dd>호출이 시그널 핸들러에 의해 중단되었다. <tt>[[signal(7)]]</tt> 맨 페이지에서 <code>SA_RESTART</code> 플래그가 있거나 없을 때 "느린" 장치에 대한 <code>read(2)</code> 호출 중단을 어떻게 처리하는지에 대한 설명을 보라.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>flags</code>에 유효하지 않은 플래그를 지정했다.</dd>
-<dt><code>ENOSYS</code></dt>
-<dd><code>getrandom()</code>의 glibc 래퍼 함수에서 기반 커널이 이 시스템 호출을 구현하고 있지 않다고 판단했다.</dd>
-</dl>
+`EAGAIN`
+:   요청한 만큼의 엔트로피가 사용 가능하지 않았으며 `GRND_NONBLOCK`을 설정하지 않았다면 `getrandom()`이 블록 했을 것이다.
+
+`EFAULT`
+:   `buf`가 가리키는 주소가 접근 가능한 주소 공간 밖에 있다.
+
+`EINTR`
+:   호출이 시그널 핸들러에 의해 중단되었다. <tt>[[signal(7)]]</tt> 맨 페이지에서 `SA_RESTART` 플래그가 있거나 없을 때 "느린" 장치에 대한 `read(2)` 호출 중단을 어떻게 처리하는지에 대한 설명을 보라.
+
+`EINVAL`
+:   `flags`에 유효하지 않은 플래그를 지정했다.
+
+`ENOSYS`
+:   `getrandom()`의 glibc 래퍼 함수에서 기반 커널이 이 시스템 호출을 구현하고 있지 않다고 판단했다.
 
 ## VERSIONS
 

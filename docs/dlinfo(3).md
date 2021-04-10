@@ -20,99 +20,70 @@ int dlinfo(void *handle, int request, void *info);
 
 `request`에 다음 값들을 지원한다. (괄호 안은 해당하는 `info` 타입이다.)
 
-<dl>
-<dt><code>RTLD_DI_LMID</code> (<code>Lmid_t *</code>)</dt>
-<dd>
+`RTLD_DI_LMID` (`Lmid_t *`)
+:   `handle`이 적재된 링크 맵 리스트(네임스페이스)의 ID를 얻는다.
 
-<code>handle</code>이 적재된 링크 맵 리스트(네임스페이스)의 ID를 얻는다.
-</dd>
+`RTLD_DI_LINKMAP` (`struct link_map **`)
+:   `handle`에 대응하는 `link_map` 구조체에 대한 포인터를 얻는다. `info` 인자가 `<link.h>`에 다음처럼 정의된 `link_map` 구조체에 대한 포인터를 가리킨다.
 
-<dt><code>RTLD_DI_LINKMAP</code> (<code>struct link_map **</code>)</dt>
-<dd>
+        struct link_map {
+            ElfW(Addr) l_addr;  /* ELF 파일 내 주소와
+                                   메모리 내 주소의 차이 */
+            char      *l_name;  /* 오브젝트를 찾은
+                                   절대 경로명 */
+            ElfW(Dyn) *l_ld;    /* 공유 오브젝트의
+                                   dynamic 섹션 */
+            struct link_map *l_next, *l_prev;
+                                /* 적재된 오브젝트들을 연결 */
 
-<code>handle</code>에 대응하는 <code>link_map</code> 구조체에 대한 포인터를 얻는다. <code>info</code> 인자가 <code>&lt;link.h&lt;</code>에 다음처럼 정의된 <code>link_map</code> 구조체에 대한 포인터를 가리킨다.
+            /* 더해서 구현 내부용 필드들이
+               추가로 있음 */
+        };
 
-```c
-struct link_map {
-    ElfW(Addr) l_addr;  /* ELF 파일 내 주소와
-                           메모리 내 주소의 차이 */
-    char      *l_name;  /* 오브젝트를 찾은
-                           절대 경로명 */
-    ElfW(Dyn) *l_ld;    /* 공유 오브젝트의
-                           dynamic 섹션 */
-    struct link_map *l_next, *l_prev;
-                        /* 적재된 오브젝트들을 연결 */
+`RTLD_DI_ORIGIN` (`char *`)
+:   `handle`에 대응하는 공유 오브젝트의 출발점(origin) 경로명을 `info`가 가리키는 위치로 복사한다.
 
-    /* 더해서 구현 내부용 필드들이
-       추가로 있음 */
-};
-```
-</dd>
+`RTLD_DI_SERINFO` (`Dl_serinfo *`)
+:   `handle`이 가리키는 공유 오브젝트에 대한 라이브러리 탐색 경로 목록을 얻는다. `info` 인자가 탐색 경로들을 담는 `Dl_serinfo`에 대한 포인터이다. 탐색 경로 수가 다를 수 있기 때문에 `info`가 가리키는 구조체의 크기가 달라질 수 있다. 아래에서 기술하는 `RTLD_DI_SERINFOSIZE` 요청을 이용하면 응용에서 적절한 크기로 버퍼를 만들 수 있다. 호출자가 다음 단계들을 수행해야 한다.
 
-<dt><code>RTLD_DI_ORIGIN</code> (<code>char *</code>)</dt>
-<dd>
+    1. `RTLD_DI_SERINFOSIZE` 요청을 사용해 `Dl_serinfo` 구조체에 이어질 `RTLD_DI_SERINFO` 요청에 필요한 크기(`dls_size`)를 채운다.
 
-<code>handle</code>에 대응하는 공유 오브젝트의 출발점(origin) 경로명을 <code>info</code>가 가리키는 위치로 복사한다.
-</dd>
+    2. 올바른 크기(`dls_size`)의 `Dl_serinfo` 버퍼를 할당한다.
 
-<dt><code>RTLD_DI_SERINFO</code> (<code>Dl_serinfo *</code></dt>
-<dd>
+    3. 다시 `RTLD_DI_SERINFOSIZE` 요청을 사용해 앞 단계에서 할당한 버퍼의 `dls_size` 및 `dls_cnt` 필드를 채운다.
 
-<code>handle</code>이 가리키는 공유 오브젝트에 대한 라이브러리 탐색 경로 목록을 얻는다. <code>info</code> 인자가 탐색 경로들을 담는 <code>Dl_serinfo</code>에 대한 포인터이다. 탐색 경로 수가 다를 수 있기 때문에 <code>info</code>가 가리키는 구조체의 크기가 달라질 수 있다. 아래에서 기술하는 <code>RTLD_DI_SERINFOSIZE</code> 요청을 이용하면 응용에서 적절한 크기로 버퍼를 만들 수 있다. 호출자가 다음 단계들을 수행해야 한다.
+    4. `RTLD_DI_SERINFO`를 사용해 라이브러리 탐색 경로들을 얻는다.
 
-1. `RTLD_DI_SERINFOSIZE` 요청을 사용해 `Dl_serinfo` 구조체에 이어질 `RTLD_DI_SERINFO` 요청에 필요한 크기(`dls_size`)를 채운다.
+    `Dl_serinfo` 구조체는 다음과 같이 정의돼 있다.
 
-2. 올바른 크기(`dls_size`)의 `Dl_serinfo` 버퍼를 할당한다.
+        typedef struct {
+            size_t dls_size;           /* Size in bytes of
+                                          the whole buffer */
+            unsigned int dls_cnt;      /* Number of elements
+                                          in 'dls_serpath' */
+            Dl_serpath dls_serpath[1]; /* Actually longer,
+                                          'dls_cnt' elements */
+        } Dl_serinfo;
 
-3. 다시 `RTLD_DI_SERINFOSIZE` 요청을 사용해 앞 단계에서 할당한 버퍼의 `dls_size` 및 `dls_cnt` 필드를 채운다.
+    위 구조체의 `dls_serpath` 항목 각각은 다음 형태의 구조체이다.
 
-4. `RTLD_DI_SERINFO`를 사용해 라이브러리 탐색 경로들을 얻는다.
+        typedef struct {
+            char *dls_name;            /* 라이브러리 탐색 경로
+                                          디렉터리의 이름 */
+            unsigned int dls_flags;    /* 이 디렉터리가 어디서
+                                          왔는지 나타냄 */
+        } Dl_serpath;
 
-<code>Dl_serinfo</code> 구조체는 다음과 같이 정의돼 있다.
+    `dls_flags` 필드는 현재 쓰지 않으며 항상 0을 담는다.
 
-```c
-typedef struct {
-    size_t dls_size;           /* Size in bytes of
-                                  the whole buffer */
-    unsigned int dls_cnt;      /* Number of elements
-                                  in 'dls_serpath' */
-    Dl_serpath dls_serpath[1]; /* Actually longer,
-                                  'dls_cnt' elements */
-} Dl_serinfo;
-```
+`RTLD_DI_SERINFOSIZE` (`Dl_serinfo *`)
+:   `info`가 가리키는 `Dl_serinfo` 구조체의 `dls_size` 및 `dls_cnt` 필드를 이어질 `RTLD_DI_SERINFO` 요청에 쓸 버퍼 할당에 적합한 값들로 채운다.
 
-위 구조체의 <code>dls_serpath</code> 항목 각각은 다음 형태의 구조체이다.
+`RTLD_DI_TLS_MODID` (`size_t *`, glibc 2.4부터)
+:   이 공유 오브젝트의 TLS(스레드 로컬 저장 공간) 세그먼트의 TLS 재배치에 사용된 모듈 ID를 얻는다. 오브젝트에 TLS 세그먼트가 정의돼 있지 않으면 `*info`에 0이 들어간다.
 
-```c
-typedef struct {
-    char *dls_name;            /* 라이브러리 탐색 경로
-                                  디렉터리의 이름 */
-    unsigned int dls_flags;    /* 이 디렉터리가 어디서
-                                  왔는지 나타냄 */
-} Dl_serpath;
-```
-
-<code>dls_flags</code> 필드는 현재 쓰지 않으며 항상 0을 담는다.
-</dd>
-
-<dt><code>RTLD_DI_SERINFOSIZE</code> (<code>Dl_serinfo *</code></dt>
-<dd>
-
-<code>info</code>가 가리키는 <code>Dl_serinfo</code> 구조체의 <code>dls_size</code> 및 <code>dls_cnt</code> 필드를 이어질 <code>RTLD_DI_SERINFO</code> 요청에 쓸 버퍼 할당에 적합한 값들로 채운다.
-</dd>
-
-<dt><code>RTLD_DI_TLS_MODID</code> (<code>size_t *</code>, glibc 2.4부터)</dt>
-<dd>
-
-이 공유 오브젝트의 TLS(스레드 로컬 저장 공간) 세그먼트의 TLS 재배치에 사용된 모듈 ID를 얻는다. 오브젝트에 TLS 세그먼트가 정의돼 있지 않으면 <code>*info</code>에 0이 들어간다.
-</dd>
-
-<dt><code>RTLD_DI_TLS_DATA</code> (<code>void **</code>, glibc 2.4부터)</dt>
-<dd>
-
-이 공유 오브젝트의 TLS 세그먼트에 대응하는 호출 스레드의 TLS 블록에 대한 포인터를 얻는다. 오브젝트에 PT_TLS 세그먼트가 정의돼 있지 않거나 호출 스레드에서 블록을 할당하지 않았으면 <code>*info</code>에 NULL이 들어간다.
-</dd>
-</dl>
+`RTLD_DI_TLS_DATA` (`void **`, glibc 2.4부터)
+:   이 공유 오브젝트의 TLS 세그먼트에 대응하는 호출 스레드의 TLS 블록에 대한 포인터를 얻는다. 오브젝트에 PT_TLS 세그먼트가 정의돼 있지 않거나 호출 스레드에서 블록을 할당하지 않았으면 `*info`에 NULL이 들어간다.
 
 ## RETURN VALUE
 

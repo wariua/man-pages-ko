@@ -48,42 +48,37 @@ addr2line [<strong>-a</strong>|<strong>--addresses</strong>]
 
 여기 같이 나와 있는 긴 옵션과 짧은 옵션은 동등하다.
 
-<dl>
-<dt><code>-a</code><br><code>--addresses</code></dt>
-<dd>함수 이름과 파일 및 행 번호 정보 앞에 주소를 표시한다. 쉽게 식별할 수 있도록 주소 앞에 <code>0x</code>를 붙여서 찍는다.</dd>
+`-a`<br>`--addresses`
+:   함수 이름과 파일 및 행 번호 정보 앞에 주소를 표시한다. 쉽게 식별할 수 있도록 주소 앞에 `0x`를 붙여서 찍는다.
 
-<dt><code>-b bfdname</code><br><code>--target=bfdname</code></dt>
-<dd>오브젝트 파일의 오브젝트 코드 형식이 <code>bfdname</code>이라고 지정한다.</dd>
+`-b bfdname`<br>`--target=bfdname`
+:   오브젝트 파일의 오브젝트 코드 형식이 `bfdname`이라고 지정한다.
 
-<dt><code>-C</code><br><code>--demangle[=style]</code></dt>
-<dd>저수준 심볼 이름을 사용자 수준 이름으로 해독(*디맹글(demangle)*)한다. 시스템에서 앞에 붙인 밑줄을 없애는 것에 더해서 C++ 함수 이름을 읽을 수 있게 만들어 준다. 컴파일러마다 맹글링(mangling) 방식이 다르다. 선택적인 해독 방식 인자를 사용해서 자기 컴파일러에 맞는 해독 방식을 선택할 수 있다.</dd>
+`-C`<br>`--demangle[=style]`
+:   저수준 심볼 이름을 사용자 수준 이름으로 해독(*디맹글(demangle)*)한다. 시스템에서 앞에 붙인 밑줄을 없애는 것에 더해서 C++ 함수 이름을 읽을 수 있게 만들어 준다. 컴파일러마다 맹글링(mangling) 방식이 다르다. 선택적인 해독 방식 인자를 사용해서 자기 컴파일러에 맞는 해독 방식을 선택할 수 있다.
 
-<dt><code>-e filename</code><br><code>--exe=filename</code></dt>
-<dd>주소들을 변환할 실행 파일의 이름을 지정한다. 기본 파일은 <code>a.out</code>이다.</dd>
+`-e filename`<br>`--exe=filename`
+:   주소들을 변환할 실행 파일의 이름을 지정한다. 기본 파일은 `a.out`이다.
 
-<dt><code>-f</code><br><code>--functions</code></dt>
-<dd>파일 및 행 번호 정보와 함께 함수 이름도 표시한다.</dd>
+`-f`<br>`--functions`
+:   파일 및 행 번호 정보와 함께 함수 이름도 표시한다.
 
-<dt><code>-s</code><br><code>--basenames</code></dt>
-<dd>각 파일 이름의 기본 이름만 표시한다.</dd>
+`-s`<br>`--basenames`
+:   각 파일 이름의 기본 이름만 표시한다.
 
-<dt><code>-i</code><br><code>--inlines</code></dt>
-<dd>주소가 인라인 처리된 함수에 속하면 첫 번째 비인라인 함수까지의 모든 감싸는 스코프에 대한 소스 정보를 함께 찍는다. 예를 들어 "main"에서 "callee1"을 인라인 하고 거기서 다시 "callee2"를 인라인 하는데 주소가 "callee2"에 있으면 "callee1" 및 "main"에 대한 소스 정보도 함께 찍힌다.</dd>
+`-i`<br>`--inlines`
+:   주소가 인라인 처리된 함수에 속하면 첫 번째 비인라인 함수까지의 모든 감싸는 스코프에 대한 소스 정보를 함께 찍는다. 예를 들어 "main"에서 "callee1"을 인라인 하고 거기서 다시 "callee2"를 인라인 하는데 주소가 "callee2"에 있으면 "callee1" 및 "main"에 대한 소스 정보도 함께 찍힌다.
 
-<dt><code>-j</code><br><code>--section</code></dt>
-<dd>절대 주소가 아니라 지정한 섹션 기준 오프셋을 읽는다.</dd>
+`-j`<br>`--section`
+:   절대 주소가 아니라 지정한 섹션 기준 오프셋을 읽는다.
 
-<dt><code>-p</code><br><code>--pretty-print</code></dt>
-<dd>출력을 더 인간 친화적으로 만든다. 즉 각 위치를 한 행에 찍는다. <code>-i</code> 옵션을 지정하면 모든 감싸는 스코프 행 앞에 <code>(inlined by)</code>가 붙는다.</dd>
+`-p`<br>`--pretty-print`
+:   출력을 더 인간 친화적으로 만든다. 즉 각 위치를 한 행에 찍는다. `-i` 옵션을 지정하면 모든 감싸는 스코프 행 앞에 `(inlined by)`가 붙는다.
 
-<dt><code>@file</code></dt>
-<dd>
+`@file`
+:   `file`에서 명령행 옵션들을 읽는다. 읽어 들인 옵션들이 원래 `@file` 옵션 자리에 들어간다. `file`이 존재하지 않거나 읽을 수 없는 경우에는 이 옵션을 제거하지 않고 문자 그대로 다루게 된다.
 
-<code>file</code>에서 명령행 옵션들을 읽는다. 읽어 들인 옵션들이 원래 <code>@file</code> 옵션 자리에 들어간다. <code>file</code>이 존재하지 않거나 읽을 수 없는 경우에는 이 옵션을 제거하지 않고 문자 그대로 다루게 된다.
-
-<code>file</code> 내의 옵션들은 공백으로 구분한다. 옵션에 공백 문자를 포함시키려면 옵션 전체를 작은따옴표나 큰따옴표로 감싸면 된다. 문자 앞에 백슬래시를 붙이면 (백슬래시를 포함한) 어떤 문자든 집어넣을 수 있다. <code>file</code> 자체에 다시 <code>@file</code> 옵션이 있을 수 있다. 그러면 재귀적으로 처리가 이뤄진다.
-</dd>
-</dl>
+    `file` 내의 옵션들은 공백으로 구분한다. 옵션에 공백 문자를 포함시키려면 옵션 전체를 작은따옴표나 큰따옴표로 감싸면 된다. 문자 앞에 백슬래시를 붙이면 (백슬래시를 포함한) 어떤 문자든 집어넣을 수 있다. `file` 자체에 다시 `@file` 옵션이 있을 수 있다. 그러면 재귀적으로 처리가 이뤄진다.
 
 ## SEE ALSO
 

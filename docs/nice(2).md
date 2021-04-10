@@ -12,14 +12,10 @@ int nice(int inc);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>nice()</code>:</dt>
-<dd>
-<code>_XOPEN_SOURCE</code><br>
-<code>    || /* glibc 2.19부터: */ _DEFAULT_SOURCE</code><br>
-<code>    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE || _SVID_SOURCE</code>
-</dd>
-</dl>
+`nice()`:
+:   `_XOPEN_SOURCE`<br>
+    `    || /* glibc 2.19부터: */ _DEFAULT_SOURCE`<br>
+    `    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE || _SVID_SOURCE`
 
 ## DESCRIPTION
 
@@ -37,10 +33,8 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## ERRORS
 
-<dl>
-<dt><code>EPERM</code></dt>
-<dd> 호출 프로세스가 음수 <code>inc</code>를 제공하여 자기 우선순위를 높이려고 시도했지만 충분한 특권을 가지고 있지 않다. 리눅스에서는 <code>CAP_SYS_NICE</code> 역능이 필요하다. (하지만 <tt>[[setrlimit(2)]]</tt>에 있는 <code>RLIMIT_NICE</code> 자원 제한에 대한 논의를 보라.)</dd>
-</dl>
+`EPERM`
+:   호출 프로세스가 음수 `inc`를 제공하여 자기 우선순위를 높이려고 시도했지만 충분한 특권을 가지고 있지 않다. 리눅스에서는 `CAP_SYS_NICE` 역능이 필요하다. (하지만 <tt>[[setrlimit(2)]]</tt>에 있는 `RLIMIT_NICE` 자원 제한에 대한 논의를 보라.)
 
 ## CONFORMING TO
 

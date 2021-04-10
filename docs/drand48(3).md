@@ -28,14 +28,10 @@ void lcong48(unsigned short param[7]);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt>위 함수들 모두:</dt>
-<dd>
-<code>_XOPEN_SOURCE</code><br>
-<code>    || /* glibc 2.19부터: */ _DEFAULT_SOURCE</code><br>
-<code>    || /* glibc 버전 <= 2.19: */ _SVID_SOURCE</code>
-</dd>
-</dl>
+위 함수들 모두:
+:   `_XOPEN_SOURCE`<br>
+    `    || /* glibc 2.19부터: */ _DEFAULT_SOURCE`<br>
+    `    || /* glibc 버전 <= 2.19: */ _SVID_SOURCE`
 
 ## DESCRIPTION
 

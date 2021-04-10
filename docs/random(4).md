@@ -88,75 +88,53 @@ dd if=/dev/urandom of=$random_seed count=1 bs=$bytes
 
 (2.3.16부터 있는) `/proc/sys/kernel/random` 디렉터리 내의 파일들이 `/dev/random` 장치에 대한 추가 정보를 제공한다.
 
-<dl>
-<dt><code>entropy_avail</code></dt>
-<dd>이 읽기 전용 파일은 사용 가능 엔트로피의 양을 비트 단위로 알려 준다. 0에서 4096까지 범위의 숫자일 것이다.</dd>
+`entropy_avail`
+:   이 읽기 전용 파일은 사용 가능 엔트로피의 양을 비트 단위로 알려 준다. 0에서 4096까지 범위의 숫자일 것이다.
 
-<dt><code>poolsize</code></dt>
-<dd>
+`poolsize`
+:   이 파일은 엔트로피 풀의 크기를 알려 준다. 커널 버전에 따라 이 파일의 해석 방식이 다르다.
 
-이 파일은 엔트로피 풀의 크기를 알려 준다. 커널 버전에 따라 이 파일의 해석 방식이 다르다.
+    리눅스 2.4:
+    :   이 파일은 *바이트* 단위로 엔트로피 풀의 크기를 알려 준다. 보통은 512 값을 가지게 되는데, 파일이 쓰기 가능하므로 가용 알고리듬이 있는 어떤 값으로도 바꿀 수 있다. 선택 가능한 값은 32, 64, 128, 256, 512, 1024, 2048이다.
 
- <dl>
- <dt>리눅스 2.4:</dt>
- <dd>이 파일은 <em>바이트</em> 단위로 엔트로피 풀의 크기를 알려 준다. 보통은 512 값을 가지게 되는데, 파일이 쓰기 가능하므로 가용 알고리듬이 있는 어떤 값으로도 바꿀 수 있다. 선택 가능한 값은 32, 64, 128, 256, 512, 1024, 2048이다.</dd>
+    리눅스 2.6 및 이후:
+    :   이 파일은 읽기 전용이며 *비트* 단위로 엔트로피 풀의 크기를 알려 준다. 4096 값을 담고 있다.
 
- <dt>리눅스 2.6 및 이후:</dt>
- <dd>이 파일은 읽기 전용이며 <em>비트</em> 단위로 엔트로피 풀의 크기를 알려 준다. 4096 값을 담고 있다.</dd>
- </dl>
-</dd>
+`read_wakeup_threshold`
+:   이 파일은 `/dev/random`에게서 엔트로피를 기다리며 잠들어 있는 프로세스들을 깨우기 위해 필요한 엔트로피 비트 수를 담고 있다. 기본값은 64이다.
 
-<dt><code>read_wakeup_threshold</code></dt>
-<dd>이 파일은 <code>/dev/random</code>에게서 엔트로피를 기다리며 잠들어 있는 프로세스들을 깨우기 위해 필요한 엔트로피 비트 수를 담고 있다. 기본값은 64이다.</dd>
+`write_wakeup_threshold`
+:   이 파일은 `/dev/random` 쓰기 접근을 <tt>[[select(2)]]</tt> 내지 <tt>[[poll(2)]]</tt> 하는 프로세스들을 깨우는 엔트로피 비트 수 기준을 담고 있다. 이 기준 아래이면 깨운다. 파일에 쓰기를 해서 이 값들을 바꿀 수 있다.
 
-<dt><code>write_wakeup_threshold</code></dt>
-<dd>이 파일은 <code>/dev/random</code> 쓰기 접근을 <tt>[[select(2)]]</tt> 내지 <tt>[[poll(2)]]</tt> 하는 프로세스들을 깨우는 엔트로피 비트 수 기준을 담고 있다. 이 기준 아래이면 깨운다. 파일에 쓰기를 해서 이 값들을 바꿀 수 있다.</dd>
-
-<dt><code>uuid</code> 및 <code>boot_id</code></dt>
-<dd>이 읽기 전용 파일들은 6fd5a44b-35f4-4ad4-a9b9-6b9be13e1fe9 같은 난수열을 담고 있다. 전자는 읽을 때마다 새로 생성하며 후자는 한 번만 생성한다.</dd>
-</dl>
+`uuid` 및 `boot_id`
+:   이 읽기 전용 파일들은 6fd5a44b-35f4-4ad4-a9b9-6b9be13e1fe9 같은 난수열을 담고 있다. 전자는 읽을 때마다 새로 생성하며 후자는 한 번만 생성한다.
 
 ### `ioctl(2)` 인터페이스
 
 `/dev/random` 내지 `/dev/urandom`에 연결된 파일 디스크립터에서 다음 `ioctl(2)` 요청들이 정의되어 있다. 모든 수행 요청들은 `/dev/random`과 `/dev/urandom` 모두에 영향을 주는 입력 엔트로피 풀과 상호작용 하게 된다. `RNDGETENTCNT`를 제외한 모든 요청에는 `CAP_SYS_ADMIN` 역능이 필요하다.
 
-<dl>
-<dt><code>RNDGETENTCNT</code></dt>
-<dd>
-입력 풀의 엔트로피 양을 가져온다. 그 내용물은 proc 아래의 <code>entropy_avail</code>과 같게 된다. 인자가 가리키는 int에 결과가 저장된다.
-</dd>
+`RNDGETENTCNT`
+:   입력 풀의 엔트로피 양을 가져온다. 그 내용물은 proc 아래의 `entropy_avail`과 같게 된다. 인자가 가리키는 int에 결과가 저장된다.
 
-<dt><code>RNDADDTOENDCNT</code></dt>
-<dd>
-인자가 가리키는 값만큼 입력 풀의 엔트로피 양을 올리거나 내린다.
-</dd>
+`RNDADDTOENDCNT`
+:   인자가 가리키는 값만큼 입력 풀의 엔트로피 양을 올리거나 내린다.
 
-<dt><code>RNDGETPOOL</code></dt>
-<dd>
-리눅스 2.6.9에서 제거됨.
-</dd>
+`RNDGETPOOL`
+:   리눅스 2.6.9에서 제거됨.
 
-<dt><code>RNDADDENTROPY</code></dt>
-<dd>
+`RNDADDENTROPY`
+:   입력 풀에 어떤 추가 엔트로피를 더하여 엔트로피 양을 늘인다. `/dev/random`이나 `/dev/urandom`에 쓰기를 하는 것과는 다른데, 거기선 어떤 데이터를 추가하지만 엔트로피 양을 늘이지는 않는다. 다음 구조체를 사용한다.
 
-입력 풀에 어떤 추가 엔트로피를 더하여 엔트로피 양을 늘인다. <code>/dev/random</code>이나 <code>/dev/urandom</code>에 쓰기를 하는 것과는 다른데, 거기선 어떤 데이터를 추가하지만 엔트로피 양을 늘이지는 않는다. 다음 구조체를 사용한다.
+        struct rand_pool_info {
+            int    entropy_count;
+            int    buf_size;
+            __u32  buf[0];
+        };
 
-```c
-struct rand_pool_info {
-    int    entropy_count;
-    int    buf_size;
-    __u32  buf[0];
-};
-```
+    여기서 `entropy_count`는 엔트로피 양에 더하는 (또는 빼는) 값이고, `buf`는 엔트로피 풀에 추가되는 `buf_size` 크기 버퍼이다.
 
-여기서 <code>entropy_count</code>는 엔트로피 양에 더하는 (또는 빼는) 값이고, <code>buf</code>는 엔트로피 풀에 추가되는 <code>buf_size</code> 크기 버퍼이다.
-</dd>
-
-<dt><code>RNDZAPENTCNT</code>, <code>RNDCLEARPOOL</code></dt>
-<dd>
-모든 풀의 엔트로피 양을 0으로 만들고 그 풀들에 어떤 (시계 시간 같은) 시스템 데이터를 추가한다.
-</dd>
-</dl>
+`RNDZAPENTCNT`, `RNDCLEARPOOL`
+:   모든 풀의 엔트로피 양을 0으로 만들고 그 풀들에 어떤 (시계 시간 같은) 시스템 데이터를 추가한다.
 
 ## FILES
 

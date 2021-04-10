@@ -30,12 +30,11 @@ int aio_error(const struct aiocb *aiocbp);
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>aiocbp</code>가 아직 반환 상태를 가져오지 않은 (<tt>[[aio_return(3)]]</tt> 참고) 비동기 I/O 요청의 제어 블록을 가리키고 있지 않다.</dd>
-<dt><code>ENOSYS</code></dt>
-<dd><code>aio_error()</code>가 구현돼 있지 않다.</dd>
-</dl>
+`EINVAL`
+:   `aiocbp`가 아직 반환 상태를 가져오지 않은 (<tt>[[aio_return(3)]]</tt> 참고) 비동기 I/O 요청의 제어 블록을 가리키고 있지 않다.
+
+`ENOSYS`
+:   `aio_error()`가 구현돼 있지 않다.
 
 ## VERSIONS
 

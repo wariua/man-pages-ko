@@ -18,65 +18,50 @@ int eventfd(unsigned int initval, int flags);
 
 `flags`에 다음 값들을 비트 OR 해서 `eventfd()`의 동작 방식을 바꿀 수 있다.
 
-<dl>
-<dt><code>EFD_CLOEXEC</code> (리눅스 2.6.27부터)</dt>
-<dd>새 파일 디스크립터에 'exec에서 닫기'(<code>FD_CLOEXEC</code>) 플래그를 설정한다. 이게 유용할 수 있는 이유에 대해선 <tt>[[open(2)]]</tt>의 <code>O_CLOEXEC</code> 플래그 설명을 보라.</dd>
+`EFD_CLOEXEC` (리눅스 2.6.27부터)
+:   새 파일 디스크립터에 'exec에서 닫기'(`FD_CLOEXEC`) 플래그를 설정한다. 이게 유용할 수 있는 이유에 대해선 <tt>[[open(2)]]</tt>의 `O_CLOEXEC` 플래그 설명을 보라.
 
-<dt><code>EFD_NONBLOCK</code> (리눅스 2.6.27부터)</dt>
-<dd>새 파일 디스크립터가 가리키는 열린 파일 기술 항목(<tt>[[open(2)]]</tt> 참고)에 <code>O_NONBLOCK</code> 파일 상태 플래그를 설정한다. 이 플래그를 사용하면 같은 결과를 얻기 위해 <tt>[[fcntl(2)]]</tt>을 추가로 호출하지 않아도 된다.</dd>
+`EFD_NONBLOCK` (리눅스 2.6.27부터)
+:   새 파일 디스크립터가 가리키는 열린 파일 기술 항목(<tt>[[open(2)]]</tt> 참고)에 `O_NONBLOCK` 파일 상태 플래그를 설정한다. 이 플래그를 사용하면 같은 결과를 얻기 위해 <tt>[[fcntl(2)]]</tt>을 추가로 호출하지 않아도 된다.
 
-<dt><code>EFD_SEMAPHORE</code> (리눅스 2.6.30부터)</dt>
-<dd>새 파일 디스크립터 읽기에 세마포어 같은 동작 방식을 제공한다. 아래 참고.</dd>
-</dl>
+`EFD_SEMAPHORE` (리눅스 2.6.30부터)
+:   새 파일 디스크립터 읽기에 세마포어 같은 동작 방식을 제공한다. 아래 참고.
 
 리눅스 버전 2.6.26까지는 `flags` 인자를 사용하지 않으며 0으로 지정해야 한다.
 
 `eventfd()`가 반환한 파일 디스크립터에 다음 작업을 수행할 수 있다.
 
-<dl>
-<dt><code>read(2)</code></dt>
-<dd>
+`read(2)`
+:   `read(2)`가 성공할 때마다 8바이트 정수를 반환한다. 제공받은 버퍼의 크기가 8바이트보다 작으면 `read(2)`가 `EINVAL` 오류로 실패한다.
 
-<code>read(2)</code>가 성공할 때마다 8바이트 정수를 반환한다. 제공받은 버퍼의 크기가 8바이트보다 작으면 <code>read(2)</code>가 <code>EINVAL</code> 오류로 실패한다.
+    `read(2)`가 반환하는 값은 호스트 바이트 순서, 즉 호스트 머신 원래의 정수 바이트 순서이다.
 
-<code>read(2)</code>가 반환하는 값은 호스트 바이트 순서, 즉 호스트 머신 원래의 정수 바이트 순서이다.
+    `read(2)`의 동작 방식은 eventfd 카운터가 현재 0 아닌 값을 가지고 있는지 여부와 eventfd 파일 디스크립터 생성 시 `EFD_SEMAPHORE` 플래그를 지정했는지 여부에 따라 달라진다.
 
-<code>read(2)</code>의 동작 방식은 eventfd 카운터가 현재 0 아닌 값을 가지고 있는지 여부와 eventfd 파일 디스크립터 생성 시 <code>EFD_SEMAPHORE</code> 플래그를 지정했는지 여부에 따라 달라진다.
+    * `EFD_SEMAPHORE`를 지정하지 않았고 eventfd 카운터의 값이 0이 아니면 `read(2)`가 그 값을 담은 8바이트를 반환하며 카운터 값이 0으로 재설정된다.
 
-* <code>EFD_SEMAPHORE</code>를 지정하지 않았고 eventfd 카운터의 값이 0이 아니면 <code>read(2)</code>가 그 값을 담은 8바이트를 반환하며 카운터 값이 0으로 재설정된다.
+    * `EFD_SEMAPHORE`를 지정했으며 eventfd 카운터의 값이 0이 아니면 `read(2)`가 값 1을 담은 8바이트를 반환하며 카운터 값이 1만큼 줄어든다.
 
-* <code>EFD_SEMAPHORE</code>를 지정했으며 eventfd 카운터의 값이 0이 아니면 <code>read(2)</code>가 값 1을 담은 8바이트를 반환하며 카운터 값이 1만큼 줄어든다.
+    * `read(2)` 호출 시점에 eventfd 카운터가 0이면 카운터가 0이 아니게 될 때까지 블록 한다. (그때 `read(2)`가 위 설명처럼 진행한다.) 파일 디스크립터를 논블록으로 만들었으면 `EAGAIN` 오류로 실패한다.
 
-* <code>read(2)</code> 호출 시점에 eventfd 카운터가 0이면 카운터가 0이 아니게 될 때까지 블록 한다. (그때 <code>read(2)</code>가 위 설명처럼 진행한다.) 파일 디스크립터를 논블록으로 만들었으면 <code>EAGAIN</code> 오류로 실패한다.
-</dd>
+`write(2)`
+:   `write(2)` 호출은 버퍼에 준 8바이트 정수 값을 카운터에 더한다. 카운터에 저장할 수 있는 최댓값은 가장 큰 부호 없는 64비트 정수에서 1을 뺀 것(즉 0xfffffffffffffffe)이다. 더한 결과가 그 최댓값을 초과하게 될 것 같으면 그 파일 디스크립터에 `read(2)`가 이뤄질 때까지 `write(2)`가 블록 한다. 파일 디스크립터를 논블록으로 만들었으면 `EAGAIN` 오류로 실패한다.
 
-<dt><code>write(2)</code></dt>
-<dd>
+    제공 버퍼의 크기가 8바이트보다 작거나 값 0xffffffffffffffff를 쓰려고 시도하면 `write(2)`가 `EINVAL` 오류로 실패한다.
 
-<code>write(2)</code> 호출은 버퍼에 준 8바이트 정수 값을 카운터에 더한다. 카운터에 저장할 수 있는 최댓값은 가장 큰 부호 없는 64비트 정수에서 1을 뺀 것(즉 0xfffffffffffffffe)이다. 더한 결과가 그 최댓값을 초과하게 될 것 같으면 그 파일 디스크립터에 <code>read(2)</code>가 이뤄질 때까지 <code>write(2)</code>가 블록 한다. 파일 디스크립터를 논블록으로 만들었으면 <code>EAGAIN</code> 오류로 실패한다.
+<tt>[[poll(2)]]</tt>, <tt>[[select(2)]]</tt> (기타 유사 함수)
+:   반환되는 파일 디스크립터가 다음과 같이 <tt>[[poll(2)]]</tt> (<tt>[[epoll(7)]]</tt>도 비슷함) 및 <tt>[[select(2)]]</tt>를 지원한다.
 
-제공 버퍼의 크기가 8바이트보다 작거나 값 0xffffffffffffffff를 쓰려고 시도하면 <code>write(2)</code>가 <code>EINVAL</code> 오류로 실패한다.
-</dd>
+    * 카운터 값이 0보다 크면 파일 디스크립터가 읽기 가능하다. (<tt>[[select(2)]]</tt>의 `readfds` 인자, <tt>[[poll(2)]]</tt>의 `POLLIN` 플래그)
 
-<dt><tt>[[poll(2)]]</tt>, <tt>[[select(2)]]</tt> (기타 유사 함수)</dt>
-<dd>
+    * 블록 되지 않고 적어도 "1" 값을 기록할 수 있으면 파일 디스크립터가 쓰기 가능하다. (<tt>[[select(2)]]</tt>의 `writefds` 인자, <tt>[[poll(2)]]</tt>의 `POLLOUT` 플래그)
 
-반환되는 파일 디스크립터가 다음과 같이 <tt>[[poll(2)]]</tt> (<tt>[[epoll(7)]]</tt>도 비슷함) 및 <tt>[[select(2)]]</tt>를 지원한다.
+    * 카운터 값 오버플로우를 감지한 경우 <tt>[[select(2)]]</tt>는 파일 디스크립터가 읽기 가능하면서 동시에 쓰기 가능하다고 표시하며 <tt>[[poll(2)]]</tt>은 `POLLERR` 이벤트를 반환한다. 위에서 언급한 것처럼 `write(2)`는 절대 카운터를 넘치게 할 수 없다. 하지만 KAIO 서브시스템에서 eventfd "알림 발송"을 2^64번 수행한다면 넘침이 발생할 수 있다. (이론적으로 가능한 것이고 실제로는 가능성이 낮다.) 넘침이 발생했으면 `read(2)`가 가장 큰 `uint64_t` 값(즉 0xffffffffffffffff)을 반환하게 된다.
 
-* 카운터 값이 0보다 크면 파일 디스크립터가 읽기 가능하다. (<tt>[[select(2)]]</tt>의 <code>readfds</code> 인자, <tt>[[poll(2)]]</tt>의 <code>POLLIN</code> 플래그)
+    eventfd 파일 디스크립터는 <tt>[[pselect(2)]]</tt>와 <tt>[[ppoll(2)]]</tt> 같은 다른 파일 디스크립터 다중화 API도 지원한다.
 
-* 블록 되지 않고 적어도 "1" 값을 기록할 수 있으면 파일 디스크립터가 쓰기 가능하다. (<tt>[[select(2)]]</tt>의 <code>writefds</code> 인자, <tt>[[poll(2)]]</tt>의 <code>POLLOUT</code> 플래그)
-
-* 카운터 값 오버플로우를 감지한 경우 <tt>[[select(2)]]</tt>는 파일 디스크립터가 읽기 가능하면서 동시에 쓰기 가능하다고 표시하며 <tt>[[poll(2)]]</tt>은 <code>POLLERR</code> 이벤트를 반환한다. 위에서 언급한 것처럼 <code>write(2)</code>는 절대 카운터를 넘치게 할 수 없다. 하지만 KAIO 서브시스템에서 eventfd "알림 발송"을 2^64번 수행한다면 넘침이 발생할 수 있다. (이론적으로 가능한 것이고 실제로는 가능성이 낮다.) 넘침이 발생했으면 <code>read(2)</code>가 가장 큰 <code>uint64_t</code> 값(즉 0xffffffffffffffff)을 반환하게 된다.
-
-eventfd 파일 디스크립터는 <tt>[[pselect(2)]]</tt>와 <tt>[[ppoll(2)]]</tt> 같은 다른 파일 디스크립터 다중화 API도 지원한다.
-</dd>
-
-<dt><tt>[[close(2)]]</tt></dt>
-<dd>
-파일 디스크립터가 더 이상 필요하지 않으면 닫아야 한다. 동일 eventfd 객체에 연계된 모든 파일 디스크립터가 닫혔을 때 커널이 그 객체의 자원을 해제한다.
-</dd>
-</dl>
+<tt>[[close(2)]]</tt>
+:   파일 디스크립터가 더 이상 필요하지 않으면 닫아야 한다. 동일 eventfd 객체에 연계된 모든 파일 디스크립터가 닫혔을 때 커널이 그 객체의 자원을 해제한다.
 
 <tt>[[fork(2)]]</tt>로 생성된 자식은 `eventfd()`로 만든 파일 디스크립터의 사본을 물려받는다. 복제된 파일 디스크립터는 동일한 eventfd 객체에 연계되어 있다. 'exec에서 닫기' 플래그를 설정하지 않았으면 <tt>[[execve(2)]]</tt>를 거치면서 `eventfd()`로 만든 파일 디스크립터가 유지된다.
 
@@ -86,18 +71,20 @@ eventfd 파일 디스크립터는 <tt>[[pselect(2)]]</tt>와 <tt>[[ppoll(2)]]</t
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd>지원하지 않는 값을 <code>flags</code>에 지정했다.</dd>
-<dt><code>EMFILE</code></dt>
-<dd>열린 파일 디스크립터 개수에 대한 프로세스별 제한에 도달했다.</dd>
-<dt><code>ENFILE</code></dt>
-<dd>열린 파일 총개수에 대한 시스템 전역 제한에 도달했다.</dd>
-<dt><code>ENODEV</code></dt>
-<dd>(내부적으로 쓰는) 익명 아이노드 장치를 마운트 할 수 없었다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>새 eventfd 파일 디스크립터를 생성하기에 메모리가 충분하지 않았다.</dd>
-</dl>
+`EINVAL`
+:   지원하지 않는 값을 `flags`에 지정했다.
+
+`EMFILE`
+:   열린 파일 디스크립터 개수에 대한 프로세스별 제한에 도달했다.
+
+`ENFILE`
+:   열린 파일 총개수에 대한 시스템 전역 제한에 도달했다.
+
+`ENODEV`
+:   (내부적으로 쓰는) 익명 아이노드 장치를 마운트 할 수 없었다.
+
+`ENOMEM`
+:   새 eventfd 파일 디스크립터를 생성하기에 메모리가 충분하지 않았다.
 
 ## VERSIONS
 

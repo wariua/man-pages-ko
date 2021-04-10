@@ -129,34 +129,32 @@ _XIAFS_SUPER_MAGIC    0x012fd16d /* 리눅스 2.0 및 이전 */
 
 `f_flags` 필드는 파일 시스템 마운트 옵션을 나타내는 비트 마스크이다. 다음 비트를 0개 이상 담는다.
 
-<dl>
-<dt><code>ST_MANDLOCK</code></dt>
-<dd>파일 시스템 상에서 강제적 락킹을 허용한다. (<tt>[[fcntl(2)]]</tt> 참고.)</dd>
+`ST_MANDLOCK`
+:   파일 시스템 상에서 강제적 락킹을 허용한다. (<tt>[[fcntl(2)]]</tt> 참고.)
 
-<dt><code>ST_NOATIME</code></dt>
-<dd>접근 시간을 갱신하지 않는다. <tt>[[mount(2)]]</tt> 참고.</dd>
+`ST_NOATIME`
+:   접근 시간을 갱신하지 않는다. <tt>[[mount(2)]]</tt> 참고.
 
-<dt><code>ST_NODEV</code></dt>
-<dd>파일 시스템 상에서 장치 특수 파일에 대한 접근을 불허한다.</dd>
+`ST_NODEV`
+:   파일 시스템 상에서 장치 특수 파일에 대한 접근을 불허한다.
 
-<dt><code>ST_NODIRATIME</code></dt>
-<dd>디렉터리 접근 시간을 갱신하지 않는다. <tt>[[mount(2)]]</tt> 참고.</dd>
+`ST_NODIRATIME`
+:   디렉터리 접근 시간을 갱신하지 않는다. <tt>[[mount(2)]]</tt> 참고.
 
-<dt><code>ST_NOEXEC</code></dt>
-<dd>파일 시스템 상에서 프로그램 실행을 불허한다.</dd>
+`ST_NOEXEC`
+:   파일 시스템 상에서 프로그램 실행을 불허한다.
 
-<dt><code>ST_NOSUID</code></dt>
-<dd>파일 시스템 상의 실행 파일에 대해 <tt>[[exec(3)]]</tt>에서 set-user-ID 및 set-group-ID 비트를 무시한다.</dd>
+`ST_NOSUID`
+:   파일 시스템 상의 실행 파일에 대해 <tt>[[exec(3)]]</tt>에서 set-user-ID 및 set-group-ID 비트를 무시한다.
 
-<dt><code>ST_RDONLY</code></dt>
-<dd>파일 시스템이 읽기 전용으로 마운트 돼 있다.</dd>
+`ST_RDONLY`
+:   파일 시스템이 읽기 전용으로 마운트 돼 있다.
 
-<dt><code>ST_RELATIME</code></dt>
-<dd>mtime/ctime에 따라서 atime을 갱신한다. <tt>[[mount(2)]]</tt> 참고.</dd>
+`ST_RELATIME`
+:   mtime/ctime에 따라서 atime을 갱신한다. <tt>[[mount(2)]]</tt> 참고.
 
-<dt><code>ST_SYNCHRONOUS</code></dt>
-<dd>쓰기를 파일 시스템으로 즉시 동기화한다. (<tt>[[open(2)]]</tt>의 <code>O_SYNC</code> 설명 참고.)</dd>
-</dl>
+`ST_SYNCHRONOUS`
+:   쓰기를 파일 시스템으로 즉시 동기화한다. (<tt>[[open(2)]]</tt>의 `O_SYNC` 설명 참고.)
 
 `f_fsid`에 뭐가 들어가야 하는지는 아무도 모른다. (하지만 아래 참고.)
 
@@ -170,32 +168,41 @@ _XIAFS_SUPER_MAGIC    0x012fd16d /* 리눅스 2.0 및 이전 */
 
 ## ERRORS
 
-<dl>
-<dt><code>EACCES</code></dt>
-<dd>(<code>statfs()</code>) <code>path</code>의 경로 선두부의 어느 요소에 대해 탐색 권한이 거부되었다. (<tt>[[path_resolution(7)]]</tt>도 참고.)</dd>
-<dt><code>EBADF</code></dt>
-<dd>(<code>fstatfs()</code>) <code>fd</code>가 유효한 열린 파일 디스크립터가 아니다.</dd>
-<dt><code>EFAULT</code></dt>
-<dd><code>buf</code>나 <code>path</code>가 유효하지 않은 주소를 가리키고 있다.</dd>
-<dt><code>EINTR</code></dt>
-<dd>호출이 시그널에 의해 중단되었다. <tt>[[signal(7)]]</tt> 참고.</dd>
-<dt><code>EIO</code></dt>
-<dd>파일 시스템에서 읽기를 하던 중 I/O 오류가 발생했다.</dd>
-<dt><code>ELOOP</code></dt>
-<dd>(<code>statfs()</code>) <code>path</code>를 변환하는 동안 너무 많은 심볼릭 링크를 만났다.</dd>
-<dt><code>ENAMETOOLONG</code></dt>
-<dd>(<code>statfs()</code>) <code>path</code>가 너무 길다.</dd>
-<dt><code>ENOENT</code></dt>
-<dd>(<code>statfs()</code>) <code>path</code>가 가리키는 파일이 존재하지 않는다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>사용 가능한 커널 메모리가 충분하지 않다.</dd>
-<dt><code>ENOSYS</code></dt>
-<dd>파일 시스템에서 이 호출을 지원하지 않는다.</dd>
-<dt><code>ENOTDIR</code></dt>
-<dd>(<code>statfs()</code>) <code>path</code>의 경로 선두부의 한 요소가 디렉터리가 아니다.</dd>
-<dt><code>EOVERFLOW</code></dt>
-<dd>일부 값이 너무 커서 반환 구조체로 표현할 수 없다.</dd>
-</dl>
+`EACCES`
+:   (`statfs()`) `path`의 경로 선두부의 어느 요소에 대해 탐색 권한이 거부되었다. (<tt>[[path_resolution(7)]]</tt>도 참고.)
+
+`EBADF`
+:   (`fstatfs()`) `fd`가 유효한 열린 파일 디스크립터가 아니다.
+
+`EFAULT`
+:   `buf`나 `path`가 유효하지 않은 주소를 가리키고 있다.
+
+`EINTR`
+:   호출이 시그널에 의해 중단되었다. <tt>[[signal(7)]]</tt> 참고.
+
+`EIO`
+:   파일 시스템에서 읽기를 하던 중 I/O 오류가 발생했다.
+
+`ELOOP`
+:   (`statfs()`) `path`를 변환하는 동안 너무 많은 심볼릭 링크를 만났다.
+
+`ENAMETOOLONG`
+:   (`statfs()`) `path`가 너무 길다.
+
+`ENOENT`
+:   (`statfs()`) `path`가 가리키는 파일이 존재하지 않는다.
+
+`ENOMEM`
+:   사용 가능한 커널 메모리가 충분하지 않다.
+
+`ENOSYS`
+:   파일 시스템에서 이 호출을 지원하지 않는다.
+
+`ENOTDIR`
+:   (`statfs()`) `path`의 경로 선두부의 한 요소가 디렉터리가 아니다.
+
+`EOVERFLOW`
+:   일부 값이 너무 커서 반환 구조체로 표현할 수 없다.
 
 ## CONFORMING TO
 

@@ -14,10 +14,8 @@ long double strtold(const char *nptr, char **endptr);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>strtof()</code>, <code>strtold()</code>:</dt>
-<dd><code>_ISOC99_SOURCE || _POSIX_C_SOURCE >= 200112L</code></dd>
-</dl>
+`strtof()`, `strtold()`:
+:   `_ISOC99_SOURCE || _POSIX_C_SOURCE >= 200112L`
 
 ## DESCRIPTION
 
@@ -45,10 +43,8 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## ERRORS
 
-<dl>
-<dt><code>ERANGE</code></dt>
-<dd>오버플로우나 언더플로우가 발생했다.</dd>
-</dl>
+`ERANGE`
+:   오버플로우나 언더플로우가 발생했다.
 
 ## ATTRIBUTES
 

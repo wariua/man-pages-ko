@@ -16,18 +16,16 @@ extern int daylight;
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>tzset()</code>:</dt>
-<dd><code>_POSIX_C_SOURCE</code></dd>
-<dt><code>tzname</code>:</dt>
-<dd><code>_POSIX_C_SOURCE</code></dd>
-<dt><code>timezone</code>, <code>daylight</code>:</dt>
-<dd>
-<code>_XOPEN_SOURCE</code><br>
-<code>|| /* glibc 2.19부터: */ _DEFAULT_SOURCE</code><br>
-<code>|| /* glibc 버전 <= 2.19: */ _SVID_SOURCE</code>
-</dd>
-</dl>
+`tzset()`:
+:   `_POSIX_C_SOURCE`
+
+`tzname`:
+:   `_POSIX_C_SOURCE`
+
+`timezone`, `daylight`:
+:   `_XOPEN_SOURCE`<br>
+    `|| /* glibc 2.19부터: */ _DEFAULT_SOURCE`<br>
+    `|| /* glibc 버전 <= 2.19: */ _SVID_SOURCE`
 
 ## DESCRIPTION
 
@@ -53,16 +51,14 @@ std offset[dst[offset][,start[/time],end[/time]]]
 
 `start` 필드는 일광 절약 시간이 발효되는 때를 나타내고 `end` 필드는 다시 표준시로 바뀌는 때를 나타낸다. 이 두 필드는 다음 형식일 수 있다.
 
-<dl>
-<dt><code>Jn</code></dt>
-<dd>율리우스력 날짜를 1에서 365 사이의 <code>n</code>으로 지정한다. 윤날은 세지 않는다. 이 형식에서는 2월 29일을 표현할 수 없다. 즉 2월 28일이 59번 날이고 항상 3월 1일이 60번 날이다.</dd>
+`Jn`
+:   율리우스력 날짜를 1에서 365 사이의 `n`으로 지정한다. 윤날은 세지 않는다. 이 형식에서는 2월 29일을 표현할 수 없다. 즉 2월 28일이 59번 날이고 항상 3월 1일이 60번 날이다.
 
-<dt><code>n</code></dt>
-<dd>0이 기준인 율리우스력 날짜를 0에서 365 사이의 <code>n</code>으로 지정한다. 윤년의 2월 29일을 센다.</dd>
+`n`
+:   0이 기준인 율리우스력 날짜를 0에서 365 사이의 `n`으로 지정한다. 윤년의 2월 29일을 센다.
 
-<dt><code>Mm.w.d</code></dt>
-<dd><code>m</code> 월(1 &lt;= <code>m</code> &lt;= 12)의 <code>w</code> 번째 주(1 &lt;= <code>w</code> &lt;= 5)의 <code>d</code> 번째 날(0 &lt;= <code>d</code> &lt;= 6)을 지정한다. 1번째 주는 <code>d</code> 번째 날이 있는 첫 번째 주이고 5번째 주는 <code>d</code> 번째 날이 있는 마지막 주이다. 0번째 날은 일요일이다.</dd>
-</dl>
+`Mm.w.d`
+:   `m` 월(1 <= `m` <= 12)의 `w` 번째 주(1 <= `w` <= 5)의 `d` 번째 날(0 <= `d` <= 6)을 지정한다. 1번째 주는 `d` 번째 날이 있는 첫 번째 주이고 5번째 주는 `d` 번째 날이 있는 마지막 주이다. 0번째 날은 일요일이다.
 
 `time` 필드는 현재 적용 중인 지역 시간으로 언제 그 다른 시간으로 바뀌는지를 나타낸다. 생략 시 기본값은 02:00:00이다.
 
@@ -88,26 +84,22 @@ TZ=":Pacific/Auckland"
 
 ## ENVIRONMENT
 
-<dl>
-<dt><code>TZ</code></dt>
-<dd>이 변수가 설정돼 있으면 그 값이 시스템 설정 시간대보다 우선한다.</dd>
+`TZ`
+:   이 변수가 설정돼 있으면 그 값이 시스템 설정 시간대보다 우선한다.
 
-<dt><code>TZDIR</code></dt>
-<dd>이 변수가 설정돼 있으면 그 값이 시스템 설정 시간대 데이터베이스 디렉터리 경로보다 우선한다.</dd>
-</dl>
+`TZDIR`
+:   이 변수가 설정돼 있으면 그 값이 시스템 설정 시간대 데이터베이스 디렉터리 경로보다 우선한다.
 
 ## FILES
 
-<dl>
-<dt><code>/etc/localtime</code></dt>
-<dd>시스템 시간대 파일.</dd>
+`/etc/localtime`
+:   시스템 시간대 파일.
 
-<dt><code>/usr/share/zoneinfo/</code></dt>
-<dd>시스템 시간대 데이터베이스 디렉터리.</dd>
+`/usr/share/zoneinfo/`
+:   시스템 시간대 데이터베이스 디렉터리.
 
-<dt><code>/usr/share/zoneinfo/posixrules</code></dt>
-<dd>TZ 문자열에 dst 시간대가 있고 그 뒤에 아무것도 없으면 이 파일을 써서 시작/끝 규칙을 얻는다. <tt>[[tzfile(5)]]</tt> 형식으로 돼 있다. 기본적으로 zoneinfo의 Makefile에서 tzfile <code>America/New York</code>에 대한 하드 링크로 만들어 둔다.</dd>
-</dl>
+`/usr/share/zoneinfo/posixrules`
+:   TZ 문자열에 dst 시간대가 있고 그 뒤에 아무것도 없으면 이 파일을 써서 시작/끝 규칙을 얻는다. <tt>[[tzfile(5)]]</tt> 형식으로 돼 있다. 기본적으로 zoneinfo의 Makefile에서 tzfile `America/New York`에 대한 하드 링크로 만들어 둔다.
 
 이상은 현행 표준 파일 위치이다. glibc를 컴파일 할 때 설정 가능하다.
 

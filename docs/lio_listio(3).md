@@ -19,28 +19,24 @@ int lio_listio(int mode, struct aiocb *const aiocb_list[],
 
 `mode` 인자의 값은 다음 중 하나이다.
 
-<dl>
-<dt><code>LIO_WAIT</code></dt>
-<dd>모든 동작들이 완료될 때까지 호출이 블록 된다. <code>sevp</code> 인자는 무시한다.</dd>
+`LIO_WAIT`
+:   모든 동작들이 완료될 때까지 호출이 블록 된다. `sevp` 인자는 무시한다.
 
-<dt><code>LIO_NOWAIT</code></dt>
-<dd>I/O 동작들을 처리 큐에 넣고 호출이 즉시 반환한다. I/O 동작들이 모두 완료되면 <code>sevp</code> 인자로 지정한 대로 비동기 알림이 이뤄진다. 자세한 내용은 <tt>[[sigevent(7)]]</tt> 참고. <code>sevp</code>가 NULL이면 비동기 알림이 이뤄지지 않는다.</dd>
-</dl>
+`LIO_NOWAIT`
+:   I/O 동작들을 처리 큐에 넣고 호출이 즉시 반환한다. I/O 동작들이 모두 완료되면 `sevp` 인자로 지정한 대로 비동기 알림이 이뤄진다. 자세한 내용은 <tt>[[sigevent(7)]]</tt> 참고. `sevp`가 NULL이면 비동기 알림이 이뤄지지 않는다.
 
 `aiocb_list` 인자는 I/O 동작을 기술하는 `aiocb` 구조체에 대한 포인터들의 배열이다. 그 동작들이 실행되는 순서는 명세돼 있지 않다. `nitems` 인자는 `aiocb_list` 배열의 크기를 나타낸다. `aiocb_list`에서 널 포인터는 무시한다.
 
 `aiocb_list`의 각 제어 블록 안에 있는 `aio_lio_opcode` 필드가 개시할 I/O 동작을 지정한다.
 
-<dl>
-<dt><code>LIO_READ</code></dt>
-<dd>읽기 동작을 개시한다. 이 제어 블록을 지정해서 <tt>[[aio_read(3)]]</tt>를 호출한 것처럼 동작을 큐에 넣는다.</dd>
+`LIO_READ`
+:   읽기 동작을 개시한다. 이 제어 블록을 지정해서 <tt>[[aio_read(3)]]</tt>를 호출한 것처럼 동작을 큐에 넣는다.
 
-<dt><code>LIO_WRITE</code></dt>
-<dd>쓰기 동작을 개시한다. 이 제어 블록을 지정해서 <tt>[[aio_write(3)]]</tt>를 호출한 것처럼 동작을 큐에 넣는다.</dd>
+`LIO_WRITE`
+:   쓰기 동작을 개시한다. 이 제어 블록을 지정해서 <tt>[[aio_write(3)]]</tt>를 호출한 것처럼 동작을 큐에 넣는다.
 
-<dt><code>LIO_NOP</code></dt>
-<dd>이 제어 블록을 무시한다.</dd>
-</dl>
+`LIO_NOP`
+:   이 제어 블록을 무시한다.
 
 각 제어 블록 안의 나머지 필드들은 <tt>[[aio_read(3)]]</tt> 및 <tt>[[aio_write(3)]]</tt>에서와 의미가 같다. 각 제어 블록의 `aio_sigevent` 필드를 사용해 개별 I/O 동작별로 알림 방식을 지정할 수 있다. (<tt>[[sigevent(7)]]</tt> 참고.)
 
@@ -56,18 +52,20 @@ int lio_listio(int mode, struct aiocb *const aiocb_list[],
 
 `lio_listio()` 함수가 다음 이유로 실패할 수 있다.
 
-<dl>
-<dt><code>EAGAIN</code></dt>
-<dd>자원 부족.</dd>
-<dt><code>EAGAIN</code></dt>
-<dd><code>nitems</code>로 지정한 I/O 동작 개수 때문에 제한치 <code>AIO_MAX</code>를 초과하게 된다.</dd>
-<dt><code>EINTR</code></dt>
-<dd><code>mode</code>가 <code>LIO_WAIT</code>이며 I/O 동작이 모두 완료되기 전에 시그널을 잡았다. <tt>[[signal(7)]]</tt> 참고. (비동기 I/O 완료 알림에 쓰는 시그널들 중 하나일 수도 있다.)</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>mode</code>가 유효하지 않거나, <code>nitems</code>가 제한치 <code>AIO_LISTIO_MAX</code>를 초과한다.</dd>
-<dt><code>EIO</code></dt>
-<dd><code>aiocb_list</code>로 지정한 동작이 하나 이상 실패했다. 응용에서 <tt>[[aio_return(3)]]</tt>을 사용해 각 동작의 상태를 확인할 수 있다.</dd>
-</dl>
+`EAGAIN`
+:   자원 부족.
+
+`EAGAIN`
+:   `nitems`로 지정한 I/O 동작 개수 때문에 제한치 `AIO_MAX`를 초과하게 된다.
+
+`EINTR`
+:   `mode`가 `LIO_WAIT`이며 I/O 동작이 모두 완료되기 전에 시그널을 잡았다. <tt>[[signal(7)]]</tt> 참고. (비동기 I/O 완료 알림에 쓰는 시그널들 중 하나일 수도 있다.)
+
+`EINVAL`
+:   `mode`가 유효하지 않거나, `nitems`가 제한치 `AIO_LISTIO_MAX`를 초과한다.
+
+`EIO`
+:   `aiocb_list`로 지정한 동작이 하나 이상 실패했다. 응용에서 <tt>[[aio_return(3)]]</tt>을 사용해 각 동작의 상태를 확인할 수 있다.
 
 `lio_listio()`가 `EAGAIN`이나 `EINTR`, `EIO`로 실패하는 경우에는 `aiocb_list`의 동작들 중 일부가 개시되었을 수 있다. `lio_listio()`가 다른 이유로 실패하는 경우에는 어떤 I/O 동작도 개시되지 않은 것이다.
 

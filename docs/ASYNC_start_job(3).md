@@ -32,19 +32,17 @@ ASYNC_JOB 생성은 꽤 비용이 큰 동작이다. 따라서 효율성을 위�
 
 `ASYNC_start_job()` 함수를 호출해서 비동기 작업을 시작한다. 처음에는 `*job`이 NULL이어야 한다. `ctx`는 <tt>[[ASYNC_WAIT_CTX_new(3)]]</tt> 함수를 통해 만든 ASYNC_WAIT_CTX 객체를 가리켜야 한다. `ret`는 작업 완료 시 비동기 함수의 반환 값을 저장할 위치를 가리켜야 한다. `func`는 비동기적으로 시작할 함수를 나타낸다. 작업 시작 시 `args`가 가리키는 크기 `size`인 데이터를 복사해서 `func` 인자로 전달한다. `ASYNC_start_job()`은 다음 값들 중 하나를 반환한다.
 
-<dl>
-<dt><code>ASYNC_ERR</code></dt>
-<dd>작업 시작 시도 중 오류가 발생했다. 자세한 내용은 OpenSSL 오류 큐(가령 <code>ERR_print_errors(3)</code>)를 확인하라.</dd>
+`ASYNC_ERR`
+:   작업 시작 시도 중 오류가 발생했다. 자세한 내용은 OpenSSL 오류 큐(가령 `ERR_print_errors(3)`)를 확인하라.
 
-<dt><code>ASYNC_NO_JOBS</code></dt>
-<dd>풀에 현재 사용 가능한 작업이 없다. 이 호출을 이후에 다시 시도할 수 있다.</dd>
+`ASYNC_NO_JOBS`
+:   풀에 현재 사용 가능한 작업이 없다. 이 호출을 이후에 다시 시도할 수 있다.
 
-<dt><code>ASYNC_PAUSE</code></dt>
-<dd>작업이 성공적으로 시작됐지만 완료되기 전에 "정지"되었다. (아래 <code>ASYNC_pause_job()</code> 참고.) 작업에 대한 핸들이 <code>*job</code>에 들어간다. (원한다면) 다른 작업을 수행하고 이후에 작업을 재시작할 수 있다. 작업을 재시작하려면 <code>*job</code>에 작업 핸들을 줘서 다시 <code>ASYNC_start_job()</code>을 호출하면 된다. 작업을 재시작할 때 <code>func</code>, <code>args</code>, <code>size</code> 매개변수는 무시된다. 작업을 재시작할 때는 <strong>반드시</strong> 그 작업을 처음 시작했던 스레드에서 <code>ASYNC_start_job()</code>을 호출해야 한다.</dd>
+`ASYNC_PAUSE`
+:   작업이 성공적으로 시작됐지만 완료되기 전에 "정지"되었다. (아래 `ASYNC_pause_job()` 참고.) 작업에 대한 핸들이 `*job`에 들어간다. (원한다면) 다른 작업을 수행하고 이후에 작업을 재시작할 수 있다. 작업을 재시작하려면 `*job`에 작업 핸들을 줘서 다시 `ASYNC_start_job()`을 호출하면 된다. 작업을 재시작할 때 `func`, `args`, `size` 매개변수는 무시된다. 작업을 재시작할 때는 **반드시** 그 작업을 처음 시작했던 스레드에서 `ASYNC_start_job()`을 호출해야 한다.
 
-<dt><code>ASYNC_FINISH</code></dt>
-<dd>작업이 끝났다. <code>*job</code>이 NULL이 되고 <code>func</code>의 반환 값이 <code>*ret</code>에 들어간다.</dd>
-</dl>
+`ASYNC_FINISH`
+:   작업이 끝났다. `*job`이 NULL이 되고 `func`의 반환 값이 `*ret`에 들어간다.
 
 어느 시점이든 스레드별로 최대 1개 작업이 활동적으로 실행 중일 수 있다. (그리고 여러 작업이 중지돼 있을 수 있다.) `ASYNC_get_current_job()`을 이용해 현재 실행 중인 ASYNC_JOB에 대한 포인터를 얻을 수 있다. 현재 실행 중인 작업이 없으면 NULL을 반환한다.
 

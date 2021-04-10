@@ -18,25 +18,16 @@ int setitimer(int which, const struct itimerval *new_value,
 
 세 가지 종류의 타이머가 있어서 `which` 인자를 통해 지정한다. 각각은 서로 다른 클럭에 대해 계산을 하며 타이머 만료 시 다른 시그널을 생성한다.
 
-<dl>
-<dt><code>ITIMER_REAL</code></dt>
-<dd>
-실제 시간(즉 벽시계 시간)으로 타이머를 카운트다운 한다. 만료 때마다 <code>SIGALRM</code> 시그널이 생성된다.
-</dd>
+`ITIMER_REAL`
+:   실제 시간(즉 벽시계 시간)으로 타이머를 카운트다운 한다. 만료 때마다 `SIGALRM` 시그널이 생성된다.
 
-<dt><code>ITIMER_VIRTUAL</code></dt>
-<dd>
-프로세스가 소모한 사용자 모드 CPU 시간에 대해 타이머를 카운트다운 한다. (프로세스 내의 모든 스레드들이 소모한 CPU 시간이 측정에 포함된다.) 만료 때마다 <code>SIGVTALRM</code> 시그널이 생성된다.
-</dd>
+`ITIMER_VIRTUAL`
+:   프로세스가 소모한 사용자 모드 CPU 시간에 대해 타이머를 카운트다운 한다. (프로세스 내의 모든 스레드들이 소모한 CPU 시간이 측정에 포함된다.) 만료 때마다 `SIGVTALRM` 시그널이 생성된다.
 
-<dt><code>ITIMER_PROF</code></dt>
-<dd>
+`ITIMER_PROF`
+:   프로세스가 소모한 CPU 시간(즉 사용자 시간과 시스템 시간 모두)에 대해 타이머를 카운트다운 한다. (프로세스 내의 모든 스레드들이 소모한 CPU 시간이 측정에 포함된다.) 만료 때마다 `SIGPROF` 시그널이 생성된다.
 
-프로세스가 소모한 CPU 시간(즉 사용자 시간과 시스템 시간 모두)에 대해 타이머를 카운트다운 한다. (프로세스 내의 모든 스레드들이 소모한 CPU 시간이 측정에 포함된다.) 만료 때마다 <code>SIGPROF</code> 시그널이 생성된다.
-
-이 타이머를 <code>ITIMER_VIRTUAL</code>과 함께 사용하여 프로세스가 소모한 사용자 및 시스템 CPU 시간을 프로파일 할 수 있다.
-</dd>
-</dl>
+    이 타이머를 `ITIMER_VIRTUAL`과 함께 사용하여 프로세스가 소모한 사용자 및 시스템 CPU 시간을 프로파일 할 수 있다.
 
 프로세스는 세 가지 타이머 종류별로 하나씩을 가지고 있다.
 
@@ -76,12 +67,11 @@ struct timeval {
 
 ## ERRORS
 
-<dl>
-<dt><code>EFAULT</code></dt>
-<dd><code>new_value</code>나 <code>old_value</code>, <code>curr_value</code>가 유효한 포인터가 아니다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>which</code>가 <code>ITIMER_REAL</code>, <code>ITIMER_VIRTUAL</code>, <code>ITIMER_PROF</code> 중 하나가 아니다. 또는 (리눅스 2.6.22부터) <code>new_value</code>가 가리키는 구조체 내의 한 <code>tv_usec</code> 필드가 0에서 999999까지 범위 밖의 값을 담고 있다.</dd>
-</dl>
+`EFAULT`
+:   `new_value`나 `old_value`, `curr_value`가 유효한 포인터가 아니다.
+
+`EINVAL`
+:   `which`가 `ITIMER_REAL`, `ITIMER_VIRTUAL`, `ITIMER_PROF` 중 하나가 아니다. 또는 (리눅스 2.6.22부터) `new_value`가 가리키는 구조체 내의 한 `tv_usec` 필드가 0에서 999999까지 범위 밖의 값을 담고 있다.
 
 ## CONFORMING TO
 

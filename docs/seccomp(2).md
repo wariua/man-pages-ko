@@ -20,81 +20,55 @@ int seccomp(unsigned int operation, unsigned int flags, void *args);
 
 현재 리눅스는 다음 `operation` 값들을 지원한다.
 
-<dl>
-<dt><code>SECCOMP_SET_MODE_STRICT</code></dt>
-<dd>
+`SECCOMP_SET_MODE_STRICT`
+:   호출 스레드에게 허용되는 시스템 호출이 `read(2)`, `write(2)`, <tt>[[_exit(2)]]</tt> (<tt>[[exit_group(2)]]</tt>은 안 됨), <tt>[[sigreturn(2)]]</tt>뿐이다. 다른 시스템 호출은 `SIGKILL` 시그널 전달을 일으킨다. 엄격한 안전 컴퓨팅 모드는 파이프나 소켓 등을 읽어서 얻은 비신뢰 바이트 코드를 실행해야 하는 계산 위주 응용에 유용하다.
 
-호출 스레드에게 허용되는 시스템 호출이 <code>read(2)</code>, <code>write(2)</code>, <tt>[[_exit(2)]]</tt> (<tt>[[exit_group(2)]]</tt>은 안 됨), <tt>[[sigreturn(2)]]</tt>뿐이다. 다른 시스템 호출은 <code>SIGKILL</code> 시그널 전달을 일으킨다. 엄격한 안전 컴퓨팅 모드는 파이프나 소켓 등을 읽어서 얻은 비신뢰 바이트 코드를 실행해야 하는 계산 위주 응용에 유용하다.
+    참고로 호출 스레드에서 더 이상 <tt>[[sigprocmask(2)]]</tt>를 호출할 수 없기는 하지만 <tt>[[sigreturn(2)]]</tt>을 이용해 `SIGKILL`과 `SIGSTOP`을 제외한 모든 시그널들을 차단할 수 있다. 따라서 (예를 들어) 프로세스의 실행 시간을 제약하는 데 <tt>[[alarm(2)]]</tt>으로는 충분치 않다. 확실하게 프로세스를 끝내려면 대신 `SIGKILL`을 사용해야 한다. <tt>[[timer_create(2)]]</tt>을 `SIGEV_SIGNAL`로 하고 `sigev_signo`를 `SIGKILL`로 설정해서 사용하거나 <tt>[[setrlimit(2)]]</tt>를 이용해 `RLIMIT_CPU`에 경성 제한을 설정하면 된다.
 
-참고로 호출 스레드에서 더 이상 <tt>[[sigprocmask(2)]]</tt>를 호출할 수 없기는 하지만 <tt>[[sigreturn(2)]]</tt>을 이용해 <code>SIGKILL</code>과 <code>SIGSTOP</code>을 제외한 모든 시그널들을 차단할 수 있다. 따라서 (예를 들어) 프로세스의 실행 시간을 제약하는 데 <tt>[[alarm(2)]]</tt>으로는 충분치 않다. 확실하게 프로세스를 끝내려면 대신 <code>SIGKILL</code>을 사용해야 한다. <tt>[[timer_create(2)]]</tt>을 <code>SIGEV_SIGNAL</code>로 하고 <code>sigev_signo</code>를 <code>SIGKILL</code>로 설정해서 사용하거나 <tt>[[setrlimit(2)]]</tt>를 이용해 <code>RLIMIT_CPU</code>에 경성 제한을 설정하면 된다.
+    이 동작은 커널 구성에 `CONFIG_SECCOMP`가 켜져 있는 경우에만 사용 가능하다.
 
-이 동작은 커널 구성에 <code>CONFIG_SECCOMP</code>가 켜져 있는 경우에만 사용 가능하다.
+    `flags`의 값이 0이어야 하고 `args`가 NULL이어야 한다.
 
-<code>flags</code>의 값이 0이어야 하고 <code>args</code>가 NULL이어야 한다.
+    이 동작은 다음 호출과 기능적으로 동일하다.
 
-이 동작은 다음 호출과 기능적으로 동일하다.
+        prctl(PR_SET_SECCOMP, SECCOMP_MODE_STRICT);
 
-```c
-prctl(PR_SET_SECCOMP, SECCOMP_MODE_STRICT);
-```
-</dd>
+`SECCOMP_SET_MODE_FILTER`
+:   `args`를 통해 전달하는 버클리 패킷 필터(BPF) 포인터가 허용 시스템 호출을 규정한다. 이 인자는 `struct sock_fprog`에 대한 포인터이다. 임의의 시스템 호출 및 시스템 호출 인자를 걸러내도록 설계할 수 있다. 필터가 유효하지 않으면 `seccomp()`가 실패하며 `errno`로 `EINVAL`을 반환한다.
 
-<dt><code>SECCOMP_SET_MODE_FILTER</code></dt>
-<dd>
+    필터에서 <tt>[[fork(2)]]</tt>나 <tt>[[clone(2)]]</tt>을 허용하는 경우 자식 프로세스들은 부모와 같은 시스템 호출 필터의 제약을 받게 된다. <tt>[[execve(2)]]</tt>가 허용되는 경우 <tt>[[execve(2)]]</tt> 호출을 거치면서 기존 필터가 보존된다.
 
-<code>args</code>를 통해 전달하는 버클리 패킷 필터(BPF) 포인터가 허용 시스템 호출을 규정한다. 이 인자는 <code>struct sock_fprog</code>에 대한 포인터이다. 임의의 시스템 호출 및 시스템 호출 인자를 걸러내도록 설계할 수 있다. 필터가 유효하지 않으면 <code>seccomp()</code>가 실패하며 <code>errno</code>로 <code>EINVAL</code>을 반환한다.
+    `SECCOMP_SET_MODE_FILTER` 동작을 사용하기 위해선 호출 스레드가 자기 네임스페이스에서 `CAP_SYS_ADMIN` 역능을 가지고 있어야 한다. 아니면 스레드에 이미 `no_new_privs` 비트가 설정되어 있어야 하는데, 스레드 선조가 그 비트를 이미 설정하지 않았다면 스레드에서 다음 호출을 해야 한다.
 
-필터에서 <tt>[[fork(2)]]</tt>나 <tt>[[clone(2)]]</tt>을 허용하는 경우 자식 프로세스들은 부모와 같은 시스템 호출 필터의 제약을 받게 된다. <tt>[[execve(2)]]</tt>가 허용되는 경우 <tt>[[execve(2)]]</tt> 호출을 거치면서 기존 필터가 보존된다.
+        prctl(PR_SET_NO_NEW_PRIVS, 1);
 
-<code>SECCOMP_SET_MODE_FILTER</code> 동작을 사용하기 위해선 호출 스레드가 자기 네임스페이스에서 <code>CAP_SYS_ADMIN</code> 역능을 가지고 있어야 한다. 아니면 스레드에 이미 <code>no_new_privs</code> 비트가 설정되어 있어야 하는데, 스레드 선조가 그 비트를 이미 설정하지 않았다면 스레드에서 다음 호출을 해야 한다.
+    그렇지 않으면 `SECCOMP_SET_MODE_FILTER` 동작이 실패하며 `errno`로 `EACCES`를 반환한다. 이 요구 사항은 비특권 프로세스가 악의적 필터를 적용한 후 <tt>[[execve(2)]]</tt>를 이용해 set-user-ID 내지 기타 특권 프로그램을 호출해서 그 프로그램을 탈취할 가능성을 막는다. (예를 들어 <tt>[[setuid(2)]]</tt>로 호출자의 사용자 ID를 0 아닌 값으로 설정하려는 시도를 악의적 필터가 실제 시스템 호출 실행 없이 0을 반환하게 만들 수 있을 것이다. 그래서 어떤 환경에서 프로그램을 속여서 수퍼유저 특권을 유지하게 하고 위험한 동작을 유도하는 것이 가능할 수도 있다.)
 
-```c
-prctl(PR_SET_NO_NEW_PRIVS, 1);
-```
+    붙인 필터에서 <tt>[[prctl(2)]]</tt>이나 `seccomp()`를 허용하는 경우 필터를 더 추가할 수도 있다. 평가 시간이 늘어나겠지만 이를 통해 스레드 실행 중에 공격 면적을 더 줄일 수 있다.
 
-그렇지 않으면 <code>SECCOMP_SET_MODE_FILTER</code> 동작이 실패하며 <code>errno</code>로 <code>EACCES</code>를 반환한다. 이 요구 사항은 비특권 프로세스가 악의적 필터를 적용한 후 <tt>[[execve(2)]]</tt>를 이용해 set-user-ID 내지 기타 특권 프로그램을 호출해서 그 프로그램을 탈취할 가능성을 막는다. (예를 들어 <tt>[[setuid(2)]]</tt>로 호출자의 사용자 ID를 0 아닌 값으로 설정하려는 시도를 악의적 필터가 실제 시스템 호출 실행 없이 0을 반환하게 만들 수 있을 것이다. 그래서 어떤 환경에서 프로그램을 속여서 수퍼유저 특권을 유지하게 하고 위험한 동작을 유도하는 것이 가능할 수도 있다.)
+    `SECCOMP_SET_MODE_FILTER` 동작은 커널 구성에 `CONFIG_SECCOMP_FILTER`가 켜져 있는 경우에만 사용 가능하다.
 
-붙인 필터에서 <tt>[[prctl(2)]]</tt>이나 <code>seccomp()</code>를 허용하는 경우 필터를 더 추가할 수도 있다. 평가 시간이 늘어나겠지만 이를 통해 스레드 실행 중에 공격 면적을 더 줄일 수 있다.
+    `flags`가 0이면 이 동작은 다음 호출과 기능적으로 동일하다.
 
-<code>SECCOMP_SET_MODE_FILTER</code> 동작은 커널 구성에 <code>CONFIG_SECCOMP_FILTER</code>가 켜져 있는 경우에만 사용 가능하다.
+        prctl(PR_SET_SECCOMP, SECCOMP_MODE_FILTER, args);
 
-<code>flags</code>가 0이면 이 동작은 다음 호출과 기능적으로 동일하다.
+    인식하는 `flags`는 다음과 같다.
 
-```c
-prctl(PR_SET_SECCOMP, SECCOMP_MODE_FILTER, args);
-```
+    `SECCOMP_FILTER_FLAG_TSYNC`
+    :   새 필터를 추가할 때 호출 프로세스의 다른 스레드 모두를 같은 seccomp 필터 트리로 동기화시킨다. "필터 트리"란 스레드에 붙인 필터들의 순서 있는 목록이다. (동일 필터를 별개의 `seccomp()` 호출로 붙인 결과는 이 관점에서 서로 다른 필터이다.)
 
-인식하는 <code>flags</code>는 다음과 같다.
+        한 스레드라도 같은 필터 트리로 동기화할 수 없으면 호출이 새 seccomp 필터를 붙이지 않고 실패하며 동기화할 수 없는 첫 번째 스레드의 ID를 반환한다. 동일 프로세스의 다른 스레드가 `SECCOMP_MODE_STRICT` 모드이거나 자체적으로 새 seccomp 필터를 붙여서 호출 스레드의 필터 트리에서 벗어나 있는 경우에 동기화가 실패하게 된다.
 
- <dl>
- <dt><code>SECCOMP_FILTER_FLAG_TSYNC</code></dt>
- <dd>
+    `SECCOMP_FILTER_FLAG_LOG` (리눅스 4.14부터)
+    :   `SECCOMP_RET_ALLOW`를 제외한 모든 필터 반환 행위들을 기록해야 한다. 관리자가 `/proc/sys/kernel/seccomp/actions_logged` 파일을 통해 개별 행위의 로그 기록을 막아서 이 플래그를 무시하게 할 수도 있다.
 
-새 필터를 추가할 때 호출 프로세스의 다른 스레드 모두를 같은 seccomp 필터 트리로 동기화시킨다. "필터 트리"란 스레드에 붙인 필터들의 순서 있는 목록이다. (동일 필터를 별개의 <code>seccomp()</code> 호출로 붙인 결과는 이 관점에서 서로 다른 필터이다.)
+    `SECCOMP_GET_ACTION_AVAIL` (리눅스 4.17부터)
+    :   추측성 저장 우회(Speculative Store Bypass) 완화를 끈다.
 
-한 스레드라도 같은 필터 트리로 동기화할 수 없으면 호출이 새 seccomp 필터를 붙이지 않고 실패하며 동기화할 수 없는 첫 번째 스레드의 ID를 반환한다. 동일 프로세스의 다른 스레드가 <code>SECCOMP_MODE_STRICT</code> 모드이거나 자체적으로 새 seccomp 필터를 붙여서 호출 스레드의 필터 트리에서 벗어나 있는 경우에 동기화가 실패하게 된다.
- </dd>
+`SECCOMP_GET_ACTION_AVAIL` (리눅스 4.14부터)
+:   어떤 행위를 커널이 지원하는지 검사한다. 최근에 추가된 필터 반환 행위를 커널이 알고 있는지 확인하는 데 도움이 된다. 커널에서는 알지 못하는 행위를 모두 `SECCOMP_RET_KILL_PROCESS`로 처리한다.
 
- <dt><code>SECCOMP_FILTER_FLAG_LOG</code> (리눅스 4.14부터)</dt>
- <dd>
-<code>SECCOMP_RET_ALLOW</code>를 제외한 모든 필터 반환 행위들을 기록해야 한다. 관리자가 <code>/proc/sys/kernel/seccomp/actions_logged</code> 파일을 통해 개별 행위의 로그 기록을 막아서 이 플래그를 무시하게 할 수도 있다.
- </dd>
-
- <dt><code>SECCOMP_GET_ACTION_AVAIL</code> (리눅스 4.17부터)</dt>
- <dd>
-추측성 저장 우회(Speculative Store Bypass) 완화를 끈다.
- </dd>
- </dl>
-</dd>
-
-<dt><code>SECCOMP_GET_ACTION_AVAIL</code> (리눅스 4.14부터)</dt>
-<dd>
-
-어떤 행위를 커널이 지원하는지 검사한다. 최근에 추가된 필터 반환 행위를 커널이 알고 있는지 확인하는 데 도움이 된다. 커널에서는 알지 못하는 행위를 모두 <code>SECCOMP_RET_KILL_PROCESS</code>로 처리한다.
-
-<code>flags</code> 값이 0이어야 하고 <code>args</code>가 부호 없는 32비트 필터 반환 행위에 대한 포인터여야 한다.
-</dd>
-</dl>
+    `flags` 값이 0이어야 하고 `args`가 부호 없는 32비트 필터 반환 행위에 대한 포인터여야 한다.
 
 ### 필터
 
@@ -149,72 +123,52 @@ seccomp 필터는 두 부분으로 이뤄진 32비트 값을 반환한다. (상�
 
 seccomp 필터가 반환할 수 있는 행위 값들을 우선도 역순으로 나열하면 다음과 같다.
 
-<dl>
-<dt><code>SECCOMP_RET_KILL_PROCESS</code> (리눅스 4.14부터)</dt>
-<dd>
+`SECCOMP_RET_KILL_PROCESS` (리눅스 4.14부터)
+:   이 값은 프로세스가 코어 덤프와 함께 즉시 종료되게 한다. 시스템 호출은 실행되지 않는다. 아래의 `SECCOMP_RET_KILL_THREAD`와 달리 스레드 그룹의 모든 스레드가 종료된다. (스레드 그룹에 대한 논의는 <tt>[[clone(2)]]</tt>의 `CLONE_THREAD` 플래그 설명을 보라.)
 
-이 값은 프로세스가 코어 덤프와 함께 즉시 종료되게 한다. 시스템 호출은 실행되지 않는다. 아래의 <code>SECCOMP_RET_KILL_THREAD</code>와 달리 스레드 그룹의 모든 스레드가 종료된다. (스레드 그룹에 대한 논의는 <tt>[[clone(2)]]</tt>의 <code>CLONE_THREAD</code> 플래그 설명을 보라.)
+    `SIGSYS` 시그널에 의해 죽은 *것처럼* 프로세스를 종료시킨다. `SIGSYS`에 시그널 핸들러를 등록해 두어도 이 경우에는 그 핸들러를 무시하고 항상 프로세스를 종료시킨다. 이 프로세스를 (<tt>[[waitpid(2)]]</tt> 등으로) 기다리고 있는 부모 프로세스에게 반환되는 `wstatus`는 자식이 `SIGSYS` 시그널로 종료된 것처럼 표시된다.
 
-<code>SIGSYS</code> 시그널에 의해 죽은 <em>것처럼</em> 프로세스를 종료시킨다. <code>SIGSYS</code>에 시그널 핸들러를 등록해 두어도 이 경우에는 그 핸들러를 무시하고 항상 프로세스를 종료시킨다. 이 프로세스를 (<tt>[[waitpid(2)]]</tt> 등으로) 기다리고 있는 부모 프로세스에게 반환되는 <code>wstatus</code>는 자식이 <code>SIGSYS</code> 시그널로 종료된 것처럼 표시된다.
-</dd>
+`SECCOMP_RET_KILL_THREAD` (또는 `SECCOMP_RET_KILL`)
+:   이 값은 시스템 호출을 한 스레드가 즉시 종료되게 한다. 시스템 호출은 실행되지 않는다. 같은 스레드 그룹의 다른 스레드들은 실행을 계속한다.
 
-<dt><code>SECCOMP_RET_KILL_THREAD</code> (또는 <code>SECCOMP_RET_KILL</code>)</dt>
-<dd>
+    `SIGSYS` 시그널에 의해 죽은 *것처럼* 스레드를 종료시킨다. 위의 `SECCOMP_RET_KILL_PROCESS` 참고.
 
-이 값은 시스템 호출을 한 스레드가 즉시 종료되게 한다. 시스템 호출은 실행되지 않는다. 같은 스레드 그룹의 다른 스레드들은 실행을 계속한다.
+    리눅스 4.11 전에는 이 방식으로 종료되는 프로세스가 코어 덤프를 유발하지 않았다. (<tt>[[signal(7)]]</tt>에는 `SIGSYS`의 기본 행위가 코어 덤프 하는 종료라고 적혀 있다.) 리눅스 4.11부터는 단일 스레드 프로세스가 이 방식으로 종료되면 코어를 덤프 한다.
 
-<code>SIGSYS</code> 시그널에 의해 죽은 <em>것처럼</em> 스레드를 종료시킨다. 위의 <code>SECCOMP_RET_KILL_PROCESS</code> 참고.
+    리눅스 4.14에서 `SECCOMP_RET_KILL_PROCESS`가 추가되면서 두 행위를 명확히 구별할 수 있도록 `SECCOMP_RET_KILL`의 동의어로 `SECCOMP_RET_KILL_THREAD`가 추가되었다.
 
-리눅스 4.11 전에는 이 방식으로 종료되는 프로세스가 코어 덤프를 유발하지 않았다. (<tt>[[signal(7)]]</tt>에는 <code>SIGSYS</code>의 기본 행위가 코어 덤프 하는 종료라고 적혀 있다.) 리눅스 4.11부터는 단일 스레드 프로세스가 이 방식으로 종료되면 코어를 덤프 한다.
+`SECCOMP_RET_TRAP`
+:   이 값은 커널이 유발 프로세스에게 스레드 지향 `SIGSYS` 시그널을 보내게 한다. (시스템 호출은 실행되지 않는다.) `siginfo_t` 구조체(<tt>[[sigaction(2)]]</tt> 참고)의 시그널과 관련된 여러 필드들이 설정된다.
 
-리눅스 4.14에서 <code>SECCOMP_RET_KILL_PROCESS</code>가 추가되면서 두 행위를 명확히 구별할 수 있도록 <code>SECCOMP_RET_KILL</code>의 동의어로 <code>SECCOMP_RET_KILL_THREAD</code>가 추가되었다.
-</dd>
+    * `si_signo`가 `SIGSYS`를 담는다.
 
-<dt><code>SECCOMP_RET_TRAP</code></dt>
-<dd>
+    * `si_call_addr`이 시스템 호출 인스트럭션의 주소를 보여 준다.
 
-이 값은 커널이 유발 프로세스에게 스레드 지향 <code>SIGSYS</code> 시그널을 보내게 한다. (시스템 호출은 실행되지 않는다.) <code>siginfo_t</code> 구조체(<tt>[[sigaction(2)]]</tt> 참고)의 시그널과 관련된 여러 필드들이 설정된다.
+    * `si_syscall`과 `si_arch`가 어떤 시스템 호출이 시도됐는지 나타낸다.
 
-* <code>si_signo</code>가 <code>SIGSYS</code>를 담는다.
+    * `si_code`가 `SYS_SECCOMP`를 담는다.
 
-* <code>si_call_addr</code>이 시스템 호출 인스트럭션의 주소를 보여 준다.
+    * `si_errno`가 필터 반환 값의 `SECCOMP_RET_DATA` 부분을 담는다.
 
-* <code>si_syscall</code>과 <code>si_arch</code>가 어떤 시스템 호출이 시도됐는지 나타낸다.
+    프로그램 카운터는 시스템 호출이 이뤄진 것처럼 되어 있을 것이다. (즉, 프로그램 카운터가 시스템 호출 인스트럭션을 가리키지 않는다.) 반환 값 레지스터는 아키텍처별로 다른 값을 담는데, 실행 재개 시 그 시스템 호출에 적절한 어떤 값으로 설정한다. (이 아키텍처 의존성은 `ENOSYS`로 바꿔 버리면 어떤 유용한 정보를 덮어 쓸 수도 있을 것이기 때문이다.)
 
-* <code>si_code</code>가 <code>SYS_SECCOMP</code>를 담는다.
+`SECCOMP_RET_ERRNO`
+:   이 값은 시스템 호출을 실행하지 않고 필터 반환 값의 `SECCOMP_RET_DATA` 부분이 `errno` 값으로 사용자 공간으로 전달되게 한다.
 
-* <code>si_errno</code>가 필터 반환 값의 <code>SECCOMP_RET_DATA</code> 부분을 담는다.
+`SECCOMP_RET_TRACE`
+:   반환 시 이 값은 시스템 호출 실행 전에 커널이 <tt>[[ptrace(2)]]</tt> 기반 추적자에게 알림을 시도하게 한다. 추적자가 없으면 시스템 호출을 실행하지 않고 `errno`를 `ENOSYS`로 설정해서 실패 상태를 반환한다.
 
-프로그램 카운터는 시스템 호출이 이뤄진 것처럼 되어 있을 것이다. (즉, 프로그램 카운터가 시스템 호출 인스트럭션을 가리키지 않는다.) 반환 값 레지스터는 아키텍처별로 다른 값을 담는데, 실행 재개 시 그 시스템 호출에 적절한 어떤 값으로 설정한다. (이 아키텍처 의존성은 <code>ENOSYS</code>로 바꿔 버리면 어떤 유용한 정보를 덮어 쓸 수도 있을 것이기 때문이다.)
-</dd>
+    추적자가 `ptrace(PTRACE_SETOPTIONS)`를 이용해 `PTRACE_O_TRACESECCOMP`를 요청하면 알림을 받게 된다. `PTRACE_EVENT_SECCOMP`로 알림을 받게 되며 추적자에서 `PTRACE_GETEVENTMSG`로 필터 반환 값을 사용할 수 있다.
 
-<dt><code>SECCOMP_RET_ERRNO</code></dt>
-<dd>
-이 값은 시스템 호출을 실행하지 않고 필터 반환 값의 <code>SECCOMP_RET_DATA</code> 부분이 <code>errno</code> 값으로 사용자 공간으로 전달되게 한다.
-</dd>
+    추적자에서 시스템 호출 번호를 -1로 바꿔서 그 시스템 호출을 건너뛸 수 있다. 또는 추적자에서 시스템 호출을 유효한 시스템 호출 번호로 바꿔서 요청된 시스템 호출을 바꿀 수 있다. 시스템 호출을 건너뛰는 경우 추적자가 반환 값 레지스터에 넣은 값을 그 시스템 호출이 반환하는 것처럼 보이게 된다.
 
-<dt><code>SECCOMP_RET_TRACE</code></dt>
-<dd>
+    커널 4.8 전에서, 추적자에게 알림을 준 후에는 seccomp 검사를 다시 실행하지 않는다. (따라서 이전 커널에서 seccomp 기반 샌드박스에서는 극히 주의하지 않는 한 <tt>[[ptrace(2)]]</tt> 사용을, 설령 다른 샌드박스 된 프로세스에서라 해도, **절대** 허용해서는 안 된다. ptrace 사용 프로세스가 이 메커니즘을 이용해 seccomp 샌드박스에서 탈출할 수 있다.)
 
-반환 시 이 값은 시스템 호출 실행 전에 커널이 <tt>[[ptrace(2)]]</tt> 기반 추적자에게 알림을 시도하게 한다. 추적자가 없으면 시스템 호출을 실행하지 않고 <code>errno</code>를 <code>ENOSYS</code>로 설정해서 실패 상태를 반환한다.
+`SECCOMP_RET_LOG` (리눅스 4.14부터)
+:   이 값은 필터 반환 행위를 로그로 기록한 후 시스템 호출이 실행되게 한다. 관리자가 `/proc/sys/kernel/seccomp/actions_logged` 파일을 통해 이 행위의 기록 동작을 무시하게 할 수도 있다.
 
-추적자가 <code>ptrace(PTRACE_SETOPTIONS)</code>를 이용해 <code>PTRACE_O_TRACESECCOMP</code>를 요청하면 알림을 받게 된다. <code>PTRACE_EVENT_SECCOMP</code>로 알림을 받게 되며 추적자에서 <code>PTRACE_GETEVENTMSG</code>로 필터 반환 값을 사용할 수 있다.
-
-추적자에서 시스템 호출 번호를 -1로 바꿔서 그 시스템 호출을 건너뛸 수 있다. 또는 추적자에서 시스템 호출을 유효한 시스템 호출 번호로 바꿔서 요청된 시스템 호출을 바꿀 수 있다. 시스템 호출을 건너뛰는 경우 추적자가 반환 값 레지스터에 넣은 값을 그 시스템 호출이 반환하는 것처럼 보이게 된다.
-
-커널 4.8 전에서, 추적자에게 알림을 준 후에는 seccomp 검사를 다시 실행하지 않는다. (따라서 이전 커널에서 seccomp 기반 샌드박스에서는 극히 주의하지 않는 한 <tt>[[ptrace(2)]]</tt> 사용을, 설령 다른 샌드박스 된 프로세스에서라 해도, <strong>절대</strong> 허용해서는 안 된다. ptrace 사용 프로세스가 이 메커니즘을 이용해 seccomp 샌드박스에서 탈출할 수 있다.)
-</dd>
-
-<dt><code>SECCOMP_RET_LOG</code> (리눅스 4.14부터)</dt>
-<dd>
-이 값은 필터 반환 행위를 로그로 기록한 후 시스템 호출이 실행되게 한다. 관리자가 <code>/proc/sys/kernel/seccomp/actions_logged</code> 파일을 통해 이 행위의 기록 동작을 무시하게 할 수도 있다.
-</dd>
-
-<dt><code>SECCOMP_RET_ALLOW</code></dt>
-<dd>
-이 값은 시스템 호출이 실행되게 한다.
-</dd>
-</dl>
+`SECCOMP_RET_ALLOW`
+:   이 값은 시스템 호출이 실행되게 한다.
 
 위와 다른 행위 값을 지정하는 경우에는 필터 행위를 `SECCOMP_RET_KILL_PROCESS`(리눅스 4.14부터)나 `SECCOMP_RET_KILL_THREAD`(리눅스 4.13까지)로 처리한다.
 
@@ -222,22 +176,15 @@ seccomp 필터가 반환할 수 있는 행위 값들을 우선도 역순으로 �
 
 `/proc/sys/kernel/seccomp` 디렉터리 내의 파일들이 seccomp 정보 및 설정 인터페이스를 추가로 제공한다.
 
-<dl>
-<dt><code>actions_avail</code> (리눅스 4.14부터)</dt>
-<dd>
-seccomp 필터 반환 행위들의 문자열 형태로 된 읽기 전용 순서 있는 목록이다. 왼쪽에서 오른쪽으로의 순서가 우선도가 내려가는 순서이다. 커널이 지원하는 seccomp 필터 반환 행위들의 집합을 나타낸다.
-</dd>
+`actions_avail` (리눅스 4.14부터)
+:   seccomp 필터 반환 행위들의 문자열 형태로 된 읽기 전용 순서 있는 목록이다. 왼쪽에서 오른쪽으로의 순서가 우선도가 내려가는 순서이다. 커널이 지원하는 seccomp 필터 반환 행위들의 집합을 나타낸다.
 
-<dt><code>actions_logged</code> (리눅스 4.14부터)</dt>
-<dd>
+`actions_logged` (리눅스 4.14부터)
+:   로그 기록이 허용되는 seccomp 필터 반환 행위들의 읽기-쓰기 순서 있는 목록이다. 파일에 쓸 때 순서를 지킬 필요가 없으며, 그래도 파일을 읽을 때는 `actions_avail` 파일과 같은 순서가 된다.
 
-로그 기록이 허용되는 seccomp 필터 반환 행위들의 읽기-쓰기 순서 있는 목록이다. 파일에 쓸 때 순서를 지킬 필요가 없으며, 그래도 파일을 읽을 때는 <code>actions_avail</code> 파일과 같은 순서가 된다.
+    어떤 태스크를 감사(audit)하도록 감사 서브시스템이 구성되어 있을 때 `actions_logged` 값이 특정 필터 반환 행위들이 기록되는 것을 막지 않는다는 점에 유의해야 한다. `actions_logged` 파일에 행위가 없는 경우 그 태스크에 대한 행위를 감사할지 여부에 대한 최종 결정은 감사 서브시스템이 `SECCOMP_RET_ALLOW` 외 모든 필터 반환 행위들에 대해 어떻게 할지 내리는 판단에 달려 있다.
 
-어떤 태스크를 감사(audit)하도록 감사 서브시스템이 구성되어 있을 때 <code>actions_logged</code> 값이 특정 필터 반환 행위들이 기록되는 것을 막지 않는다는 점에 유의해야 한다. <code>actions_logged</code> 파일에 행위가 없는 경우 그 태스크에 대한 행위를 감사할지 여부에 대한 최종 결정은 감사 서브시스템이 <code>SECCOMP_RET_ALLOW</code> 외 모든 필터 반환 행위들에 대해 어떻게 할지 내리는 판단에 달려 있다.
-
-<code>actions_logged</code> 파일에서 문자열 "allow"는 받아들이지 않는다. <code>SECCOMP_RET_ALLOW</code> 행위를 기록하는 것은 불가능하기 때문이다. 파일에 "allow"를 쓰려고 하면 <code>EINVAL</code> 오류로 실패한다.
-</dd>
-</dl>
+    `actions_logged` 파일에서 문자열 "allow"는 받아들이지 않는다. `SECCOMP_RET_ALLOW` 행위를 기록하는 것은 불가능하기 때문이다. 파일에 "allow"를 쓰려고 하면 `EINVAL` 오류로 실패한다.
 
 ### seccomp 행위 감사 기록
 
@@ -261,30 +208,38 @@ seccomp 필터 반환 행위들의 문자열 형태로 된 읽기 전용 순서 
 
 `seccomp()`가 다음 이유로 실패할 수 있다.
 
-<dl>
-<dt><code>EACCES</code></dt>
-<dd>호출자가 자기 사용자 네임스페이스에서 <code>CAP_SYS_ADMIN</code> 역능을 가지고 있지 않으며 <code>SECCOMP_SET_MODE_FILTER</code> 사용 전에 <code>no_new_privs</code>를 설정하지 않았다.</dd>
-<dt><code>EFAULT</code></dt>
-<dd><code>args</code>가 유효한 주소가 아니다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>알 수 없는 <code>operation</code>이거나 현재 커널 버전 내지 구성에서 지원하지 않는다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>지정한 <code>flags</code>가 해당 <code>operation</code>에서 유효하지 않다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>operation</code>이 <code>BPF_ABS</code>를 포함하는데 지정한 오프셋이 32비트 경계에 정렬되어 있지 않거나 <code>sizeof(struct seccomp_data)</code>를 초과한다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>안전 컴퓨팅 모드를 이미 설정했으며 <code>operation</code>이 기존 설정과 다르다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>operation</code>이 <code>SECCOMP_SET_MODE_FILTER</code>인데 <code>args</code>가 가리키는 필터가 유효하지 않거나 필터 프로그램 길이가 0이거나 <code>BPF_MAXINSNS</code>(4096)개 인스트럭션을 초과한다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>메모리 부족.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>호출 스레드에 붙인 필터 프로그램들의 총 길이가 <code>MAX_INSNS_PER_PATH</code>(32768)개 인스트럭션을 넘게 된다. 참고로 이 제한을 계산할 때 기존 필터 프로그램 각각에는 4개 인스트럭션씩 오버헤드를 더한다.</dd>
-<dt><code>EOPNOTSUPP</code></dt>
-<dd><code>operation</code>이 <code>SECCOMP_GET_ACTION_AVAIL</code>인데 <code>args</code>로 지정한 필터 반환 행위를 커널이 지원하지 않는다.</dd>
-<dt><code>ESRCH</code></dt>
-<dd>스레드 동기화 중에 다른 스레드 때문에 실패했는데 그 ID를 알아낼 수 없다.</dd>
-</dl>
+`EACCES`
+:   호출자가 자기 사용자 네임스페이스에서 `CAP_SYS_ADMIN` 역능을 가지고 있지 않으며 `SECCOMP_SET_MODE_FILTER` 사용 전에 `no_new_privs`를 설정하지 않았다.
+
+`EFAULT`
+:   `args`가 유효한 주소가 아니다.
+
+`EINVAL`
+:   알 수 없는 `operation`이거나 현재 커널 버전 내지 구성에서 지원하지 않는다.
+
+`EINVAL`
+:   지정한 `flags`가 해당 `operation`에서 유효하지 않다.
+
+`EINVAL`
+:   `operation`이 `BPF_ABS`를 포함하는데 지정한 오프셋이 32비트 경계에 정렬되어 있지 않거나 `sizeof(struct seccomp_data)`를 초과한다.
+
+`EINVAL`
+:   안전 컴퓨팅 모드를 이미 설정했으며 `operation`이 기존 설정과 다르다.
+
+`EINVAL`
+:   `operation`이 `SECCOMP_SET_MODE_FILTER`인데 `args`가 가리키는 필터가 유효하지 않거나 필터 프로그램 길이가 0이거나 `BPF_MAXINSNS`(4096)개 인스트럭션을 초과한다.
+
+`ENOMEM`
+:   메모리 부족.
+
+`ENOMEM`
+:   호출 스레드에 붙인 필터 프로그램들의 총 길이가 `MAX_INSNS_PER_PATH`(32768)개 인스트럭션을 넘게 된다. 참고로 이 제한을 계산할 때 기존 필터 프로그램 각각에는 4개 인스트럭션씩 오버헤드를 더한다.
+
+`EOPNOTSUPP`
+:   `operation`이 `SECCOMP_GET_ACTION_AVAIL`인데 `args`로 지정한 필터 반환 행위를 커널이 지원하지 않는다.
+
+`ESRCH`
+:   스레드 동기화 중에 다른 스레드 때문에 실패했는데 그 ID를 알아낼 수 없다.
 
 ## VERSIONS
 
@@ -331,7 +286,7 @@ seccomp 필터 반환 행위들의 문자열 형태로 된 읽기 전용 순서 
 
   * 마지막으로, glibc 버전에 따라 래퍼 함수의 동작 방식이 달라질 수 있다. 예를 들어 이전 버전에서 <tt>[[open(2)]]</tt>의 glibc 래퍼 함수는 같은 이름의 시스템 호출을 불렀지만 glibc 2.26부터는 모든 아키텍처에서 <tt>[[openat(2)]]</tt>을 호출하는 것으로 구현이 바뀌었다.
 
-위 사항들의 결론은 필터에서 예상과 다른 시스템 호출을 걸러야 할 수도 있다는 것이다. 2부의 여러 매뉴얼 페이지에서 <em>C 라이브러리/커널 차이</em>라는 부절을 통해 래퍼 함수와 기반 시스템 호출의 차이에 대한 유용한 설명을 제공한다.
+위 사항들의 결론은 필터에서 예상과 다른 시스템 호출을 걸러야 할 수도 있다는 것이다. 2부의 여러 매뉴얼 페이지에서 *C 라이브러리/커널 차이*라는 부절을 통해 래퍼 함수와 기반 시스템 호출의 차이에 대한 유용한 설명을 제공한다.
 
 더불어 응용에서 수행해야 할 법한 적법한 동작에 대해 필터가 예상 외의 실패를 유발하여 seccomp 필터 적용이 응용에 버그를 유발할 위험도 있다. 아주 드물게 쓰이는 응용 코드 경로에서 그런 버그가 발생한다면 seccomp 필터 테스트 때 발견하기 어려울 수도 있다.
 
@@ -514,7 +469,7 @@ main(int argc, char **argv)
 
 커널 소스 파일 `Documentation/networking/filter.txt`와 `Documentation/userspace-api/seccomp_filter.rst` (리눅스 4.13 전에선 `Documentation/prctl/seccomp_filter.txt`).
 
-McCanne, S. and Jacobson, V. (1992) <em>The BSD Packet Filter: A New Architecture for User-level Packet Capture</em>, Proceedings of the USENIX Winter 1993 Conference (http://www.tcpdump.org/papers/bpf-usenix93.pdf)
+McCanne, S. and Jacobson, V. (1992) *The BSD Packet Filter: A New Architecture for User-level Packet Capture*, Proceedings of the USENIX Winter 1993 Conference (http://www.tcpdump.org/papers/bpf-usenix93.pdf)
 
 ----
 

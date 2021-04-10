@@ -33,18 +33,20 @@ int sched_getaffinity(pid_t pid, size_t cpusetsize,
 
 ## ERRORS
 
-<dl>
-<dt><code>EFAULT</code></dt>
-<dd>제공한 메모리 주소가 유효하지 않다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>친화성 비트 마스크 <code>mask</code>가 현재 물리적으로 시스템 상에 있으면서 <code>cpuset</code> cgroup이나 <tt>[[cpuset(7)]]</tt>에서 기술하는 "cpuset" 메커니즘으로 부과할 수 있는 제약에 따라 스레드에게 허용된 프로세서를 하나도 포함하고 있지 않다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>(<code>sched_getaffinity()</code>, 그리고 2.6.9 전의 커널에서는 <code>sched_setaffinity()</code>도) <code>cpusetsize</code>가 커널에서 쓰는 친화성 마스크의 크기보다 작다.</dd>
-<dt><code>EPERM</code></dt>
-<dd>(<code>sched_setaffinity()</code>) 호출 스레드가 적절한 특권을 가지고 있지 않다. 호출자의 실효 사용자 ID가 `pid`가 가리키는 스레드의 실제 사용자 ID나 실효 사용자 ID와 같거나 호출자가 스레드 <code>pid</code>의 사용자 네임스페이스에서 <code>CAP_SYS_NICE</code> 역능을 소유하고 있어야 한다.</dd>
-<dt><code>ESRCH</code></dt>
-<dd>ID가 <code>pid</code>인 스레드를 찾을 수 없다.</dd>
-</dl>
+`EFAULT`
+:   제공한 메모리 주소가 유효하지 않다.
+
+`EINVAL`
+:   친화성 비트 마스크 `mask`가 현재 물리적으로 시스템 상에 있으면서 `cpuset` cgroup이나 <tt>[[cpuset(7)]]</tt>에서 기술하는 "cpuset" 메커니즘으로 부과할 수 있는 제약에 따라 스레드에게 허용된 프로세서를 하나도 포함하고 있지 않다.
+
+`EINVAL`
+:   (`sched_getaffinity()`, 그리고 2.6.9 전의 커널에서는 `sched_setaffinity()`도) `cpusetsize`가 커널에서 쓰는 친화성 마스크의 크기보다 작다.
+
+`EPERM`
+:   (`sched_setaffinity()`) 호출 스레드가 적절한 특권을 가지고 있지 않다. 호출자의 실효 사용자 ID가 `pid`가 가리키는 스레드의 실제 사용자 ID나 실효 사용자 ID와 같거나 호출자가 스레드 `pid`의 사용자 네임스페이스에서 `CAP_SYS_NICE` 역능을 소유하고 있어야 한다.
+
+`ESRCH`
+:   ID가 `pid`인 스레드를 찾을 수 없다.
 
 ## VERSIONS
 

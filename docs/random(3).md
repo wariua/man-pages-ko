@@ -18,14 +18,10 @@ char *setstate(char *state);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>random()</code>, <code>srandom()</code>, <code>initstate()</code>, <code>setstate()</code>:</dt>
-<dd>
-<code>_XOPEN_SOURCE >= 500</code><br>
-<code>    || /* glibc 2.19부터: */ _DEFAULT_SOURCE</code><br>
-<code>    || /* glibc 버전 <= 2.19: */ _SVID_SOURCE || _BSD_SOURCE</code>
-</dd>
-</dl>
+`random()`, `srandom()`, `initstate()`, `setstate()`:
+:   `_XOPEN_SOURCE >= 500`<br>
+    `    || /* glibc 2.19부터: */ _DEFAULT_SOURCE`<br>
+    `    || /* glibc 버전 <= 2.19: */ _SVID_SOURCE || _BSD_SOURCE`
 
 ## DESCRIPTION
 
@@ -47,12 +43,11 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>setstate()</code>에 준 <code>state</code> 인자가 NULL이었다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>initstate()</code>에 8바이트보다 작은 상태 배열을 지정하였다.</dd>
-</dl>
+`EINVAL`
+:   `setstate()`에 준 `state` 인자가 NULL이었다.
+
+`EINVAL`
+:   `initstate()`에 8바이트보다 작은 상태 배열을 지정하였다.
 
 ## ATTRIBUTES
 

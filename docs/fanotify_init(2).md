@@ -31,63 +31,55 @@ fanotify API에 대한 소개는 <tt>[[fanotify(7)]]</tt>를 보라.
 
 `flags`에 다음 알림 등급들 중 하나를 지정할 수 있다.
 
-<dl>
-<dt><code>FAN_CLASS_PRE_CONTENT</code></dt>
-<dd>이 값은 파일에 접근이 이뤄졌음을 알리는 이벤트와 파일에 접근할 수 있냐는 허가 결정 이벤트를 수신하도록 한다. 파일에 최종 내용물이 담기기 전에 접근해야 하는 청취자를 위한 것이다. 예를 들면 계층 저장소 관리자에서 이 알림 등급을 사용할 수 있을 것이다.</dd>
+`FAN_CLASS_PRE_CONTENT`
+:   이 값은 파일에 접근이 이뤄졌음을 알리는 이벤트와 파일에 접근할 수 있냐는 허가 결정 이벤트를 수신하도록 한다. 파일에 최종 내용물이 담기기 전에 접근해야 하는 청취자를 위한 것이다. 예를 들면 계층 저장소 관리자에서 이 알림 등급을 사용할 수 있을 것이다.
 
-<dt><code>FAN_CLASS_CONTENT</code></dt>
-<dd>이 값은 파일에 접근이 이뤄졌음을 알리는 이벤트와 파일에 접근할 수 있냐는 허가 결정 이벤트를 수신하도록 한다. 파일에 최종 내용물이 이미 담겨 있을 때 접근해야 하는 청취자를 위한 것이다. 예를 들어 멀웨어 탐지 프로그램에서 이 알림 등급을 사용할 수 있을 것이다.</dd>
+`FAN_CLASS_CONTENT`
+:   이 값은 파일에 접근이 이뤄졌음을 알리는 이벤트와 파일에 접근할 수 있냐는 허가 결정 이벤트를 수신하도록 한다. 파일에 최종 내용물이 이미 담겨 있을 때 접근해야 하는 청취자를 위한 것이다. 예를 들어 멀웨어 탐지 프로그램에서 이 알림 등급을 사용할 수 있을 것이다.
 
-<dt><code>FAN_REPORT_FID</code> (리눅스 5.1부터)</dt>
-<dd>이 값은 이벤트와 연관된 하위 파일 시스템 객체에 대한 추가 정보를 담은 이벤트를 수신하도록 한다. 또 다른 구조체가 객체에 대한 정보를 담고서 범용 이벤트 메타데이터 구조체와 함께 포함돼 있다. 그리고 이벤트와 연관된 객체를 나타내는 데 쓰는 파일 디스크립터는 파일 핸들로 교체된다. 이는 파일 디스크립터 대신 파일 핸들을 쓰면 객체를 더 쉽게 식별할 수 있는 응용들을 위한 것이다. 또한 <code>FAN_CREATE</code>, <code>FAN_ATTRIB</code>, <code>FAN_MOVE</code>, <code>FAN_DELETE</code> 등과 같은 디렉터리 항목 이벤트에 관심 있는 응용들에서도 이용할 수 있다. 참고로 마운트 지점을 감시할 때 디렉터리 변경 이벤트 사용을 지원하지 않는다. 또 <code>FAN_CLASS_CONTENT</code>나 <code>FAN_CLASS_PRE_CONTENT</code>를 이 플래그와 함께 쓰지 못하며 그렇게 하면 <code>EINVAL</code> 오류가 발생한다. 자세한 내용은 <tt>[[fanotify(7)]]</tt> 참고.</dd>
+`FAN_REPORT_FID` (리눅스 5.1부터)
+:   이 값은 이벤트와 연관된 하위 파일 시스템 객체에 대한 추가 정보를 담은 이벤트를 수신하도록 한다. 또 다른 구조체가 객체에 대한 정보를 담고서 범용 이벤트 메타데이터 구조체와 함께 포함돼 있다. 그리고 이벤트와 연관된 객체를 나타내는 데 쓰는 파일 디스크립터는 파일 핸들로 교체된다. 이는 파일 디스크립터 대신 파일 핸들을 쓰면 객체를 더 쉽게 식별할 수 있는 응용들을 위한 것이다. 또한 `FAN_CREATE`, `FAN_ATTRIB`, `FAN_MOVE`, `FAN_DELETE` 등과 같은 디렉터리 항목 이벤트에 관심 있는 응용들에서도 이용할 수 있다. 참고로 마운트 지점을 감시할 때 디렉터리 변경 이벤트 사용을 지원하지 않는다. 또 `FAN_CLASS_CONTENT`나 `FAN_CLASS_PRE_CONTENT`를 이 플래그와 함께 쓰지 못하며 그렇게 하면 `EINVAL` 오류가 발생한다. 자세한 내용은 <tt>[[fanotify(7)]]</tt> 참고.
 
-<dt><code>FAN_CLASS_NOTIF</code></dt>
-<dd>기본값이다. 따로 지정하지 않아도 된다. 이 값은 파일에 접근이 이뤄졌음을 알리는 이벤트만 수신하도록 한다. 파일 접근 전의 허가 결정은 불가능하다.</dd>
-</dl>
+`FAN_CLASS_NOTIF`
+:   기본값이다. 따로 지정하지 않아도 된다. 이 값은 파일에 접근이 이뤄졌음을 알리는 이벤트만 수신하도록 한다. 파일 접근 전의 허가 결정은 불가능하다.
 
 알림 등급이 다른 청취자들은 `FAN_CLASS_PRE_CONTENT`, `FAN_CLASS_CONTENT`, `FAN_CLASS_NOTIF` 순서로 이벤트를 받게 된다. 알림 등급이 같은 청취자들에 대한 알림 순서는 규정돼 있지 않다.
 
 `flags`에 추가로 다음 비트들을 설정할 수 있다.
 
-<dl>
-<dt><code>FAN_CLOEXEC</code></dt>
-<dd>새 파일 디스크립터에 'exec에서 닫기' 플래그(<code>FD_CLOEXEC</code>)를 설정한다. <tt>[[open(2)]]</tt>의 <code>O_CLOEXEC</code> 플래그 설명을 보라.</dd>
+`FAN_CLOEXEC`
+:   새 파일 디스크립터에 'exec에서 닫기' 플래그(`FD_CLOEXEC`)를 설정한다. <tt>[[open(2)]]</tt>의 `O_CLOEXEC` 플래그 설명을 보라.
 
-<dt><code>FAN_NONBLOCK</code></dt>
-<dd>파일 디스크립터에 논블로킹 플래그(<code>O_NONBLOCK</code>)를 켠다. 파일 디스크립터에서 읽기가 블록 하지 않게 된다. 읽을 수 있는 데이터가 없으면 대신 <code>read(2)</code>가 <code>EAGAIN</code> 오류로 실패한다.</dd>
+`FAN_NONBLOCK`
+:   파일 디스크립터에 논블로킹 플래그(`O_NONBLOCK`)를 켠다. 파일 디스크립터에서 읽기가 블록 하지 않게 된다. 읽을 수 있는 데이터가 없으면 대신 `read(2)`가 `EAGAIN` 오류로 실패한다.
 
-<dt><code>FAN_UNLIMITED_QUEUE</code></dt>
-<dd>이벤트 큐에서 16384개 이벤트 제한을 없앤다. 이 플래그를 사용하려면 <code>CAP_SYS_ADMIN</code> 역능이 필요하다.</dd>
+`FAN_UNLIMITED_QUEUE`
+:   이벤트 큐에서 16384개 이벤트 제한을 없앤다. 이 플래그를 사용하려면 `CAP_SYS_ADMIN` 역능이 필요하다.
 
-<dt><code>FAN_UNLIMITED_MARKS</code></dt>
-<dd>8192개 표시 제한을 없앤다. 이 플래그를 사용하려면 <code>CAP_SYS_ADMIN</code> 역능이 필요하다.</dd>
+`FAN_UNLIMITED_MARKS`
+:   8192개 표시 제한을 없앤다. 이 플래그를 사용하려면 `CAP_SYS_ADMIN` 역능이 필요하다.
 
-<dt><code>FAN_REPORT_TID</code> (리눅스 4.20부터)</dt>
-<dd><code>read(2)</code>가 내놓는 <code>struct fanotify_event_metadata</code>(<tt>[[fanotify(7)]]</tt> 참고)의 <code>pid</code> 필드로 프로세스 ID(PID) 대신 스레드 ID(TID)를 알려 준다.</dd>
-</dl>
+`FAN_REPORT_TID` (리눅스 4.20부터)
+:   `read(2)`가 내놓는 `struct fanotify_event_metadata`(<tt>[[fanotify(7)]]</tt> 참고)의 `pid` 필드로 프로세스 ID(PID) 대신 스레드 ID(TID)를 알려 준다.
 
 `event_f_flags` 인자는 fanotify 이벤트에 대해 생성되는 열린 파일 기술 항목에 설정할 파일 상태 플래그를 지정한다. 이 플래그들에 대한 자세한 내용은 <tt>[[open(2)]]</tt>의 `flags` 값 설명을 보라. `event_f_flags`에는 접근 모드를 위한 비트 필드가 포함된다. 그 필드에 다음 값이 들어갈 수 있다.
 
-<dl>
-<dt><code>O_RDONLY</code></dt>
-<dd>읽기 접근만 허용한다.</dd>
+`O_RDONLY`
+:   읽기 접근만 허용한다.
 
-<dt><code>O_WRONLY</code></dt>
-<dd>쓰기 접근만 허용한다.</dd>
+`O_WRONLY`
+:   쓰기 접근만 허용한다.
 
-<dt><code>O_RDWR</code></dt>
-<dd>읽기 및 쓰기 접근을 허용한다.</dd>
-</dl>
+`O_RDWR`
+:   읽기 및 쓰기 접근을 허용한다.
 
 `event_f_flags`에 다른 비트들을 설정할 수 있다. 특히 유용한 값들은 다음과 같다.
 
-<dl>
-<dt><code>O_LARGEFILE</code></dt>
-<dd>2GB 초과 파일 지원을 켠다. 이 플래그를 설정하지 않으면 32비트 시스템에서 fanotify 그룹으로 감시하는 큰 파일을 열려고 할 때 <code>EOVERFLOW</code> 오류가 발생하게 된다.</dd>
+`O_LARGEFILE`
+:   2GB 초과 파일 지원을 켠다. 이 플래그를 설정하지 않으면 32비트 시스템에서 fanotify 그룹으로 감시하는 큰 파일을 열려고 할 때 `EOVERFLOW` 오류가 발생하게 된다.
 
-<dt><code>O_CLOEXEC</code> (리눅스 3.18부터)</dt>
-<dd>파일 디스크립터에 'exec에서 닫기' 플래그를 켠다. 이게 유용할 수 있는 이유에 대해선 <tt>[[open(2)]]</tt>의 <code>O_CLOEXEC</code> 플래그 설명을 보라.</dd>
-</dl>
+`O_CLOEXEC` (리눅스 3.18부터)
+:   파일 디스크립터에 'exec에서 닫기' 플래그를 켠다. 이게 유용할 수 있는 이유에 대해선 <tt>[[open(2)]]</tt>의 `O_CLOEXEC` 플래그 설명을 보라.
 
 `O_APPEND`, `O_DSYNC`, `O_NOATIME`, `O_NONBLOCK`, `O_SYNC`도 사용 가능하다. `event_f_flags`에 그 외 다른 플래그를 지정하면 `EINVAL` 오류가 생긴다. (하지만 BUGS 참고.)
 
@@ -97,20 +89,23 @@ fanotify API에 대한 소개는 <tt>[[fanotify(7)]]</tt>를 보라.
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>flags</code>나 <code>event_f_flags</code>에 유효하지 않은 값을 줬다. <code>FAN_ALL_INIT_FLAGS</code>(리눅스 커널 버전 4.20부터 폐기 예정 상태)가 <code>flags</code>에 가능한 모든 비트들이다.</dd>
-<dt><code>EMFILE</code></dt>
-<dd>이 사용자의 알림 그룹 수가 128개를 초과한다.</dd>
-<dt><code>EMFILE</code></dt>
-<dd>열린 파일 디스크립터 개수에 대한 프로세스별 제한에 도달했다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>알림 그룹을 위한 메모리 할당에 실패했다.</dd>
-<dt><code>ENOSYS</code></dt>
-<dd>커널에서 <code>fanotify_init()</code>을 구현하고 있지 않다. 커널을 <code>CONFIG_FANOTIFY</code>로 구성한 경우에만 fanotify API를 쓸 수 있다.</dd>
-<dt><code>EPERM</code></dt>
-<dd>호출자에게 <code>CAP_SYS_ADMIN</code> 역능이 없어서 동작이 허가되지 않는다.</dd>
-</dl>
+`EINVAL`
+:   `flags`나 `event_f_flags`에 유효하지 않은 값을 줬다. `FAN_ALL_INIT_FLAGS`(리눅스 커널 버전 4.20부터 폐기 예정 상태)가 `flags`에 가능한 모든 비트들이다.
+
+`EMFILE`
+:   이 사용자의 알림 그룹 수가 128개를 초과한다.
+
+`EMFILE`
+:   열린 파일 디스크립터 개수에 대한 프로세스별 제한에 도달했다.
+
+`ENOMEM`
+:   알림 그룹을 위한 메모리 할당에 실패했다.
+
+`ENOSYS`
+:   커널에서 `fanotify_init()`을 구현하고 있지 않다. 커널을 `CONFIG_FANOTIFY`로 구성한 경우에만 fanotify API를 쓸 수 있다.
+
+`EPERM`
+:   호출자에게 `CAP_SYS_ADMIN` 역능이 없어서 동작이 허가되지 않는다.
 
 ## VERSIONS
 

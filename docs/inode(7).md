@@ -8,125 +8,81 @@ inode - 파일 아이노드 정보
 
 다음은 일반적으로 파일 아이노드 내에 있거나 연계돼 있는 정보들의 목록이다. <tt>[[stat(2)]]</tt> 및 <tt>[[statx(2)]]</tt>에서 반환하는 대응 구조체 필드의 이름이 적혀 있다.
 
-<dl>
-<dt>아이노드가 위치한 장치</dt>
-<dd>
+아이노드가 위치한 장치
+:   `stat.st_dev`. `statx.stx_dev_minor` 및 `statx.stx_dev_major`.
 
-<code>stat.st_dev</code>. <code>statx.stx_dev_minor</code> 및 <code>statx.stx_dev_major</code>.
+    각 아이노드는 (연관된 파일과 마찬가지로) 어떤 장치 상의 파일 시스템에 위치한다. (일반적 장치 분류를 나타내는) 주 ID와 (그 일반 분류 내에서 특정 인스턴스를 나타내는) 부 ID의 조합으로 그 장치를 식별한다.
 
-각 아이노드는 (연관된 파일과 마찬가지로) 어떤 장치 상의 파일 시스템에 위치한다. (일반적 장치 분류를 나타내는) 주 ID와 (그 일반 분류 내에서 특정 인스턴스를 나타내는) 부 ID의 조합으로 그 장치를 식별한다.
-</dd>
+아이노드 번호
+:   `stat.st_ino`. `statx.stx_ino`.
 
-<dt>아이노드 번호</dt>
-<dd>
+    파일 시스템의 각 파일에는 고유한 아이노드 번호가 있다. 아이노드 번호는 한 파일 시스템 내에서만 유일성이 보장된다. (즉 다른 파일 시스템에서 같은 아이노드 번호를 쓸 수 있으며, 그래서 하드 링크가 파일 시스템 경계를 넘어갈 수 없다.) 이 필드는 파일의 아이노드 번호를 담고 있다.
 
-<code>stat.st_ino</code>. <code>statx.stx_ino</code>.
+파일 종류 및 모드
+:   `stat.st_mode`. `statx.stx_mode`.
 
-파일 시스템의 각 파일에는 고유한 아이노드 번호가 있다. 아이노드 번호는 한 파일 시스템 내에서만 유일성이 보장된다. (즉 다른 파일 시스템에서 같은 아이노드 번호를 쓸 수 있으며, 그래서 하드 링크가 파일 시스템 경계를 넘어갈 수 없다.) 이 필드는 파일의 아이노드 번호를 담고 있다.
-</dd>
+    아래의 파일 종류 및 모드 설명 참고.
 
-<dt>파일 종류 및 모드</dt>
-<dd>
+링크 수
+:   `stat.st_nlink`. `statx.stx_nlink`.
 
-<code>stat.st_mode</code>. <code>statx.stx_mode</code>.
+    이 필드는 파일에 대한 하드 링크 수를 담고 있다. <tt>[[link(2)]]</tt>를 써서 기존 파일에 대한 링크를 추가로 만든다.
 
-아래의 파일 종류 및 모드 설명 참고.
-</dd>
+사용자 ID
+:   `stat.st_uid`. `statx.stx_uid`.
 
-<dt>링크 수</dt>
-<dd>
+    이 필드는 파일 소유자의 사용자 ID를 기록한다. 파일이 새로 생성될 때 파일 사용자 ID는 생성 프로세스의 실효 사용자 ID다. <tt>[[chown(2)]]</tt>을 써서 파일의 사용자 ID를 바꿀 수 있다.
 
-<code>stat.st_nlink<code>. <code>statx.stx_nlink</code>.
+그룹 ID
+:   `stat.st_gid`. `statx.stx_gid`.
 
-이 필드는 파일에 대한 하드 링크 수를 담고 있다. <tt>[[link(2)]]</tt>를 써서 기존 파일에 대한 링크를 추가로 만든다.
-</dd>
+    아이노드에 파일 그룹 소유자의 ID를 기록해 둔다. 파일이 새로 생성될 때 파일 그룹 ID는 부모 디렉터리에 set-group-ID 비트가 설정돼 있는지 여부에 따라 부모 디렉터리의 그룹 ID거나 호출 프로세스의 실효 그룹 ID다. (아래 참고.) <tt>[[chown(2)]]</tt>을 써서 파일의 그룹 ID를 바꿀 수 있다.
 
-<dt>사용자 ID</dt>
-<dd>
+이 아이노드가 나타내는 장치
+:   `stat.st_rdev`. `statx.stx_rdev_minor` 및 `statx.stx_rdev_major`.
 
-<code>stat.st_uid</code>. <code>statx.stx_uid</code>.
+    이 파일이 (아이노드가) 장치를 나타내는 경우에 아이노드에 그 장치의 주 ID와 부 ID를 기록해 둔다.
 
-이 필드는 파일 소유자의 사용자 ID를 기록한다. 파일이 새로 생성될 때 파일 사용자 ID는 생성 프로세스의 실효 사용자 ID다. <tt>[[chown(2)]]</tt>을 써서 파일의 사용자 ID를 바꿀 수 있다.
-</dd>
+파일 크기
+:   `stat.st_size`. `statx.stx_size`.
 
-<dt>그룹 ID</dt>
-<dd>
+    이 필드는 (정규 파일이나 심볼릭 링크인 경우) 파일 크기를 바이트 단위로 알려 준다. 심볼릭 링크의 크기란 담고 있는 (종료 널 바이트 없는) 경로명의 길이다.
 
-<code>stat.st_gid</code>. <code>statx.stx_gid</code>.
+선호 I/O 블록 크기
+:   `stat.st_blksize`. `statx.stx_blksize`.
 
-아이노드에 파일 그룹 소유자의 ID를 기록해 둔다. 파일이 새로 생성될 때 파일 그룹 ID는 부모 디렉터리에 set-group-ID 비트가 설정돼 있는지 여부에 따라 부모 디렉터리의 그룹 ID거나 호출 프로세스의 실효 그룹 ID다. (아래 참고.) <tt>[[chown(2)]]</tt>을 써서 파일의 그룹 ID를 바꿀 수 있다.
-</dd>
+    이 필드는 효율적인 파일 시스템 I/O를 위한 "선호" 블록 크기를 알려 준다. (더 작은 크기로 파일에 쓰기를 하면 비효율적인 읽기-변경-재기록이 일어날 수 있다.)
 
-<dt>이 아이노드가 나타내는 장치</dt>
-<dd>
+파일에 할당된 블록 수
+:   `stat.st_blocks`. `statx.stx_blocks`.
 
-<code>stat.st_rdev</code>. <code>statx.stx_rdev_minor</code> 및 <code>statx.stx_rdev_major</code>.
+    이 필드는 파일에 할당된 512바이트 단위 블록 수를 나타낸다. (파일에 구멍이 있을 때는 `st_size`/512보다 작을 수도 있다.)
 
-이 파일이 (아이노드가) 장치를 나타내는 경우에 아이노드에 그 장치의 주 ID와 부 ID를 기록해 둔다.
-</dd>
+    POSIX.1 표준에서는 `stat` 구조체의 `st_blocks` 멤버의 단위를 표준에서 규정하지 않는다고 언급한다. 많은 구현에서는 그 값이 512 바이트다. 몇몇 시스템에서는 1024 같은 다른 단위를 쓴다. 더불어 파일 시스템에 따라 그 단위가 다를 수도 있다.
 
-<dt>파일 크기</dt>
-<dd>
+최근 접근 타임스탬프 (atime)
+:   `stat.st_atime`. `statx.stx_atime`.
 
-<code>stat.st_size</code>. <code>statx.stx_size</code>.
+    파일의 최근 접근 타임스탬프다. <tt>[[execve(2)]]</tt>, <tt>[[mknod(2)]]</tt>, <tt>[[pipe(2)]]</tt>, <tt>[[utime(2)]]</tt>, (0 바이트보다 큰) `read(2)` 등의 파일 접근에 의해 바뀐다. <tt>[[mmap(2)]]</tt> 같은 다른 인터페이스는 atime 타임스탬프를 갱신할 수도 있고 하지 않을 수도 있다.
 
-이 필드는 (정규 파일이나 심볼릭 링크인 경우) 파일 크기를 바이트 단위로 알려 준다. 심볼릭 링크의 크기란 담고 있는 (종료 널 바이트 없는) 경로명의 길이다.
-</dd>
+    일부 파일 시스템 타입에서는 파일 및/또는 디렉터리 접근이 atime 타임스탬프 갱신을 일으키지 않도록 마운트 하는 게 가능하다. (<tt>[[mount(8)]]</tt>의 `noatime`, `nodiratime`, `relatime`, 그리고 <tt>[[mount(2)]]</tt>의 관련 정보 참고.) 더불어 `O_NOATIME` 플래그를 써서 파일을 열면 atime 타임스탬프가 갱신되지 않는다. <tt>[[open(2)]]</tt> 참고.
 
-<dt>선호 I/O 블록 크기</dt>
-<dd>
+파일 생성 (탄생) 타임스탬프 (btime)
+:   (`stat` 구조체로 반환되지 않음.) `statx.stx_btime`.
 
-<code>stat.st_blksize</code>. <code>statx.stx_blksize</code>.
+    파일의 생성 타임스탬프다. 파일 생성 시 설정되고 이후 바뀌지 않는다.
 
-이 필드는 효율적인 파일 시스템 I/O를 위한 "선호" 블록 크기를 알려 준다. (더 작은 크기로 파일에 쓰기를 하면 비효율적인 읽기-변경-재기록이 일어날 수 있다.)
-</dd>
+    btime 타임스탬프는 역사적으로 유닉스 시스템에 존재하지 않았으며 현재 대부분의 리눅스 파일 시스템들에서 지원하지 않는다.
 
-<dt>파일에 할당된 블록 수</dt>
-<dd>
+최근 수정 타임스탬프 (mtime)
+:   `stat.st_mtime`. `statx.stx_mtime`.
 
-<code>stat.st_blocks</code>. <code>statx.stx_blocks</code>.
+    파일의 최근 수정 타임스탬프다. <tt>[[mknod(2)]]</tt>, <tt>[[truncate(2)]]</tt>, <tt>[[utime(2)]]</tt>, (0 바이트보다 큰) <tt>[[write(2)]]</tt> 등의 파일 변경에 의해 바뀐다. 또한 디렉터리의 mtime 타임스탬프는 그 디렉터리 내의 파일 생성 및 삭제에 의해 바뀐다. 소유자, 그룹, 하드 링크 수, 모드의 변경에 의해선 mtime 타임스탬프가 바뀌지 *않는다*.
 
-이 필드는 파일에 할당된 512바이트 단위 블록 수를 나타낸다. (파일에 구멍이 있을 때는 <code>st_size</code>/512보다 작을 수도 있다.)
+최근 상태 변경 타임스탬프 (ctime)
+:   `stat.st_ctime`. `statx.stx_ctime`.
 
-POSIX.1 표준에서는 <code>stat</code> 구조체의 <code>st_blocks</code> 멤버의 단위를 표준에서 규정하지 않는다고 언급한다. 많은 구현에서는 그 값이 512 바이트다. 몇몇 시스템에서는 1024 같은 다른 단위를 쓴다. 더불어 파일 시스템에 따라 그 단위가 다를 수도 있다.
-</dd>
-
-<dt>최근 접근 타임스탬프 (atime)</dt>
-<dd>
-
-<code>stat.st_atime</code>. <code>statx.stx_atime</code>.
-
-파일의 최근 접근 타임스탬프다. <tt>[[execve(2)]]</tt>, <tt>[[mknod(2)]]</tt>, <tt>[[pipe(2)]]</tt>, <tt>[[utime(2)]]</tt>, (0 바이트보다 큰) <code>read(2)</code> 등의 파일 접근에 의해 바뀐다. <tt>[[mmap(2)]]</tt> 같은 다른 인터페이스는 atime 타임스탬프를 갱신할 수도 있고 하지 않을 수도 있다.
-
-일부 파일 시스템 타입에서는 파일 및/또는 디렉터리 접근이 atime 타임스탬프 갱신을 일으키지 않도록 마운트 하는 게 가능하다. (<tt>[[mount(8)]]</tt>의 <code>noatime</code>, <code>nodiratime</code>, <code>relatime</code>, 그리고 <tt>[[mount(2)]]</tt>의 관련 정보 참고.) 더불어 <code>O_NOATIME</code> 플래그를 써서 파일을 열면 atime 타임스탬프가 갱신되지 않는다. <tt>[[open(2)]]</tt> 참고.
-</dd>
-
-<dt>파일 생성 (탄생) 타임스탬프 (btime)</dt>
-<dd>
-
-(<code>stat</code> 구조체로 반환되지 않음.) <code>statx.stx_btime</code>.
-
-파일의 생성 타임스탬프다. 파일 생성 시 설정되고 이후 바뀌지 않는다.
-
-btime 타임스탬프는 역사적으로 유닉스 시스템에 존재하지 않았으며 현재 대부분의 리눅스 파일 시스템들에서 지원하지 않는다.
-</dd>
-
-<dt>최근 수정 타임스탬프 (mtime)</dt>
-<dd>
-
-<code>stat.st_mtime</code>. <code>statx.stx_mtime</code>.
-
-파일의 최근 수정 타임스탬프다. <tt>[[mknod(2)]]</tt>, <tt>[[truncate(2)]]</tt>, <tt>[[utime(2)]]</tt>, (0 바이트보다 큰) <tt>[[write(2)]]</tt> 등의 파일 변경에 의해 바뀐다. 또한 디렉터리의 mtime 타임스탬프는 그 디렉터리 내의 파일 생성 및 삭제에 의해 바뀐다. 소유자, 그룹, 하드 링크 수, 모드의 변경에 의해선 mtime 타임스탬프가 바뀌지 *않는다*.
-</dd>
-
-<dt>최근 상태 변경 타임스탬프 (ctime)</dt>
-<dd>
-
-<code>stat.st_ctime</code>. <code>statx.stx_ctime</code>.
-
-파일의 최근 상태 변경 타임스탬프다. 아이노드 정보(즉 소유자, 그룹, 링크 수, 모드 등) 기록 내지 설정에 의해 바뀐다.
-</dd>
-</dl>
+    파일의 최근 상태 변경 타임스탬프다. 아이노드 정보(즉 소유자, 그룹, 링크 수, 모드 등) 기록 내지 설정에 의해 바뀐다.
 
 타임스탬프 필드들은 *에포크(Epoch)*, 즉 1970-01-01 00:00:00 +0000, UTC를 영점으로 해서 (<tt>[[time(7)]] 참고) 측정한 시간을 알려 준다.
 

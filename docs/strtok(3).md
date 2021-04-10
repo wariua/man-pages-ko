@@ -14,13 +14,9 @@ char *strtok_r(char *str, const char *delim, char **saveptr);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>strtok_r()</code>:</dt>
-<dd>
-<code>_POSIX_C_SOURCE</code><br>
-<code>    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE || _SVID_SOURCE</code>
-</dd>
-</dl>
+`strtok_r()`:
+:   `_POSIX_C_SOURCE`<br>
+    `    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE || _SVID_SOURCE`
 
 ## DESCRIPTION
 
@@ -57,12 +53,11 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## CONFORMING TO
 
-<dl>
-<dt><code>strtok()</code></dt>
-<dd>POSIX.1-2001, POSIX.1-2008, C89, C99, SVr4, 4.3BSD.</dd>
-<dt><code>strtok_r()</code></dt>
-<dd>POSIX.1-2001, POSIX.1-2008.</dd>
-</dl>
+`strtok()`
+:   POSIX.1-2001, POSIX.1-2008, C89, C99, SVr4, 4.3BSD.
+
+`strtok_r()`
+:   POSIX.1-2001, POSIX.1-2008.
 
 ## BUGS
 

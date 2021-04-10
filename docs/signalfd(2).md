@@ -20,42 +20,30 @@ int signalfd(int fd, const sigset_t *mask, int flags);
 
 리눅스 2.6.27부터 `flags`에 다음 값들을 비트 OR 해서 `signalfd()`의 동작 방식을 바꿀 수 있다.
 
-<dl>
-<dt><code>SFD_NONBLOCK</code></dt>
-<dd>새 파일 디스크립터가 가리키는 열린 파일 기술 항목(<tt>[[open(2)]]</tt> 참고)에 <code>O_NONBLOCK</code> 파일 상태 플래그를 설정한다. 이 플래그를 사용하면 같은 결과를 얻기 위해 <tt>[[fcntl(2)]]</tt>을 추가로 호출하지 않아도 된다.</dd>
+`SFD_NONBLOCK`
+:   새 파일 디스크립터가 가리키는 열린 파일 기술 항목(<tt>[[open(2)]]</tt> 참고)에 `O_NONBLOCK` 파일 상태 플래그를 설정한다. 이 플래그를 사용하면 같은 결과를 얻기 위해 <tt>[[fcntl(2)]]</tt>을 추가로 호출하지 않아도 된다.
 
-<dt><code>SFD_CLOEXEC</code></dt>
-<dd>새 파일 디스크립터에 'exec에서 닫기'(<code>FD_CLOEXEC</code>) 플래그를 설정한다. 이게 유용할 수 있는 이유에 대해선 <tt>[[open(2)]]</tt>의 <code>O_CLOEXEC</code> 플래그 설명을 보라.</dd>
-</dl>
+`SFD_CLOEXEC`
+:   새 파일 디스크립터에 'exec에서 닫기'(`FD_CLOEXEC`) 플래그를 설정한다. 이게 유용할 수 있는 이유에 대해선 <tt>[[open(2)]]</tt>의 `O_CLOEXEC` 플래그 설명을 보라.
 
 리눅스 버전 2.6.26까지는 `flags` 인자를 사용하지 않으며 0으로 지정해야 한다.
 
 `signalfd()`가 반환하는 파일 디스크립터는 다음 작업을 지원한다.
 
-<dl>
-<dt><code>read(2)</code></dt>
-<dd>
+`read(2)`
+:   `mask`에 지정한 시그널들이 하나 이상 프로세스에 미처리 상태이면 `read(2)`에 준 버퍼를 이용해 시그널을 기술하는 `signalfd_siginfo` 구조체(아래 참고)를 하나 이상 반환한다. 미처리 시그널에 대한 정보를 버퍼에 가급적 많이 채워서 `read(2)`가 반환한다. 버퍼가 최소 `sizeof(struct signalfd_siginfo)` 바이트여야 한다. `read(2)`의 반환 값은 읽은 바이트 총수이다.
 
-<code>mask</code>에 지정한 시그널들이 하나 이상 프로세스에 미처리 상태이면 <code>read(2)</code>에 준 버퍼를 이용해 시그널을 기술하는 <code>signalfd_siginfo</code> 구조체(아래 참고)를 하나 이상 반환한다. 미처리 시그널에 대한 정보를 버퍼에 가급적 많이 채워서 <code>read(2)</code>가 반환한다. 버퍼가 최소 <code>sizeof(struct signalfd_siginfo)</code> 바이트여야 한다. <code>read(2)</code>의 반환 값은 읽은 바이트 총수이다.
+    `read(2)`의 결과로 시그널이 소비되며, 그래서 더 이상 그 프로세스에 미처리인 시그널이 아니게 된다. (즉, 시그널 핸들러에 잡히지 않으며 <tt>[[sigwaitinfo(2)]]</tt>로 받을 수 없다.)
 
-<code>read(2)</code>의 결과로 시그널이 소비되며, 그래서 더 이상 그 프로세스에 미처리인 시그널이 아니게 된다. (즉, 시그널 핸들러에 잡히지 않으며 <tt>[[sigwaitinfo(2)]]</tt>로 받을 수 없다.)
+    `mask` 내의 시그널 어느 것도 프로세스에 미처리 상태가 아니면 `mask` 내의 시그널들 중 하나가 프로세스에게 생성될 때까지 `read(2)`가 블록 한다. 파일 디스크립터를 논블록으로 만들었으면 `EAGAIN` 오류로 실패한다.
 
-<code>mask</code> 내의 시그널 어느 것도 프로세스에 미처리 상태가 아니면 <code>mask</code> 내의 시그널들 중 하나가 프로세스에게 생성될 때까지 <code>read(2)</code>가 블록 한다. 파일 디스크립터를 논블록으로 만들었으면 <code>EAGAIN</code> 오류로 실패한다.
-</dd>
+<tt>[[poll(2)]]</tt>, <tt>[[select(2)]]</tt> (기타 유사 함수)
+:   `mask` 내의 시그널이 하나 이상 프로세스에 미처리 상태인 경우에 파일 디스크립터가 읽기 가능하다. (<tt>[[select(2)]]</tt> `readfds` 인자, <tt>[[poll(2)]]</tt> `POLLIN` 플래그.)
 
-<dt><tt>[[poll(2)]]</tt>, <tt>[[select(2)]]</tt> (기타 유사 함수)</dt>
-<dd>
+    signalfd 파일 디스크립터는 <tt>[[pselect(2)]]</tt>, <tt>[[ppoll(2)]]</tt>, <tt>[[epoll(7)]]</tt> 같은 다른 파일 디스크립터 다중화 API도 지원한다.
 
-<code>mask</code> 내의 시그널이 하나 이상 프로세스에 미처리 상태인 경우에 파일 디스크립터가 읽기 가능하다. (<tt>[[select(2)]]</tt> <code>readfds</code> 인자, <tt>[[poll(2)]]</tt> <code>POLLIN</code> 플래그.)
-
-signalfd 파일 디스크립터는 <tt>[[pselect(2)]]</tt>, <tt>[[ppoll(2)]]</tt>, <tt>[[epoll(7)]]</tt> 같은 다른 파일 디스크립터 다중화 API도 지원한다.
-</dd>
-
-<dt><tt>[[close(2)]]</tt></dt>
-<dd>
-파일 디스크립터가 더 이상 필요하지 않으면 닫아야 한다. 동일 signalfd 객체에 연계된 모든 파일 디스크립터가 닫혔을 때 커널이 그 객체의 자원을 해제한다.
-</dd>
-</dl>
+<tt>[[close(2)]]</tt>
+:   파일 디스크립터가 더 이상 필요하지 않으면 닫아야 한다. 동일 signalfd 객체에 연계된 모든 파일 디스크립터가 닫혔을 때 커널이 그 객체의 자원을 해제한다.
 
 ### `signalfd_siginfo` 구조체
 
@@ -111,22 +99,26 @@ struct signalfd_siginfo {
 
 ## ERRORS
 
-<dl>
-<dt><code>EBADF</code></dt>
-<dd><code>fd</code> 파일 디스크립터가 유효한 파일 디스크립터가 아니다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>fd</code>가 유효한 signalfd 파일 디스크립터가 아니다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>flags</code>가 유효하지 않다. 또는 리눅스 2.6.26 또는 이전에서 <code>flags</code>가 0이 아니다.</dd>
-<dt><code>EMFILE</code></dt>
-<dd>열린 파일 디스크립터 개수에 대한 프로세스별 제한에 도달했다.</dd>
-<dt><code>ENFILE</code></dt>
-<dd>열린 파일 총개수에 대한 시스템 전역 제한에 도달했다.</dd>
-<dt><code>ENODEV</code></dt>
-<dd>(내부적으로 쓰는) 익명 아이노드 장치를 마운트 할 수 없었다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>새 signalfd 파일 디스크립터를 생성하기에 메모리가 충분하지 않았다.</dd>
-</dl>
+`EBADF`
+:   `fd` 파일 디스크립터가 유효한 파일 디스크립터가 아니다.
+
+`EINVAL`
+:   `fd`가 유효한 signalfd 파일 디스크립터가 아니다.
+
+`EINVAL`
+:   `flags`가 유효하지 않다. 또는 리눅스 2.6.26 또는 이전에서 `flags`가 0이 아니다.
+
+`EMFILE`
+:   열린 파일 디스크립터 개수에 대한 프로세스별 제한에 도달했다.
+
+`ENFILE`
+:   열린 파일 총개수에 대한 시스템 전역 제한에 도달했다.
+
+`ENODEV`
+:   (내부적으로 쓰는) 익명 아이노드 장치를 마운트 할 수 없었다.
+
+`ENOMEM`
+:   새 signalfd 파일 디스크립터를 생성하기에 메모리가 충분하지 않았다.
 
 ## VERSIONS
 

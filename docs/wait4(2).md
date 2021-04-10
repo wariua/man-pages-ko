@@ -19,26 +19,19 @@ pid_t wait4(pid_t pid, int *wstatus, int options,
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>wait3()</code>:</dt>
-<dd>
- <dl>
- <dt>glibc 2.19부터:</dt>
- <dd><code>_DEFAULT_SOURCE || _XOPEN_SOURCE >= 500</code></dd>
- <dt>glibc 2.19 및 이전:</dt>
- <dd><code>_BSD_SOURCE || _XOPEN_SOURCE >= 500</code></dd>
- </dl>
-</dd>
-<dt><code>wait4()</code>:</dt>
-<dd>
- <dl>
- <dt>glibc 2.19부터:</dt>
- <dd><code>_DEFAULT_SOURCE</code></dd>
- <dt>glibc 2.19 및 이전:</dt>
- <dd><code>_BSD_SOURCE</code></dd>
- </dl>
-</dd>
-</dl>
+`wait3()`:
+:   glibc 2.19부터:
+    :   `_DEFAULT_SOURCE || _XOPEN_SOURCE >= 500`
+
+    glibc 2.19 및 이전:
+    :   `_BSD_SOURCE || _XOPEN_SOURCE >= 500`
+
+`wait4()`:
+:   glibc 2.19부터:
+    :   `_DEFAULT_SOURCE`
+
+    glibc 2.19 및 이전:
+    :   `_BSD_SOURCE`
 
 ## DESCRIPTION
 

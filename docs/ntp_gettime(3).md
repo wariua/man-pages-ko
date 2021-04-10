@@ -29,16 +29,14 @@ struct ntptimeval {
 
 이 구조체의 필드들은 다음과 같다.
 
-<dl>
-<dt><code>maxerror</code></dt>
-<dd>최대 오차. 마이크로초 단위. <tt>[[ntp_adjtime(3)]]</tt>으로 이 값을 초기화할 수 있으며, 주기적으로 (리눅스에선 매초마다) 증가하되 상한(커널 상수 <code>NTP_PHASE_MAX</code>, 16,000)이 있다.</dd>
+`maxerror`
+:   최대 오차. 마이크로초 단위. <tt>[[ntp_adjtime(3)]]</tt>으로 이 값을 초기화할 수 있으며, 주기적으로 (리눅스에선 매초마다) 증가하되 상한(커널 상수 `NTP_PHASE_MAX`, 16,000)이 있다.
 
-<dt><code>esterror</code></dt>
-<dd>추정 오차. 마이크로초 단위. 시스템 클럭과 실제 시간의 추산 차이를 담도록 <tt>[[ntp_adjtime(3)]]</tt>으로 이 값을 설정할 수 있다. 이 값은 커널 내에선 쓰이지 않는다.</dd>
+`esterror`
+:   추정 오차. 마이크로초 단위. 시스템 클럭과 실제 시간의 추산 차이를 담도록 <tt>[[ntp_adjtime(3)]]</tt>으로 이 값을 설정할 수 있다. 이 값은 커널 내에선 쓰이지 않는다.
 
-<dt><code>tai</code></dt>
-<dd>TAI(국제원자시) 오프셋.</dd>
-</dl>
+`tai`
+:   TAI(국제원자시) 오프셋.
 
 `ntp_gettime()`은 `ntptimeval` 구조체의 `time`, `maxerror`, `esterror` 필드를 채워서 반환한다.
 
@@ -68,7 +66,7 @@ glibc 2.1부터 `ntp_gettime()` 함수가 사용 가능하다. glibc 2.12부터 
 
 <tt>[[adjtimex(2)]]</tt>, <tt>[[ntp_adjtime(3)]]</tt>, <tt>[[time(7)]]</tt>
 
-NTP "Kernel Application Program Interface" (http://www.slac.stanford.edu/comp/unix/package/rtems/src/ssrlApps/ntpNanoclock/api.htm)
+NTP "Kernel Application Program Interface" (<http://www.slac.stanford.edu/comp/unix/package/rtems/src/ssrlApps/ntpNanoclock/api.htm>)
 
 ----
 

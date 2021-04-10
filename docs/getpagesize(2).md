@@ -12,19 +12,15 @@ int getpagesize(void);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>getpagesize()</code>:</dt>
-<dd>
- <dl>
- <dt>glibc 2.19부터:</dt>
- <dd><code>_DEFAULT_SOURCE || ! (_POSIX_C_SOURCE >= 200112L)</code></dd>
- <dt>glibc 2.12부터 2.19까지:</dt>
- <dd><code>_BSD_SOURCE || ! (_POSIX_C_SOURCE >= 200112L)</code></dd>
- <dt>glibc 2.12 전:</dt>
- <dd><code>_BSD_SOURCE || _XOPEN_SOURCE >= 500</code></dd>
- </dl>
-</dd>
-</dl>
+`getpagesize()`:
+:   glibc 2.19부터:
+    :   `_DEFAULT_SOURCE || ! (_POSIX_C_SOURCE >= 200112L)`
+
+    glibc 2.12부터 2.19까지:
+    :   `_BSD_SOURCE || ! (_POSIX_C_SOURCE >= 200112L)`
+
+    glibc 2.12 전:
+    :   `_BSD_SOURCE || _XOPEN_SOURCE >= 500`
 
 ## DESCRIPTION
 

@@ -12,10 +12,8 @@ int sockatmark(int sockfd);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>sockatmark()</code>:</dt>
-<dd><code>_POSIX_C_SOURCE >= 200112L</code></dd>
-</dl>
+`sockatmark()`:
+:   `_POSIX_C_SOURCE >= 200112L`
 
 ## DESCRIPTION
 
@@ -27,12 +25,11 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## ERRORS
 
-<dl>
-<dt><code>EBADF</code></dt>
-<dd><code>sockfd</code>가 유효한 파일 디스크립터가 아니다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>sockfd</code>가 <code>sockatmark()</code>를 적용할 수 있는 파일 디스크립터가 아니다.</dd>
-</dl>
+`EBADF`
+:   `sockfd`가 유효한 파일 디스크립터가 아니다.
+
+`EINVAL`
+:   `sockfd`가 `sockatmark()`를 적용할 수 있는 파일 디스크립터가 아니다.
 
 ## VERSIONS
 

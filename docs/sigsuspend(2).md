@@ -12,10 +12,8 @@ int sigsuspend(const sigset_t *mask);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>sigsuspend()</code>:</dt>
-<dd><code>_POSIX_C_SOURCE</code></dd>
-</dl>
+`sigsuspend()`:
+:   `_POSIX_C_SOURCE`
 
 ## DESCRIPTION
 
@@ -31,12 +29,11 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## ERRORS
 
-<dl>
-<dt><code>EFAULT</code></dt>
-<dd><code>mask</code>가 프로세스 주소 공간의 유효한 일부가 아닌 메모리를 가리키고 있다.</dd>
-<dt><code>EINTR</code></dt>
-<dd>시그널에 의해 호출이 중단되었다. <tt>[[signal(7)]]</tt> 참고.</dd>
-</dl>
+`EFAULT`
+:   `mask`가 프로세스 주소 공간의 유효한 일부가 아닌 메모리를 가리키고 있다.
+
+`EINTR`
+:   시그널에 의해 호출이 중단되었다. <tt>[[signal(7)]]</tt> 참고.
 
 ## CONFORMING TO
 

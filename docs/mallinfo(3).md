@@ -35,37 +35,35 @@ struct mallinfo {
 
 `mallinfo` 구조체의 필드들은 다음 정보를 담고 있다.
 
-<dl>
-<dt><code>arena</code></dt>
-<dd><tt>[[mmap(2)]]</tt> 외의 방법으로 할당된 메모리의 (즉 힙에 할당된 메모리의) 총량. 이 수치에는 사용 중인 블록과 유휴 목록의 블록이 모두 포함된다.</dd>
+`arena`
+:   <tt>[[mmap(2)]]</tt> 외의 방법으로 할당된 메모리의 (즉 힙에 할당된 메모리의) 총량. 이 수치에는 사용 중인 블록과 유휴 목록의 블록이 모두 포함된다.
 
-<dt><code>ordblks</code></dt>
-<dd>평범한 (즉 패스트빈 아닌) 유휴 블록 개수.</dd>
+`ordblks`
+:   평범한 (즉 패스트빈 아닌) 유휴 블록 개수.
 
-<dt><code>smblks</code></dt>
-<dd>패스트빈 유휴 블록 개수. (<tt>[[mallopt(3)]]</tt> 참고.)</dd>
+`smblks`
+:   패스트빈 유휴 블록 개수. (<tt>[[mallopt(3)]]</tt> 참고.)
 
-<dt><code>hblks</code></dt>
-<dd>현재 <tt>[[mmap(2)]]</tt>으로 할당된 블록 개수. (<tt>[[mallopt(3)]]</tt>의 <code>M_MMAP_THRESHOLD</code> 논의 참고.)</dd>
+`hblks`
+:   현재 <tt>[[mmap(2)]]</tt>으로 할당된 블록 개수. (<tt>[[mallopt(3)]]</tt>의 `M_MMAP_THRESHOLD` 논의 참고.)
 
-<dt><code>hblkhd</code></dt>
-<dd>현재 <tt>[[mmap(2)]]</tt>으로 할당된 블록들의 바이트 수.</dd>
+`hblkhd`
+:   현재 <tt>[[mmap(2)]]</tt>으로 할당된 블록들의 바이트 수.
 
-<dt><code>usmblks</code></dt>
-<dd>할당 공간의 "최고 수위 선"이다. 즉 지금까지 할당 공간의 최대 양이다. 스레드를 쓰지 않는 환경에서만 이 필드를 유지한다.</dd>
+`usmblks`
+:   할당 공간의 "최고 수위 선"이다. 즉 지금까지 할당 공간의 최대 양이다. 스레드를 쓰지 않는 환경에서만 이 필드를 유지한다.
 
-<dt><code>fsmblks</code></dt>
-<dd>패스트빈 유휴 블록들의 총 바이트 수.</dd>
+`fsmblks`
+:   패스트빈 유휴 블록들의 총 바이트 수.
 
-<dt><code>uordblks</code></dt>
-<dd>사용 중인 할당들에 쓰는 총 바이트 수.</dd>
+`uordblks`
+:   사용 중인 할당들에 쓰는 총 바이트 수.
 
-<dt><code>fordblks</code></dt>
-<dd>유휴 블록들의 총 바이트 수.</dd>
+`fordblks`
+:   유휴 블록들의 총 바이트 수.
 
-<dt><code>keepcost</code></dt>
-<dd>힙 상단의 해제 가능한 유휴 공간의 총량. 다른 제약이 없다면 (즉 페이지 정렬 제약 등을 무시할 때) <tt>[[malloc_trim(3)]]</tt>으로 해제 가능한 최대 바이트 수이다.</dd>
-</dl>
+`keepcost`
+:   힙 상단의 해제 가능한 유휴 공간의 총량. 다른 제약이 없다면 (즉 페이지 정렬 제약 등을 무시할 때) <tt>[[malloc_trim(3)]]</tt>으로 해제 가능한 최대 바이트 수이다.
 
 ## ATTRIBUTES
 
@@ -83,7 +81,7 @@ struct mallinfo {
 
 ## BUGS
 
-<strong>주 메모리 할당 영역에 대한 정보만 반환한다.</strong> 다른 아레나에서의 할당은 빠져 있다. 다른 아레나에 대한 정보를 포함하는 대안으로는 <tt>[[malloc_stats(3)]]</tt>와 <tt>[[malloc_info(3)]]</tt>를 보라.
+**주 메모리 할당 영역에 대한 정보만 반환한다.** 다른 아레나에서의 할당은 빠져 있다. 다른 아레나에 대한 정보를 포함하는 대안으로는 <tt>[[malloc_stats(3)]]</tt>와 <tt>[[malloc_info(3)]]</tt>를 보라.
 
 `mallinfo` 구조체의 필드들이 `int` 타입으로 되어 있다. 하지만 내부의 몇몇 상태 관리 값들이 `long` 타입일 수도 있기 때문에 얻어 온 값이 잘려서 부정확할 수도 있다.
 

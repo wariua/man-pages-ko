@@ -16,10 +16,8 @@ int pthread_spin_unlock(pthread_spinlock_t *lock);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>pthread_spin_lock()</code>, <code>pthread_spin_trylock()</code>:</dt>
-<dd><code>_POSIX_C_SOURCE >= 200112L</code></dd>
-</dl>
+`pthread_spin_lock()`, `pthread_spin_trylock()`:
+:   `_POSIX_C_SOURCE >= 200112L`
 
 ## DESCRIPTION
 
@@ -41,17 +39,13 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 `pthread_spin_lock()`이 다음 오류로 실패할 수 있다.
 
-<dl>
-<dt><code>EDEADLOCK</code></dt>
-<dd>시스템이 교착 조건을 탐지했다.</dd>
-</dl>
+`EDEADLOCK`
+:   시스템이 교착 조건을 탐지했다.
 
 `pthread_spin_trylock()`이 다음 오류로 실패할 수 있다.
 
-<dl>
-<dt><code>EBUSY</code></dt>
-<dd>스핀락이 현재 다른 스레드에 의해 잠겨 있다.</dd>
-</dl>
+`EBUSY`
+:   스핀락이 현재 다른 스레드에 의해 잠겨 있다.
 
 ## VERSIONS
 

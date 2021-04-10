@@ -12,10 +12,8 @@ int posix_fallocate(int fd, off_t offset, off_t len);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>posix_fallocate()</code>:</dt>
-<dd><code>_POSIX_C_SOURCE >= 200112L</code></dd>
-</dl>
+`posix_fallocate()`:
+:   `_POSIX_C_SOURCE >= 200112L`
 
 ## DESCRIPTION
 
@@ -29,22 +27,26 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## ERRORS
 
-<dl>
-<dt><code>EBADF</code></dt>
-<dd><code>fd</code>가 유효한 파일 디스크립터가 아니거나 쓰기 가능하게 열려 있지 않다.</dd>
-<dt><code>EFBIG</code></dt>
-<dd><code>offset+len</code>이 최대 파일 크기를 초과한다.</dd>
-<dt><code>EINTR</code></dt>
-<dd>실행 중 시그널을 잡았다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>offset</code>이 0보다 작거나, <code>len</code>이 0 이하이거나, 하위 파일 시스템에서 그 동작을 지원하지 않는다.</dd>
-<dt><code>ENODEV</code></dt>
-<dd><code>fd</code>가 정규 파일을 가리키고 있지 않다.</dd>
-<dt><code>ENOSPC</code></dt>
-<dd><code>fd</code>가 가리키는 파일을 담은 장치에 충분한 공간이 남아 있지 않다.</dd>
-<dt><code>ESPIPE</code></dt>
-<dd><code>fd</code>가 파이프를 가리키고 있다.</dd>
-</dl>
+`EBADF`
+:   `fd`가 유효한 파일 디스크립터가 아니거나 쓰기 가능하게 열려 있지 않다.
+
+`EFBIG`
+:   `offset+len`이 최대 파일 크기를 초과한다.
+
+`EINTR`
+:   실행 중 시그널을 잡았다.
+
+`EINVAL`
+:   `offset`이 0보다 작거나, `len`이 0 이하이거나, 하위 파일 시스템에서 그 동작을 지원하지 않는다.
+
+`ENODEV`
+:   `fd`가 정규 파일을 가리키고 있지 않다.
+
+`ENOSPC`
+:   `fd`가 가리키는 파일을 담은 장치에 충분한 공간이 남아 있지 않다.
+
+`ESPIPE`
+:   `fd`가 파이프를 가리키고 있다.
 
 ## VERSIONS
 

@@ -12,10 +12,8 @@ int sigpending(sigset_t *set);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>sigpending()</code>:</dt>
-<dd><code>_POSIX_C_SOURCE</code></dd>
-</dl>
+`sigpending()`:
+:   `_POSIX_C_SOURCE`
 
 ## DESCRIPTION
 

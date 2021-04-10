@@ -12,13 +12,9 @@ int getsubopt(char **optionp, char * const *tokens, char **valuep);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>getsubopt()</code>:</dt>
-<dd>
-<code>_XOPEN_SOURCE >= 500</code><br>
-<code>    || /* glibc 2.12부터: */ _POSIX_C_SOURCE >= 200809L</code>
-</dd>
-</dl>
+`getsubopt()`:
+:   `_XOPEN_SOURCE >= 500`<br>
+    `    || /* glibc 2.12부터: */ _POSIX_C_SOURCE >= 200809L`
 
 ## DESCRIPTION
 

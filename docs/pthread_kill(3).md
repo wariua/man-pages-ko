@@ -14,10 +14,8 @@ int pthread_kill(pthread_t thread, int sig);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>pthread_kill()</code>:</dt>
-<dd><code>_POSIX_C_SOURCE >= 199506L || _XOPEN_SOURCE >= 500</code></dd>
-</dl>
+`pthread_kill()`:
+:   `_POSIX_C_SOURCE >= 199506L || _XOPEN_SOURCE >= 500`
 
 ## DESCRIPTION
 
@@ -31,10 +29,8 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd>유효하지 않은 시그널을 지정하였다.</dd>
-</dl>
+`EINVAL`
+:   유효하지 않은 시그널을 지정하였다.
 
 ## ATTRIBUTES
 

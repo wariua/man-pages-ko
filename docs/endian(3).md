@@ -25,17 +25,12 @@ uint64_t le64toh(uint64_t little_endian_64bits);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>htobe16()</code>, <code>htole16()</code>, <code>be16toh()</code>, <code>le16toh()</code>, <code>htobe32()</code>, <code>htole32()</code>, <code>be32toh()</code>, <code>le32toh()</code>, <code>htobe64()</code>, <code>htole64()</code>, <code>be64toh()</code>, <code>le64toh()</code>:</dt>
-<dd>
- <dl>
- <dt>glibc 2.19부터:</dt>
- <dd><code>_DEFAULT_SOURCE</code></dd>
- <dt>glibc 2.19까지:</dt>
- <dd><code>_BSD_SOURCE</code></dd>
- </dl>
-</dd>
-</dl>
+`htobe16()`, `htole16()`, `be16toh()`, `le16toh()`, `htobe32()`, `htole32()`, `be32toh()`, `le32toh()`, `htobe64()`, `htole64()`, `be64toh()`, `le64toh()`:
+:   glibc 2.19부터:
+    :   `_DEFAULT_SOURCE`
+
+    glibc 2.19까지:
+    :   `_BSD_SOURCE`
 
 ## DESCRIPTION
 

@@ -17,10 +17,8 @@ int prlimit(pid_t pid, int resource, const struct rlimit *new_limit,
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>prlimit()</code>:</dt>
-<dd><code>_GNU_SOURCE</code></dd>
-</dl>
+`prlimit()`:
+:   `_GNU_SOURCE`
 
 ## DESCRIPTION
 
@@ -39,119 +37,91 @@ struct rlimit {
 
 `resource` 인자는 다음 중 하나여야 한다.
 
-<dl>
-<dt><code>RLIMIT_AS</code></dt>
-<dd>프로세스 가상 메모리 (주소 공간) 최대 크기이다. 바이트 단위로 제한값을 지정하고 시스템 페이지 크기 배수로 내림 한다. 이 제한이 <tt>[[brk(2)]]</tt>, <tt>[[mmap(2)]]</tt>, <tt>[[mremap(2)]]</tt>에 영향을 주며 제한 초과 시 <code>ENOMEM</code> 오류로 실패하게 된다. 더불어 자동 스택 확장이 실패한다. (이 경우 <tt>[[sigaltstack(2)]]</tt>을 통해 대체 스택을 마련해 두지 않았으면 생성되는 <code>SIGSEGV</code>가 프로세스를 죽인다.) 값이 <code>long</code>이므로 32비트 <code>long</code>을 쓰는 머신에서는 이 제한이 최대 2 GiB이든지 아니면 이 자원에 제한이 없다.</dd>
+`RLIMIT_AS`
+:   프로세스 가상 메모리 (주소 공간) 최대 크기이다. 바이트 단위로 제한값을 지정하고 시스템 페이지 크기 배수로 내림 한다. 이 제한이 <tt>[[brk(2)]]</tt>, <tt>[[mmap(2)]]</tt>, <tt>[[mremap(2)]]</tt>에 영향을 주며 제한 초과 시 `ENOMEM` 오류로 실패하게 된다. 더불어 자동 스택 확장이 실패한다. (이 경우 <tt>[[sigaltstack(2)]]</tt>을 통해 대체 스택을 마련해 두지 않았으면 생성되는 `SIGSEGV`가 프로세스를 죽인다.) 값이 `long`이므로 32비트 `long`을 쓰는 머신에서는 이 제한이 최대 2 GiB이든지 아니면 이 자원에 제한이 없다.
 
-<dt><code>RLIMIT_CORE</code></dt>
-<dd>프로세스가 최대로 덤프 할 수 있는 <em>코어</em> 파일(<tt>[[core(5)]]</tt> 참고)의 바이트 단위 크기이다. 0이면 코어 파일이 생성되지 않는다. 0이 아니면 그보다 큰 덤프가 그 크기로 잘린다.</dd>
+`RLIMIT_CORE`
+:   프로세스가 최대로 덤프 할 수 있는 *코어* 파일(<tt>[[core(5)]]</tt> 참고)의 바이트 단위 크기이다. 0이면 코어 파일이 생성되지 않는다. 0이 아니면 그보다 큰 덤프가 그 크기로 잘린다.
 
-<dt><code>RLIMIT_CPU</code></dt>
-<dd>프로세스가 소모할 수 있는 CPU 시간 양에 대한 초 단위 제한이다. 프로세스가 연성 제한에 도달하면 <code>SIGXCPU</code> 시그널을 받는다. 이 시그널에 대한 기본 동작은 프로세스를 종료시키는 것이다. 하지만 시그널을 잡을 수 있고 핸들러에서 메인 프로그램으로 제어를 반환할 수 있다. 프로세스가 계속 CPU 시간을 소모하면 일 초마다 <code>SIGXCPU</code>를 받다가 경성 제한에 도달하면 이번엔 <code>SIGKILL</code>을 받는다. (뒤쪽 설명은 리눅스의 동작 방식이다. 연성 제한에 도달하고도 계속 CPU 시간을 소모하는 프로세스를 어떻게 다루는지는 구현에 따라 다르다. 이 시그널을 잡아야 하는 이식성 있는 응용에서는 <code>SIGXCPU</code>를 처음 받았을 때 질서정연하게 종료를 수행해야 할 것이다.)</dd>
+`RLIMIT_CPU`
+:   프로세스가 소모할 수 있는 CPU 시간 양에 대한 초 단위 제한이다. 프로세스가 연성 제한에 도달하면 `SIGXCPU` 시그널을 받는다. 이 시그널에 대한 기본 동작은 프로세스를 종료시키는 것이다. 하지만 시그널을 잡을 수 있고 핸들러에서 메인 프로그램으로 제어를 반환할 수 있다. 프로세스가 계속 CPU 시간을 소모하면 일 초마다 `SIGXCPU`를 받다가 경성 제한에 도달하면 이번엔 `SIGKILL`을 받는다. (뒤쪽 설명은 리눅스의 동작 방식이다. 연성 제한에 도달하고도 계속 CPU 시간을 소모하는 프로세스를 어떻게 다루는지는 구현에 따라 다르다. 이 시그널을 잡아야 하는 이식성 있는 응용에서는 `SIGXCPU`를 처음 받았을 때 질서정연하게 종료를 수행해야 할 것이다.)
 
-<dt><code>RLIMIT_DATA</code></dt>
-<dd>프로세스 데이터 세그먼트(초기화 된 데이터, 초기화 안 된 데이터, 힙)의 최대 크기이다. 바이트 단위로 제한을 지정하며 시스템 페이지 크기 배수로 내림 한다. 이 제한이 <tt>[[brk(2)]]</tt>, <tt>[[sbrk(2)]]</tt>, (리눅스 4.7부터) <tt>[[mmap(2)]]</tt>에 영향을 주며 이 자원의 연성 제한을 만나면 <code>ENOMEM</code> 오류로 실패하게 된다.</dd>
+`RLIMIT_DATA`
+:   프로세스 데이터 세그먼트(초기화 된 데이터, 초기화 안 된 데이터, 힙)의 최대 크기이다. 바이트 단위로 제한을 지정하며 시스템 페이지 크기 배수로 내림 한다. 이 제한이 <tt>[[brk(2)]]</tt>, <tt>[[sbrk(2)]]</tt>, (리눅스 4.7부터) <tt>[[mmap(2)]]</tt>에 영향을 주며 이 자원의 연성 제한을 만나면 `ENOMEM` 오류로 실패하게 된다.
 
-<dt><code>RLIMIT_FSIZE</code></dt>
-<dd>프로세스가 생성할 수 있는 파일의 바이트 단위 최대 크기이다. 이 제한을 넘겨서 파일을 확장하려고 하면 <code>SIGXFSZ</code> 시그널을 받는다. 기본적으로 이 시그널은 프로세스를 종료시킨다. 하지만 프로세스에서 시그널을 잡을 수 있으며 그 경우 해당 시스템 호출(가령 <code>write(2)</code>, <tt>[[truncate(2)]]</tt>)이 <code>EFBIG</code> 오류로 실패하게 된다.</dd>
+`RLIMIT_FSIZE`
+:   프로세스가 생성할 수 있는 파일의 바이트 단위 최대 크기이다. 이 제한을 넘겨서 파일을 확장하려고 하면 `SIGXFSZ` 시그널을 받는다. 기본적으로 이 시그널은 프로세스를 종료시킨다. 하지만 프로세스에서 시그널을 잡을 수 있으며 그 경우 해당 시스템 호출(가령 `write(2)`, <tt>[[truncate(2)]]</tt>)이 `EFBIG` 오류로 실패하게 된다.
 
-<dt><code>RLIMIT_LOCKS</code> (초기 리눅스 2.4에서만)</dt>
-<dd>프로세스에서 설정할 수 있는 <tt>[[flock(2)]]</tt> 락 개수와 <tt>[[fcntl(2)]]</tt> 리스 수를 합친 것에 대한 제한이다.</dd>
+`RLIMIT_LOCKS` (초기 리눅스 2.4에서만)
+:   프로세스에서 설정할 수 있는 <tt>[[flock(2)]]</tt> 락 개수와 <tt>[[fcntl(2)]]</tt> 리스 수를 합친 것에 대한 제한이다.
 
-<dt><code>RLIMIT_MEMLOCK</code></dt>
-<dd>
+`RLIMIT_MEMLOCK`
+:   RAM에 최대로 고정해 둘 수 있는 메모리 바이트 수이다. 이 제한값을 가장 가까운 시스템 페이지 크기 배수로 내려서 적용한다. 이 제한이 <tt>[[mlock(2)]]</tt>, <tt>[[mlockall(2)]]</tt>, <tt>[[mmap(2)]]</tt> `MAP_LOCKED` 동작에 영향을 준다. 리눅스 2.6.9부터는 <tt>[[shmctl(2)]]</tt> `SHM_LOCK` 동작에도 영향을 주는데, 호출 프로세스의 실제 사용자 ID가 고정해 둘 수 있는 공유 메모리 세그먼트(<tt>[[shmget(2)]]</tt> 참고) 바이트 총합의 상한을 설정한다. <tt>[[shmctl(2)]]</tt> `SHM_LOCK` 방식 고정은 <tt>[[mlock(2)]]</tt>, <tt>[[mlockall(2)]]</tt>, <tt>[[mmap(2)]]</tt> `MAP_LOCKED`로 설정하는 프로세스별 메모리 고정과는 따로 계산한다. 즉 한 프로세스가 두 기준 각각에서 이 제한까지 고정할 수 있다.
 
-RAM에 최대로 고정해 둘 수 있는 메모리 바이트 수이다. 이 제한값을 가장 가까운 시스템 페이지 크기 배수로 내려서 적용한다. 이 제한이 <tt>[[mlock(2)]]</tt>, <tt>[[mlockall(2)]]</tt>, <tt>[[mmap(2)]]</tt> <code>MAP_LOCKED</code> 동작에 영향을 준다. 리눅스 2.6.9부터는 <tt>[[shmctl(2)]]</tt> <code>SHM_LOCK</code> 동작에도 영향을 주는데, 호출 프로세스의 실제 사용자 ID가 고정해 둘 수 있는 공유 메모리 세그먼트(<tt>[[shmget(2)]]</tt> 참고) 바이트 총합의 상한을 설정한다. <tt>[[shmctl(2)]]</tt> <code>SHM_LOCK</code> 방식 고정은 <tt>[[mlock(2)]]</tt>, <tt>[[mlockall(2)]]</tt>, <tt>[[mmap(2)]]</tt> <code>MAP_LOCKED</code>로 설정하는 프로세스별 메모리 고정과는 따로 계산한다. 즉 한 프로세스가 두 기준 각각에서 이 제한까지 고정할 수 있다.
+    리눅스 커널 2.6.9 전에서는 이 제한이 특권 프로세스가 고정할 수 있는 메모리 양을 통제했다. 리눅스 2.6.9부터는 특권 프로세스가 고정할 수 있는 메모리 양에 어떤 한계도 두지 않으며 이 제한은 비특권 프로세스가 고정할 수 있는 메모리 양을 통제한다.
 
-리눅스 커널 2.6.9 전에서는 이 제한이 특권 프로세스가 고정할 수 있는 메모리 양을 통제했다. 리눅스 2.6.9부터는 특권 프로세스가 고정할 수 있는 메모리 양에 어떤 한계도 두지 않으며 이 제한은 비특권 프로세스가 고정할 수 있는 메모리 양을 통제한다.
-</dd>
+`RLIMIT_MSGQUEUE` (리눅스 2.6.8부터)
+:   호출 프로세스의 실제 사용자 ID별로 POSIX 메시지 큐에 할당할 수 있는 바이트 수에 대한 제한이다. <tt>[[mq_open(3)]]</tt>에 이 제한이 적용된다. 사용자가 만드는 메시지 큐 각각에 대해 (제거하기 전까지) 다음 식에 따라 계산해서 이 제한을 적용한다.
 
-<dt><code>RLIMIT_MSGQUEUE</code> (리눅스 2.6.8부터)</dt>
-<dd>
+    리눅스 3.5부터:
+    :   
 
-호출 프로세스의 실제 사용자 ID별로 POSIX 메시지 큐에 할당할 수 있는 바이트 수에 대한 제한이다. <tt>[[mq_open(3)]]</tt>에 이 제한이 적용된다. 사용자가 만드는 메시지 큐 각각에 대해 (제거하기 전까지) 다음 식에 따라 계산해서 이 제한을 적용한다.
+            bytes = attr.mq_maxmsg * sizeof(struct msg_msg) +
+                    min(attr.mq_maxmsg, MQ_PRIO_MAX) *
+                          sizeof(struct posix_msg_tree_node)+
+                                    /* 오버헤드 */
+                    attr.mq_maxmsg * attr.mq_msgsize;
+                                    /* 메시지 데이터 */
 
- <dl>
- <dt>리눅스 3.5부터:</dt>
- <dd>
-```c
-bytes = attr.mq_maxmsg * sizeof(struct msg_msg) +
-        min(attr.mq_maxmsg, MQ_PRIO_MAX) *
-              sizeof(struct posix_msg_tree_node)+
-                        /* 오버헤드 */
-        attr.mq_maxmsg * attr.mq_msgsize;
-                        /* 메시지 데이터 */
-```
- </dd>
- <dt>리눅스 3.4 및 이전:</dt>
- <dd>
-```c
-bytes = attr.mq_maxmsg * sizeof(struct msg_msg *) +
-                        /* 오버헤드 */
-        attr.mq_maxmsg * attr.mq_msgsize;
-                        /* 메시지 데이터 */
-```
- </dd>
- </dl>
+    리눅스 3.4 및 이전:
+    :   
 
-여기서 <code>attr</code>은 <tt>[[mq_open(3)]]</tt>에 네 번째 인자로 지정하는 <code>mq_attr</code> 구조체이며 <code>msg_msg</code> 및 <code>posix_msg_tree_node</code> 구조체는 커널 내부용 구조체이다.
+            bytes = attr.mq_maxmsg * sizeof(struct msg_msg *) +
+                                    /* 오버헤드 */
+                    attr.mq_maxmsg * attr.mq_msgsize;
+                                    /* 메시지 데이터 */
 
-위 식에서 "오버헤드" 부분은 구현에서 필요로 하는 오버헤드 바이트 수에 해당하며 사용자가 길이 0인 메시지를 무한정 만들 수 없게 한다. (그런 메시지 역시도 각각 유지에 얼마간의 시스템 메모리가 든다.)
-</dd>
+    여기서 `attr`은 <tt>[[mq_open(3)]]</tt>에 네 번째 인자로 지정하는 `mq_attr` 구조체이며 `msg_msg` 및 `posix_msg_tree_node` 구조체는 커널 내부용 구조체이다.
 
-<dt><code>RLIMIT_NICE</code> (리눅스 2.6.12부터, 단 아래 BUGS 참고)</dt>
-<dd><tt>[[setpriority(2)]]</tt>나 <tt>[[nice(2)]]</tt>로 올릴 수 있는 프로세스 나이스 값의 상한을 나타낸다. 실제 나이스 값 상한은 <code>20 - rlim_cur</code>로 계산한다. 그래서 이 제한에 사용 가능한 범위는 1(나이스 값 19에 대응)에서 40(나이스 값 -20에 대응)까지다. 범위를 이렇게 특이하게 정한 건 보통 특수한 의미가 있는 음수를 자원 제한값으로 지정할 수 없기 때문이다. 예를 들어 <code>RLIM_INFINITY</code>는 보통 -1과 같다. 나이스 값에 대한 자세한 내용은 <tt>[[sched(7)]]</tt> 참고.</dd>
+    위 식에서 "오버헤드" 부분은 구현에서 필요로 하는 오버헤드 바이트 수에 해당하며 사용자가 길이 0인 메시지를 무한정 만들 수 없게 한다. (그런 메시지 역시도 각각 유지에 얼마간의 시스템 메모리가 든다.)
 
-<dt><code>RLIMIT_NOFILE</code></dt>
-<dd>
+`RLIMIT_NICE` (리눅스 2.6.12부터, 단 아래 BUGS 참고)
+:   <tt>[[setpriority(2)]]</tt>나 <tt>[[nice(2)]]</tt>로 올릴 수 있는 프로세스 나이스 값의 상한을 나타낸다. 실제 나이스 값 상한은 `20 - rlim_cur`로 계산한다. 그래서 이 제한에 사용 가능한 범위는 1(나이스 값 19에 대응)에서 40(나이스 값 -20에 대응)까지다. 범위를 이렇게 특이하게 정한 건 보통 특수한 의미가 있는 음수를 자원 제한값으로 지정할 수 없기 때문이다. 예를 들어 `RLIM_INFINITY`는 보통 -1과 같다. 나이스 값에 대한 자세한 내용은 <tt>[[sched(7)]]</tt> 참고.
 
-이 프로세스가 최대로 열 수 있는 파일 디스크립터 개수보다 1만큼 큰 값을 지정한다. 이 제한을 초과하려는 시도(<tt>[[open(2)]]</tt>, <tt>[[pipe(2)]]</tt>, <tt>[[dup(2)]]</tt> 등)는 <code>EMFILE</code> 오류를 일으키게 된다. (BSD에서는 이 제한의 이름이 <code>RLIMIT_OFILE</code>인 적이 있었다.)
+`RLIMIT_NOFILE`
+:   이 프로세스가 최대로 열 수 있는 파일 디스크립터 개수보다 1만큼 큰 값을 지정한다. 이 제한을 초과하려는 시도(<tt>[[open(2)]]</tt>, <tt>[[pipe(2)]]</tt>, <tt>[[dup(2)]]</tt> 등)는 `EMFILE` 오류를 일으키게 된다. (BSD에서는 이 제한의 이름이 `RLIMIT_OFILE`인 적이 있었다.)
 
-리눅스 4.5부터는 (<code>CAP_SYS_RESOURCE</code> 역능 없는) 비특권 프로세스가 유닉스 도메인 소켓으로 전달해서 다른 프로세스로 "이송 중"일 수 있는 파일 디스크립터의 최대 개수까지 이 제한으로 규정된다. <tt>[[sendmsg(2)]]</tt> 시스템 호출에 이 제한이 적용된다. 자세한 내용은 <tt>[[unix(7)]]</tt> 참고.
-</dd>
+    리눅스 4.5부터는 (`CAP_SYS_RESOURCE` 역능 없는) 비특권 프로세스가 유닉스 도메인 소켓으로 전달해서 다른 프로세스로 "이송 중"일 수 있는 파일 디스크립터의 최대 개수까지 이 제한으로 규정된다. <tt>[[sendmsg(2)]]</tt> 시스템 호출에 이 제한이 적용된다. 자세한 내용은 <tt>[[unix(7)]]</tt> 참고.
 
-<dt><code>RLIMIT_NPROC</code></dt>
-<dd>
+`RLIMIT_NPROC`
+:   호출 프로세스의 실제 사용자 ID별 현존 프로세스(정확히 말해 리눅스에서는 스레드) 수에 대한 제한이다. 프로세스의 실제 사용자 ID에게 속한 현재 프로세스 수가 이 제한값 이상인 동안에는 <tt>[[fork(2)]]</tt>가 `EAGAIN`으로 실패한다.
 
-호출 프로세스의 실제 사용자 ID별 현존 프로세스(정확히 말해 리눅스에서는 스레드) 수에 대한 제한이다. 프로세스의 실제 사용자 ID에게 속한 현재 프로세스 수가 이 제한값 이상인 동안에는 <tt>[[fork(2)]]</tt>가 <code>EAGAIN</code>으로 실패한다.
+    `CAP_SYS_ADMIN`이나 `CAP_SYS_RESOURCE` 역능을 가진 프로세스에게는 `RLIMIT_NPROC` 제한이 적용되지 않는다.
 
-<code>CAP_SYS_ADMIN</code>이나 <code>CAP_SYS_RESOURCE</code> 역능을 가진 프로세스에게는 <code>RLIMIT_NPROC</code> 제한이 적용되지 않는다.
-</dd>
+`RLIMIT_RSS`
+:   프로세스 상주 집합(램에 상주하는 가상 페이지 수)에 대한 (바이트 단위) 제한이다. 리눅스 2.4.x (x < 30)에서만 효력이 있으며 `MADV_WILLNEED`를 지정한 <tt>[[madvise(2)]]</tt> 호출에만 영향을 준다.
 
-<dt><code>RLIMIT_RSS</code></dt>
-<dd>프로세스 상주 집합(램에 상주하는 가상 페이지 수)에 대한 (바이트 단위) 제한이다. 리눅스 2.4.x (x < 30)에서만 효력이 있으며 <code>MADV_WILLNEED</code>를 지정한 <tt>[[madvise(2)]]</tt> 호출에만 영향을 준다.</dd>
+`RLIMIT_RTPRIO` (리눅스 2.6.12부터, 단 BUGS 참고)
+:   <tt>[[sched_setscheduler(2)]]</tt>와 <tt>[[sched_setparam(2)]]</tt>으로 프로세스에 설정할 수 있는 실시간 우선순위의 상한을 지정한다.
 
-<dt><code>RLIMIT_RTPRIO</code> (리눅스 2.6.12부터, 단 BUGS 참고)</dt>
-<dd>
+    실시간 스케줄링 정책에 대한 자세한 내용은 <tt>[[sched(7)]]</tt> 참고.
 
-<tt>[[sched_setscheduler(2)]]</tt>와 <tt>[[sched_setparam(2)]]</tt>으로 프로세스에 설정할 수 있는 실시간 우선순위의 상한을 지정한다.
+`RLIMIT_RTTIME` (리눅스 2.6.25부터)
+:   실시간 스케줄링 정책 하의 프로세스가 블로킹 시스템 호출을 부르지 않은 채로 소모할 수 있는 CPU 시간 양에 대한 (마이크로초 단위) 제한이다. 이 제한의 목적상 블록 하는 시스템 호출을 프로세스에서 부를 때마다 소모 CPU 시간이 0으로 재설정된다. 프로세스가 계속 CPU를 이용하려고 하는데 선점되거나, 타임 슬라이스가 만료되거나, <tt>[[sched_yield(2)]]</tt>를 호출하는 경우에는 CPU 시간이 재설정되지 않는다.
 
-실시간 스케줄링 정책에 대한 자세한 내용은 <tt>[[sched(7)]]</tt> 참고.
-</dd>
+    연성 제한 도달 시 프로세스가 `SIGXCPU` 시그널을 받는다. 프로세스가 이 시그널을 잡거나 무시하고서 계속 CPU 시간을 소모하면 일 초마다 `SIGXCPU`를 받다가 경성 제한에 도달하면 이번엔 `SIGKILL` 시그널을 받는다.
 
-<dt><code>RLIMIT_RTTIME</code> (리눅스 2.6.25부터)</dt>
-<dd>
+    이 제한의 기본 용도는 제어 불능인 실시간 프로세스를 멈춰서 시스템이 먹통이 되지 않게 하는 것이다.
 
-실시간 스케줄링 정책 하의 프로세스가 블로킹 시스템 호출을 부르지 않은 채로 소모할 수 있는 CPU 시간 양에 대한 (마이크로초 단위) 제한이다. 이 제한의 목적상 블록 하는 시스템 호출을 프로세스에서 부를 때마다 소모 CPU 시간이 0으로 재설정된다. 프로세스가 계속 CPU를 이용하려고 하는데 선점되거나, 타임 슬라이스가 만료되거나, <tt>[[sched_yield(2)]]</tt>를 호출하는 경우에는 CPU 시간이 재설정되지 않는다.
+    실시간 스케줄링 정책에 대한 자세한 내용은 <tt>[[sched(7)]]</tt> 참고.
 
-연성 제한 도달 시 프로세스가 <code>SIGXCPU</code> 시그널을 받는다. 프로세스가 이 시그널을 잡거나 무시하고서 계속 CPU 시간을 소모하면 일 초마다 <code>SIGXCPU</code>를 받다가 경성 제한에 도달하면 이번엔 <code>SIGKILL</code> 시그널을 받는다.
+`RLIMIT_SIGPENDING` (리눅스 2.6.8부터)
+:   호출 프로세스의 실제 사용자 ID별로 큐에 들어가 있을 수 있는 시그널 수에 대한 제한이다. 이 제한을 확인하는 데 있어선 표준 시그널과 실시간 시그널을 함께 센다. 하지만 제한이 적용되는 건 <tt>[[sigqueue(3)]]</tt>에서만이다. 즉 언제든 <tt>[[kill(2)]]</tt>을 사용해서 큐에 들어 있지 않던 시그널 종류의 인스턴스 하나를 큐에 넣는 게 가능하다.
 
-이 제한의 기본 용도는 제어 불능인 실시간 프로세스를 멈춰서 시스템이 먹통이 되지 않게 하는 것이다.
+`RLIMIT_STACK`
+:   프로세스 스택 최대 크기이고 바이트 단위다. 이 제한에 도달하면 `SIGSEGV` 시그널이 생성된다. 프로세스에서 이 시그널을 다루려면 대체 시그널 스택(<tt>[[sigaltstack(2)]]</tt>)을 이용해야 한다.
 
-실시간 스케줄링 정책에 대한 자세한 내용은 <tt>[[sched(7)]]</tt> 참고.
-</dd>
-
-<dt><code>RLIMIT_SIGPENDING</code> (리눅스 2.6.8부터)</dt>
-<dd>호출 프로세스의 실제 사용자 ID별로 큐에 들어가 있을 수 있는 시그널 수에 대한 제한이다. 이 제한을 확인하는 데 있어선 표준 시그널과 실시간 시그널을 함께 센다. 하지만 제한이 적용되는 건 <tt>[[sigqueue(3)]]</tt>에서만이다. 즉 언제든 <tt>[[kill(2)]]</tt>을 사용해서 큐에 들어 있지 않던 시그널 종류의 인스턴스 하나를 큐에 넣는 게 가능하다.</dd>
-
-<dt><code>RLIMIT_STACK</code></dt>
-<dd>
-
-프로세스 스택 최대 크기이고 바이트 단위다. 이 제한에 도달하면 <code>SIGSEGV</code> 시그널이 생성된다. 프로세스에서 이 시그널을 다루려면 대체 시그널 스택(<tt>[[sigaltstack(2)]]</tt>)을 이용해야 한다.
-
-리눅스 2.6.23부터는 프로세스 명령행 인자 및 환경 변수에 쓰이는 공간의 양까지 이 제한이 결정한다. 자세한 내용은 <tt>[[execve(2)]]</tt> 참고.
-</dd>
-</dl>
+    리눅스 2.6.23부터는 프로세스 명령행 인자 및 환경 변수에 쓰이는 공간의 양까지 이 제한이 결정한다. 자세한 내용은 <tt>[[execve(2)]]</tt> 참고.
 
 ### `prlimit()`
 
@@ -169,20 +139,23 @@ bytes = attr.mq_maxmsg * sizeof(struct msg_msg *) +
 
 ## ERRORS
 
-<dl>
-<dt><code>EFAULT</code></dt>
-<dd>포인터 인자가 접근 가능한 주소 공간 밖의 위치를 가리킨다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>resource</code>에 지정한 값이 유효하지 않다. 또는 <code>setrlimit()</code>나 <code>prlimit()</code>에서 <code>rlim-&gt;rlim_cur</code>이 <code>rlim-&gt;rlim_max</code>보다 크다.</dd>
-<dt><code>EPERM</code></dt>
-<dd>비특권 프로세스가 경성 제한을 올리려고 했다. 그러려면 <code>CAP_SYS_RESOURCE</code> 역능이 필요하다.</dd>
-<dt><code>EPERM</code></dt>
-<dd>호출자가 <code>RLIMIT_NOFILE</code> 제한을 <code>/proc/sys/fs/nr_open</code>(<tt>[[proc(5)]]</tt> 참고)에 규정된 최대치 너머로 올리려고 했다.</dd>
-<dt><code>EPERM</code></dt>
-<dd>(<code>prlimit()</code>) 호출 프로세스에게 <code>pid</code>로 지정한 프로세스의 제한값을 설정할 권한이 없다.</dd>
-<dt><code>ESRCH</code></dt>
-<dd><code>pid</code>에 지정한 ID의 프로세스를 찾을 수 없다.</dd>
-</dl>
+`EFAULT`
+:   포인터 인자가 접근 가능한 주소 공간 밖의 위치를 가리킨다.
+
+`EINVAL`
+:   `resource`에 지정한 값이 유효하지 않다. 또는 `setrlimit()`나 `prlimit()`에서 `rlim->lim_cur`이 `rlim->lim_max`보다 크다.
+
+`EPERM`
+:   비특권 프로세스가 경성 제한을 올리려고 했다. 그러려면 `CAP_SYS_RESOURCE` 역능이 필요하다.
+
+`EPERM`
+:   호출자가 `RLIMIT_NOFILE` 제한을 `/proc/sys/fs/nr_open`(<tt>[[proc(5)]]</tt> 참고)에 규정된 최대치 너머로 올리려고 했다.
+
+`EPERM`
+:   (`prlimit()`) 호출 프로세스에게 `pid`로 지정한 프로세스의 제한값을 설정할 권한이 없다.
+
+`ESRCH`
+:   `pid`에 지정한 ID의 프로세스를 찾을 수 없다.
 
 ## VERSIONS
 

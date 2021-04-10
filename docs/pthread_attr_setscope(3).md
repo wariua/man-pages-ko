@@ -17,17 +17,11 @@ int pthread_attr_getscope(const pthread_attr_t *attr, int *scope);
 
 `pthread_attr_setscope()` 함수는 `attr`이 가리키는 스레드 속성 객체의 경합 범위 속성을 `scope`에 지정한 값으로 설정한다. 경합 범위 속성은 스레드가 CPU 같은 자원을 두고 경쟁하는 스레드들의 집합을 규정한다. POSIX.1에서 `scope`에 가능한 값을 두 가지 명세한다.
 
-<dl>
-<dt><code>PTHREAD_SCOPE_SYSTEM</code></dt>
-<dd>
-스레드가 같은 스케줄링 도메인(한 개 이상 프로세서들의 그룹)에 있는 시스템의 모든 프로세스의 다른 모든 스레드들과 자원을 두고 경쟁한다. <code>PTHREAD_SCOPE_SYSTEM</code> 스레드들은 각자의 스케줄링 정책과 우선순위에 따라 서로에 대해서 스케줄 된다.
-</dd>
+`PTHREAD_SCOPE_SYSTEM`
+:   스레드가 같은 스케줄링 도메인(한 개 이상 프로세서들의 그룹)에 있는 시스템의 모든 프로세스의 다른 모든 스레드들과 자원을 두고 경쟁한다. `PTHREAD_SCOPE_SYSTEM` 스레드들은 각자의 스케줄링 정책과 우선순위에 따라 서로에 대해서 스케줄 된다.
 
-<dt><code>PTHREAD_SCOPE_PROCESS</code></dt>
-<dd>
-스레드가 마찬가지로 경합 범위 <code>PTHREAD_SCOPE_PROCESS</code>로 생성한 동일 프로세스의 다른 모든 스레드들과 자원을 두고 경쟁한다. <code>PTHREAD_SCOPE_PROCESS</code> 스레드들은 각자의 스케줄링 정책과 우선순위에 따라 프로세스의 다른 스레드들에 대해서 스케줄 된다. POSIX.1에서는 이 스레드들이 시스템의 다른 프로세스의 스레드들이나 같은 프로세스에 있지만 경합 범위 <code>PTHREAD_SCOPE_SYSTEM</code>으로 생성한 스레드들과 어떻게 경쟁하는지를 명세 안 된 것으로 남겨 둔다.
-</dd>
-</dl>
+`PTHREAD_SCOPE_PROCESS`
+:   스레드가 마찬가지로 경합 범위 `PTHREAD_SCOPE_PROCESS`로 생성한 동일 프로세스의 다른 모든 스레드들과 자원을 두고 경쟁한다. `PTHREAD_SCOPE_PROCESS` 스레드들은 각자의 스케줄링 정책과 우선순위에 따라 프로세스의 다른 스레드들에 대해서 스케줄 된다. POSIX.1에서는 이 스레드들이 시스템의 다른 프로세스의 스레드들이나 같은 프로세스에 있지만 경합 범위 `PTHREAD_SCOPE_SYSTEM`으로 생성한 스레드들과 어떻게 경쟁하는지를 명세 안 된 것으로 남겨 둔다.
 
 POSIX.1에서는 구현체가 이 경합 범위들 중 최소 한 가지를 지원하기를 요구한다. 리눅스는 `PTHREAD_SCOPE_SYSTEM`을 지원하며 `PTHREAD_SCOPE_PROCESS`는 지원하지 않는다.
 
@@ -43,12 +37,11 @@ POSIX.1에서는 구현체가 이 경합 범위들 중 최소 한 가지를 지�
 
 `pthread_attr_setscope()`가 다음 오류로 실패할 수 있다.
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>scope</code>에 유효하지 않은 값을 지정했다.</dd>
-<dt><code>ENOTSUP</code></dt>
-<dd><code>scope</code>에 리눅스에서 지원하지 않는 <code>PTHREAD_SCOPE_PROCESS</code> 값을 지정했다.</dd>
-</dl>
+`EINVAL`
+:   `scope`에 유효하지 않은 값을 지정했다.
+
+`ENOTSUP`
+:   `scope`에 리눅스에서 지원하지 않는 `PTHREAD_SCOPE_PROCESS` 값을 지정했다.
 
 ## ATTRIBUTES
 

@@ -14,13 +14,9 @@ long long int strtoll(const char *nptr, char **endptr, int base);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>strtoll()</code>:</dt>
-<dd>
-<code>_ISOC99_SOURCE</code><br>
-<code>    || /* glibc 버전 <= 2.19: */ _SVID_SOURCE || _BSD_SOURCE</code>
-</dd>
-</dl>
+`strtoll()`:
+:   `_ISOC99_SOURCE`<br>
+    `    || /* glibc 버전 <= 2.19: */ _SVID_SOURCE || _BSD_SOURCE`
 
 ## DESCRIPTION
 
@@ -40,12 +36,11 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd>(C99에는 없음) 지정한 <code>base</code>가 지원하지 않는 값을 담고 있다.</dd>
-<dt><code>ERANGE</code></dt>
-<dd>결과 값이 범위를 벗어났다.</dd>
-</dl>
+`EINVAL`
+:   (C99에는 없음) 지정한 `base`가 지원하지 않는 값을 담고 있다.
+
+`ERANGE`
+:   결과 값이 범위를 벗어났다.
 
 구현에서 변환을 전혀 수행하지 않은 경우에 (숫자 없음, 0 반환) `errno`를 `EINVAL`로 설정할 수도 있다.
 

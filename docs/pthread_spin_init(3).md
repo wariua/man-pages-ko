@@ -15,24 +15,20 @@ int pthread_spin_destroy(pthread_spinlock_t *lock);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>pthread_spin_init()</code>, <code>pthread_spin_destroy()</code>:</dt>
-<dd><code>_POSIX_C_SOURCE >= 200112L</code></dd>
-</dl>
+`pthread_spin_init()`, `pthread_spin_destroy()`:
+:   `_POSIX_C_SOURCE >= 200112L`
 
 ## DESCRIPTION
 
-<em>일반적 주의 사항</em>: 대부분의 프로그래머는 스핀락 대신 뮤텍스를 사용해야 한다. 스핀락은 주로 실시간 스케줄링 정책과 연관되어 쓸모가 있다. NOTES 참고.
+*일반적 주의 사항*: 대부분의 프로그래머는 스핀락 대신 뮤텍스를 사용해야 한다. 스핀락은 주로 실시간 스케줄링 정책과 연관되어 쓸모가 있다. NOTES 참고.
 
 `pthread_spin_init()` 함수는 `lock`이 가리키는 스핀락을 사용하기 위해 필요한 자원을 할당하고 그 락을 잠기지 않은 상태로 초기화 한다. `pshared` 인자는 다음 값들 중 하나여야 한다.
 
-<dl>
-<dt><code>PTHREAD_PROCESS_PRIVATE</code></dt>
-<dd><code>pthread_spin_init()</code>을 호출하는 스레드와 같은 프로세스 내에 있는 스레드만 그 스핀락을 조작하게 되어 있다. (프로세스 간에 그 스핀락을 공유하려는 시도의 결과는 규정되어 있지 않다.)</dd>
+`PTHREAD_PROCESS_PRIVATE`
+:   `pthread_spin_init()`을 호출하는 스레드와 같은 프로세스 내에 있는 스레드만 그 스핀락을 조작하게 되어 있다. (프로세스 간에 그 스핀락을 공유하려는 시도의 결과는 규정되어 있지 않다.)
 
-<dt><code>PTHREAD_PROCESS_SHARED</code></dt>
-<dd>락을 담은 메모리에 접근권이 있는 모든 프로세스의 모든 스레드가 그 스핀락을 조작할 수 있다. (즉 여러 프로세스가 공유하는 공유 메모리 객체 내에 락이 있을 수 있다.)</dd>
-</dl>
+`PTHREAD_PROCESS_SHARED`
+:   락을 담은 메모리에 접근권이 있는 모든 프로세스의 모든 스레드가 그 스핀락을 조작할 수 있다. (즉 여러 프로세스가 공유하는 공유 메모리 객체 내에 락이 있을 수 있다.)
 
 이미 초기화 된 스핀락에 `pthread_spin_init()`을 호출하는 결과는 규정되어 있지 않다.
 
@@ -50,12 +46,11 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 `pthread_spin_init()`이 다음 오류로 실패할 수 있다.
 
-<dl>
-<dt><code>EAGAIN</code></dt>
-<dd>시스템에 새 스핀락을 초기화 하기에 충분한 자원이 없다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>스핀락을 초기화 하기에 충분한 메모리가 없다.</dd>
-</dl>
+`EAGAIN`
+:   시스템에 새 스핀락을 초기화 하기에 충분한 자원이 없다.
+
+`ENOMEM`
+:   스핀락을 초기화 하기에 충분한 메모리가 없다.
 
 ## VERSIONS
 

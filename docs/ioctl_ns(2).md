@@ -14,13 +14,11 @@ new_fd = ioctl(fd, request);
 
 각 경우에서 `fd`는 `/proc/[pid]/ns/*` 파일을 가리킨다. 성공 시 두 동작 모두 새 파일 디스크립터를 반환한다.
 
-<dl>
-<dt><code>NS_GET_USERNS</code> (리눅스 4.9부터)</dt>
-<dd><code>fd</code>가 가리키는 네임스페이스를 소유한 사용자 네임스페이스를 가리키는 파일 디스크립터를 반환한다.</dd>
+`NS_GET_USERNS` (리눅스 4.9부터)
+:   `fd`가 가리키는 네임스페이스를 소유한 사용자 네임스페이스를 가리키는 파일 디스크립터를 반환한다.
 
-<dt><code>NS_GET_PARENT</code> (리눅스 4.9부터)</dt>
-<dd><code>fd</code>가 가리키는 네임스페이스의 부모 네임스페이스를 가리키는 파일 디스크립터를 반환한다. 계층적 네임스페이스(즉 PID 네임스페이스와 사용자 네임스페이스)에만 이 동작이 유효하다. 사용자 네임스페이스에서 <code>NS_GET_PARENT</code>와 <code>NS_GET_USERNS</code>는 같은 의미이다.</dd>
-</dl>
+`NS_GET_PARENT` (리눅스 4.9부터)
+:   `fd`가 가리키는 네임스페이스의 부모 네임스페이스를 가리키는 파일 디스크립터를 반환한다. 계층적 네임스페이스(즉 PID 네임스페이스와 사용자 네임스페이스)에만 이 동작이 유효하다. 사용자 네임스페이스에서 `NS_GET_PARENT`와 `NS_GET_USERNS`는 같은 의미이다.
 
 이 동작들이 반환하는 새 파일 디스크립터는 `O_RDONLY` 및 `O_CLOEXEC`(exec에서 닫기, <tt>[[fcntl(2)]]</tt> 참고) 플래그로 열려 있다.
 
@@ -28,19 +26,16 @@ new_fd = ioctl(fd, request);
 
 어느 쪽 `ioctl(2)` 동작이든 다음 오류로 실패할 수 있다.
 
-<dl>
-<dt><code>EPERM</code></dt>
-<dd>요청한 네임스페이스가 호출자의 네임스페이스 범위 밖에 있다. 예를 들어 소유 사용자 네임스페이스가 호출자의 현재 사용자 네임스페이스의 조상이면 이 오류가 발생할 수 있다. 최초 사용자 내지 PID 네임스페이스의 부모를 얻으려고 할 때에도 발생할 수 있다.</dd>
-<dt><code>ENOTTY</code></dt>
-<dd>현 커널 버전에서 동작을 지원하지 않는다.</dd>
-</dl>
+`EPERM`
+:   요청한 네임스페이스가 호출자의 네임스페이스 범위 밖에 있다. 예를 들어 소유 사용자 네임스페이스가 호출자의 현재 사용자 네임스페이스의 조상이면 이 오류가 발생할 수 있다. 최초 사용자 내지 PID 네임스페이스의 부모를 얻으려고 할 때에도 발생할 수 있다.
+
+`ENOTTY`
+:   현 커널 버전에서 동작을 지원하지 않는다.
 
 추가로 `NS_GET_PARENT` 동작이 다음 오류로 실패할 수 있다.
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>fd</code>가 비계층적 네임스페이스를 가리키고 있다.</dd>
-</dl>
+`EINVAL`
+:   `fd`가 비계층적 네임스페이스를 가리키고 있다.
 
 이 동작들의 사용 예시는 EXAMPLE 절 참고.
 
@@ -71,19 +66,15 @@ ioctl(fd, NS_GET_OWNER_UID, &uid);
 
 이 동작이 다음 오류로 실패할 수 있다.
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>fd</code>가 사용자 네임스페이스를 가리키고 있지 않다.</dd>
-</dl>
+`EINVAL`
+:   `fd`가 사용자 네임스페이스를 가리키고 있지 않다.
 
 ## ERRORS
 
 위의 `ioctl()` 동작들 어느 것이든 다음 오류를 반환할 수 있다.
 
-<dl>
-<dt><code>ENOTTY</code></dt>
-<dd><code>fd</code>가 <code>/proc/[pid]/ns/*</code> 파일을 가리키고 있지 않다.</dd>
-</dl>
+`ENOTTY`
+:   `fd`가 `/proc/[pid]/ns/*` 파일을 가리키고 있지 않다.
 
 ## CONFORMING TO
 

@@ -16,26 +16,19 @@ int futimens(int fd, const struct timespec times[2]);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>utimensat()</code>:</dt>
-<dd>
- <dl>
- <dt>glibc 2.10부터:</dt>
- <dd><code>_POSIX_C_SOURCE >= 200809L</code></dd>
- <dt>glibc 2.10 전:</dt>
- <dd><code>_ATFILE_SOURCE</code></dd>
- </dl>
-</dd>
-<dt><code>futimens()</code>:</dt>
-<dd>
- <dl>
- <dt>glibc 2.10부터:</dt>
- <dd><code>_POSIX_C_SOURCE >= 200809L</code></dd>
- <dt>glibc 2.10 전:</dt>
- <dd><code>_GNU_SOURCE</code></dd>
- </dl>
-</dd>
-</dl>
+`utimensat()`:
+:   glibc 2.10부터:
+    :   `_POSIX_C_SOURCE >= 200809L`
+
+    glibc 2.10 전:
+    :   `_ATFILE_SOURCE`
+
+`futimens()`:
+:   glibc 2.10부터:
+    :   `_POSIX_C_SOURCE >= 200809L`
+
+    glibc 2.10 전:
+    :   `_GNU_SOURCE`
 
 ## DESCRIPTION
 
@@ -80,10 +73,8 @@ struct timespec {
 
 `flags` 필드는 비트 마스크이다. 0일 수도 있고 `<fcntl.h>`에 정의된 다음 상수를 포함할 수도 있다.
 
-<dl>
-<dt><code>AT_SYMLINK_NOFOLLOW</code></dt>
-<dd><code>pathname</code>이 심볼릭 링크를 나타내는 경우에 가리키는 파일이 아니라 그 링크의 타임스탬프를 갱신한다.</dd>
-</dl>
+`AT_SYMLINK_NOFOLLOW`
+:   `pathname`이 심볼릭 링크를 나타내는 경우에 가리키는 파일이 아니라 그 링크의 타임스탬프를 갱신한다.
 
 ## RETURN VALUE
 
@@ -91,50 +82,55 @@ struct timespec {
 
 ## ERRORS
 
-<dl>
-<dt><code>EACCES</code></dt>
-<dd>
+`EACCES`
+:   `times`가 NULL이거나 두 `tv_nsec` 값이 모두 `UTIME_NOW`이며, 다음 중 하나이다.
 
-<code>times</code>가 NULL이거나 두 <code>tv_nsec</code> 값이 모두 <code>UTIME_NOW</code>이며, 다음 중 하나이다.
+    * 호출자의 실효 사용자 ID가 파일 소유자와 일치하지 않으며, 호출자가 파일에 쓰기 접근권을 가지고 있지 않으며, 호출자에게 특권이 없다 (리눅스: `CAP_FOWNER` 역능이나 `CAP_DAC_OVERRIDE` 역능을 가지고 있지 않다).
 
-* 호출자의 실효 사용자 ID가 파일 소유자와 일치하지 않으며, 호출자가 파일에 쓰기 접근권을 가지고 있지 않으며, 호출자에게 특권이 없다 (리눅스: <code>CAP_FOWNER</code> 역능이나 <code>CAP_DAC_OVERRIDE</code> 역능을 가지고 있지 않다).
+    * 파일이 불변으로 표시되어 있다. (<tt>[[chattr(1)]]</tt> 참고)
 
-* 파일이 불변으로 표시되어 있다. (<tt>[[chattr(1)]]</tt> 참고)
-</dd>
-<dt><code>EBADF</code></dt>
-<dd>(<code>futimens()</code>) <code>fd</code>가 유효한 파일 디스크립터가 아니다.</dd>
-<dt><code>EBADF</code></dt>
-<dd>(<code>utimensat()</code>) <code>pathname</code>이 상대 경로명인데 <code>dirfd</code>가 <code>AT_FDCWD</code>도 아니고 유효한 파일 디스크립터도 아니다.</dd>
-<dt><code>EFAULT</code></dt>
-<dd><code>times</code>가 유효하지 않은 주소를 가리킨다. 또는 <code>dirfd</code>가 <code>AT_FDCWD</code>였는데 <code>pathname</code>이 NULL이거나 유효하지 않은 주소이다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>flags</code>에 유효하지 않은 값.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>한 <code>tv_nsec</code> 필드에 유효하지 않은 값 (0에서 999,999,999까지 범위 밖의 값이고 <code>UTIME_NOW</code>나 <code>UTIME_OMIT</code>이 아님). 또는 한 <code>tv_sec</code> 필드에 유효하지 않은 값.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>pathname</code>이 NULL이고, <code>dirfd</code>가 <code>AT_FDCWD</code>가 아니고, <code>flags</code>가 <code>AT_SYMLINK_NOFOLLOW</code>를 담고 있다.</dd>
-<dt><code>ELOOP</code></dt>
-<dd>(<code>utimensat()</code>) <code>pathname</code>을 해석하는 동안 너무 많은 심볼릭 링크를 만났다.</dd>
-<dt><code>ENAMETOOLONG</code></dt>
-<dd>(<code>utimensat()</code>) <code>pathname</code>이 너무 길다.</dd>
-<dt><code>ENOENT</code></dt>
-<dd>(<code>utimensat()</code>) <code>pathname</code>의 어느 요소가 존재하는 디렉터리나 파일을 가리키지 않거나, <code>pathname</code>이 빈 문자열이다.</dd>
-<dt><code>ENOTDIR</code></dt>
-<dd>(<code>utimensat()</code>) <code>pathname</code>이 상대 경로인데 <code>dirfd</code>가 <code>AT_FDCWD</code>도 아니고 디렉터리를 가리키는 파일 디스크립터도 아니다. 또는 <code>pathname</code>의 한 선두 요소가 디렉터리가 아니다.</dd>
-<dt><code>EPERM</code></dt>
-<dd>
+`EBADF`
+:   (`futimens()`) `fd`가 유효한 파일 디스크립터가 아니다.
 
-호출자가 타임스탬프들 중 하나 또는 모두를 현재 시간 아닌 값으로 바꾸려 했거나, 타임스탬프 하나를 현재 시간으로 바꾸고 나머지 타임스탬프는 그대로 두려 했으며, 다음 중 하나이다.
+`EBADF`
+:   (`utimensat()`) `pathname`이 상대 경로명인데 `dirfd`가 `AT_FDCWD`도 아니고 유효한 파일 디스크립터도 아니다.
 
-* 호출자의 실효 사용자 ID가 파일 소유자와 일치하지 않으며, 호출자에게 특권이 없다 (리눅스: <code>CAP_FOWNER</code> 역능을 가지고 있지 않다).
+`EFAULT`
+:   `times`가 유효하지 않은 주소를 가리킨다. 또는 `dirfd`가 `AT_FDCWD`였는데 `pathname`이 NULL이거나 유효하지 않은 주소이다.
 
-* 파일이 덧붙임 전용이나 불변으로 표시되어 있다. (<tt>[[chattr(1)]]</tt> 참고)
-</dd>
-<dt><code>EROFS</code></dt>
-<dd>파일이 읽기 전용 파일 시스템 상에 있다.</dt>
-<dt><code>ESRCH</code></dt>
-<dd>(<code>utimensat()</code>) <code>pathname</code>의 한 선두 요소에 대해 탐색 권한이 거부되었다.</dd>
-</dl>
+`EINVAL`
+:   `flags`에 유효하지 않은 값.
+
+`EINVAL`
+:   한 `tv_nsec` 필드에 유효하지 않은 값 (0에서 999,999,999까지 범위 밖의 값이고 `UTIME_NOW`나 `UTIME_OMIT`이 아님). 또는 한 `tv_sec` 필드에 유효하지 않은 값.
+
+`EINVAL`
+:   `pathname`이 NULL이고, `dirfd`가 `AT_FDCWD`가 아니고, `flags`가 `AT_SYMLINK_NOFOLLOW`를 담고 있다.
+
+`ELOOP`
+:   (`utimensat()`) `pathname`을 해석하는 동안 너무 많은 심볼릭 링크를 만났다.
+
+`ENAMETOOLONG`
+:   (`utimensat()`) `pathname`이 너무 길다.
+
+`ENOENT`
+:   (`utimensat()`) `pathname`의 어느 요소가 존재하는 디렉터리나 파일을 가리키지 않거나, `pathname`이 빈 문자열이다.
+
+`ENOTDIR`
+:   (`utimensat()`) `pathname`이 상대 경로인데 `dirfd`가 `AT_FDCWD`도 아니고 디렉터리를 가리키는 파일 디스크립터도 아니다. 또는 `pathname`의 한 선두 요소가 디렉터리가 아니다.
+
+`EPERM`
+:   호출자가 타임스탬프들 중 하나 또는 모두를 현재 시간 아닌 값으로 바꾸려 했거나, 타임스탬프 하나를 현재 시간으로 바꾸고 나머지 타임스탬프는 그대로 두려 했으며, 다음 중 하나이다.
+
+    * 호출자의 실효 사용자 ID가 파일 소유자와 일치하지 않으며, 호출자에게 특권이 없다 (리눅스: `CAP_FOWNER` 역능을 가지고 있지 않다).
+
+    * 파일이 덧붙임 전용이나 불변으로 표시되어 있다. (<tt>[[chattr(1)]]</tt> 참고)
+
+`EROFS`
+:   파일이 읽기 전용 파일 시스템 상에 있다.
+
+`ESRCH`
+:   (`utimensat()`) `pathname`의 한 선두 요소에 대해 탐색 권한이 거부되었다.
 
 ## VERSIONS
 

@@ -16,10 +16,8 @@ void _Exit(int status);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>_Exit()</code>:</dt>
-<dd><code>_ISOC99_SOURCE || _POSIX_C_SOURCE >= 200112L</code></dd>
-</dl>
+`_Exit()`:
+:   `_ISOC99_SOURCE || _POSIX_C_SOURCE >= 200112L`
 
 ## DESCRIPTION
 

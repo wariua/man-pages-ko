@@ -20,10 +20,8 @@ int pause(void);
 
 ## ERRORS
 
-<dl>
-<dt><code>EINTR</code></dt>
-<dd>시그널을 잡았으며 시그널 잡기 함수가 반환했다.</dd>
-</dl>
+`EINTR`
+:   시그널을 잡았으며 시그널 잡기 함수가 반환했다.
 
 ## CONFORMING TO
 

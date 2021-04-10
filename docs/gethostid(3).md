@@ -13,21 +13,18 @@ int sethostid(long hostid);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>gethostid()</code>:</dt>
-<dd><code>_BSD_SOURCE || _XOPEN_SOURCE >= 500</code></dd>
-<dt><code>sethostid()</code>:</dt>
-<dd>
- <dl>
- <dt>glibc 2.21부터:</dt>
- <dd><code>_DEFAULT_SOURCE</code></dd>
- <dt>glibc 2.19 및 2.20:</dt>
- <dd><code>_DEFAULT_SOURCE || (_XOPEN_SOURCE && _XOPEN_SOURCE < 500)</code></dd>
- <dt>glibc 2.19까지:</dt>
- <dd><code>_BSD_SOURCE || (_XOPEN_SOURCE && _XOPEN_SOURCE < 500)</code></dd>
- </dl>
-</dd>
-</dl>
+`gethostid()`:
+:   `_BSD_SOURCE || _XOPEN_SOURCE >= 500`
+
+`sethostid()`:
+:   glibc 2.21부터:
+    :   `_DEFAULT_SOURCE`
+
+    glibc 2.19 및 2.20:
+    :   `_DEFAULT_SOURCE || (_XOPEN_SOURCE && _XOPEN_SOURCE < 500)`
+
+    glibc 2.19까지:
+    :   `_BSD_SOURCE || (_XOPEN_SOURCE && _XOPEN_SOURCE < 500)`
 
 ## DESCRIPTION
 
@@ -45,12 +42,11 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 `sethostid()`가 다음 오류로 실패할 수 있다.
 
-<dl>
-<dt><code>EACCES</code></dt>
-<dd>호출자가 호스트 ID를 저장하는 데 사용하는 파일에 쓰기 권한을 가지고 있지 않다.</dd>
-<dt><code>EPERM</code></dt>
-<dd>호출 프로세스의 실효 사용자 ID나 그룹 ID가 대응하는 실제 ID와 같지 않다.</dd>
-</dl>
+`EACCES`
+:   호출자가 호스트 ID를 저장하는 데 사용하는 파일에 쓰기 권한을 가지고 있지 않다.
+
+`EPERM`
+:   호출 프로세스의 실효 사용자 ID나 그룹 ID가 대응하는 실제 ID와 같지 않다.
 
 ## ATTRIBUTES
 

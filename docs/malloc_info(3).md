@@ -22,10 +22,8 @@ int malloc_info(int options, FILE *stream);
 
 ## ERRORS
 
-<dl>
-<dl><code>EINVAL</code></dt>
-<dd><code>options</code>가 0이 아니다.</dd>
-</dl>
+`EINVAL`
+:   `options`가 0이 아니다.
 
 ## VERSIONS
 

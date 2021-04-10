@@ -52,71 +52,61 @@ echo _Z1fv, | c++filt -n
 
 ## OPTIONS
 
-<dl>
-<dt><code>-_</code><br><code>--strip-underscore</code></dt>
-<dd>어떤 시스템에서는 C 컴파일러와 C++ 컴파일러 모두 모든 이름 앞에 밑줄을 넣는다. 예를 들어 C 이름 "foo"가 저수준 이름 "_foo"가 된다. 이 옵션은 그 앞쪽 밑줄을 없애게 한다. 지정하지 않았을 때 <code>c++filt</code>가 그 밑줄을 없애는지 여부는 대상에 따라 다르다.</dd>
+`-_`<br>`--strip-underscore`
+:   어떤 시스템에서는 C 컴파일러와 C++ 컴파일러 모두 모든 이름 앞에 밑줄을 넣는다. 예를 들어 C 이름 "foo"가 저수준 이름 "_foo"가 된다. 이 옵션은 그 앞쪽 밑줄을 없애게 한다. 지정하지 않았을 때 `c++filt`가 그 밑줄을 없애는지 여부는 대상에 따라 다르다.
 
-<dt><code>-n</code><br><code>--no-strip-underscore</code></dt>
-<dd>앞쪽 밑줄을 없애지 않는다.</dd>
+`-n`<br>`--no-strip-underscore`
+:   앞쪽 밑줄을 없애지 않는다.
 
-<dt><code>-p</code><br><code>--no-params</code></dt>
-<dd>함수 이름을 디맹글 할 때 함수 매개변수 타입을 표시하지 않는다.</dd>
+`-p`<br>`--no-params`
+:   함수 이름을 디맹글 할 때 함수 매개변수 타입을 표시하지 않는다.
 
-<dt><code>-t</code><br><code>--types</code></dt>
-<dd>함수 이름뿐 아니라 타입까지 디맹글 하려고 시도한다. 이 동작은 기본적으로 꺼져 있는데, 보통은 컴파일러 내부적으로만 맹글 된 타입을 이용하는 데다가 맹글 안 한 이름과 혼동할 수 있기 때문이다. 예를 들어 "a"라는 함수를 맹글 된 타입으로 해석하면 "signed char"로 디맹글 된다.</dd>
+`-t`<br>`--types`
+:   함수 이름뿐 아니라 타입까지 디맹글 하려고 시도한다. 이 동작은 기본적으로 꺼져 있는데, 보통은 컴파일러 내부적으로만 맹글 된 타입을 이용하는 데다가 맹글 안 한 이름과 혼동할 수 있기 때문이다. 예를 들어 "a"라는 함수를 맹글 된 타입으로 해석하면 "signed char"로 디맹글 된다.
 
-<dt><code>-i</code><br><code>--no-verbose</code></dt>
-<dd>디맹글 된 출력에 구현 상세 정보를 포함시키지 않는다.</dd>
+`-i`<br>`--no-verbose`
+:   디맹글 된 출력에 구현 상세 정보를 포함시키지 않는다.
 
-<dt><code>-s format</code><br><code>--format=format</code></dt>
-<dd>
+`-s format`<br>`--format=format`
+:   `c++filt`는 여러 컴파일러들에서 쓰는 다양한 맹글 방식을 해독할 수 있다. 이 옵션 인자로 사용 방식을 선택한다.
 
-`c++filt`는 여러 컴파일러들에서 쓰는 다양한 맹글 방식을 해독할 수 있다. 이 옵션 인자로 사용 방식을 선택한다.
+    "auto"
+    :   실행 파일에 따라서 자동 선택 (기본 방법)
 
- <dl>
- <dt>"auto"</dt>
- <dd>실행 파일에 따라서 자동 선택 (기본 방법)</dd>
+    "gnu"
+    :   GNU C++ 컴파일러(g++)에서 쓰는 방식
 
- <dt>"gnu"</dt>
- <dd>GNU C++ 컴파일러(g++)에서 쓰는 방식</dd>
+    "lucid"
+    :   Lucid 컴파일러(lcc)에서 쓰는 방식
 
- <dt>"lucid"</dt>
- <dd>Lucid 컴파일러(lcc)에서 쓰는 방식</dd>
+    "arm"
+    :   C++ Annotated Reference Manual에서 명세한 방식
 
- <dt>"arm"</dt>
- <dd>C++ Annotated Reference Manual에서 명세한 방식</dd>
+    "hp"
+    :   HP 컴파일러(aCC)에서 쓰는 방식
 
- <dt>"hp"</dt>
- <dd>HP 컴파일러(aCC)에서 쓰는 방식</dd>
+    "edg"
+    :   EDG 컴파일러에서 쓰는 방식
 
- <dt>"edg"</dt>
- <dd>EDG 컴파일러에서 쓰는 방식</dd>
+    "gnu-v3"
+    :   GNU C++ 컴파일러(g++) V3 ABI에서 쓰는 방식
 
- <dt>"gnu-v3"</dt>
- <dd>GNU C++ 컴파일러(g++) V3 ABI에서 쓰는 방식</dd>
+    "java"
+    :   GNU 자바 컴파일러(gcj)에서 쓰는 방식
 
- <dt>"java"</dt>
- <dd>GNU 자바 컴파일러(gcj)에서 쓰는 방식</dd>
+    "gnat"
+    :   GNU Ada 컴파일러(GNAT)에서 쓰는 방식
 
- <dt>"gnat"</dt>
- <dd>GNU Ada 컴파일러(GNAT)에서 쓰는 방식</dd>
- </dl>
-</dd>
+`--help`
+:   `c++filt` 옵션 요약 설명을 찍고 종료한다.
 
-<dt><code>--help</code></dt>
-<dd><code>c++filt</code> 옵션 요약 설명을 찍고 종료한다.</dd>
+`--version`
+:   `c++filt`의 버전 번호를 찍고 종료한다.
 
-<dt><code>--version</code></dt>
-<dd><code>c++filt</code>의 버전 번호를 찍고 종료한다.</dd>
+`@file`
+:   `file`에서 명령행 옵션들을 읽는다. 읽어 들인 옵션들이 원래 `@file` 옵션 자리에 들어간다. `file`이 존재하지 않거나 읽을 수 없는 경우에는 이 옵션을 제거하지 않고 문자 그대로 다루게 된다.
 
-<dt><code>@file</code></dt>
-<dd>
-
-<code>file</code>에서 명령행 옵션들을 읽는다. 읽어 들인 옵션들이 원래 <code>@file</code> 옵션 자리에 들어간다. <code>file</code>이 존재하지 않거나 읽을 수 없는 경우에는 이 옵션을 제거하지 않고 문자 그대로 다루게 된다.
-
-<code>file</code> 내의 옵션들은 공백으로 구분한다. 옵션에 공백 문자를 포함시키려면 옵션 전체를 작은따옴표나 큰따옴표로 감싸면 된다. 문자 앞에 백슬래시를 붙이면 (백슬래시를 포함한) 어떤 문자든 집어넣을 수 있다. <code>file</code> 자체에 다시 <code>@file</code> 옵션이 있을 수 있다. 그러면 재귀적으로 처리가 이뤄진다.
-</dd>
-</dl>
+    `file` 내의 옵션들은 공백으로 구분한다. 옵션에 공백 문자를 포함시키려면 옵션 전체를 작은따옴표나 큰따옴표로 감싸면 된다. 문자 앞에 백슬래시를 붙이면 (백슬래시를 포함한) 어떤 문자든 집어넣을 수 있다. `file` 자체에 다시 `@file` 옵션이 있을 수 있다. 그러면 재귀적으로 처리가 이뤄진다.
 
 ## FOOTNOTES
 

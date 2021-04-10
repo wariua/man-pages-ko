@@ -36,7 +36,7 @@ int pthread_barrier_wait(pthread_barrier_t *barrier);
 
 이 함수는 오류 코드 `[EINTR]`을 반환하지 않는다.
 
-<em>이하는 규범적이지 않은 내용이다.</em>
+*이하는 규범적이지 않은 내용이다.*
 
 ## EXAMPLES
 
@@ -44,7 +44,7 @@ int pthread_barrier_wait(pthread_barrier_t *barrier);
 
 ## APPLICATION USAGE
 
-이 함수를 쓰는 응용에서 POSIX.1-2008 Base Definitions 권의 <em>3.287절 Priority Inversion</em>에서 논의하는 우선순위 역전을 겪을 수 있다.
+이 함수를 쓰는 응용에서 POSIX.1-2008 Base Definitions 권의 *3.287절 Priority Inversion*에서 논의하는 우선순위 역전을 겪을 수 있다.
 
 ## RATIONALE
 
@@ -58,13 +58,13 @@ int pthread_barrier_wait(pthread_barrier_t *barrier);
 
 <tt>[[pthread_barrier_destroy()|pthread_barrier_destroy(3p)]]</tt>
 
-POSIX.1-2008 Base Definitions 권, <em>3.287절 Priority Inversion</em>, <em>4.11절 Memory Synchronization</em>, `<pthread.h>`
+POSIX.1-2008 Base Definitions 권, *3.287절 Priority Inversion*, *4.11절 Memory Synchronization*, `<pthread.h>`
 
 ## COPYRIGHT
 
-Portions of this text are reprinted and reproduced in electronic form from IEEE Std 1003.1, 2013 Edition, Standard for Information Technology -- Portable Operating System Interface (POSIX), The Open Group Base Specifications Issue 7, Copyright (C) 2013 by the Institute of Electrical and Electronics Engineers, Inc and The Open Group. (This is POSIX.1-2008 with the 2013 Technical Corrigendum 1 applied.) In the event of any discrepancy between this version and the original IEEE and The Open Group Standard, the original IEEE and The Open Group Standard is the referee document. The original Standard can be obtained online at http://www.unix.org/online.html .
+Portions of this text are reprinted and reproduced in electronic form from IEEE Std 1003.1, 2013 Edition, Standard for Information Technology -- Portable Operating System Interface (POSIX), The Open Group Base Specifications Issue 7, Copyright (C) 2013 by the Institute of Electrical and Electronics Engineers, Inc and The Open Group. (This is POSIX.1-2008 with the 2013 Technical Corrigendum 1 applied.) In the event of any discrepancy between this version and the original IEEE and The Open Group Standard, the original IEEE and The Open Group Standard is the referee document. The original Standard can be obtained online at <http://www.unix.org/online.html>.
 
-Any typographical or formatting errors that appear in this page are most likely to have been introduced during the conversion of the source files to man page format. To report such errors, see https://www.kernel.org/doc/man-pages/reporting_bugs.html .
+Any typographical or formatting errors that appear in this page are most likely to have been introduced during the conversion of the source files to man page format. To report such errors, see <https://www.kernel.org/doc/man-pages/reporting_bugs.html>.
 
 ----
 

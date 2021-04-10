@@ -38,18 +38,20 @@ read(fd, buf, count)
 
 ## ERRORS
 
-<dl>
-<dt><code>EAGAIN</code></dt>
-<dd>자원 부족.</dd>
-<dt><code>EBADF</code></dt>
-<dd><code>aio_fildes</code>가 읽기 가능하게 열린 유효한 파일 디스크립터가 아니다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>aio_offset</code>, <code>aio_reqprio</code>, <code>aio_nbytes</code> 중 하나 이상이 유효하지 않다.</dd>
-<dt><code>ENOSYS</code></dt>
-<dd><code>aio_read()</code>가 구현돼 있지 않다.</dd>
-<dt><code>EOVERFLOW</code></dt>
-<dd>파일이 정규 파일이며 파일 끝 전에서 읽기를 시작해서 최소 한 바이트를 읽으려 하는데 시작 위치가 파일의 최대 오프셋을 지난 지점이다.</dd>
-</dl>
+`EAGAIN`
+:   자원 부족.
+
+`EBADF`
+:   `aio_fildes`가 읽기 가능하게 열린 유효한 파일 디스크립터가 아니다.
+
+`EINVAL`
+:   `aio_offset`, `aio_reqprio`, `aio_nbytes` 중 하나 이상이 유효하지 않다.
+
+`ENOSYS`
+:   `aio_read()`가 구현돼 있지 않다.
+
+`EOVERFLOW`
+:   파일이 정규 파일이며 파일 끝 전에서 읽기를 시작해서 최소 한 바이트를 읽으려 하는데 시작 위치가 파일의 최대 오프셋을 지난 지점이다.
 
 ## VERSIONS
 

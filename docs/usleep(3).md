@@ -12,21 +12,14 @@ int usleep(useconds_t usec);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>usleep()</code></dt>
-<dd>
- <dl>
- <dt>glibc 2.12부터:</dt>
- <dd>
-<code>(_XOPEN_SOURCE >= 500) && ! (_POSIX_C_SOURCE >= 200809L)</code><br>
-<code>    || /* glibc 2.19부터: */ _DEFAULT_SOURCE</code><br>
-<code>    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE</code>
- </dd>
- <dt>glibc 2.12 전:</dt>
- <dd><code>_BSD_SOURCE || _XOPEN_SOURCE >= 500</code></dd>
- </dl>
-</dd>
-</dl>
+`usleep()`
+:   glibc 2.12부터:
+    :   `(_XOPEN_SOURCE >= 500) && ! (_POSIX_C_SOURCE >= 200809L)`<br>
+        `    || /* glibc 2.19부터: */ _DEFAULT_SOURCE`<br>
+        `    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE`
+ 
+    glibc 2.12 전:
+    :   `_BSD_SOURCE || _XOPEN_SOURCE >= 500`
 
 ## DESCRIPTION
 
@@ -38,12 +31,11 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## ERRORS
 
-<dl>
-<dt><code>EINTR</code></dt>
-<dd>시그널에 의해 중단됨. <tt>[[signal(7)]]</tt> 참고.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>usec</code>이 1000000 이상이다. (그게 오류라고 보는 시스템에서.)</dd>
-</dl>
+`EINTR`
+:   시그널에 의해 중단됨. <tt>[[signal(7)]]</tt> 참고.
+
+`EINVAL`
+:   `usec`이 1000000 이상이다. (그게 오류라고 보는 시스템에서.)
 
 ## ATTRIBUTES
 

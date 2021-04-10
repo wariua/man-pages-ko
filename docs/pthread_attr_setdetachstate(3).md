@@ -19,13 +19,11 @@ int pthread_attr_getdetachstate(const pthread_attr_t *attr, int *detachstate);
 
 `detachstate`에 다음 값들을 지정할 수 있다.
 
-<dl>
-<dt><code>PTHREAD_CREATE_DETACHED</code></dt>
-<dd><code>attr</code>을 이용해 생성하는 스레드가 분리 상태로 생성된다.</dd>
+`PTHREAD_CREATE_DETACHED`
+:   `attr`을 이용해 생성하는 스레드가 분리 상태로 생성된다.
 
-<dt><code>PTHREAD_CREATE_JOINABLE</code></dt>
-<dd><code>attr</code>을 이용해 생성하는 스레드가 합류 가능 상태로 생성된다.</dd>
-</dl>
+`PTHREAD_CREATE_JOINABLE`
+:   `attr`을 이용해 생성하는 스레드가 합류 가능 상태로 생성된다.
 
 새로 초기화 된 스레드 속성 객체에서 분리 상태 속성의 기본 설정은 `PTHREAD_CREATE_JOINABLE`이다.
 
@@ -39,10 +37,8 @@ int pthread_attr_getdetachstate(const pthread_attr_t *attr, int *detachstate);
 
 `pthread_attr_setdetachstate()`가 다음 오류로 실패할 수 있다.
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>detachstate</code>에 유효하지 않은 값을 지정했다.</dd>
-</dl>
+`EINVAL`
+:   `detachstate`에 유효하지 않은 값을 지정했다.
 
 ## ATTRIBUTES
 

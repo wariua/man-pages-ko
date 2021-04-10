@@ -93,48 +93,65 @@ int fallocate(int fd, int mode, off_t offset, off_t len);
 
 ## ERRORS
 
-<dl>
-<dt><code>EBADF</code></dt>
-<dd><code>fd</code>가 유효한 파일 디스크립터가 아니거나 쓰기 가능하게 열려 있지 않다.</dd>
-<dt><code>EFBIG</code></dt>
-<dd><code>offset</code>+<code>len</code>이 최대 파일 크기를 초과한다.</dd>
-<dt><code>EFBIG</code></dt>
-<dd><code>mode</code>가 <code>FALLOC_FL_INSERT_RANGE</code>이며 현재 파일 크기+<code>len</code>이 최대 파일 크기를 초과한다.</dd>
-<dt><code>EINTR</code></dt>
-<dd>실행 중 시그널을 잡았다. <tt>[[signal(7)]]</tt> 참고.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>offset</code>이 0보다 작거나 <code>len</code>이 0 이하이다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>mode</code>가 <code>FALLOC_FL_COLLAPSE_RANGE</code>인데 <code>offset</code> 더하기 <code>len</code>이 나타내는 범위가 파일 끝에 닿거나 끝을 넘는다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>mode</code>가 <code>FALLOC_FL_INSERT_RANGE</code>인데 <code>offset</code>이 나타내는 범위가 파일 끝에 닿거나 끝을 넘는다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>mode</code>가 <code>FALLOC_FL_COLLAPSE_RANGE</code>나 <code>FALLOC_FL_INSERT_RANGE</code>인데 <code>offset</code>이나 <code>len</code>이 파일 시스템 블록 크기의 배수가 아니다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>mode</code>에 <code>FALLOC_FL_COLLAPSE_RANGE</code>나 <code>FALLOC_FL_INSERT_RANGE</code> 중 하나와 더불어 다른 플래그가 있다. <code>FALLOC_FL_COLLAPSE_RANGE</code>와 <code>FALLOC_FL_INSERT_RANGE</code>에 다른 플래그를 허용하지 않는다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>mode</code>가 <code>FALLOC_FL_COLLAPSE_RANGE</code>나 <code>FALLOC_FL_ZERO_RANGE</code>, <code>FALLOC_FL_INSERT_RANGE</code>인데 <code>fd</code>가 가리키는 파일이 정규 파일이 아니다.</dd>
-<dt><code>EIO</code></dt>
-<dd>파일 시스템에서 읽기나 쓰기를 하는 중에 I/O 오류가 발생했다.</dd>
-<dt><code>ENODEV</code></dt>
-<dd><code>fd</code>가 정규 파일이나 디렉터리를 가리키고 있지 않다. (<code>fd</code>가 파이프라 FIFO이면 다른 오류가 나온다.)</dd>
-<dt><code>ENOSPC</code></dt>
-<dd><code>fd</code>가 가리키는 파일을 담은 장치에 충분한 공간이 남아 있지 않다.</dd>
-<dt><code>ENOSYS</code></dt>
-<dd>이 커널에서 <code>fallocate()</code>를 구현하고 있지 않다.</dd>
-<dt><code>EOPNOTSUPP</code></dt>
-<dd><code>fd</code>가 가리키는 파일을 포함하는 파일 시스템에서 이 동작을 지원하지 않는다. 또는 <code>fd</code>가 가리키는 파일을 포함하는 파일 시스템에서 <code>mode</code>를 지원하지 않는다.</dd>
-<dt><code>EPERM</code></dt>
-<dd><code>fd</code>가 가리키는 파일이 불변으로 표시돼 있다. (<tt>[[chattr(1)]]</tt> 참고.)</dd>
-<dt><code>EPERM</code></dt>
-<dd><code>mode</code>가 <code>FALLOC_FL_PUNCH_HOLE</code>이나 <code>FALLOC_FL_COLLAPSE_RANGE</code>, <code>FALLOC_FL_INSERT_RANGE</code>를 나타내는데 <code>fd</code>가 가리키는 파일이 덧붙이기 전용으로 표시돼 있다. (<tt>[[chattr(1)]]</tt> 참고.)</dd>
-<dt><code>EPERM</code></dt>
-<dd>파일 봉인 때문에 동작이 막혔다. <tt>[[fcntl(2)]]</tt> 참고.</dd>
-<dt><code>ESPIPE</code></dt>
-<dd><code>fd</code>가 파이프나 FIFO를 가리키고 있다.</dd>
-<dt><code>ETXTBSY</code></dt>
-<dd><code>mode</code>에 <code>FALLOC_FL_COLLAPSE_RANGE</code>나 <code>FALLOC_FL_INSERT_RANGE</code>를 지정했는데 <code>fd</code>가 가리키는 파일이 현재 실행 중이다.</dd>
-</dl>
+`EBADF`
+:   `fd`가 유효한 파일 디스크립터가 아니거나 쓰기 가능하게 열려 있지 않다.
+
+`EFBIG`
+:   `offset`+`len`이 최대 파일 크기를 초과한다.
+
+`EFBIG`
+:   `mode`가 `FALLOC_FL_INSERT_RANGE`이며 현재 파일 크기+`len`이 최대 파일 크기를 초과한다.
+
+`EINTR`
+:   실행 중 시그널을 잡았다. <tt>[[signal(7)]]</tt> 참고.
+
+`EINVAL`
+:   `offset`이 0보다 작거나 `len`이 0 이하이다.
+
+`EINVAL`
+:   `mode`가 `FALLOC_FL_COLLAPSE_RANGE`인데 `offset` 더하기 `len`이 나타내는 범위가 파일 끝에 닿거나 끝을 넘는다.
+
+`EINVAL`
+:   `mode`가 `FALLOC_FL_INSERT_RANGE`인데 `offset`이 나타내는 범위가 파일 끝에 닿거나 끝을 넘는다.
+
+`EINVAL`
+:   `mode`가 `FALLOC_FL_COLLAPSE_RANGE`나 `FALLOC_FL_INSERT_RANGE`인데 `offset`이나 `len`이 파일 시스템 블록 크기의 배수가 아니다.
+
+`EINVAL`
+:   `mode`에 `FALLOC_FL_COLLAPSE_RANGE`나 `FALLOC_FL_INSERT_RANGE` 중 하나와 더불어 다른 플래그가 있다. `FALLOC_FL_COLLAPSE_RANGE`와 `FALLOC_FL_INSERT_RANGE`에 다른 플래그를 허용하지 않는다.
+
+`EINVAL`
+:   `mode`가 `FALLOC_FL_COLLAPSE_RANGE`나 `FALLOC_FL_ZERO_RANGE`, `FALLOC_FL_INSERT_RANGE`인데 `fd`가 가리키는 파일이 정규 파일이 아니다.
+
+`EIO`
+:   파일 시스템에서 읽기나 쓰기를 하는 중에 I/O 오류가 발생했다.
+
+`ENODEV`
+:   `fd`가 정규 파일이나 디렉터리를 가리키고 있지 않다. (`fd`가 파이프라 FIFO이면 다른 오류가 나온다.)
+
+`ENOSPC`
+:   `fd`가 가리키는 파일을 담은 장치에 충분한 공간이 남아 있지 않다.
+
+`ENOSYS`
+:   이 커널에서 `fallocate()`를 구현하고 있지 않다.
+
+`EOPNOTSUPP`
+:   `fd`가 가리키는 파일을 포함하는 파일 시스템에서 이 동작을 지원하지 않는다. 또는 `fd`가 가리키는 파일을 포함하는 파일 시스템에서 `mode`를 지원하지 않는다.
+
+`EPERM`
+:   `fd`가 가리키는 파일이 불변으로 표시돼 있다. (<tt>[[chattr(1)]]</tt> 참고.)
+
+`EPERM`
+:   `mode`가 `FALLOC_FL_PUNCH_HOLE`이나 `FALLOC_FL_COLLAPSE_RANGE`, `FALLOC_FL_INSERT_RANGE`를 나타내는데 `fd`가 가리키는 파일이 덧붙이기 전용으로 표시돼 있다. (<tt>[[chattr(1)]]</tt> 참고.)
+
+`EPERM`
+:   파일 봉인 때문에 동작이 막혔다. <tt>[[fcntl(2)]]</tt> 참고.
+
+`ESPIPE`
+:   `fd`가 파이프나 FIFO를 가리키고 있다.
+
+`ETXTBSY`
+:   `mode`에 `FALLOC_FL_COLLAPSE_RANGE`나 `FALLOC_FL_INSERT_RANGE`를 지정했는데 `fd`가 가리키는 파일이 현재 실행 중이다.
 
 ## VERSIONS
 

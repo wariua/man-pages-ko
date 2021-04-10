@@ -31,10 +31,8 @@ int pthread_attr_getschedpolicy(const pthread_attr_t *attr, int *policy);
 
 `pthread_attr_setschedpolicy()`가 다음 오류로 실패할 수 있다.
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>policy</code>에 유효하지 않은 값.</dd>
-</dl>
+`EINVAL`
+:   `policy`에 유효하지 않은 값.
 
 POSIX.1에서는 `pthread_attr_setschedpolicy()`에서 선택적인 `ENOTSUP` 오류("속성을 지원하지 않는 값으로 설정하려고 시도했음")도 적고 있다.
 

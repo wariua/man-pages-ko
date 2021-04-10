@@ -34,46 +34,63 @@ int fmtmsg(long classification, const char *label,
 
 첫 번째 값은 출력 채널을 규정한다.
 
-<dl>
-<dt><code>MM_PRINT</code></dt><dd><code>stderr</code>로 출력.</dd>
-<dt><code>MM_CONSOLE</code></dt><dd>시스템 콘솔로 출력.</dd>
-<dt><code>MM_PRINT | MM_CONSOLE</code></dt><dd>둘 모두로 출력.</dd>
-</dl>
+`MM_PRINT`
+:   `stderr`로 출력.
+
+`MM_CONSOLE`
+:   시스템 콘솔로 출력.
+
+`MM_PRINT | MM_CONSOLE`
+:   둘 모두로 출력.
 
 두 번째 값은 오류의 원천이다.
 
-<dl>
-<dt><code>MM_HARD</code></dt><dd>하드웨어 오류가 발생했음.</dd>
-<dt><code>MM_FIRM</code></dt><dd>펌웨어 오류가 발생했음.</dd>
-<dt><code>MM_SOFT</code></dt><dd>소프트웨어 오류가 발생했음.</dd>
-</dl>
+`MM_HARD`
+:   하드웨어 오류가 발생했음.
+
+`MM_FIRM`
+:   펌웨어 오류가 발생했음.
+
+`MM_SOFT`
+:   소프트웨어 오류가 발생했음.
 
 세 번째 값은 어디서 문제를 탐지했는지 기록한다.
 
-<dl>
-<dt><code>MM_APPL</code></dt><dd>응용이 탐지했음.</dd>
-<dt><code>MM_UTIL</code></dt><dd>유틸리티가 탐지했음.</dd>
-<dt><code>MM_OPSYS</code></dt><dd>운영 체제가 탐지했음.</dd>
-</dl>
+`MM_APPL`
+:   응용이 탐지했음.
+
+`MM_UTIL`
+:   유틸리티가 탐지했음.
+
+`MM_OPSYS`
+:   운영 체제가 탐지했음.
 
 네 번째 값은 사건의 심각도를 보여 준다.
 
-<dl>
-<dt><code>MM_RECOVER</code></dt><dd>복구 가능한 오류임.</dd>
-<dt><code>MM_NRECOV</code></dt><dd>복구 불가능한 오류임.</dd>
-</dl>
+`MM_RECOVER`
+:   복구 가능한 오류임.
+
+`MM_NRECOV`
+:   복구 불가능한 오류임.
 
 ### `severity` 인자
 
 `severity` 인자는 다음 값들 중 하나를 받을 수 있다.
 
-<dl>
-<dt><code>MM_NOSEV</code></dt><dd>심각도를 찍지 않음.</dd>
-<dt><code>MM_HALT</code></dt><dd>이 값은 `HALT`라고 찍음.</dd>
-<dt><code>MM_ERROR</code></dt><dd>이 값은 `ERROR`라고 찍음.</dd>
-<dt><code>MM_WARNING</code></dt><dd>이 값은 `WARNING`이라고 찍음.</dd>
-<dt><code>MM_INFO</code></dt><dd>이 값은 `INFO`라고 찍음.</dd>
-</dl>
+`MM_NOSEV`
+:   심각도를 찍지 않음.
+
+`MM_HALT`
+:   이 값은 `HALT`라고 찍음.
+
+`MM_ERROR`
+:   이 값은 `ERROR`라고 찍음.
+
+`MM_WARNING`
+:   이 값은 `WARNING`이라고 찍음.
+
+`MM_INFO`
+:   이 값은 `INFO`라고 찍음.
 
 숫자 값으로는 0에서 4까지이다. <tt>[[addseverity(3)]]</tt>나 환경 변수 `SEV_LEVEL`을 사용하면 수준과 찍을 문자열을 더 추가할 수 있다.
 
@@ -81,12 +98,17 @@ int fmtmsg(long classification, const char *label,
 
 함수가 4가지 값을 반환할 수 있다.
 
-<dl>
-<dt><code>MM_OK</code></dt><dd>모든 게 잘 돌아갔음.</dd>
-<dt><code>MM_NOTOK</code></dt><dd>완전한 실패.</dd>
-<dt><code>MM_NOMSG</code></dt><dd><code>stderr</code>에 쓰는 중에 오류.</dd>
-<dt><code>MM_NOCON</code></dt><dd> 콘솔에 쓰는 중 오류.</dd>
-</dl>
+`MM_OK`
+:   모든 게 잘 돌아갔음.
+
+`MM_NOTOK`
+:   완전한 실패.
+
+`MM_NOMSG`
+:   `stderr`에 쓰는 중에 오류.
+
+`MM_NOCON`
+:   콘솔에 쓰는 중 오류.
 
 ## ENVIRONMENT
 

@@ -12,17 +12,12 @@ int sigwait(const sigset_t *set, int *sig);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>sigwait()</code>:</dt>
-<dd>
- <dl>
- <dt>glibc 2.26부터:</dt>
- <dd><code>_POSIX_C_SOURCE >= 199506L</code></dd>
- <dt>glibc 2.25 및 이전:</dt>
- <dd><code>_POSIX_C_SOURCE</code></dd>
- </dl>
-</dd>
-</dl>
+`sigwait()`:
+:   glibc 2.26부터:
+    :   `_POSIX_C_SOURCE >= 199506L`
+
+    glibc 2.25 및 이전:
+    :   `_POSIX_C_SOURCE`
 
 ## DESCRIPTION
 
@@ -40,10 +35,8 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>set</code>이 유효하지 않은 시그널 번호를 담고 있다.</dd>
-</dl>
+`EINVAL`
+:   `set`이 유효하지 않은 시그널 번호를 담고 있다.
 
 ## ATTRIBUTES
 

@@ -486,13 +486,11 @@ wscanf()
 
 그간 리눅스의 GNU C 라이브러리에서 두 가지 스레딩 구현을 제공했다.
 
-<dl>
-<dt>LinuxThreads</dt>
-<dd>원래 Pthreads 구현이다. glibc 2.4부터는 이 구현을 더 이상 지원하지 않는다.</dd>
+LinuxThreads
+:   원래 Pthreads 구현이다. glibc 2.4부터는 이 구현을 더 이상 지원하지 않는다.
 
-<dt>NPTL (Native POSIX Threads Library)</dt>
-<dd>신식 Pthreads 구현이다. LinuxThreads와 비교할 때 NPTL은 POSIX.1 명세 요구 사항들을 더 가깝게 준수하며 스레드를 다수 생성할 때 성능이 더 좋다. glibc 2.3.2부터 NPTL을 사용할 수 있으며 리눅스 2.6 커널에 있는 기능들을 필요로 한다.</dd>
-</dl>
+NPTL (Native POSIX Threads Library)
+:   신식 Pthreads 구현이다. LinuxThreads와 비교할 때 NPTL은 POSIX.1 명세 요구 사항들을 더 가깝게 준수하며 스레드를 다수 생성할 때 성능이 더 좋다. glibc 2.3.2부터 NPTL을 사용할 수 있으며 리눅스 2.6 커널에 있는 기능들을 필요로 한다.
 
 둘 다 소위 1:1 방식 구현이다. 즉 각 스레드가 커널 스케줄링 항목 하나로 사상된다. 두 가지 스레딩 구현 모두 리눅스의 <tt>[[clone(2)]]</tt> 시스템 호출을 이용한다. NPTL에서는 리눅스의 <tt>[[futex(2)]]</tt> 시스템 호출을 이용해 스레드 동기화 요소들(뮤텍스, 스레드 합류 등)을 구현한다.
 
@@ -560,7 +558,7 @@ NPTL에도 POSIX.1 부적합 사항이 최소 한 가지 있다.
 
 NPTL 구현의 다음 추가 사항에 유의하라.
 
-- 스택 크기 연성 자원 제한(<tt>[[setrlimit(2)]]</tt>의 `RLIMIT_STACK` 설명 참고)을 <em>무제한</em> 외의 값으로 설정하면 그 값이 새 스레드의 기본 스택 크기를 규정한다. 효과가 있으려면 프로그램 실행 전에 제한을 설정해야 하는데, 셸 내장 명령 `ulimit -s`를 (C 셸에서는 `limit stacksize`를) 쓸 수 있다.
+- 스택 크기 연성 자원 제한(<tt>[[setrlimit(2)]]</tt>의 `RLIMIT_STACK` 설명 참고)을 *무제한* 외의 값으로 설정하면 그 값이 새 스레드의 기본 스택 크기를 규정한다. 효과가 있으려면 프로그램 실행 전에 제한을 설정해야 하는데, 셸 내장 명령 `ulimit -s`를 (C 셸에서는 `limit stacksize`를) 쓸 수 있다.
 
 ### 스레딩 구현 알아내기
 

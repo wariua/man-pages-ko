@@ -26,34 +26,30 @@ int timerfd_gettime(int fd, struct itimerspec *curr_value);
 
 `timerfd_create()`는 새 타이머 객체를 생성하고 그 타이머를 가리키는 파일 디스크립터를 반환한다. `clockid` 인자는 타이머 진행을 특징 짓는 클럭을 나타내며 다음 중 한 가지여야 한다.
 
-<dl>
-<dt><code>CLOCK_REALTIME</code></dt>
-<dd>설정 가능하며 시스템 전역인 실제 시간 클럭.</dd>
+`CLOCK_REALTIME`
+:   설정 가능하며 시스템 전역인 실제 시간 클럭.
 
-<dt><code>CLOCK_MONOTONIC</code></dt>
-<dd>설정 불가능하며 시스템 구동 후 바뀌지 않는 과거 불특정 시점으로부터의 시간을 측정하는 단조 증가 클럭.</dd>
+`CLOCK_MONOTONIC`
+:   설정 불가능하며 시스템 구동 후 바뀌지 않는 과거 불특정 시점으로부터의 시간을 측정하는 단조 증가 클럭.
 
-<dt><code>CLOCK_BOOTTIME</code> (리눅스 3.15부터)</dt>
-<dd><code>CLOCK_MONOTONIC</code>처럼 단조 증가하는 클럭이다. 하지만 <code>CLOCK_MONOTONIC</code> 클럭에서 시스템이 절전 대기 상태인 시간을 측정하지 않는 반면 <code>CLOCK_BOOTTIME</code> 클럭에서는 시스템이 절전 대기 상태인 시간을 포함한다. 절전 대기를 인식할 필요가 있는 응용들에 유용하다. 그런 응용들에 <code>CLOCK_REALTIME</code>은 적합하지 않은데, 그 클럭은 시스템 클럭의 불연속적 변화에 영향을 받기 때문이다.</dd>
+`CLOCK_BOOTTIME` (리눅스 3.15부터)
+:   `CLOCK_MONOTONIC`처럼 단조 증가하는 클럭이다. 하지만 `CLOCK_MONOTONIC` 클럭에서 시스템이 절전 대기 상태인 시간을 측정하지 않는 반면 `CLOCK_BOOTTIME` 클럭에서는 시스템이 절전 대기 상태인 시간을 포함한다. 절전 대기를 인식할 필요가 있는 응용들에 유용하다. 그런 응용들에 `CLOCK_REALTIME`은 적합하지 않은데, 그 클럭은 시스템 클럭의 불연속적 변화에 영향을 받기 때문이다.
 
-<dt><code>CLOCK_REALTIME_ALARM</code> (리눅스 3.11부터)</dt>
-<dd>이 클럭은 <code>CLOCK_REALTIME</code>과 비슷하되 시스템이 절전 대기 상태이면 깨우게 된다. 이 클럭에 대해 타이머를 설정하기 위해선 호출자가 <code>CAP_WAKE_ALARM</code> 역능을 가지고 있어야 한다.</dd>
+`CLOCK_REALTIME_ALARM` (리눅스 3.11부터)
+:   이 클럭은 `CLOCK_REALTIME`과 비슷하되 시스템이 절전 대기 상태이면 깨우게 된다. 이 클럭에 대해 타이머를 설정하기 위해선 호출자가 `CAP_WAKE_ALARM` 역능을 가지고 있어야 한다.
 
-<dt><code>CLOCK_BOOTTIME_ALARM</code> (리눅스 3.11부터)</dt>
-<dd>이 클럭은 <code>CLOCK_BOOTTIME</code>과 비슷하되 시스템이 절전 대기 상태이면 깨우게 된다. 이 클럭에 대해 타이머를 설정하기 위해선 호출자가 <code>CAP_WAKE_ALARM</code> 역능을 가지고 있어야 한다.</dd>
-</dl>
+`CLOCK_BOOTTIME_ALARM` (리눅스 3.11부터)
+:   이 클럭은 `CLOCK_BOOTTIME`과 비슷하되 시스템이 절전 대기 상태이면 깨우게 된다. 이 클럭에 대해 타이머를 설정하기 위해선 호출자가 `CAP_WAKE_ALARM` 역능을 가지고 있어야 한다.
 
 이 클럭들 각각의 현재 값은 <tt>[[clock_gettime(2)]]</tt>을 이용해 얻어 올 수 있다.
 
 리눅스 2.6.27부터 `flags`에 다음 값들을 비트 OR 해서 `timerfd_create()`의 동작 방식을 바꿀 수 있다.
 
-<dl>
-<dt><code>TFD_NONBLOCK</code></dt>
-<dd>새 파일 디스크립터가 가리키는 열린 파일 기술 항목(<tt>[[open(2)]]</tt> 참고)에 <code>O_NONBLOCK</code> 파일 상태 플래그를 설정한다. 이 플래그를 사용하면 같은 결과를 얻기 위해 <tt>[[fcntl(2)]]</tt>을 추가로 호출하지 않아도 된다.</dd>
+`TFD_NONBLOCK`
+:   새 파일 디스크립터가 가리키는 열린 파일 기술 항목(<tt>[[open(2)]]</tt> 참고)에 `O_NONBLOCK` 파일 상태 플래그를 설정한다. 이 플래그를 사용하면 같은 결과를 얻기 위해 <tt>[[fcntl(2)]]</tt>을 추가로 호출하지 않아도 된다.
 
-<dt><code>TFD_CLOEXEC</code></dt>
-<dd>새 파일 디스크립터에 'exec에서 닫기'(<code>FD_CLOEXEC</code>) 플래그를 설정한다. 이게 유용할 수 있는 이유에 대해선 <tt>[[open(2)]]</tt>의 <code>O_CLOEXEC</code> 플래그 설명을 보라.</dd>
-</dl>
+`TFD_CLOEXEC`
+:   새 파일 디스크립터에 'exec에서 닫기'(`FD_CLOEXEC`) 플래그를 설정한다. 이게 유용할 수 있는 이유에 대해선 <tt>[[open(2)]]</tt>의 `O_CLOEXEC` 플래그 설명을 보라.
 
 리눅스 버전 2.6.26까지에서는 `flags`를 0으로 지정해야 한다.
 
@@ -83,13 +79,11 @@ struct itimerspec {
 
 `flags` 인자는 비트 마스크이며 다음 같들을 포함할 수 있다.
 
-<dl>
-<dt><code>TFD_TIMER_ABSTIME</code></dt>
-<dd><code>new_value.it_value</code>를 타이머 클럭에서의 절댓값으로 해석한다. 타이머의 클럭이 <code>new_value.it_value</code>로 지정한 값에 도달할 때 타이머가 만료된다.</dd>
+`TFD_TIMER_ABSTIME`
+:   `new_value.it_value`를 타이머 클럭에서의 절댓값으로 해석한다. 타이머의 클럭이 `new_value.it_value`로 지정한 값에 도달할 때 타이머가 만료된다.
 
-<dt><code>TFD_TIMER_CANCEL_ON_SET</code></dt>
-<dd><code>TFD_TIMER_ABSTIME</code>과 함께 이 플래그를 지정하고 이 타이머의 클럭이 <code>CLOCK_REALTIME</code>이나 <code>CLOCK_REALTIME_ALARM</code>이면 실제 시간 클럭이 불연속적 변경(<tt>[[settimeofday(2)]]</tt>나 <tt>[[clock_settime(2)]]</tt> 같은 것)을 겪을 때 이 타이머를 취소할 수 있다고 표시한다. 그런 변경이 일어날 때 파일 디스크립터에 대한 현재나 미래의 <code>read(2)</code>가 <code>ECANCELED</code> 오류로 실패하게 된다.</dd>
-</dl>
+`TFD_TIMER_CANCEL_ON_SET`
+:   `TFD_TIMER_ABSTIME`과 함께 이 플래그를 지정하고 이 타이머의 클럭이 `CLOCK_REALTIME`이나 `CLOCK_REALTIME_ALARM`이면 실제 시간 클럭이 불연속적 변경(<tt>[[settimeofday(2)]]</tt>나 <tt>[[clock_settime(2)]]</tt> 같은 것)을 겪을 때 이 타이머를 취소할 수 있다고 표시한다. 그런 변경이 일어날 때 파일 디스크립터에 대한 현재나 미래의 `read(2)`가 `ECANCELED` 오류로 실패하게 된다.
 
 `old_value` 인자가 NULL이 아니면 가리키는 `itimerspec` 구조체를 이용해 호출 시점에 적용 중이던 타이머 설정을 반환한다. 이어지는 `timerfd_gettime()` 설명을 참고하라.
 
@@ -105,43 +99,28 @@ struct itimerspec {
 
 `timerfd_create()`가 반환하는 파일 디스크립터는 다음 작업을 지원한다.
 
-<dl>
-<dt><code>read(2)</code></dt>
-<dd>
+`read(2)`
+:   `timerfd_settime()`을 이용해 마지막으로 설정을 변경한 이후로, 또는 마지막 `read(2)` 성공 이후로 타이머가 한 번 이상 만료되었으면 발생한 만료 횟수를 담은 부호 없는 8바이트 정수(`uint64_t`)를 `read(2)`에 준 버퍼로 반환한다. (반환되는 값은 호스트 바이트 순서, 즉 호스트 머신 자체의 정수 바이트 순서로 되어 있다.)
 
-<code>timerfd_settime()</code>을 이용해 마지막으로 설정을 변경한 이후로, 또는 마지막 <code>read(2)</code> 성공 이후로 타이머가 한 번 이상 만료되었으면 발생한 만료 횟수를 담은 부호 없는 8바이트 정수(<code>uint64_t</code>)를 <code>read(2)</code>에 준 버퍼로 반환한다. (반환되는 값은 호스트 바이트 순서, 즉 호스트 머신 자체의 정수 바이트 순서로 되어 있다.)
+    `read(2)` 시점까지 타이머 만료가 발생하지 않았으면 다음 타이머 만료까지 호출이 블록 한다. 또는 (<tt>[[fcntl(2)]]</tt> `F_SETFL` 동작으로 `O_NONBLOCK` 플래그를 설정해서) 파일 디스크립터를 비블로킹으로 만들었다면 `EAGAIN` 오류로 실패한다.
 
-<code>read(2)</code> 시점까지 타이머 만료가 발생하지 않았으면 다음 타이머 만료까지 호출이 블록 한다. 또는 (<tt>[[fcntl(2)]]</tt> <code>F_SETFL</code> 동작으로 <code>O_NONBLOCK</code> 플래그를 설정해서) 파일 디스크립터를 비블로킹으로 만들었다면 <code>EAGAIN</code> 오류로 실패한다.
+    제공한 버퍼의 크기가 8바이트보다 작으면 `read(2)`가 `EINVAL` 오류로 실패한다.
 
-제공한 버퍼의 크기가 8바이트보다 작으면 <code>read(2)</code>가 <code>EINVAL</code> 오류로 실패한다.
+    연계된 클럭이 `CLOCK_REALTIME`이나 `CLOCK_REALTIME_ALARM`이고, 타이머가 절대이고 (`TFD_TIMER_ABSTIME`), `timerfd_settime()` 호출 때 `TFD_TIMER_CANCEL_ON_SET` 플래그를 지정했다면 실제 시간 클럭이 불연속적 변경을 거치는 경우 `read(2)`가 `ECANCELED` 오류로 실패한다. (이를 통해 읽기를 하는 응용에서 클럭에 불연속적 변경이 일어났음을 알아챌 수 있다.)
 
-연계된 클럭이 <code>CLOCK_REALTIME</code>이나 <code>CLOCK_REALTIME_ALARM</code>이고, 타이머가 절대이고 (<code>TFD_TIMER_ABSTIME</code>), <code>timerfd_settime()</code> 호출 때 <code>TFD_TIMER_CANCEL_ON_SET</code> 플래그를 지정했다면 실제 시간 클럭이 불연속적 변경을 거치는 경우 <code>read(2)</code>가 <code>ECANCELED</code> 오류로 실패한다. (이를 통해 읽기를 하는 응용에서 클럭에 불연속적 변경이 일어났음을 알아챌 수 있다.)
-</dd>
+<tt>[[poll(2)]]</tt>, <tt>[[select(2)]]</tt> (기타 유사 함수)
+:   타이머 만료가 한 번 이상 일어났을 때 파일 디스크립터가 읽기 가능하다. (<tt>[[select(2)]]</tt> `readfds` 인자, <tt>[[poll(2)]]</tt> `POLLIN` 플래그.)
 
-<dt><tt>[[poll(2)]]</tt>, <tt>[[select(2)]]</tt> (기타 유사 함수)</dt>
-<dd>
+    파일 디스크립터가 <tt>[[pselect(2)]]</tt>, <tt>[[ppoll(2)]]</tt>, <tt>[[epoll(7)]]</tt> 같은 다른 파일 디스크립터 다중화 API도 지원한다.
 
-타이머 만료가 한 번 이상 일어났을 때 파일 디스크립터가 읽기 가능하다. (<tt>[[select(2)]]</tt> <code>readfds</code> 인자, <tt>[[poll(2)]]</tt> <code>POLLIN</code> 플래그.)
+`ioctl(2)`
+:   다음의 timerfd 한정 명령을 지원한다.
 
-파일 디스크립터가 <tt>[[pselect(2)]]</tt>, <tt>[[ppoll(2)]]</tt>, <tt>[[epoll(7)]]</tt> 같은 다른 파일 디스크립터 다중화 API도 지원한다.
-</dd>
+    `TFD_IOC_SET_TICKS` (리눅스 3.17부터)
+    :   발생한 타이머 만료 횟수를 조정한다. 인자는 새 만료 횟수를 담은 0 아닌 8바이트 정수에 대한 포인터(`uint64_t*`)이다. 횟수를 설정하고 나서 그 타이머에 대기 중인 프로세스가 있으면 모두 깨운다. 이 명령의 유일한 용도는 체크포인트/복원 목적으로 만료 횟수를 복원하는 것이다. 커널을 `CONFIG_CHECKPOINT_RESTORE` 옵션으로 구성한 경우에만 이 동작이 사용 가능하다.
 
-<dt><code>ioctl(2)</code></dt>
-<dd>
-
-다음의 timerfd 한정 명령을 지원한다.
-
- <dl>
- <dt><code>TFD_IOC_SET_TICKS</code> (리눅스 3.17부터)</dt>
- <dd>발생한 타이머 만료 횟수를 조정한다. 인자는 새 만료 횟수를 담은 0 아닌 8바이트 정수에 대한 포인터(<code>uint64_t*</code>)이다. 횟수를 설정하고 나서 그 타이머에 대기 중인 프로세스가 있으면 모두 깨운다. 이 명령의 유일한 용도는 체크포인트/복원 목적으로 만료 횟수를 복원하는 것이다. 커널을 <code>CONFIG_CHECKPOINT_RESTORE</code> 옵션으로 구성한 경우에만 이 동작이 사용 가능하다.</dd>
- </dl>
-</dd>
-
-<dt><tt>[[close(2)]]</tt></dt>
-<dd>
-파일 디스크립터가 더 이상 필요하지 않으면 닫아야 한다. 동일 타이머 객체에 연계된 모든 파일 디스크립터가 닫혔을 때 커널이 타이머를 해제하고 그 자원을 해제한다.
-</dd>
-</dl>
+<tt>[[close(2)]]</tt>
+:   파일 디스크립터가 더 이상 필요하지 않으면 닫아야 한다. 동일 타이머 객체에 연계된 모든 파일 디스크립터가 닫혔을 때 커널이 타이머를 해제하고 그 자원을 해제한다.
 
 ### <tt>[[fork(2)]]</tt> 동작 방식
 
@@ -161,40 +140,42 @@ struct itimerspec {
 
 `timerfd_create()`이 다음 오류로 실패할 수 있다.
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>clockid</code> 인자가 <code>CLOCK_MONOTONIC</code>이나 <code>CLOCK_REALTIME</code>이 아니다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>flags</code>가 유효하지 않다. 또는 리눅스 2.6.26 또는 이전에서 <code>flags</code>가 0이 아니다.</dd>
-<dt><code>EMFILE</code></dt>
-<dd>열린 파일 디스크립터 개수에 대한 프로세스별 제한에 도달했다.</dd>
-<dt><code>ENFILE</code></dt>
-<dd>열린 파일 총개수에 대한 시스템 전역 제한에 도달했다.</dd>
-<dt><code>ENODEV</code></dt>
-<dd>(내부적으로 쓰는) 익명 아이노드 장치를 마운트 할 수 없었다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>타이머를 생성하기에 커널 메모리가 충분하지 않았다.</dd>
-</dl>
+`EINVAL`
+:   `clockid` 인자가 `CLOCK_MONOTONIC`이나 `CLOCK_REALTIME`이 아니다.
+
+`EINVAL`
+:   `flags`가 유효하지 않다. 또는 리눅스 2.6.26 또는 이전에서 `flags`가 0이 아니다.
+
+`EMFILE`
+:   열린 파일 디스크립터 개수에 대한 프로세스별 제한에 도달했다.
+
+`ENFILE`
+:   열린 파일 총개수에 대한 시스템 전역 제한에 도달했다.
+
+`ENODEV`
+:   (내부적으로 쓰는) 익명 아이노드 장치를 마운트 할 수 없었다.
+
+`ENOMEM`
+:   타이머를 생성하기에 커널 메모리가 충분하지 않았다.
 
 `timerfd_settime()`과 `timerfd_gettime()`이 다음 오류로 실패할 수 있다.
 
-<dl>
-<dt><code>EBADF</code></dt>
-<dd><code>fd</code>가 유효한 파일 디스크립터가 아니다.</dd>
-<dt><code>EFAULT</code></dt>
-<dd><code>new_value</code>나 <code>old_value</code>, <code>curr_value</code>가 유효한 포인터가 아니다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>fd</code>가 유효한 timerfd 파일 디스크립터가 아니다.</dd>
-</dl>
+`EBADF`
+:   `fd`가 유효한 파일 디스크립터가 아니다.
+
+`EFAULT`
+:   `new_value`나 `old_value`, `curr_value`가 유효한 포인터가 아니다.
+
+`EINVAL`
+:   `fd`가 유효한 timerfd 파일 디스크립터가 아니다.
 
 `timerfd_settime()`이 다음 오류로 실패할 수도 있다.
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>new_value</code>가 올바로 초기화 되어 있지 않다. (한 <code>tv_nsec</code> 필드가 0에서 999,999,999까지 범위 밖에 있다.)</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>flags</code>가 유효하지 않다.</dd>
-</dl>
+`EINVAL`
+:   `new_value`가 올바로 초기화 되어 있지 않다. (한 `tv_nsec` 필드가 0에서 999,999,999까지 범위 밖에 있다.)
+
+`EINVAL`
+:   `flags`가 유효하지 않다.
 
 ## VERSIONS
 

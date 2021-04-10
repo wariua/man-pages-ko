@@ -21,24 +21,19 @@ int memfd_create(const char *name, unsigned int flags);
 
 `flags`에 다음 값들을 비트 OR 해서 `memfd_create()`의 동작 방식을 바꿀 수 있다.
 
-<dl>
-<dt><code>MFD_CLOEXEC</code></dt>
-<dd>새 파일 디스크립터에 'exec에서 닫기'(<code>FD_CLOEXEC</code>) 플래그를 설정한다. 이게 유용할 수 있는 이유에 대해선 <tt>[[open(2)]]</tt>의 <code>O_CLOEXEC</code> 플래그 설명을 보라.</dd>
+`MFD_CLOEXEC`
+:   새 파일 디스크립터에 'exec에서 닫기'(`FD_CLOEXEC`) 플래그를 설정한다. 이게 유용할 수 있는 이유에 대해선 <tt>[[open(2)]]</tt>의 `O_CLOEXEC` 플래그 설명을 보라.
 
-<dt><code>MFD_ALLOW_SEALING</code></dt>
-<dd>파일에 대한 봉인 동작을 허용한다. <tt>[[fcntl(2)]]</tt>의 <code>F_ADD_SEALS</code> 및 <code>F_GET_SEALS</code> 동작 논의와 아래 NOTES를 참고하라. 최초 봉인 집합은 비어 있다. 이 플래그가 설정돼 있지 않으면 최초 봉인 집합이 <code>F_SEAL_SEAL</code>이 된다. 즉 파일에 다른 봉인을 설정할 수 없다.</dd>
+`MFD_ALLOW_SEALING`
+:   파일에 대한 봉인 동작을 허용한다. <tt>[[fcntl(2)]]</tt>의 `F_ADD_SEALS` 및 `F_GET_SEALS` 동작 논의와 아래 NOTES를 참고하라. 최초 봉인 집합은 비어 있다. 이 플래그가 설정돼 있지 않으면 최초 봉인 집합이 `F_SEAL_SEAL`이 된다. 즉 파일에 다른 봉인을 설정할 수 없다.
 
-<dt><code>MFD_HUGETLB</code> (리눅스 4.14부터)</dt>
-<dd>익명 파일이 거대 페이지를 이용해 hugetlbfs 파일 시스템 안에 만들어지게 된다. hugetlbfs에 대한 자세한 내용은 리눅스 커널 소스 파일 <code>Documentation/admin-guide/mm/hugetlbpage.rst</code>를 보라. <code>flags</code>에 <code>MFD_HUGETLB</code>와 <code>MFD_ALLOW_SEALING</code>을 함께 지정하는 것은 리눅스 4.16부터 지원한다.</dd>
+`MFD_HUGETLB` (리눅스 4.14부터)
+:   익명 파일이 거대 페이지를 이용해 hugetlbfs 파일 시스템 안에 만들어지게 된다. hugetlbfs에 대한 자세한 내용은 리눅스 커널 소스 파일 `Documentation/admin-guide/mm/hugetlbpage.rst`를 보라. `flags`에 `MFD_HUGETLB`와 `MFD_ALLOW_SEALING`을 함께 지정하는 것은 리눅스 4.16부터 지원한다.
 
-<dt><code>MFD_HUGE_2MB</code>, <code>MFD_HUGE_1GB</code>, ...</dt>
-<dd>
+`MFD_HUGE_2MB`, `MFD_HUGE_1GB`, ...
+:   hugetlb 페이지 크기를 여러 가지 지원하는 시스템에서 `MFD_HUGETLB`와 조합해 사용해서 다른 hugetlb 페이지 크기(각각 2MB, 1GB, ...)를 선택한다. 알려진 거대 페이지 크기들의 정의가 헤더 파일 `<linux/memfd.h>`에 포함돼 있다.
 
-hugetlb 페이지 크기를 여러 가지 지원하는 시스템에서 <code>MFD_HUGETLB</code>와 조합해 사용해서 다른 hugetlb 페이지 크기(각각 2MB, 1GB, ...)를 선택한다. 알려진 거대 페이지 크기들의 정의가 헤더 파일 <code>&lt;linux/memfd.h&gt;</code>에 포함돼 있다.
-
-헤더 파일에 포함돼 있지 않은 거대 페이지 크기를 인코딩 하는 자세한 방법에 대해선 <tt>[[mmap(2)]]</tt>의 비슷한 이름의 상수에 대한 설명을 보라.
-</dd>
-</dl>
+    헤더 파일에 포함돼 있지 않은 거대 페이지 크기를 인코딩 하는 자세한 방법에 대해선 <tt>[[mmap(2)]]</tt>의 비슷한 이름의 상수에 대한 설명을 보라.
 
 `flags`의 안 쓰는 비트들은 0이어야 한다.
 
@@ -52,22 +47,26 @@ hugetlb 페이지 크기를 여러 가지 지원하는 시스템에서 <code>MFD
 
 ## ERRORS
 
-<dl>
-<dt><code>EFAULT</code></dt>
-<dd><code>name</code>의 주소가 유효하지 않은 메모리를 가리키고 있다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>flags</code>에 알 수 없는 비트가 포함돼 있다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>name</code>이 너무 길다. (종료용 널 바이트를 제외하고 249바이트가 제한 길이이다.)</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>flags</code>에 <code>MFD_HUGETLB</code>와 <code>MFD_ALLOW_SEALING</code>을 함께 지정했다.</dd>
-<dt><code>EMFILE</code></dt>
-<dd>열린 파일 디스크립터 개수에 대한 프로세스별 제한에 도달했다.</dd>
-<dt><code>ENFILE</code></dt>
-<dd>열린 파일 총개수에 대한 시스템 전역 제한에 도달했다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>새 익명 파일을 생성하기에 메모리가 충분하지 않았다.</dd>
-</dl>
+`EFAULT`
+:   `name`의 주소가 유효하지 않은 메모리를 가리키고 있다.
+
+`EINVAL`
+:   `flags`에 알 수 없는 비트가 포함돼 있다.
+
+`EINVAL`
+:   `name`이 너무 길다. (종료용 널 바이트를 제외하고 249바이트가 제한 길이이다.)
+
+`EINVAL`
+:   `flags`에 `MFD_HUGETLB`와 `MFD_ALLOW_SEALING`을 함께 지정했다.
+
+`EMFILE`
+:   열린 파일 디스크립터 개수에 대한 프로세스별 제한에 도달했다.
+
+`ENFILE`
+:   열린 파일 총개수에 대한 시스템 전역 제한에 도달했다.
+
+`ENOMEM`
+:   새 익명 파일을 생성하기에 메모리가 충분하지 않았다.
 
 ## VERSIONS
 

@@ -37,10 +37,8 @@ struct tms {
 
 ## ERRORS
 
-<dl>
-<dt><code>EFAULT</code></dt>
-<dd><code>tms</code>가 프로세스의 주소 공간 밖을 가리키고 있다.</dd>
-</dl>
+`EFAULT`
+:   `tms`가 프로세스의 주소 공간 밖을 가리키고 있다.
 
 ## CONFORMING TO
 

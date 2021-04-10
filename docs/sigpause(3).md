@@ -44,11 +44,11 @@ int sigpause(int sig);      /* 시스템 V / 유닉스 95 */
 
 리눅스에서는 스팍(sparc64) 아키텍처에서만 이 루틴이 시스템 호출이다.
 
-glibc에서는 기능 확인 매크로 <code>_BSD_SOURCE</code>가 정의되어 있으며 <code>_POSIX_SOURCE</code> <code>_POSIX_C_SOURCE</code>, <code>_XOPEN_SOURCE</code>, <code>_GNU_SOURCE</code>, <code>_SVID_SOURCE</code> 중 어느 것도 정의되어 있지 않은 경우에 BSD 버전을 사용한다. 그 외의 경우에는 시스템 V 버전을 쓰며, 선언을 얻으려면 기능 확인 매크로가 다음과 같이 정의되어 있어야 한다.
+glibc에서는 기능 확인 매크로 `_BSD_SOURCE`가 정의되어 있으며 `_POSIX_SOURCE` `_POSIX_C_SOURCE`, `_XOPEN_SOURCE`, `_GNU_SOURCE`, `_SVID_SOURCE` 중 어느 것도 정의되어 있지 않은 경우에 BSD 버전을 사용한다. 그 외의 경우에는 시스템 V 버전을 쓰며, 선언을 얻으려면 기능 확인 매크로가 다음과 같이 정의되어 있어야 한다.
 
-* glibc 2.26부터: <code>_XOPEN_SOURCE >= 500</code>
+* glibc 2.26부터: `_XOPEN_SOURCE >= 500`
 
-* glibc 2.25 및 이전: <code>_XOPEN_SOURCE</code>
+* glibc 2.25 및 이전: `_XOPEN_SOURCE`
 
 glibc 2.19부터는 `<signal.h>`에서 시스템 V 버전만 드러낸다. 이전에 BSD `sigpause()`를 사용하던 응용은 <tt>[[sigsuspend(2)]]</tt>를 사용하도록 수정해야 한다.
 

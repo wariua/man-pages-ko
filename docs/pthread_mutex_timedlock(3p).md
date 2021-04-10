@@ -40,35 +40,38 @@ int pthread_mutex_timedlock(pthread_mutex_t *restrict mutex,
 
 다음 경우에 `pthread_mutex_timedlock()` 함수가 실패한다.
 
-<dl>
-<dt><code>EAGAIN</code></dt>
-<dd><code>mutex</code>의 재귀 락 최대 횟수를 초과했기 때문에 뮤텍스를 획득할 수 없다.</dd>
-<dt><code>EDEADLK</code></dt>
-<dd>뮤텍스 유형이 <code>PTHREAD_MUTEX_ERRORCHECK</code>이며 현재 스레드가 이미 그 뮤텍스를 소유하고 있다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>프로토콜 속성 값을 <code>PTHREAD_PRIO_PROTECT</code>로 해서 <code>mutex</code>를 생성했으며 호출 스레드의 우선순위가 뮤텍스의 현재 우선순위 상한보다 높다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>프로세스 내지 스레드가 블록 하려 했는데 <code>abstime</code> 매개변수의 나노초 필드가 0보다 작거나 10억 이상인 값으로 지정되어 있다.</dd>
-<dt><code>ENOTRECOVERABLE</code></dt>
-<dd>뮤텍스가 보호하는 상태가 복구 가능하지 않다.</dd>
-<dt><code>EOWNERDEAD</code></dt>
-<dd>뮤텍스가 견고 뮤텍스이며 이전 소유자 스레드를 포함한 프로세스가 뮤텍스 락을 잡은 채로 종료했다. 호출 스레드가 뮤텍스 락을 획득하게 되며 상태를 정상으로 만드는 것은 새 소유자의 몫이다.</dd>
-<dt><code>ETIMEDOUT</code></dt>
-<dd>지정한 타임아웃 만료 전에 뮤텍스를 잠글 수 없었다.</dd>
-</dl>
+`EAGAIN`
+:   `mutex`의 재귀 락 최대 횟수를 초과했기 때문에 뮤텍스를 획득할 수 없다.
+
+`EDEADLK`
+:   뮤텍스 유형이 `PTHREAD_MUTEX_ERRORCHECK`이며 현재 스레드가 이미 그 뮤텍스를 소유하고 있다.
+
+`EINVAL`
+:   프로토콜 속성 값을 `PTHREAD_PRIO_PROTECT`로 해서 `mutex`를 생성했으며 호출 스레드의 우선순위가 뮤텍스의 현재 우선순위 상한보다 높다.
+
+`EINVAL`
+:   프로세스 내지 스레드가 블록 하려 했는데 `abstime` 매개변수의 나노초 필드가 0보다 작거나 10억 이상인 값으로 지정되어 있다.
+
+`ENOTRECOVERABLE`
+:   뮤텍스가 보호하는 상태가 복구 가능하지 않다.
+
+`EOWNERDEAD`
+:   뮤텍스가 견고 뮤텍스이며 이전 소유자 스레드를 포함한 프로세스가 뮤텍스 락을 잡은 채로 종료했다. 호출 스레드가 뮤텍스 락을 획득하게 되며 상태를 정상으로 만드는 것은 새 소유자의 몫이다.
+
+`ETIMEDOUT`
+:   지정한 타임아웃 만료 전에 뮤텍스를 잠글 수 없었다.
 
 다음 경우에 `pthread_mutex_timedlock()` 함수가 실패할 수도 있다.
 
-<dl>
-<dt><code>EDEADLK</code></dt>
-<dd>교착 조건을 탐지했다.</dd>
-<dt><code>EOWNERDEAD</code></dt>
-<dd>뮤텍스가 견고 뮤텍스이며 이전 소유자 스레드가 뮤텍스 락을 잡은 채로 종료했다. 호출 스레드가 뮤텍스 락을 획득하게 되며 상태를 정상으로 만드는 것은 새 소유자의 몫이다.</dd>
-</dl>
+`EDEADLK`
+:   교착 조건을 탐지했다.
+
+`EOWNERDEAD`
+:   뮤텍스가 견고 뮤텍스이며 이전 소유자 스레드가 뮤텍스 락을 잡은 채로 종료했다. 호출 스레드가 뮤텍스 락을 획득하게 되며 상태를 정상으로 만드는 것은 새 소유자의 몫이다.
 
 이 함수는 오류 코드 `[EINTR]`을 반환하지 않는다.
 
-<em>이하는 규범적이지 않은 내용이다.</em>
+*이하는 규범적이지 않은 내용이다.*
 
 ## EXAMPLES
 
@@ -90,13 +93,13 @@ int pthread_mutex_timedlock(pthread_mutex_t *restrict mutex,
 
 <tt>[[pthread_mutex_destroy()|pthread_mutex_destroy(3p)]]</tt>, <tt>[[pthread_mutex_lock()|pthread_mutex_lock(3p)]]</tt>, `time()`
 
-POSIX.1-2008 Base Definitions 권, <em>4.11절 Memory Synchronization</em>, `<pthread.h>`, `<time.h>`
+POSIX.1-2008 Base Definitions 권, *4.11절 Memory Synchronization*, `<pthread.h>`, `<time.h>`
 
 ## COPYRIGHT
 
-Portions of this text are reprinted and reproduced in electronic form from IEEE Std 1003.1, 2013 Edition, Standard for Information Technology -- Portable Operating System Interface (POSIX), The Open Group Base Specifications Issue 7, Copyright (C) 2013 by the Institute of Electrical and Electronics Engineers, Inc and The Open Group. (This is POSIX.1-2008 with the 2013 Technical Corrigendum 1 applied.) In the event of any discrepancy between this version and the original IEEE and The Open Group Standard, the original IEEE and The Open Group Standard is the referee document. The original Standard can be obtained online at http://www.unix.org/online.html .
+Portions of this text are reprinted and reproduced in electronic form from IEEE Std 1003.1, 2013 Edition, Standard for Information Technology -- Portable Operating System Interface (POSIX), The Open Group Base Specifications Issue 7, Copyright (C) 2013 by the Institute of Electrical and Electronics Engineers, Inc and The Open Group. (This is POSIX.1-2008 with the 2013 Technical Corrigendum 1 applied.) In the event of any discrepancy between this version and the original IEEE and The Open Group Standard, the original IEEE and The Open Group Standard is the referee document. The original Standard can be obtained online at <http://www.unix.org/online.html>.
 
-Any typographical or formatting errors that appear in this page are most likely to have been introduced during the conversion of the source files to man page format. To report such errors, see https://www.kernel.org/doc/man-pages/reporting_bugs.html .
+Any typographical or formatting errors that appear in this page are most likely to have been introduced during the conversion of the source files to man page format. To report such errors, see <https://www.kernel.org/doc/man-pages/reporting_bugs.html>.
 
 ----
 

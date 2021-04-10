@@ -42,63 +42,53 @@ recvfrom(sockfd, buf, len, flags, NULL, NULL);
 
 `flags` 인자는 다음 값들을 1개 이상 OR 해서 구성한다.
 
-<dl>
-<dt><code>MSG_CMSG_CLOEXEC</code> (<code>recvmsg()</code> 전용, 리눅스 2.6.23부터)</dt>
-<dd>(<tt>[[unix(7)]]</tt>에서 기술하는) <code>SCM_RIGHTS</code> 동작으로 유닉스 도메인 파일 디스크립터를 통해 수신하는 파일 디스크립터에 'exec에서 닫기' 플래그를 설정한다. <tt>[[open(2)]]</tt>의 <code>O_CLOEXEC</code> 플래그와 같은 이유로 이 플래그가 유용하다.</dd>
+`MSG_CMSG_CLOEXEC` (`recvmsg()` 전용, 리눅스 2.6.23부터)
+:   (<tt>[[unix(7)]]</tt>에서 기술하는) `SCM_RIGHTS` 동작으로 유닉스 도메인 파일 디스크립터를 통해 수신하는 파일 디스크립터에 'exec에서 닫기' 플래그를 설정한다. <tt>[[open(2)]]</tt>의 `O_CLOEXEC` 플래그와 같은 이유로 이 플래그가 유용하다.
 
-<dt><code>MSG_DONTWAIT</code> (리눅스 2.2부터)</dt>
-<dd>논블로킹 동작을 켠다. 동작이 블록 되려는 경우 호출이 <code>EAGAIN</code>이나 <code>EWOULDBLOCK</code>으로 실패한다. (<tt>[[fcntl(2)]]</tt> <code>F_SETFL</code> 동작을 통해) <code>O_NONBLOCK</code> 플래그를 설정한 경우와 비슷한 동작 방식인데, <code>MSG_DONTWAIT</code>이 호출별 옵션인 반면 <code>O_NONBLOCK</code>은 열린 파일 기술 항목에 대한 설정이어서 (<tt>[[open(2)]]</tt> 참고) 호출 프로세스 내 모든 스레드뿐 아니라 같은 열린 파일 기술 항목을 가리키는 파일 디스크립터를 가진 다른 프로세스에도 영향을 끼치게 된다.</dd>
+`MSG_DONTWAIT` (리눅스 2.2부터)
+:   논블로킹 동작을 켠다. 동작이 블록 되려는 경우 호출이 `EAGAIN`이나 `EWOULDBLOCK`으로 실패한다. (<tt>[[fcntl(2)]]</tt> `F_SETFL` 동작을 통해) `O_NONBLOCK` 플래그를 설정한 경우와 비슷한 동작 방식인데, `MSG_DONTWAIT`이 호출별 옵션인 반면 `O_NONBLOCK`은 열린 파일 기술 항목에 대한 설정이어서 (<tt>[[open(2)]]</tt> 참고) 호출 프로세스 내 모든 스레드뿐 아니라 같은 열린 파일 기술 항목을 가리키는 파일 디스크립터를 가진 다른 프로세스에도 영향을 끼치게 된다.
 
-<dt><code>MSG_ERRQUEUE</code> (리눅스 2.2부터)</dt>
-<dd>
+`MSG_ERRQUEUE` (리눅스 2.2부터)
+:   이 플래그는 소켓 오류 큐에 있는 오류를 받아와야 함을 나타낸다. 보조 메시지로 오류가 전달되며 그 타입은 프로토콜에 따라 다르다. (IPv4에서는 `IP_RECVERR`.) 사용자가 충분한 크기의 버퍼를 제공해야 한다. 자세한 내용은 <tt>[[cmsg(3)]]</tt>와 <tt>[[ip(7)]]</tt>를 보라. 오류를 유발한 원인 패킷의 페이로드가 `msg_iovec`을 통해 정상 데이터처럼 전달된다. 오류를 유발한 데이터그램의 원래 목적 주소가 `msg_name`으로 제공된다.
 
-이 플래그는 소켓 오류 큐에 있는 오류를 받아와야 함을 나타낸다. 보조 메시지로 오류가 전달되며 그 타입은 프로토콜에 따라 다르다. (IPv4에서는 <code>IP_RECVERR</code>.) 사용자가 충분한 크기의 버퍼를 제공해야 한다. 자세한 내용은 <tt>[[cmsg(3)]]</tt>와 <tt>[[ip(7)]]</tt>를 보라. 오류를 유발한 원인 패킷의 페이로드가 <code>msg_iovec</code>을 통해 정상 데이터처럼 전달된다. 오류를 유발한 데이터그램의 원래 목적 주소가 <code>msg_name</code>으로 제공된다.
+    `sock_extended_err` 구조체로 오류를 제공한다.
 
-<code>sock_extended_err</code> 구조체로 오류를 제공한다.
+        #define SO_EE_ORIGIN_NONE    0
+        #define SO_EE_ORIGIN_LOCAL   1
+        #define SO_EE_ORIGIN_ICMP    2
+        #define SO_EE_ORIGIN_ICMP6   3
 
-```c
-#define SO_EE_ORIGIN_NONE    0
-#define SO_EE_ORIGIN_LOCAL   1
-#define SO_EE_ORIGIN_ICMP    2
-#define SO_EE_ORIGIN_ICMP6   3
+        struct sock_extended_err
+        {
+            uint32_t ee_errno;   /* 오류 번호 */
+            uint8_t  ee_origin;  /* 오류가 어디서 왔는가 */
+            uint8_t  ee_type;    /* 타입 */
+            uint8_t  ee_code;    /* 코드 */
+            uint8_t  ee_pad;     /* 패딩 */
+            uint32_t ee_info;    /* 추가 정보 */
+            uint32_t ee_data;    /* 기타 데이터 */
+            /* 데이터가 더 올 수 있음 */
+        };
 
-struct sock_extended_err
-{
-    uint32_t ee_errno;   /* 오류 번호 */
-    uint8_t  ee_origin;  /* 오류가 어디서 왔는가 */
-    uint8_t  ee_type;    /* 타입 */
-    uint8_t  ee_code;    /* 코드 */
-    uint8_t  ee_pad;     /* 패딩 */
-    uint32_t ee_info;    /* 추가 정보 */
-    uint32_t ee_data;    /* 기타 데이터 */
-    /* 데이터가 더 올 수 있음 */
-};
+        struct sockaddr *SO_EE_OFFENDER(struct sock_extended_err *);
 
-struct sockaddr *SO_EE_OFFENDER(struct sock_extended_err *);
-```
+    `ee_errno`는 큐에 있는 오류의 `errno` 번호를 담는다. `err_origin`은 오류가 발생한 곳을 나타내는 코드이다. 나머지는 프로토콜별 필드이다. 매크로 `SOCK_EE_OFFENDER`는 보조 메시지에 대한 포인터를 받아서 오류의 근원이 된 네트워크 객체의 주소에 대한 포인터를 반환한다. 그 주소를 알지 못하면 `sockaddr`의 `sa_family`가 `AF_UNSPEC`을 담으며 `sockaddr`의 나머지 필드들이 정의돼 있지 않다. 오류를 유발한 패킷의 페이로드는 정상 데이터처럼 전달된다.
 
-<code>ee_errno</code>는 큐에 있는 오류의 <code>errno</code> 번호를 담는다. <code>err_origin</code>은 오류가 발생한 곳을 나타내는 코드이다. 나머지는 프로토콜별 필드이다. 매크로 <code>SOCK_EE_OFFENDER</code>는 보조 메시지에 대한 포인터를 받아서 오류의 근원이 된 네트워크 객체의 주소에 대한 포인터를 반환한다. 그 주소를 알지 못하면 <code>sockaddr</code>의 <code>sa_family</code>가 <code>AF_UNSPEC</code>을 담으며 <code>sockaddr</code>의 나머지 필드들이 정의돼 있지 않다. 오류를 유발한 패킷의 페이로드는 정상 데이터처럼 전달된다.
+    로컬 오류인 경우 주소가 전달되지 않는다. (`cmsghdr`의 `cmsg_len` 멤버로 확인할 수 있다.) 오류 수신에서는 `msghdr`에 `MSG_ERRQUEUE` 플래그가 설정돼 있다. 오류가 전달된 후에는 큐에 있는 다음 오류에 기반해서 미처리 소켓 오류가 재생성되어 다음 소켓 동작으로 전달된다.
 
-로컬 오류인 경우 주소가 전달되지 않는다. (<code>cmsghdr</code>의 <code>cmsg_len</code> 멤버로 확인할 수 있다.) 오류 수신에서는 <code>msghdr</code>에 <code>MSG_ERRQUEUE</code> 플래그가 설정돼 있다. 오류가 전달된 후에는 큐에 있는 다음 오류에 기반해서 미처리 소켓 오류가 재생성되어 다음 소켓 동작으로 전달된다.
-</dd>
+`MSG_OOB`
+:   이 플래그는 정상 데이터 스트림으로는 받게 되지 않을 대역외 데이터 수신을 요청한다. 어떤 프로토콜에서는 긴급 데이터를 정상 데이터 큐 선두에 집어넣으며, 그래서 그런 프로토콜에서는 이 플래그를 사용할 수 없다.
 
-<dt><code>MSG_OOB</code></dt>
-<dd>이 플래그는 정상 데이터 스트림으로는 받게 되지 않을 대역외 데이터 수신을 요청한다. 어떤 프로토콜에서는 긴급 데이터를 정상 데이터 큐 선두에 집어넣으며, 그래서 그런 프로토콜에서는 이 플래그를 사용할 수 없다.</dd>
+`MSG_PEEK`
+:   이 플래그는 수신 동작이 수신 큐 처음의 데이터를 반환하되 큐에서 그 데이터를 제거하지 않게 한다. 따라서 이어지는 수신 호출이 같은 데이터를 반환하게 된다.
 
-<dt><code>MSG_PEEK</code></dt>
-<dd>이 플래그는 수신 동작이 수신 큐 처음의 데이터를 반환하되 큐에서 그 데이터를 제거하지 않게 한다. 따라서 이어지는 수신 호출이 같은 데이터를 반환하게 된다.</dd>
+`MSG_TRUNC` (리눅스 2.2부터)
+:   로우 (`AF_PACKET`), 인터넷 데이터그램 (리눅스 2.4.27/2.6.8부터), 넷링크 (리눅스 2.6.22부터), 유닉스 데이터그램 (리눅스 3.4부터) 소켓에서: 패킷 내지 데이터그램의 실제 길이가 전달한 버퍼보다 컸던 경우에도 그 실제 길이를 반환한다.
 
-<dt><code>MSG_TRUNC</code> (리눅스 2.2부터)</dt>
-<dd>
+    인터넷 스트림 프로토콜에서의 사용에 대해선 <tt>[[tcp(7)]]</tt> 참고.
 
-로우 (<code>AF_PACKET</code>), 인터넷 데이터그램 (리눅스 2.4.27/2.6.8부터), 넷링크 (리눅스 2.6.22부터), 유닉스 데이터그램 (리눅스 3.4부터) 소켓에서: 패킷 내지 데이터그램의 실제 길이가 전달한 버퍼보다 컸던 경우에도 그 실제 길이를 반환한다.
-
-인터넷 스트림 프로토콜에서의 사용에 대해선 <tt>[[tcp(7)]]</tt> 참고.
-</dd>
-
-<dt><code>MSG_WAITALL</code> (리눅스 2.2부터)</dt>
-<dd>이 플래그는 요청 전체가 충족될 때까지 동작이 블록하기를 요청한다. 하지만 시그널을 잡거나, 오류 내지 연결 끊김이 발생하거나, 다음 수신 데이터가 다른 타입인 경우에는 여전히 요청보다 적은 데이터를 반환할 수 있다. 데이터그램 소켓에는 이 플래그가 효과가 없다.</dd>
-</dl>
+`MSG_WAITALL` (리눅스 2.2부터)
+:   이 플래그는 요청 전체가 충족될 때까지 동작이 블록하기를 요청한다. 하지만 시그널을 잡거나, 오류 내지 연결 끊김이 발생하거나, 다음 수신 데이터가 다른 타입인 경우에는 여전히 요청보다 적은 데이터를 반환할 수 있다. 데이터그램 소켓에는 이 플래그가 효과가 없다.
 
 ### `recvfrom()`
 
@@ -162,18 +152,20 @@ struct cmsghdr {
 
 `recvmsg()` 반환 시 `msghdr`의 `msg_flags` 필드가 설정된다. 여러 플래그가 담길 수 있다.
 
-<dl>
-<dt><code>MSG_EOR</code></dt>
-<dd>레코드 끝(end-of-record)을 나타낸다. 반환 데이터가 레코드를 끝마친다. (일반적으로 <code>SOCK_SEQPACKET</code> 타입 소켓에서 사용)</dd>
-<dt><code>MSG_TRUNC</code></dt>
-<dd>데이터그램이 제공 버퍼보다 커서 데이터그램 끝 부분을 버렸음을 나타낸다.</dd>
-<dt><code>MSG_CTRUNC</code></dt>
-<dd>보조 데이터 버퍼에 공간이 부족해서 일부 제어 데이터를 버렸음을 나타낸다.</dd>
-<dt><code>MSG_OOB</code></dt>
-<dd>긴급 내지 대역외 데이터를 수신했음을 나타낸다.</dd>
-<dt><code>MSG_ERRQUEUE</code></dt>
-<dd>데이터를 수신하지 않고 소켓 오류 큐에서 확장 오류를 받아 왔음을 나타낸다.</dd>
-</dl>
+`MSG_EOR`
+:   레코드 끝(end-of-record)을 나타낸다. 반환 데이터가 레코드를 끝마친다. (일반적으로 `SOCK_SEQPACKET` 타입 소켓에서 사용)
+
+`MSG_TRUNC`
+:   데이터그램이 제공 버퍼보다 커서 데이터그램 끝 부분을 버렸음을 나타낸다.
+
+`MSG_CTRUNC`
+:   보조 데이터 버퍼에 공간이 부족해서 일부 제어 데이터를 버렸음을 나타낸다.
+
+`MSG_OOB`
+:   긴급 내지 대역외 데이터를 수신했음을 나타낸다.
+
+`MSG_ERRQUEUE`
+:   데이터를 수신하지 않고 소켓 오류 큐에서 확장 오류를 받아 왔음을 나타낸다.
 
 ## RETURN VALUE
 
@@ -189,26 +181,32 @@ struct cmsghdr {
 
 소켓 계층에서 생성하는 몇 가지 표준 오류가 있다. 추가로 하위 프로토콜 모듈에서 다른 오류를 생성하여 반환할 수도 있다. 프로토콜별 매뉴얼 페이지를 참고하라.
 
-<dl>
-<dt><code>EAGAIN</code> 또는 <code>EWOULDBLOCK</code></dt>
-<dd>소켓이 논블로킹으로 표시돼 있는데 수신 동작이 블록 되려 했거나, 수신 타임아웃이 설정돼 있는데 데이터 수신 전에 타임아웃이 만료됐다. POSIX.1에서는 이 경우에 어느 쪽 오류도 반환할 수 있다고 허용한다. 따라서 이식성이 있어야 하는 응용에서는 두 가능성을 모두 확인해야 한다.</dd>
-<dt><code>EBADF</code></dt>
-<dd>인자 <code>sockfd</code>가 유효하지 않은 파일 디스크립터이다.</dd>
-<dt><code>ECONNREFUSED</code></dt>
-<dd>원격 호스트가 네트워크 연결 허용을 거부했다. (보통은 요청한 서비스가 동작 중이지 않기 때문이다.)</dd>
-<dt><code>EFAULT</code></dt>
-<dd>수신 버퍼 포인터(들)이 프로세스의 주소 공간 밖을 가리키고 있다.</dd>
-<dt><code>EINTR</code></dt>
-<dd>사용 가능한 데이터가 있기 전에 시그널 전달에 의해 수신이 중단되었다. <tt>[[signal(7)]]</tt> 참고.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>유효하지 않은 인자를 전달했다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd><code>recvmsg()</code>를 위한 메모리를 할당할 수 없다.</dd>
-<dt><code>ENOTCONN</code></dt>
-<dd>소켓이 연결 지향 프로토콜에 연계돼 있는데 연결이 되지 않았다. (<code>connect(2)</code> 및 <code>accept(2)</code> 참고.)</dd>
-<dt><code>ENOTSOCK</code></dt>
-<dd>파일 디스크립터 <code>sockfd</code>가 소켓을 가리키고 있지 않다.</dd>
-</dl>
+`EAGAIN` 또는 `EWOULDBLOCK`
+:   소켓이 논블로킹으로 표시돼 있는데 수신 동작이 블록 되려 했거나, 수신 타임아웃이 설정돼 있는데 데이터 수신 전에 타임아웃이 만료됐다. POSIX.1에서는 이 경우에 어느 쪽 오류도 반환할 수 있다고 허용한다. 따라서 이식성이 있어야 하는 응용에서는 두 가능성을 모두 확인해야 한다.
+
+`EBADF`
+:   인자 `sockfd`가 유효하지 않은 파일 디스크립터이다.
+
+`ECONNREFUSED`
+:   원격 호스트가 네트워크 연결 허용을 거부했다. (보통은 요청한 서비스가 동작 중이지 않기 때문이다.)
+
+`EFAULT`
+:   수신 버퍼 포인터(들)이 프로세스의 주소 공간 밖을 가리키고 있다.
+
+`EINTR`
+:   사용 가능한 데이터가 있기 전에 시그널 전달에 의해 수신이 중단되었다. <tt>[[signal(7)]]</tt> 참고.
+
+`EINVAL`
+:   유효하지 않은 인자를 전달했다.
+
+`ENOMEM`
+:   `recvmsg()`를 위한 메모리를 할당할 수 없다.
+
+`ENOTCONN`
+:   소켓이 연결 지향 프로토콜에 연계돼 있는데 연결이 되지 않았다. (`connect(2)` 및 `accept(2)` 참고.)
+
+`ENOTSOCK`
+:   파일 디스크립터 `sockfd`가 소켓을 가리키고 있지 않다.
 
 ## CONFORMING TO
 

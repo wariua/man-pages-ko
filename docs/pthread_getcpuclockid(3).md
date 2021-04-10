@@ -23,12 +23,11 @@ int pthread_getcpuclockid(pthread_t thread, clockid_t *clock_id);
 
 ## ERRORS
 
-<dl>
-<dt><code>ENOENT</code></dt>
-<dd>시스템에서 스레드별 CPU 시간 클럭을 지원하지 않는다.</dd>
-<dt><code>ESRCH</code></dt>
-<dd><code>thread</code>라는 ID를 가진 스레드를 찾을 수 없다.</dd>
-</dl>
+`ENOENT`
+:   시스템에서 스레드별 CPU 시간 클럭을 지원하지 않는다.
+
+`ESRCH`
+:   `thread`라는 ID를 가진 스레드를 찾을 수 없다.
 
 ## VERSIONS
 

@@ -17,10 +17,8 @@ int pthread_mutexattr_setrobust(pthread_mutexattr_t *attr,
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>pthread_mutexattr_getrobust()</code>, <code>pthread_mutexattr_setrobust()</code>:</dt>
-<dd><code>_POSIX_C_SOURCE >= 200809L</code></dd>
-</dl>
+`pthread_mutexattr_getrobust()`, `pthread_mutexattr_setrobust()`:
+:   `_POSIX_C_SOURCE >= 200809L`
 
 ## DESCRIPTION
 
@@ -28,20 +26,15 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 견고성 속성은 소유자 스레드가 뮤텍스를 풀지 않고 죽었을 때 뮤텍스의 동작 방식을 지정한다. `robustness`에 다음 값들이 유효하다.
 
-<dl>
-<dt><code>PTHREAD_MUTEX_STALLED</code></dt>
-<dd>뮤텍스 속성 객체의 기본값이다. 뮤텍스를 <code>PTHREAD_MUTEX_STALLED</code> 속성으로 초기화 하고 소유자가 풀지 않고 죽으면 뮤텍스가 계속 잠긴 상태로 있으며 향후 그 뮤텍스에 대한 <tt>[[pthread_mutex_lock(3)]]</tt> 호출 시도가 영원히 블록 하게 된다.</dd>
+`PTHREAD_MUTEX_STALLED`
+:   뮤텍스 속성 객체의 기본값이다. 뮤텍스를 `PTHREAD_MUTEX_STALLED` 속성으로 초기화 하고 소유자가 풀지 않고 죽으면 뮤텍스가 계속 잠긴 상태로 있으며 향후 그 뮤텍스에 대한 <tt>[[pthread_mutex_lock(3)]]</tt> 호출 시도가 영원히 블록 하게 된다.
 
-<dt><code>PTHREAD_MUTEX_ROBUST</code></dt>
-<dd>
+`PTHREAD_MUTEX_ROBUST`
+:   뮤텍스를 `PTHREAD_MUTEX_ROBUST` 속성으로 초기화 하고 소유자가 풀지 않고 죽으면 향후 그 뮤텍스에 대한 <tt>[[pthread_mutex_lock(3)]]</tt> 호출 시도가 성공하고 `EOWNERDEAD`를 반환하는데, 이는 원래 소유자가 더는 존재하지 않고 뮤텍스가 비일관 상태임을 나타낸다. 일반적으로 `EOWNERDEAD` 반환 후에 다음 소유자가 획득한 뮤텍스에 <tt>[[pthread_mutex_consistent(3)]]</tt>를 호출해서 더 이용하기 전에 뮤텍스를 다시 정상으로 만들어야 한다.
 
-뮤텍스를 <code>PTHREAD_MUTEX_ROBUST</code> 속성으로 초기화 하고 소유자가 풀지 않고 죽으면 향후 그 뮤텍스에 대한 <tt>[[pthread_mutex_lock(3)]]</tt> 호출 시도가 성공하고 <code>EOWNERDEAD</code>를 반환하는데, 이는 원래 소유자가 더는 존재하지 않고 뮤텍스가 비일관 상태임을 나타낸다. 일반적으로 <code>EOWNERDEAD</code> 반환 후에 다음 소유자가 획득한 뮤텍스에 <code>pthread_mutex_consistent(3)]]</tt>를 호출해서 더 이용하기 전에 뮤텍스를 다시 정상으로 만들어야 한다.
+    다음 소유자가 뮤텍스를 정상으로 만들기 전에 <tt>[[pthread_mutex_unlock(3)]]</tt>으로 풀면 뮤텍스가 영구히 사용 불가능해지고 이후 <tt>[[pthread_mutex_lock(3)]]</tt>으로 잠그려는 시도가 `ENOTRECOVERABLE` 오류로 실패하게 된다. 그런 뮤텍스에서 유일하게 가능한 동작은 <tt>[[pthread_mutex_destroy(3)]]</tt>이다.
 
-다음 소유자가 뮤텍스를 정상으로 만들기 전에 <tt>[[pthread_mutex_unlock(3)]]</tt>으로 풀면 뮤텍스가 영구히 사용 불가능해지고 이후 <tt>[[pthread_mutex_lock(3)]]</tt>으로 잠그려는 시도가 <code>ENOTRECOVERABLE</code> 오류로 실패하게 된다. 그런 뮤텍스에서 유일하게 가능한 동작은 <tt>[[pthread_mutex_destroy(3)]]</tt>이다.
-
-다음 소유자가 <tt>[[pthread_mutex_consistent(3)]]</tt> 호출 전에 종료하면 그 뮤텍스에 대한 <tt>[[pthread_mutex_lock(3)]]</tt> 동작이 다시 <code>EOWNERDEAD</code>를 반환하게 된다.
-</dd>
-</dl>
+    다음 소유자가 <tt>[[pthread_mutex_consistent(3)]]</tt> 호출 전에 종료하면 그 뮤텍스에 대한 <tt>[[pthread_mutex_lock(3)]]</tt> 동작이 다시 `EOWNERDEAD`를 반환하게 된다.
 
 `pthread_mutexattr_getrobust()` 및 `pthread_mutexattr_setrobust()`의 `attr` 인자는 <tt>[[pthread_mutexattr_init(3)]]</tt>으로 초기화 한 뮤텍스 속성 객체를 가리켜야 하며, 아니면 동작 방식이 규정되어 있지 않다.
 
@@ -53,10 +46,8 @@ glibc 구현에서 `pthread_mutexattr_getrobust()`는 항상 0을 반환한다.
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>pthread_mutexattr_setrobust()</code>에 <code>PTHREAD_MUTEX_STALLED</code>와 <code>PTHREAD_MUTEX_ROBUST</code> 외의 값을 전달했다.</dd>
-</dl>
+`EINVAL`
+:   `pthread_mutexattr_setrobust()`에 `PTHREAD_MUTEX_STALLED`와 `PTHREAD_MUTEX_ROBUST` 외의 값을 전달했다.
 
 ## VERSIONS
 

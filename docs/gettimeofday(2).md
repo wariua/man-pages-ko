@@ -14,17 +14,12 @@ int settimeofday(const struct timeval *tv, const struct timezone *tz);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>settimeofday()</code>:</dt>
-<dd>
- <dl>
- <dt>glibc 2.19부터:</dt>
- <dd><code>_DEFAULT_SOURCE</code></dd>
- <dt>glibc 2.19 및 이전:</dt>
- <dd><code>_BSD_SOURCE</code></dd>
- </dl>
-</dd>
-</dl>
+`settimeofday()`:
+:   glibc 2.19부터:
+    :   `_DEFAULT_SOURCE`
+
+    glibc 2.19 및 이전:
+    :   `_BSD_SOURCE`
 
 ## DESCRIPTION
 
@@ -58,18 +53,20 @@ struct timezone {
 
 ## ERRORS
 
-<dl>
-<dt><code>EFAULT</code></dt>
-<dd><code>tv</code>나 <code>tz</code> 중 하나가 접근 가능 주소 공간 밖을 가리킨다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>(<code>settimeofday()</code>): <code>timezone</code>이 유효하지 않다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>(<code>settimeofday()</code>): <code>tv.tv_sec</code>이 음수거나 <code>tv.tv_usec</code>이 [0..999,999] 범위 밖이다.</dd>
-<dt><code>EINVAL</code> (리눅스 4.3부터)</dt>
-<dd>(<code>settimeofday()</code>): 시간을 <code>CLOCK_MONOTONIC</code> 클럭의 현재 값보다 작은 값으로 설정하려 했다. (<tt>[[clock_gettime(2)]]</tt> 참고.)</dd>
-<dt><code>EPERM</code></dt>
-<dd>호출 프로세스에게 <code>settimeofday()</code> 호출을 위한 충분한 특권이 없다. 리눅스에서는 <code>CAP_SYS_TIME</code> 역능이 필요하다.</dd>
-</dl>
+`EFAULT`
+:   `tv`나 `tz` 중 하나가 접근 가능 주소 공간 밖을 가리킨다.
+
+`EINVAL`
+:   (`settimeofday()`): `timezone`이 유효하지 않다.
+
+`EINVAL`
+:   (`settimeofday()`): `tv.tv_sec`이 음수거나 `tv.tv_usec`이 [0..999,999] 범위 밖이다.
+
+`EINVAL` (리눅스 4.3부터)
+:   (`settimeofday()`): 시간을 `CLOCK_MONOTONIC` 클럭의 현재 값보다 작은 값으로 설정하려 했다. (<tt>[[clock_gettime(2)]]</tt> 참고.)
+
+`EPERM`
+:   호출 프로세스에게 `settimeofday()` 호출을 위한 충분한 특권이 없다. 리눅스에서는 `CAP_SYS_TIME` 역능이 필요하다.
 
 ## CONFORMING TO
 

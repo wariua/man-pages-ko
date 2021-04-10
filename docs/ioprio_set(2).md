@@ -17,31 +17,27 @@ int ioprio_set(int which, int who, int ioprio);
 
 `which`와 `who` 인자는 시스템 호출의 동작 대상이 되는 스레드(들)을 나타낸다. `which` 인자는 `who`를 해석하는 방식을 결정하며 다음 값들 중 하나이다.
 
-<dl>
-<dt><code>IOPRIO_WHO_PROCESS</code></dt>
-<dd><code>who</code>가 프로세스 ID나 스레드 ID이며 단일 프로세스 내지 스레드를 나타낸다. <code>who</code>가 0이면 호출 스레드가 대상이다.</dd>
+`IOPRIO_WHO_PROCESS`
+:   `who`가 프로세스 ID나 스레드 ID이며 단일 프로세스 내지 스레드를 나타낸다. `who`가 0이면 호출 스레드가 대상이다.
 
-<dt><code>IOPRIO_WHO_PGRP</code></dt>
-<dd><code>who</code>가 프로세스 그룹 ID이며 프로세스 그룹의 구성원 모두를 나타낸다. <code>who</code>가 0이면 호출자가 구성원인 프로세스 그룹이 대상이다.</dd>
+`IOPRIO_WHO_PGRP`
+:   `who`가 프로세스 그룹 ID이며 프로세스 그룹의 구성원 모두를 나타낸다. `who`가 0이면 호출자가 구성원인 프로세스 그룹이 대상이다.
 
-<dt><code>IOPRIO_WHO_USER</code></dt>
-<dd><code>who</code>가 사용자 ID이며 실제 UID가 일치하는 프로세스 모두를 나타낸다.</dd>
-</dl>
+`IOPRIO_WHO_USER`
+:   `who`가 사용자 ID이며 실제 UID가 일치하는 프로세스 모두를 나타낸다.
 
 `ioprio_get()` 호출 시에 `which`가 `IOPRIO_WHO_PGRP`이나 `IOPRIO_WHO_USER`이고 `who`에 여러 프로세스가 걸리는 경우에는 걸리는 프로세스 전체에서 가장 높은 우선순위를 반환하게 된다. 어떤 우선순위가 더 높다는 것은 더 높은 우선순위 클래스에 속하거나 (`IOPRIO_CLASS_RT`가 가장 높은 우선순위 클래스이고 `IOPRIO_CLASS_IDLE`이 가장 낮음) 아니면 같은 우선순위 클래스에 속하면서 우선순위 단계가 더 높은 것이다 (낮은 우선순위 수가 높은 우선순위 단계를 뜻함).
 
 `ioprio_set()`에 주는 `ioprio` 인자는 대상 프로세스(들)에 부여할 스케줄링 클래스와 우선순위 모두를 나타내는 비트 마스크이다. 다음 매크로를 사용해 `ioprio` 값을 합치거나 분해한다.
 
-<dl>
-<dt><code>IOPRIO_PRIO_VALUE(class, data)</code></dt>
-<dd>이 매크로는 스케줄링 클래스(<code>class</code>)와 우선순위(<code>data</code>)를 받아서 두 값을 합친 <code>ioprio</code> 값을 만들어 매크로 결과로 반환한다.</dd>
+`IOPRIO_PRIO_VALUE(class, data)`
+:   이 매크로는 스케줄링 클래스(`class`)와 우선순위(`data`)를 받아서 두 값을 합친 `ioprio` 값을 만들어 매크로 결과로 반환한다.
 
-<dt><code>IOPRIO_PRIO_CLASS(mask)</code></dt>
-<dd>이 매크로는 <code>mask</code>(<code>ioprio</code> 값)를 받아서 I/O 클래스 요소를 반환한다. 즉 <code>IOPRIO_CLASS_RT</code>, <code>IOPRIO_CLASS_BE</code>, <code>IOPRIO_CLASS_IDLE</code> 중 하나를 반환한다.</dd>
+`IOPRIO_PRIO_CLASS(mask)`
+:   이 매크로는 `mask`(`ioprio` 값)를 받아서 I/O 클래스 요소를 반환한다. 즉 `IOPRIO_CLASS_RT`, `IOPRIO_CLASS_BE`, `IOPRIO_CLASS_IDLE` 중 하나를 반환한다.
 
-<dt><code>IOPRIO_PRIO_DATA(mask)</code></dt>
-<dd>이 매크로는 <code>mask</code>(<code>ioprio</code> 값)를 받아서 우선순위(<code>data</code>) 요소를 반환한다.</dd>
-</dl>
+`IOPRIO_PRIO_DATA(mask)`
+:   이 매크로는 `mask`(`ioprio` 값)를 받아서 우선순위(`data`) 요소를 반환한다.
 
 스케줄링 클래스와 우선순위에 대한 추가 정보와 `ioprio`를 0으로 지정했을 때의 의미에 대해선 NOTES 절을 참고하라.
 
@@ -55,14 +51,14 @@ int ioprio_set(int which, int who, int ioprio);
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>which</code>나 <code>ioprio</code>에 유효하지 않은 값. <code>ioprio</code>에 사용 가능한 스케줄러 클래스와 우선순위는 NOTES 절 참고.</dd>
-<dt><code>EPERM</code></dt>
-<dd>호출 프로세스에게 지정한 프로세스(들)에게 그 <code>ioprio</code>를 부여할 특권이 없다. <code>ioprio_set()</code>에 필요한 특권에 대한 자세한 내용은 NOTES 절 참고.</dd>
-<dt><code>ESRCH</code></dt>
-<dd><code>which</code>와 <code>who</code>의 지정 내용에 일치하는 프로세스를 찾을 수 없다.</dd>
-</dl>
+`EINVAL`
+:   `which`나 `ioprio`에 유효하지 않은 값. `ioprio`에 사용 가능한 스케줄러 클래스와 우선순위는 NOTES 절 참고.
+
+`EPERM`
+:   호출 프로세스에게 지정한 프로세스(들)에게 그 `ioprio`를 부여할 특권이 없다. `ioprio_set()`에 필요한 특권에 대한 자세한 내용은 NOTES 절 참고.
+
+`ESRCH`
+:   `which`와 `who`의 지정 내용에 일치하는 프로세스를 찾을 수 없다.
 
 ## VERSIONS
 
@@ -105,16 +101,14 @@ Password:
 
 (CFQ Time Sliced라고도 하는) 버전 3부터 CFQ에서는 CPU 스케줄링과 비슷한 I/O 나이스 단계를 구현한다. 그 나이스 단계들을 세 가지 스케줄링 클래스로 묶으며, 각 클래스마다 한 개 이상의 우선순위 단계가 있다.
 
-<dl>
-<dt><code>IOPRIO_CLASS_RT</code> (1)</dt>
-<dd>실시간 I/O 클래스이다. 이 스케줄링 클래스에는 다른 어떤 클래스보다 높은 우선순위를 준다. 즉 이 클래스의 프로세스들에 매번 최우선 디스크 접근권을 준다. 따라서 이 I/O 클래스는 조심해서 사용할 필요가 있다. I/O가 실시간인 프로세스 하나가 전체 시스템을 굶게 만들 수 있기 때문이다. 실시간 클래스 내에는 8단계의 클래스 데이터(우선순위)가 있어서 이 프로세스가 각 서비스마다 정확히 얼마나 오래 디스크를 필요로 하는지 결정한다. 가장 높은 실시간 우선순위 단계는 0이고 가장 낮은 단계는 7이다. 향후에는 원하는 데이터 속도를 전달해서 더 직접적으로 성능과 연결되도록 바뀔 수도 있다.</dd>
+`IOPRIO_CLASS_RT` (1)
+:   실시간 I/O 클래스이다. 이 스케줄링 클래스에는 다른 어떤 클래스보다 높은 우선순위를 준다. 즉 이 클래스의 프로세스들에 매번 최우선 디스크 접근권을 준다. 따라서 이 I/O 클래스는 조심해서 사용할 필요가 있다. I/O가 실시간인 프로세스 하나가 전체 시스템을 굶게 만들 수 있기 때문이다. 실시간 클래스 내에는 8단계의 클래스 데이터(우선순위)가 있어서 이 프로세스가 각 서비스마다 정확히 얼마나 오래 디스크를 필요로 하는지 결정한다. 가장 높은 실시간 우선순위 단계는 0이고 가장 낮은 단계는 7이다. 향후에는 원하는 데이터 속도를 전달해서 더 직접적으로 성능과 연결되도록 바뀔 수도 있다.
 
-<dt><code>IOPRIO_CLASS_BE</code> (2)</dt>
-<dd>최선 스케줄링 클래스이다. 특별히 I/O 우선순위를 설정하지 않은 프로세스들의 기본값이다. 클래스 데이터(우선순위)는 프로세스가 얼마나 많은 I/O 대역폭을 얻게 될지 결정한다. 최선 우선순위 단계들은 CPU 나이스 값과 유사하다. (<tt>[[getpriority(2)]]</tt> 참고.) 우선순위 단계는 최선 스케줄링 클래스 내의 다른 프로세스들에 대한 상대적 우선도를 결정한다. 우선순위 단계의 범위는 0(최고)에서 7(최저)까지이다.</dd>
+`IOPRIO_CLASS_BE` (2)
+:   최선 스케줄링 클래스이다. 특별히 I/O 우선순위를 설정하지 않은 프로세스들의 기본값이다. 클래스 데이터(우선순위)는 프로세스가 얼마나 많은 I/O 대역폭을 얻게 될지 결정한다. 최선 우선순위 단계들은 CPU 나이스 값과 유사하다. (<tt>[[getpriority(2)]]</tt> 참고.) 우선순위 단계는 최선 스케줄링 클래스 내의 다른 프로세스들에 대한 상대적 우선도를 결정한다. 우선순위 단계의 범위는 0(최고)에서 7(최저)까지이다.
 
-<dt><code>IOPRIO_CLASS_IDLE</code> (3)</dt>
-<dd>유휴 스케줄링 클래스이다. 이 단계에서 동작하는 프로세스는 디스크를 필요로 하는 다른 프로세스가 없을 때에만 I/O 시간을 얻는다. 유휴 클래스에는 클래스 데이터가 없다. 프로세스에 이 우선순위 클래스를 부여할 때는 주의할 필요가 있는데, 더 높은 우선도의 프로세스들이 계속해서 디스크에 접근하면 그 프로세스가 굶주리게 될 수 있기 때문이다.</dd>
-</dl>
+`IOPRIO_CLASS_IDLE` (3)
+:   유휴 스케줄링 클래스이다. 이 단계에서 동작하는 프로세스는 디스크를 필요로 하는 다른 프로세스가 없을 때에만 I/O 시간을 얻는다. 유휴 클래스에는 클래스 데이터가 없다. 프로세스에 이 우선순위 클래스를 부여할 때는 주의할 필요가 있는데, 더 높은 우선도의 프로세스들이 계속해서 디스크에 접근하면 그 프로세스가 굶주리게 될 수 있기 때문이다.
 
 CFQ I/O 스케줄러에 대한 추가 내용과 예시 프로그램은 커널 소스 파일 `Documentation/block/ioprio.txt`를 참고하라.
 
@@ -122,13 +116,11 @@ CFQ I/O 스케줄러에 대한 추가 내용과 예시 프로그램은 커널 �
 
 두 가지 기준에 따라 프로세스 우선순위 변경이 허가되거나 거부된다.
 
-<dl>
-<dt>프로세스 소유권</dt>
-<dd>비특권 프로세스는 호출 프로세스의 실제 UID나 실효 UID와 일치하는 실제 UID를 가진 프로세스에 대해서만 I/O 우선순위를 설정할 수 있다. <code>CAP_SYS_NICE</code> 역능을 가진 프로세스는 모든 프로세스의 우선순위를 바꿀 수 있다.</dd>
+프로세스 소유권
+:   비특권 프로세스는 호출 프로세스의 실제 UID나 실효 UID와 일치하는 실제 UID를 가진 프로세스에 대해서만 I/O 우선순위를 설정할 수 있다. `CAP_SYS_NICE` 역능을 가진 프로세스는 모든 프로세스의 우선순위를 바꿀 수 있다.
 
-<dt>원하는 우선순위</dt>
-<dd>아주 높은 우선순위(<code>IOPRIO_CLASS_RT</code>)를 설정하려면 <code>CAP_SYS_ADMIN</code> 역능이 필요하다. 커널 버전 2.6.24까지에서는 아주 낮은 우선순위(<code>IOPRIO_CLASS_IDLE</code>)를 설정하는 데도 <code>CAP_SYS_ADMIN</code>이 필요했지만 리눅스 2.6.25부터는 필요하지 않다.</dd>
-</dl>
+원하는 우선순위
+:   아주 높은 우선순위(`IOPRIO_CLASS_RT`)를 설정하려면 `CAP_SYS_ADMIN` 역능이 필요하다. 커널 버전 2.6.24까지에서는 아주 낮은 우선순위(`IOPRIO_CLASS_IDLE`)를 설정하는 데도 `CAP_SYS_ADMIN`이 필요했지만 리눅스 2.6.25부터는 필요하지 않다.
 
 `ioprio_set()` 호출 시 두 규칙 모두를 따라야 하며, 그렇지 않으면 호출이 `EPERM` 오류로 실패하게 된다.
 

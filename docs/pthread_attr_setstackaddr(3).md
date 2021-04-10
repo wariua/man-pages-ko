@@ -15,7 +15,7 @@ int pthread_attr_getstackaddr(const pthread_attr_t *attr, void **stackaddr);
 
 ## DESCRIPTION
 
-이 함수들은 구식이다. <strong>쓰지 마라.</strong> 대신 <tt>[[pthread_attr_setstack(3)]]</tt> 및 <tt>[[pthread_attr_getstack(3)]]</tt>을 사용하라.
+이 함수들은 구식이다. **쓰지 마라.** 대신 <tt>[[pthread_attr_setstack(3)]]</tt> 및 <tt>[[pthread_attr_getstack(3)]]</tt>을 사용하라.
 
 `pthread_attr_setstackaddr()` 함수는 `attr`이 가리키는 스레드 속성 객체의 스택 주소 속성을 `stackaddr`에 지정한 값으로 설정한다. 이 속성은 스레드 속성 객체 `attr`을 이용해 생성하는 스레드에서 사용할 스택의 위치를 나타낸다.
 
@@ -49,7 +49,7 @@ POSIX.1-2001에서 이 함수들을 명세하되 구식으로 표시하였다. P
 
 ## NOTES
 
-<em>이 함수들을 쓰지 마라!</em> 스택 성장 방향이나 범위를 지정할 방법이 없기 때문에 이식성 있게 사용할 수 없다. 예를 들어 스택이 아래로 자라는 아키텍처에서 `stackaddr`은 할당한 스택 영역의 <em>최상위</em> 주소 다음 주소를 나타낸다. 하지만 스택이 위로 자라는 아키텍처에서 `stackaddr`은 할당한 스택 영역의 <em>최하위</em> 주소를 나타낸다. 반면 <tt>[[pthread_attr_setstack(3)]]</tt> 및 <tt>[[pthread_attr_getstack(3)]]</tt>에서 쓰는 `stackaddr`은 항상 할당한 스택 영역의 최하위 주소에 대한 포인터이다. (그리고 `stacksize` 인자가 스택의 범위를 지정한다.)
+*이 함수들을 쓰지 마라!* 스택 성장 방향이나 범위를 지정할 방법이 없기 때문에 이식성 있게 사용할 수 없다. 예를 들어 스택이 아래로 자라는 아키텍처에서 `stackaddr`은 할당한 스택 영역의 *최상위* 주소 다음 주소를 나타낸다. 하지만 스택이 위로 자라는 아키텍처에서 `stackaddr`은 할당한 스택 영역의 *최하위* 주소를 나타낸다. 반면 <tt>[[pthread_attr_setstack(3)]]</tt> 및 <tt>[[pthread_attr_getstack(3)]]</tt>에서 쓰는 `stackaddr`은 항상 할당한 스택 영역의 최하위 주소에 대한 포인터이다. (그리고 `stacksize` 인자가 스택의 범위를 지정한다.)
 
 ## SEE ALSO
 

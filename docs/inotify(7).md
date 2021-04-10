@@ -57,49 +57,47 @@ sizeof(struct inotify_event) + NAME_MAX + 1
 
 <tt>[[inotify_add_watch(2)]]</tt>의 `mask` 인자와 inotify 파일 디스크립터에서 `read(2)` 할 때 반환되는 `inotify_event` 구조체의 `mask` 필드는 inotify 이벤트들을 나타내는 비트 마스크이다. <tt>[[inotify_add_watch(2)]]</tt> 호출 시 `mask` 마스크에 다음 비트들을 지정할 수 있으며 `read(2)`에서 반환하는 `mask` 필드로 반환될 수 있다.
 
-<dl>
-<dt><code>IN_ACCESS</code> (+)</dt>
-<dd>파일에 접근했음. (가령 <code>read(2)</code>, <tt>[[execve(2)]]</tt>.)</dd>
+`IN_ACCESS` (+)
+:   파일에 접근했음. (가령 `read(2)`, <tt>[[execve(2)]]</tt>.)
 
-<dt><code>IN_ATTRIB</code> (*)</dt>
-<dd>메타데이터 변경됐음. 예를 들어 권한(<tt>[[chmod(2)]]</tt>), 타임스탬프(<tt>[[utimensat(2)]]</tt>), 확장 속성(<tt>[[setxattr(2)]]</tt>), 링크 카운트(리눅스 2.6.25부터, <tt>[[link(2)]]</tt> 및 <tt>[[unlink(2)]]</tt> 대상에 대해), 사용자/그룹 ID(<tt>[[chown(2)]]</tt>).</dd>
+`IN_ATTRIB` (\*)
+:   타데이터 변경됐음. 예를 들어 권한(<tt>[[chmod(2)]]</tt>), 타임스탬프(<tt>[[utimensat(2)]]</tt>), 확장 속성(<tt>[[setxattr(2)]]</tt>), 링크 카운트(리눅스 2.6.25부터, <tt>[[link(2)]]</tt> 및 <tt>[[unlink(2)]]</tt> 대상에 대해), 사용자/그룹 ID(<tt>[[chown(2)]]</tt>).
 
-<dt><code>IN_CLOSE_WRITE</code> (+)</dt>
-<dd>쓰기용으로 열린 파일이 닫혔음.</dd>
+`IN_CLOSE_WRITE` (+)
+:   쓰기용으로 열린 파일이 닫혔음.
 
-<dt><code>IN_CLOSE_NOWRITE</code> (*)</dt>
-<dd>쓰기용으로 열리지 않은 파일 내지 디렉터리가 닫혔음.</dd>
+`IN_CLOSE_NOWRITE` (\*)
+:   쓰기용으로 열리지 않은 파일 내지 디렉터리가 닫혔음.
 
-<dt><code>IN_CREATE</code> (+)</dt>
-<dd>감시 대상 디렉터리 내에 파일/디렉터리 생성됐음. (가령 <tt>[[open(2)]]</tt> <code>O_CREAT</code>, <code>mkdir(2)</code>, <tt>[[link(2)]]</tt>, <tt>[[symlink(2)]]</tt>, 유닉스 도메인 소켓 <code>bind(2)</code>.)</dd>
+`IN_CREATE` (+)
+:   감시 대상 디렉터리 내에 파일/디렉터리 생성됐음. (가령 <tt>[[open(2)]]</tt> `O_CREAT`, `mkdir(2)`, <tt>[[link(2)]]</tt>, <tt>[[symlink(2)]]</tt>, 유닉스 도메인 소켓 `bind(2)`.)
 
-<dt><code>IN_DELETE</code> (+)</dt>
-<dd>감시 대상 디렉터리에서 파일/디렉터리가 삭제됐음.</dd>
+`IN_DELETE` (+)
+:   감시 대상 디렉터리에서 파일/디렉터리가 삭제됐음.
 
-<dt><code>IN_DELETE_SELF</code></dt>
-<dd>감시 대상 파일/디렉터리 자체가 삭제됐음. (다른 파일 시스템으로 객체를 옮기는 경우에도 이 이벤트가 발생한다. 그 경우 <code>mv(1)</code>는 실질적으로는 다른 파일 시스템으로 파일을 복사한 다음 원래 파일 시스템에서 파일을 삭제하기 때문이다.) 더불어 그 감시 디스크립터로 이어서 <code>IN_IGNORED</code> 이벤트가 생성될 것이다.</dd>
+`IN_DELETE_SELF`
+:   감시 대상 파일/디렉터리 자체가 삭제됐음. (다른 파일 시스템으로 객체를 옮기는 경우에도 이 이벤트가 발생한다. 그 경우 `mv(1)`는 실질적으로는 다른 파일 시스템으로 파일을 복사한 다음 원래 파일 시스템에서 파일을 삭제하기 때문이다.) 더불어 그 감시 디스크립터로 이어서 `IN_IGNORED` 이벤트가 생성될 것이다.
 
-<dt><code>IN_MODIFY</code> (+)</dt>
-<dd>파일이 변경됐음. (가령 <code>write(2)</code>, <tt>[[truncate(2)]]</tt>.)</dd>
+`IN_MODIFY` (+)
+:   파일이 변경됐음. (가령 `write(2)`, <tt>[[truncate(2)]]</tt>.)
 
-<dt><code>IN_MOVE_SELF</code></dt>
-<dd>감시 대상 파일/디렉터리 자체가 이동됐음.</dd>
+`IN_MOVE_SELF`
+:   감시 대상 파일/디렉터리 자체가 이동됐음.
 
-<dt><code>IN_MOVED_FROM</code> (+)</dt>
-<dd>파일 이름이 바뀔 때 이전 파일명을 담은 디렉터리에서 생성됨.</dd>
+`IN_MOVED_FROM` (+)
+:   파일 이름이 바뀔 때 이전 파일명을 담은 디렉터리에서 생성됨.
 
-<dt><code>IN_MOVED_TO</code> (+)</dt>
-<dd>파일 이름이 바뀔 때 새 파일명을 담은 디렉터리에서 생성됨.</dd>
+`IN_MOVED_TO` (+)
+:   파일 이름이 바뀔 때 새 파일명을 담은 디렉터리에서 생성됨.
 
-<dt><code>IN_OPEN</code> (*)</dt>
-<dd>파일 내지 디렉터리가 열렸음.</dd>
-</dl>
+`IN_OPEN` (\*)
+:   파일 내지 디렉터리가 열렸음.
 
 inotify 감시는 아이노드를 기준으로 한다. 어떤 파일을 감시할 때 (파일을 담은 디렉터리를 감시하는 게 아닐 때) 그 파일에 대한 (같거나 다른 디렉터리의) 어느 링크의 활동에 의해서도 이벤트가 발생할 수 있다.
 
 디렉터리를 감시할 때,
 
-* 위에 별표(*)가 된 이벤트는 디렉터리 자체와 디렉터리 내 객체에 대해 생길 수 있다.
+* 위에 별표(\*)가 된 이벤트는 디렉터리 자체와 디렉터리 내 객체에 대해 생길 수 있다.
 
 * 더하기 표시(+)가 된 이벤트는 디렉터리 내 객체에 대해서만 생길 수 있다. (디렉터리 자체에는 생기지 않는다.)
 
@@ -111,122 +109,103 @@ inotify 감시는 아이노드를 기준으로 한다. 어떤 파일을 감시�
 
 편의를 위한 매크로가 두 가지 더 정의돼 있다.
 
-<dl>
-<dt><code>IN_MOVE</code></dt>
-<dd><code>IN_MOVED_FROM | IN_MOVED_TO</code>와 같음.</dd>
+`IN_MOVE`
+:   `IN_MOVED_FROM | IN_MOVED_TO`와 같음.
 
-<dt><code>IN_CLOSE</code></dt>
-<dd><code>IN_CLOSE_WRITE | IN_CLOSE_NOWRITE</code>와 같음.</dd>
-</dl>
+`IN_CLOSE`
+:   `IN_CLOSE_WRITE | IN_CLOSE_NOWRITE`와 같음.
 
 <tt>[[inotify_add_watch(2)]]</tt>를 호출할 때 `mask` 인자에 다음 비트들을 추가로 지정할 수 있다.
 
-<dl>
-<dt><code>IN_DONT_FOLLOW</code> (리눅스 2.6.16부터)</dt>
-<dd><code>pathname</code>이 심볼릭 링크이면 역참조를 하지 않는다.</dd>
+`IN_DONT_FOLLOW` (리눅스 2.6.16부터)
+:   `pathname`이 심볼릭 링크이면 역참조를 하지 않는다.
 
-<dt><code>IN_EXCL_UNLINK</code> (리눅스 2.6.36부터)</dt>
-<dd>기본적으로 디렉터리의 자식들에 대해 이벤트를 감시할 때는 그 디렉터리에서 자식들을 링크 제거(unlink)한 후에도 자식들에 대한 이벤트가 생성된다. 어떤 응용에서는 (가령 여러 응용들이 임시 파일을 만들고 그 이름을 즉시 링크 제거하는 <code>/tmp</code>를 감시할 때) 이로 인해 관심 없는 이벤트가 매우 많이 생겨날 수 있다. <code>IN_EXCL_UNLINK</code>를 지정해서 기본 동작을 바꾸면 감시 대상 디렉터리에서 자식이 링크 제거된 후에는 이벤트가 생성되지 않는다.</dd>
+`IN_EXCL_UNLINK` (리눅스 2.6.36부터)
+:   기본적으로 디렉터리의 자식들에 대해 이벤트를 감시할 때는 그 디렉터리에서 자식들을 링크 제거(unlink)한 후에도 자식들에 대한 이벤트가 생성된다. 어떤 응용에서는 (가령 여러 응용들이 임시 파일을 만들고 그 이름을 즉시 링크 제거하는 `/tmp`를 감시할 때) 이로 인해 관심 없는 이벤트가 매우 많이 생겨날 수 있다. `IN_EXCL_UNLINK`를 지정해서 기본 동작을 바꾸면 감시 대상 디렉터리에서 자식이 링크 제거된 후에는 이벤트가 생성되지 않는다.
 
-<dt><code>IN_MASK_ADD</code></dt>
-<dd><code>pathname</code>에 대응하는 파일 시스템 객체에 대해 감시 인스턴스가 이미 존재하는 경우 (마스크를 교체하는 게 아니라) 감시 마스크에 <code>mask</code>의 이벤트들을 추가(OR)한다. <code>IN_MASK_CREATE</code>도 지정돼 있으면 <code>EINVAL</code> 오류가 발생한다.</dd>
+`IN_MASK_ADD`
+:   `pathname`에 대응하는 파일 시스템 객체에 대해 감시 인스턴스가 이미 존재하는 경우 (마스크를 교체하는 게 아니라) 감시 마스크에 `mask`의 이벤트들을 추가(OR)한다. `IN_MASK_CREATE`도 지정돼 있으면 `EINVAL` 오류가 발생한다.
 
-<dt><code>IN_ONESHOT</code></dt>
-<dd><code>pathname</code>에 대응하는 파일 시스템 객체에서 이벤트를 한 개만 감시한 다음 그 객체를 감시 목록에서 제거한다.</dd>
+`IN_ONESHOT`
+:   `pathname`에 대응하는 파일 시스템 객체에서 이벤트를 한 개만 감시한 다음 그 객체를 감시 목록에서 제거한다.
 
-<dt><code>IN_ONLYDIR</code> (리눅스 2.6.15부터)</dt>
-<dd><code>pathname</code>이 디렉터리인 경우에만 감시한다. <code>pathname</code>이 디렉터리가 아니면 <code>ENOTDIR</code> 오류가 발생한다. 이 플래그를 이용하면 경쟁 문제가 없는 방식으로 감시 대상이 디렉터리임을 보장할 수 있다.</dd>
+`IN_ONLYDIR` (리눅스 2.6.15부터)
+:   `pathname`이 디렉터리인 경우에만 감시한다. `pathname`이 디렉터리가 아니면 `ENOTDIR` 오류가 발생한다. 이 플래그를 이용하면 경쟁 문제가 없는 방식으로 감시 대상이 디렉터리임을 보장할 수 있다.
 
-<dt><code>IN_MASK_CREATE</code> (리눅스 4.18부터)</dt>
-<dd>
+`IN_MASK_CREATE` (리눅스 4.18부터)
+:   `pathname`에 연관된 감시 항목이 없는 경우에만 감시한다. `pathname`을 이미 감시하고 있으면 `EEXIST` 오류가 발생한다.
 
-<code>pathname</code>에 연관된 감시 항목이 없는 경우에만 감시한다. <code>pathname</code>을 이미 감시하고 있으면 <code>EEXIST</code> 오류가 발생한다.
-
-이 플래그를 이용하면 응용에서 새 감시 항목이 기존 항목을 변경하지 않게 할 수 있다. 그게 유용한 건 여러 경로가 같은 아이노드를 가리키고 있을 수도 있기 때문이다. 이 플래그 없이 <tt>[[inotify_add_watch(2)]]</tt>를 여러 번 호출하면 기존 감시 마스크를 망가뜨릴 수 있다.
-</dd>
-</dl>
+    이 플래그를 이용하면 응용에서 새 감시 항목이 기존 항목을 변경하지 않게 할 수 있다. 그게 유용한 건 여러 경로가 같은 아이노드를 가리키고 있을 수도 있기 때문이다. 이 플래그 없이 <tt>[[inotify_add_watch(2)]]</tt>를 여러 번 호출하면 기존 감시 마스크를 망가뜨릴 수 있다.
 
 `read(2)`로 받는 `mask` 필드에 다음 비트들이 설정돼 있을 수 있다.
 
-<dl>
-<dt><code>IN_IGNORED</code></dt>
-<dd>감시 대상이 명시적으로(<tt>[[inotify_rm_watch(2)]]</tt>) 또는 자동으로(파일이 삭제되거나 파일 시스템이 마운트 해제됐음) 제거되었다. BUGS도 참고.</dd>
+`IN_IGNORED`
+:   감시 대상이 명시적으로(<tt>[[inotify_rm_watch(2)]]</tt>) 또는 자동으로(파일이 삭제되거나 파일 시스템이 마운트 해제됐음) 제거되었다. BUGS도 참고.
 
-<dt><code>IN_ISDIR</code></dt>
-<dd>이 이벤트의 대상이 디렉터리다.</dd>
+`IN_ISDIR`
+:   이 이벤트의 대상이 디렉터리다.
 
-<dt><code>IN_Q_OVERFLOW</code></dt>
-<dd>이벤트 큐가 넘쳤다. (이 이벤트에선 <code>wd</code>가 -1임.)</dd>
+`IN_Q_OVERFLOW`
+:   이벤트 큐가 넘쳤다. (이 이벤트에선 `wd`가 -1임.)
 
-<dt><code>IN_UNMOUNT</code></dt>
-<dd>감시 대상 객체를 담은 파일 시스템이 마운트 해제되었다. 더불어 감시 디스크립터에 대해 <code>IN_IGNORED</code> 이벤트가 이어서 생성될 것이다.</dd>
-</dl>
+`IN_UNMOUNT`
+:   감시 대상 객체를 담은 파일 시스템이 마운트 해제되었다. 더불어 감시 디스크립터에 대해 `IN_IGNORED` 이벤트가 이어서 생성될 것이다.
 
 ### 예시
 
 응용에서 디렉터리 `dir`과 파일 `dir/myfile`의 모든 이벤트를 감시하려 한다고 하자. 아래 예는 그 두 객체에 대해 생성될 몇몇 이벤트를 보여 준다.
 
-<dl>
-<dt><code>fd = open("dir/myfile", O_RDWR);</code></dt>
-<dd><code>dir</code>과 <code>dir/myfile</code> 모두에 <code>IN_OPEN</code> 이벤트 생성.</dd>
+`fd = open("dir/myfile", O_RDWR);`
+:   `dir`과 `dir/myfile` 모두에 `IN_OPEN` 이벤트 생성.
 
-<dt><code>read(fd, buf, count);</code></dt>
-<dd><code>dir</code>과 <code>dir/myfile</code> 모두에 <code>IN_ACCESS</code> 이벤트 생성.</dd>
+`read(fd, buf, count);`
+:   `dir`과 `dir/myfile` 모두에 `IN_ACCESS` 이벤트 생성.
 
-<dt><code>write(fd, buf, count);</code></dt>
-<dd><code>dir</code>과 <code>dir/myfile</code> 모두에 <code>IN_MODIFY</code> 이벤트 생성.</dd>
+`write(fd, buf, count);`
+:   `dir`과 `dir/myfile` 모두에 `IN_MODIFY` 이벤트 생성.
 
-<dt><code>fchmod(fd, mode);</code></dt>
-<dd><code>dir</code>과 <code>dir/myfile</code> 모두에 <code>IN_ATTRIB</code> 이벤트 생성.</dd>
+`fchmod(fd, mode);`
+:   `dir`과 `dir/myfile` 모두에 `IN_ATTRIB` 이벤트 생성.
 
-<dt><code>close(fd);</code></dt>
-<dd><code>dir</code>과 <code>dir/myfile</code> 모두에 <code>IN_CLOSE_WRITE</code> 이벤트 생성.</dd>
-</dl>
+`close(fd);`
+:   `dir`과 `dir/myfile` 모두에 `IN_CLOSE_WRITE` 이벤트 생성.
 
 응용에서 디렉터리 `dir1`과 `dir2`, 파일 `dir1/myfile`을 감시하려 한다고 하자. 다음 예는 생성될 수 있는 몇몇 이벤트를 보여 준다.
 
-<dl>
-<dt><code>link("dir1/myfile", "dir2/new");</code></dt>
-<dd><code>myfile</code>에 <code>IN_ATTRIB</code> 이벤트와 <code>dir2</code>에 <code>IN_CREATE</code> 이벤트 생성.</dd>
+`link("dir1/myfile", "dir2/new");`
+:   `myfile`에 `IN_ATTRIB` 이벤트와 `dir2`에 `IN_CREATE` 이벤트 생성.
 
-<dt><code>rename("dir1/myfile", "dir2/myfile");</code></dt>
-<dd><code>dir1</code>에 <code>IN_MOVED_FROM</code> 이벤트, <code>dir2</code>에 <code>IN_MOVED_TO</code> 이벤트, <code>myfile</code>에 <code>IN_MOVE_SELF</code> 이벤트 생성. <code>IN_MOVED_FROM</code> 이벤트와 <code>IN_MOVED_TO</code> 이벤트의 <code>cookie</code> 값이 같게 된다.</dd>
-</dl>
+`rename("dir1/myfile", "dir2/myfile");`
+:   `dir1`에 `IN_MOVED_FROM` 이벤트, `dir2`에 `IN_MOVED_TO` 이벤트, `myfile`에 `IN_MOVE_SELF` 이벤트 생성. `IN_MOVED_FROM` 이벤트와 `IN_MOVED_TO` 이벤트의 `cookie` 값이 같게 된다.
 
 `dir1/xx`와 `dir2/yy`가 같은 파일에 대한 (유이한) 링크이며 응용에서 `dir1`, `dir2`, `dir1/xx`, `dir2/yy`를 감시하려 한다고 하자. 다음 호출들을 차례로 실행하면 다음 이벤트들이 생성된다.
 
-<dl>
-<dt><code>unlink("dir2/yy");</code></dt>
-<dd><code>xx</code>에 (링크 카운트가 바뀌므로) <code>IN_ATTRIB</code> 이벤트와 <code>dir2</code>에 <code>IN_DELETE</code> 이벤트 생성.</dd>
+`unlink("dir2/yy");`
+:   `xx`에 (링크 카운트가 바뀌므로) `IN_ATTRIB` 이벤트와 `dir2`에 `IN_DELETE` 이벤트 생성.
 
-<dt><code>unlink("dir1/xx");</code></dt>
-<dd><code>xx</code>에 <code>IN_ATTRIB</code>, <code>IN_DELETE_SELF</code>, <code>IN_IGNORED</code> 이벤트, 그리고 <code>dir1</code>에 <code>IN_DELETE</code> 이벤트 생성.</dd>
-</dl>
+`unlink("dir1/xx");`
+:   `xx`에 `IN_ATTRIB`, `IN_DELETE_SELF`, `IN_IGNORED` 이벤트, 그리고 `dir1`에 `IN_DELETE` 이벤트 생성.
 
 응용에서 디렉터리 `dir`과 (빈) 디렉터리 `dir/subdir`을 감시하려 한다고 하자. 다음 예는 생성될 수 있는 몇몇 이벤트를 보여 준다.
 
-<dl>
-<dt><code>mkdir("dir/new", mode);</code></dt>
-<dd><code>dir</code>에 <code>IN_CREATE | IN_ISDIR</code> 이벤트 생성.</dd>
+`mkdir("dir/new", mode);`
+:   `dir`에 `IN_CREATE | IN_ISDIR` 이벤트 생성.
 
-<dt><code>rmdir("dir/subdir");</code></dt>
-<dd><code>subdir</code>에 <code>IN_DELETE_SELF</code> 및 <code>IN_IGNORED</code> 이벤트, 그리고 <code>dir</code>에 <code>IN_DELETE | IN_ISDIR</code> 이벤트 생성.</dd>
-</dl>
+`rmdir("dir/subdir");`
+:   `subdir`에 `IN_DELETE_SELF` 및 `IN_IGNORED` 이벤트, 그리고 `dir`에 `IN_DELETE | IN_ISDIR` 이벤트 생성.
 
 ### `/proc` 인터페이스
 
 다음 인터페이스를 이용해 inotify에서 쓰는 커널 메모리의 양을 제한할 수 있다.
 
-<dl>
-<dt><code>/proc/sys/fs/inotify/max_queued_events</code></dt>
-<dd>응용에서 <tt>[[inotify_init(2)]]</tt>을 호출할 때 이 파일의 값을 사용해 해당 inotify 인스턴스 큐에 들어갈 수 있는 이벤트 수의 상한을 정한다. 이 제한을 초과하는 이벤트들은 버려지되 항상 <code>IN_Q_OVERFLOW</code> 이벤트가 생성된다.</dd>
+`/proc/sys/fs/inotify/max_queued_events`
+:   응용에서 <tt>[[inotify_init(2)]]</tt>을 호출할 때 이 파일의 값을 사용해 해당 inotify 인스턴스 큐에 들어갈 수 있는 이벤트 수의 상한을 정한다. 이 제한을 초과하는 이벤트들은 버려지되 항상 `IN_Q_OVERFLOW` 이벤트가 생성된다.
 
-<dt><code>/proc/sys/fs/inotify/max_user_instances</code></dt>
-<dd>실제 사용자 ID별로 만들 수 있는 inotify 인스턴스 수의 상한을 지정한다.</dd>
+`/proc/sys/fs/inotify/max_user_instances`
+:   실제 사용자 ID별로 만들 수 있는 inotify 인스턴스 수의 상한을 지정한다.
 
-<dt><code>/proc/sys/fs/inotify/max_user_watches</code></dt>
-<dd>실제 사용자 ID별로 만들 수 있는 감시 항목 수의 상한을 지정한다.</dd>
-</dl>
+`/proc/sys/fs/inotify/max_user_watches`
+:   실제 사용자 ID별로 만들 수 있는 감시 항목 수의 상한을 지정한다.
 
 ## VERSIONS
 
@@ -286,7 +265,7 @@ inotify 파일 디스크립터에서 이벤트 스트림을 읽어 들일 때 �
 
 원래 설계와 구현에서는 `IN_ONESHOT` 플래그를 사용해서 한 이벤트 후에 감시 항목이 없어질 때 `IN_IGNORED` 이벤트가 생성되지 않았다. 하지만 다른 변경 내용들의 의도치 않은 효과 때문에 리눅스 2.6.36부터는 이 경우에 `IN_IGNORED` 이벤트가 생성된다.
 
-커널 2.6.25 전에서 연속한 동일 이벤트(즉 오래된 쪽을 아직 읽지 않았으면 합쳐질 수도 있는 가장 최근의 두 이벤트)를 합치기 위한 커널 코드에서 가장 최근 이벤트와 <em>가장 오래된</em> 안 읽은 이벤트를 합칠 수 있는지 확인했다.
+커널 2.6.25 전에서 연속한 동일 이벤트(즉 오래된 쪽을 아직 읽지 않았으면 합쳐질 수도 있는 가장 최근의 두 이벤트)를 합치기 위한 커널 코드에서 가장 최근 이벤트와 *가장 오래된* 안 읽은 이벤트를 합칠 수 있는지 확인했다.
 
 <tt>[[inotify_rm_watch(2)]]</tt> 호출로 (또는 감시 대상 파일이 삭제되거나 파일을 담은 파일 시스템이 마운트 해제돼서) 감시 디스크립터가 제거될 때 그 감시 디스크립터에 대한 안 읽은 미처리 이벤트가 있으면 계속 읽을 수 있는 상태로 남는다. 이어서 <tt>[[inotify_add_watch(2)]]</tt>로 감시 디스크립터를 할당하면 커널에서는 가능한 감시 디스크립터 범위(0에서 `INT_MAX`까지)를 차례로 돈다. 그런데 유휴 감시 디스크립터를 할당할 때 그 디스크립터에 대한 안 읽은 미처리 이벤트가 inotify 큐에 있는지 확인하지 않는다. 그래서 감시 디스크립터 번호의 이전 사용 때 안 읽은 미처리 이벤트가 존재하는데도 감시 디스크립터가 재할당되는 경우가 생길 수 있으며, 그 결과로 응용에서 그 이벤트들을 읽어서는 새로 재사용하는 감시 디스크립터에 연계된 파일에 속한 이벤트로 해석하게 될 수 있다. 실질적으로 이 버그가 발생할 가능성은 극히 낮은데, 응용에서 `INT_MAX` 개의 감시 디스크립터를 거쳐야 하며 큐에 안 읽은 이벤트를 남겨둔 채로 감시 디스크립터를 해제했다가 그 감시 디스크립터를 재사용해야 하기 때문이다. 그런 이유로, 그리고 실환경 응용에서 그 버그가 발생했다는 보고가 없었기 때문에 리눅스 3.15 기준으로 이 잠재적 버그를 제거하기 위한 어떤 커널 변경 작업도 이뤄지지 않았다.
 

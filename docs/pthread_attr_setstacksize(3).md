@@ -29,12 +29,10 @@ int pthread_attr_getstacksize(const pthread_attr_t *attr, size_t *stacksize);
 
 `pthread_attr_setstacksize()`가 다음 오류로 실패할 수 있다.
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd>스택 크기가 <code>PTHREAD_STACK_MIN</code>(16384)바이트보다 작다.</dd>
-</dl>
+`EINVAL`
+:   스택 크기가 `PTHREAD_STACK_MIN`(16384)바이트보다 작다.
 
-일부 시스템에서는 <code>stacksize</code>가 시스템 페이지 크기의 배수가 아닌 경우에 `pthread_attr_setstacksize()`가 `EINVAL` 오류로 실패할 수 있다.
+일부 시스템에서는 `stacksize`가 시스템 페이지 크기의 배수가 아닌 경우에 `pthread_attr_setstacksize()`가 `EINVAL` 오류로 실패할 수 있다.
 
 ## VERSIONS
 
@@ -62,7 +60,7 @@ POSIX.1-2001, POSIX.1-2008.
 
 ## BUGS
 
-glibc 2.8 기준으로 지정한 `stacksize`가 `STACK_ALIGN`(대부분 아키텍처에서 16바이트)의 배수가 아니면 크기가 <em>내림</em> 될 수 있다. 이는 할당되는 스택이 최소 `stacksize` 바이트가 된다고 하는 POSIX.1을 위반하는 것이다.
+glibc 2.8 기준으로 지정한 `stacksize`가 `STACK_ALIGN`(대부분 아키텍처에서 16바이트)의 배수가 아니면 크기가 *내림* 될 수 있다. 이는 할당되는 스택이 최소 `stacksize` 바이트가 된다고 하는 POSIX.1을 위반하는 것이다.
 
 ## EXAMPLE
 

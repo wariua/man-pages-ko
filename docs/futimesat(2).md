@@ -14,10 +14,8 @@ int futimesat(int dirfd, const char *pathname,
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>futimesat()</code>:</dt>
-<dd><code>_GNU_SOURCE</code></dd>
-</dl>
+`futimesat()`:
+:   `_GNU_SOURCE`
 
 ## DESCRIPTION
 
@@ -39,12 +37,11 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 <tt>[[utimes(2)]]</tt>에 발생할 수 있는 것과 같은 오류들이 `futimesat()`에도 발생할 수 있다. 그리고 `futimesat()`에는 다음 오류들이 추가로 발생할 수 있다.
 
-<dl>
-<dt><code>EBADF</code></dt>
-<dd><code>dirfd</code>가 유효한 파일 디스크립터가 아니다.</dd>
-<dt><code>ENOTDIR</code></dt>
-<dd><code>pathname</code>이 상대적인데 <code>dirfd</code>가 디렉터리 아닌 파일을 가리키는 파일 디스크립터이다.</dd>
-</dl>
+`EBADF`
+:   `dirfd`가 유효한 파일 디스크립터가 아니다.
+
+`ENOTDIR`
+:   `pathname`이 상대적인데 `dirfd`가 디렉터리 아닌 파일을 가리키는 파일 디스크립터이다.
 
 ## VERSIONS
 

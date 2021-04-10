@@ -30,10 +30,8 @@ int sched_get_priority_min(int policy);
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>policy</code> 인자가 정의되어 있는 스케줄링 정책을 나타내지 않는다.</dd>
-</dl>
+`EINVAL`
+:   `policy` 인자가 정의되어 있는 스케줄링 정책을 나타내지 않는다.
 
 ## CONFORMING TO
 

@@ -22,16 +22,17 @@ int close(int fd);
 
 ## ERRORS
 
-<dl>
-<dt><code>EBADF</code></dt>
-<dd><code>fd</code>가 유효한 열린 파일 디스크립터가 아니다.</dd>
-<dt><code>EINTR</code></dt>
-<dd><code>close()</code> 호출이 시그널에 의해 중단되었다. <tt>[[signal(7)]]</tt> 참고.</dd>
-<dt><code>EIO</code></dt>
-<dd>I/O 오류가 발생했다.</dd>
-<dt><code>ENOSPC</code>, <code>EDQUOT</code></dt>
-<dd>NFS에서는 이 오류들이 가용 저장 공간을 초과하는 첫 번째 쓰기에서 정상적으로 보고되지 않고 이후의 <code>write(2)</code>, <tt>[[fsync(2)]]</tt>, <code>close()</code>에서 보고된다.</dd>
-</dl>
+`EBADF`
+:   `fd`가 유효한 열린 파일 디스크립터가 아니다.
+
+`EINTR`
+:   `close()` 호출이 시그널에 의해 중단되었다. <tt>[[signal(7)]]</tt> 참고.
+
+`EIO`
+:   I/O 오류가 발생했다.
+
+`ENOSPC`, `EDQUOT`
+:   NFS에서는 이 오류들이 가용 저장 공간을 초과하는 첫 번째 쓰기에서 정상적으로 보고되지 않고 이후의 `write(2)`, <tt>[[fsync(2)]]</tt>, `close()`에서 보고된다.
 
 오류 시 `close()`를 재시도하지 말아야 하는 이유에 대한 NOTES의 설명을 보라.
 

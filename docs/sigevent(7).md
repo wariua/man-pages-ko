@@ -33,43 +33,32 @@ SYNOPSIS에서 보여준 정의는 대략적인 것이다. `sigevent` 구조체�
 
 `sigev_notify` 필드는 알림을 어떻게 수행할지 지정한다. 다음 값들 중 하나일 수 있다.
 
-<dl>
-<dt><code>SIGEV_NONE</code></dt>
-<dd>
-"null" 알림. 사건이 발생했을 때 아무것도 하지 않는다.
-</dd>
+`SIGEV_NONE`
+:   "null" 알림. 사건이 발생했을 때 아무것도 하지 않는다.
 
-<dt><code>SIGEV_SIGNAL</code></dt>
-<dd>
+`SIGEV_SIGNAL`
+:   `sigev_signo`에 지정된 시그널을 보내서 프로세스에게 알린다.
 
-<code>sigev_signo</code>에 지정된 시그널을 보내서 프로세스에게 알린다.
+    <tt>[[sigaction(2)]]</tt> `SA_SIGINFO` 플래그를 써서 등록한 시그널 핸들러로 시그널을 잡는 경우에는 핸들러 두 번째 인자로 전달되는 `siginfo_t` 구조체에 다음 필드들을 설정한다.
 
-<tt>[[sigaction(2)]]</tt> <code>SA_SIGINFO</code> 플래그를 써서 등록한 시그널 핸들러로 시그널을 잡는 경우에는 핸들러 두 번째 인자로 전달되는 <code>siginfo_t</code> 구조체에 다음 필드들을 설정한다.
+    `si_code`
+    :   알림을 보내는 API에 따라 달라지는 어떤 값으로 이 필드를 설정한다.
 
-<dl>
-<dt><code>si_code</code></dt>
-<dd>알림을 보내는 API에 따라 달라지는 어떤 값으로 이 필드를 설정한다.</dd>
-<dt><code>si_signo</code></dt>
-<dd>시그널 번호로 (즉, <code>sigev_signo</code>와 값은 값으로) 이 필드를 설정한다.</dd>
-<dt><code>si_value</code></dt>
-<dd><code>sigev_value</code>에서 지정한 값으로 이 필드를 설정한다.</dd>
-</dl>
+    `si_signo`
+    :   시그널 번호로 (즉, `sigev_signo`와 값은 값으로) 이 필드를 설정한다.
 
-API에 따라서 <code>siginfo_t</code> 구조체 내의 다른 필드들까지 설정할 수도 있다.
+    `si_value`
+    :   `sigev_value`에서 지정한 값으로 이 필드를 설정한다.
 
-<tt>[[sigwaitinfo(2)]]</tt>로 시그널을 받는 경우에도 같은 정보를 사용할 수 있다.
-</dd>
+    API에 따라서 `siginfo_t` 구조체 내의 다른 필드들까지 설정할 수도 있다.
 
-<dt><code>SIGEV_THREAD</code></dt>
-<dd>
-<code>sigev_notify_function</code>을 새 스레드의 시작 함수"인 것처럼" 호출하여 프로세스에게 알린다. (이를 구현할 수 있는 방안들 중에는 각 타이머 알림마다 새 스레드를 생성하는 것도 있고, 한 스레드를 만들어서 모든 알림을 받는 것도 있다.) <code>sigev_value</code>를 유일한 인자로 해서 함수를 호출한다. <code>sigev_notify_attributes</code>는 NULL이 아니라면 새 스레드의 속성을 정의하는 <code>pthread_attr_t</code> 구조체(<tt>[[pthread_attr_init(3)]]</tt> 참고)를 가리켜야 한다.
-</dd>
+    <tt>[[sigwaitinfo(2)]]</tt>로 시그널을 받는 경우에도 같은 정보를 사용할 수 있다.
 
-<dt><code>SIGEV_THREAD_ID</code> (리눅스 한정)</dt>
-<dd>
-현재 POSIX 타이머에서만 사용함. <tt>[[timer_create(2)]]</tt> 참고.
-</dd>
-</dl>
+`SIGEV_THREAD`
+:   `sigev_notify_function`을 새 스레드의 시작 함수"인 것처럼" 호출하여 프로세스에게 알린다. (이를 구현할 수 있는 방안들 중에는 각 타이머 알림마다 새 스레드를 생성하는 것도 있고, 한 스레드를 만들어서 모든 알림을 받는 것도 있다.) `sigev_value`를 유일한 인자로 해서 함수를 호출한다. `sigev_notify_attributes`는 NULL이 아니라면 새 스레드의 속성을 정의하는 `pthread_attr_t` 구조체(<tt>[[pthread_attr_init(3)]]</tt> 참고)를 가리켜야 한다.
+
+`SIGEV_THREAD_ID` (리눅스 한정)
+:   현재 POSIX 타이머에서만 사용함. <tt>[[timer_create(2)]]</tt> 참고.
 
 ## SEE ALSO
 

@@ -31,12 +31,8 @@ int munlockall(void);
 
 `flags` 인자는 0 또는 다음 상수일 수 있다.
 
-<dl>
-<dt><code>MLOCK_ONFAULT</code></dt>
-<dd>
-현재 상주 중인 페이지들은 고정하고 범위 전체에 표시를 해서 나머지 비상주 페이지들이 페이지 폴트에 의해 채워질 때 고정되도록 한다.
-</dd>
-</dl>
+`MLOCK_ONFAULT`
+:   현재 상주 중인 페이지들은 고정하고 범위 전체에 표시를 해서 나머지 비상주 페이지들이 페이지 폴트에 의해 채워질 때 고정되도록 한다.
 
 `flags`가 0이면 `mlock2()`는 `mlock()`과 동일하게 동작한다.
 
@@ -48,22 +44,14 @@ int munlockall(void);
 
 `flags` 인자는 다음 상수를 1개 이상 비트 OR 해서 구성한다.
 
-<dl>
-<dt><code>MCL_CURRENT</code></dt>
-<dd>
-프로세스 주소 공간에 현재 맵 되어 있는 모든 페이지들을 고정한다.
-</dd>
+`MCL_CURRENT`
+:   프로세스 주소 공간에 현재 맵 되어 있는 모든 페이지들을 고정한다.
 
-<dt><code>MCL_FUTURE</code></dt>
-<dd>
-프로세스 주소 공간에 향후 맵 되는 모든 페이지들을 고정한다. 예를 들어 힙과 스택을 키우는 데 필요한 새 페이지나 새로운 메모리 맵 파일 내지 공유 메모리 영역이 해당될 수 있을 것이다.
-</dd>
+`MCL_FUTURE`
+:   프로세스 주소 공간에 향후 맵 되는 모든 페이지들을 고정한다. 예를 들어 힙과 스택을 키우는 데 필요한 새 페이지나 새로운 메모리 맵 파일 내지 공유 메모리 영역이 해당될 수 있을 것이다.
 
-<dt><code>MCL_ONFAULT</code> (리눅스 4.4부터)</dt>
-<dd>
-<code>MCL_CURRENT</code>나 <code>MCL_FUTURE</code>, 또는 둘 모두와 함께 사용한다. 현재(<code>MCL_CURRENT</code>) 내지 향후(<code>MCL_FUTURE</code>) 매핑 모두에 폴트로 들어온 페이지를 고정하게 표시한다. <code>MCL_CURRENT</code>와 사용하면 현재 페이지들을 모두 고정하되 <code>mlockall()</code>이 부재 페이지를 폴트로 들이지는 않는다. <code>MCL_FUTURE</code>와 사용하면 향후 매핑 모두에 페이지가 폴트로 들어올 때 고정하게 표시하되 매핑 생성 시 고정으로 인해 페이지들이 채워지지는 않는다. <code>MCL_ONFAULT</code>는 <code>MCL_CURRENT</code>나 <code>MCL_FUTURE</code>, 또는 둘 모두와 함께 써야 한다.
-</dd>
-</dl>
+`MCL_ONFAULT` (리눅스 4.4부터)
+:   `MCL_CURRENT`나 `MCL_FUTURE`, 또는 둘 모두와 함께 사용한다. 현재(`MCL_CURRENT`) 내지 향후(`MCL_FUTURE`) 매핑 모두에 폴트로 들어온 페이지를 고정하게 표시한다. `MCL_CURRENT`와 사용하면 현재 페이지들을 모두 고정하되 `mlockall()`이 부재 페이지를 폴트로 들이지는 않는다. `MCL_FUTURE`와 사용하면 향후 매핑 모두에 페이지가 폴트로 들어올 때 고정하게 표시하되 매핑 생성 시 고정으로 인해 페이지들이 채워지지는 않는다. `MCL_ONFAULT`는 `MCL_CURRENT`나 `MCL_FUTURE`, 또는 둘 모두와 함께 써야 한다.
 
 `MCL_FUTURE`를 지정해 두면 이후 시스템 호출(가령 <tt>[[mmap(2)]]</tt>, <tt>[[sbrk(2)]]</tt>, <tt>[[malloc(3)]]</tt>)로 인해 고정 바이트 수가 허용 최대치(아래 참고)를 초과하게 되는 경우 그 시스템 호출이 실패할 수 있다. 같은 상황에서 마찬가지로 스택 성장이 실패할 수도 있는데, 커널이 스택 확장을 거부하고 프로세스에게 `SIGSEGV` 시그널을 보내게 된다.
 
@@ -75,50 +63,46 @@ int munlockall(void);
 
 ## ERRORS
 
-<dl>
-<dt><code>ENOMEM</code></dt>
-<dd>(리눅스 2.6.9 및 이후) 호출자에게 0 아닌 <code>RLIMIT_MEMLOCK</code> 연성 자원 제한이 있는데 허용 한계보다 많은 메모리를 고정하려 했다. 프로세스에 특권(<code>CAP_IPC_LOCK</code>)이 있으면 이 제약이 적용되지 않는다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>(리눅스 2.4 및 이전) 호출 프로세스가 램 절반을 넘게 고정하려 했다.</dd>
-<dt><code>EPERM</code></dt>
-<dd>호출자에게 특권이 없는데 요청 동작을 수행하기 위해 특권(<code>CAP_IPC_LOCK</code>)이 필요하다.</dd>
-</dl>
+`ENOMEM`
+:   (리눅스 2.6.9 및 이후) 호출자에게 0 아닌 `RLIMIT_MEMLOCK` 연성 자원 제한이 있는데 허용 한계보다 많은 메모리를 고정하려 했다. 프로세스에 특권(`CAP_IPC_LOCK`)이 있으면 이 제약이 적용되지 않는다.
+
+`ENOMEM`
+:   (리눅스 2.4 및 이전) 호출 프로세스가 램 절반을 넘게 고정하려 했다.
+
+`EPERM`
+:   호출자에게 특권이 없는데 요청 동작을 수행하기 위해 특권(`CAP_IPC_LOCK`)이 필요하다.
 
 `mlock()`, `mlock2()`, `munlock()`:
 
-<dl>
-<dt><code>EAGAIN</code></dt>
-<dd>지정한 주소 범위의 일부 내지 전체를 고정할 수 없다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>덧셈 <code>addr+len</code>의 결과가 <code>addr</code>보다 작다. (가령 덧셈에서 오버플로우가 일어났을 수도 있다.)</dd>
-<dt><code>EINVAL</code></dt>
-<dd>(리눅스 외) <code>addr</code>이 페이지 크기의 배수가 아니다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>지정한 주소 범위의 일부가 프로세스 주소 공간 내의 맵 된 페이지에 대응하지 않는다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>영역을 고정하거나 풀면 상이한 속성(가령 고정과 비고정)의 매핑 총개수가 허용 최대치를 초과하게 된다. (예를 들어 현재 고정된 매핑 중간의 어느 범위를 풀면 양쪽의 고정된 매핑과 가운데의 풀린 페이지를 합쳐서 세 개 매핑이 생긴다.)</dd>
-</dl>
+`EAGAIN`
+:   지정한 주소 범위의 일부 내지 전체를 고정할 수 없다.
+
+`EINVAL`
+:   덧셈 `addr+len`의 결과가 `addr`보다 작다. (가령 덧셈에서 오버플로우가 일어났을 수도 있다.)
+
+`EINVAL`
+:   (리눅스 외) `addr`이 페이지 크기의 배수가 아니다.
+
+`ENOMEM`
+:   지정한 주소 범위의 일부가 프로세스 주소 공간 내의 맵 된 페이지에 대응하지 않는다.
+
+`ENOMEM`
+:   영역을 고정하거나 풀면 상이한 속성(가령 고정과 비고정)의 매핑 총개수가 허용 최대치를 초과하게 된다. (예를 들어 현재 고정된 매핑 중간의 어느 범위를 풀면 양쪽의 고정된 매핑과 가운데의 풀린 페이지를 합쳐서 세 개 매핑이 생긴다.)
 
 `mlock2()`:
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd>모르는 <code>flags</code>를 지정했다.</dd>
-</dl>
+`EINVAL`
+:   모르는 `flags`를 지정했다.
 
 `mlockall()`:
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd>모르는 <code>flags</code>를 지정했다. 또는 <code>MCL_FUTURE</code>와 <code>MCL_CURRENT</code> 어느 쪽도 없이 <code>MCL_ONFAULT</code>를 지정했다.</dd>
-</dl>
+`EINVAL`
+:   모르는 `flags`를 지정했다. 또는 `MCL_FUTURE`와 `MCL_CURRENT` 어느 쪽도 없이 `MCL_ONFAULT`를 지정했다.
 
 `munlockall()`:
 
-<dl>
-<dt><code>EPERM</code></dt>
-<dd>(리눅스 2.6.8 및 이전) 호출자에게 특권(<code>CAP_IPC_LOCK</code>)이 없다.</dd>
-</dl>
+`EPERM`
+:   (리눅스 2.6.8 및 이전) 호출자에게 특권(`CAP_IPC_LOCK`)이 없다.
 
 ## VERSIONS
 

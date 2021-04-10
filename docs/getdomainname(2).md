@@ -13,19 +13,15 @@ int setdomainname(const char *name, size_t len);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>getdomainname()</code>, <code>setdomainname()</code>:</dt>
-<dd>
- <dl>
- <dt>glibc 2.21부터:</dt>
- <dd><code>_DEFAULT_SOURCE</code></dd>
- <dt>glibc 2.19 및 2.20:</dt>
- <dd><code>_DEFAULT_SOURCE || (_XOPEN_SOURCE && _XOPEN_SOURCE < 500)</code></dd>
- <dt>glibc 2.19까지:</dt>
- <dd><code>_BSD_SOURCE || (_XOPEN_SOURCE && _XOPEN_SOURCE < 500)</code></dd>
- </dl>
-</dd>
-</dl>
+`getdomainname()`, `setdomainname()`:
+:   glibc 2.21부터:
+    :   `_DEFAULT_SOURCE`
+
+    glibc 2.19 및 2.20:
+    :   `_DEFAULT_SOURCE || (_XOPEN_SOURCE && _XOPEN_SOURCE < 500)`
+
+    glibc 2.19까지:
+    :   `_BSD_SOURCE || (_XOPEN_SOURCE && _XOPEN_SOURCE < 500)`
 
 ## DESCRIPTION
 
@@ -43,21 +39,19 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 `setdomainname()`이 다음 오류로 실패할 수 있다.
 
-<dl>
-<dt><code>EFAULT</code></dt>
-<dd><code>name</code>이 사용자 주소 공간 밖을 가리킨다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>len</code>이 음수이거나 너무 크다.</dd>
-<dt><code>EPERM</code></dt>
-<dd>호출자가 자기 UTS 네임스페이스에 연계된 사용자 네임스페이스에서 <code>CAP_SYS_ADMIN</code> 역능을 가지고 있지 않다. (<tt>[[namespaces(7)]]</tt> 참고.)</dd>
-</dl>
+`EFAULT`
+:   `name`이 사용자 주소 공간 밖을 가리킨다.
+
+`EINVAL`
+:   `len`이 음수이거나 너무 크다.
+
+`EPERM`
+:   호출자가 자기 UTS 네임스페이스에 연계된 사용자 네임스페이스에서 `CAP_SYS_ADMIN` 역능을 가지고 있지 않다. (<tt>[[namespaces(7)]]</tt> 참고.)
 
 `getdomainname()`이 다음 오류로 실패할 수 있다.
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd>libc 하의 <code>getdomainname()</code>: <code>name</code>이 NULL이거나 <code>name</code>이 <code>len</code> 바이트보다 길다.</dd>
-</dl>
+`EINVAL`
+:   libc 하의 `getdomainname()`: `name`이 NULL이거나 `name`이 `len` 바이트보다 길다.
 
 ## CONFORMING TO
 

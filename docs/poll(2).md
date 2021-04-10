@@ -53,53 +53,46 @@ struct pollfd {
 
 `events`에 설정하고 `revents`로 반환될 수 있는 비트들이 `<poll.h>`에 정의돼 있다.
 
-<dl>
-<dt><code>POLLIN</code></dt>
-<dd>읽을 데이터가 있다.</dd>
+`POLLIN`
+:   읽을 데이터가 있다.
 
-<dt><code>POLLPRI</code></dt>
-<dd>
+`POLLPRI`
+:   파일 디스크립터에 어떤 예외 상황이 있다. 다음 경우들 등이 가능하다.
 
-파일 디스크립터에 어떤 예외 상황이 있다. 다음 경우들 등이 가능하다.
+    * TCP 소켓에 대역외 데이터가 있다. (<tt>[[tcp(7)]]</tt> 참고.)
 
-* TCP 소켓에 대역외 데이터가 있다. (<tt>[[tcp(7)]]</tt> 참고.)
+    * 패킷 모드인 유사 터미널 마스터가 슬레이브에서의 상태 변화를 보았다. (`ioctl_tty(2)` 참고.)
 
-* 패킷 모드인 유사 터미널 마스터가 슬레이브에서의 상태 변화를 보았다. (`ioctl_tty(2)` 참고.)
+    * `cgroup.events` 파일이 변경되었다. (<tt>[[cgroups(7)]]</tt> 참고.)
 
-* <code>cgroup.events</code> 파일이 변경되었다. (<tt>[[cgroups(7)]]</tt> 참고.)
-</dd>
+`POLLOUT`
+:   현재 쓰기가 가능하다. 다만 소켓 내지 파이프의 가용 공간보다 큰 데이터를 써넣으면 (`O_NONBLOCK`이 설정돼 있지 않으면) 여전히 블록 된다.
 
-<dt><code>POLLOUT</code></dt>
-<dd>현재 쓰기가 가능하다. 다만 소켓 내지 파이프의 가용 공간보다 큰 데이터를 써넣으면 (<code>O_NONBLOCK</code>이 설정돼 있지 않으면) 여전히 블록 된다.</dd>
+`POLLRDHUP` (리눅스 2.6.17부터)
+:   스트림 소켓의 상대가 연결을 닫았거나 연결의 쓰기 쪽을 닫았다. 이 비트 정의를 쓸 수 있으려면 (*어떤* 헤더 파일도 포함시키기 전에) 기능 확인 매크로 `_GNU_SOURCE`가 정의돼 있어야 한다.
 
-<dt><code>POLLRDHUP</code> (리눅스 2.6.17부터)</dt>
-<dd>스트림 소켓의 상대가 연결을 닫았거나 연결의 쓰기 쪽을 닫았다. 이 비트 정의를 쓸 수 있으려면 (<em>어떤</em> 헤더 파일도 포함시키기 전에) 기능 확인 매크로 <code>_GNU_SOURCE</code>가 정의돼 있어야 한다.</dd>
+`POLLERR`
+:   오류 상황. (`revents`로 반환되기만 하고 `events`에서는 무시.) 파이프의 쓰기 쪽을 가리키는 파일 디스크립터에 대해서 읽기 쪽이 닫혔을 때도 이 비트가 설정된다.
 
-<dt><code>POLLERR</code></dt>
-<dd>오류 상황. (<code>revents</code>로 반환되기만 하고 <code>events</code>에서는 무시.) 파이프의 쓰기 쪽을 가리키는 파일 디스크립터에 대해서 읽기 쪽이 닫혔을 때도 이 비트가 설정된다.</dd>
+`POLLHUP`
+:   연결 끊겼음. (`revents`로 반환되기만 하고 `events`에서는 무시.) 참고로 파이프나 스트림 소켓 같은 채널에서 읽기를 할 때 이 이벤트는 상대가 채널의 그쪽 끝을 닫았다는 표시일 뿐이다. 그 채널의 미처리 데이터를 모두 소비한 후에야 채널 읽기가 0(파일 끝)을 반환하게 된다.
 
-<dt><code>POLLHUP</code></dt>
-<dd>연결 끊겼음. (<code>revents</code>로 반환되기만 하고 <code>events</code>에서는 무시.) 참고로 파이프나 스트림 소켓 같은 채널에서 읽기를 할 때 이 이벤트는 상대가 채널의 그쪽 끝을 닫았다는 표시일 뿐이다. 그 채널의 미처리 데이터를 모두 소비한 후에야 채널 읽기가 0(파일 끝)을 반환하게 된다.</dd>
-
-<dt><code>POLLNVAL</code></dt>
-<dd>유효하지 않은 요청: <code>fd</code>가 열려 있지 않음. (<code>revents</code>로 반환되기만 하고 <code>events</code>에서는 무시.) </dd>
-</dl>
+`POLLNVAL`
+:   유효하지 않은 요청: `fd`가 열려 있지 않음. (`revents`로 반환되기만 하고 `events`에서는 무시.) 
 
 `_XOPEN_SOURCE`가 정의된 채로 컴파일 하면 다음 비트들도 쓸 수 있게 되는데, 위에 나열한 비트들 이상의 정보를 주지는 않는다.
 
-<dl>
-<dt><code>POLLRDNORM</code></dt>
-<dd><code>POLLIN</code>과 동등하다.</dd>
+`POLLRDNORM`
+:   `POLLIN`과 동등하다.
 
-<dt><code>POLLRDBAND</code></dt>
-<dd>우선 대역 데이터를 읽을 수 있다. (리눅스에서는 보통 쓰지 않음.)</dd>
+`POLLRDBAND`
+:   우선 대역 데이터를 읽을 수 있다. (리눅스에서는 보통 쓰지 않음.)
 
-<dt><code>POLLWRNORM</code></dt>
-<dd><code>POLLOUT</code>과 동등하다.</dd>
+`POLLWRNORM`
+:   `POLLOUT`과 동등하다.
 
-<dt><code>POLLWRBAND</code></dt>
-<dd>우선 대역 데이터를 쓸 수 있다.</dd>
-</dl>
+`POLLWRBAND`
+:   우선 대역 데이터를 쓸 수 있다.
 
 리눅스에는 `POLLMSG`도 있지만 쓰지는 않는다.
 
@@ -149,18 +142,20 @@ struct timespec {
 
 ## ERRORS
 
-<dl>
-<dt><code>EFAULT</code></dt>
-<dd>인자로 준 배열이 호출 프로그램의 주소 공간에 들어 있지 않다.</dd>
-<dt><code>EINTR</code></dt>
-<dd>요청한 이벤트들에 앞서 시그널이 발생했다. <tt>[[signal(7)]]</tt> 참고.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>nfds</code> 값이 <code>RLIMIT_NOFILE</code> 값을 초과한다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>(<code>ppoll()</code>) <code>*ip</code>에 있는 타임아웃 값이 유효하지 않다 (음수다).</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>파일 디스크립터 테이블을 할당할 공간이 없다.</dd>
-</dl>
+`EFAULT`
+:   인자로 준 배열이 호출 프로그램의 주소 공간에 들어 있지 않다.
+
+`EINTR`
+:   요청한 이벤트들에 앞서 시그널이 발생했다. <tt>[[signal(7)]]</tt> 참고.
+
+`EINVAL`
+:   `nfds` 값이 `RLIMIT_NOFILE` 값을 초과한다.
+
+`EINVAL`
+:   (`ppoll()`) `*ip`에 있는 타임아웃 값이 유효하지 않다 (음수다).
+
+`ENOMEM`
+:   파일 디스크립터 테이블을 할당할 공간이 없다.
 
 ## VERSIONS
 

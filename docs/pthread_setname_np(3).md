@@ -28,17 +28,13 @@ int pthread_getname_np(pthread_t thread,
 
 `pthread_setname_np()` 함수가 다음 오류로 실패할 수 있다.
 
-<dl>
-<dt><code>ERANGE</code></dt>
-<dd><code>name</code>으로 지정한 문자열의 길이가 허용 한계를 초과한다.</dd>
-</dl>
+`ERANGE`
+:   `name`으로 지정한 문자열의 길이가 허용 한계를 초과한다.
 
 `pthread_getname_np()` 함수가 다음 오류로 실패할 수 있다.
 
-<dl>
-<dt><code>ERANGE</code></dt>
-<dd><code>name</code>과 <code>len</code>으로 지정한 버퍼가 스레드 이름을 담기에 너무 작다.</dd>
-</dl>
+`ERANGE`
+:   `name`과 `len`으로 지정한 버퍼가 스레드 이름을 담기에 너무 작다.
 
 이 함수들이 `/proc/self/task/[tid]/comm`을 여는 데 실패하면 <tt>[[open(2)]]</tt>에서 기술하는 오류들 중 하나로 실패할 수도 있다.
 

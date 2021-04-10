@@ -12,10 +12,8 @@ int getentropy(void *buffer, size_t length);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>getentropy()</code>:</dt>
-<dd><code>_DEFAULT_SOURCE</code></dd>
-</dl>
+`getentropy()`:
+:   `_DEFAULT_SOURCE`
 
 ## DESCRIPTION
 
@@ -29,16 +27,17 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## ERRORS
 
-<dl>
-<dt><code>EFAULT</code></dt>
-<dd><code>buffer</code> 및 <code>length</code>로 지정한 버퍼의 일부 내지 전체가 유효한 접근 가능 메모리 내에 있지 않다.</dd>
-<dt><code>EIO</code></dt>
-<dd><code>length</code>가 256보다 크다.</dd>
-<dt><code>EIO</code></dt>
-<dd><code>buffer</code>를 난수 데이터로 덮어쓰려는 동안 명세되어 있지 않은 오류가 발생했다.</dd>
-<dt><code>ENOSYS</code></dt>
-<dd>이 함수 구현에 필요한 <tt>[[getrandom(2)]]</tt> 시스템 호출을 이 커널 버전에서 구현하고 있지 않다.</dd>
-</dl>
+`EFAULT`
+:   `buffer` 및 `length`로 지정한 버퍼의 일부 내지 전체가 유효한 접근 가능 메모리 내에 있지 않다.
+
+`EIO`
+:   `length`가 256보다 크다.
+
+`EIO`
+:   `buffer`를 난수 데이터로 덮어쓰려는 동안 명세되어 있지 않은 오류가 발생했다.
+
+`ENOSYS`
+:   이 함수 구현에 필요한 <tt>[[getrandom(2)]]</tt> 시스템 호출을 이 커널 버전에서 구현하고 있지 않다.
 
 ## VERSIONS
 

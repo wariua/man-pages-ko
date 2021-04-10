@@ -12,14 +12,10 @@ int sigaltstack(const stack_t *ss, stack_t *old_ss);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>sigaltstack()</code></dt>
-<dd>
-<code>_XOPEN_SOURCE >= 500</code><br>
-<code>    || /* glibc 2.12부터: */ _POSIX_C_SOURCE >= 200809L</code><br>
-<code>    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE</code>
-</dd>
-</dl>
+`sigaltstack()`
+:   `_XOPEN_SOURCE >= 500`<br>
+    `    || /* glibc 2.12부터: */ _POSIX_C_SOURCE >= 200809L`<br>
+    `    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE`
 
 ## DESCRIPTION
 
@@ -45,57 +41,34 @@ typedef struct {
 
 새 대체 시그널 스택을 설정하려면 이 구조체의 필드를 다음과 같이 설정한다.
 
-<dl>
-<dt><code>ss.ss_flags</code></dt>
-<dd>
+`ss.ss_flags`
+:   이 필드는 0 또는 다음 플래그를 담는다.
 
-이 필드는 0 또는 다음 플래그를 담는다.
+    `SS_AUTODISARM` (리눅스 4.7부터)
+    :   시그널 핸들러 진입 시 대체 시그널 스택 설정을 비운다. 시그널 핸들러가 반환할 때 이전 대체 시그널 스택 설정을 복원한다.
 
- <dl>
- <dt><code>SS_AUTODISARM</code> (리눅스 4.7부터)</dt>
- <dd>
+        <tt>[[swapcontext(3)]]</tt>로 시그널 핸들러에서 다른 문맥으로 전환하는 것을 안전하게 만들기 위해 이 플래그가 추가되었다. 이 플래그가 없으면 이후의 시그널 처리가 전환 전 시그널 핸들러의 상태를 오염시키게 된다. 이 플래그를 지원하지 않는 커널에서 이 플래그를 주면 `sigaltstack()`이 `EINVAL` 오류로 실패한다.
 
- 시그널 핸들러 진입 시 대체 시그널 스택 설정을 비운다. 시그널 핸들러가 반환할 때 이전 대체 시그널 스택 설정을 복원한다.
+`ss.ss_sp`
+:   이 필드는 스택의 시작 주소를 나타낸다. 대체 스택에서 시그널 핸들러를 호출할 때 `ss.ss_sp`로 받은 주소를 커널이 자동으로 기반 하드웨어 아키텍처에 맞는 주소 경계로 정렬한다.
 
- <tt>[[swapcontext(3)]]</tt>로 시그널 핸들러에서 다른 문맥으로 전환하는 것을 안전하게 만들기 위해 이 플래그가 추가되었다. 이 플래그가 없으면 이후의 시그널 처리가 전환 전 시그널 핸들러의 상태를 오염시키게 된다. 이 플래그를 지원하지 않는 커널에서 이 플래그를 주면 `sigaltstack()`이 `EINVAL` 오류로 실패한다.
- </dd>
- </dl>
-</dd>
-
-<dt><code>ss.ss_sp</code></dt>
-<dd>
-이 필드는 스택의 시작 주소를 나타낸다. 대체 스택에서 시그널 핸들러를 호출할 때 <code>ss.ss_sp</code>로 받은 주소를 커널이 자동으로 기반 하드웨어 아키텍처에 맞는 주소 경계로 정렬한다.
-</dd>
-
-<dt><code>ss.ss_size</code></dt>
-<dd>
-이 필드는 스택의 크기를 나타낸다. 대체 시그널 스택의 크기에 대한 일반적인 요구들을 충족하는 크기가 되도록 상수 <code>SIGSTKSZ</code>가 정의되어 있다. 그리고 상수 <code>MINSIGSTKSZ</code>는 시그널 핸들러 실행에 필요한 최소 크기를 규정한다.
-</dd>
-</dl>
+`ss.ss_size`
+:   이 필드는 스택의 크기를 나타낸다. 대체 시그널 스택의 크기에 대한 일반적인 요구들을 충족하는 크기가 되도록 상수 `SIGSTKSZ`가 정의되어 있다. 그리고 상수 `MINSIGSTKSZ`는 시그널 핸들러 실행에 필요한 최소 크기를 규정한다.
 
 기존 스택을 비할성화 하려면 `ss.ss_flags`를 `SS_DISABLE`로 지정하면 된다. 이 경우 커널이 `ss.ss_flags`의 다른 플래그와 `ss`의 나머지 필드들을 무시한다.
 
 `old_ss`가 NULL이 아니면 이를 이용해 `sigaltstack()` 호출 전에 적용되어 있던 대체 시그널 스택에 대한 정보를 반환한다. `old_ss.ss_sp` 필드와 `old_ss.ss_size` 필드가 그 스택의 시작 주소와 크기를 돌려준다. `old_ss.ss_flags` 필드가 다음 값들 중 하나를 돌려줄 수 있다.
 
-<dl>
-<dt><code>SS_ONSTACK</code></dt>
-<dd>
-프로세스가 현재 대체 시그널 스택 상에서 실행 중이다. (참고로 프로세스가 대체 시그널 스택 위에서 실행 중이면 그 스택을 바꾸는 것이 불가능하다.)
-</dd>
+`SS_ONSTACK`
+:   프로세스가 현재 대체 시그널 스택 상에서 실행 중이다. (참고로 프로세스가 대체 시그널 스택 위에서 실행 중이면 그 스택을 바꾸는 것이 불가능하다.)
 
-<dt><code>SS_DISABLE</code></dt>
-<dd>
+`SS_DISABLE`
+:   대체 시그널 스택이 현재 비활성화되어 있다.
 
-대체 시그널 스택이 현재 비활성화되어 있다.
+    또는 프로세스가 현재 `SS_AUTODISARM` 플래그로 설정한 대체 시그널 스택에서 실행 중이어도 이 값을 반환한다. 이 경우 <tt>[[swapcontext(3)]]</tt>로 시그널 핸들러에서 다른 문맥으로 전환하는 것이 안전하다. 또 `sigaltstack()`을 다시 호출해서 또 다른 대체 시그널 스택을 설정하는 것도 가능하다.
 
-또는 프로세스가 현재 <code>SS_AUTODISARM</code> 플래그로 설정한 대체 시그널 스택에서 실행 중이어도 이 값을 반환한다. 이 경우 <tt>[[swapcontext(3)]]</tt>로 시그널 핸들러에서 다른 문맥으로 전환하는 것이 안전하다. 또 <code>sigaltstack()</code>을 다시 호출해서 또 다른 대체 시그널 스택을 설정하는 것도 가능하다.
-</dd>
-
-<dt><code>SS_AUTODISARM</code></dt>
-<dd>
-대체 시그널 스택이 위에서 기술한 것처럼 자동 해제하도록 표시되어 있다.
-</dd>
-</dl>
+`SS_AUTODISARM`
+:   대체 시그널 스택이 위에서 기술한 것처럼 자동 해제하도록 표시되어 있다.
 
 `ss`를 NULL로 지정하고 `old_ss`를 NULL 아닌 값으로 지정하면 변경 없이 현재의 대체 시그널 스택 설정을 얻을 수 있다.
 
@@ -105,16 +78,17 @@ typedef struct {
 
 ## ERRORS
 
-<dl>
-<dt><code>EFAULT</code></dt>
-<dd><code>ss</code>나 <code>old_ss</code>가 NULL이 아니며 프로세스의 주소 공간 밖의 영역을 가리키고 있다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>ss</code>가 NULL이 아니며 <code>ss_flags</code> 필드가 유효하지 않은 플래그를 담고 있다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>새 대체 시그널 스택에 지정한 크기 <code>ss.ss_size</code>가 <code>MINSIGSTKSZ</code>보다 작다.</dd>
-<dt><code>EPERM</code></dt>
-<dd>사용 중인 동안 (즉 프로세스가 이미 현행 대체 시그널 스택 위에서 실행 중인 동안) 대체 시그널 스택 변경 시도가 이뤄졌다.</dd>
-</dl>
+`EFAULT`
+:   `ss`나 `old_ss`가 NULL이 아니며 프로세스의 주소 공간 밖의 영역을 가리키고 있다.
+
+`EINVAL`
+:   `ss`가 NULL이 아니며 `ss_flags` 필드가 유효하지 않은 플래그를 담고 있다.
+
+`ENOMEM`
+:   새 대체 시그널 스택에 지정한 크기 `ss.ss_size`가 `MINSIGSTKSZ`보다 작다.
+
+`EPERM`
+:   사용 중인 동안 (즉 프로세스가 이미 현행 대체 시그널 스택 위에서 실행 중인 동안) 대체 시그널 스택 변경 시도가 이뤄졌다.
 
 ## ATTRIBUTES
 

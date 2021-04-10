@@ -22,18 +22,20 @@ int io_setup(unsigned nr_events, aio_context_t *ctx_idp);
 
 ## ERRORS
 
-<dl>
-<dt><code>EAGAIN</code></dt>
-<dd>지정한 <code>nr_events</code>가 <code>/proc/sys/fs/aio-max-nr</code>에 규정된 사용자의 가용 이벤트 제한을 초과한다.</dd>
-<dt><code>EFAULT</code></dt>
-<dd><code>ctx_idp</code>에 유효하지 않은 포인터를 전달했다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>ctx_idp</code>가 초기화 되지 않았다. 지정한 <code>nr_events</code>가 내부 제한을 초과한다. <code>nr_events</code>가 0보다 커야 한다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>사용 가능한 커널 자원이 충분치 않다.</dd>
-<dt><code>ENOSYS</code></dt>
-<dd>이 아키텍처에 <code>io_setup()</code>이 구현돼 있지 않다.</dd>
-</dl>
+`EAGAIN`
+:   지정한 `nr_events`가 `/proc/sys/fs/aio-max-nr`에 규정된 사용자의 가용 이벤트 제한을 초과한다.
+
+`EFAULT`
+:   `ctx_idp`에 유효하지 않은 포인터를 전달했다.
+
+`EINVAL`
+:   `ctx_idp`가 초기화 되지 않았다. 지정한 `nr_events`가 내부 제한을 초과한다. `nr_events`가 0보다 커야 한다.
+
+`ENOMEM`
+:   사용 가능한 커널 자원이 충분치 않다.
+
+`ENOSYS`
+:   이 아키텍처에 `io_setup()`이 구현돼 있지 않다.
 
 ## VERSIONS
 

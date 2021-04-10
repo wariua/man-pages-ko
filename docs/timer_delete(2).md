@@ -14,10 +14,8 @@ int timer_delete(timer_t timerid);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>timer_delete()</code>:</dt>
-<dd><code>_POSIX_C_SOURCE >= 199309L</code></dd>
-</dl>
+`timer_delete()`:
+:   `_POSIX_C_SOURCE >= 199309L`
 
 ## DESCRIPTION
 
@@ -29,10 +27,8 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>timerid</code>가 유효한 타이머 ID가 아니다.</dd>
-</dl>
+`EINVAL`
+:   `timerid`가 유효한 타이머 ID가 아니다.
 
 ## VERSIONS
 

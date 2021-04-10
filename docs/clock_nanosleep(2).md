@@ -16,10 +16,8 @@ int clock_nanosleep(clockid_t clock_id, int flags,
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>clock_nanosleep()</code></dt>
-<dd><code>_POSIX_C_SOURCE >= 200112L</code></dd>
-</dl>
+`clock_nanosleep()`:
+:   `_POSIX_C_SOURCE >= 200112L`
 
 ## DESCRIPTION
 
@@ -36,16 +34,14 @@ struct timespec {
 
 `clock_id` 인자는 잠드는 시간을 측정할 클럭을 나타낸다. 다음 값들 중 하나를 이 인자에 쓸 수 있다.
 
-<dl>
-<dt><code>CLOCK_REALTIME</code></dt>
-<dd>설정 가능한 시스템 전역 실제 시간 클럭.</dd>
+`CLOCK_REALTIME`
+:   설정 가능한 시스템 전역 실제 시간 클럭.
 
-<dt><code>CLOCK_MONOTONIC</code></dt>
-<dd>시스템 시동 후 바뀌지 않는 과거 어떤 불특정 시점부터의 시간을 측정하는 설정 불가능한 단조 증가 클럭.</dd>
+`CLOCK_MONOTONIC`
+:   시스템 시동 후 바뀌지 않는 과거 어떤 불특정 시점부터의 시간을 측정하는 설정 불가능한 단조 증가 클럭.
 
-<dt><code>CLOCK_PROCESS_CPUTIME_ID</code> (리눅스 2.6.12부터.)</dt>
-<dd>프로세스의 모든 스레드가 소모한 CPU 시간을 측정하는 설정 가능한 프로세스별 클럭.</dd>
-</dl>
+`CLOCK_PROCESS_CPUTIME_ID` (리눅스 2.6.12부터.)
+:   프로세스의 모든 스레드가 소모한 CPU 시간을 측정하는 설정 가능한 프로세스별 클럭.
 
 이 클럭들에 대한 더 자세한 내용은 <tt>[[clock_getres(2)]]</tt>를 보라. 또한 <tt>[[clock_getcpuclockid(3)]]</tt> 및 <tt>[[pthread_getcpuclockid(3)]]</tt>가 반환한 CPU 클럭 ID도 `clock_id`에 줄 수 있다.
 
@@ -63,16 +59,17 @@ struct timespec {
 
 ## ERRORS
 
-<dl>
-<dt><code>EFAULT</code></dt>
-<dd>지정한 <code>request</code>나 <code>remain</code>이 유효하지 않은 주소이다.</dd>
-<dt><code>EINTR</code></dt>
-<dd>시그널 핸들러에 의해 잠들기가 중단되었다. <tt>[[signal(7)]]</tt> 참고.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>tv_nsec</code> 필드의 값이 0에서 999999999까지 범위 안이 아니거나 <code>tv_sec</code>이 음수이다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>clock_id</code>가 유효하지 않다. (<code>CLOCK_THREAD_CPUTIME_ID</code>는 <code>clock_id</code>에 가능한 값이 아니다.)</dd>
-</dl>
+`EFAULT`
+:   지정한 `request`나 `remain`이 유효하지 않은 주소이다.
+
+`EINTR`
+:   시그널 핸들러에 의해 잠들기가 중단되었다. <tt>[[signal(7)]]</tt> 참고.
+
+`EINVAL`
+:   `tv_nsec` 필드의 값이 0에서 999999999까지 범위 안이 아니거나 `tv_sec`이 음수이다.
+
+`EINVAL`
+:   `clock_id`가 유효하지 않다. (`CLOCK_THREAD_CPUTIME_ID`는 `clock_id`에 가능한 값이 아니다.)
 
 ## VERSIONS
 

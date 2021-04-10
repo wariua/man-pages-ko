@@ -21,10 +21,8 @@ int epoll_create1(int flags);
 
 `flags`가 0인 경우에는 구식 `size` 인자가 없어졌다는 점을 빼고 `epoll_create1()`이 `epoll_create()`와 동일하다. `flags`에 다음 값을 포함시켜서 다른 동작 방식을 얻을 수 있다.
 
-<dl>
-<dt><code>EPOLL_CLOEXEC</code></dt>
-<dd>새 파일 디스크립터에 'exec에서 닫기'(<code>FD_CLOEXEC</code>) 플래그를 설정한다. 이게 유용할 수 있는 이유에 대해선 <tt>[[open(2)]]</tt>의 <code>O_CLOEXEC</code> 플래그 설명을 보라.</dd>
-</dl>
+`EPOLL_CLOEXEC`
+:   새 파일 디스크립터에 'exec에서 닫기'(`FD_CLOEXEC`) 플래그를 설정한다. 이게 유용할 수 있는 이유에 대해선 <tt>[[open(2)]]</tt>의 `O_CLOEXEC` 플래그 설명을 보라.
 
 ## RETURN VALUE
 
@@ -32,20 +30,23 @@ int epoll_create1(int flags);
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>size</code>가 양수가 아니다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>(<code>epoll_create1()</code>) <code>flags</code>에 유효하지 않은 값을 지정했다.</dd>
-<dt><code>EMFILE</code></dt>
-<dd><code>/proc/sys/fs/epoll/max_user_instances</code>에 따른 epoll 인스턴스 개수에 대한 사용자별 제한에 걸렸다. 자세한 내용은 <tt>[[epoll(7)]]</tt> 참고.</dd>
-<dt><code>EMFILE</code></dt>
-<dd>열린 파일 디스크립터 개수에 대한 프로세스별 제한에 도달했다.</dd>
-<dt><code>ENFILE</code></dt>
-<dd>열린 파일 총개수에 대한 시스템 전역 제한에 도달했다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>커널 객체를 생성하기에 메모리가 충분하지 않았다.</dd>
-</dl>
+`EINVAL`
+:   `size`가 양수가 아니다.
+
+`EINVAL`
+:   (`epoll_create1()`) `flags`에 유효하지 않은 값을 지정했다.
+
+`EMFILE`
+:   `/proc/sys/fs/epoll/max_user_instances`에 따른 epoll 인스턴스 개수에 대한 사용자별 제한에 걸렸다. 자세한 내용은 <tt>[[epoll(7)]]</tt> 참고.
+
+`EMFILE`
+:   열린 파일 디스크립터 개수에 대한 프로세스별 제한에 도달했다.
+
+`ENFILE`
+:   열린 파일 총개수에 대한 시스템 전역 제한에 도달했다.
+
+`ENOMEM`
+:   커널 객체를 생성하기에 메모리가 충분하지 않았다.
 
 ## VERSIONS
 

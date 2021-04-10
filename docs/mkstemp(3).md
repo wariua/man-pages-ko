@@ -18,23 +18,20 @@ int mkostemps(char *template, int suffixlen, int flags);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>mkstemp()</code>:</dt>
-<dd>
-<code>_XOPEN_SOURCE >= 500</code><br>
-<code>|| /* glibc 2.12부터: */ _POSIX_C_SOURCE >= 200809L</code><br>
-<code>|| /* glibc 버전 <= 2.19: */ _SVID_SOURCE || _BSD_SOURCE</code>
-</dd>
-<dt><code>mkostemp()</code>:</dt>
-<dd><code>_GNU_SOURCE</code></dd>
-<dt><code>mkstemps()</code>:</dt>
-<dd>
-<code>/* glibc 2.19부터: */ _DEFAULT_SOURCE</code><br>
-<code>|| /* glibc 버전 <= 2.19: */ _SVID_SOURCE || _BSD_SOURCE</code>
-</dd>
-<dt><code>mkostemps()</code>:</dt>
-<dd><code>_GNU_SOURCE</code></dd>
-</dl>
+`mkstemp()`:
+:   `_XOPEN_SOURCE >= 500`<br>
+    `    || /* glibc 2.12부터: */ _POSIX_C_SOURCE >= 200809L`<br>
+    `    || /* glibc 버전 <= 2.19: */ _SVID_SOURCE || _BSD_SOURCE`
+
+`mkostemp()`:
+:   `_GNU_SOURCE`
+
+`mkstemps()`:
+:   `/* glibc 2.19부터: */ _DEFAULT_SOURCE`<br>
+    `    || /* glibc 버전 <= 2.19: */ _SVID_SOURCE || _BSD_SOURCE`
+
+`mkostemps()`:
+:   `_GNU_SOURCE`
 
 ## DESCRIPTION
 
@@ -56,17 +53,12 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## ERRORS
 
-<dl>
-<dt><code>EEXIST</code></dt>
-<dd>유일한 임시 파일명을 만들 수 없다. 이때 <code>template</code>의 내용은 규정돼 있지 않다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>
+`EEXIST`
+:   유일한 임시 파일명을 만들 수 없다. 이때 `template`의 내용은 규정돼 있지 않다.
+`EINVAL`
+:   `mkstemp()` 및 `mkostemp()`: `template`의 마지막 여섯 글자가 XXXXXX가 아니다. 이때 `template`은 바뀌지 않는다.
 
-<code>mkstemp()</code> 및 <code>mkostemp()</code>: <code>template</code>의 마지막 여섯 글자가 XXXXXX가 아니다. 이때 <code>template</code>은 바뀌지 않는다.
-
-<code>mkstemps()</code> 및 <code>mkostemps()</code>: <code>template</code>의 길이가 <code>(6 + suffixlen)</code> 글자보다 작거나 <code>template</code>의 접미부 앞 마지막 6 글자가 XXXXXX가 아니다.
-</dd>
-</dl>
+    `mkstemps()` 및 `mkostemps()`: `template`의 길이가 `(6 + suffixlen)` 글자보다 작거나 `template`의 접미부 앞 마지막 6 글자가 XXXXXX가 아니다.
 
 이 함수들이 <tt>[[open(2)]]</tt>에서 기술하는 오류들 때문에 실패할 수도 있다.
 

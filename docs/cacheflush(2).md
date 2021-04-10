@@ -14,16 +14,14 @@ int cacheflush(char *addr, int nbytes, int cache);
 
 `cacheflush()`는 `addr`에서 `(addr+nbytes-1)`까지 범위에 대해 표시한 캐시(들)의 내용물을 비운다. `cache`는 다음 중 하나일 수 있다.
 
-<dl>
-<dt><code>ICACHE</code></dt>
-<dd>인스트럭션 캐시를 비운다.</dd>
+`ICACHE`
+:   인스트럭션 캐시를 비운다.
 
-<dt><code>DCACHE</code></dt>
-<dd>변경을 메모리로 기록하고 영향 받는 유효한 캐시 라인들을 무효화한다.</dd>
+`DCACHE`
+:   변경을 메모리로 기록하고 영향 받는 유효한 캐시 라인들을 무효화한다.
 
-<dt><code>BCACHE</code></dt>
-<dd><code>(ICACHE|DCACHE)</code>와 같다.</dd>
-</dl>
+`BCACHE`
+:   `(ICACHE|DCACHE)`와 같다.
 
 ## RETURN VALUE
 
@@ -31,12 +29,11 @@ int cacheflush(char *addr, int nbytes, int cache);
 
 ## ERRORS
 
-<dl>
-<dt><code>EFAULT</code></dt>
-<dd><code>addr</code>에서 <code>(addr+nbytes-1)</code>까지의 주소 범위 일부 내지 전부가 접근 가능하지 않다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>cache</code>가 <code>ICACHE</code>, <code>DCACHE</code>, <code>BCACHE</code> 중 하나가 아니다. (하지만 BUGS 참고.)</dd>
-</dl>
+`EFAULT`
+:   `addr`에서 `(addr+nbytes-1)`까지의 주소 범위 일부 내지 전부가 접근 가능하지 않다.
+
+`EINVAL`
+:   `cache`가 `ICACHE`, `DCACHE`, `BCACHE` 중 하나가 아니다. (하지만 BUGS 참고.)
 
 ## CONFORMING TO
 

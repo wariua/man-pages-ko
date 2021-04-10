@@ -15,10 +15,8 @@ int sigtimedwait(const sigset_t *set, siginfo_t *info,
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>sigwaitinfo()</code>, <code>sigtimedwait()</code>:</dt>
-<dd><code>_POSIX_C_SOURCE >= 199309L</code></dd>
-</dl>
+`sigwaitinfo()`, `sigtimedwait()`:
+:   `_POSIX_C_SOURCE >= 199309L`
 
 ## DESCRIPTION
 
@@ -45,14 +43,14 @@ struct timespec {
 
 ## ERRORS
 
-<dl>
-<dt><code>EAGAIN</code></dt>
-<dd><code>sigtimedwait()</code>에 지정한 <code>timeout</code> 기간 내에 <code>set</code>의 어떤 시그널도 미처리 상태가 되지 않았다.</dd>
-<dt><code>EINTR</code></dt>
-<dd>시그널 핸들러에 의해 기다리기가 중단되었다. <tt>[[signal(7)]]</tt> 참고. (이 핸들러는 <code>set</code>에 있는 것 외의 시그널에 대한 것이다.)</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>timeout</code>이 유효하지 않다.</dd>
-</dl>
+`EAGAIN`
+:   `sigtimedwait()`에 지정한 `timeout` 기간 내에 `set`의 어떤 시그널도 미처리 상태가 되지 않았다.
+
+`EINTR`
+:   시그널 핸들러에 의해 기다리기가 중단되었다. <tt>[[signal(7)]]</tt> 참고. (이 핸들러는 `set`에 있는 것 외의 시그널에 대한 것이다.)
+
+`EINVAL`
+:   `timeout`이 유효하지 않다.
 
 ## CONFORMING TO
 

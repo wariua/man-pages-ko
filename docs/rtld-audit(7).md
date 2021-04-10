@@ -36,25 +36,23 @@ char *la_objsearch(const char *name, uintptr_t *cookie,
 
 동적 링커에서 이 함수를 호출해서 공유 오브젝트 탐색을 하려 한다는 걸 감사 라이브러리에게 알린다. `name` 인자는 탐색할 파일명이나 경로명이다. `cookie`는 탐색을 유발한 공유 오브젝트를 식별할 수 있게 해 준다. `flag`는 다음 값들 중 하나로 설정돼 있다.
 
-<dl>
-<dt><code>LA_SER_ORIG</code></dt>
-<dd><code>name</code>이 탐색하려는 원래 이름이다. 보통 ELF <code>DT_NEEDED</code> 항목에서 온 이름이거나 <code>[[dlopen(3)]]</tt>의 <code>filename</code> 인자이다.</dd>
+`LA_SER_ORIG`
+:   `name`이 탐색하려는 원래 이름이다. 보통 ELF `DT_NEEDED` 항목에서 온 이름이거나 <tt>[[dlopen(3)]]</tt>의 `filename` 인자이다.
 
-<dt><code>LA_SER_LIBPATH</code></dt>
-<dd><code>LD_LIBRARY_PATH</code>에 지정된 디렉터리를 이용해 <code>name</code>을 만들었다.</dd>
+`LA_SER_LIBPATH`
+:   `LD_LIBRARY_PATH`에 지정된 디렉터리를 이용해 `name`을 만들었다.
 
-<dt><code>LA_SER_RUNPATH</code></dt>
-<dd>ELF <code>DT_RPATH</code> 내지 <code>DT_RUNPATH</code> 목록에 지정된 디렉터리를 이용해 <code>name</code>을 만들었다.</dd>
+`LA_SER_RUNPATH`
+:   ELF `DT_RPATH` 내지 `DT_RUNPATH` 목록에 지정된 디렉터리를 이용해 `name`을 만들었다.
 
-<dt><code>LA_SER_CONFIG</code></dt>
-<dd><code>ldconfig(8)</code> 캐시(<code>/etc/ld.so.cache</code>)를 통해 <code>name</code>을 찾았다.</dd>
+`LA_SER_CONFIG`
+:   `ldconfig(8)` 캐시(`/etc/ld.so.cache`)를 통해 `name`을 찾았다.
 
-<dt><code>LA_SER_DEFAULT</code></dt>
-<dd>기본 디렉터리들 중 하나를 탐색해서 <code>name</code>을 찾았다.</dd>
+`LA_SER_DEFAULT`
+:   기본 디렉터리들 중 하나를 탐색해서 `name`을 찾았다.
 
-<dt><code>LA_SER_SECURE</code></dt>
-<dd><code>name</code>이 보안 오브젝트로 한정돼 있다. (리눅스에서는 쓰지 않음.)</dd>
-</dl>
+`LA_SER_SECURE`
+:   `name`이 보안 오브젝트로 한정돼 있다. (리눅스에서는 쓰지 않음.)
 
 함수 결과로 `la_objsearch()`는 동적 링커가 이후 처리에 사용해야 할 경로명을 반환한다. NULL을 반환하면 이 경로명을 이후 처리에서 무시한다. 감사 라이브러리에서 탐색 경로를 감시만 하려는 거라면 `name`을 반환하면 된다.
 
@@ -66,16 +64,14 @@ void la_activity(uintptr_t *cookie, unsigned int flag);
 
 동적 링커가 이 함수를 호출해서 링크 맵 동작이 있어나고 있다는 걸 감사 라이브러리에게 알린다. `cookie`는 링크 맵의 머리에 있는 오브젝트를 식별할 수 있게 해 준다. 동적 링커가 이 함수를 호출할 때 `flag`를 다음 값들 중 하나로 설정한다.
 
-<dl>
-<dt><code>LA_ACT_ADD</code></dt>
-<dd>링크 맵에 새 오브젝트들을 추가하려 한다.</dd>
+`LA_ACT_ADD`
+:   링크 맵에 새 오브젝트들을 추가하려 한다.
 
-<dt><code>LA_ACT_DELETE</code></dt>
-<dd>링크 맵에서 오브젝트들을 제거하려 한다.</dd>
+`LA_ACT_DELETE`
+:   링크 맵에서 오브젝트들을 제거하려 한다.
 
-<dt><code>LA_ACT_CONSISTENT</code></dt>
-<dd>링크 맵 동작이 끝났다. 맵이 다시 모순 없는 상태이다.</dd>
-</dl>
+`LA_ACT_CONSISTENT`
+:   링크 맵 동작이 끝났다. 맵이 다시 모순 없는 상태이다.
 
 ### `la_objopen()`
 
@@ -86,25 +82,21 @@ unsigned int la_objopen(struct link_map *map, Lmid_t lmid,
 
 새 공유 오브젝트를 적재할 때 동적 링커가 이 함수를 호출한다. `map` 인자는 그 오브젝트를 기술하는 링크 맵 구조체에 대한 포인터이다. `lmid` 인자는 다음 값들 중 하나이다.
 
-<dl>
-<dt><code>LM_ID_BASE</code></dt>
-<dd>링크 맵이 최초 네임스페이스에 속한다.</dd>
+`LM_ID_BASE`
+:   링크 맵이 최초 네임스페이스에 속한다.
 
-<dt><code>LM_ID_NEWLM</code></dt>
-<dd>링크 맵이 <tt>[[dlmopen(3)]]</tt>을 통해 요청된 새 네임스페이스에 속한다.</dd>
-</dl>
+`LM_ID_NEWLM`
+:   링크 맵이 <tt>[[dlmopen(3)]]</tt>을 통해 요청된 새 네임스페이스에 속한다.
 
 `cookie`는 이 오브젝트의 식별자에 대한 포인터이다. 이후의 감사 라이브러리 함수 호출에 이 식별자가 제공되므로 이 오브젝트를 식별할 수 있다. 이 식별자는 오브젝트의 링크 맵을 가리키도록 초기화 돼 있지만 감사 라이브러리에서 오브젝트 식별에 쓰기 편한 다른 어떤 값으로 바꿀 수 있다.
 
 반환 값으로 `la_objopen()`은 다음 상수들을 0개 이상 OR 해서 만든 비트 마스크를 반환한다. 그래서 감사 라이브러리에서 `la_symbind*()`로 감시할 오브젝트를 선택할 수 있다.
 
-<dl>
-<dt><code>LA_FLG_BINDTO</code></dt>
-<dd>이 오브젝트로의 심볼 바인딩을 감사한다.</dd>
+`LA_FLG_BINDTO`
+:   이 오브젝트로의 심볼 바인딩을 감사한다.
 
-<dt><code>LA_FLG_BINDFROM</code></dt>
-<dd>이 오브젝트로부터의 심볼 바인딩을 감사한다.</dd>
-</dl>
+`LA_FLG_BINDFROM`
+:   이 오브젝트로부터의 심볼 바인딩을 감사한다.
 
 `la_objopen()`의 반환 값 0은 이 오브젝트에 대해 어떤 심볼 바인딩도 감사하지 않을 것임을 나타낸다.
 
@@ -149,23 +141,19 @@ uintptr_t la_symbind64(Elf64_Sym *sym, unsigned int ndx,
 
 `flags` 인자는 심볼에 대한 정보를 제공하면서 동시에 이 PLT(Procedure Linkage Table) 항목의 이후 감사 방식을 변경하는 데 쓸 수 있는 비트 마스크이다. 동적 링커가 이 인자에 다음 비트 값들을 제공할 수 있다.
 
-<dl>
-<dt><code>LA_SYMB_DLSYM</code></dt>
-<dd><tt>[[dlsym(3)]]</tt> 호출로 인해 바인딩이 발생했다.</dd>
+`LA_SYMB_DLSYM`
+:   <tt>[[dlsym(3)]]</tt> 호출로 인해 바인딩이 발생했다.
 
-<dt><code>LA_SYMB_ALTVALUE</code></dt>
-<dd>앞선 <code>la_symbind*()</code> 호출이 이 심볼에 대해 대체 값을 반환했다.</dd>
-</dl>
+`LA_SYMB_ALTVALUE`
+:   앞선 `la_symbind*()` 호출이 이 심볼에 대해 대체 값을 반환했다.
 
 기본적으로 감사 라이브러리에서 `la_pltenter()` 및 `la_pltexit()` 함수(아래 참고)를 구현하고 있으면 `la_symbind()` 후에 심볼이 참조될 때마다 PLT 항목에 대해 그 함수들이 호출된다. `*flags`에 다음 플래그들을 OR 해서 그 기본 동작을 바꿀 수 있다.
 
-<dl>
-<dt><code>LA_SYMB_NOPLTENTER</code></dt>
-<dd>이 심볼에 <code>la_pltenter()</code>를 호출하지 말 것.</dd>
+`LA_SYMB_NOPLTENTER`
+:   이 심볼에 `la_pltenter()`를 호출하지 말 것.
 
-<dt><code>LA_SYMB_NOPLTEXIT</code></dt>
-<dd>이 심볼에 <code>la_pltexit()</code>을 호출하지 말 것.</dd>
-</dl>
+`LA_SYMB_NOPLTEXIT`
+:   이 심볼에 `la_pltexit()`을 호출하지 말 것.
 
 `la_symbind32()` 및 `la_symbind64()`의 반환 값은 함수 반환 후 제어가 넘어가야 할 주소이다. 감사 라이브러리에서 심볼 바인딩을 감시만 하려는 거라면 `sym->st_value`를 반환하면 된다. 라이브러리에서 제어를 다른 방향으로 바꾸고 싶다면 다른 값을 반환할 수 있다.
 

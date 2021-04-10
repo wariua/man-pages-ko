@@ -17,16 +17,17 @@ ssize_t tee(int fd_in, int fd_out, size_t len, unsigned int flags);
 
 `flags`는 다음 값을 0개 이상 OR 해서 구성한 비트 마스크이다.
 
-<dl>
-<dt><code>SPLICE_F_MOVE</code></dt>
-<dd>현재 <code>tee()</code>에 아무 효과가 없다. <tt>[[splice(2)]]</tt> 참고.</dd>
-<dt><code>SPLICE_F_NONBLOCK</code></dt>
-<dd>I/O에서 블록 하지 않는다. 자세한 내용은 <tt>[[splice(2)]]</tt> 참고.</dd>
-<dt><code>SPLICE_F_MORE</code></dt>
-<dd>현재 <code>tee()</code>에 아무 효과가 없지만 향후에 구현될 수도 있다. <tt>[[splice(2)]]</tt> 참고.</dd>
-<dt><code>SPLICE_F_GIFT</code></dt>
-<code>tee()</code>에서는 쓰지 않는다. <tt>[[vmsplice(2)]]</tt> 참고.
-</dl>
+`SPLICE_F_MOVE`
+:   현재 `tee()`에 아무 효과가 없다. <tt>[[splice(2)]]</tt> 참고.
+
+`SPLICE_F_NONBLOCK`
+:   I/O에서 블록 하지 않는다. 자세한 내용은 <tt>[[splice(2)]]</tt> 참고.
+
+`SPLICE_F_MORE`
+:   현재 `tee()`에 아무 효과가 없지만 향후에 구현될 수도 있다. <tt>[[splice(2)]]</tt> 참고.
+
+`SPLICE_F_GIFT`
+:   `tee()`에서는 쓰지 않는다. <tt>[[vmsplice(2)]]</tt> 참고.
 
 ## RETURN VALUE
 
@@ -36,14 +37,14 @@ ssize_t tee(int fd_in, int fd_out, size_t len, unsigned int flags);
 
 ## ERRORS
 
-<dl>
-<dt><code>EAGAIN</code></dt>
-<dd><code>flags</code>에 <code>SPLICE_F_NONBLOCK</code>이 지정되었거나 파일 디스크립터들 중 하나에 논블로킹 표시(<code>O_NONBLOCK</code>)가 돼 있는데 동작이 블록 되려 한다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>fd_in</code>이나 <code>fd_out</code>이 파이프를 가리키고 있지 않다. 또는 <code>fd_in</code>과 <code>fd_out</code>이 같은 파이프를 가리키고 있다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>메모리 부족.</dd>
-</dl>
+`EAGAIN`
+:   `flags`에 `SPLICE_F_NONBLOCK`이 지정되었거나 파일 디스크립터들 중 하나에 논블로킹 표시(`O_NONBLOCK`)가 돼 있는데 동작이 블록 되려 한다.
+
+`EINVAL`
+:   `fd_in`이나 `fd_out`이 파이프를 가리키고 있지 않다. 또는 `fd_in`과 `fd_out`이 같은 파이프를 가리키고 있다.
+
+`ENOMEM`
+:   메모리 부족.
 
 ## VERSIONS
 

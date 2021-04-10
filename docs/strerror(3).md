@@ -20,14 +20,10 @@ char *strerror_l(int errnum, locale_t locale);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>strerror_r()</code>:</dt>
-<dd>
-다음 경우에 XSI 준수 버전 제공:<br>
-<code>(_POSIX_C_SOURCE >= 200112L) && !  _GNU_SOURCE</code><br>
-아니면 GNU 전용 버전 제공.
-</dd>
-</dl>
+`strerror_r()`:
+:   다음 경우에 XSI 준수 버전 제공:<br>
+    `(_POSIX_C_SOURCE >= 200112L) && !  _GNU_SOURCE`<br>
+    아니면 GNU 전용 버전 제공.
 
 ## DESCRIPTION
 
@@ -55,12 +51,11 @@ POSIX.1-2001과 POSIX.1-2008에서는 `strerror()`나 `strerror_l()` 호출 성�
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>errnum</code> 값이 유효한 오류 번호가 아니다.</dd>
-<dt><code>ERANGE</code></dt>
-<dd>제공 저장 공간이 오류 설명 문자열을 담기에 충분하지 않다.</dd>
-</dl>
+`EINVAL`
+:   `errnum` 값이 유효한 오류 번호가 아니다.
+
+`ERANGE`
+:   제공 저장 공간이 오류 설명 문자열을 담기에 충분하지 않다.
 
 ## VERSIONS
 

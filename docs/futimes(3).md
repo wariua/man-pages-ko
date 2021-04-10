@@ -14,17 +14,12 @@ int lutimes(const char *filename, const struct timeval tv[2]);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>futimes()</code>, <code>lutimes()</code>:</dt>
-<dd>
- <dl>
- <dt>glibc 2.19부터:</dt>
- <dd><code>_DEFAULT_SOURCE</code></dd>
- <dt>glibc 2.19 및 이전:</dt>
- <dd><code>_BSD_SOURCE</code></dd>
- </dl>
-</dd>
-</dl>
+`futimes()`, `lutimes()`:
+:   glibc 2.19부터:
+    :   `_DEFAULT_SOURCE`
+
+    glibc 2.19 및 이전:
+    :   `_BSD_SOURCE`
 
 ## DESCRIPTION
 
@@ -40,19 +35,16 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 오류는 <tt>[[utimes(2)]]</tt>와 마찬가지이되, `futimes()`에 다음이 추가된다.
 
-<dl>
-<dt><code>EBADF</code></dt>
-<dd><code>fd</code>가 유효한 파일 디스크립터가 아니다.</dd>
-<dt><code>ENOSYS</code></dt>
-<dd><code>/proc</code> 파일 시스템에 접근할 수 없다.</dd>
-</dl>
+`EBADF`
+:   `fd`가 유효한 파일 디스크립터가 아니다.
+
+`ENOSYS`
+:   `/proc` 파일 시스템에 접근할 수 없다.
 
 `lutimes()`에서는 다음 오류가 추가로 발생할 수 있다.
 
-<dl>
-<dt><code>ENOSYS</code><dt>
-<dd>커널이 이 호출을 지원하지 않는다. 리눅스 2.6.22나 이후 버전이 필요하다.</dd>
-</dl>
+`ENOSYS`
+:   커널이 이 호출을 지원하지 않는다. 리눅스 2.6.22나 이후 버전이 필요하다.
 
 ## VERSIONS
 

@@ -14,13 +14,9 @@ long long atoll(const char *nptr);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>atoll()</code>:</dt>
-<dd>
-<code>_ISOC99_SOURCE</code><br>
-<code>    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE || _SVID_SOURCE</code>
-</dd>
-</dl>
+`atoll()`:
+:   `_ISOC99_SOURCE`<br>
+    `    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE || _SVID_SOURCE`
 
 ## DESCRIPTION
 

@@ -16,19 +16,17 @@ long ulimit(int cmd, long newlimit);
 
 `ulimit()` 호출은 호출 프로세스에 대한 어떤 제한값을 얻거나 설정한다. `cmd` 인자는 다음 값들 중 하나일 수 있다.
 
-<dl>
-<dt><code>UL_GETFSIZE</code></dt>
-<dd>파일 크기에 대한 제한을 반환한다. 512바이트 단위이다.</dd>
+`UL_GETFSIZE`
+:   파일 크기에 대한 제한을 반환한다. 512바이트 단위이다.
 
-<dt><code>UL_SETFSIZE</code></dt>
-<dd>파일 크기에 대한 제한을 설정한다.</dd>
+`UL_SETFSIZE`
+:   파일 크기에 대한 제한을 설정한다.
 
-<dt><code>3</code></dt>
-<dd>(리눅스에 구현돼 있지 않음.) 데이터 세그먼트 주소로 가능한 최댓값을 반환한다.</dd>
+`3`
+:   (리눅스에 구현돼 있지 않음.) 데이터 세그먼트 주소로 가능한 최댓값을 반환한다.
 
-<dt><code>4</code></dt>
-<dd>(구현돼 있지만 심볼 상수 제공하지 않음.) 호출 프로세스가 최대로 열 수 있는 파일 개수를 반환한다.</dd>
-</dl>
+`4`
+:   (구현돼 있지만 심볼 상수 제공하지 않음.) 호출 프로세스가 최대로 열 수 있는 파일 개수를 반환한다.
 
 ## RETURN VALUE
 
@@ -36,10 +34,8 @@ long ulimit(int cmd, long newlimit);
 
 ## ERRORS
 
-<dl>
-<dt><code>EPERM</code></dt>
-<dd>비특권 프로세스가 제한값을 올리려고 했다.</dd>
-</dl>
+`EPERM`
+:   비특권 프로세스가 제한값을 올리려고 했다.
 
 ## ATTRIBUTES
 

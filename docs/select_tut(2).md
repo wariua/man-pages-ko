@@ -30,10 +30,8 @@ int pselect(int nfds, fd_set *readfds, fd_set *writefds,
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>pselect()</code>:</dt>
-<dd><code>_POSIX_C_SOURCE >= 200112L</code></dd>
-</dl>
+`pselect()`:
+:   `_POSIX_C_SOURCE >= 200112L`
 
 ## DESCRIPTION
 
@@ -43,48 +41,36 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ### 인자
 
-<dl>
-<dt><code>readfds</code></dt>
-<dd>파일 디스크립터들 중 하나라도 읽기 가능한 데이터가 있는지 보기 위해 이 집합을 감시한다. <code>select()</code> 반환 후에 <code>readfds</code>에는 즉시 읽기가 가능하지 않은 파일 디스크립터들이 모두 지워져 있게 된다.</dd>
+`readfds`
+:   파일 디스크립터들 중 하나라도 읽기 가능한 데이터가 있는지 보기 위해 이 집합을 감시한다. `select()` 반환 후에 `readfds`에는 즉시 읽기가 가능하지 않은 파일 디스크립터들이 모두 지워져 있게 된다.
 
-<dt><code>writefds</code></dt>
-<dd>파일 디스크립터들 중 하나라도 데이터를 쓸 공간이 있는지 보기 위해 이 집합을 감시한다. <code>select()</code> 반환 후에 <code>writefds</code>에는 즉시 쓰기가 가능하지 않은 파일 디스크립터들이 모두 지워져 있게 된다.</dd>
+`writefds`
+:   파일 디스크립터들 중 하나라도 데이터를 쓸 공간이 있는지 보기 위해 이 집합을 감시한다. `select()` 반환 후에 `writefds`에는 즉시 쓰기가 가능하지 않은 파일 디스크립터들이 모두 지워져 있게 된다.
 
-<dt><code>exceptfds</code></dt>
-<dd>"예외적 상황"을 확인하기 위해 이 집합을 감시한다. 실무에서 유일한 그런 예외적 상황은 꽤 흔한데, 바로 TCP 소켓에서 <em>대역외</em>(OOB) 데이터를 읽을 수 있는 경우이다. OOB 데이터에 대한 자세한 내용은 <tt>[[recv(2)]]</tt>, <tt>[[send(2)]]</tt>, <tt>[[tcp(7)]]</tt>를 보라. (<tt>[[select(2)]]</tt>에서 예외 상황이라고 나타내는 덜 흔한 또 다른 경우는 패킷 모드 유사 터미널에서 발생한다. <code>ioctl_tty(2)</code> 참고.) <code>select()</code> 반환 후에 <code>exceptfds</code>에는 예외 상황이 발생하지 않은 파일 디스크립터들이 모두 지워져 있게 된다.</dd>
+`exceptfds`
+:   "예외적 상황"을 확인하기 위해 이 집합을 감시한다. 실무에서 유일한 그런 예외적 상황은 꽤 흔한데, 바로 TCP 소켓에서 *대역외*(OOB) 데이터를 읽을 수 있는 경우이다. OOB 데이터에 대한 자세한 내용은 <tt>[[recv(2)]]</tt>, <tt>[[send(2)]]</tt>, <tt>[[tcp(7)]]</tt>를 보라. (<tt>[[select(2)]]</tt>에서 예외 상황이라고 나타내는 덜 흔한 또 다른 경우는 패킷 모드 유사 터미널에서 발생한다. `ioctl_tty(2)` 참고.) `select()` 반환 후에 `exceptfds`에는 예외 상황이 발생하지 않은 파일 디스크립터들이 모두 지워져 있게 된다.
 
-<dt><code>nfds</code></dt>
-<dd>집합들에 있는 파일 디스크립터 중 가장 큰 값에 1을 더한 정수이다. 달리 말하면 집합 각각에 파일 디스크립터를 추가하면서 그 중 최대인 정수를 계산한 다음 1만큼 올린 값을 <code>nfds</code>로 전달하면 된다.</dd>
+`nfds`
+:   집합들에 있는 파일 디스크립터 중 가장 큰 값에 1을 더한 정수이다. 달리 말하면 집합 각각에 파일 디스크립터를 추가하면서 그 중 최대인 정수를 계산한 다음 1만큼 올린 값을 `nfds`로 전달하면 된다.
 
-<dt><code>utimeout</code></dt>
-<dd>
+`utimeout`
+:   뭔가 특별한 일이 일어나지 않더라도 `select()`가 반환 전에 최대 이 시간만큼 대기할 수 있다. 이 값을 NULL로 전달하면 파일 디스크립터가 준비 상태가 되기를 기다리며 `select()`가 무한정 블록 한다. `utimeout`을 0초로 설정할 수도 있는데, 그러면 `select()`가 호출 시점의 파일 디스크립터 준비 상태 정보를 가지고 즉시 반환한다. `struct timeval` 구조체는 다음과 같이 정의돼 있다.
 
-뭔가 특별한 일이 일어나지 않더라도 <code>select()</code>가 반환 전에 최대 이 시간만큼 대기할 수 있다. 이 값을 NULL로 전달하면 파일 디스크립터가 준비 상태가 되기를 기다리며 <code>select()</code>가 무한정 블록 한다. <code>utimeout</code>을 0초로 설정할 수도 있는데, 그러면 <code>select()</code>가 호출 시점의 파일 디스크립터 준비 상태 정보를 가지고 즉시 반환한다. <code>struct timeval</code> 구조체는 다음과 같이 정의돼 있다.
+        struct timeval {
+            time_t tv_sec;    /* 초 */
+            long tv_usec;     /* 마이크로초 */
+        };
 
-```c
-struct timeval {
-    time_t tv_sec;    /* 초 */
-    long tv_usec;     /* 마이크로초 */
-};
-```
-</dd>
+`ntimeout`
+:   `pselect()`의 이 인자는 `utimeout`과 의미가 같되 다음과 같이 `struct timespec`의 정밀도가 나노초이다.
 
-<dt><code>ntimeout</code></dt>
-<dd>
+        struct timespec {
+            long tv_sec;    /* 초 */
+            long tv_nsec;   /* 나노초 */
+        };
 
-<code>pselect()</code>의 이 인자는 <code>utimeout</code>과 의미가 같되 다음과 같이 <code>struct timespec</code>의 정밀도가 나노초이다.
-
-```c
-struct timespec {
-    long tv_sec;    /* 초 */
-    long tv_nsec;   /* 나노초 */
-};
-```
-</dd>
-
-<dt><code>sigmask</code></dt>
-<dd>이 인자는 호출자가 <code>pselect()</code> 호출 내에 블록 되어 있는 동안 커널에서 차단을 풀어야 하는 (즉 호출 스레드의 시그널 마스크에서 빼야 하는) 시그널들의 집합을 담는다. (<tt>[[sigaddset(3)]]</tt> 및 <tt>[[sigprocmask(2)]]</tt> 참고.) NULL일 수 있으며, 그때는 함수에 들어가고 나올 때 시그널 마스크를 변경하지 않는다. 이 경우 <code>pselect()</code>는 그냥 <code>select()</code>처럼 동작하게 된다.</dd>
-</dl>
+`sigmask`
+:   이 인자는 호출자가 `pselect()` 호출 내에 블록 되어 있는 동안 커널에서 차단을 풀어야 하는 (즉 호출 스레드의 시그널 마스크에서 빼야 하는) 시그널들의 집합을 담는다. (<tt>[[sigaddset(3)]]</tt> 및 <tt>[[sigprocmask(2)]]</tt> 참고.) NULL일 수 있으며, 그때는 함수에 들어가고 나올 때 시그널 마스크를 변경하지 않는다. 이 경우 `pselect()`는 그냥 `select()`처럼 동작하게 된다.
 
 ### 시그널과 데이터 이벤트 병행하기
 
@@ -170,7 +156,7 @@ main(int argc, char *argv[])
 
 8. 절대로 버퍼 길이를 0으로 해서 `read(2)`, <tt>[[recv(2)]]</tt>, `write(2)`, <tt>[[send(2)]]</tt>를 호출하지 마라.
 
-9. 함수 `read(2)`, <tt>[[recv(2)]]</tt>, `write(2)`, <tt>[[send(2)]]</tt>가 7번에 나열한 것 외의 오류로 실패하거나 입력 함수들이 파일 끝을 나타내는 0을 반환하는 경우에는 그 파일 디스크립터를 `select()`로 다시 전달하지 <em>않아야 한다</em>. 위 예에서는 파일 디스크립터를 즉시 닫고서 -1로 설정해서 집합에 포함되는 걸 방지한다.
+9. 함수 `read(2)`, <tt>[[recv(2)]]</tt>, `write(2)`, <tt>[[send(2)]]</tt>가 7번에 나열한 것 외의 오류로 실패하거나 입력 함수들이 파일 끝을 나타내는 0을 반환하는 경우에는 그 파일 디스크립터를 `select()`로 다시 전달하지 *않아야 한다*. 위 예에서는 파일 디스크립터를 즉시 닫고서 -1로 설정해서 집합에 포함되는 걸 방지한다.
 
 10. `select()`를 호출할 때마다 타임아웃 값을 설정해야 한다. 일부 운영 체제에서 그 구조체를 변경하기 때문이다. 하지만 `pselect()`에서는 타임아웃 구조체를 변경하지 않는다.
 

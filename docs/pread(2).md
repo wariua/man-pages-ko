@@ -14,13 +14,9 @@ ssize_t pwrite(int fd, const void *buf, size_t count, off_t offset);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>pread()</code>, <code>pwrite()</code>:</dt>
-<dd>
-<code>_XOPEN_SOURCE >= 500</code><br>
-<code>|| /* glibc 2.12부터: */ _POSIX_C_SOURCE >= 200809L</code>
-</dd>
-</dl>
+`pread()`, `pwrite()`:
+:   `_XOPEN_SOURCE >= 500`<br>
+    `|| /* glibc 2.12부터: */ _POSIX_C_SOURCE >= 200809L`
 
 ## DESCRIPTION
 

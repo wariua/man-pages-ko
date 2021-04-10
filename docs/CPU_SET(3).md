@@ -55,18 +55,20 @@ int  CPU_EQUAL_S(size_t setsize, cpu_set_t *set1, cpu_set_t *set2);
 
 CPU 세트 `cpu`에 동작하는 다음 매크로들이 있다.
 
-<dl>
-<dt><code>CPU_ZERO()</code></dt>
-<dd><code>set</code>을 비워서 어떤 CPU도 담지 않게 만듦.</dd>
-<dt><code>CPU_SET()</code></dt>
-<dd>CPU <code>cpu</code>를 <code>set</code>에 추가.</dd>
-<dt><code>CPU_CLR()</code></dt>
-<dd>CPU <code>cpu</code>를 <code>set</code>에서 제거.</dd>
-<dt><code>CPU_ISSET()</code></dt>
-<dd>CPU <code>cpu</code>가 <code>set</code>에 속하는지 검사.</dd>
-<dt><code>CPU_COUNT()</code></dt>
-<dd><code>set</code> 내의 CPU 개수 반환.</dd>
-</dl>
+`CPU_ZERO()`
+:   `set`을 비워서 어떤 CPU도 담지 않게 만듦.
+
+`CPU_SET()`
+:   CPU `cpu`를 `set`에 추가.
+
+`CPU_CLR()`
+:   CPU `cpu`를 `set`에서 제거.
+
+`CPU_ISSET()`
+:   CPU `cpu`가 `set`에 속하는지 검사.
+
+`CPU_COUNT()`
+:   `set` 내의 CPU 개수 반환.
 
 `cpu` 인자를 지정하는 경우 그 인자에 부대 효과가 없어야 한다. 위 매크로들에서 그 인자를 여러 번 평가할 수도 있기 때문이다.
 
@@ -74,16 +76,17 @@ CPU 세트 `cpu`에 동작하는 다음 매크로들이 있다.
 
 다음 매크로들은 CPU 세트에 논리 연산을 수행한다.
 
-<dl>
-<dt><code>CPU_AND()</code></dt>
-<dd>세트 <code>srcset1</code>과 <code>srcset2</code>의 교집합을 (출발 세트 중 하나일 수도 있는) <code>destset</code>에 저장.</dd>
-<dt><code>CPU_OR()</code></dt>
-<dd>세트 <code>srcset1</code>과 <code>srcset2</code>의 합집합을 (출발 세트 중 하나일 수도 있는) <code>destset</code>에 저장.</dd>
-<dt><code>CPU_XOR()</code></dt>
-<dd>세트 <code>srcset1</code>과 <code>srcset2</code>의 XOR을 (출발 세트 중 하나일 수도 있는) <code>destset</code>에 저장. XOR은 <code>srcset1</code>과 <code>srcset2</code> 중 한 쪽에만 있는 CPU들의 집합을 뜻한다.</dd>
-<dt><code>CPU_EQUAL()</code></dt>
-<dd>두 CPU 세트가 정확히 같은 CPU들을 담고 있는지 검사.</dd>
-</dl>
+`CPU_AND()`
+:   세트 `srcset1`과 `srcset2`의 교집합을 (출발 세트 중 하나일 수도 있는) `destset`에 저장.
+
+`CPU_OR()`
+:   세트 `srcset1`과 `srcset2`의 합집합을 (출발 세트 중 하나일 수도 있는) `destset`에 저장.
+
+`CPU_XOR()`
+:   세트 `srcset1`과 `srcset2`의 XOR을 (출발 세트 중 하나일 수도 있는) `destset`에 저장. XOR은 `srcset1`과 `srcset2` 중 한 쪽에만 있는 CPU들의 집합을 뜻한다.
+
+`CPU_EQUAL()`
+:   두 CPU 세트가 정확히 같은 CPU들을 담고 있는지 검사.
 
 ### 동적 크기 CPU 세트
 
@@ -91,14 +94,14 @@ CPU 세트 크기를 동적으로 정할 수 있어야 하는 (가령 표준 `cp
 
 다음 매크로들을 사용해 CPU 세트를 할당하고 해제한다.
 
-<dl>
-<dt><code>CPU_ALLOC()</code></dt>
-<dd>0에서 <code>num_cpus-1</code>까지 범위의 CPU들을 담을 만큼 큰 CPU 세트를 할당.</dd>
-<dt><code>CPU_ALLOC_SIZE()</code></dt>
-<dd>0에서 <code>num_cpus-1</code>까지 범위의 CPU들을 담는 데 필요한 CPU 세트의 바이트 단위 크기를 반환. 아래에서 설명하는 <code>CPU_*_S()</code> 매크로들의 <code>setsize</code> 인자로 사용할 수 있는 값을 이 매크로가 제공한다.</dd>
-<dt><code>CPU_FREE()</code></dt>
-<dd>앞서 <code>CPU_ALLOC()</code>으로 할당한 CPU 세트 해제.</dd>
-</dl>
+`CPU_ALLOC()`
+:   0에서 `num_cpus-1`까지 범위의 CPU들을 담을 만큼 큰 CPU 세트를 할당.
+
+`CPU_ALLOC_SIZE()`
+:   0에서 `num_cpus-1`까지 범위의 CPU들을 담는 데 필요한 CPU 세트의 바이트 단위 크기를 반환. 아래에서 설명하는 `CPU_*_S()` 매크로들의 `setsize` 인자로 사용할 수 있는 값을 이 매크로가 제공한다.
+
+`CPU_FREE()`
+:   앞서 `CPU_ALLOC()`으로 할당한 CPU 세트 해제.
 
 이름이 "_S"로 끝나는 매크로들은 이름에 접두사 없는 매크로들의 상사형이다. 이 매크로들은 그 상사형과 같은 일을 수행하되 크기가 `setsize` 바이트인 동적 할당 CPU 세트에 대해 동작한다.
 

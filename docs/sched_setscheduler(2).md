@@ -31,25 +31,24 @@ struct sched_param {
 
 `policy`에 지정할 수 있는 값으로 현재 리눅스에서는 다음의 "일반" (즉 비실시간) 스케줄링 정책들을 지원한다.
 
-<dl>
-<dt><code>SCHED_OTHER</code></dt>
-<dd>표준 라운드 로빈 시공유 정책.</dd>
-<dt><code>SCHED_BATCH</code></dt>
-<dd>"배치" 방식 프로세스 실행</dd>
-<dt><code>SCHED_IDLE</code></dt>
-<dd><em>아주</em> 낮은 우선순위의 배경 작업 실행</dd>
-</dl>
+`SCHED_OTHER`
+:   표준 라운드 로빈 시공유 정책.
+
+`SCHED_BATCH`
+:   "배치" 방식 프로세스 실행
+
+`SCHED_IDLE`
+:   *아주* 낮은 우선순위의 배경 작업 실행
 
 위 정책들 각각에서 `param->sched_priority`가 0이어야 한다.
 
 실행 가능 스레드들 가운데 실행할 것을 선택하는 방식을 정밀하게 제어해야 하는 특수한 시간 제약적 응용들을 위해 다양한 "실시간" 정책들도 지원한다. 프로세스에서 언제 이 정책들을 사용할 수 있는지에 대한 규칙은 <tt>[[sched(7)]]</tt>를 보라. `policy`에 지정할 수 있는 실시간 정책들은 다음과 같다.
 
-<dl>
-<dt><code>SCHED_FIFO</code></dt>
-<dd>선입선출 정책</dd>
-<dt><code>SCHED_RR</code></dt>
-<dd>라운드 로빈 정책</dd>
-</dl>
+`SCHED_FIFO`
+:   선입선출 정책
+
+`SCHED_RR`
+:   라운드 로빈 정책
 
 위 정책들 각각에서 `param->sched_priority`가 스레드의 스케줄링 우선순위를 지정한다. 이 값은 지정한 `policy`로 <tt>[[sched_get_priority_min(2)]]</tt>과 <tt>[[sched_get_priority_max(2)]]</tt>를 호출해서 반환받은 범위 내의 수이다. 리눅스에서 이 시스템 호출들은 각각 1과 99를 반환한다.
 
@@ -63,18 +62,20 @@ struct sched_param {
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd>유효하지 않은 인자: <code>pid</code>가 음수이거나 <code>param</code>이 NULL이다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>(<code>sched_setscheduler()</code>) <code>policy</code>가 알려진 정책이 아니다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>(<code>sched_setscheduler()</code>) 지정한 <code>policy</code>에 대해 <code>param</code>이 말이 되지 않는다.</dd>
-<dt><code>EPERM</code></dt>
-<dd>호출 스레드가 적절한 특권을 가지고 있지 않다.</dd>
-<dt><code>ESRCH</code></dt>
-<dd>ID가 <code>pid</code>인 스레드를 찾을 수 없다.</dd>
-</dl>
+`EINVAL`
+:   유효하지 않은 인자: `pid`가 음수이거나 `param`이 NULL이다.
+
+`EINVAL`
+:   (`sched_setscheduler()`) `policy`가 알려진 정책이 아니다.
+
+`EINVAL`
+:   (`sched_setscheduler()`) 지정한 `policy`에 대해 `param`이 말이 되지 않는다.
+
+`EPERM`
+:   호출 스레드가 적절한 특권을 가지고 있지 않다.
+
+`ESRCH`
+:   ID가 `pid`인 스레드를 찾을 수 없다.
 
 ## CONFORMING TO
 

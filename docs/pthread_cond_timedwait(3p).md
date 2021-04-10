@@ -52,34 +52,31 @@ int pthread_cond_wait(pthread_cond_t *restrict cond,
 
 다음 경우에 이 함수들이 실패한다.
 
-<dl>
-<dt><code>ENOTRECOVERABLE</code></dt>
-<dd>뮤텍스가 보호하는 상태가 복구 가능하지 않다.</dd>
-<dt><code>EOWNERDEAD</code></dt>
-<dd>뮤텍스가 견고 뮤텍스이며 이전 소유자 스레드를 포함한 프로세스가 뮤텍스 락을 잡은 채로 종료했다. 호출 스레드가 뮤텍스 락을 획득하게 되며 상태를 정상으로 만드는 것은 새 소유자의 몫이다.</dd>
-<dt><code>EPERM</code></dt>
-<dd>뮤텍스 유형이 <code>PTHREAD_MUTEX_ERRORCHECK</code>이거나 뮤텍스가 견고 뮤텍스이며 현재 스레드가 그 뮤텍스를 소유하고 있지 않다.</dd>
-</dl>
+`ENOTRECOVERABLE`
+:   뮤텍스가 보호하는 상태가 복구 가능하지 않다.
+
+`EOWNERDEAD`
+:   뮤텍스가 견고 뮤텍스이며 이전 소유자 스레드를 포함한 프로세스가 뮤텍스 락을 잡은 채로 종료했다. 호출 스레드가 뮤텍스 락을 획득하게 되며 상태를 정상으로 만드는 것은 새 소유자의 몫이다.
+
+`EPERM`
+:   뮤텍스 유형이 `PTHREAD_MUTEX_ERRORCHECK`이거나 뮤텍스가 견고 뮤텍스이며 현재 스레드가 그 뮤텍스를 소유하고 있지 않다.
 
 다음 경우에 `pthread_cond_timedwait()` 함수가 실패한다.
 
-<dl>
-<dt><code>ETIMEDOUT</code></dt>
-<dd><code>pthread_cond_timedwait()</code>의 <code>abstime</code>으로 지정한 시간이 지났다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>abstime</code>에 지정한 나노초 값이 0보다 작거나 10억 이상이다.</dd>
-</dl>
+`ETIMEDOUT`
+:   `pthread_cond_timedwait()`의 `abstime`으로 지정한 시간이 지났다.
+
+`EINVAL`
+:   `abstime`에 지정한 나노초 값이 0보다 작거나 10억 이상이다.
 
 다음 경우에 이 함수들이 실패할 수도 있다.
 
-<dl>
-<dt><code>EOWNERDEAD</code></dt>
-<dd>뮤텍스가 견고 뮤텍스이며 이전 소유자 스레드가 뮤텍스 락을 잡은 채로 종료했다. 호출 스레드가 뮤텍스 락을 획득하게 되며 상태를 정상으로 만드는 것은 새 소유자의 몫이다.</dd>
-</dl>
+`EOWNERDEAD`
+:   뮤텍스가 견고 뮤텍스이며 이전 소유자 스레드가 뮤텍스 락을 잡은 채로 종료했다. 호출 스레드가 뮤텍스 락을 획득하게 되며 상태를 정상으로 만드는 것은 새 소유자의 몫이다.
 
 이 함수는 오류 코드 `[EINTR]`을 반환하지 않는다.
 
-<em>이하는 규범적이지 않은 내용이다.</em>
+*이하는 규범적이지 않은 내용이다.*
 
 ## EXAMPLES
 
@@ -173,13 +170,13 @@ cond_relative_timed_wait(c, m, &reltime);
 
 <tt>[[pthread_cond_broadcast()|pthread_cond_broadcast(3p)]]</tt>
 
-POSIX.1-2008 Base Definitions 권, <em>4.11절 Memory Synchronization</em>, `<pthread.h>`
+POSIX.1-2008 Base Definitions 권, *4.11절 Memory Synchronization*, `<pthread.h>`
 
 ## COPYRIGHT
 
-Portions of this text are reprinted and reproduced in electronic form from IEEE Std 1003.1, 2013 Edition, Standard for Information Technology -- Portable Operating System Interface (POSIX), The Open Group Base Specifications Issue 7, Copyright (C) 2013 by the Institute of Electrical and Electronics Engineers, Inc and The Open Group. (This is POSIX.1-2008 with the 2013 Technical Corrigendum 1 applied.) In the event of any discrepancy between this version and the original IEEE and The Open Group Standard, the original IEEE and The Open Group Standard is the referee document. The original Standard can be obtained online at http://www.unix.org/online.html .
+Portions of this text are reprinted and reproduced in electronic form from IEEE Std 1003.1, 2013 Edition, Standard for Information Technology -- Portable Operating System Interface (POSIX), The Open Group Base Specifications Issue 7, Copyright (C) 2013 by the Institute of Electrical and Electronics Engineers, Inc and The Open Group. (This is POSIX.1-2008 with the 2013 Technical Corrigendum 1 applied.) In the event of any discrepancy between this version and the original IEEE and The Open Group Standard, the original IEEE and The Open Group Standard is the referee document. The original Standard can be obtained online at <http://www.unix.org/online.html>.
 
-Any typographical or formatting errors that appear in this page are most likely to have been introduced during the conversion of the source files to man page format. To report such errors, see https://www.kernel.org/doc/man-pages/reporting_bugs.html .
+Any typographical or formatting errors that appear in this page are most likely to have been introduced during the conversion of the source files to man page format. To report such errors, see <https://www.kernel.org/doc/man-pages/reporting_bugs.html>.
 
 ----
 

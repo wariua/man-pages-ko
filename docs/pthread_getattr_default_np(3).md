@@ -20,20 +20,19 @@ int pthread_setattr_default_np(pthread_attr_t *attr);
 
 * 객체의 속성 설정들이 유효해야 한다.
 
-* 객체에 <em>스택 주소</em> 속성을 설정해서는 안 된다.
+* 객체에 *스택 주소* 속성을 설정해서는 안 된다.
 
-* <em>스택 크기</em> 속성을 0으로 설정하는 것은 기본 스택 크기를 바꾸지 않는다는 뜻이다.
+* *스택 크기* 속성을 0으로 설정하는 것은 기본 스택 크기를 바꾸지 않는다는 뜻이다.
 
 `pthread_getattr_default_np()` 함수는 `attr`이 가리키는 스레드 속성 객체를 스레드 생성에 쓰는 기존 속성들을 담도록 설정한다.
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd>(<code>pthread_setattr_default_np()</code>) <code>attr</code>의 한 속성 설정이 유효하지 않거나, <code>attr</code>에 스택 주소 속성이 설정돼 있다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>(<code>pthread_setattr_default_np()</code>) 메모리 부족.</dd>
-</dl>
+`EINVAL`
+:   (`pthread_setattr_default_np()`) `attr`의 한 속성 설정이 유효하지 않거나, `attr`에 스택 주소 속성이 설정돼 있다.
+
+`ENOMEM`
+:   (`pthread_setattr_default_np()`) 메모리 부족.
 
 ## VERSIONS
 

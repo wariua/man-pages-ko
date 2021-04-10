@@ -17,10 +17,8 @@ int pthread_attr_getstack(const pthread_attr_t *attr,
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>pthread_attr_getstack()</code>, <code>pthread_attr_setstack()</code>:</dt>
-<dd><code>_POSIX_C_SOURCE >= 200112L</code></dd>
-</dl>
+`pthread_attr_getstack()`, `pthread_attr_setstack()`:
+:   `_POSIX_C_SOURCE >= 200112L`
 
 ## DESCRIPTION
 
@@ -38,10 +36,8 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 `pthread_attr_setstack()`이 다음 오류로 실패할 수 있다.
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>stacksize</code>가 <code>PTHREAD_STACK_MIN</code>(16384)바이트보다 작다. 일부 시스템에서는 <code>stackaddr</code>이나 <code>stackaddr + stacksize</code>가 올바로 정렬되어 있지 않은 경우에도 이 오류가 발생할 수 있다.</dd>
-</dl>
+`EINVAL`
+:   `stacksize`가 `PTHREAD_STACK_MIN`(16384)바이트보다 작다. 일부 시스템에서는 `stackaddr`이나 `stackaddr + stacksize`가 올바로 정렬되어 있지 않은 경우에도 이 오류가 발생할 수 있다.
 
 POSIX.1에서는 `stackaddr` 및 `stacksize`가 기술하는 스택이 호출자에게 읽기와 쓰기 모두 가능하지 않은 경우 `EACCES` 오류도 적고 있다.
 

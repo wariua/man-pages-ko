@@ -31,40 +31,33 @@ void regfree(regex_t *preg);
 
 `cflags`에는 다음을 0개 이상 비트 OR 할 수 있다.
 
-<dl>
-<dt><code>REG_EXTENDED</code></dt>
-<dd><code>regex</code>를 해석할 때 <strong>POSIX</strong> 확장 정규 표현식 문법을 쓴다. 설정돼 있지 않으면 <strong>POSIX</strong> 기본 정규 표현식 문법을 쓴다.</dd>
+`REG_EXTENDED`
+:   `regex`를 해석할 때 **POSIX** 확장 정규 표현식 문법을 쓴다. 설정돼 있지 않으면 **POSIX** 기본 정규 표현식 문법을 쓴다.
 
-<dt><code>REG_ICASE</code></dt>
-<dd>대소문자를 구별하지 않는다. 이 패턴 버퍼를 쓰는 후속 <code>regexec()</code>에서 대소문자를 무시하게 된다.</dd>
+`REG_ICASE`
+:   대소문자를 구별하지 않는다. 이 패턴 버퍼를 쓰는 후속 `regexec()`에서 대소문자를 무시하게 된다.
 
-<dt><code>REG_NOSUB</code></dt>
-<dd>일치 위치를 알려 주지 않는다. 이 플래그를 설정해서 컴파일 한 패턴 버퍼를 쓰면 <code>regexec()</code>에서 <code>nmatch</code> 및 <code>pmatch</code> 인자를 무시한다.</dd>
+`REG_NOSUB`
+:   일치 위치를 알려 주지 않는다. 이 플래그를 설정해서 컴파일 한 패턴 버퍼를 쓰면 `regexec()`에서 `nmatch` 및 `pmatch` 인자를 무시한다.
 
-<dt><code>REG_NEWLINE</code></dt>
-<dd>
+`REG_NEWLINE`
+:   임의 문자 일치 연산자가 개행에 일치하지 않는다.
 
-임의 문자 일치 연산자가 개행에 일치하지 않는다.
+    개행을 포함하지 않은 비일치 목록(`[^...]`)이 개행에 일치하지 않는다.
 
-개행을 포함하지 않은 비일치 목록(`[^...]`)이 개행에 일치하지 않는다.
+    `regexec()` 실행 플래그 `eflags`에 `REG_NOTBOL`이 있는지와 무관하게 행 시작 일치 연산자(`^`)가 개행 바로 다음의 빈 문자열에 일치한다.
 
-`regexec()` 실행 플래그 `eflags`에 `REG_NOTBOL`이 있는지와 무관하게 행 시작 일치 연산자(`^`)가 개행 바로 다음의 빈 문자열에 일치한다.
-
-`eflags`에 `REG_NOTEOL`이 있는지와 무관하게 행 종료 연산자(`$`)가 개행 바로 전의 빈 문자열에 일치한다.
-</dd>
-</dl>
+    `eflags`에 `REG_NOTEOL`이 있는지와 무관하게 행 종료 연산자(`$`)가 개행 바로 전의 빈 문자열에 일치한다.
 
 ### POSIX 정규 표현식 일치 검사
 
 `regexec()`를 사용해 미리 컴파일 한 패턴 버퍼 `preg`에 널 종료 문자열을 맞춰 본다. `nmatch`와 `pmatch`를 통해 일치 위치들에 대한 정보를 제공한다. `eflags`에는 `REG_NOTBOL`과 `REG_NOTEOL`을 비트 OR 할 수 있는데 일치 방식이 아래 설명처럼 바뀐다.
 
-<dl>
-<dt><code>REG_NOTBOL</code></dt>
-<dd>행 시작 일치 연산자가 항상 일치에 실패한다. (하지만 위의 컴파일 플래그 <code>REG_NEWLINE</code> 참고.) 문자열을 부분 부분씩 <code>regexec()</code>로 전달하기 때문에 문자열 시작을 행의 시작으로 해석하지 말아야 할 때 이 플래그를 쓸 수 있다.</dd>
+`REG_NOTBOL`
+:   행 시작 일치 연산자가 항상 일치에 실패한다. (하지만 위의 컴파일 플래그 `REG_NEWLINE` 참고.) 문자열을 부분 부분씩 `regexec()`로 전달하기 때문에 문자열 시작을 행의 시작으로 해석하지 말아야 할 때 이 플래그를 쓸 수 있다.
 
-<dt><code>REG_NOTEOL</code></dt>
-<dd>행 종료 일치 연산자가 항상 일치에 실패한다. (하지만 위의 컴파일 플래그 <code>REG_NEWLINE</code> 참고.)</dd>
-</dl>
+`REG_NOTEOL`
+:   행 종료 일치 연산자가 항상 일치에 실패한다. (하지만 위의 컴파일 플래그 `REG_NEWLINE` 참고.)
 
 ### 바이트 위치
 
@@ -101,36 +94,47 @@ typedef struct {
 
 `regcomp()`가 다음 오류를 반환할 수 있다.
 
-<dl>
-<dt><code>REG_BADBR</code></dt>
-<dd>역참조 연산자 사용 오류.</dd>
-<dt><code>REG_BADPAT</code></dt>
-<dd>그룹이나 목록 같은 패턴 연산자 사용 오류.</dd>
-<dt><code>REG_BADRPT</code></dt>
-<dd>'*'를 첫 문자로 쓰는 것 같은 반복 연산자 사용 오류.</dd>
-<dt><code>REG_EBRACE</code></dt>
-<dd>중괄호 구간 연산자 짝 안 맞음.</dd>
-<dt><code>REG_EBRACK</code></dt>
-<dd>대괄호 목록 연산자 짝 안 맞음.</dd>
-<dt><code>REG_ECOLLATE</code></dt>
-<dd>조합 요소 오류.</dd>
-<dt><code>REG_ECTYPE</code></dt>
-<dd>문자 클래스 이름 잘못됨.</dd>
-<dt><code>REG_EEND</code></dt>
-<dd>불특정 오류. POSIX.2에는 규정돼 있지 않음.</dd>
-<dt><code>REG_EESCAPE</code></dt>
-<dd>끝에 백슬래시.</dd>
-<dt><code>REG_EPAREN</code></dt>
-<dd>괄호 그룹 연산자 짝 안 맞음.</dd>
-<dt><code>REG_ERANGE</code></dt>
-<dd>범위 연산자 사용 오류. 예를 들어 범위 끝점이 시작점 앞에 나옴.</dd>
-<dt><code>REG_ESIZE</code></dt>
-<dd>컴파일 된 정규 표현식에 64 kB 넘는 패턴 버퍼가 필요함. POSIX.2에는 규정돼 있지 않음.</dd>
-<dt><code>REG_ESPACE</code></dt>
-<dd>regex 루틴 실행 중 메모리 부족.</dd>
-<dt><code>REG_ESUBREG</code></dt>
-<dd>잘못된 하위식 역참조.</dd>
-</dl>
+`REG_BADBR`
+:   역참조 연산자 사용 오류.
+
+`REG_BADPAT`
+:   그룹이나 목록 같은 패턴 연산자 사용 오류.
+
+`REG_BADRPT`
+:   '*'를 첫 문자로 쓰는 것 같은 반복 연산자 사용 오류.
+
+`REG_EBRACE`
+:   중괄호 구간 연산자 짝 안 맞음.
+
+`REG_EBRACK`
+:   대괄호 목록 연산자 짝 안 맞음.
+
+`REG_ECOLLATE`
+:   조합 요소 오류.
+
+`REG_ECTYPE`
+:   문자 클래스 이름 잘못됨.
+
+`REG_EEND`
+:   불특정 오류. POSIX.2에는 규정돼 있지 않음.
+
+`REG_EESCAPE`
+:   끝에 백슬래시.
+
+`REG_EPAREN`
+:   괄호 그룹 연산자 짝 안 맞음.
+
+`REG_ERANGE`
+:   범위 연산자 사용 오류. 예를 들어 범위 끝점이 시작점 앞에 나옴.
+
+`REG_ESIZE`
+:   컴파일 된 정규 표현식에 64 kB 넘는 패턴 버퍼가 필요함. POSIX.2에는 규정돼 있지 않음.
+
+`REG_ESPACE`
+:   regex 루틴 실행 중 메모리 부족.
+
+`REG_ESUBREG`
+:   잘못된 하위식 역참조.
 
 ## ATTRIBUTES
 
@@ -150,7 +154,7 @@ POSIX.1-2001, POSIX.1-2008.
 
 `grep(1)`, <tt>[[regex(7)]]</tt>
 
-glibc 매뉴얼 <em>Regular Expressions</em> 절
+glibc 매뉴얼 *Regular Expressions* 절
 
 ----
 

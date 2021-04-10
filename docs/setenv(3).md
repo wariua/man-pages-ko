@@ -14,13 +14,9 @@ int unsetenv(const char *name);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>setenv()</code>, <code>unsetenv()</code></dt>
-<dd>
-<code>_POSIX_C_SOURCE >= 200112L</code><br>
-<code>    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE</code>
-</dd>
-</dl>
+`setenv()`, `unsetenv()`
+:   `_POSIX_C_SOURCE >= 200112L`<br>
+    `    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE`
 
 ## DESCRIPTION
 
@@ -36,12 +32,11 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>name</code>이 NULL이거나, 길이 0인 문자열을 가리키고 있거나, '=' 문자를 담고 있다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>환경에 새 변수를 추가하기 위한 메모리가 충분치 않음.</dd>
-</dl>
+`EINVAL`
+:   `name`이 NULL이거나, 길이 0인 문자열을 가리키고 있거나, '=' 문자를 담고 있다.
+
+`ENOMEM`
+:   환경에 새 변수를 추가하기 위한 메모리가 충분치 않음.
 
 ## ATTRIBUTES
 

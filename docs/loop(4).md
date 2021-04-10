@@ -26,111 +26,91 @@ $ sudo mount /dev/loop4 /myloopdev
 
 루프 블록 장치는 다음 `ioctl(2)` 동작들을 제공한다.
 
-<dl>
-<dt><code>LOOP_SET_FD</code></dt>
-<dd><code>ioctl(2)</code> (세 번째) 인자로 파일 디스크립터를 준 열린 파일에 루프 장치를 연계한다.</dd>
+`LOOP_SET_FD`
+:   `ioctl(2)` (세 번째) 인자로 파일 디스크립터를 준 열린 파일에 루프 장치를 연계한다.
 
-<dt><code>LOOP_CLR_FD</code></dt>
-<dd>루프 장치와 파일 디스크립터의 연계를 없앤다.</dd>
+`LOOP_CLR_FD`
+:   루프 장치와 파일 디스크립터의 연계를 없앤다.
 
-<dt><code>LOOP_SET_STATUS</code></dt>
-<dd>
+`LOOP_SET_STATUS`
+:   `ioctl(2)` (세 번째) 인자를 이용해 루프 장치의 상태를 설정한다. 그 인자는 `loop_info` 구조체에 대한 포인터인데 `<linux/loop.h>`에 다음처럼 구조체가 정의돼 있다.
 
-<code>ioctl(2)</code> (세 번째) 인자를 이용해 루프 장치의 상태를 설정한다. 그 인자는 <code>loop_info</code> 구조체에 대한 포인터인데 <code>&lt;linux/loop.h&gt;</code>에 다음처럼 구조체가 정의돼 있다.
+        struct loop_info {
+            int           lo_number;            /* ioctl r/o */
+            dev_t         lo_device;            /* ioctl r/o */
+            unsigned long lo_inode;             /* ioctl r/o */
+            dev_t         lo_rdevice;           /* ioctl r/o */
+            int           lo_offset;
+            int           lo_encrypt_type;
+            int           lo_encrypt_key_size;  /* ioctl w/o */
+            int           lo_flags;             /* ioctl r/o */
+            char          lo_name[LO_NAME_SIZE];
+            unsigned char lo_encrypt_key[LO_KEY_SIZE];
+                                                /* ioctl w/o */
+            unsigned long lo_init[2];
+            char          reserved[4];
+        };
 
-```c
-struct loop_info {
-    int           lo_number;            /* ioctl r/o */
-    dev_t         lo_device;            /* ioctl r/o */
-    unsigned long lo_inode;             /* ioctl r/o */
-    dev_t         lo_rdevice;           /* ioctl r/o */
-    int           lo_offset;
-    int           lo_encrypt_type;
-    int           lo_encrypt_key_size;  /* ioctl w/o */
-    int           lo_flags;             /* ioctl r/o */
-    char          lo_name[LO_NAME_SIZE];
-    unsigned char lo_encrypt_key[LO_KEY_SIZE];
-                                        /* ioctl w/o */
-    unsigned long lo_init[2];
-    char          reserved[4];
-};
-```
+    암호화 방식(`lo_encrypt_type`)은 `LO_CRYPT_NONE`, `LO_CRYPT_XOR`, `LO_CRYPT_DES`, `LO_CRYPT_FISH2`, `LO_CRYPT_BLOW`, `LO_CRYPT_CAST128`, `LO_CRYPT_IDEA`, `LO_CRYPT_DUMMY`, `LO_CRYPT_SKIPJACK`, `LO_CRYPT_CRYPTOAPI`(리눅스 2.6.0부터) 중 하나여야 한다.
 
-암호화 방식(<code>lo_encrypt_type</code>)은 <code>LO_CRYPT_NONE</code>, <code>LO_CRYPT_XOR</code>, <code>LO_CRYPT_DES</code>, <code>LO_CRYPT_FISH2</code>, <code>LO_CRYPT_BLOW</code>, <code>LO_CRYPT_CAST128</code>, <code>LO_CRYPT_IDEA</code>, <code>LO_CRYPT_DUMMY</code>, <code>LO_CRYPT_SKIPJACK</code>, <code>LO_CRYPT_CRYPTOAPI</code>(리눅스 2.6.0부터) 중 하나여야 한다.
+    `lo_flags` 필드는 비트 마스크이며 다음 플래그들 중 0개 이상을 포함할 수 있다.
 
-<code>lo_flags</code> 필드는 비트 마스크이며 다음 플래그들 중 0개 이상을 포함할 수 있다.
+    `LO_FLAGS_READ_ONLY`
+    :   루프백 장치가 읽기 전용이다.
 
- <dl>
- <dt><code>LO_FLAGS_READ_ONLY</code></dt>
- <dd>루프백 장치가 읽기 전용이다.</dd>
+    `LO_FLAGS_AUTOCLEAR` (리눅스 2.6.25부터)
+    :   마지막으로 닫을 때 루프백 장치가 자동으로 없어진다.
 
- <dt><code>LO_FLAGS_AUTOCLEAR</code> (리눅스 2.6.25부터)</dt>
- <dd>마지막으로 닫을 때 루프백 장치가 자동으로 없어진다.</dd>
+    `LO_FLAGS_PARTSCAN` (리눅스 3.2부터)
+    :   자동 파티션 탐색을 허용한다.
 
- <dt><code>LO_FLAGS_PARTSCAN</code> (리눅스 3.2부터)</dt>
- <dd>자동 파티션 탐색을 허용한다.</dd>
- </dl>
-</dd>
+`LOOP_GET_STATUS`
+:   루프 장치의 상태를 얻는다. `ioctl(2)` (세 번째) 인자가 `struct loop_info`에 대한 포인터여야 한다.
 
-<dt><code>LOOP_GET_STATUS</code></dt>
-<dd>루프 장치의 상태를 얻는다. <code>ioctl(2)</code> (세 번째) 인자가 <code>struct loop_info</code>에 대한 포인터여야 한다.</dd>
+`LOOP_CHANGE_FD` (리눅스 2.6.5부터)
+:   루프 장치의 기반 저장소를 정수인 `ioctl(2)` (세 번째) 인자에 지정한 파일 디스크립터가 나타내는 새 파일로 바꾼다. 루프 장치가 읽기 전용이고 새 기반 저장소가 이전 기반 저장소와 크기 및 종류가 같은 경우에만 이 동작이 가능하다.
 
-<dt><code>LOOP_CHANGE_FD</code> (리눅스 2.6.5부터)</dt>
-<dd>루프 장치의 기반 저장소를 정수인 <code>ioctl(2)</code> (세 번째) 인자에 지정한 파일 디스크립터가 나타내는 새 파일로 바꾼다. 루프 장치가 읽기 전용이고 새 기반 저장소가 이전 기반 저장소와 크기 및 종류가 같은 경우에만 이 동작이 가능하다.</dd>
-
-<dt><code>LOOP_SET_CAPACITY</code> (리눅스 2.6.30부터)</dt>
-<dd>동작 중인 루프 장치의 크기를 바꾼다. 기반 저장소의 크기를 바꾼 다음에 이 동작을 써서 루프 드라이버가 새 크기를 알아내도록 할 수 있다. 이 동작에는 인자가 없다.</dd>
-</dl>
+`LOOP_SET_CAPACITY` (리눅스 2.6.30부터)
+:   동작 중인 루프 장치의 크기를 바꾼다. 기반 저장소의 크기를 바꾼 다음에 이 동작을 써서 루프 드라이버가 새 크기를 알아내도록 할 수 있다. 이 동작에는 인자가 없다.
 
 리눅스 2.6부터 두 가지 새로운 `ioctl(2)` 동작이 있다.
 
-<dl>
-<dt><code>LOOP_SET_STATUS64</code>, <code>LOOP_GET_STATUS64</code></dt>
-<dd>
+`LOOP_SET_STATUS64`, `LOOP_GET_STATUS64`
+:   위에서 설명한 `LOOP_SET_STATUS` 및 `LOOP_GET_STATUS`와 유사하되 필드가 몇 개 더 있고 일부 필드가 더 큰 `loop_info64` 구조체를 사용한다.
 
-위에서 설명한 <code>LOOP_SET_STATUS</code> 및 <code>LOOP_GET_STATUS</code>와 유사하되 필드가 몇 개 더 있고 일부 필드가 더 큰 <code>loop_info64</code> 구조체를 사용한다.
-
-```c
-struct loop_info64 {
-    uint64_t lo_device;                   /* ioctl r/o */
-    uint64_t lo_inode;                    /* ioctl r/o */
-    uint64_t lo_rdevice;                  /* ioctl r/o */
-    uint64_t lo_offset;
-    uint64_t lo_sizelimit;/* 바이트 단위, 0 == 가능한 최대 */
-    uint32_t lo_number;                   /* ioctl r/o */
-    uint32_t lo_encrypt_type;
-    uint32_t lo_encrypt_key_size;         /* ioctl w/o */
-    uint32_t lo_flags;                    /* ioctl r/o */
-    uint8_t  lo_file_name[LO_NAME_SIZE];
-    uint8_t  lo_crypt_name[LO_NAME_SIZE];
-    uint8_t  lo_encrypt_key[LO_KEY_SIZE]; /* ioctl w/o */
-    uint64_t lo_init[2];
-};
-```
-</dd>
-</dl>
+        struct loop_info64 {
+            uint64_t lo_device;                   /* ioctl r/o */
+            uint64_t lo_inode;                    /* ioctl r/o */
+            uint64_t lo_rdevice;                  /* ioctl r/o */
+            uint64_t lo_offset;
+            uint64_t lo_sizelimit;/* 바이트 단위, 0 == 가능한 최대 */
+            uint32_t lo_number;                   /* ioctl r/o */
+            uint32_t lo_encrypt_type;
+            uint32_t lo_encrypt_key_size;         /* ioctl w/o */
+            uint32_t lo_flags;                    /* ioctl r/o */
+            uint8_t  lo_file_name[LO_NAME_SIZE];
+            uint8_t  lo_crypt_name[LO_NAME_SIZE];
+            uint8_t  lo_encrypt_key[LO_KEY_SIZE]; /* ioctl w/o */
+            uint64_t lo_init[2];
+        };
 
 ### `/dev/loop-control`
 
 리눅스 3.1부터 커널에서 `/dev/loop-control` 장치를 제공하는데, 이를 통해 응용에서 동적으로 유휴 장치를 찾아내고 시스템에 루프 장치를 추가 및 제거할 수 있다. 그런 동작들을 수행하려면 먼저 `/dev/loop-control`을 연 다음 다음 `ioctl(2)` 동작들 중 하나를 쓰면 된다.
 
-<dl>
-<dt><code>LOOP_CTL_GET_FREE</code></dt>
-<dd>사용할 유휴 루프 장치를 찾고 없으면 할당한다. 성공 시 호출 결과로 장치 번호가 반환된다. 이 동작에는 인자가 없다.</dd>
+`LOOP_CTL_GET_FREE`
+:   사용할 유휴 루프 장치를 찾고 없으면 할당한다. 성공 시 호출 결과로 장치 번호가 반환된다. 이 동작에는 인자가 없다.
 
-<dt><code>LOOP_CTL_ADD</code></dt>
-<dd>새로운 루프 장치를 추가하며 그 장치 번호를 세 번째 <code>ioctl(2)</code> 인자에 long형 정수로 지정한다. 성공 시 호출 결과로 장치 번호가 반환된다. 그 장치가 이미 할당돼 있으면 <code>EEXIST</code> 오류로 호출이 실패한다.</dd>
+`LOOP_CTL_ADD`
+:   새로운 루프 장치를 추가하며 그 장치 번호를 세 번째 `ioctl(2)` 인자에 long형 정수로 지정한다. 성공 시 호출 결과로 장치 번호가 반환된다. 그 장치가 이미 할당돼 있으면 `EEXIST` 오류로 호출이 실패한다.
 
-<dt><code>LOOP_CTL_REMOVE</code></dt>
-<dd>루프 장치를 제거하며 그 장치 번호를 세 번째 <code>ioctl(2)</code> 인자에 long형 정수로 지정한다. 성공 시 호출 결과로 장치 번호가 반환된다. 장치가 사용 중이면 <code>EBUSY</code> 오류로 호출이 실패한다.</dd>
-</dl>
+`LOOP_CTL_REMOVE`
+:   루프 장치를 제거하며 그 장치 번호를 세 번째 `ioctl(2)` 인자에 long형 정수로 지정한다. 성공 시 호출 결과로 장치 번호가 반환된다. 장치가 사용 중이면 `EBUSY` 오류로 호출이 실패한다.
 
 ## FILES
 
-<dl>
-<dt><code>/dev/loop*</code></dt>
-<dd>루프 블록 특수 장치 파일.</dd>
-</dl>
+`/dev/loop*`
+:   루프 블록 특수 장치 파일.
 
 ## EXAMPLE
 

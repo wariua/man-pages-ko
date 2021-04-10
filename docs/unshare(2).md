@@ -19,62 +19,39 @@ int unshare(int flags);
 
 `flags` 인자는 실행 문맥의 어느 요소들을 공유 해제할지 지정하는 비트 마스크이다. 다음 상수들을 0개 이상 OR 해서 인자를 지정한다.
 
-<dl>
-<dt><code>CLONE_FILES</code></dt>
-<dd>
-<tt>[[clone(2)]]</tt> <code>CLONE_FILES</code> 플래그의 효과를 뒤집는다. 파일 디스크립터 테이블을 공유 해제해서 호출 프로세스가 더 이상 다른 프로세스와 파일 디스크립터를 공유하지 않게 한다.
-</dd>
+`CLONE_FILES`
+:   <tt>[[clone(2)]]</tt> `CLONE_FILES` 플래그의 효과를 뒤집는다. 파일 디스크립터 테이블을 공유 해제해서 호출 프로세스가 더 이상 다른 프로세스와 파일 디스크립터를 공유하지 않게 한다.
 
-<dt><code>CLONE_FS</code></dt>
-<dd>
-<tt>[[clone(2)]]</tt> <code>CLONE_FS</code> 플래그의 효과를 뒤집는다. 파일 시스템 속성들을 공유 해제해서 호출 프로세스가 더 이상 다른 프로세스와 루트 디렉터리(<tt>[[chroot(2)]]</tt>), 현재 디렉터리(<code>chdir(2)</code>), umask(<tt>[[umask(2)]]</tt>) 속성을 공유하지 않게 한다.
-</dd>
+`CLONE_FS`
+:   <tt>[[clone(2)]]</tt> `CLONE_FS` 플래그의 효과를 뒤집는다. 파일 시스템 속성들을 공유 해제해서 호출 프로세스가 더 이상 다른 프로세스와 루트 디렉터리(<tt>[[chroot(2)]]</tt>), 현재 디렉터리(`chdir(2)`), umask(<tt>[[umask(2)]]</tt>) 속성을 공유하지 않게 한다.
 
-<dt><code>CLONE_NEWCGROUP</code> (리눅스 4.6부터)</dt>
-<dd>
-이 플래그는 <tt>[[clone(2)]]</tt> <code>CLONE_NEWCGROUP</code> 플래그와 효과가 같다. cgroup 네임스페이스를 공유 해제한다. <code>CLONE_NEWCGROUP</code>을 사용하려면 <code>CAP_SYS_ADMIN</code> 역능이 필요하다.
-</dd>
+`CLONE_NEWCGROUP` (리눅스 4.6부터)
+:   이 플래그는 <tt>[[clone(2)]]</tt> `CLONE_NEWCGROUP` 플래그와 효과가 같다. cgroup 네임스페이스를 공유 해제한다. `CLONE_NEWCGROUP`을 사용하려면 `CAP_SYS_ADMIN` 역능이 필요하다.
 
-<dt><code>CLONE_NEWIPC</code> (리눅스 2.6.19부터)</dt>
-<dd>
-이 플래그는 <tt>[[clone(2)]]</tt> <code>CLONE_NEWIPC</code> 플래그와 효과가 같다. IPC 네임스페이스를 공유 해제해서 호출 프로세스가 다른 프로세스와 공유하지 않는 IPC 네임스페이스의 개별 사본을 가지도록 한다. 이 플래그 지정은 자동으로 <code>CLONE_SYSVSEM</code>까지 함의한다. <code>CLONE_NEWIPC</code>를 사용하려면 <code>CAP_SYS_ADMIN</code> 역능이 필요하다.
-</dd>
+`CLONE_NEWIPC` (리눅스 2.6.19부터)
+:   이 플래그는 <tt>[[clone(2)]]</tt> `CLONE_NEWIPC` 플래그와 효과가 같다. IPC 네임스페이스를 공유 해제해서 호출 프로세스가 다른 프로세스와 공유하지 않는 IPC 네임스페이스의 개별 사본을 가지도록 한다. 이 플래그 지정은 자동으로 `CLONE_SYSVSEM`까지 함의한다. `CLONE_NEWIPC`를 사용하려면 `CAP_SYS_ADMIN` 역능이 필요하다.
 
-<dt><code>CLONE_NEWNET</code> (리눅스 2.6.24부터)</dt>
-<dd>
-이 플래그는 <tt>[[clone(2)]]</tt> <code>CLONE_NEWNET</code> 플래그와 효과가 같다. 네트워크 네임스페이스를 공유 해제해서 호출 프로세스가 기존 어느 프로세스와도 공유하지 않는 새 네트워크 네임스페이스로 이동하게 한다. <code>CLONE_NEWNET</code>을 사용하려면 <code>CAP_SYS_ADMIN</code> 역능이 필요하다.
-</dd>
+`CLONE_NEWNET` (리눅스 2.6.24부터)
+:   이 플래그는 <tt>[[clone(2)]]</tt> `CLONE_NEWNET` 플래그와 효과가 같다. 네트워크 네임스페이스를 공유 해제해서 호출 프로세스가 기존 어느 프로세스와도 공유하지 않는 새 네트워크 네임스페이스로 이동하게 한다. `CLONE_NEWNET`을 사용하려면 `CAP_SYS_ADMIN` 역능이 필요하다.
 
-<dt><code>CLONE_NEWNS</code></dt>
-<dd>
-이 플래그는 <tt>[[clone(2)]]</tt> <code>CLONE_NEWNS</code> 플래그와 효과가 같다. 마운트 네임스페이스를 공유 해제해서 호출 프로세스가 다른 프로세스와 공유하지 않는 그 네임스페이스의 개별 사본을 가지도록 한다. 이 플래그 지정은 자동으로 <code>CLONE_FS</code>까지 함의한다. <code>CLONE_NEWNS</code>를 사용하려면 <code>CAP_SYS_ADMIN</code> 역능이 필요하다. 추가 내용은 <tt>[[mount_namespaces(7)]]</tt> 참고.
-</dd>
+`CLONE_NEWNS`
+:   이 플래그는 <tt>[[clone(2)]]</tt> `CLONE_NEWNS` 플래그와 효과가 같다. 마운트 네임스페이스를 공유 해제해서 호출 프로세스가 다른 프로세스와 공유하지 않는 그 네임스페이스의 개별 사본을 가지도록 한다. 이 플래그 지정은 자동으로 `CLONE_FS`까지 함의한다. `CLONE_NEWNS`를 사용하려면 `CAP_SYS_ADMIN` 역능이 필요하다. 추가 내용은 <tt>[[mount_namespaces(7)]]</tt> 참고.
 
-<dt><code>CLONE_NEWPID</code> (리눅스 3.8부터)</dt>
-<dd>
-이 플래그는 <tt>[[clone(2)]]</tt> <code>CLONE_NEWPID</code> 플래그와 효과가 같다. PID 네임스페이스를 공유 해제해서 호출 프로세스가 기존 어느 프로세스와도 공유하지 않는 자식들을 위한 새 PID 네임스페이스를 가지도록 한다. 호출 프로세스가 새 네임스페이스로 이동하지 <em>않는다</em>. 호출 프로세스가 생성하는 첫 번째 자식이 프로세스 ID 1을 가지게 되어 그 새 네임스페이스에서 <code>init(1)</code>의 역할을 맡는다. <code>CLONE_NEWPID</code>는 자동으로 <code>CLONE_THREAD</code>까지 함의한다. <code>CLONE_NEWPID</code>를 사용하려면 <code>CAP_SYS_ADMIN</code> 역능이 필요하다. 추가 내용은 <tt>[[pid_namespaces(7)]]</tt> 참고.
-</dd>
+`CLONE_NEWPID` (리눅스 3.8부터)
+:   이 플래그는 <tt>[[clone(2)]]</tt> `CLONE_NEWPID` 플래그와 효과가 같다. PID 네임스페이스를 공유 해제해서 호출 프로세스가 기존 어느 프로세스와도 공유하지 않는 자식들을 위한 새 PID 네임스페이스를 가지도록 한다. 호출 프로세스가 새 네임스페이스로 이동하지 *않는다*. 호출 프로세스가 생성하는 첫 번째 자식이 프로세스 ID 1을 가지게 되어 그 새 네임스페이스에서 `init(1)`의 역할을 맡는다. `CLONE_NEWPID`는 자동으로 `CLONE_THREAD`까지 함의한다. `CLONE_NEWPID`를 사용하려면 `CAP_SYS_ADMIN` 역능이 필요하다. 추가 내용은 <tt>[[pid_namespaces(7)]]</tt> 참고.
 
-<dt><code>CLONE_NEWUSER</code> (리눅스 3.8부터)</dt>
-<dd>
+`CLONE_NEWUSER` (리눅스 3.8부터)
+:   이 플래그는 <tt>[[clone(2)]]</tt> `CLONE_NEWUSER` 플래그와 효과가 같다. 사용자 네임스페이스를 공유 해제해서 호출 프로세스가 기존 어느 프로세스와도 공유하지 않는 새 사용자 네임스페이스로 이동하게 한다. `CLONE_NEWUSER` 플래그를 쓴 <tt>[[clone(2)]]</tt>으로 생성하는 자식 프로세스에서처럼 호출자가 새 네임스페이스에서 완전한 역능 집합을 얻는다.
 
-이 플래그는 <tt>[[clone(2)]]</tt> <code>CLONE_NEWUSER</code> 플래그와 효과가 같다. 사용자 네임스페이스를 공유 해제해서 호출 프로세스가 기존 어느 프로세스와도 공유하지 않는 새 사용자 네임스페이스로 이동하게 한다. <code>CLONE_NEWUSER</code> 플래그를 쓴 <tt>[[clone(2)]]</tt>으로 생성하는 자식 프로세스에서처럼 호출자가 새 네임스페이스에서 완전한 역능 집합을 얻는다.
+    `CLONE_NEWUSER`를 위해선 호출 프로세스가 다중 스레드가 아니어야 한다. `CLONE_NEWUSER` 지정은 자동으로 `CLONE_THREAD`를 함의한다. 리눅스 3.9부터 `CLONE_NEWUSER`가 자동으로 `CLONE_FS`를 함의하기도 한다. `CLONE_NEWUSER`를 위해선 호출 프로세스의 사용자 ID 및 그룹 ID가 호출 시점의 호출 프로세스 사용자 네임스페이스 내의 사용자 ID 및 그룹 ID로 매핑 되어 있어야 한다.
 
-<code>CLONE_NEWUSER</code>를 위해선 호출 프로세스가 다중 스레드가 아니어야 한다. <code>CLONE_NEWUSER</code> 지정은 자동으로 <code>CLONE_THREAD</code>를 함의한다. 리눅스 3.9부터 <code>CLONE_NEWUSER</code>가 자동으로 <code>CLONE_FS</code>를 함의하기도 한다. <code>CLONE_NEWUSER</code>를 위해선 호출 프로세스의 사용자 ID 및 그룹 ID가 호출 시점의 호출 프로세스 사용자 네임스페이스 내의 사용자 ID 및 그룹 ID로 매핑 되어 있어야 한다.
+    사용자 네임스페이스에 대한 추가 내용은 <tt>[[user_namespaces(7)]]</tt> 참고.
 
-사용자 네임스페이스에 대한 추가 내용은 <tt>[[user_namespaces(7)]]</tt> 참고.
-</dd>
+`CLONE_NEWUTS` (리눅스 2.6.19부터)
+:   이 플래그는 <tt>[[clone(2)]]</tt> `CLONE_NEWUTS` 플래그와 효과가 같다. UTS 네임스페이스를 공유 해제해서 호출 프로세스가 다른 프로세스와 공유하지 않는 UTS 네임스페이스의 개별 사본을 가지도록 한다. `CLONE_NEWUTS`를 사용하려면 `CAP_SYS_ADMIN` 역능이 필요하다.
 
-<dt><code>CLONE_NEWUTS</code> (리눅스 2.6.19부터)</dt>
-<dd>
-이 플래그는 <tt>[[clone(2)]]</tt> <code>CLONE_NEWUTS</code> 플래그와 효과가 같다. UTS 네임스페이스를 공유 해제해서 호출 프로세스가 다른 프로세스와 공유하지 않는 UTS 네임스페이스의 개별 사본을 가지도록 한다. <code>CLONE_NEWUTS</code>를 사용하려면 <code>CAP_SYS_ADMIN</code> 역능이 필요하다.
-</dd>
-
-<dt><code>CLONE_SYSVSEM</code> (리눅스 2.6.26부터)</dt>
-<dd>
-이 플래그는 <tt>[[clone(2)]]</tt> <code>CLONE_SYSVSEM</code> 플래그의 효과를 뒤집는다. 시스템 V 세마포어 조정(<code>semadj</code>) 값들을 공유 해제해서 호출 프로세스가 다른 프로세스와 공유하지 않는 새로운 빈 <code>semadj</code> 목록을 가지도록 한다. 이 프로세스가 현재 <code>semadj</code> 목록에 대한 참조를 가진 마지막 프로세스이면 그 목록의 조정 사항들이 <tt>[[semop(2)]]</tt>에서 기술하는 대로 해당 세마포어들에 적용된다.
-</dd>
-</dl>
+`CLONE_SYSVSEM` (리눅스 2.6.26부터)
+:   이 플래그는 <tt>[[clone(2)]]</tt> `CLONE_SYSVSEM` 플래그의 효과를 뒤집는다. 시스템 V 세마포어 조정(`semadj`) 값들을 공유 해제해서 호출 프로세스가 다른 프로세스와 공유하지 않는 새로운 빈 `semadj` 목록을 가지도록 한다. 이 프로세스가 현재 `semadj` 목록에 대한 참조를 가진 마지막 프로세스이면 그 목록의 조정 사항들이 <tt>[[semop(2)]]</tt>에서 기술하는 대로 해당 세마포어들에 적용된다.
 
 추가로 호출자가 단일 스레드이면 (즉 다른 프로세스 내지 스레드와 주소 공간을 공유하고 있지 않으면) `flags`에 `CLONE_THREAD`, `CLONE_SIGHAND`, `CLONE_VM`을 지정할 수 있다. 그 경우에 그 플래그들은 효과가 없다. (그리고 `CLONE_THREAD` 지정이 자동으로 `CLONE_VM`을 함의하고 `CLONE_VM` 지정이 자동으로 `CLONE_SIGHAND`를 함의하기도 한다.) 프로세스가 다중 스레드인 경우에는 이 플래그 사용 시 오류 결과가 나온다.
 
@@ -86,45 +63,55 @@ int unshare(int flags);
 
 ## ERRORS
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>flags</code>에 유효하지 않은 비트를 지정했다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>flags</code>에 <code>CLONE_THREAD</code>나 <code>CLONE_SIGHAND</code>, <code>CLONE_VM</code>을 지정했으며 호출자가 다중 스레드이다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>flags</code>에 <code>CLONE_NEWIPC</code>를 지정했는데 커널이 <code>CONFIG_SYSVIPC</code> 및 <code>CONFIG_IPC_NS</code> 옵션으로 구성되지 않았다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>flags</code>에 <code>CLONE_NEWNET</code>를 지정했는데 커널이 <code>CONFIG_NET_NS</code> 옵션으로 구성되지 않았다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>flags</code>에 <code>CLONE_NEWPID</code>를 지정했는데 커널이 <code>CONFIG_PID_NS</code> 옵션으로 구성되지 않았다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>flags</code>에 <code>CLONE_NEWUSER</code>를 지정했는데 커널이 <code>CONFIG_USER_NS</code> 옵션으로 구성되지 않았다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>flags</code>에 <code>CLONE_NEWUTS</code>를 지정했는데 커널이 <code>CONFIG_UTS_NS</code> 옵션으로 구성되지 않았다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>flags</code>에 <code>CLONE_NEWPID</code>를 지정했는데 프로세스가 앞서 <code>CLONE_NEWPID</code> 플래그로 <code>unshare()</code>를 호출했다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>공유 해제해야 하는 호출자의 문맥 요소들을 복사할 충분한 메모리를 할당할 수 없다.</dd>
-<dt><code>ENOSPC</code> (리눅스 3.7부터)</dt>
-<dd><code>flags</code>에 <code>CLONE_NEWPID</code>를 지정했는데 PID 네임스페이스 중첩 깊이 제한을 초과하게 되었다. <tt>[[pid_namespaces(7)]]</tt> 참고.</dd>
-<dt><code>ENOSPC</code> (리눅스 4.9부터. 전에는 <code>EUSERS</code>)</dt>
-<dd>
+`EINVAL`
+:   `flags`에 유효하지 않은 비트를 지정했다.
 
-<code>flags</code>에 <code>CLONE_NEWUSER</code>를 지정했는데 중첩 사용자 네임스페이스 수 제한을 초과하게 되었다. <tt>[[user_namespaces(7)]]</tt> 참고.
+`EINVAL`
+:   `flags`에 `CLONE_THREAD`나 `CLONE_SIGHAND`, `CLONE_VM`을 지정했으며 호출자가 다중 스레드이다.
 
-리눅스 3.11부터 리눅스 4.8까지에서는 이 경우 진단 오류가 <code>EUSERS</code>였다.
-</dd>
-<dt><code>ENOSPC</code> (리눅스 4.9부터)</dt>
-<dd><code>flags</code>의 한 값이 새 사용자 네임스페이스 생성을 나타내지만 그렇게 하면 <code>/proc/sys/user</code> 안의 대응 파일에 규정된 제한을 초과하게 된다. 자세한 내용은 <tt>[[namespaces(7)]]</tt> 참고.</dd>
-<dt><code>EPERM</code></dt>
-<dd>호출 프로세스가 이 동작에 필요한 특권을 가지고 있지 않다.</dd>
-<dt><code>EPERM</code></dt>
-<dd><code>flags</code>에 <code>CLONE_NEWUSER</code>를 지정했는데 호출자의 실효 사용자 ID나 실효 그룹 ID 중 하나가 부모 네임스페이스에 매핑 되어 있지 않다. (<tt>[[user_namespaces(7)]]</tt> 참고.)</dd>
-<dt><code>EPERM</code> (리눅스 3.9부터)</dt>
-<dd><code>flags</code>에 <code>CLONE_NEWUSER</code>를 지정했는데 호출자가 chroot 환경 안에 있다. (즉, 호출자의 루트 디렉터리가 호출자가 위치한 마운트 네임스페이스의 루트 디렉터리와 일치하지 않는다.)</dd>
-<dt><code>EUSERS</code> (리눅스 3.11부터 리눅스 4.8까지)</dt>
-<dd><code>flags</code>에 <code>CLONE_NEWUSER</code>를 지정했는데 중첩 사용자 네임스페이스 수 제한을 초과하게 되었다. 위의 <code>ENOSPC</code> 오류 논의 참고.</dd>
-</dl>
+`EINVAL`
+:   `flags`에 `CLONE_NEWIPC`를 지정했는데 커널이 `CONFIG_SYSVIPC` 및 `CONFIG_IPC_NS` 옵션으로 구성되지 않았다.
+
+`EINVAL`
+:   `flags`에 `CLONE_NEWNET`를 지정했는데 커널이 `CONFIG_NET_NS` 옵션으로 구성되지 않았다.
+
+`EINVAL`
+:   `flags`에 `CLONE_NEWPID`를 지정했는데 커널이 `CONFIG_PID_NS` 옵션으로 구성되지 않았다.
+
+`EINVAL`
+:   `flags`에 `CLONE_NEWUSER`를 지정했는데 커널이 `CONFIG_USER_NS` 옵션으로 구성되지 않았다.
+
+`EINVAL`
+:   `flags`에 `CLONE_NEWUTS`를 지정했는데 커널이 `CONFIG_UTS_NS` 옵션으로 구성되지 않았다.
+
+`EINVAL`
+:   `flags`에 `CLONE_NEWPID`를 지정했는데 프로세스가 앞서 `CLONE_NEWPID` 플래그로 `unshare()`를 호출했다.
+
+`ENOMEM`
+:   공유 해제해야 하는 호출자의 문맥 요소들을 복사할 충분한 메모리를 할당할 수 없다.
+
+`ENOSPC` (리눅스 3.7부터)
+:   `flags`에 `CLONE_NEWPID`를 지정했는데 PID 네임스페이스 중첩 깊이 제한을 초과하게 되었다. <tt>[[pid_namespaces(7)]]</tt> 참고.
+
+`ENOSPC` (리눅스 4.9부터. 전에는 `EUSERS`)
+:   `flags`에 `CLONE_NEWUSER`를 지정했는데 중첩 사용자 네임스페이스 수 제한을 초과하게 되었다. <tt>[[user_namespaces(7)]]</tt> 참고.
+
+    리눅스 3.11부터 리눅스 4.8까지에서는 이 경우 진단 오류가 `EUSERS`였다.
+
+`ENOSPC` (리눅스 4.9부터)
+:   `flags`의 한 값이 새 사용자 네임스페이스 생성을 나타내지만 그렇게 하면 `/proc/sys/user` 안의 대응 파일에 규정된 제한을 초과하게 된다. 자세한 내용은 <tt>[[namespaces(7)]]</tt> 참고.
+
+`EPERM`
+:   호출 프로세스가 이 동작에 필요한 특권을 가지고 있지 않다.
+
+`EPERM`
+:   `flags`에 `CLONE_NEWUSER`를 지정했는데 호출자의 실효 사용자 ID나 실효 그룹 ID 중 하나가 부모 네임스페이스에 매핑 되어 있지 않다. (<tt>[[user_namespaces(7)]]</tt> 참고.)
+
+`EPERM` (리눅스 3.9부터)
+:   `flags`에 `CLONE_NEWUSER`를 지정했는데 호출자가 chroot 환경 안에 있다. (즉, 호출자의 루트 디렉터리가 호출자가 위치한 마운트 네임스페이스의 루트 디렉터리와 일치하지 않는다.)
+
+`EUSERS` (리눅스 3.11부터 리눅스 4.8까지)
+:   `flags`에 `CLONE_NEWUSER`를 지정했는데 중첩 사용자 네임스페이스 수 제한을 초과하게 되었다. 위의 `ENOSPC` 오류 논의 참고.
 
 ## VERSIONS
 

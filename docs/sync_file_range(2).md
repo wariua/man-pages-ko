@@ -20,16 +20,14 @@ int sync_file_range(int fd, off64_t offset, off64_t nbytes,
 
 `flags` 비트 마스크 인자는 다음 값들을 포함할 수 있다.
 
-<dl>
-<dt><code>SYNC_FILE_RANGE_WAIT_BEFORE</code></dt>
-<dd>쓰기를 수행하기 전에 이미 장치 드라이버에 쓰기를 위해 제출돼 있는 지정 범위 내 모든 페이지들의 쓰기가 이뤄지기를 기다린다.</dd>
+`SYNC_FILE_RANGE_WAIT_BEFORE`
+:   쓰기를 수행하기 전에 이미 장치 드라이버에 쓰기를 위해 제출돼 있는 지정 범위 내 모든 페이지들의 쓰기가 이뤄지기를 기다린다.
 
-<dt><code>SYNC_FILE_RANGE_WRITE</code></dt>
-<dd>현재 쓰기를 위해 제출돼 있지 않은 지정 범위 내 변경 페이지 모두의 쓰기를 개시한다. 요청 큐 크기를 넘게 쓰려고 하면 블록 할 수도 있음에 유의하라.</dd>
+`SYNC_FILE_RANGE_WRITE`
+:   현재 쓰기를 위해 제출돼 있지 않은 지정 범위 내 변경 페이지 모두의 쓰기를 개시한다. 요청 큐 크기를 넘게 쓰려고 하면 블록 할 수도 있음에 유의하라.
 
-<dt><code>SYNC_FILE_RANGE_WAIT_AFTER</code></dt>
-<dd>쓰기를 수행한 후에 범위 내 모든 페이지들의 쓰기가 이뤄지기를 기다린다.</dd>
-</dl>
+`SYNC_FILE_RANGE_WAIT_AFTER`
+:   쓰기를 수행한 후에 범위 내 모든 페이지들의 쓰기가 이뤄지기를 기다린다.
 
 `flags`를 0으로 지정하는 것이 가능하다. no-op이다.
 
@@ -43,19 +41,17 @@ int sync_file_range(int fd, off64_t offset, off64_t nbytes,
 
 유용한 `flags` 비트 조합은 다음과 같다.
 
-<dl>
-<dt><code>SYNC_FILE_RANGE_WAIT_BEFORE | SYNC_FILE_RANGE_WRITE</code></dt>
-<dd><code>sync_file_range()</code> 호출 때 지정 범위 내에 있던 변경 페이지들 모두가 쓰기 목록 하에 있도록 한다. "데이터 무결성 위한 쓰기 개시" 동작이다.</dd>
+`SYNC_FILE_RANGE_WAIT_BEFORE | SYNC_FILE_RANGE_WRITE`
+:   `sync_file_range()` 호출 때 지정 범위 내에 있던 변경 페이지들 모두가 쓰기 목록 하에 있도록 한다. "데이터 무결성 위한 쓰기 개시" 동작이다.
 
-<dt><code>SYNC_FILE_RANGE_WRITE</code></dt>
-<dd>현재 쓰기 목록 하에 있지 않은 지정 범위 내 변경 페이지들 모두의 쓰기를 시작한다. 비동기적인 "디스크로 플러시" 동작이다. 데이터 무결성 동작에는 적합하지 않다.</dd>
+`SYNC_FILE_RANGE_WRITE`
+:   현재 쓰기 목록 하에 있지 않은 지정 범위 내 변경 페이지들 모두의 쓰기를 시작한다. 비동기적인 "디스크로 플러시" 동작이다. 데이터 무결성 동작에는 적합하지 않다.
 
-<dt><code>SYNC_FILE_RANGE_WAIT_BEFORE</code> (또는 <code>SYNC_FILE_RANGE_WAIT_AFTER</code>)</dt>
-<dd>지정 범위 내 모든 페이지들의 쓰기 완료를 기다린다. 앞서 나온 <code>SYNC_FILE_RANGE_WAIT_BEFORE | SYNC_FILE_RANGE_WRITE</code> 동작 후에 사용해서 그 동작의 완료를 기다리고 그 결과를 얻을 수 있다.</dd>
+`SYNC_FILE_RANGE_WAIT_BEFORE` (또는 `SYNC_FILE_RANGE_WAIT_AFTER`)
+:   지정 범위 내 모든 페이지들의 쓰기 완료를 기다린다. 앞서 나온 `SYNC_FILE_RANGE_WAIT_BEFORE | SYNC_FILE_RANGE_WRITE` 동작 후에 사용해서 그 동작의 완료를 기다리고 그 결과를 얻을 수 있다.
 
-<dt><code>SYNC_FILE_RANGE_WAIT_BEFORE | SYNC_FILE_RANGE_WRITE | SYNC_FILE_RANGE_WAIT_AFTER</code></dt>
-<dd><code>sync_file_range()</code> 호출 때 지정 범위 내에 있던 변경 페이지들 모두가 디스크로 가도록 하는 "데이터 무결성 위한 쓰기 개시" 동작이다.</dd>
-</dl>
+`SYNC_FILE_RANGE_WAIT_BEFORE | SYNC_FILE_RANGE_WRITE | SYNC_FILE_RANGE_WAIT_AFTER`
+:   `sync_file_range()` 호출 때 지정 범위 내에 있던 변경 페이지들 모두가 디스크로 가도록 하는 "데이터 무결성 위한 쓰기 개시" 동작이다.
 
 ## RETURN VALUE
 
@@ -63,20 +59,23 @@ int sync_file_range(int fd, off64_t offset, off64_t nbytes,
 
 ## ERRORS
 
-<dl>
-<dt><code>EBADF</code></dt>
-<dd><code>fd</code>가 유효한 파일 디스크립터가 아니다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>flags</code>에 유효하지 않은 비트를 지정했다. 또는 <code>offset</code>이나 <code>nbytes</code>가 유효하지 않다.</dd>
-<dt><code>EIO</code></dt>
-<dd>I/O 오류.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>메모리 부족.</dd>
-<dt><code>ENOSPC</code></dt>
-<dd>디스크 공간 부족.</dd>
-<dt><code>ESPIPE</code></dt>
-<dd><code>fd</code>가 정규 파일, 블록 장치, 디렉터리 아닌 뭔가를 가리키고 있다.</dd>
-</dl>
+`EBADF`
+:   `fd`가 유효한 파일 디스크립터가 아니다.
+
+`EINVAL`
+:   `flags`에 유효하지 않은 비트를 지정했다. 또는 `offset`이나 `nbytes`가 유효하지 않다.
+
+`EIO`
+:   I/O 오류.
+
+`ENOMEM`
+:   메모리 부족.
+
+`ENOSPC`
+:   디스크 공간 부족.
+
+`ESPIPE`
+:   `fd`가 정규 파일, 블록 장치, 디렉터리 아닌 뭔가를 가리키고 있다.
 
 ## VERSIONS
 

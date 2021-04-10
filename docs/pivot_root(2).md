@@ -50,24 +50,29 @@ int pivot_root(const char *new_root, const char *put_old);
 
 <tt>[[stat(2)]]</tt>이 반환하는 오류들을 `pivot_root()`가 (`errno`로) 반환할 수 있다. 더불어 다음을 반환할 수 있다.
 
-<dl>
-<dt><code>EBUSY</code></dt>
-<dd>현재 루트 파일 시스템 상에 <code>new_root</code>나 <code>put_old</code>가 있거나 <code>put_old</code>에 이미 파일 시스템이 마운트 돼 있다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>new_root</code>가 마운트 지점이 아니다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>put_old</code>가 <code>new_root</code> 아래에 있지 않다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>현재 루트가 rootfs(초기 ramfs) 파일 시스템 파일 시스템 상에 있다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>new_root</code>의 마운트 지점이나 그 마운트 지점의 부모 마운트가 전파 유형이 <code>MS_SHARED</code>다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd><code>put_old</code>가 아문트 지점이고 전파 유형이 <code>MS_SHARED</code>다.</dd>
-<dt><code>ENOTDIR</code></dt>
-<dd><code>new_root</code>나 <code>put_old</code>가 디렉터리가 아니다.</dd>
-<dt><code>EPERM</code></dt>
-<dd>호출 프로세스가 <code>CAP_SYS_ADMIN</code> 역능을 가지고 있지 않다.</dd>
-</dl>
+`EBUSY`
+:   현재 루트 파일 시스템 상에 `new_root`나 `put_old`가 있거나 `put_old`에 이미 파일 시스템이 마운트 돼 있다.
+
+`EINVAL`
+:   `new_root`가 마운트 지점이 아니다.
+
+`EINVAL`
+:   `put_old`가 `new_root` 아래에 있지 않다.
+
+`EINVAL`
+:   현재 루트가 rootfs(초기 ramfs) 파일 시스템 파일 시스템 상에 있다.
+
+`EINVAL`
+:   `new_root`의 마운트 지점이나 그 마운트 지점의 부모 마운트가 전파 유형이 `MS_SHARED`다.
+
+`EINVAL`
+:   `put_old`가 아문트 지점이고 전파 유형이 `MS_SHARED`다.
+
+`ENOTDIR`
+:   `new_root`나 `put_old`가 디렉터리가 아니다.
+
+`EPERM`
+:   호출 프로세스가 `CAP_SYS_ADMIN` 역능을 가지고 있지 않다.
 
 ## VERSIONS
 

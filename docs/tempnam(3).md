@@ -12,21 +12,16 @@ char *tempnam(const char *dir, const char *pfx);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>tempnam()</code>:</dt>
-<dd>
- <dl>
- <dt>glibc 2.19부터:</dt>
- <dd><code>_DEFAULT_SOURCE</code></dd>
- <dt>glibc 2.19 및 이전:</dt>
- <dd><code>_BSD_SOURCE || _SVID_SOURCE</code></dd>
- </dl>
-</dd>
-</dl>
+`tempnam()`:
+:   glibc 2.19부터:
+    :   `_DEFAULT_SOURCE`
+
+    glibc 2.19 및 이전:
+    :   `_BSD_SOURCE || _SVID_SOURCE`
 
 ## DESCRIPTION
 
-<em>이 함수를 절대 쓰지 말 것.</em> 대신 <tt>[[mkstemp(3)]]</tt>나 <tt>[[tmpfile(3)]]</tt>을 사용하라.
+*이 함수를 절대 쓰지 말 것.* 대신 <tt>[[mkstemp(3)]]</tt>나 <tt>[[tmpfile(3)]]</tt>을 사용하라.
 
 `tempnam()` 함수는 유효한 파일명인 문자열에 대한 포인터를 반환한다. `tempnam()`에서 확인하는 시점에는 그 이름으로 된 파일이 존재하지 않는다. `pfx`가 최대 다섯 바이트의 NULL 아닌 문자열인 경우 생성 경로명의 파일명 부분이 `pfx`로 시작하게 된다. 생성 경로명의 디렉터리 부분이 "적절"해야 (보통 적어도 쓰기 가능해야) 한다.
 
@@ -48,10 +43,8 @@ d) 마지막으로, 구현에서 정한 디렉터리를 사용할 수 있다.
 
 ## ERRORS
 
-<dl>
-<dt><code>ENOMEM</code></dt>
-<dd>저장 공간 할당에 실패했다.</dd>
-</dl>
+`ENOMEM`
+:   저장 공간 할당에 실패했다.
 
 ## ATTRIBUTES
 

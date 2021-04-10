@@ -28,16 +28,17 @@ int aio_fsync(int op, struct aiocb *aiocbp);
 
 ## ERRORS
 
-<dl>
-<dt><code>EAGAIN</code></dt>
-<dd>자원 부족.</dd>
-<dt><code>EBADF</code></dt>
-<dd><code>aio_fildes</code>가 쓰기 가능하게 열린 유효한 파일 디스크립터가 아니다.</dd>
-<dt><code>EINVAL</code></dt>
-<dd>이 파일에서 동기화 된 I/O를 지원하지 않는다. 또는 <code>op</code>가 <code>O_SYNC</code>나 <code>O_DSYNC</code>가 아니다.</dd>
-<dt><code>ENOSYS</code></dt>
-<dd><code>aio_fsync()</code>가 구현돼 있지 않다.</dd>
-</dl>
+`EAGAIN`
+:   자원 부족.
+
+`EBADF`
+:   `aio_fildes`가 쓰기 가능하게 열린 유효한 파일 디스크립터가 아니다.
+
+`EINVAL`
+:   이 파일에서 동기화 된 I/O를 지원하지 않는다. 또는 `op`가 `O_SYNC`나 `O_DSYNC`가 아니다.
+
+`ENOSYS`
+:   `aio_fsync()`가 구현돼 있지 않다.
 
 ## VERSIONS
 

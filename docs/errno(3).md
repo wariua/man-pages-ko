@@ -157,7 +157,7 @@ EACCES 13 Permission denied
 | `ENOTTY` | 부적절한 I/O 제어 동작. (POSIX.1-2001) |
 | `ENOTUNIQ` | 이름이 네트워크에서 유일하지 않음. |
 | `ENXIO` |  그런 장치 내지 주소 없음. (POSIX.1-2001) |
-| `EOPNOTSUPP` | <p>소켓에서 지원 안 되는 동작. (POSIX.1-2001)</p><p>(리눅스에서는 <code>ENOTSUP</code>과 <code>EOPNOTSUPP</code>의 값이 같지만 POSIX.1에 따르면 두 오류 값이 구별돼야 한다.)</p> |
+| `EOPNOTSUPP` | <p>소켓에서 지원 안 되는 동작. (POSIX.1-2001)</p><p>(리눅스에서는 `ENOTSUP`과 `EOPNOTSUPP`의 값이 같지만 POSIX.1에 따르면 두 오류 값이 구별돼야 한다.)</p> |
 | `EOVERFLOW` | 값이 너무 커서 데이터 타입에 저장 안 됨. (POSIX.1-2001) |
 | `EOWNERDEAD` | 소유자가 죽었음. (POSIX.1-2008) |
 | `EPERM` | 동작이 허용되지 않음. (POSIX.1-2001) |
@@ -179,7 +179,7 @@ EACCES 13 Permission denied
 | `ESRCH` | 그런 프로세스가 없음. (POSIX.1-2001) |
 | `ESTALE` | <p>파일 핸들이 더는 유효하지 않음. (POSIX.1-2001)</p><p>NFS 및 기타 파일 시스템에서 이 오류가 발생할 수 있다.</p> |
 | `ESTRPIPE` | 스트림 파이프 오류. |
-| `ETIME` | <p>타이머 만료됨. (POSIX.1 (XSI STREAMS 옵션))</p><p>(POSIX.1에서는 "STREAM <code>ioctl(2)</code> 타임아웃"이라고 함.</p> |
+| `ETIME` | <p>타이머 만료됨. (POSIX.1 (XSI STREAMS 옵션))</p><p>(POSIX.1에서는 "STREAM `ioctl(2)` 타임아웃"이라고 함.</p> |
 | `ETIMEDOUT` | 연결이 타임아웃 됨. (POSIX.1-2001) |
 | `ETOOMANYREFS` | 참조가 너무 많음. splice 할 수 없음. |
 | `ETXTBSY` | 텍스트 파일 사용 중. (POSIX.1-2001) |
@@ -211,7 +211,7 @@ if (somecall() == -1) {
 }
 ```
 
-일부 아주 오래된 시스템에서는 `<errno.h>`가 존재하지 않거나 `errno`를 선언해 주지 않았으며, 그래서 `errno`를 직접 선언(`extern int errno`)해야 했다. 지금은 <strong>그렇게 해선 안 된다.</strong> 오래 전부터 그럴 필요가 없게 됐으며 최근의 C 라이브러리 버전들에서 문제를 일으키게 된다.
+일부 아주 오래된 시스템에서는 `<errno.h>`가 존재하지 않거나 `errno`를 선언해 주지 않았으며, 그래서 `errno`를 직접 선언(`extern int errno`)해야 했다. 지금은 **그렇게 해선 안 된다.** 오래 전부터 그럴 필요가 없게 됐으며 최근의 C 라이브러리 버전들에서 문제를 일으키게 된다.
 
 ## SEE ALSO
 

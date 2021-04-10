@@ -45,28 +45,22 @@ Thread Execution Scheduling 옵션을 지원하지 않는 경우, 쓰기 쪽이 
 
 다음 경우에 `pthread_rwlock_tryrdlock()` 함수가 실패한다.
 
-<dl>
-<dt><code>EBUSY</code></dt>
-<dd>쓰기 쪽이 락을 잡고 있거나 적절한 우선순위의 쓰기 쪽이 락에 블록 되어 있어서 읽기-쓰기 락을 획득할 수 없다.</dd>
-</dl>
+`EBUSY`
+:   쓰기 쪽이 락을 잡고 있거나 적절한 우선순위의 쓰기 쪽이 락에 블록 되어 있어서 읽기-쓰기 락을 획득할 수 없다.
 
 다음 경우에 `pthread_rwlock_rdlock()` 및 `pthread_rwlock_tryrdlock()` 함수가 실패할 수도 있다.
 
-<dl>
-<dt><code>EAGAIN</code></dt>
-<dd><code>rwlock</code>에 대한 읽기 락 최대 횟수를 초과했기 때문에 읽기 락을 획득할 수 없다.</dd>
-</dl>
+`EAGAIN`
+:   `rwlock`에 대한 읽기 락 최대 횟수를 초과했기 때문에 읽기 락을 획득할 수 없다.
 
 다음 경우에 `pthread_rwlock_rdlock()` 함수가 실패할 수도 있다.
 
-<dl>
-<dt><code>EDEADLK</code></dt>
-<dd>교착 조건을 탐지했거나 현재 스레드가 이미 그 읽기-쓰기 락을 쓰기용으로 가지고 있다.</dd>
-</dl>
+`EDEADLK`
+:   교착 조건을 탐지했거나 현재 스레드가 이미 그 읽기-쓰기 락을 쓰기용으로 가지고 있다.
 
 이 함수들은 오류 코드 `[EINTR]`을 반환하지 않는다.
 
-<em>이하는 규범적이지 않은 내용이다.</em>
+*이하는 규범적이지 않은 내용이다.*
 
 ## EXAMPLES
 
@@ -74,7 +68,7 @@ Thread Execution Scheduling 옵션을 지원하지 않는 경우, 쓰기 쪽이 
 
 ## APPLICATION USAGE
 
-이 함수들을 쓰는 응용에서 POSIX.1-2008 Base Definitions 권의 <em>3.287절 Priority Inversion</em>에서 논의하는 우선순위 역전을 겪을 수 있다.
+이 함수들을 쓰는 응용에서 POSIX.1-2008 Base Definitions 권의 *3.287절 Priority Inversion*에서 논의하는 우선순위 역전을 겪을 수 있다.
 
 ## RATIONALE
 
@@ -88,13 +82,13 @@ Thread Execution Scheduling 옵션을 지원하지 않는 경우, 쓰기 쪽이 
 
 <tt>[[pthread_rwlock_destroy()|pthread_rwlock_destroy(3p)]]</tt>, <tt>[[pthread_rwlock_timedrdlock()|pthread_rwlock_timedrdlock(3p)]]</tt>, <tt>[[pthread_rwlock_timedwrlock()|pthread_rwlock_timedwrlock(3p)]]</tt>, <tt>[[pthread_rwlock_trywrlock()|pthread_rwlock_trywrlock(3p)]]</tt>, <tt>[[pthread_rwlock_unlock()|pthread_rwlock_unlock(3p)]]</tt>
 
-POSIX.1-2008 Base Definitions 권, <em>3.287절 Priority Inversion</em>, <em>4.11절 Memory Synchronization</em>, `<pthread.h>`
+POSIX.1-2008 Base Definitions 권, *3.287절 Priority Inversion*, *4.11절 Memory Synchronization*, `<pthread.h>`
 
 ## COPYRIGHT
 
-Portions of this text are reprinted and reproduced in electronic form from IEEE Std 1003.1, 2013 Edition, Standard for Information Technology -- Portable Operating System Interface (POSIX), The Open Group Base Specifications Issue 7, Copyright (C) 2013 by the Institute of Electrical and Electronics Engineers, Inc and The Open Group. (This is POSIX.1-2008 with the 2013 Technical Corrigendum 1 applied.) In the event of any discrepancy between this version and the original IEEE and The Open Group Standard, the original IEEE and The Open Group Standard is the referee document. The original Standard can be obtained online at http://www.unix.org/online.html .
+Portions of this text are reprinted and reproduced in electronic form from IEEE Std 1003.1, 2013 Edition, Standard for Information Technology -- Portable Operating System Interface (POSIX), The Open Group Base Specifications Issue 7, Copyright (C) 2013 by the Institute of Electrical and Electronics Engineers, Inc and The Open Group. (This is POSIX.1-2008 with the 2013 Technical Corrigendum 1 applied.) In the event of any discrepancy between this version and the original IEEE and The Open Group Standard, the original IEEE and The Open Group Standard is the referee document. The original Standard can be obtained online at <http://www.unix.org/online.html>.
 
-Any typographical or formatting errors that appear in this page are most likely to have been introduced during the conversion of the source files to man page format. To report such errors, see https://www.kernel.org/doc/man-pages/reporting_bugs.html .
+Any typographical or formatting errors that appear in this page are most likely to have been introduced during the conversion of the source files to man page format. To report such errors, see <https://www.kernel.org/doc/man-pages/reporting_bugs.html>.
 
 ----
 

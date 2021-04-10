@@ -45,25 +45,23 @@ pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 
 다음 경우에 `pthread_mutex_init()` 함수가 실패한다.
 
-<dl>
-<dt><code>EAGAIN</code></dt>
-<dd>뮤텍스를 새로 초기화 하는 데 필요한 (메모리 외의) 자원이 시스템에 부족하다.</dd>
-<dt><code>ENOMEM</code></dt>
-<dd>뮤텍스를 초기화 하기에 충분한 메모리가 없다.</dd>
-<dt><code>EPERM</code></dt>
-<dd>호출자에게 동작을 수행하기 위한 특권이 없다.</dd>
-</dl>
+`EAGAIN`
+:   뮤텍스를 새로 초기화 하는 데 필요한 (메모리 외의) 자원이 시스템에 부족하다.
+
+`ENOMEM`
+:   뮤텍스를 초기화 하기에 충분한 메모리가 없다.
+
+`EPERM`
+:   호출자에게 동작을 수행하기 위한 특권이 없다.
 
 다음 경우에 `pthread_mutex_init()` 함수가 실패할 수도 있다.
 
-<dl>
-<dt><code>EINVAL</code></dt>
-<dd><code>attr</code>이 가리키는 속성 객체에 견고 뮤텍스 속성이 설정되어 있으면서 프로세스 공유 속성이 설정되어 있지 않다.</dd>
-</dl>
+`EINVAL`
+:  `attr`이 가리키는 속성 객체에 견고 뮤텍스 속성이 설정되어 있으면서 프로세스 공유 속성이 설정되어 있지 않다.
 
 이 함수들은 오류 코드 `[EINTR]`을 반환하지 않는다.
 
-<em>이하는 규범적이지 않은 내용이다.</em>
+*이하는 규범적이지 않은 내용이다.*
 
 ## EXAMPLES
 
@@ -95,7 +93,7 @@ POSIX.1-2008의 이 권에선 여러 대안적인 뮤텍스 구현들을 지원�
 
 그래서 넓은 범위의 구현이 가능하다. 예를 들어 응용 디버깅을 위한 구현에서는 오류 검사를 모두 구현할 수 있을 것이고, 증명 가능하게 올바른 응용 하나를 임베디드 컴퓨터의 아주 엄격한 성능 제약 하에서 돌리는 구현에서는 최소한의 검사만 구현할 수 있을 것이다. 또한 컴파일러에서 제공하는 옵션과 비슷하게 두 가지 버전(전체 검사를 하는 느린 버전과 제한된 검사를 하는 빠른 버전)으로 구현을 제공할 수도 있을 것이다. 이런 선택을 막는 것은 사용자에게 해가 될 것이다.
 
-"동작이 규정되어 있지 않음"을 잘못된 (잘못 코딩 된) 응용에서 할 수 있는 동작들에만 조심스럽게 적용하고 자원 사용 불가 오류들은 필수로 정의함으로써 POSIX.1-2008의 이 권은 올바른 프로그램이라면 절대 하지 않을 많은 것들을 검사하는 추가 오버헤드를 모든 구현에 강제하지 않으면서도 완전한 준수 응용이 모든 구현들에 걸쳐 이식 가능하도록 보장한다. 동작이 규정되어 있지 않을 때는 그 오류를 감지하는 구현에서 어떤 오류 번호의 반환도 명세하지 않는다. 동작이 규정되어 있지 않다는 것은 <em>무슨 일이든</em> 일어날 수 있다는 것이고, 임의 값(유효하되 상이할 수도 있는 오류 번호)을 반환하는 것도 포함된다. 하지만 응용 개발 중 문제를 진단할 때 오류 번호가 응용 개발자에게 도움이 될 수도 있으므로 구현에서 오류 조건을 감지하는 경우 특정 오류 번호를 반환하는 게 좋다는 권고를 이 절에서 한다.
+"동작이 규정되어 있지 않음"을 잘못된 (잘못 코딩 된) 응용에서 할 수 있는 동작들에만 조심스럽게 적용하고 자원 사용 불가 오류들은 필수로 정의함으로써 POSIX.1-2008의 이 권은 올바른 프로그램이라면 절대 하지 않을 많은 것들을 검사하는 추가 오버헤드를 모든 구현에 강제하지 않으면서도 완전한 준수 응용이 모든 구현들에 걸쳐 이식 가능하도록 보장한다. 동작이 규정되어 있지 않을 때는 그 오류를 감지하는 구현에서 어떤 오류 번호의 반환도 명세하지 않는다. 동작이 규정되어 있지 않다는 것은 *무슨 일이든* 일어날 수 있다는 것이고, 임의 값(유효하되 상이할 수도 있는 오류 번호)을 반환하는 것도 포함된다. 하지만 응용 개발 중 문제를 진단할 때 오류 번호가 응용 개발자에게 도움이 될 수도 있으므로 구현에서 오류 조건을 감지하는 경우 특정 오류 번호를 반환하는 게 좋다는 권고를 이 절에서 한다.
 
 ### 제한을 정의하지 않은 이유
 
@@ -194,9 +192,9 @@ POSIX.1-2008 Base Definitions 권, `<pthread.h>`
 
 ## COPYRIGHT
 
-Portions of this text are reprinted and reproduced in electronic form from IEEE Std 1003.1, 2013 Edition, Standard for Information Technology -- Portable Operating System Interface (POSIX), The Open Group Base Specifications Issue 7, Copyright (C) 2013 by the Institute of Electrical and Electronics Engineers, Inc and The Open Group. (This is POSIX.1-2008 with the 2013 Technical Corrigendum 1 applied.) In the event of any discrepancy between this version and the original IEEE and The Open Group Standard, the original IEEE and The Open Group Standard is the referee document. The original Standard can be obtained online at http://www.unix.org/online.html .
+Portions of this text are reprinted and reproduced in electronic form from IEEE Std 1003.1, 2013 Edition, Standard for Information Technology -- Portable Operating System Interface (POSIX), The Open Group Base Specifications Issue 7, Copyright (C) 2013 by the Institute of Electrical and Electronics Engineers, Inc and The Open Group. (This is POSIX.1-2008 with the 2013 Technical Corrigendum 1 applied.) In the event of any discrepancy between this version and the original IEEE and The Open Group Standard, the original IEEE and The Open Group Standard is the referee document. The original Standard can be obtained online at <http://www.unix.org/online.html>.
 
-Any typographical or formatting errors that appear in this page are most likely to have been introduced during the conversion of the source files to man page format. To report such errors, see https://www.kernel.org/doc/man-pages/reporting_bugs.html .
+Any typographical or formatting errors that appear in this page are most likely to have been introduced during the conversion of the source files to man page format. To report such errors, see <https://www.kernel.org/doc/man-pages/reporting_bugs.html>.
 
 ----
 

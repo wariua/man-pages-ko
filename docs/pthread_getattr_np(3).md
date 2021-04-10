@@ -35,10 +35,8 @@ int pthread_getattr_np(pthread_t thread, pthread_attr_t *attr);
 
 ## ERRORS
 
-<dl>
-<dt><code>ENOMEM</code></dt>
-<dd>메모리 부족.</dd>
-</dL>
+`ENOMEM`
+:   메모리 부족.
 
 더불어 `thread`가 메인 스레드를 가리키는 경우에는 여러 기반 호출들의 오류 때문에 `pthread_getattr_np()`가 실패할 수 있다. 가령 <tt>[[fopen(3)]]</tt>이 `/proc/self/maps`를 열 수 없거나 <tt>[[getrlimit(2)]]</tt>가 `RLIMIT_STACK` 자원 제한을 지원하지 않는 경우이다.
 

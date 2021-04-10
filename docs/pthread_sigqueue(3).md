@@ -16,10 +16,8 @@ int pthread_sigqueue(pthread_t thread, int sig,
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>pthread_sigqueue()</code>:</dt>
-<dd><code>_GNU_SOURCE</code></dd>
-</dl>
+`pthread_sigqueue()`:
+:   `_GNU_SOURCE`
 
 ## DESCRIPTION
 
@@ -33,16 +31,17 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## ERRORS
 
-<dl>
-<dt><code>EAGAIN</code></td>
-<dd>큐에 넣을 수 있는 시그널 개수 한계에 도달했다. (자세한 내용은 <tt>[[signal(7)]]</tt>을 보라.)</dd>
-<dt><code>EINVAL</code></td>
-<dd><code>sig</code>가 유효하지 않다.</dd>
-<dt><code>ENOSYS</code></td>
-<dd>이 시스템에서 <code>pthread_sigqueue()</code>를 지원하지 않는다.</dd>
-<dt><code>ESRCH</code></td>
-<dd><code>thread</code>가 유효하지 않다.</dd>
-</dl>
+`EAGAIN`
+:   큐에 넣을 수 있는 시그널 개수 한계에 도달했다. (자세한 내용은 <tt>[[signal(7)]]</tt>을 보라.)
+
+`EINVAL`
+:   `sig`가 유효하지 않다.
+
+`ENOSYS`
+:   이 시스템에서 `pthread_sigqueue()`를 지원하지 않는다.
+
+`ESRCH`
+:   `thread`가 유효하지 않다.
 
 ## VERSIONS
 

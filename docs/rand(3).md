@@ -16,17 +16,12 @@ void srand(unsigned int seed);
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
-<dl>
-<dt><code>rand_r()</code>:</dt>
-<dd>
- <dl>
- <dt>glibc 2.24부터:</dt>
- <dd><code>_POSIX_C_SOURCE >= 199506L</code></dd>
- <dt>glibc 2.23 및 이전:</dt>
- <dd><code>_POSIX_C_SOURCE</code></dd>
- </dl>
-</dd>
-</dl>
+`rand_r()`:
+:   glibc 2.24부터:
+    :   `_POSIX_C_SOURCE >= 199506L`
+
+    glibc 2.23 및 이전:
+    :   `_POSIX_C_SOURCE`
 
 ## DESCRIPTION
 
