@@ -224,7 +224,7 @@ main(void)
 
 ## SEE ALSO
 
-`ld(1)`, `ldd(1)`, `pldd(1)`, <tt>[[dl_iterate_phdr(3)]]</tt>, <dd>[[dladdr(3)]]</tt>, <tt>[[dlerror(3)]]</tt>, <tt>[[dlinfo(3)]]</tt>, <tt>[[dlsym(3)]]</tt>, <tt>[[rtld-audit(7)]]</tt>, <tt>[[ld.so(8)]]</tt>, `ldconfig(8)`
+`ld(1)`, `ldd(1)`, `pldd(1)`, <tt>[[dl_iterate_phdr(3)]]</tt>, <tt>[[dladdr(3)]]</tt>, <tt>[[dlerror(3)]]</tt>, <tt>[[dlinfo(3)]]</tt>, <tt>[[dlsym(3)]]</tt>, <tt>[[rtld-audit(7)]]</tt>, <tt>[[ld.so(8)]]</tt>, `ldconfig(8)`
 
 gcc info 페이지, ld info 페이지
 

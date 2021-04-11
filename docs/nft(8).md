@@ -103,7 +103,7 @@ include 문은 일반적인 셸 와일드카드 기호(\*,?,[])를 지원한다.
 
 `define` 문을 써서 심볼 변수를 정의할 수 있다. 변수 참조는 식이며 이를 이용해 다른 변수를 초기화 할 수 있다. 정의 유효 범위는 현재 블록과 그 안에 포함된 모든 블록이다.
 
-##### 심볼 변수 사용하기
+#### 심볼 변수 사용하기
 
 ```text
 define int_if1 = eth0
@@ -213,7 +213,7 @@ Netdev 주소 패밀리는 진입점(ingress)에서 패킷을 처리한다.
 | --------- | ---- |
 | `dormant` | 테이블을 더 이상 평가하지 않는다. (기본 체인들을 등록 해제한다.) |
 
-##### 테이블 추가, 변경, 삭제
+#### 테이블 추가, 변경, 삭제
 
 ```text
 # 대화형으로 nft 시작
@@ -351,7 +351,7 @@ add와 insert 명령에서는 선택적으로 위치 지정이 가능한데, 기
 `delete`
 :   지정한 규칙 삭제.
 
-##### ip 테이블 input 체인에 규칙 추가
+#### ip 테이블 input 체인에 규칙 추가
 
 ```text
 nft add rule filter output ip daddr 192.168.0.0/24 accept # 'ip filter' 상정
@@ -359,7 +359,7 @@ nft add rule filter output ip daddr 192.168.0.0/24 accept # 'ip filter' 상정
 nft add rule ip filter output ip daddr 192.168.0.0/24 accept
 ```
 
-##### inet 테이블에서 규칙 삭제
+#### inet 테이블에서 규칙 삭제
 
 ```text
 # nft -a list ruleset
@@ -377,7 +377,7 @@ table inet filter {
 
 nftables에는 두 가지 집합 개념이 있다. 익명 집합은 따로 이름이 없는 집합이다. 집합을 쓰는 규칙을 만들 때 집합 멤버들을 중괄호로 감싸고 쉼표로 원소들을 구분한다. 그 규칙이 제거되면 집합도 제거된다. 이 집합은 갱신이 불가능하다. 즉 익명 집합은 일단 선언하고 나면 그 익명 집합을 쓰는 규칙을 제거/변경하지 않고는 변경할 수 없다.
 
-##### 익명 집합 이용해 특정 서브넷 및 포트 허용하기
+#### 익명 집합 이용해 특정 서브넷 및 포트 허용하기
 
 ```text
 nft add rule filter input ip saddr { 10.0.0.0/8, 192.168.0.0/16 } tcp dport { 22, 443 } accept
@@ -385,7 +385,7 @@ nft add rule filter input ip saddr { 10.0.0.0/8, 192.168.0.0/16 } tcp dport { 22
 
 기명 집합은 규칙에서 참조하기 전에 먼저 정의해야 한다. 익명 집합과 달리 언제든 기명 집합의 원소를 추가하거나 제거할 수 있다. 규칙에서 집합 이름 앞에 @를 붙여서 집합을 참조한다.
 
-##### 기명 집합 이용해 주소 및 포트 허용하기
+#### 기명 집합 이용해 주소 및 포트 허용하기
 
 ```text
 nft add rule filter input ip saddr @allowed_hosts tcp dport @allowed_ports accept
@@ -534,7 +534,7 @@ ct helper로 연결 추적 헬퍼를 정의하며, 그걸 `ct helper set` 문으
 | protocol | 헬퍼의 제4계층 프로토콜 | 문자열 (예: tcp) |
 | l3proto  | 헬퍼의 제3계층 프로토콜 | 주소 패밀리 (예: ip) |
 
-##### ftp 헬퍼 정의하고 할당하기
+#### ftp 헬퍼 정의하고 할당하기
 
 iptables와 달리 conntrack 검색이 완료된 후에, 예를 들어 기본 훅 우선순위 0으로 헬퍼 할당을 수행해야 한다.
 
@@ -567,7 +567,7 @@ ct timeout으로 연결 추적 타임아웃 값을 변경한다. `ct timeout set
 | value    | 연결 상태의 타임아웃 값 | 부호 없는 정수 |
 | l3proto  | 타임아웃 객체의 제3계층 프로토콜 | 주소 패밀리 (예: ip) |
 
-##### ct 타임아웃 정책 정의하고 할당하기
+#### ct 타임아웃 정책 정의하고 할당하기
 
 ```text
 table ip filter {
@@ -584,7 +584,7 @@ table ip filter {
 }
 ```
 
-##### 갱신된 타임아웃 정책 확인하기
+#### 갱신된 타임아웃 정책 확인하기
 
 ```text
 % conntrack -E
@@ -616,7 +616,7 @@ ct expectation으로 연결 예상을 만든다. `ct expectation set` 문으로 
 | size     | 예상의 크기 값 | 부호 없는 정수 |
 | l3proto  | 예상 객체의 제3계층 프로토콜 | 주소 패밀리 (예: ip) |
 
-##### ct 예상 정책 정의하고 할당하기
+#### ct 예상 정책 정의하고 할당하기
 
 ```text
 table ip filter {
@@ -675,7 +675,7 @@ table ip filter {
 
 `describe` 명령은 식의 종류와 그 데이터 타입에 대한 정보를 보여 준다. 데이터 타입을 줄 수도 있으며, 그 경우 nft는 그 타입에 대한 추가 정보를 표시한다.
 
-##### describe 명령
+#### describe 명령
 
 ```text
 $ nft describe tcp flags
@@ -735,7 +735,7 @@ new ...
 
 문자열 타입은 문자열에 쓴다. 문자열은 알파벳 문자(a-zA-Z)로 시작하고 0개 이상의 알파벳이나 숫자, /, -, \_, . 문자가 온다. 추가로 큰괄호(")로 감싼 건 뭐든 문자열로 인식한다.
 
-##### 문자열 표시
+#### 문자열 표시
 
 ```text
 # 인터페이스 이름
@@ -753,7 +753,7 @@ filter input iifname "(eth0)"
 
 링크 계층 주소 타입은 링크 계층 주소에 쓴다. 링크 계층 주소는 가변 개수의 16진수 숫자 두개 묶음을 콜론(:)으로 구분해서 나타낸다.
 
-##### 링크 계층 주소 표시
+#### 링크 계층 주소 표시
 
 ```text
 # 이더넷 목적 MAC 주소
@@ -768,7 +768,7 @@ filter input ether daddr 20:c9:d0:43:12:d9
 
 IPv4 주소 타입은 IPv4 주소에 쓴다. 점 찍은 10진수, 점 찍은 16진수, 점 찍은 8진수, 10진수, 16진수, 8진수 표기, 또는 호스트 이름으로 주소를 나타낸다. 호스트 이름은 표준 시스템 리졸버를 이용해 해석한다.
 
-##### IPv4 주소 표시
+#### IPv4 주소 표시
 
 ```text
 # 점 찍은 10진수 표기
@@ -786,14 +786,14 @@ filter output ip daddr localhost
 
 IPv6 주소 타입은 IPv6 주소에 쓴다. 호스트 이름이나 콜론으로 구분된 16진수 하프워드들로 나타낸다. 포트 번호와 구별하기 위해 주소를 대괄호("[]")로 감쌀 수도 있다.
 
-##### IPv6 주소 표시
+#### IPv6 주소 표시
 
 ```text
 # 축약된 루프백 주소
 filter output ip6 daddr ::1
 ```
 
-##### 대괄호 표기법을 쓴 IPv6 주소 표시
+#### 대괄호 표기법을 쓴 IPv6 주소 표시
 
 ```text
 # []가 없으면 포트 번호(22)가 ipv6 주소의 일부인 것으로
@@ -824,7 +824,7 @@ ip6 nat prerouting tcp dport 2222 dnat to [1ce::d0]:22
 | exthdr     | IPv6 확장 헤더 존재 확인. |
 | tcp option | TCP 옵션 헤더 존재 확인. |
 
-##### 불리언 지정
+#### 불리언 지정
 
 ```text
 # 라우트 존재하면 일치
@@ -865,7 +865,7 @@ ICMP 타입 타입은 ICMP 헤더의 type 필드를 간편하게 지정하는 �
 | address-mask-request    | 17 |
 | address-mask-reply      | 18 |
 
-##### ICMP 타입 지정
+#### ICMP 타입 지정
 
 ```text
 # 핑 패킷 일치
@@ -924,7 +924,7 @@ ICMPv6 타입 타입은 ICMPv6 헤더의 type 필드를 간편하게 지정하�
 | ind-neighbor-advert     | 142 |
 | mld2-listener-report    | 143 |
 
-##### ICMPv6 타입 지정
+#### ICMPv6 타입 지정
 
 ```text
 # ICMPv6 핑 패킷 일치
@@ -1108,7 +1108,7 @@ filter input meta iif "foo"
 | day           | 주 중 요일("Monday", "Tuesday", 등) 또는 0에서 6 사이 정수. 문자열 일치 여부에 대소문자를 구별하지 않으며 완전히 일치할 필요 없음. (가령 "Mon"이라고 하면 "Monday"에 일치함.) 정수를 주는 경우 0이 일요일이고 6이 토요일임. |
 | hour          | 24시간 형식으로 시간을 나타내는 문자열. 초를 선택적으로 지정할 수 있음. 예를 들어 17:00과 17:00:00이 동등함. |
 
-##### meta 식 사용하기
+#### meta 식 사용하기
 
 ```text
 # 지정 meta 식
@@ -1136,7 +1136,7 @@ socket 식을 사용해 기존의 열린 TCP/UDP 소켓이나 패킷에 연계�
 | transparent | 찾은 소켓의 IP_TRANSPARENT 소켓 옵션 값. 0 또는 1일 수 있음. | boolean (1비트) |
 | mark        | 소켓 마크(SOL_SOCKET, SO_MARK) 값. | mark |
 
-##### 소켓 식 사용하기
+#### 소켓 식 사용하기
 
 ```text
 # 투명 소켓에 대응하는 패킷에 표시
@@ -1180,14 +1180,14 @@ osf 식은 수동적 운영 체제 감식을 한다. 이 식은 SYN 비트가 �
 | version | 패킷에서 OS 버전 검사 하기. | |
 | name    | 맞춰 볼 OS 시그너처 이름. pf.os 파일에 전체 시그너처들이 있음. 식에서 탐지할 수 없었던 OS 시그너처엔 "unknown" 사용. | string |
 
-##### 사용 가능한 ttl 값
+#### 사용 가능한 ttl 값
 
 TTL 속성을 주지 않으면 IP 헤더의 값과 핑거프린트 TTL 값이 같은지 비교한다. 일반적으로 LAN에서 잘 동작한다.
 
 * loose: IP 헤더의 TTL이 핑거프린트 값보다 작은지 검사한다. 전역 라우팅 가능 주소에 잘 동작한다.
 * skip: TTL을 아예 비교하지 않는다.
 
-##### osf 식 사용하기
+#### osf 식 사용하기
 
 ```text
 # TTL 비교 없이 "Linux" OS 계열 시그너처에 일치하는 패킷 허용하기
@@ -1217,7 +1217,7 @@ fib 식은 fib(forwarding information base)를 조회해서 특정 주소가 사
 
 모든 주소 타입들의 목록을 보려면 `nft describe fib_addrtype`.
 
-##### fib 식 사용하기
+#### fib 식 사용하기
 
 ```text
 # 역경로 없는 패킷 버리기
@@ -1257,7 +1257,7 @@ filter prerouting meta mark set 0xdead fib daddr . mark type vmap { blackhole : 
 | ----- | ---- |
 | realm | 라우팅 realm (32비트 수). 숫자로 또는 /etc/iproute2/rt_realms에 정의된 심볼 이름으로 지정 가능. |
 
-##### 라우팅 식 사용하기
+#### 라우팅 식 사용하기
 
 ```text
 # IP 패밀리와 무관한 rt 식
@@ -1301,7 +1301,7 @@ ipsec 식은 패킷에 연계된 ipsec 데이터를 가리킨다.
 
 `numgen`의 일반적인 용도는 부하 분산이다.
 
-##### numgen 식 사용하기
+#### numgen 식 사용하기
 
 ```text
 # 192.168.10.100과 192.168.20.200 중 하나로 라운드 로빈:
@@ -1446,7 +1446,7 @@ add rule nat prerouting dnat to numgen random mod 10 map \
 | saddr     | 출발 주소 | ipv6_addr |
 | daddr     | 목적 주소 | ipv6_addr |
 
-##### ip6 헤더 식 사용하기
+#### ip6 헤더 식 사용하기
 
 ```text
 # 첫 번째 확장 헤더가 단편을 나타내면 일치
@@ -1611,7 +1611,7 @@ ip6 nexthdr ipv6-frag
 | nh   | 네트워크 헤더. 예를 들어 IPv4나 IPv6 |
 | th   | 전송 헤더. 예를 들어 TCP |
 
-##### UDP와 TCP 모두의 목적 포트 확인하기
+#### UDP와 TCP 모두의 목적 포트 확인하기
 
 ```text
 inet filter input meta l4proto {tcp, udp} @th,16,16 { 53, 80 }
@@ -1625,7 +1625,7 @@ inet filter input meta l4proto {tcp,udp} th dport { 53, 80 }
 
 더 편리하긴 하지만 비가공 식 표기와 마찬가지로 어떤 의존 조건도 만들거나 확인하지 않는다. 포트 개념이 있는 헤더 종류들로만 검사를 한정하는 건 사용자의 책임이다. 그렇게 해 주지 않으면 가령 ESP 패킷의 SPI 필드를 포트로 잘못 해석해서 식과 무관한 패킷이 잘못 걸리게 된다.
 
-##### ARP 패킷 목적 프로토콜 주소가 지정 주소와 일치하면 대상 하드웨어 주소 다시 쓰기
+#### ARP 패킷 목적 프로토콜 주소가 지정 주소와 일치하면 대상 하드웨어 주소 다시 쓰기
 
 ```text
 input meta iifname enp2s0 arp ptype 0x0800 arp htype 1 arp hlen 6 arp plen 4 @nh,192,32 0xc0a88f10 @nh,144,48 set 0x112233445566 accept
@@ -1692,19 +1692,19 @@ nftables에서는 현재 IPv6 확장 헤더, TCP 옵션, IPv4 옵션 검사(찾�
 | rr     | Record Route | type, length, ptr, addr |
 | ssrr   | Strict Source Route | type, length, ptr, addr |
 
-##### TCP 옵션 찾기
+#### TCP 옵션 찾기
 
 ```text
 filter input tcp option sack-permitted kind 1 counter
 ```
 
-##### IPv6 exthdr 확인하기
+#### IPv6 exthdr 확인하기
 
 ```text
 ip6 filter input frag more-fragments 1 counter
 ```
 
-##### IP 옵션 찾기
+#### IP 옵션 찾기
 
 ```text
 filter input ip option lsrr exists counter
@@ -1747,7 +1747,7 @@ conntrack 식은 패킷과 연계된 연결 추적 항목의 메타 데이터를
 
 위에 나열된 conntrack 한정 타입들에 대한 설명을 위의 conntrack 타입 절에서 볼 수 있다.
 
-##### 서버로 동시에 향하는 연결 수 제한하기
+#### 서버로 동시에 향하는 연결 수 제한하기
 
 ```text
 filter input tcp dport 22 meter test { ip saddr ct count over 2 } reject

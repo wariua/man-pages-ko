@@ -54,7 +54,7 @@ glibc 버전 2.2.3부터 이 함수가 사용 가능하다.
 
 ## CONFORMING TO
 
-이 함수들은 비표준 GNU 확장이다. 그래서 이름 뒤에 "_np"(nonportable: 이식성 없음)가 붙어 있다.
+이 함수들은 비표준 GNU 확장이다. 그래서 이름 뒤에 "\_np"(nonportable: 이식성 없음)가 붙어 있다.
 
 ## EXAMPLE
 

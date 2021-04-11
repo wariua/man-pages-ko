@@ -1,6 +1,6 @@
 ## NAME
 
-_exit, _Exit - 호출 프로세스 종료시키기
+\_exit, \_Exit - 호출 프로세스 종료시키기
 
 ## SYNOPSIS
 

@@ -29,7 +29,7 @@ struct sched_param {
 };
 ```
 
-보다시피 한 가지 스케줄링 매개변수만 지원한다. 각 스케줄링 정책에서 허용하는 스케줄링 우선순위 범위에 대한 세부 내용은 <code>[[sched(7)]]</tt>를 보라.
+보다시피 한 가지 스케줄링 매개변수만 지원한다. 각 스케줄링 정책에서 허용하는 스케줄링 우선순위 범위에 대한 세부 내용은 <tt>[[sched(7)]]</tt>를 보라.
 
 `pthread_attr_setschedparam()`으로 설정한 매개변수가 <tt>[[pthread_create(3)]]</tt> 호출 때 효과가 있으려면 호출자가 <tt>[[pthread_attr_setinheritsched(3)]]</tt>를 사용해 속성 객체 `attr`의 스케줄러 상속 속성을 `PTHREAD_EXPLICIT_SCHED`로 설정해야 한다.
 

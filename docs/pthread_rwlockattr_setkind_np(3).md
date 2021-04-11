@@ -50,7 +50,7 @@ glibc 2.1에서 `pthread_rwlockattr_getkind_np()` 및 `pthread_rwlockattr_setkin
 
 ## CONFORMING TO
 
-이 함수들은 비표준 GNU 확장이다. 그래서 이름 뒤에 "_np"(nonportable: 이식성 없음)가 붙어 있다.
+이 함수들은 비표준 GNU 확장이다. 그래서 이름 뒤에 "\_np"(nonportable: 이식성 없음)가 붙어 있다.
 
 ## SEE ALSO
 

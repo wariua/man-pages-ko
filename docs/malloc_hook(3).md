@@ -1,6 +1,6 @@
 ## NAME
 
-__malloc_hook, __malloc_initialize_hook, __memalign_hook, __free_hook, __realloc_hook, __after_morecore_hook - malloc 디버깅 변수
+\__malloc_hook, \__malloc_initialize_hook, \__memalign_hook, \__free_hook, \__realloc_hook, \__after_morecore_hook - malloc 디버깅 변수
 
 ## SYNOPSIS
 
