@@ -74,7 +74,7 @@ pthread_rwlock_t rwlock = PTHREAD_RWLOCK_INITIALIZER;
 
 ## SEE ALSO
 
-<tt>[[pthread_rwlock_rdlock()|pthread_rwlock_rdlock(3p)]]</tt>, <tt>[[pthread_rwlock_timedrdlock()|pthread_rwlock_timedrdlock(3p)]]</tt>, <tt>[[pthread_rwlock_timedwrlock()|pthread_rwlock_timedwrlock(3p)]]</tt>, <tt>[[pthread_rwlock_trywrlock()|pthread_rwlock_trywrlock(3p)]]</tt>, <tt>[[pthread_rwlock_unlock()|pthread_rwlock_unlock(3p)]]</tt>
+<tt>[[pthread_rwlock_rdlock()]]</tt>, <tt>[[pthread_rwlock_timedrdlock()]]</tt>, <tt>[[pthread_rwlock_timedwrlock()]]</tt>, <tt>[[pthread_rwlock_trywrlock()]]</tt>, <tt>[[pthread_rwlock_unlock()]]</tt>
 
 POSIX.1-2008 Base Definitions 권, *3.287절 Priority Inversion*, `<pthread.h>`
 

@@ -112,7 +112,7 @@ vDSO의 이름이 아키텍처마다 다르다. glibc의 `ldd(1)` 출력 같은 
 
 이 CPU에는 메모리 관리 유닛(MMU)이 없으므로 일반적 의미의 vDSO를 만들지 않는다. 대신 부팅 때 저수준 함수 몇 개를 메모리의 고정된 위치에 맵 한다. 그러면 사용자 공간 응용에서 그 영역을 바로 호출한다. 하위 호환성에 있어선 opcode를 훔쳐보는 것 이상의 방안이 없지만 임베디드 CPU이므로 문제가 안 된다. 심지어 실행하는 오브젝트 형식 중 일부는 ELF 기반도 아니다 (bFLT/FLAT).
 
-이 코드 페이지에 대한 정보는 공개된 문서를 참조하는 것이 최선이다: http://docs.blackfin.uclinux.org/doku.php?id=linux-kernel:fixed-code
+이 코드 페이지에 대한 정보는 공개된 문서를 참조하는 것이 최선이다: <http://docs.blackfin.uclinux.org/doku.php?id=linux-kernel:fixed-code>
 
 ### mips 함수
 

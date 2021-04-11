@@ -58,7 +58,7 @@ int pthread_key_delete(pthread_key_t key);
 
 ## SEE ALSO
 
-<tt>[[pthread_key_create()|pthread_key_create(3p)]]</tt>
+<tt>[[pthread_key_create()]]</tt>
 
 POSIX.1-2008 Base Definitions 권, `<pthread.h>`
 

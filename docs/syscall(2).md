@@ -47,7 +47,7 @@ O32 ABI의 MIPS, 32비트 ABI의 PowerPC 및 parisc, 그리고 Xtensa에서도 �
 
 참고로 parisc C ABI에서도 정렬된 레지스터 쌍을 사용하지만 중간 계층을 이용해 사용자 공간에게 문제를 감춰 준다.
 
-영향 받는 시스템 호출은 <tt>[[fadvise64_64(2)|posix_fadvise(2)]]</tt>, <tt>[[ftruncate64(2)|truncate(2)]]</tt>, <tt>[[posix_fadvise(2)]]</tt>, <tt>[[pread64(2)]]</tt>, <tt>[[pwrite64(2)]]</tt>, <tt>[[readahead(2)]]</tt>, <tt>[[sync_file_range(2)]]</tt>, <tt>[[truncate64(2)|truncate(2)]]</tt>이다.
+영향 받는 시스템 호출은 <tt>[[fadvise64_64(2)]]</tt>, <tt>[[ftruncate64(2)]]</tt>, <tt>[[posix_fadvise(2)]]</tt>, <tt>[[pread64(2)]]</tt>, <tt>[[pwrite64(2)]]</tt>, <tt>[[readahead(2)]]</tt>, <tt>[[sync_file_range(2)]]</tt>, <tt>[[truncate64(2)]]</tt>이다.
 
 <tt>[[_llseek(2)]]</tt>, <tt>[[preadv(2)]]</tt>, <tt>[[preadv2(2)]]</tt>, <tt>[[pwritev(2)]]</tt>, <tt>[[pwritev2(2)]]</tt>처럼 직접 64비트 값을 쪼개고 합치는 시스템 호출들은 영향을 받지 않는다. 역사적 잔재들의 멋진 세계에 온 것을 환영한다.
 

@@ -66,7 +66,7 @@ int pthread_mutexattr_settype(pthread_mutexattr_t *attr, int type);
 
 ## SEE ALSO
 
-<tt>[[pthread_cond_timedwait()|pthread_cond_timedwait(3p)]]</tt>, <tt>[[pthread_mutex_lock()|pthread_mutex_lock(3p)]]</tt>
+<tt>[[pthread_cond_timedwait()]]</tt>, <tt>[[pthread_mutex_lock()]]</tt>
 
 POSIX.1-2008 Base Definitions 권, `<pthread.h>`
 

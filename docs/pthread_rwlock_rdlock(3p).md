@@ -80,7 +80,7 @@ Thread Execution Scheduling 옵션을 지원하지 않는 경우, 쓰기 쪽이 
 
 ## SEE ALSO
 
-<tt>[[pthread_rwlock_destroy()|pthread_rwlock_destroy(3p)]]</tt>, <tt>[[pthread_rwlock_timedrdlock()|pthread_rwlock_timedrdlock(3p)]]</tt>, <tt>[[pthread_rwlock_timedwrlock()|pthread_rwlock_timedwrlock(3p)]]</tt>, <tt>[[pthread_rwlock_trywrlock()|pthread_rwlock_trywrlock(3p)]]</tt>, <tt>[[pthread_rwlock_unlock()|pthread_rwlock_unlock(3p)]]</tt>
+<tt>[[pthread_rwlock_destroy()]]</tt>, <tt>[[pthread_rwlock_timedrdlock()]]</tt>, <tt>[[pthread_rwlock_timedwrlock()]]</tt>, <tt>[[pthread_rwlock_trywrlock()]]</tt>, <tt>[[pthread_rwlock_unlock()]]</tt>
 
 POSIX.1-2008 Base Definitions 권, *3.287절 Priority Inversion*, *4.11절 Memory Synchronization*, `<pthread.h>`
 

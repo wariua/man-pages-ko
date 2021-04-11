@@ -1,0 +1,1 @@
+pthread_rwlock_destroy(3p).md

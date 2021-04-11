@@ -1,0 +1,1 @@
+pthread_rwlockattr_getpshared(3p).md

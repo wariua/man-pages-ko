@@ -60,7 +60,7 @@ int pthread_barrierattr_init(pthread_barrierattr_t *attr);
 
 ## SEE ALSO
 
-<tt>[[pthread_barrierattr_getpshared()|pthread_barrierattr_getpshared(3p)]]</tt>
+<tt>[[pthread_barrierattr_getpshared()]]</tt>
 
 POSIX.1-2008 Base Definitions 권, `<pthread.h>`
 

@@ -91,7 +91,7 @@ int pthread_mutex_timedlock(pthread_mutex_t *restrict mutex,
 
 ## SEE ALSO
 
-<tt>[[pthread_mutex_destroy()|pthread_mutex_destroy(3p)]]</tt>, <tt>[[pthread_mutex_lock()|pthread_mutex_lock(3p)]]</tt>, `time()`
+<tt>[[pthread_mutex_destroy()]]</tt>, <tt>[[pthread_mutex_lock()]]</tt>, `time()`
 
 POSIX.1-2008 Base Definitions 권, *4.11절 Memory Synchronization*, `<pthread.h>`, `<time.h>`
 

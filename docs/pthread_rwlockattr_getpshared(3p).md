@@ -62,7 +62,7 @@ int pthread_rwlockattr_setpshared(pthread_rwlockattr_t *attr,
 
 ## SEE ALSO
 
-<tt>[[pthread_rwlock_destroy()|pthread_rwlock_destroy(3p)]]</tt>, <tt>[[pthread_rwlockattr_destroy()|pthread_rwlockattr_destroy(3p)]]</tt>
+<tt>[[pthread_rwlock_destroy()]]</tt>, <tt>[[pthread_rwlockattr_destroy()]]</tt>
 
 POSIX.1-2008 Base Definitions 권, `<pthread.h>`
 

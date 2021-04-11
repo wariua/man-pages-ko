@@ -1,0 +1,1 @@
+pthread_attr_destroy(3).md

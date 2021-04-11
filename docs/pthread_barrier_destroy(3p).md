@@ -71,7 +71,7 @@ int pthread_barrier_init(pthread_barrier_barrier_t *restrict barrier,
 
 ## SEE ALSO
 
-<tt>[[pthread_barrier_wait()|pthread_barrier_wait(3p)]]</tt>
+<tt>[[pthread_barrier_wait()]]</tt>
 
 POSIX.1-2008 Base Definitions 권, `<pthread.h>`
 

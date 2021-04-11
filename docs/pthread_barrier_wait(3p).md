@@ -56,7 +56,7 @@ int pthread_barrier_wait(pthread_barrier_t *barrier);
 
 ## SEE ALSO
 
-<tt>[[pthread_barrier_destroy()|pthread_barrier_destroy(3p)]]</tt>
+<tt>[[pthread_barrier_destroy()]]</tt>
 
 POSIX.1-2008 Base Definitions 권, *3.287절 Priority Inversion*, *4.11절 Memory Synchronization*, `<pthread.h>`
 

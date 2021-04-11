@@ -122,7 +122,7 @@ int pthread_mutex_unlock(pthread_mutex_t *mutex);
 
 ## SEE ALSO
 
-<tt>[[pthread_mutex_consistent()|pthread_mutex_consistent(3)]]</tt>, <tt>[[pthread_mutex_destroy()|pthread_mutex_destroy(3p)]]</tt>, <tt>[[pthread_mutex_timedlock()|pthread_mutex_timedlock(3p)]]</tt>, <tt>[[pthread_mutexattr_getrobust()|pthread_mutexattr_getrobust(3)]]</tt>
+<tt>[[pthread_mutex_consistent()]]</tt>, <tt>[[pthread_mutex_destroy()]]</tt>, <tt>[[pthread_mutex_timedlock()]]</tt>, <tt>[[pthread_mutexattr_getrobust()]]</tt>
 
 POSIX.1-2008 Base Definitions 권, *4.11절 Memory Synchronization*, `<pthread.h>`
 

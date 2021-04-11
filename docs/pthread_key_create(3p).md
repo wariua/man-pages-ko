@@ -125,7 +125,7 @@ pthread_setspecific(key, new);
 
 ## SEE ALSO
 
-<tt>[[pthread_getspecific()|pthread_getspecific(3p)]]</tt>, <tt>[[pthread_key_delete()|pthread_key_delete(3p)]]</tt>
+<tt>[[pthread_getspecific()]]</tt>, <tt>[[pthread_key_delete()]]</tt>
 
 POSIX.1-2008 Base Definitions 권, `<pthread.h>`
 

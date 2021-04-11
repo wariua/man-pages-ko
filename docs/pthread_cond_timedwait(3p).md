@@ -168,7 +168,7 @@ cond_relative_timed_wait(c, m, &reltime);
 
 ## SEE ALSO
 
-<tt>[[pthread_cond_broadcast()|pthread_cond_broadcast(3p)]]</tt>
+<tt>[[pthread_cond_broadcast()]]</tt>
 
 POSIX.1-2008 Base Definitions 권, *4.11절 Memory Synchronization*, `<pthread.h>`
 

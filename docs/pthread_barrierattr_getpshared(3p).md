@@ -62,7 +62,7 @@ int pthread_barrierattr_setpshared(pthread_barrierattr_t *attr,
 
 ## SEE ALSO
 
-<tt>[[pthread_barrier_destroy()|pthread_barrier_destroy(3p)]]</tt>, <tt>[[pthread_barrierattr_destroy()|pthread_barrierattr_destroy(3p)]]</tt>
+<tt>[[pthread_barrier_destroy()]]</tt>, <tt>[[pthread_barrierattr_destroy()]]</tt>
 
 POSIX.1-2008 Base Definitions 권, `<pthread.h>`
 

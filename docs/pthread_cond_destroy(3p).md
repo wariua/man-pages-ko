@@ -120,7 +120,7 @@ delete_elt(struct list *lp, struct elt *ep)
 
 ## SEE ALSO
 
-[[pthread_cond_broadcast()|pthread_cond_broadcast(3p)]], [[pthread_cond_timedwait()|pthread_cond_timedwait(3p)]], [[pthread_mutex_destroy()|pthread_mutex_destroy(3p)]]
+[[pthread_cond_broadcast()]], [[pthread_cond_timedwait()]], [[pthread_mutex_destroy()]]
 
 POSIX.1-2008 Base Definitions 권, `<pthread.h>`
 

@@ -89,7 +89,7 @@ int pthread_mutex_setprioceiling(pthread_mutex_t *restrict mutex,
 
 ## SEE ALSO
 
-<tt>[[pthread_mutex_destroy()|pthread_mutex_destroy(3)]]</tt>, <tt>[[pthread_mutex_lock()|pthread_mutex_lock(3p)]]</tt>, <tt>[[pthread_mutex_timedlock()|pthread_mutex_timedlock(3p)]]</tt>
+<tt>[[pthread_mutex_destroy()]]</tt>, <tt>[[pthread_mutex_lock()]]</tt>, <tt>[[pthread_mutex_timedlock()]]</tt>
 
 POSIX.1-2008 Base Definitions 권, `<pthread.h>`
 

@@ -62,7 +62,7 @@ int pthread_condattr_setclock(pthread_condattr_t *attr,
 
 ## SEE ALSO
 
-<tt>[[pthread_cond_destroy()|pthread_cond_destroy(3p)]]</tt>, <tt>[[pthread_cond_timedwait()|pthread_cond_timedwait(3p)]]</tt>, <tt>[[pthread_condattr_destroy()|pthread_condattr_destroy(3p)]]</tt>, <tt>[[pthread_condattr_getpshared()|pthread_condattr_getpshared(3p)]]</tt>, <tt>[[pthread_create()|pthread_create(3)]]</tt>, <tt>[[pthread_mutex_destroy()|pthread_mutex_destroy(3p)]]</tt>
+<tt>[[pthread_cond_destroy()]]</tt>, <tt>[[pthread_cond_timedwait()]]</tt>, <tt>[[pthread_condattr_destroy()]]</tt>, <tt>[[pthread_condattr_getpshared()]]</tt>, <tt>[[pthread_create()]]</tt>, <tt>[[pthread_mutex_destroy()]]</tt>
 
 POSIX.1-2008 Base Definitions 권, `<pthread.h>`
 

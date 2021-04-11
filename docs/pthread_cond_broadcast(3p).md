@@ -98,7 +98,7 @@ pthread_cond_signal(cond):
 
 ## SEE ALSO
 
-[[pthread_cond_destroy()|pthread_cond_destroy(3p)]], [[pthread_cond_timedwait()|pthread_cond_timedwait(3p)]]
+[[pthread_cond_destroy()]], [[pthread_cond_timedwait()]]
 
 POSIX.1-2008 Base Definitions 권, *4.11절 Memory Synchronization*, `<pthread.h>`
 

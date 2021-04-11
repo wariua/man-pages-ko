@@ -186,7 +186,7 @@ obj_done(struct obj *op)
 
 ## SEE ALSO
 
-<tt>[[pthread_mutex_getprioceiling()|pthread_mutex_getprioceiling(3p)]]</tt>, <tt>[[pthread_mutex_getrobust()|pthread_mutex_getrobust(3)]]</tt>, <tt>[[pthread_mutex_lock()|pthread_mutex_lock(3p)]]</tt>, <tt>[[pthread_mutex_timedlock()|pthread_mutex_timedlock(3p)]]</tt>, <tt>[[pthread_mutexattr_getpshared()|pthread_mutexattr_getpshared(3p)]]</tt>
+<tt>[[pthread_mutex_getprioceiling()]]</tt>, <tt>[[pthread_mutexattr_getrobust()]]</tt>, <tt>[[pthread_mutex_lock()]]</tt>, <tt>[[pthread_mutex_timedlock()]]</tt>, <tt>[[pthread_mutexattr_getpshared()]]</tt>
 
 POSIX.1-2008 Base Definitions 권, `<pthread.h>`
 
