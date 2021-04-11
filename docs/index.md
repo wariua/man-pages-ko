@@ -1,17 +1,5 @@
-# Welcome to MkDocs
+[리눅스 맨 페이지](https://www.kernel.org/doc/man-pages/) 한글판입니다.
 
-For full documentation visit [mkdocs.org](https://mkdocs.org).
+기준 버전: 5.02
 
-## Commands
-
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs help` - Print this help message.
-
-## Project layout
-
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+소스 저장소: <https://github.com/wariua/man-pages-ko>
