@@ -10,9 +10,7 @@ wait3, wait4 - 프로세스 상태 변경 기다리기, BSD 방식
 #include <sys/resource.h>
 #include <sys/wait.h>
 
-pid_t wait3(int *wstatus, int options,
-            struct rusage *rusage);
-
+pid_t wait3(int *wstatus, int options, struct rusage *rusage);
 pid_t wait4(pid_t pid, int *wstatus, int options,
             struct rusage *rusage);
 ```
@@ -20,7 +18,13 @@ pid_t wait4(pid_t pid, int *wstatus, int options,
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
 `wait3()`:
-:   glibc 2.19부터:
+:   glibc 2.26부터:
+    :   `_DEFAULT_SOURCE`<br>
+        `    || (_XOPEN_SOURCE >= 500 &&`<br>
+        `        ! (_POSIX_C_SOURCE >= 200112L`<br>
+        `           || _XOPEN_SOURCE >= 600))`
+
+    glibc 2.19부터 2.25까지:
     :   `_DEFAULT_SOURCE || _XOPEN_SOURCE >= 500`
 
     glibc 2.19 및 이전:
@@ -95,4 +99,4 @@ SUSv1에 `wait3()` 명세가 포함되었다. SUSv2에 `wait3()`가 포함되었
 
 ----
 
-2018-04-30
+2021-03-22

@@ -8,7 +8,7 @@ fopencookie - 맞춤형 스트림 열기
 #define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
 #include <stdio.h>
 
-FILE *fopencookie(void *cookie, const char *mode,
+FILE *fopencookie(void *restrict cookie, const char *restrict mode,
                   cookie_io_functions_t io_funcs);
 ```
 
@@ -110,7 +110,7 @@ typedef struct {
 
 이 함수는 비표준 GNU 확장이다.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 프로그램에서는 <tt>[[fmemopen(3)]]</tt>을 통해 사용 가능한 것과 기능이 비슷한 (하지만 동일하지는 않은) 맞춤형 스트림을 구현한다. 즉 메모리 버퍼에 데이터를 저장하는 스트림을 구현한다. 프로그램에서 명령행 인자들을 스트림으로 써넣은 다음 스트림을 탐색하며 다섯 글자마다 두 글자씩을 읽어서 표준 출력에 쓴다. 다음 셸 세션이 프로그램 사용 방식을 보여 준다.
 
@@ -149,7 +149,7 @@ memfile_write(void *c, const char *buf, size_t size)
     char *new_buff;
     struct memfile_cookie *cookie = c;
 
-    /* 버퍼 부족? 충분히 커질 때까지 두 배씩 키우기 */
+    /* 버퍼 부족? 충분히 커질 때까지 두 배씩 키우기. */
 
     while (size + cookie->offset > cookie->allocated) {
         new_buff = realloc(cookie->buf, cookie->allocated * 2);
@@ -176,7 +176,7 @@ memfile_read(void *c, char *buf, size_t size)
     ssize_t xbytes;
     struct memfile_cookie *cookie = c;
 
-    /* 요청 바이트와 가용 바이트 중 작은 쪽 가져오기 */
+    /* 요청 바이트와 가용 바이트 중 작은 쪽 가져오기. */
 
     xbytes = size;
     if (cookie->offset + size > cookie->endpos)
@@ -236,12 +236,10 @@ main(int argc, char *argv[])
     };
     FILE *stream;
     struct memfile_cookie mycookie;
-    ssize_t nread;
-    long p;
-    int j;
+    size_t nread;
     char buf[1000];
 
-    /* 쿠키 준비하고 fopencookie() 호출 */
+    /* 쿠키 준비하고 fopencookie() 호출하기. */
 
     mycookie.buf = malloc(INIT_BUF_SIZE);
     if (mycookie.buf == NULL) {
@@ -253,38 +251,38 @@ main(int argc, char *argv[])
     mycookie.offset = 0;
     mycookie.endpos = 0;
 
-    stream = fopencookie(&mycookie,"w+", memfile_func);
+    stream = fopencookie(&mycookie, "w+", memfile_func);
     if (stream == NULL) {
         perror("fopencookie");
         exit(EXIT_FAILURE);
     }
 
-    /* 명령행 인자를 우리 파일로 기록 */
+    /* 명령행 인자를 우리 파일로 기록하기. */
 
-    for (j = 1; j < argc; j++)
+    for (int j = 1; j < argc; j++)
         if (fputs(argv[j], stream) == EOF) {
             perror("fputs");
             exit(EXIT_FAILURE);
         }
 
-    /* EOF 전까지 다섯 바이트마다 두 바이트씩 읽기 */
+    /* EOF 전까지 다섯 바이트마다 두 바이트씩 읽기. */
 
-    for (p = 0; ; p += 5) {
+    for (long p = 0; ; p += 5) {
         if (fseek(stream, p, SEEK_SET) == -1) {
             perror("fseek");
             exit(EXIT_FAILURE);
         }
         nread = fread(buf, 1, 2, stream);
-        if (nread == -1) {
-            perror("fread");
-            exit(EXIT_FAILURE);
-        }
         if (nread == 0) {
+            if (ferror(stream) != 0) {
+                fprintf(stderr, "fread failed\n");
+                exit(EXIT_FAILURE);
+            }
             printf("Reached end of file\n");
             break;
         }
 
-        printf("/%.*s/\n", nread, buf);
+        printf("/%.*s/\n", (int) nread, buf);
     }
 
     exit(EXIT_SUCCESS);
@@ -297,4 +295,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-03-06
+2021-03-22

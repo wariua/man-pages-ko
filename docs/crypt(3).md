@@ -5,19 +5,29 @@ crypt, crypt_r - 패스워드 및 데이터 암호화
 ## SYNOPSIS
 
 ```c
-#define _XOPEN_SOURCE       /* feature_test_macros(7) 참고 */
 #include <unistd.h>
 
 char *crypt(const char *key, const char *salt);
 
-#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
 #include <crypt.h>
 
 char *crypt_r(const char *key, const char *salt,
-              struct crypt_data *data);
+              struct crypt_data *restrict data);
 ```
 
 `-lcrypt`로 링크.
+
+glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
+
+`crypt()`:
+:   glibc 2.28부터:
+    :   `_DEFAULT_SOURCE`
+
+    glibc 2.27 및 이전:
+    :   `_XOPEN_SOURCE`
+
+`crypt_r()`:
+:   `_GNU_SOURCE`
 
 ## DESCRIPTION
 
@@ -116,4 +126,4 @@ $id$rounds=yyy$salt$encrypted
 
 ----
 
-2018-04-30
+2021-03-22

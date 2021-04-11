@@ -553,7 +553,7 @@ main(int argc, char **argv)
     struct fanotify_event_info_fid *fid;
 
     if (argc != 2) {
-        fprintf(stderr, "Invalid number of command line arguments.\0);
+        fprintf(stderr, "Invalid number of command line arguments.\n");
         exit(EXIT_FAILURE);
     }
 
@@ -576,7 +576,7 @@ main(int argc, char **argv)
         exit(EXIT_FAILURE);
     }
 
-    printf("Listening for events.\0);
+    printf("Listening for events.\n");
 
     /* 이벤트 큐에서 이벤트를 읽어서 버퍼로 */
 
@@ -597,7 +597,7 @@ main(int argc, char **argv)
         /* 이벤트 정보의 타입이 맞는지 확인 */
 
         if (fid->hdr.info_type != FAN_EVENT_INFO_TYPE_FID) {
-            fprintf(stderr, "Received unexpected event info type.\0);
+            fprintf(stderr, "Received unexpected event info type.\n");
             exit(EXIT_FAILURE);
         }
 
@@ -618,7 +618,7 @@ main(int argc, char **argv)
         if (ret == -1) {
             if (errno == ESTALE) {
                 printf("File handle is no longer valid. "
-                        "File has been deleted\0);
+                        "File has been deleted\n");
                 continue;
             } else {
                 perror("open_by_handle_at");
@@ -638,14 +638,14 @@ main(int argc, char **argv)
         }
 
         path[path_len] = '\ ';
-        printf("\tDirectory '%s' has been modified.\0, path);
+        printf("\tDirectory '%s' has been modified.\n", path);
 
         /* 이 이벤트의 연관 파일 디스크립터 닫기 */
 
         close(event_fd);
     }
 
-    printf("All events processed successfully. Program exiting.\0);
+    printf("All events processed successfully. Program exiting.\n");
     exit(EXIT_SUCCESS);
 }
 ```

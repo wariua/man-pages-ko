@@ -57,7 +57,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 POSIX.1-2001, POSIX.1-2008.
 
-## EXAMPLE
+## EXAMPLES
 
 다음 코드 조각은 POSIX.2 시스템 유틸리티들을 찾을 경로를 알아낸다.
 
@@ -78,4 +78,4 @@ confstr(_CS_PATH, pathbuf, n);
 
 ----
 
-2019-03-06
+2021-03-22

@@ -6,9 +6,7 @@ sysfs - 파일 시스템 타입 정보 얻기
 
 ```c
 int sysfs(int option, const char *fsname);
-
 int sysfs(int option, unsigned int fs_index, char *buf);
-
 int sysfs(int option);
 ```
 
@@ -31,7 +29,7 @@ int sysfs(int option);
 
 ## RETURN VALUE
 
-성공 시 `sysfs()`는 옵션 `1`에 대해선 파일 시스템 인덱스를, 옵션 `2`에 대해선 0을, 옵션 `3`에 대해선 현재 구성된 파일 시스템 수를 반환한다. 오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+성공 시 `sysfs()`는 옵션 `1`에 대해선 파일 시스템 인덱스를, 옵션 `2`에 대해선 0을, 옵션 `3`에 대해선 현재 구성된 파일 시스템 수를 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -47,12 +45,16 @@ SVr4.
 
 ## NOTES
 
-시스템 V에서 유래한 이 시스템 호출은 구식이 되었다. 쓰지 말아야 한다. `/proc`이 있는 시스템에서는 `/proc/filesystems`를 통해 같은 정보를 얻을 수 있으므로 그 인터페이스를 쓰면 된다.
+시스템 V에서 유래한 이 시스템 호출은 구식이 되었다. 쓰지 말아야 한다. `/proc`이 있는 시스템에서는 `/proc`를 통해 같은 정보를 얻을 수 있으므로 그 인터페이스를 쓰면 된다.
 
 ## BUGS
 
 libc 내지 glibc 지원이 없다. `buf` 크기가 얼마여야 하는지 알아낼 방법이 없다.
 
+## SEE ALSO
+
+<tt>[[proc(5)]]</tt>, <tt>[[sysfs(5)]]</tt>
+
 ----
 
-2017-09-15
+2021-03-22

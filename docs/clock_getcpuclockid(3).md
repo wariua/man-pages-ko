@@ -7,7 +7,7 @@ clock_getcpuclockid - 프로세스 CPU 시간 클럭의 ID 얻기
 ```c
 #include <time.h>
 
-int clock_getcpuclockid(pid_t pid, clockid_t *clock_id);
+int clock_getcpuclockid(pid_t pid, clockid_t *clockid);
 ```
 
 `-lrt`로 링크 (glibc 버전 2.17 전에서만).
@@ -19,7 +19,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## DESCRIPTION
 
-`clock_getcpuclockid()` 함수는 ID가 `pid`인 프로세스의 CPU 시간 클럭의 ID를 얻어서 `clock_id`가 가리키는 위치로 반환한다. `pid`가 0이면 호출 프로세스의 CPU 시간 클럭의 클럭 ID를 반환한다.
+`clock_getcpuclockid()` 함수는 ID가 `pid`인 프로세스의 CPU 시간 클럭의 ID를 얻어서 `clockid`가 가리키는 위치로 반환한다. `pid`가 0이면 호출 프로세스의 CPU 시간 클럭의 클럭 ID를 반환한다.
 
 ## RETURN VALUE
 
@@ -56,7 +56,7 @@ POSIX.1-2001, POSIX.1-2008.
 
 `pid`가 0인 `clock_getcpuclockid()` 호출로 얻은 클럭 ID를 <tt>[[clock_gettime(2)]]</tt>을 호출할 때 사용하는 것은 클럭 ID `CLOCK_PROCESS_CPUTIME_ID`를 쓰는 것과 같다.
 
-## EXAMPLE
+## EXAMPLES
 
 아래의 예시 프로그램은 명령행으로 준 ID를 가진 프로세스의 CPU 시간 클럭 ID를 얻은 다음 <tt>[[clock_gettime(2)]]</tt>을 이용해 그 클럭의 시간을 얻는다. 동작 예는 다음과 같다.
 
@@ -69,6 +69,7 @@ CPU-time clock for PID 1 is 2.213466748 seconds
 
 ```c
 #define _XOPEN_SOURCE 600
+#include <stdint.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -95,8 +96,8 @@ main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    printf("CPU-time clock for PID %s is %ld.%09ld seconds\n",
-            argv[1], (long) ts.tv_sec, (long) ts.tv_nsec);
+    printf("CPU-time clock for PID %s is %jd.%09ld seconds\n",
+            argv[1], (intmax_t) ts.tv_sec, ts.tv_nsec);
     exit(EXIT_SUCCESS);
 }
 ```
@@ -107,4 +108,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-03-06
+2021-03-22

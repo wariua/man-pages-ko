@@ -8,7 +8,7 @@ mlock, mlock2, munlock, mlockall, munlockall - 메모리 고정하고 풀기
 #include <sys/mman.h>
 
 int mlock(const void *addr, size_t len);
-int mlock2(const void *addr, size_t len, int flags);
+int mlock2(const void *addr, size_t len, unsigned int flags);
 int munlock(const void *addr, size_t len);
 
 int mlockall(int flags);
@@ -59,7 +59,7 @@ int munlockall(void);
 
 ## RETURN VALUE
 
-성공 시 이 시스템 호출들은 0을 반환한다. 오류 시 -1을 반환하며 `errno`를 적절히 설정한다. 그리고 프로세스 주소 공간 내의 고정에 어떤 변화도 생기지 않는다.
+성공 시 이 시스템 호출들은 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다. 그리고 프로세스 주소 공간 내의 고정에 어떤 변화도 생기지 않는다.
 
 ## ERRORS
 
@@ -110,7 +110,7 @@ int munlockall(void);
 
 ## CONFORMING TO
 
-POSIX.1-2001, POSIX.1-2008, SVr4.
+`mlock()`, `munlock()`, `mlockall()`, `munlockall()`: POSIX.1-2001, POSIX.1-2008, SVr4.
 
 `mlock2()`는 리눅스 전용이다.
 
@@ -164,4 +164,4 @@ POSIX.1-2001, POSIX.1-2008, SVr4.
 
 ----
 
-2018-02-02
+2021-03-22

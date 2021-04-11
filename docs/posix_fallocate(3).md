@@ -45,6 +45,9 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 `ENOSPC`
 :   `fd`가 가리키는 파일을 담은 장치에 충분한 공간이 남아 있지 않다.
 
+`EOPNOTSUPP`
+:   `fd`가 가리키는 파일을 포함하는 파일 시스템에서 이 동작을 지원하지 않는다. NOTES에서 설명하는 에뮬레이션을 수행하지 않는 musl libc 같은 C 라이브러리에서 이 오류 코드를 반환할 수 있다.
+
 `ESPIPE`
 :   `fd`가 파이프를 가리키고 있다.
 
@@ -86,4 +89,4 @@ glibc 구현에서 `posix_fallocate()`는 <tt>[[fallocate(2)]]</tt> 시스템 �
 
 ----
 
-2017-09-15
+2021-03-22

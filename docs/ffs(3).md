@@ -19,13 +19,13 @@ int ffsll(long long int i);
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
 `ffs()`:
-:   glibc 1.12부터:
+:   glibc 2.12부터:
     :   `    _XOPEN_SOURCE >= 700`<br>
         `    || ! (_POSIX_C_SOURCE >= 200809L)`<br>
         `    || /* Glibc 2.19부터: */ _DEFAULT_SOURCE`<br>
         `    || /* Glibc 버전 <= 2.19: */ _BSD_SOURCE || _SVID_SOURCE`
 
-    glibc 1.12 전:
+    glibc 2.12 전:
     :   없음
 
 `ffsl()`, `ffsll()`:

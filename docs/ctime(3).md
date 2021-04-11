@@ -8,16 +8,18 @@ asctime, ctime, gmtime, localtime, mktime, asctime_r, ctime_r, gmtime_r, localti
 #include <time.h>
 
 char *asctime(const struct tm *tm);
-char *asctime_r(const struct tm *tm, char *buf);
+char *asctime_r(const struct tm *restrict tm, char *restrict buf);
 
 char *ctime(const time_t *timep);
-char *ctime_r(const time_t *timep, char *buf);
+char *ctime_r(const time_t *restrict timep, char *restrict buf);
 
 struct tm *gmtime(const time_t *timep);
-struct tm *gmtime_r(const time_t *timep, struct tm *result);
+struct tm *gmtime_r(const time_t *restrict timep,
+                    struct tm *restrict result);
 
 struct tm *localtime(const time_t *timep);
-struct tm *localtime_r(const time_t *timep, struct tm *result);
+struct tm *localtime_r(const time_t *restrict timep,
+                    struct tm *restrict result);
 
 time_t mktime(struct tm *tm);
 ```
@@ -26,7 +28,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 `asctime_r()`, `ctime_r()`, `gmtime_r()`, `localtime_r()`:
 :   `_POSIX_C_SOURCE`<br>
-    `    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE || _SVID_SOURCE`
+    `    || /* glibc <= 2.19: */ _BSD_SOURCE || _SVID_SOURCE`
 
 ## DESCRIPTION
 
@@ -111,7 +113,7 @@ struct tm {
 
 성공 시 `mktime()`은 `time_t` 타입 값으로 표현한 달력 시간(에포크 이후 초 수)을 반환한다.
 
-오류 시 `mktime()`은 `(time_t) -1` 값을 반환한다. 나머지 함수들은 오류 시 NULL을 반환한다. 오류 시 오류 원인을 나타내도록 `errno`를 설정한다.
+오류 시 `mktime()`은 `(time_t) -1` 값을 반환한다. 나머지 함수들은 오류 시 NULL을 반환한다. 오류 시 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -128,11 +130,13 @@ struct tm {
 | `asctime_r()` | 스레드 안전성 | MT-Safe locale |
 | `ctime()` | 스레드 안전성 | MT-Unsafe race:tmbuf<br>race:asctime env locale |
 | `ctime_r()`,<br>`gmtime_r()`,<br>`localtime_r()`,<br>`mktime()` | 스레드 안전성 | MT-Safe env locale |
-| `gmtime()`,<br>`localtime()` | 스레드 안전성 | MT-Unsafe race:tmbuf env locale |
+| `gmtime()`, `localtime()` | 스레드 안전성 | MT-Unsafe race:tmbuf env locale |
 
 ## CONFORMING TO
 
 POSIX.1-2001. C89 및 C99에서 `asctime()`, `ctime()`, `gmtime()`, `localtime()`, `mktime()`을 명세하고 있다. POSIX.1-2008에서 `asctime()`, `asctime_r()`, `ctime()`, `ctime_r()`을 구식으로 표시하고 대신 <tt>[[strftime(3)]]</tt>을 쓰기를 권하고 있다.
+
+POSIX에서는 `ctime_r()`의 매개변수가 `restrict`여야 한다고 명세하고 있지 않다. glibc 한정이다.
 
 ## NOTES
 
@@ -150,7 +154,7 @@ const char *tm_zone;      /* 시간대 축약명 */
 
 이는 4.3BSD-Reno에 존재하는 BSD 확장이다.
 
-POSIX.1-2004에 따르면 `localtime()`은 <tt>[[tzset(3)]]</tt>이 호출된 것처럼 동작해야 하는 반면 `localtime_r()`에는 그런 요구 사항이 없다. 이식 가능한 코드에서는 `localtime_r()`에 앞서 <tt>[[tzset(3)]]</tt>을 호출하는 게 좋다.
+POSIX.1-2001에 따르면 `localtime()`은 <tt>[[tzset(3)]]</tt>이 호출된 것처럼 동작해야 하는 반면 `localtime_r()`에는 그런 요구 사항이 없다. 이식 가능한 코드에서는 `localtime_r()`에 앞서 <tt>[[tzset(3)]]</tt>을 호출하는 게 좋다.
 
 ## SEE ALSO
 
@@ -158,4 +162,4 @@ POSIX.1-2004에 따르면 `localtime()`은 <tt>[[tzset(3)]]</tt>이 호출된 �
 
 ----
 
-2019-03-06
+2021-03-22

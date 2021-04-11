@@ -191,7 +191,7 @@ select(0, NULL, NULL, NULL, &tv);
 
 리눅스 전용인 <tt>[[epoll(7)]]</tt> API는 많은 파일 디스크립터들을 감시할 때 <tt>[[select(2)]]</tt> 및 <tt>[[poll(2)]]</tt>보다 효율적인 인터페이스를 제공한다.
 
-## EXAMPLE
+## EXAMPLES
 
 다음은 `select()`의 유용성을 더 제대로 보여 주는 예시이다. 한 TCP 포트에서 다른 포트로 전달을 하는 TCP 포워딩 프로그램이다.
 
@@ -199,8 +199,7 @@ select(0, NULL, NULL, NULL, &tv);
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
-#include <sys/time.h>
-#include <sys/types.h>
+#include <sys/select.h>
 #include <string.h>
 #include <signal.h>
 #include <sys/socket.h>
@@ -390,7 +389,7 @@ main(int argc, char *argv[])
             }
         }
 
-        /* 주의: OOB 데이터를 일반 데이터 전에 읽을 것 */
+        /* 주의: OOB 데이터를 일반 데이터 전에 읽을 것. */
 
         if (fd1 > 0 && FD_ISSET(fd1, &exceptfds)) {
             char c;
@@ -443,15 +442,15 @@ main(int argc, char *argv[])
                 buf1_written += nbytes;
         }
 
-        /* 데이터 쓰기가 데이터 읽기를 따라잡았는지 확인 */
+        /* 데이터 쓰기가 데이터 읽기를 따라잡았는지 확인하자. */
 
         if (buf1_written == buf1_avail)
             buf1_written = buf1_avail = 0;
         if (buf2_written == buf2_avail)
             buf2_written = buf2_avail = 0;
 
-        /* 한쪽이 연결을 닫았음. 반대쪽에선 완전히
-           비울 때까지 쓰기를 계속. */
+        /* 한쪽이 연결을 닫았다. 반대쪽에선 완전히
+           비울 때까지 쓰기를 계속하자. */
 
         if (fd1 < 0 && buf1_avail - buf1_written == 0)
             SHUT_FD2;
@@ -468,7 +467,7 @@ main(int argc, char *argv[])
 
 ## SEE ALSO
 
-`accept(2)`, `connect(2)`, `ioctl(2)`, <tt>[[poll(2)]]</tt>, `read(2)`, <tt>[[recv(2)]]</tt>, <tt>[[select(2)]]</tt>, <tt>[[send(2)]]</tt>, <tt>[[sigprocmask(2)]]</tt>, `write(2)`, <tt>[[sigaddset(3)]]</tt>, <tt>[[sigdelset(3)]]</tt>, <tt>[[sigemptyset(3)]]</tt>, <tt>[[sigfillset(3)]]</tt>, <tt>[[sigismember(3)]]</tt>, <tt>[[epoll(7)]]</tt>
+`accept(2)`, `connect(2)`, <tt>[[poll(2)]]</tt>, `read(2)`, <tt>[[recv(2)]]</tt>, <tt>[[select(2)]]</tt>, <tt>[[send(2)]]</tt>, <tt>[[sigprocmask(2)]]</tt>, `write(2)`, <tt>[[epoll(7)]]</tt>
 
 ----
 

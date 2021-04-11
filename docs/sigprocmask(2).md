@@ -8,11 +8,12 @@ sigprocmask, rt_sigprocmask - 블록 된 시그널 조사하고 바꾸기
 #include <signal.h>
 
 /* glibc 래퍼 함수 원형 */
-int sigprocmask(int how, const sigset_t *set, sigset_t *oldset);
+int sigprocmask(int how, const sigset_t *restrict set,
+                sigset_t *restrict oldset);
 
 /* 기반 시스템 호출 원형 */
 int rt_sigprocmask(int how, const kernel_sigset_t *set,
-                   kernel_sigset_t *oldset, size_t sigsetsize);
+                kernel_sigset_t *oldset, size_t sigsetsize);
 
 /* 구식 시스템 호출 원형 (제거 예정) */
 int sigprocmask(int how, const old_kernel_sigset_t *set,
@@ -49,7 +50,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## RETURN VALUE
 
-`sigprocmask()`는 성공 시 0을 반환하고 오류 시 -1을 반환한다. 오류 때는 원인을 나타내도록 `errno`를 설정한다.
+`sigprocmask()`는 성공 시 0을 반환한다. 실패 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -93,4 +94,4 @@ glibc의 `sigprocmask()` 래퍼 함수에서 이런 세부 사항을 감추고 �
 
 ----
 
-2017-09-15
+2021-03-22

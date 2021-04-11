@@ -21,7 +21,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## RETURN VALUE
 
-`sigpending()`은 성공 시 0을 반환하고 오류 시 -1을 반환한다. 오류 때는 원인을 나타내도록 `errno`를 설정한다.
+`sigpending()`은 성공 시 0을 반환한다. 실패 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## CONFORMING TO
 
@@ -51,4 +51,4 @@ glibc 2.2.1까지 버전에서는 `sigpending()` 래퍼 함수에 버그가 있�
 
 ----
 
-2017-09-15
+2021-03-22

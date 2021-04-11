@@ -193,7 +193,7 @@ int munmap(void *addr, size_t length);
 `SIGSEGV`
 :   읽기 전용으로 맵 한 영역에 쓰기를 시도했다.
 
-`SIGBUG`
+`SIGBUS`
 :   파일에 대응하지 않는 버퍼 부분에 접근을 시도했다. (예를 들어 파일 끝 너머에 접근하기. 다른 프로세스가 파일을 잘라내는 경우 포함.)
 
 ## ATTRIBUTES

@@ -324,7 +324,7 @@ ptrace(PTRACE_GETSIGINFO, pid, 0, &siginfo)
 <tt>[[waitpid(2)]]</tt>가 `WIFSTOPPED(status)`를 반환하는 것으로 추적자가 그룹-정지를 목격하며, `WSTOPSIG(status)`는 `SIGTRAP`을 반환한다. 상태 워드의 상위 바이트에 비트가 추가로 설정되어 `status>>8` 값이 다음과 같이 된다.
 
 ```c
-(SIGTRAP | PTRACE_EVENT_foo << 8)
+((PTRACE_EVENT_foo<<8) | SIGTRAP)
 ```
 
 다음 이벤트들이 있다.
@@ -545,7 +545,7 @@ ptrace API는 <tt>[[waitpid(2)]]</tt>를 통한 표준 유닉스 부모/자식 �
 
 성공 시 `PTRACE_PEEK*` 요청은 요청한 데이터를 반환하고 (하지만 NOTES 참고), `PTRACE_SECCOMP_GET_FILTER` 요청은 BPF 프로그램의 인스트럭션 수를 반환하며, 다른 요청은 0을 반환한다.
 
-오류 시 모든 요청이 -1을 반환하며 `errno`를 적절히 설정한다. `PTRACE_PEEK*` 요청이 성공 시 반환하는 값이 -1일 수도 있기 때문에 오류가 발생했는지 알려면 호출자가 호출 전에 `errno`를 비우고서 호출 후 검사해야 한다.
+오류 시 모든 요청이 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다. `PTRACE_PEEK*` 요청이 성공 시 반환하는 값이 -1일 수도 있기 때문에 오류가 발생했는지 알려면 호출자가 호출 전에 `errno`를 비우고서 호출 후 검사해야 한다.
 
 ## ERRORS
 

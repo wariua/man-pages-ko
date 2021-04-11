@@ -7,10 +7,11 @@ sigwaitinfo, sigtimedwait, rt_sigtimedwait - 동기적으로 대기 시그널 �
 ```c
 #include <signal.h>
 
-int sigwaitinfo(const sigset_t *set, siginfo_t *info);
-
-int sigtimedwait(const sigset_t *set, siginfo_t *info,
-                 const struct timespec *timeout);
+int sigwaitinfo(const sigset_t *restrict set,
+                siginfo_t *restrict info);
+int sigtimedwait(const sigset_t *restrict set,
+                siginfo_t *restrict info,
+                const struct timespec *restrict timeout);
 ```
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
@@ -84,4 +85,4 @@ glibc의 `sigwaitinfo()` 및 `sigtimedwait()` 래퍼 함수에서는 NPTL 스레
 
 ----
 
-2017-09-15
+2021-03-22

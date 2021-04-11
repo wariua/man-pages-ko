@@ -47,7 +47,7 @@ int dup3(int oldfd, int newfd, int flags);
 
 ## RETURN VALUE
 
-성공 시 이 시스템 호출들은 새 파일 디스크립터를 반환한다. 오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+성공 시 이 시스템 호출들은 새 파일 디스크립터를 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -115,8 +115,8 @@ if (tmpfd != -1) {
 
 ## SEE ALSO
 
-<tt>[[close(2)]]</tt>, <tt>[[fcntl(2)]]</tt>, <tt>[[open(2)]]</tt>
+<tt>[[close(2)]]</tt>, <tt>[[fcntl(2)]]</tt>, <tt>[[open(2)]]</tt>, <tt>[[pidfd_getfd(2)]]</tt>
 
 ----
 
-2017-09-15
+2021-03-22

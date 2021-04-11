@@ -8,7 +8,7 @@ lfind, lsearch - 배열 순차 탐색
 #include <search.h>
 
 void *lfind(const void *key, const void *base, size_t *nmemb,
-         size_t size, int*(compar)(const void *, const void *));
+         size_t size, int(*compar)(const void *, const void *));
 
 void *lsearch(const void *key, void *base, size_t *nmemb,
          size_t size, int(*compar)(const void *, const void *));

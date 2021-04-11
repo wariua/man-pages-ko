@@ -127,7 +127,7 @@ display_stack_related_attributes(pthread_attr_t *attr, char *prefix)
     s = pthread_attr_getguardsize(attr, &guard_size);
     if (s != 0)
         handle_error_en(s, "pthread_attr_getguardsize");
-    printf(%sGuard size           = %d bytes\n", prefix, guard_size);
+    printf("%sGuard size          = %d bytes\n", prefix, guard_size);
 
     s = pthread_attr_getstack(attr, &stack_addr, &stack_size);
     if (s != 0)

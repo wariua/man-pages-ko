@@ -20,7 +20,7 @@ int inotify_add_watch(int fd, const char *pathname, uint32_t mask);
 
 ## RETURN VALUE
 
-성공 시 `inotify_add_watch()`는 음수 아닌 감시 디스크립터를 반환한다. 오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+성공 시 `inotify_add_watch()`는 감시 디스크립터(음수 아닌 정수)를 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -29,6 +29,9 @@ int inotify_add_watch(int fd, const char *pathname, uint32_t mask);
 
 `EBADF`
 :   지정한 파일 디스크립터가 유효하지 않다.
+
+`EEXIST`
+:   `mask`에 `IN_MASK_CREATE`가 들어 있는데 `pathname`이 같은 `fd`로 이미 감시 중인 파일을 가리키고 있다.
 
 `EFAULT`
 :   `pathname`이 프로세스의 접근 가능한 주소 공간 밖을 가리키고 있다.
@@ -51,9 +54,6 @@ int inotify_add_watch(int fd, const char *pathname, uint32_t mask);
 `ENOTDIR`
 :   `mask`에 `IN_ONLYDIR`이 들어 있는데 `pathname`이 디렉터리가 아니다.
 
-`EEXIST`
-:   `mask`에 `IN_MASK_CREATE`가 들어 있는데 `pathname`이 같은 `fd`로 이미 감시 중인 파일을 가리키고 있다.
-
 ## VERSIONS
 
 리눅스 커널 2.6.13으로 inotify가 병합되었다.
@@ -62,10 +62,14 @@ int inotify_add_watch(int fd, const char *pathname, uint32_t mask);
 
 이 시스템 호출은 리눅스 전용이다.
 
+## EXAMPLES
+
+<tt>[[inotify(7)]]</tt> 참고.
+
 ## SEE ALSO
 
 <tt>[[inotify_init(2)]]</tt>, <tt>[[inotify_rm_watch(2)]]</tt>, <tt>[[inotify(7)]]</tt>
 
 ----
 
-2019-03-06
+2021-03-22

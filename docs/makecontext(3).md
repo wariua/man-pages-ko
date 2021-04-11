@@ -8,15 +8,13 @@ makecontext, swapcontext - 사용자 문맥 조작하기
 #include <ucontext.h>
 
 void makecontext(ucontext_t *ucp, void (*func)(), int argc, ...);
-
-int swapcontext(ucontext_t *oucp, const ucontext_t *ucp);
+int swapcontext(ucontext_t *restrict oucp,
+                const ucontext_t *restrict ucp);
 ```
 
 ## DESCRIPTION
 
-시스템 V 계열 환경에서는 `<ucontext.h>`에 `ucontext_t`라는 타입이 있으며 네 가지 함수 <tt>[[getcontext(3)]]</tt>, <tt>[[setcontext(3)]]</tt>, `makecontext()`, `swapcontext()`를 통해 한 프로세스 내의 여러 제어 스레드들 사이에서 사용자 수준 문맥 전환이 가능하다.
-
-그 타입과 앞쪽 두 함수에 대해선 <tt>[[getcontext(3)]]</tt>를 보라.
+시스템 V 계열 환경에는 (`<ucontext.h>`에 정의돼 있고 <tt>[[getcontext(3)]]</tt>에서 설명하는) `ucontext_t`라는 타입이 있으며 네 가지 함수 <tt>[[getcontext(3)]]</tt>, <tt>[[setcontext(3)]]</tt>, `makecontext()`, `swapcontext()`를 통해 한 프로세스 내의 여러 제어 스레드들 사이에서 사용자 수준 문맥 전환이 가능하다.
 
 `makecontext()` 함수는 (<tt>[[getcontext(3)]]</tt> 호출에서 얻은) `ucp`가 가리키는 문맥을 변경한다. `makecontext()`를 호출하기 전에 호출자는 이 문맥을 위한 새 스택을 할당하여 그 주소를 `ucp->uc_stack`에 지정해야 하며 후속 문맥을 정의하여 그 주소를 `ucp->uc_link`에 지정해야 한다.
 
@@ -26,7 +24,7 @@ int swapcontext(ucontext_t *oucp, const ucontext_t *ucp);
 
 ## RETURN VALUE
 
-성공 시 `swapcontext()`는 반환하지 않는다. (하지만 나중에 `oucp`가 활성화될 때 돌아올 수도 있으며, 그 경우 `swapcontext()`가 0을 반환하는 것처럼 보인다.) 오류 시 `swapcontext()`는 -1을 반환하며 `errno`를 적절히 설정한다.
+성공 시 `swapcontext()`는 반환하지 않는다. (하지만 나중에 `oucp`가 활성화될 때 돌아올 수도 있으며, 그 경우 `swapcontext()`가 0을 반환하는 것처럼 보인다.) 오류 시 `swapcontext()`는 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -56,7 +54,7 @@ SUSv2, POSIX.1-2001, POSIX.1-2008에서 이식성 문제를 이유로 `makeconte
 
 `int`와 포인터 타입이 같은 크기인 아키텍처에서는 (가령 x86-32에서는 두 타입 모두 32비트임) `makecontext()`에서 `argc` 다음에 오는 인자들로 포인터를 전달하는 것이 어찌어찌 가능할 수도 있다. 하지만 이식성이 보장되지 않고 표준에 따르면 규정되어 있지 않으며 포인터가 `int`보다 큰 아키텍처에서 동작하지 않게 된다. 그럼에도 불구하고 glibc에서 버전 2.8부터 `makecontext()`를 조금 변경해서 일부 64비트 아키텍처들(가령 x86-64)에서 그렇게 하는 것을 허용한다.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 예시 프로그램은 <tt>[[getcontext(3)]]</tt>, `makecontext()`, `swapcontext()` 사용 방식을 보여 준다. 프로그램을 실행하면 다음 결과가 나온다.
 
@@ -140,4 +138,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-03-06
+2021-03-22

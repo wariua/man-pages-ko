@@ -58,7 +58,7 @@ ssize_t tee(int fd_in, int fd_out, size_t len, unsigned int flags);
 
 개념적으로 `tee()`는 두 파이프 간에 데이터를 복사한다. 하지만 실제로는 어떤 데이터 복사도 이뤄지지 않는다. 내부적으로 `tee()`는 입력에 대한 참조만 잡고서 데이터를 출력 쪽으로 할당한다.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 예에서는 `tee()` 시스템 호출을 이용해 기본적인 `tee(1)` 프로그램을 구현한다. 다음이 사용 예시이다.
 
@@ -138,4 +138,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-03-06
+2020-06-09

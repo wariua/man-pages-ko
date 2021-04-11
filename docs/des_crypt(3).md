@@ -7,11 +7,10 @@ des_crypt, ecb_crypt, cbc_crypt, des_setparity, DES_FAILED - 빠른 DES 암호�
 ```c
 #include <rpc/des_crypt.h>
 
-int ecb_crypt(char *key, char *data, unsigned datalen,
-              unsigned mode);
-
-int cbc_crypt(char *key, char *data, unsigned datalen,
-              unsigned mode, char *ivec);
+int ecb_crypt(char *key, char *data, unsigned int datalen,
+              unsigned int mode);
+int cbc_crypt(char *key, char *data, unsigned int datalen,
+              unsigned int mode, char *ivec);
 
 void des_setparity(char *key);
 
@@ -42,9 +41,7 @@ int DES_FAILED(int status);
 
 ## VERSIONS
 
-glibc 2.1 및 이후에 이 함수들이 있다.
-
-## VERSIONS
+glibc 버전 2.1에서 이 함수들이 추가되었다.
 
 더 이상 안전하지 않다고 보는 DES 블록 암호를 이용하기 때문에 `ecb_crypt()`, `cbc_crypt()`, `crypt_r()`, `des_setparity()`가 glibc 2.28에서 제거되었다. 응용들은 `libgcrypt` 같은 현대적인 암호 라이브러리로 전환하는 게 좋다.
 
@@ -66,4 +63,4 @@ glibc 2.1 및 이후에 이 함수들이 있다.
 
 ----
 
-2019-03-06
+2021-03-22

@@ -8,21 +8,16 @@ drand48, erand48, lrand48, nrand48, mrand48, jrand48, srand48, seed48, lcong48 -
 #include <stdlib.h>
 
 double drand48(void);
-
 double erand48(unsigned short xsubi[3]);
 
-long int lrand48(void);
+long lrand48(void);
+long nrand48(unsigned short xsubi[3]);
 
-long int nrand48(unsigned short xsubi[3]);
+long mrand48(void);
+long jrand48(unsigned short xsubi[3]);
 
-long int mrand48(void);
-
-long int jrand48(unsigned short xsubi[3]);
-
-void srand48(long int seedval);
-
+void srand48(long seedval);
 unsigned short *seed48(unsigned short seed16v[3]);
-
 void lcong48(unsigned short param[7]);
 ```
 
@@ -31,7 +26,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 위 함수들 모두:
 :   `_XOPEN_SOURCE`<br>
     `    || /* glibc 2.19부터: */ _DEFAULT_SOURCE`<br>
-    `    || /* glibc 버전 <= 2.19: */ _SVID_SOURCE`
+    `    || /* glibc <= 2.19: */ _SVID_SOURCE`
 
 ## DESCRIPTION
 
@@ -88,4 +83,4 @@ POSIX.1-2001, POSIX.1-2008, SVr4.
 
 ----
 
-2017-09-15
+2021-03-22

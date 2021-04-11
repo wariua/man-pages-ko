@@ -8,8 +8,8 @@ timer_settime, timer_gettime - POSIX 프로세스별 타이머 장전/해제 및
 #include <time.h>
 
 int timer_settime(timer_t timerid, int flags,
-                  const struct itimerspec *new_value,
-                  struct itimerspec *old_value);
+                  const struct itimerspec *restrict new_value,
+                  struct itimerspec *restrict old_value);
 int timer_gettime(timer_t timerid, struct itimerspec *curr_value);
 ```
 
@@ -77,7 +77,7 @@ struct itimerspec {
 
 POSIX.1-2001, POSIX.1-2008.
 
-## EXAMPLE
+## EXAMPLES
 
 <tt>[[timer_create(2)]]</tt> 참고.
 
@@ -87,4 +87,4 @@ POSIX.1-2001, POSIX.1-2008.
 
 ----
 
-2017-09-15
+2021-03-22

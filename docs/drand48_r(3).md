@@ -7,35 +7,34 @@ drand48_r, erand48_r, lrand48_r, nrand48_r, mrand48_r, jrand48_r, srand48_r, see
 ```c
 #include <stdlib.h>
 
-int drand48_r(struct drand48_data *buffer, double *result);
-
+int drand48_r(struct drand48_data *restrict buffer,
+              double *restrict result);
 int erand48_r(unsigned short xsubi[3],
-              struct drand48_data *buffer, double *result);
+              struct drand48_data *restrict buffer,
+              double *restrict result);
 
-int lrand48_r(struct drand48_data *buffer, long int *result);
-
+int lrand48_r(struct drand48_data *restrict buffer,
+              long *restrict result);
 int nrand48_r(unsigned short int xsubi[3],
-              struct drand48_data *buffer, long int *result);
+              struct drand48_data *restrict buffer,
+              long *restrict result);
 
-int mrand48_r(struct drand48_data *buffer, long int *result);
-
+int mrand48_r(struct drand48_data *restrict buffer,
+              long *restrict result);
 int jrand48_r(unsigned short int xsubi[3],
-              struct drand48_data *buffer, long int *result);
+              struct drand48_data *restrict buffer,
+              long *restrict result);
 
 int srand48_r(long int seedval, struct drand48_data *buffer);
-
-int seed48_r(unsigned short int seed16v[3],
-             struct drand48_data *buffer);
-
-int lcong48_r(unsigned short int param[7],
-              struct drand48_data *buffer);
+int seed48_r(unsigned short seed16v[3], struct drand48_data *buffer);
+int lcong48_r(unsigned short param[7], struct drand48_data *buffer);
 ```
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
 위 함수들 모두:
 :   `/* glibc 2.19부터: */ _DEFAULT_SOURCE`<br>
-    `    || /* glibc 버전 <= 2.19: */ _SVID_SOURCE || _BSD_SOURCE`
+    `    || /* glibc <= 2.19: */ _SVID_SOURCE || _BSD_SOURCE`
 
 ## DESCRIPTION
 
@@ -65,4 +64,4 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ----
 
-2017-09-15
+2021-03-22
