@@ -114,7 +114,7 @@ POSIX.1에서는 구현에서 `prot`에 지정된 것 이외의 접근을 허용
 
 다음은 프로그램 실행 시 볼 수 있을 출력 예이다.
 
-```
+```text
 $ ./a.out
 Start of region:        0x804c000
 Got SIGSEGV at address: 0x804e000

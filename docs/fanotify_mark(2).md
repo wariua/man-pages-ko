@@ -185,13 +185,13 @@ fanotify API에 대한 소개는 <tt>[[fanotify(7)]]</tt>를 보라.
 
 예를 들어 다음 ELF 바이너리를 호출하려 하고 `/`에 `FAN_OPEN_EXEC` 표시를 해 뒀다고 하자.
 
-```
+```text
 $ /bin/echo foo
 ```
 
 이 경우 이벤트 수신 응용은 그 ELF 바이너리와 인터프리터 각각에 대해 `FAN_OPEN_EXEC` 이벤트를 받게 된다.
 
-```
+```text
 /bin/echo
 /lib64/ld-linux-x86-64.so.2
 ```

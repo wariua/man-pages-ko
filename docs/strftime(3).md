@@ -135,13 +135,13 @@ my_strftime(char *s, size_t max, const char *fmt,
 
 RFC 2822 준수 날짜 형식 (%a 및 %b에는 영어 로캘)
 
-```
+```c
 "%a, %d %b %Y %T %z"
 ```
 
 RFC 822 준수 날짜 형식 (%a 및 %b에는 영어 로캘)
 
-```
+```c
 "%a, %d %b %y %T %z"
 ```
 
@@ -151,7 +151,7 @@ RFC 822 준수 날짜 형식 (%a 및 %b에는 영어 로캘)
 
 다음은 glibc의 `strftime()` 구현이 내놓는 결과 문자열 예시이다.
 
-```
+```text
 $ ./a.out '%m'
 Result string is "11"
 $ ./a.out '%5m'

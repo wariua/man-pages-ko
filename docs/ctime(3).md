@@ -81,7 +81,7 @@ struct tm {
 
 `ctime(t)` 호출은 `asctime(localtime(t))`와 동등하다. 달력 시간 `t`를 다음 형태의 널 종료 문자열로 바꾼다.
 
-```
+```c
 "Wed Jun 30 21:49:08 1993\n"
 ```
 

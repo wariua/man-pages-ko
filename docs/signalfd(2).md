@@ -156,7 +156,7 @@ struct signalfd_siginfo {
 
 아래 프로그램은 signalfd 파일 디스크립터를 통해 시그널 `SIGINT`와 `SIGQUIT`을 받는다. `SIGQUIT` 시그널을 받은 후에 프로그램이 종료한다. 다음 셸 세션이 프로그램 사용 방식을 보여 준다.
 
-```
+```text
 $ ./signalfd_demo
 ^C                   # Control-C로 SIGINT 생성
 Got SIGINT

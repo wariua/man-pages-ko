@@ -30,7 +30,7 @@ POSIX.1-2001, POSIX.1-2008, C89, C99.
 
 리눅스/i386 시스템에서 `gcc(1)` 기본 옵션으로 컴파일 할 때 아래 프로그램이 다음 출력을 내놓는다.
 
-```
+```text
 $ ./a.out
 offsets: i=0; c=4; d=8 a=16
 sizeof(struct s)=16

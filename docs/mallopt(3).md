@@ -184,7 +184,7 @@ mallopt(M_MXFAST, n)
 
 다음 셸 세션은 glibc 하에서 `M_CHECK_ACTION` 기본값으로 이 프로그램을 실행할 때 어떻게 되는지 보여 준다.
 
-```
+```text
 $ ./a.out
 main(): returned from first free() call
 *** glibc detected *** ./a.out: double free or corruption (top): 0x09d30008 ***
@@ -206,7 +206,7 @@ Aborted (core dumped)
 
 다음 실행 예는 `M_CHECK_ACTION`에 다른 값을 사용할 때의 결과를 보여 준다.
 
-```
+```text
 $ ./a.out 1             # 오류 진단 및 실행 계속
 main(): returned from first free() call
 *** glibc detected *** ./a.out: double free or corruption (top): 0x09cbe008 ***
@@ -221,7 +221,7 @@ main(): returned from second free() call
 
 다음 실행 예는 같은 매개변수를 `MALLOC_CHECK_` 환경 변수를 이용해 설정하는 방법을 보여 준다.
 
-```
+```text
 $ MALLOC_CHECK_=1 ./a.out
 main(): returned from first free() call
 *** glibc detected *** ./a.out: free(): invalid pointer: 0x092c2008 ***

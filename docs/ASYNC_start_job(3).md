@@ -204,7 +204,7 @@ end:
 
 위 예시 프로그램 실행 시의 예상 출력은 다음과 같다.
 
-```
+```text
 Starting...
 Executing within a job
 Passed in message is: Hello world!

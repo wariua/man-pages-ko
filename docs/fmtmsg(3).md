@@ -116,13 +116,13 @@ int fmtmsg(long classification, const char *label,
 
 환경 변수 `SEV_LEVEL`을 이용해 새로운 심각도 수준을 도입할 수 있다. 기본적으로는 위에서 기술한 다섯 가지 심각도 수준만 사용할 수 있다. 다른 숫자 값을 사용하면 `fmtmsg()`가 아무 것도 찍지 않을 것이다. 하지만 사용자가 첫 번째 `fmtmsg()` 호출 전에 프로세스의 환경에 다음과 같은 형식으로 `SEV_LEVEL`을 넣어 주면 `fmtmsg()`가 (표준 수준 0~4에 더해서) 지정한 값들도 받아들이게 되어 그 수준의 오류 발생 시 지정한 출력 문자열을 사용하게 된다.
 
-```
+```text
 SEV_LEVEL=[description[:description[:...]]]
 ```
 
 `description` 각각은 다음 형식이다.
 
-```
+```text
 severity-keyword,level,printstring
 ```
 
@@ -191,7 +191,7 @@ main(void)
 
 출력이 다음과 같을 것이다:
 
-```
+```text
 util-linux:mount: ERROR: unknown mount option
 TO FIX: See mount(8).  util-linux:mount:017
 ```
@@ -204,7 +204,7 @@ MSGVERB=text:action; export MSGVERB
 
 출력이 다음과 같이 된다:
 
-```
+```text
 unknown mount option
 TO FIX: See mount(8).
 ```

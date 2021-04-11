@@ -135,7 +135,7 @@ int eventfd_write(int fd, eventfd_t value);
 
 다음 셸 세션은 프로그램 실행 예를 보여 준다.
 
-```
+```text
 $ ./a.out 1 2 4 7 14
 Child writing 1 to efd
 Child writing 2 to efd

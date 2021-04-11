@@ -61,7 +61,7 @@ POSIX.1-2001, POSIX.1-2008.
 
 아래 프로그램에서는 스레드를 생성했다가 취소한다. 메인 스레드가 취소된 스레드와 합류해서 종료 상태가 `PTHREAD_CANCELED`인지 확인한다. 다음 셸 세션은 프로그램 실행 시 어떻게 되는지 보여 준다.
 
-```
+```text
 $ ./a.out
 thread_func(): started; cancellation disabled
 main(): sending cancellation request

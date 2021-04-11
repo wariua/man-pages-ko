@@ -62,7 +62,7 @@ ssize_t tee(int fd_in, int fd_out, size_t len, unsigned int flags);
 
 아래 예에서는 `tee()` 시스템 호출을 이용해 기본적인 `tee(1)` 프로그램을 구현한다. 다음이 사용 예시이다.
 
-```
+```text
 $ date |./a.out out.log | cat
 Tue Oct 28 10:06:00 CET 2014
 $ cat out.log

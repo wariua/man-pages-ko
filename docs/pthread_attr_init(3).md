@@ -53,7 +53,7 @@ POSIX.1-2001, POSIX.1-2008.
 
 명령행 인자 없이 프로그램을 실행하면 <tt>[[pthread_create(3)]]</tt>의 `attr` 인자로 NULL을 전달하며, 그래서 기본 속성으로 스레드를 생성한다. NPTL 스레딩 구현이 있는 리눅스/x86-32에서 프로그램을 돌리면 다음과 같이 나온다.
 
-```
+```text
 $ ulimit -s       # 스택 제한 없음 ==> 기본 스택 크기 2MB
 unlimited
 $ ./a.out
@@ -70,7 +70,7 @@ Thread attributes:
 
 명령행 인자로 스택 크기를 주면 프로그램에서 스레드 속성 객체를 초기화 하고, 그 객체의 여러 속성들을 설정하고, 그 객체에 대한 포인터를 <tt>[[pthread_create(3)]]</tt> 호출에 전달한다. NTPL 스레딩 구현이 있는 리눅스/x86-32에서 프로그램을 돌리면 다음과 같이 나온다.
 
-```
+```text
 $ ./a.out 0x3000000
 posix_memalign() allocated at 0x40197000
 Thread attributes:

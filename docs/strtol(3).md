@@ -76,7 +76,7 @@ quad_t strtoq(const char *nptr, char **endptr, int base);
 
 아래 프로그램은 `strtol()` 사용 방식을 보여 준다. 첫 번째 명령행 인자는 `strtol()`이 수를 파싱 할 문자열을 지정한다. 두 번째 (선택적) 인자는 변환에 사용할 기수를 지정한다. (이 인자를 수로 변환하는 것은 <tt>[[atoi(3)]]</tt> 함수인데, 오류 검사를 하지 않으며 `strtol()`보다 인터페이스가 단순하다.) 다음은 이 프로그램이 내놓는 몇 가지 예시 결과들이다.
 
-```
+```text
 $ ./a.out 123
 strtol() returned 123
 $ ./a.out '    123'

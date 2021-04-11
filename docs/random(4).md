@@ -42,7 +42,7 @@ int ioctl(fd, RNDrequest, param);
 
 시스템에 `/dev/random` 및 `/dev/urandom`이 이미 생성되어 있지 않다면 다음 명령으로 생성할 수 있다.
 
-```
+```sh
 mknod -m 666 /dev/random c 1 8
 mknod -m 666 /dev/urandom c 1 9
 chown root:root /dev/random /dev/urandom

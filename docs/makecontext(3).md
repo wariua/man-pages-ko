@@ -60,7 +60,7 @@ SUSv2, POSIX.1-2001, POSIX.1-2008에서 이식성 문제를 이유로 `makeconte
 
 아래 예시 프로그램은 <tt>[[getcontext(3)]]</tt>, `makecontext()`, `swapcontext()` 사용 방식을 보여 준다. 프로그램을 실행하면 다음 결과가 나온다.
 
-```
+```text
 $ ./a.out
 main: swapcontext(&uctx_main, &uctx_func2)
 func2: started

@@ -53,7 +53,7 @@ POSIX.1-2001, POSIX.1-2008.
 
 아래 프로그램은 스레드를 생성한 다음 <tt>[[clock_gettime(2)]]</tt>을 써서 총 프로세스 CPU 시간을 얻고서 두 스레드가 소모한 스레드별 CPU 시간을 얻는다. 다음 셸 세션이 실행 예를 보여 준다.
 
-```
+```text
 $ ./a.out
 Main thread sleeping
 Subthread starting infinite loop

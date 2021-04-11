@@ -312,7 +312,7 @@ seccomp 필터에 한정된 다음과 같은 BPF 세부 사항이 있다.
 
 먼저 현재 아키텍처(x86-64)를 표시하고 이 아키텍처에서 시스템 호출 번호를 찾는 셸 함수를 만든다.
 
-```
+```text
 $ uname -m
 x86_64
 $ syscall_nr() {
@@ -323,14 +323,14 @@ $ syscall_nr() {
 
 BPF 필터가 시스템 호출을 거부할 때 (위의 2번 경우) 명령행에서 지정한 오류 번호로 시스템 호출이 실패하게 한다. 이 실험에서는 오류 번호 99를 사용할 것이다.
 
-```
+```text
 $ errno 99
 EADDRNOTAVAIL 99 Cannot assign requested address
 ```
 
 다음 예에서는 `whoami(1)` 명령 실행을 시도한다. 하지만 BPF 필터가 <tt>[[execve(2)]]</tt> 시스템 호출을 거부하므로 명령이 실행조차 되지 않는다.
 
-```
+```text
 $ syscall_nr execve
 59
 $ ./a.out
@@ -343,7 +343,7 @@ execv: Cannot assign requested address
 
 그 다음에는 BPF 필터가 `write(2)` 시스템 호출을 거부하여 `whoami(1)` 명령이 성공적으로 시작은 하지만 출력을 쓸 수 없게 한다.
 
-```
+```text
 $ syscall_nr write
 1
 $ ./a.out 1 0xC000003E 99 /bin/whoami
@@ -351,7 +351,7 @@ $ ./a.out 1 0xC000003E 99 /bin/whoami
 
 마지막 예에서는 BPF 필터가 `whoami(1)` 명령에서 쓰지 않는 시스템 호출을 거부한다. 명령이 성공적으로 실행되고 출력을 내놓는다.
 
-```
+```text
 $ syscall_nr preadv
 295
 $ ./a.out 295 0xC000003E 99 /bin/whoami

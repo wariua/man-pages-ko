@@ -72,7 +72,7 @@ pthreads 함수 대부분은 성공 시 0을 반환하고 실패 시 오류 번�
 
 POSIX.1-2001과 POSIX.1-2008에서는 다음 함수들을 제외하고 그 표준에서 명세하는 함수 모두가 스레드 안전이어야 한다고 요구한다.
 
-```
+```text
 asctime()
 basename()
 catgets()
@@ -173,7 +173,7 @@ wctomb()
 
 POSIX.1-2001과 POSIX.1-2008에서는 다음 함수들만 비동기 취소 안전이기를 요구한다.
 
-```
+```text
 pthread_cancel()
 pthread_setcancelstate()
 pthread_setcanceltype()
@@ -185,7 +185,7 @@ POSIX.1에서는 어떤 함수들이 취소점이어야 한다고, 그리고 어
 
 POSIX.1-2001 및/또는 POSIX.1-2008에서 다음 함수들이 취소점이기를 요구한다.
 
-```
+```text
 accept()
 aio_suspend()
 clock_nanosleep()
@@ -248,7 +248,7 @@ writev()
 
 POSIX.1-2001 및/또는 POSIX.1-2008에 따르면 다음 함수들이 취소점일 수도 있다.
 
-```
+```text
 access()
 asctime()
 asctime_r()
@@ -564,14 +564,14 @@ NPTL 구현의 다음 추가 사항에 유의하라.
 
 glibc 2.3.2부터는 `getconf(1)` 명령을 사용해 시스템의 스레딩 구현을 알아낼 수 있다.
 
-```
+```text
 bash$ getconf GNU_LIBPTHREAD_VERSION
 NPTL 2.3.4
 ```
 
 그 전의 glibc 버전에서는 다음 정도 명령이면 기본 스레딩 구현을 알아내기에 충분할 것이다.
 
-```
+```text
 bash$ $( ldd /bin/ls | grep libc.so | awk '{print $3}' ) | \
                 egrep -i 'threads|nptl'
         Native POSIX Threads Library by Ulrich Drepper et al
@@ -581,7 +581,7 @@ bash$ $( ldd /bin/ls | grep libc.so | awk '{print $3}' ) | \
 
 LinuxThreads와 NPTL을 모두 지원하는 glibc(즉 glibc 2.3.x)가 있는 시스템에서는 환경 변수 `LD_ASSUME_KERNEL`을 이용해 동적 링커가 선택한 기본 스레딩 구현을 바꿀 수 있다. 이 변수가 있으면 특정 커널 버전 상에서 돌고 있다고 동적 링커에서 가정하게 된다. 따라서 NPTL에 필요한 지원 사항을 제공하지 않는 커널 버전을 지정하면 LinuxThreads 사용을 강제할 수 있다. (이렇게 할 가장 가능성 높은 이유는 LinuxThreads의 어떤 비준수 동작 방식에 의존하는 (잘못된) 응용을 돌리기 위해서일 것이다.)
 
-```
+```text
 bash$ $( LD_ASSUME_KERNEL=2.2.5 ldd /bin/ls | grep libc.so | \
                 awk '{print $3}' ) | egrep -i 'threads|nptl'
         linuxthreads-0.10 by Xavier Leroy

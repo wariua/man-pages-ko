@@ -26,7 +26,7 @@ POSIX.2에 규정돼 있는 정규 표현식(regular expression, "RE")에는 두
 
 대괄호 식 내에서 "`[:`" 및 "`:]`"로 감싼 *문자 유형(character class)* 이름은 그 유형에 속한 모든 문자들의 목록을 나타낸다. 표준 문자 유형 이름은 다음과 같다.
 
-```
+```text
 alnum   digit   punct
 alpha   graph   space
 black   lower   upper

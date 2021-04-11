@@ -80,7 +80,7 @@ int pthread_mutexattr_setrobust_np(pthread_mutexattr_t *attr,
 
 다음 셸 세션은 프로그램 실행 시 뭐가 찍히는지 보여 준다.
 
-```
+```text
 $ ./a.out
 [original owner] Setting lock...
 [original owner] Locked. Now exiting without unlocking.

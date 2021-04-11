@@ -39,7 +39,7 @@ int strverscmp(const char *s1, const char *s2);
 
 아래 프로그램을 이용해 `strverscmp()`의 동작 방식을 볼 수 있다. `strverscmp()`를 사용해 명령행 인자로 받은 두 문자열을 비교한다. 용례는 다음과 같다.
 
-```
+```text
 $ ./a.out jan1 jan10
 jan1 < jan10
 ```

@@ -42,7 +42,7 @@ namespaces - 리눅스 네임스페이스 개요
 
 각 프로세스마다 서브디렉터리 `/proc/[pid]/ns/`가 있고 그 안에는 <tt>[[setns(2)]]</tt>를 통한 조작을 지원하는 네임스페이스마다 항목이 하나씩 있다.
 
-```
+```text
 $ ls -l /proc/$$/ns
 total 0
 lrwxrwxrwx. 1 mtk mtk 0 Apr 28 12:46 cgroup -> cgroup:[4026531835]
@@ -61,7 +61,7 @@ lrwxrwxrwx. 1 mtk mtk 0 Apr 28 12:46 uts -> uts:[4026531838]
 
 리눅스 3.7 및 이전에서는 이 파일들이 하드 링크처럼 보였다. 리눅스 3.8부터는 심볼릭 링크로 보인다. 두 프로세스가 같은 네임스페이스에 있으면 그 `/proc/[pid]/ns/xxx` 심볼릭 링크의 장치 ID와 아이노드 번호가 동일하게 된다. 응용에서는 <tt>[[stat(2)]]</tt>이 반환하는 `stat.st_dev` 및 `stat.st_ino` 필드를 이용해 확인할 수 있다. 이 심볼릭 링크의 내용물은 다음처럼 네임스페이스 유형과 아이노드 번호를 담은 문자열이다.
 
-```
+```text
 $ readlink /proc/$$/ns/uts
 uts:[4026531838]
 ```

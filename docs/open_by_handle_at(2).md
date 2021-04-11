@@ -158,7 +158,7 @@ FreeBSD에 대략 비슷한 형태의 시스템 호출 쌍 `getfh()`와 `openfh(
 
 다음 셸 세션이 두 프로그램의 사용 방식을 보여 준다.
 
-```
+```text
 $ echo 'Can you please think about it?' > cecilia.txt
 $ ./t_name_to_handle_at cecilia.txt > fh
 $ ./t_open_by_handle_at < fh
@@ -170,7 +170,7 @@ $ rm cecilia.txt
 
 이제 파일을 삭제하고 (재빨리) 다시 만들어서 내용이 같고 (우연히) 아이노드도 같도록 한다. 그렇게 해도 `open_by_handle_at()`에서 파일 핸들이 가리키는 원래 파일이 더 이상 존재하지 않는다는 걸 안다.
 
-```
+```text
 $ stat --printf="%i\n" cecilia.txt     # 아이노드 번호 표시
 4072121
 $ rm cecilia.txt

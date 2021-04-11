@@ -37,7 +37,7 @@ glibc 버전 2.1에서 이 함수들이 처음 등장했다.
 
 실행 시 아래 프로그램은 다음과 같은 출력을 내놓게 된다.
 
-```
+```text
 $ ./a.out
 GNU libc version: 2.8
 GNU libc release: stable

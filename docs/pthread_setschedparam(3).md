@@ -76,7 +76,7 @@ POSIX.1-2001, POSIX.1-2008.
 
 아래 실행에서 주 스레드는 자기 스케줄링 정책을 우선순위 10인 `SCHED_FIFO`로 설정하고, 스레드 속성 객체를 스케줄링 정책 속성 `SCHED_RR`과 스케줄링 우선순위 속성 20으로 초기화 한다. 그러고서 프로그램은 (<tt>[[pthread_attr_setinheritsched(3)]]</tt>을 이용해) 스레드 속성 객체의 스케줄러 상속 속성을 `PTHREAD_EXPLICIT_SCHED`로 설정하는데, 이는 이 속성 객체를 사용해 생성한 스레드들이 스레드 속성 객체로부터 자기 스케줄링 속성들을 가져와야 한다는 의미이다. 그러고서 프로그램이 그 스레드 속성 객체를 이용해 스레드를 만들고, 그 스레드가 자기 스케줄링 정책과 우선순위를 표시한다.
 
-```
+```text
 $ su      # 실시간 스케줄링 정책 설정을 위해 특권 필요
 Password:
 # ./a.out -mf10 -ar20 -i e
@@ -95,7 +95,7 @@ Scheduler attributes of new thread
 
 다음 실행은 앞서와 같되 스케줄러 상속 속성을 `PTHREAD_INHERIT_SCHED`로 설정하는데, 이는 스레드 속성 객체를 사용해 생성한 스레드들이 그 스레드 객체에 지정된 스케줄링 속성들을 무시하고 대신 생성을 하는 스레드에게서 스케줄링 속성들을 가져와야 한다는 의미이다.
 
-```
+```text
 # ./a.out -mf10 -ar20 -i i
 Scheduler settings of main thread
     policy=SCHED_FIFO, priority=10

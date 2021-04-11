@@ -77,7 +77,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 이 프로그램이 내놓는 출력의 예는 다음과 같다.
 
-```
+```text
 $ ./a.out 'a/bbb///cc;xxx:yyy:' ':;' '/'
 1: a/bbb///cc
          --> a

@@ -98,7 +98,7 @@ sched_getaffinity(pid, sizeof(cpu_set_t), &mask);
 
 먼저 `lscpu(1)`를 이용해 이 (x86) 시스템에 두 코어가 있고 각각에 두 CPU가 있다는 것을 알아낸다.
 
-```
+```text
 $ lscpu | egrep -i 'core.*:|socket'
 Thread(s) per core:    2
 Core(s) per socket:    2
@@ -107,7 +107,7 @@ Socket(s):             1
 
 그리고 세 가지 경우에서 예시 프로그램의 동작 시간을 잰다. 두 프로세스가 같은 CPU에서 돌 때, 두 프로세스가 같은 코어의 다른 CPU에서 돌 때, 그리고 두 프로세스가 다른 코어의 다른 CPU에서 돌 때이다.
 
-```
+```text
 $ time -p ./a.out 0 0 100000000
 real 14.75
 user 3.02

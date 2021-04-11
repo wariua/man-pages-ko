@@ -58,7 +58,7 @@ void backtrace_symbols_fd(void *const *buffer, int size, int fd);
 
 아래 프로그램은 `backtrace()` 및 `backtrace_symbols()`의 사용 방식을 보여 준다. 다음 셸 세션은 프로그램 실행 시 볼 수 있는 결과이다.
 
-```
+```text
 $ cc -rdynamic prog.c -o prog
 $ ./prog 3
 backtrace() returned 8 addresses

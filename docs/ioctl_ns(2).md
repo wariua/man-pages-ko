@@ -86,14 +86,14 @@ ioctl(fd, NS_GET_OWNER_UID, &uid);
 
 최초 사용자 네임스페이스의 부모를 얻으려고 시도하면 부모가 없으므로 실패한다.
 
-```
+```text
 $ ./ns_show /proc/self/ns/user p
 The parent namespace is outside your namespace scope
 ```
 
 새로운 사용자 및 UTS 네임스페이스 내에서 `sleep(1)`을 실행하는 프로세스를 만든다. 그리고 새 UTS 네임스페이스가 새 사용자 네임스페이스와 연계돼 있음을 보인다.
 
-```
+```text
 $ unshare -Uu sleep 1000 &
 [1] 23235
 $ ./ns_show /proc/23235/ns/uts u
@@ -104,7 +104,7 @@ user:[4026532448]
 
 그리고 위 예의 새 사용자 네임스페이스의 부모가 최초 사용자 네임스페이스임을 보인다.
 
-```
+```text
 $ readlink /proc/self/ns/user
 user:[4026531837]
 $ ./ns_show /proc/23235/ns/user p
@@ -113,7 +113,7 @@ Device/Inode of parent namespace is: [0,3] / 4026531837
 
 새 사용자 네임스페이스에서 셸을 시작한다. 그리고 그 셸 내에서 부모 사용자 네임스페이스를 알아낼 수 없음을 보인다. 마찬가지로 (최초 사용자 네임스페이스에 연계돼 있는) UTS 네임스페이스도 알아낼 수 없다.
 
-```
+```text
 $ PS1="sh2$ " unshare -U bash
 sh2$ ./ns_show /proc/self/ns/user p
 The parent namespace is outside your namespace scope

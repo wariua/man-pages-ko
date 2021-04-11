@@ -277,7 +277,7 @@ inotify 파일 디스크립터에서 이벤트 스트림을 읽어 들일 때 �
 
 ### 예시 출력
 
-```
+```text
 $ ./a.out /tmp /home/user/temp
 Press enter key to terminate.
 Listening for events.

@@ -95,7 +95,7 @@ struct mallinfo {
 
 다음 프로그램 실행 예에서는 100바이트 할당을 1000번 수행하고서 할당 블록 두 개마다 하나씩 해제한다.
 
-```
+```text
 $ ./a.out 1000 100 2
 ============== Before allocating blocks ==============
 Total non-mmapped bytes (arena):       0

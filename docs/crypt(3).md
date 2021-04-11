@@ -77,7 +77,7 @@ DES 알고리듬 자체에 있는 몇 가지 특이성 때문에 `crypt()` 인�
 
 `salt`가 `$id$`로 시작해서 그 뒤에 선택적으로 "$"로 끝나는 문자열이 오는 경우에는 결과가 다음 형태가 된다.
 
-```
+```text
 $id$salt$encrypted
 ```
 
@@ -104,7 +104,7 @@ $id$salt$encrypted
 
 glibc 2.7부터 SHA-256 및 SHA-512 구현에서 해싱 라운드 수를 사용자가 지정할 수 있으며 기본은 5000번이다. 솔트의 "`$id$`" 다음에 "`rounds=xxx$`"가 오는 경우에는 (`xxx`는 정수) 결과가 다음 형태가 된다.
 
-```
+```text
 $id$rounds=yyy$salt$encrypted
 ```
 

@@ -19,7 +19,7 @@ mode_t umask(mode_t mask);
 
 반면 부모 디렉터리에 기본 ACL(`acl(5)` 참고)이 있으면 umask를 무시하고, 그 기본 ACL을 물려받고, 물려받은 ACL에 따라 권한 비트들을 설정하고, `mode` 인자에 빠져 있는 권한 비트들을 끈다. 예를 들어 다음 기본 ACL이 umask 022와 동등하다.
 
-```
+```text
 u::rwx,g::r-x,o::r-x
 ```
 
@@ -29,13 +29,13 @@ u::rwx,g::r-x,o::r-x
 
 프로세스 umask의 일반적인 기본값은 `S_IWGRP | S_IWOTH`(8진수로 022)이다. <tt>[[open(2)]]</tt>의 `mode` 인자를 다음(8진수로 0666)으로 지정하는 일반적인 경우에
 
-```
+```c
 S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH
 ```
 
 새 파일 생성 시 결과 파일의 권한은 다음이 된다.
 
-```
+```c
 S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH
 ```
 

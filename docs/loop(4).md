@@ -116,7 +116,7 @@ $ sudo mount /dev/loop4 /myloopdev
 
 아래 프로그램에서는 `/dev/loop-control` 장치를 사용해 유휴 루프 장치를 찾아내고, 그 루프 장치를 열고, 장치의 기반 저장소로 사용할 파일을 열고, 루프 장치를 기반 저장소에 연계한다. 다음 셸 세션이 프로그램 사용 방식을 보여 준다.
 
-```
+```text
 $ dd if=/dev/zero of=file.img bs=1MiB count=10
 10+0 records in
 10+0 records out

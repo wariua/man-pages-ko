@@ -131,7 +131,7 @@ POSIX 타이머 API의 구현 일부를 glibc에서 제공한다. 구체적으�
 
 다음 실행 예에서 프로그램은 100나노초 빈도로 타이머를 만든 다음 1초 동안 잠든다. 시그널 차단이 풀려서 전달되는 시점까지 천만 번 정도의 초과가 있었다.
 
-```
+```text
 $ ./a.out 1 100
 Establishing handler for signal 34
 Blocking signal 34

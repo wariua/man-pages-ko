@@ -50,7 +50,7 @@ void muntrace(void);
 
 아래의 셸 세션은 두 군데에 메모리 누수가 있는 프로그램으로 `mtrace()` 함수와 `mtrace(1)` 명령 사용 방식을 보여 준다. 다음 프로그램을 사용한다.
 
-```
+```text
 $ cat t_mtrace.c
 #include <mcheck.h>
 #include <stdlib.h>
@@ -73,7 +73,7 @@ main(int argc, char *argv[])
 
 다음과 같이 프로그램을 돌리면 `mtrace()`가 프로그램 내의 두 곳에서 메모리 누수를 진단하는 것을 볼 수 있다.
 
-```
+```text
 $ cc -g t_mtrace.c -o t_mtrace
 $ export MALLOC_TRACE=/tmp/t
 $ ./t_mtrace

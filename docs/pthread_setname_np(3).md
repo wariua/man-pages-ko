@@ -64,7 +64,7 @@ glibc 버전 2.12에 이 함수들이 처음 등장했다.
 
 다음 셸 세션이 프로그램 실행 예를 보여 준다.
 
-```
+```text
 $ ./a.out
 Created a thread. Default name is: a.out
 The thread name after setting it is THREADFOO.

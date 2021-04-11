@@ -18,7 +18,7 @@ systemd가 시스템을 구동할 때 default.target이 의존하는 모든 유�
 
 다음 도표는 그 잘 알려진 유닛들과 부팅 로직 내의 위치를 개괄적으로 보여 준다. 화살표는 어떤 유닛이 다른 유닛 앞으로 당겨져 가는지를 기술한다. 도표 위쪽에 가까운 유닛들이 아래에 가까운 유닛들보다 먼저 시작된다.
 
-```
+```text
 local-fs-pre.target
          |
          v
@@ -74,7 +74,7 @@ systemd를 사용해서도 최초 램디스크(initial RAM disk) 구현(initrd)�
 
 initrd 내에서 기본 타겟은 initrd.target이다. basic.target에 도달할 때까지는 시스템 관리자 부팅(위 내용 참고)과 동일하게 부팅 과정이 시작한다. 거기서부터 systemd는 특수한 타겟인 initrd.target으로 접근한다. 파일 시스템을 마운트 하기 전에 시스템이 하이버네이션에서 복귀할 것인지 아니면 정상 부트를 진행할 것인지 결정해야 한다. 이 결정은 systemd-hibernate-resume@.service에서 이뤄지며, local-fs-pre.target 전에 완료되어야 한다. 따라서 그 확인이 끝나기 전에는 어떤 파일 시스템도 마운트 할 수 없다. 루트 장치가 사용 가능해지면 initrd-root-device.target에 도달한다. 그 루트 장치를 /sysroot에 마운트 할 수 있으면 sysroot.mount 유닛이 활성화되고 initrd-root-fs.target에 도달한다. 서비스 initrd-parse-etc.service에서는 /sysroot/etc/fstab에서 가능한 /usr 마운트와 `x-initrd.mount` 옵션이 표시된 추가 항목들을 탐색한다. 발견한 모든 항목들을 /sysroot 아래에 마운트 하며, 그러면 initrd-fs.target에 도달한다. 서비스 initrd-cleanup.service는 initrd-switch-root.target으로 격리되는데(isolate), 거기서 정리 서비스가 돌 수 있다. 최종 단계로 initrd-switch-root.service가 활성화되고, 그러면 시스템이 /sysroot로 루트를 전환하게 된다.
 
-```
+```text
                                                : (시작은 위와 동일)
                                                :
                                                v
@@ -134,7 +134,7 @@ initrd 내에서 기본 타겟은 initrd.target이다. basic.target에 도달할
 
 systemd에서의 시스템 정지 역시 다양한 타겟 단위들로 이뤄져 있으며 어떤 최소한의 순서 구조가 적용된다.
 
-```
+```text
                                    (모든 시스템     (모든 파일
                                     서비스와의     시스템 마운트,
                                        충돌)      스왑, cryptsetup

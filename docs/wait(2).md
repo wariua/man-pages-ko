@@ -39,7 +39,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 `wait()` 시스템 호출은 자식들 중 하나가 종료할 때까지 호출 스레드의 실행을 중지한다. `wait(&wstatus)` 호출은 다음과 동등하다.
 
-```
+```c
 waitpid(-1, &wstatus, 0);
 ```
 
@@ -226,7 +226,7 @@ POSIX.1-2008에 따르면 `waitid()`를 호출하는 응용에서 `infop`가 `si
 
 다음 셸 세션이 프로그램 사용 방식을 보여 준다.
 
-```
+```text
 $ ./a.out &
 Child PID is 32360
 [1] 32359

@@ -114,7 +114,7 @@ POSIX.1-2001, POSIX.1-2008.
 
 다음은 이 프로그램을 실행한 결과 예시이다. 이 예에서는 표준 입력에 대한 요청을 두 개 하고, "abc"와 "x"를 담은 두 입력 행으로 그 요청을 충족시킨다.
 
-```
+```text
 $ ./a.out /dev/stdin /dev/stdin
 opened /dev/stdin on descriptor 3
 opened /dev/stdin on descriptor 4

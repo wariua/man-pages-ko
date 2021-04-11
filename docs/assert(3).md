@@ -16,7 +16,7 @@ void assert(scalar expression);
 
 `expression`이 거짓이면 (즉 0과 비교해서 같으면) `assert()`가 표준 오류로 오류 메시지를 찍고 <tt>[[abort(3)]]</tt> 호출로 프로그램을 종료시킨다. 오류 메시지에는 `assert()` 호출을 담고 있는 파일과 함수의 이름, 호출의 소스 코드 행 번호, 인자 텍스트가 포함된다. 다음과 같은 식이다.
 
-```
+```text
 prog: some_file.c:16: some_func: Assertion `val == 0' failed.
 ```
 

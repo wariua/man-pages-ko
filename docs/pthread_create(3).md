@@ -99,7 +99,7 @@ NPTL 스레딩 구현에서 *프로그램 시작 시점에* 연성 자원 제한
 
 NPTL 스레딩 구현을 제공하는 시스템에서의 다음 실행에서 스택 크기 기본값은 "스택 크기" 자원 제한의 값이다.
 
-```
+```text
 $ ulimit -s
 8192            # 스택 크기 제한 8MB (0x800000바이트)
 $ ./a.out hola salut servus
@@ -113,7 +113,7 @@ Joined with thread 3; returned value was SERVUS
 
 다음 실행에서는 프로그램에서 명시적으로 생성 스레드의 스택 크기를 (<tt>[[pthread_attr_setstacksize(3)]]</tt>로) 1MB로 설정한다.
 
-```
+```text
 $ ./a.out -s 0x100000 hola salut servus
 Thread 1: top of stack near 0xb7d723b8; argv_string=hola
 Thread 2: top of stack near 0xb7c713b8; argv_string=salut

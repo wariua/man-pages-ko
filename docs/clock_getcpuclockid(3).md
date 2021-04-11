@@ -60,7 +60,7 @@ POSIX.1-2001, POSIX.1-2008.
 
 아래의 예시 프로그램은 명령행으로 준 ID를 가진 프로세스의 CPU 시간 클럭 ID를 얻은 다음 <tt>[[clock_gettime(2)]]</tt>을 이용해 그 클럭의 시간을 얻는다. 동작 예는 다음과 같다.
 
-```
+```text
 $ ./a.out 1                 # init 프로세스의 CPU 클럭 보기
 CPU-time clock for PID 1 is 2.213466748 seconds
 ```

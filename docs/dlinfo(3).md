@@ -109,7 +109,7 @@ glibc 2.3.3에서 `dlinfo()`가 처음 등장했다.
 
 아래 프로그램에서는 <tt>[[dlopen(3)]]</tt>을 써서 공유 오브젝트를 연 다음 `RTLD_DI_SERINFOSIZE` 및 `RTLD_DI_SERINFO` 요청을 이용해 그 라이브러리에 대한 라이브러리 탐색 경로 목록을 얻는다. 다음은 프로그램 실행 시 볼 수 있는 출력의 예이다.
 
-```
+```text
 $ ./a.out /lib64/libm.so.6
 dls_serpath[0].dls_name = /lib64
 dls_serpath[1].dls_name = /usr/lib64

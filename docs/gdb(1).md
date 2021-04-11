@@ -30,19 +30,19 @@ GDB를 사용해 C, C++, Fortran, Modula-2로 작성된 프로그램을 디버�
 
 아무 인자나 옵션 없이도 "gdb"를 실행할 수 있다. 하지만 GDB를 실행할 때 가장 흔한 방식은 인자 한 개나 두 개로 실행 프로그램을 지정하는 것이다.
 
-```
+```sh
 gdb program
 ```
 
 실행 프로그램과 코어 파일을 모두 지정해서 시작할 수도 있다.
 
-```
+```sh
 gdb program core
 ```
 
 또는 실행 중인 프로세스를 디버그 하고 싶다면 두 번째 인자로 프로세스 ID를 지정할 수 있다.
 
-```
+```sh
 gdb program 1234
 gdb -p 1234
 ```
@@ -151,7 +151,7 @@ GDB에 대한 자세한 내용은 Richard M. Stallman과 Roland H. Pesch의 *Usi
 
 완전한 GDB 문서는 Texinfo 설명서 형태로 유지한다. "info"와 "gdb" 프로그램, 그리고 GDB의 Texinfo 문서가 올바로 설치돼 있다면 다음 명령으로 완전한 설명서를 볼 수 있다.
 
-```
+```sh
 info gdb
 ```
 

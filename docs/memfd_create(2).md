@@ -116,7 +116,7 @@ int memfd_create(const char *name, unsigned int flags);
 
 다음 셸 세션은 이 프로그램들의 사용 방식을 보여 준다. 먼저 <tt>[[tmpfs(5)]]</tt> 파일을 만들고 몇 가지 봉인을 설정한다.
 
-```
+```text
 $ ./t_memfd_create my_memfd_file 4096 sw &
 [1] 11775
 PID: 11775; fd: 3; /proc/11775/fd/3
@@ -124,7 +124,7 @@ PID: 11775; fd: 3; /proc/11775/fd/3
 
 이 시점에서 `t_memfd_create` 프로그램은 배경에서 실행을 계속한다. `memfd_create()`로 열었던 파일 디스크립터에 대응하는 `/proc/[pid]/fd` 파일을 또 다른 프로그램에서 열어서 `memfd_create()` 생성 파일에 대한 파일 디스크립터를 얻을 수 있다. 그 경로명을 이용해 심볼릭 링크 `/proc/[pid]/fd`의 내용을 확인하고 `t_get_seals` 프로그램을 이용해 그 파일에 적용된 봉인들을 본다.
 
-```
+```text
 $ readlink /proc/11775/fd/3
 /memfd:my_memfd_file (deleted)
 $ ./t_get_seals /proc/11775/fd/3

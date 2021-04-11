@@ -105,7 +105,7 @@ include 문은 일반적인 셸 와일드카드 기호(\*,?,[])를 지원한다.
 
 ##### 심볼 변수 사용하기
 
-```
+```text
 define int_if1 = eth0
 define int_if2 = eth1
 define int_ifs = { $int_if1, $int_if2 }
@@ -215,7 +215,7 @@ Netdev 주소 패밀리는 진입점(ingress)에서 패킷을 처리한다.
 
 ##### 테이블 추가, 변경, 삭제
 
-```
+```text
 # 대화형으로 nft 시작
 nft --interactive
 
@@ -353,7 +353,7 @@ add와 insert 명령에서는 선택적으로 위치 지정이 가능한데, 기
 
 ##### ip 테이블 input 체인에 규칙 추가
 
-```
+```text
 nft add rule filter output ip daddr 192.168.0.0/24 accept # 'ip filter' 상정
 # 같은 명령을 좀 더 길게 쓰기
 nft add rule ip filter output ip daddr 192.168.0.0/24 accept
@@ -361,7 +361,7 @@ nft add rule ip filter output ip daddr 192.168.0.0/24 accept
 
 ##### inet 테이블에서 규칙 삭제
 
-```
+```text
 # nft -a list ruleset
 table inet filter {
         chain input {
@@ -379,7 +379,7 @@ nftables에는 두 가지 집합 개념이 있다. 익명 집합은 따로 이�
 
 ##### 익명 집합 이용해 특정 서브넷 및 포트 허용하기
 
-```
+```text
 nft add rule filter input ip saddr { 10.0.0.0/8, 192.168.0.0/16 } tcp dport { 22, 443 } accept
 ```
 
@@ -387,7 +387,7 @@ nft add rule filter input ip saddr { 10.0.0.0/8, 192.168.0.0/16 } tcp dport { 22
 
 ##### 기명 집합 이용해 주소 및 포트 허용하기
 
-```
+```text
 nft add rule filter input ip saddr @allowed_hosts tcp dport @allowed_ports accept
 ```
 
@@ -538,7 +538,7 @@ ct helper로 연결 추적 헬퍼를 정의하며, 그걸 `ct helper set` 문으
 
 iptables와 달리 conntrack 검색이 완료된 후에, 예를 들어 기본 훅 우선순위 0으로 헬퍼 할당을 수행해야 한다.
 
-```
+```text
 table inet myhelpers {
     ct helper ftp-standard {
         type "ftp" protocol tcp
@@ -569,7 +569,7 @@ ct timeout으로 연결 추적 타임아웃 값을 변경한다. `ct timeout set
 
 ##### ct 타임아웃 정책 정의하고 할당하기
 
-```
+```text
 table ip filter {
         ct timeout customtimeout {
                 protocol tcp;
@@ -586,13 +586,13 @@ table ip filter {
 
 ##### 갱신된 타임아웃 정책 확인하기
 
-```
+```text
 % conntrack -E
 ```
 
 다음처럼 나와야 한다.
 
-```
+```text
 [UPDATE] tcp      6 120 ESTABLISHED src=172.16.19.128 dst=172.16.19.1
 sport=22 dport=41360 [UNREPLIED] src=172.16.19.1 dst=172.16.19.128
 sport=41360 dport=22
@@ -618,7 +618,7 @@ ct expectation으로 연결 예상을 만든다. `ct expectation set` 문으로 
 
 ##### ct 예상 정책 정의하고 할당하기
 
-```
+```text
 table ip filter {
         ct expectation expect {
                 protocol udp
@@ -677,7 +677,7 @@ table ip filter {
 
 ##### describe 명령
 
-```
+```text
 $ nft describe tcp flags
 payload expression, datatype tcp_flag (TCP flag) (basetype bitmask, integer), 8 bits
 
@@ -698,7 +698,7 @@ cwr                           0x80
 
 어떤 타입에는 미리 정의된 심볼 상수들이 있다. nft `describe` 명령으로 그 상수들을 나열할 수 있다.
 
-```
+```text
 $ nft describe ct_state
 datatype ct_state (conntrack state) (basetype bitmask, integer), 32 bits
 
@@ -737,7 +737,7 @@ new ...
 
 ##### 문자열 표시
 
-```
+```text
 # 인터페이스 이름
 filter input iifname eth0
 
@@ -755,7 +755,7 @@ filter input iifname "(eth0)"
 
 ##### 링크 계층 주소 표시
 
-```
+```text
 # 이더넷 목적 MAC 주소
 filter input ether daddr 20:c9:d0:43:12:d9
 ```
@@ -770,7 +770,7 @@ IPv4 주소 타입은 IPv4 주소에 쓴다. 점 찍은 10진수, 점 찍은 16�
 
 ##### IPv4 주소 표시
 
-```
+```text
 # 점 찍은 10진수 표기
 filter output ip daddr 127.0.0.1
 
@@ -788,14 +788,14 @@ IPv6 주소 타입은 IPv6 주소에 쓴다. 호스트 이름이나 콜론으로
 
 ##### IPv6 주소 표시
 
-```
+```text
 # 축약된 루프백 주소
 filter output ip6 daddr ::1
 ```
 
 ##### 대괄호 표기법을 쓴 IPv6 주소 표시
 
-```
+```text
 # []가 없으면 포트 번호(22)가 ipv6 주소의 일부인 것으로
 # 파싱 됨
 ip6 nat prerouting tcp dport 2222 dnat to [1ce::d0]:22
@@ -826,7 +826,7 @@ ip6 nat prerouting tcp dport 2222 dnat to [1ce::d0]:22
 
 ##### 불리언 지정
 
-```
+```text
 # 라우트 존재하면 일치
 filter input fib daddr . iif oif exists
 
@@ -867,7 +867,7 @@ ICMP 타입 타입은 ICMP 헤더의 type 필드를 간편하게 지정하는 �
 
 ##### ICMP 타입 지정
 
-```
+```text
 # 핑 패킷 일치
 filter output icmp type { echo-request, echo-reply }
 ```
@@ -926,7 +926,7 @@ ICMPv6 타입 타입은 ICMPv6 헤더의 type 필드를 간편하게 지정하�
 
 ##### ICMPv6 타입 지정
 
-```
+```text
 # ICMPv6 핑 패킷 일치
 filter output icmpv6 type { echo-request, echo-reply }
 ```
@@ -1047,7 +1047,7 @@ meta iif, oif, iifname, oifname는 패킷이 도착한 인터페이스와 나갈
 
 iif와 oif는 인터페이스 번호로 맞춰 보는 반면 iifname과 oifname은 인터페이스 이름으로 맞춰 본다. 이 둘은 같지 않다. 가령 다음 규칙을 생각해 보면,
 
-```
+```text
 filter input meta iif "foo"
 ```
 
@@ -1110,7 +1110,7 @@ filter input meta iif "foo"
 
 ##### meta 식 사용하기
 
-```
+```text
 # 지정 meta 식
 filter output meta oif eth0
 
@@ -1138,7 +1138,7 @@ socket 식을 사용해 기존의 열린 TCP/UDP 소켓이나 패킷에 연계�
 
 ##### 소켓 식 사용하기
 
-```
+```text
 # 투명 소켓에 대응하는 패킷에 표시
 table inet x {
     chain y {
@@ -1189,7 +1189,7 @@ TTL 속성을 주지 않으면 IP 헤더의 값과 핑거프린트 TTL 값이 �
 
 ##### osf 식 사용하기
 
-```
+```text
 # TTL 비교 없이 "Linux" OS 계열 시그너처에 일치하는 패킷 허용하기
 table inet x {
     chain y {
@@ -1219,14 +1219,14 @@ fib 식은 fib(forwarding information base)를 조회해서 특정 주소가 사
 
 ##### fib 식 사용하기
 
-```
+```text
 # 역경로 없는 패킷 버리기
 filter prerouting fib saddr . iif oif missing drop
 ```
 
 이 예에서 `saddr . iif`는 출발 주소와 입력 인터페이스를 가지고 라우팅 정보를 검색한다. oif는 그 라우팅 정보에서 출력 인터페이스 번호를 뽑아낸다. 그 출발 주소/입력 인터페이스 조합에 대한 라우트를 찾지 못했으면 출력 인터페이스 번호가 0이다. 입력 키 중 일부로 입력 인터페이스를 지정한 경우 출력 인터페이스 번호는 언제나 입력 인터페이스 번호와 같거나 0이다. `saddr oif`만 준 경우에는 oif가 아무 인터페이스 번호 또는 0일 수 있다.
 
-```
+```text
 # 인터페이스에 설정 안 된 주소를 향한 패킷 버리기
 filter prerouting fib daddr . iif type != { local, broadcast, multicast } drop
 
@@ -1259,7 +1259,7 @@ filter prerouting meta mark set 0xdead fib daddr . mark type vmap { blackhole : 
 
 ##### 라우팅 식 사용하기
 
-```
+```text
 # IP 패밀리와 무관한 rt 식
 filter output rt classid 10
 filter output rt ipsec missing
@@ -1303,7 +1303,7 @@ ipsec 식은 패킷에 연계된 ipsec 데이터를 가리킨다.
 
 ##### numgen 식 사용하기
 
-```
+```text
 # 192.168.10.100과 192.168.20.200 중 하나로 라운드 로빈:
 add rule nat prerouting dnat to numgen inc mod 2 map \
         { 0 : 192.168.10.100, 1 : 192.168.20.200 }
@@ -1448,7 +1448,7 @@ add rule nat prerouting dnat to numgen random mod 10 map \
 
 ##### ip6 헤더 식 사용하기
 
-```
+```text
 # 첫 번째 확장 헤더가 단편을 나타내면 일치
 ip6 nexthdr ipv6-frag
 ```
@@ -1613,13 +1613,13 @@ ip6 nexthdr ipv6-frag
 
 ##### UDP와 TCP 모두의 목적 포트 확인하기
 
-```
+```text
 inet filter input meta l4proto {tcp, udp} @th,16,16 { 53, 80 }
 ```
 
 위를 다음처럼 쓸 수도 있다.
 
-```
+```text
 inet filter input meta l4proto {tcp,udp} th dport { 53, 80 }
 ```
 
@@ -1627,7 +1627,7 @@ inet filter input meta l4proto {tcp,udp} th dport { 53, 80 }
 
 ##### ARP 패킷 목적 프로토콜 주소가 지정 주소와 일치하면 대상 하드웨어 주소 다시 쓰기
 
-```
+```text
 input meta iifname enp2s0 arp ptype 0x0800 arp htype 1 arp hlen 6 arp plen 4 @nh,192,32 0xc0a88f10 @nh,144,48 set 0x112233445566 accept
 ```
 
@@ -1694,19 +1694,19 @@ nftables에서는 현재 IPv6 확장 헤더, TCP 옵션, IPv4 옵션 검사(찾�
 
 ##### TCP 옵션 찾기
 
-```
+```text
 filter input tcp option sack-permitted kind 1 counter
 ```
 
 ##### IPv6 exthdr 확인하기
 
-```
+```text
 ip6 filter input frag more-fragments 1 counter
 ```
 
 ##### IP 옵션 찾기
 
-```
+```text
 filter input ip option lsrr exists counter
 ```
 
@@ -1749,7 +1749,7 @@ conntrack 식은 패킷과 연계된 연결 추적 항목의 메타 데이터를
 
 ##### 서버로 동시에 향하는 연결 수 제한하기
 
-```
+```text
 filter input tcp dport 22 meter test { ip saddr ct count over 2 } reject
 ```
 

@@ -75,14 +75,14 @@ BUGS도 참고.
 
 다음 명령은 난수를 담은 UDP 데이터그램을 주기적으로 생성한다.
 
-```
+```text
 $ while true; do echo $RANDOM > /dev/udp/127.0.0.1/1234;
       sleep 0.25; done
 ```
 
 그 데이터그램들을 예시 응용이 읽어 들여서 다음과 같이 출력한다.
 
-```
+```text
 $ ./a.out
 5 messages received
 1 11782

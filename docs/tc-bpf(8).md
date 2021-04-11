@@ -124,7 +124,7 @@ char __license[] __section("license") = "GPL";
 
 컴파일 해서 나오는 오브젝트 파일은 일반 오브젝트 파일에 사용하는 평범한 도구들로 살펴볼 수 있다. 가령 <tt>[[objdump(1)]]</tt>로 ELF 섹션 헤더들을 살펴볼 수 있다.
 
-```
+```text
 objdump -h bpf.o
 [...]
 3 classifier    000007f8  0000000000000000  0000000000000000  00000040  2**3
@@ -142,20 +142,20 @@ objdump -h bpf.o
 
 기본 ELF 섹션에 분류자가 담긴 오브젝트 파일을 가지고 eBPF 분류자를 추가하는 건 간단하다. (참고로 "object-file" 대신 "obj"처럼 줄여 쓸 수도 있다.)
 
-```
+```text
 bcc bpf.c
 tc filter add dev em1 parent 1: bpf obj bpf.o flowid 1:1
 ```
 
 분류자가 "mycls"라는 ELF 섹션에 있는 경우 같은 명령을 다음과 같이 호출해야 한다.
 
-```
+```text
 tc filter add dev em1 parent 1: bpf obj bpf.o sec mycls flowid 1:1
 ```
 
 클래스 설정을 찍으면 식별자의 위치가 나온다. 즉, 오브젝트 파일 "bpf.o"의 "mycls" 섹션에서 왔다고 알려준다.
 
-```
+```text
 tc filter show dev em1
 filter parent 1: protocol all pref 49152 bpf
 filter parent 1: protocol all pref 49152 bpf handle 0x1 flowid 1:1 bpf.o:[mycls]
@@ -163,14 +163,14 @@ filter parent 1: protocol all pref 49152 bpf handle 0x1 flowid 1:1 bpf.o:[mycls]
 
 같은 프로그램을 출력이 아니라 입력 qdisc에 설치할 수도 있다.
 
-```
+```text
 tc qdisc add dev em1 handle ffff: ingress
 tc filter add dev em1 parent ffff: bpf obj bpf.o sec mycls flowid ffff:1
 ```
 
 마찬가지로 찍어 볼 수 있다.
 
-```
+```text
 tc filter show dev em1 parent ffff:
 filter protocol all pref 49152 bpf
 filter protocol all pref 49152 bpf handle 0x1 flowid ffff:1 bpf.o:[mycls]
@@ -180,7 +180,7 @@ filter protocol all pref 49152 bpf handle 0x1 flowid ffff:1 bpf.o:[mycls]
 
 여러 eBPF 행위와 분류자들을 한 파일 내의 여러 섹션에 넣을 수 있다. 이 경우 기본과 다른 섹션 이름을 알려 주어야 하는데, 다음 예에서 두 행위 모두가 그렇다.
 
-```
+```text
 tc filter add dev em1 parent 1: bpf obj bpf.o flowid 1:1 \
                          action bpf obj bpf.o sec action-mark \
                          action bpf obj bpf.o sec action-rand ok
@@ -194,7 +194,7 @@ tc filter add dev em1 parent 1: bpf obj bpf.o flowid 1:1 \
 
 2) `tc exec`를 사용해서 유닉스 도메인 소켓으로 eBPF 맵 파일 디스크립터가 이전되면 `sh(1)` 같은 응용 프로세스가 생성되게 하기. 이 방식의 장점은 tc가 파일 디스크립터들을 실행 환경에 집어넣어 주므로 stdin, stdout, stderr 파일 디스크립터처럼 쓸 수 있다는 점이다. 이렇게 하면 그 fd 소유 셸 안에서 사용자 응용을 종료하고 재시작해도 eBPF 맵 파일 디스크립터가 사라지지 않는다. 앞의 분류자와 행위 조합으로 예를 들자면 다음과 같다.
 
-```
+```text
 tc exec bpf imp /tmp/bpf
 tc filter add dev em1 parent 1: bpf obj bpf.o exp /tmp/bpf flowid 1:1 \
                          action bpf obj bpf.o sec action-mark \
@@ -207,7 +207,7 @@ eBPF 맵을 분류자와 행위에서 공유한다고 하면 분류자나 행위
 
 이 예에서는 환경이 다음과 같이 된다.
 
-```
+```text
 sh# env | grep BPF
     BPF_NUM_MAPS=3
     BPF_MAP1=6
@@ -410,13 +410,13 @@ echo 2 > /proc/sys/net/core/bpf_jit_enable
 
 리눅스 커널 소스 트리의 `tools/net/`에는 `bpf_jit_disasm`이라는 작은 헬퍼 프로그램이 있다. 커널 로그에서 명령 코드 이미지 덤프를 읽어서 역어셈블 결과를 찍어 준다.
 
-```
+```text
 bpf_jit_disasm -o
 ```
 
 그 외에도 리눅스 커널에는 `test_bpf`라는 광범위한 eBPF/cBPF 테스트 스위트 모듈도 포함돼 있다.
 
-```
+```text
 modprobe test_bpf
 ```
 
@@ -432,7 +432,7 @@ eBPF에서처럼 분류자와 행위를 제약된 C로 구현하지 않고 단�
 
 tc의 저수준 인터페이스는 명령 코드를 직접 받는다. 예를 들어 모든 패킷에 걸려서 기본 classid 1:1을 반환하는 가장 단순한 분류자는 다음과 같다.
 
-```
+```text
 tc filter add dev em1 parent 1: bpf bytecode '1,6 0 0 4294967295,' flowid 1:1
 ```
 
@@ -479,14 +479,14 @@ int main(int argc, char **argv)
 
 이 작은 헬퍼가 있으면 분류자에 어떤 `tcpdump(8)` 필터 식도 사용할 수 있다. 일치하면 기본 classid를 반환한다.
 
-```
+```text
 bpftool EN10MB 'tcp[tcpflags] & tcp-syn != 0' > /var/bpf/tcp-syn
 tc filter add dev em1 parent 1: bpf bytecode-file /var/bpf/tcp-syn flowid 1:1
 ```
 
 기본적으로 이 작은 생성기는 다음과 동등하다.
 
-```
+```text
 tcpdump -iem1 -ddd 'tcp[tcpflags] & tcp-syn != 0' | tr '\n' ',' > /var/bpf/tcp-syn
 ```
 
@@ -494,7 +494,7 @@ tcpdump -iem1 -ddd 'tcp[tcpflags] & tcp-syn != 0' | tr '\n' ',' > /var/bpf/tcp-s
 
 IPv4/TCP 패킷을 분류하기 위한 `bpf_asm` 형식의 간단한 예가 `foobar`라는 텍스트 파일에 저장되어 있다고 하자.
 
-```
+```text
 ldh [12]
 jne #0x800, drop
 ldb [23]
@@ -505,7 +505,7 @@ drop: ret #0
 
 마찬가지로 다음과 같이 그 분류자를 적재할 수 있다.
 
-```
+```text
 bpf_asm foobar > /var/bpf/tcp-syn
 tc filter add dev em1 parent 1: bpf bytecode-file /var/bpf/tcp-sync flowid 1:1
 ```

@@ -287,7 +287,7 @@ fanotify에서의 디렉터리 감시는 재귀적이지 않다. 디렉터리 �
 
 다음 셸 세션은 프로그램 실행 예를 보여 준다. 이 세션과 더불어 파일 `/home/user/temp/notes` 편집이 이뤄졌다. 파일을 열기 전에는 `FAN_OPEN_PERM` 이벤트가 발생했다. 파일을 닫은 후에는 `FAN_CLOSE_WRITE` 이벤트가 발생했다. 사용자가 엔터 키를 누르면 프로그램 실행이 끝난다.
 
-```
+```text
 # ./fanotify_example /home
 Press enter key to terminate.
 Listening for events.
@@ -503,7 +503,7 @@ int main(int argc, char *argv[])
 
 첫 번째 세션에선 `/home/user`에 표시가 이뤄지는 걸 볼 수 있다. 그 다음에 정규 파일 `/home/user/testfile.txt` 생성이 이뤄진다. 그러면 파일의 부모인 감시 대상 디렉터리 객체에 대해 `FAN_CREATE` 이벤트가 생겨서 보고된다. 그러고서 버퍼에 잡힌 이벤트를 모두 처리하고 나면 프로그램 실행이 끝난다.
 
-```
+```text
 # ./fanotify_fid /home/user
 Listening for events.
 FAN_CREATE (file created): Directory /home/user has been modified.
@@ -514,7 +514,7 @@ $ touch /home/user/testing              # 다른 터미널에서
 
 두 번째 세션에선 `/home/user`에 표시가 이뤄지는 걸 볼 수 있다. 그 다음에 디렉터리 `/home/user/testdir` 생성이 이뤄진다. 그러면 프로그램에서 `FAN_CREATE` 및 `FAN_ONDIR` 이벤트가 만들어진다.
 
-```
+```text
 # ./fanotify_fid /home/user
 Listening for events.
 FAN_CREATE | FAN_ONDIR (subdirectory created):

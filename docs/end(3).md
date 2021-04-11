@@ -39,7 +39,7 @@ extern end;
 
 실행 시 아래 프로그램은 다음과 같은 출력을 내놓는다.
 
-```
+```text
 $ ./a.out
 First address past:
     program text (etext)       0x8048568

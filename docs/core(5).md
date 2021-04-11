@@ -119,7 +119,7 @@ core - 코어 덤프 파일
 
 프로그램 실행 전에 부모 셸에서 `coredump_filter`를 설정하는 게 유용할 수 있다.
 
-```
+```text
 $ echo 0x7 > /proc/self/coredump_filter
 $ ./some_program
 ```
@@ -130,14 +130,14 @@ $ ./some_program
 
 `systemd(1)` `init` 프레임워크를 쓰는 시스템에서는 코어 덤프가 저장되는 위치를 `systemd(1)`에서 결정할 수 있다. 이를 위해 `systemd(1)`에서는 파이프로 코어 덤프를 프로그램으로 보낼 수 있는 `core_pattern` 기능을 이용한다. 코어 덤프가 파이프를 통해 `systemd-coredump(8)` 프로그램으로 가고 있는지 다음과 같이 확인해 볼 수 있다.
 
-```
+```text
 $ cat /proc/sys/kernel/core_pattern
 |/usr/lib/systemd/systemd-coredump %P %u %g %s %t %c %e
 ```
 
 이 경우 코어 덤프는 `systemd-coredump(8)`에 설정된 위치로 가게 되는데, 보통은 디렉터리 `/var/lib/systemd/coredump/` 안에 `lz4(1)` 압축 파일로 저장된다. `systemd-coredump(8)`가 기록한 코어 덤프들의 목록을 `coredumpctl(1)`을 이용해 볼 수 있다.
 
-```
+```text
 $ coredumpctl list | tail -5
 Wed 2017-10-11 22:25:30 CEST  2748 1000 1000 3 present  /usr/bin/sleep
 Thu 2017-10-12 06:29:10 CEST  2716 1000 1000 3 present  /usr/bin/sleep
@@ -148,7 +148,7 @@ Thu 2017-10-12 08:13:07 CEST  2955 1000 1000 3 present  /usr/bin/cat
 
 코어 덤프마다 덤프 일시, 덤프 프로세스의 PID, UID, GID, 코어 덤프를 유발한 시그널 번호, 덤프 된 프로세스가 실행하고 있던 실행 파일 경로명 등의 정보가 보인다. `coredumpctl(1)`의 여러 옵션들을 통해 지정한 코어 덤프 파일을 `systemd(1)` 위치에서 지정한 파일로 가져올 수 있다. 예를 들어 위에 있는 PID 2955의 코어 덤프를 현재 디렉터리에 `core`라는 파일로 빼내려면 다음과 같이 하면 된다.
 
-```
+```text
 $ coredumpctl dump 2955 -o core
 ```
 
@@ -156,7 +156,7 @@ $ coredumpctl dump 2955 -o core
 
 `systemd(1)`의 코어 덤프 기록 메커니즘을 끄고 전통적인 리눅스 동작 방식을 복원하고 싶다면 다음처럼 `systemd(1)` 메커니즘을 무시하게 설정할 수 있다.
 
-```
+```text
 # echo "kernel.core_pattern=core.%p" > /etc/sysctl.d/50-coredump.conf
 # /lib/systemd/systemd-sysctl
 ```
@@ -171,7 +171,7 @@ $ coredumpctl dump 2955 -o core
 
 아래 프로그램을 통해 `/proc/sys/kernel/core_pattern` 파일의 파이프 문법 사용 방식을 볼 수 있다. 다음 셸 세션은 이 프로그램 사용례를 보여 준다. (`core_pattern_pipe_test`라는 실행 파일로 컴파일 함.)
 
-```
+```text
 $ cc -o core_pattern_pipe_test core_pattern_pipe_test.c
 $ su
 Password:

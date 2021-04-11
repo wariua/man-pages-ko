@@ -269,7 +269,7 @@ if (errno == ESRCH) {
 
 추적자가 시그널-전달-정지를 목격한 후에 다음 호출로 피추적자를 재시작해야 한다.
 
-```
+```c
 ptrace(PTRACE_restart, pid, 0, sig)
 ```
 
@@ -283,7 +283,7 @@ ptrace(PTRACE_restart, pid, 0, sig)
 
 시그널-전달-정지 아닌 ptrace 정지 후 피추적자를 재시작할 때 시그널 주입 요청이 무시될 수도 있다는 점이 ptrace 사용자들에게 혼란을 일으킬 수 있다. 흔한 사례 하나는 추적자가 그룹-정지를 목격하고서 시그널-전달-정지로 착각하고, 다음으로 피추적자를 재시작하는 것이다.
 
-```
+```c
 ptrace(PTRACE_restart, pid, 0, stopsig)
 ```
 
@@ -303,7 +303,7 @@ ptrace(PTRACE_restart, pid, 0, stopsig)
 
 <tt>[[waitpid(2)]]</tt>가 `WIFSTOPPED(status)`를 참으로 반환하는 것으로 추적자가 그룹-정지를 목격하며, `WSTOPSIG(status)`를 통해 그 정지형 시그널을 얻을 수 있다. 몇몇 다른 ptrace 정지 유형에서도 같은 결과를 반환하므로 다음 호출을 수행해 보기를 권장한다.
 
-```
+```c
 ptrace(PTRACE_GETSIGINFO, pid, 0, &siginfo)
 ```
 
@@ -323,7 +323,7 @@ ptrace(PTRACE_GETSIGINFO, pid, 0, &siginfo)
 
 <tt>[[waitpid(2)]]</tt>가 `WIFSTOPPED(status)`를 반환하는 것으로 추적자가 그룹-정지를 목격하며, `WSTOPSIG(status)`는 `SIGTRAP`을 반환한다. 상태 워드의 상위 바이트에 비트가 추가로 설정되어 `status>>8` 값이 다음과 같이 된다.
 
-```
+```c
 (SIGTRAP | PTRACE_EVENT_foo << 8)
 ```
 
@@ -414,7 +414,7 @@ ptrace(PTRACE_GETSIGINFO, pid, 0, &siginfo)
 
 피추적자가 ptrace 정지 상태에 있을 때 추적자가 정보형 명령들을 이용해 피추적자의 데이터를 읽거나 쓸 수 있다. 이 명령들은 피추적자를 ptrace 정지 상태 그대로 둔다.
 
-```c
+```cc
 ptrace(PTRACE_PEEKTEXT/PEEKDATA/PEEKUSER, pid, addr, 0);
 ptrace(PTRACE_POKETEXT/POKEDATA/POKEUSER, pid, addr, long_val);
 ptrace(PTRACE_GETREGS/GETFPREGS, pid, 0, &struct);
@@ -509,13 +509,13 @@ ptrace(PTRACE_DETACH, pid, 0, sig);
 
 `PTRACE_EVENT_EXEC` 정지 알림 수신 시 추적자는 그 프로세스의 스레드들을 기술하는 내부 자료 구조를 모두 정리하고 단 하나, 다음 조건에 해당하는 아직 돌고 있는 피추적자를 기술하는 자료 구조만을 유지해야 할 것이다.
 
-```
+```text
 스레드 ID == 스레드 그룹 ID == 프로세스 ID
 ```
 
 예: 두 스레드가 동시에 <tt>[[execve(2)]]</tt> 호출:
 
-```
+```text
 *** we get syscall-enter-stop in thread 1: **
 PID1 execve("/bin/foo", "foo" <unfinished ...>
 *** we issue PTRACE_SYSCALL for thread 1 **
@@ -706,23 +706,23 @@ Yama 리눅스 보안 모듈(LSM)이 설치된 (즉 `CONFIG_SECURITY_YAMA`로 �
 
 피추적자에게 시그널이 갔지만 추적자가 전달을 억제한 경우에 일부 시스템 호출들이 `EINTR`으로 반환한다. (그건 아주 흔한 동작이다. 디버거가 일반적으로 붙기를 할 때마다 그렇게 해서 가짜 `SIGSTOP`이 새로 등장하지 않게 한다.) 리눅스 3.2.9 현재, 영향을 받는 시스템 호출들: <tt>[[epoll_wait(2)]]</tt>, <tt>[[inotify(7)]]</tt> 파일 디스크립터 `read(2)`. (이 목록은 아마 불완전할 것이다.) 이 버그의 일반적 증상은 조용히 있는 프로세스에 다음 명령으로 붙을 때,
 
-```
+```text
 strace -p <process-ID>
 ```
 
 다음과 같은 일반적이고 예상 가능한 한 줄 출력 대신
 
-```
+```text
 restart_syscall(<... resuming interrupted call ...>_
 ```
 
-```
+```text
 select(6, [5], NULL, [5], NULL_
 ```
 
 ('_'는 커서 위치를 나타낸다.) 가령 다음과 같은 여러 줄을 보게 된다.
 
-```
+```text
 clock_gettime(CLOCK_MONOTONIC, {15370, 690928118}) = 0
 epoll_wait(4,_
 ```

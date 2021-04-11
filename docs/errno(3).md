@@ -30,7 +30,7 @@ POSIX.1에서 명세하는 오류 이름들은 모두 서로 다른 값을 가�
 
 어떤 리눅스 시스템 상에서든 (`moreutils` 패키지에 포함된) `errno(1)` 명령을 쓰면 모든 오류 심볼 이름과 대응하는 오류 번호들의 목록을 얻을 수 있다.
 
-```
+```text
 $ errno -l
 EPERM 1 Operation not permitted
 ENOENT 2 No such file or directory
@@ -42,7 +42,7 @@ EIO 5 Input/output error
 
 또한 `errno(1)` 명령을 사용해 다음과 같이 개별 오류 번호와 이름을 찾아보고 오류 서술에서 얻은 문자열로 오류를 검색할 수 있다.
 
-```
+```text
 $ errno 2
 ENOENT 2 No such file or directory
 $ errno ESRCH

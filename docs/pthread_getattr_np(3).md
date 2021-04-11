@@ -62,7 +62,7 @@ glibc 버전 2.2.3부터 이 함수가 사용 가능하다.
 
 x86-32 시스템 상의 첫 번째 실행에서는 기본 속성들로 스레드를 만든다.
 
-```
+```text
 $ ulimit -s       # 스택 제한 없음 ==> 기본 스택 크기 2MB
 unlimited
 $ ./a.out
@@ -74,7 +74,7 @@ Attributes of created thread:
 
 다음 실행에서는 방호 구역 크기를 지정하면 시스템 페이지 크기(x86-32에서 4096바이트)의 다음 번 배수로 올림 되는 것을 볼 수 있다.
 
-```
+```text
 $ ./a.out -g 4097
 Thread attributes object after initializations:
         Guard size          = 4097 bytes
@@ -89,7 +89,7 @@ Attributes of created thread:
 
 마지막 실행에서는 스레드를 위한 스택을 프로그램에서 직접 할당한다. 이 경우 방호 구역 크기 속성이 무시된다.
 
-```
+```text
 $ ./a.out -g 4096 -s 0x8000 -a
 Allocated thread stack at 0x804d000
 

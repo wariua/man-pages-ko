@@ -67,7 +67,7 @@ glibc 2.4 및 이전에서는 `prev`에 NULL을 지정하는 게 불가능했다
 
 아래 프로그램은 `insque()` 사용 방식을 보여 준다. 다음은 프로그램 실행 예이다.
 
-```
+```text
 $ ./a.out -c a b c
 Traversing completed list:
     a
