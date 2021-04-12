@@ -86,6 +86,7 @@ EACCES 13 Permission denied
 | `ECONNREFUSED` | 연결 거부됨. (POSIX.1-2001) |
 | `ECONNRESET` | 연결 리셋 됨. (POSIX.1-2001) |
 | `EDEADLK` | 자원 교착 회피했음. (POSIX.1-2001) |
+| `EDEADLOCK` | `EDEADLK`의 동의어. |
 | `EDESTADDRREQ` | 목적 주소 필요함. (POSIX.1-2001) |
 | `EDOM` | 수학 인자가 함수 정의역을 벗어남. (POSIX.1, C99) |
 | `EDQUOT` | 디스크 쿼터 초과했음. (POSIX.1-2001) |

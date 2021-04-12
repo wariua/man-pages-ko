@@ -82,6 +82,9 @@ struct timespec {
 `EINVAL`
 :   지정한 `clk_id`를 이 시스템에서 지원하지 않는다.
 
+`EINVAL`
+:   (`clock_settime()`): `tp.tv_sec`이 음수거나 `tp.tv_usec`이 [0..999,999,999] 범위 밖이다.
+
 `EINVAL` (리눅스 4.3부터)
 :   `clk_id`를 `CLOCK_REALTIME`으로 한 `clock_settime()` 호출에서 시간을 `CLOCK_MONOTINIC` 클럭 현재 값보다 작은 값으로 설정하려 했다.
 

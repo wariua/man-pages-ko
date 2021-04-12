@@ -18,7 +18,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
     glibc 2.14 전:
     :   `_BSD_SOURCE || _SVID_SOURCE`<br>
-        `    /* _GNU_SOURCE로도 충분함 */`
+        `    /* _GNU_SOURCE로도 충분 */`
 
 ## DESCRIPTION
 

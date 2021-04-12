@@ -29,6 +29,14 @@ struct ntptimeval {
 
 이 구조체의 필드들은 다음과 같다.
 
+`time`
+:   현재 시간. `timeval` 구조체로 표현.
+
+        struct timeval {
+            time_t      tv_sec;   /* 에포크 이후 초 */
+            suseconds_t tv_usec;  /* 마이크로초 */
+        };
+
 `maxerror`
 :   최대 오차. 마이크로초 단위. <tt>[[ntp_adjtime(3)]]</tt>으로 이 값을 초기화할 수 있으며, 주기적으로 (리눅스에선 매초마다) 증가하되 상한(커널 상수 `NTP_PHASE_MAX`, 16,000)이 있다.
 

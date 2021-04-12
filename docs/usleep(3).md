@@ -47,7 +47,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## CONFORMING TO
 
-4.3BSD, POSIX.1-2001. POSIX.1-2001에서 이 함수를 구식으로 선언했다. 대신 <tt>[[nanosleep(2)]]</tt>을 쓰면 된다. POSIX.1-2008에서 `usleep()` 명세를 제거했다.
+4.3BSD, POSIX.1-2001. POSIX.1-2001에서 이 함수를 구식으로 선언했다. 대신 <tt>[[nanosleep(2)]]</tt>을 사용하라. POSIX.1-2008에서 `usleep()` 명세를 제거했다.
 
 원래 BSD 구현에서, 그리고 glibc 버전 2.2.2 전에서는 이 함수의 반환 타입이 `void`이다. POSIX 버전은 `int`를 반환하는데 glibc 2.2.2부터 쓰는 원형이기도 하다.
 

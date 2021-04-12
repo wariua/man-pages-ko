@@ -14,6 +14,11 @@ void pthread_cleanup_pop_restore_np(int execute);
 
 `-pthread`로 링크.
 
+glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
+
+`pthread_cleanup_push_defer_np()`, `pthread_cleanup_pop_defer_np()`:
+:   `_GNU_SOURCE`
+
 ## DESCRIPTION
 
 이 함수들은 이 페이지에서 언급하는 차이들을 제외하면 <tt>[[pthread_cleanup_push(3)]]</tt> 및 <tt>[[pthread_cleanup_pop(3)]]</tt>과 같다.
