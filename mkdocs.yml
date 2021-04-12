@@ -22,7 +22,8 @@ extra_css:
   - "css/style.css"
 
 markdown_extensions:
-  - wikilinks
+  - wikilinks:
+      base_url: '/man-pages-ko/'
   - def_list
 
 plugins:
