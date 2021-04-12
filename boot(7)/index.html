@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/boot(7)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Boot(7) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+            <li class="second-level"><a href="#_1">하드웨어</a></li>
+                
+            <li class="second-level"><a href="#os">OS 로더</a></li>
+                
+            <li class="second-level"><a href="#_2">커널</a></li>
+                
+            <li class="second-level"><a href="#_3">루트 사용자 공간 프로세스</a></li>
+                
+            <li class="second-level"><a href="#_4">부트 스크립트</a></li>
+                
+            <li class="second-level"><a href="#_5">순서 지정 디렉터리</a></li>
+                
+            <li class="second-level"><a href="#_6">부트 설정</a></li>
+                
+        <li class="first-level "><a href="#files">FILES</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>boot - 유닉스 시스템 V 릴리스 4 기반의 시스템 부팅 과정</p>
+<h2 id="description">DESCRIPTION</h2>
+<p><strong>부팅 과정</strong>(또는 "<strong>부트 절차</strong>")의 세부 내용은 시스템마다 다르지만 대략적으로 다음 요소들이 각각 통제하는 단계들로 나눌 수 있다.</p>
+<ol>
+<li>하드웨어</li>
+<li>운영 체제(OS) 로더</li>
+<li>커널</li>
+<li>루트 사용자 공간 프로세스 (<code>init</code> 및 <code>inittab</code>)</li>
+<li>부트 스크립트</li>
+</ol>
+<p>이 단계들 각각을 아래에서 자세히 설명한다.</p>
+<h3 id="_1">하드웨어</h3>
+<p>전원을 켜거나 하드 리셋을 한 후에는 읽기 전용 메모리(보통 PROM)에 저장된 프로그램으로 제어권이 간다. 개인용 컴퓨터와 관련된 역사적인 이유 때문에 이 프로그램을 종종 "<strong>바이오스(BIOS)</strong>"라고 한다.</p>
+<p>보통 이 프로그램은 머신에 대한 기본적인 자가 검사를 수행하고 비휘발성 메모리에 접근하여 추가 매개변수들을 읽는다. PC에서 이 메모리는 배터리로 동작하는 CMOS 메모리이며, 그래서 많은 사람들이 그걸 "<strong>CMOS</strong>"라고 부른다. PC 세계 밖에서는 일반적으로 "<strong>NVRAM</strong>"(비휘발성 RAM)이라고 한다.</p>
+<p>MVRAM에 저장되는 매개변수는 시스템마다 다르지만 최소한 어떤 장치가 OS 로더를 제공할 수 있는지를, 아니면 적어도 어떤 장치에서 OS 로더를 찾아볼 수 있는지를 명시해야 한다. 그런 장치를 "<strong>부트 장치(boot device)</strong>"라고 한다. 하드웨어 부트 단계에서는 부트 장치의 고정된 위치로부터 OS 로더를 적재하고 그리로 제어권을 넘긴다.</p>
+<p>참고: OS 로더를 읽어들일 장치가 네트워크를 통해 붙어있을 수도 있다. 이런 경우 부팅의 세부 사항을 DHCP, TFTP, PXE, Etherboot 등과 같은 프로토콜들이 명세한다.</p>
+<h3 id="os">OS 로더</h3>
+<p>OS 로더의 주된 역할은 어떤 장치에서 커널이 있는 위치를 알아내서 적재한 다음 실행하는 것이다. 많은 OS 로더들에서는 대화형 사용 방식을 통해 (아마도 마지막 컴파일 한 커널이 동작하지 않을 때의 대비책으로) 다른 커널을 지정하거나 커널에 선택적인 매개변수를 전달할 수 있다.</p>
+<p>전통적 PC에서 OS 로더는 부트 장치의 최초 512바이트 블록에 위치한다. 이 블록을 "<strong>MBR</strong>"(Master Boot Record; 마스터 부트 레코드)라고 한다.</p>
+<p>여러 시스템에서 OS 로더는 다양한 제약들 때문에 아주 제한되어 있다. PC 아닌 시스템들에서도 이 로더의 크기와 복잡도에 어떤 제약이 있지만 PC MBR의 크기 제약(512바이트. 파티션 테이블 포함)은 거기에 많은 기능을 집어넣는 걸 거의 불가능하게 한다.</p>
+<p>그래서 여러 시스템에서는 OS를 적재하는 역할을 1차 OS 로더와 2차 OS 로더로 나눈다. 이 2차 OS 로더는 디스크 파티션 같은 영속 저장소의 더 큰 부분 안에 있을 수 있다.</p>
+<p>리눅스에서 OS 로더는 많은 경우 <code>lilo(8)</code> 아니면 <code>grub(8)</code>이다.</p>
+<h3 id="_2">커널</h3>
+<p>커널은 올라가면서 컴퓨터와 운영 체제의 다양한 구성 요소들을 초기화 한다. 일반적으로 그런 일을 책임지는 소프트웨어의 각 부분을 해당 구성 요소의 "<strong>드라이버(driver)</strong>"라고 본다. 커널은 가상 메모리 스와퍼(요즘 리눅스 커널에서는 "kswapd"라는 커널 프로세스)를 시작하고 루트 경로 <code>/</code>에 어떤 파일 시스템을 마운트 한다.</p>
+<p>커널에 전달할 수 있는 매개변수들 중 일부가 이 동작들과 관련되어 있다. (예를 들어 기본 루트 파일 시스템을 변경할 수 있다.) 리눅스 커널 매개변수에 대한 자세한 내용은 <tt>[[bootparam(7)]]</tt>을 읽어 보라.</p>
+<p>여기까지 하고 나서야 커널이 최초의 사용자 공간 프로세스를 생성한다. 그 프로세스에는 <strong>PID</strong>(프로세스 ID)로 1번을 준다. 전통적으로 이 프로세스는 프로그램 <code>/sbin/init</code>을 실행하는데, 커널이 처리하지 못한 매개변수들이 그리 전달된다.</p>
+<h3 id="_3">루트 사용자 공간 프로세스</h3>
+<p>참고: 다음 설명은 유닉스 시스템 V 릴리스 4를 기반으로 하는 OS에 적용된다. 하지만 널리 쓰이는 여러 시스템들에서는 관련은 있지만 근본적으로 다른 <code>systemd(1)</code>라는 방식을 채택했다. 그와 연계된 <tt>[[bootup(7)]]</tt>에서 거기서의 부팅 과정을 상술한다.</p>
+<p><code>/sbin/init</code>은 시작하면서 <code>/etc/inittab</code>을 읽어서 추가 지시를 받는다. 이 파일에서는 <code>/sbin/init</code> 프로그램이 특정 <em>런레벨(run-level)</em>로 진입하라는 지식를 받을 때 무엇을 실행해야 하는지를 규정한다. 그래서 관리자가 어떤 용도를 위한 환경을 손쉽게 수립할 수 있게 해 준다. 각 런레벨은 일군의 서비스들과 연계되어 있다. (예를 들어 런레벨 <code>S</code>는 <em>단일 사용자(single-user)</em> 모드이며 런레벨 <code>2</code>에는 상당수의 네트워크 서비스 실행이 수반된다.)</p>
+<p>관리자가 <code>init(1)</code>을 통해 현재 런레벨을 바꿀 수 있고 <code>runlevel(8)</code>을 통해 현재 런레벨을 질의할 수 있다.</p>
+<p>하지만 이 파일을 편집해서 개별 서비스들을 관리하는 것은 불편하므로 <code>/etc/inittab</code>에서는 개별 서비스들을 실제로 시작/정지하는 일군의 스크립트들을 실행하기만 한다.</p>
+<h3 id="_4">부트 스크립트</h3>
+<p>참고: 다음 설명은 유닉스 시스템 V 릴리스 4를 기반으로 하는 OS에 적용된다. 하지만 널리 쓰이는 여러 시스템들(슬랙웨어 리눅스, FreeBSD, OpenBSD)에는 다소 다른 부트 스크립트 체계가 있다.</p>
+<p>관리하는 서비스(메일, nfs 서버, cron 등)마다 특정 디렉터리(대다수 리눅스 버전들에서는 <code>/etc/init.d</code>)에 개시 스크립트가 한 개씩 있다. 이 스크립트 각각은 (서비스를 시작하게 만드는) "start"나 (서비스를 정지하게 만드는) "stop"을 유일한 인자로 받는다. 선택적으로 다른 "편의용" 매개변수를 받을 수 있다. (가령, 정지하고 시작하는 "restart", 서비스 상태를 표시하는 "status" 등.)  매개변수 없이 스크립트를 실행하면 가능한 인자들을 표시해 준다.</p>
+<h3 id="_5">순서 지정 디렉터리</h3>
+<p>특정 런레벨에서 정해진 순서로 특정 스크립트들이 시작/정지하게 하기 위해 <em>순서 지정 디렉터리</em>가 있다. 보통 <code>/etc/rc[0-6S].d</code> 형태이다. 이 디렉터리 각각에 <code>/etc/init.d</code> 디렉터리의 스크립트에 대한 (일반적으로 심볼릭) 링크들이 있다.</p>
+<p><code>inittab(5)</code>으로부터 주 스크립트(일반적으로 <code>/etc/rc</code>)가 호출된다. 이 주 스크립트에서 해당하는 순서 지정 디렉터리의 링크를 통해 각 서비스의 스크립트를 호출한다. 이름이 'S'로 시작하는 링크는 "start" 인자로 호출한다 (서비스 시작). 이름이 'K'로 시작하는 링크는 "stop" 인자로 호출한다 (서비스 정지).</p>
+<p>동일 런레벨 내에서 시작 순서나 정지 순서를 규정하도록 링크 이름에 <strong>순서 번호</strong>가 있다. 그리고 명확성을 위해 일반적으로 링크 이름이 참조하는 서비스의 이름으로 끝난다. 예를 들어 <code>/etc/rc2.d/S80sendmail</code> 링크는 런레벨 2에서 sendmail 서비스를 시작한다. 그리고 <code>/etc/rc2.d/S12syslog</code>를 시작한 후이면서 <code>/etc/rc2.d/S90xfs</code>를 시작하기 전에 그렇게 한다.</p>
+<p>이 링크들을 관리하는 것은 부트 순서와 런레벨을 관리하는 것이다. 여러 시스템에는 이 작업을 도와 주는 도구들(가령 <code>chkconfig(8)</code>)이 있다.</p>
+<h3 id="_6">부트 설정</h3>
+<p>서비스를 제공하는 프로그램을 종종 "<strong>데몬(daemon)</strong>"이라고 한다. 일반적으로 데몬은 다양한 명령행 옵션과 매개변수들을 받을 수 있다. 시스템 관리자가 전체 부트 스크립트를 편집하지 않고도 이 입력을 바꿀 수 있게 하기 위해 어떤 별도 설정 파일을 사용하며 그 파일은 연계된 부트 스크립트에서 찾을 수 있는 특정 디렉터리(구식 레드햇 시스템에서는 <code>/etc/sysconfig</code>)에 있다.</p>
+<p>구식 유닉스 시스템들에서는 그런 파일에 데몬을 위한 실제 명령행 옵션들이 들어 있었다. 하지만 요즘의 리눅스 시스템들에서는 (또 HP-UX에서는) 셸 변수들만 담고 있다. <code>/etc/init.d</code> 내의 부트 스크립트가 설정 파일을 읽어서 포함한 다음 (즉 설정 파일을 "<code>source</code>" 한 다음) 그 변수 값들을 사용한다.</p>
+<h2 id="files">FILES</h2>
+<p><code>/etc/init.d/</code>, <code>/etc/rc[S0-6].d/</code>, <code>/etc/sysconfig/</code></p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><code>init(1)</code>, <code>systemd(1)</code>, <code>inittab(5)</code>, <tt>[[bootparam(7)]]</tt>, <tt>[[bootup(7)]]</tt>, <code>runlevel(8)</code>, <code>shutdown(8)</code></p>
+<hr />
+<p>2015-03-11</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

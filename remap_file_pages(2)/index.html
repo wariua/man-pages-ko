@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/remap_file_pages(2)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Remap file pages(2) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>remap_file_pages - 비선형 파일 매핑 만들기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
+#include &lt;sys/mman.h&gt;
+
+int remap_file_pages(void *addr, size_t size, int prot,
+                     size_t pgoff, int flags);
+</code></pre>
+
+<h2 id="description">DESCRIPTION</h2>
+<p><strong>주의</strong>: 이 시스템 호출은 리눅스 3.16부터 제거 예정으로 표시되었다. 리눅스 4.0에서는 그 구현이 느린 커널 내 에뮬레이션으로 대체되었다. 이 시스템 호출을 쓰는 얼마 안되는 응용들은 다른 대안으로 이전하는 걸 검토하는 게 좋다. 변경 이유는 이 시스템 호출을 위한 커널 코드가 복잡했으며 이 시스템 호출이 완전히는 아니더라도 거의 쓰이지 않는다고 보았기 때문이다. 32비트 시스템 상의 데이터베이스 응용에 몇 가지 사용 사례가 있었지만 64비트 시스템에는 그런 사용 사례가 존재하지 않는다.</p>
+<p><code>remap_file_pages()</code> 시스템 호출을 사용해 비선형 매핑, 즉 파일의 페이지들이 순차적이지 않은 순서로 메모리에 맵 되는 매핑을 만든다. <tt>[[mmap(2)]]</tt>을 반복 호출하는 대신 <code>remap_file_pages()</code>를 쓰는 것의 장점은 커널에서 VMA(Virtual Memory Area) 자료 구조를 추가로 만들 필요가 없다는 점이다.</p>
+<p>비선형 매핑을 만들려면 다음 단계를 수행한다.</p>
+<ol>
+<li>
+<p><tt>[[mmap(2)]]</tt>을 써서 (처음에는 선형인) 매핑을 만든다. <code>MAP_SHARED</code> 플래그를 줘서 매핑을 만들어야 한다.</p>
+</li>
+<li>
+<p><code>remap_file_pages()</code> 호출을 한 번 또는 그 이상 사용해서 매핑 페이지와 파일 페이지 간의 대응 관계를 재조정한다. 파일의 동일 페이지를 맵 영역 내의 여러 위치로 맵 하는 게 가능하다.</p>
+</li>
+</ol>
+<p><code>pgoff</code> 및 <code>size</code> 인자는 매핑 내에서 재배치하려는 파일 영역을 지정한다. <code>pgoff</code>는 시스템 페이지 크기 단위의 파일 오프셋이고 <code>size</code>는 바이트 단위의 영역 길이이다.</p>
+<p><code>addr</code> 인자는 두 가지 역할을 한다. 첫째로, 페이지를 재조정하려는 매핑을 식별한다. 따라서 <code>addr</code>은 앞서 <tt>[[mmap(2)]]</tt> 호출로 맵 한 영역 내에 포함되는 주소여야 한다. 둘째로, <code>addr</code>은 <code>pgoff</code> 및 <code>size</code>로 지정한 파일 페이지들이 위치하게 될 주소를 나타낸다.</p>
+<p><code>addr</code>과 <code>size</code>에 지정하는 값을 시스템 페이지 크기의 배수로 하는 게 좋다. 배수가 아니면 커널에서 두 값 모두를 가장 가까운 페이지 크기 배수로 <em>내림</em> 한다.</p>
+<p><code>prot</code> 인자는 0으로 지정해야 한다.</p>
+<p><code>flags</code> 인자의 의미는 <tt>[[mmap(2)]]</tt>과 같되, <code>MAP_NONBLOCK</code> 외의 플래그는 모두 무시한다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>성공 시 <code>remap_file_pages()</code>는 0을 반환한다. 오류시 -1을 반환한며 <code>errno</code>를 적절히 설정한다.</p>
+<h2 id="errors">ERRORS</h2>
+<dl>
+<dt><code>EINVAL</code></dt>
+<dd><code>addr</code>이 <code>MAP_SHARED</code> 플래그로 생성한 유효한 매핑을 가리키고 있지 않다.</dd>
+<dt><code>EINVAL</code></dt>
+<dd><code>addr</code>, <code>size</code>, <code>prot</code>, <code>pgoff</code>가 유효하지 않다.</dd>
+</dl>
+<h2 id="versions">VERSIONS</h2>
+<p>리눅스 2.5.46에서 <code>remap_file_pages()</code> 시스템 호출이 등장했다. glibc 버전 2.3.3에서 지원이 추가되었다.</p>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p><code>remap_file_pages()</code> 시스템 호출은 리눅스 전용이다.</p>
+<h2 id="notes">NOTES</h2>
+<p>리눅스 2.6.23부터는 <tt>[[tmpfs(5)]]</tt>, hugetlbfs, ramfs 같은 메모리 내 파일 시스템에서만 <code>remap_file_pages()</code>가 비선형 매핑을 만든다. 기반 저장소가 있는 파일 시스템에서는 파일의 어느 부분을 어느 주소로 맵 할지 조정하는 데 있어서 <code>remap_file_pages()</code>가 <tt>[[mmap(2)]]</tt>보다 크게 효율적이지 않다.</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[getpagesize(2)]]</tt>, <tt>[[mmap(2)]]</tt>, <tt>[[mmap2(2)]]</tt>, <tt>[[mprotect(2)]]</tt>, <tt>[[mremap(2)]]</tt>, <tt>[[msync(2)]]</tt></p>
+<hr />
+<p>2017-09-15</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

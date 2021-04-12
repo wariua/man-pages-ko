@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/timer_settime(2)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Timer settime(2) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>timer_settime, timer_gettime - POSIX 프로세스별 타이머 장전/해제 및 상태 가져오기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;time.h&gt;
+
+int timer_settime(timer_t timerid, int flags,
+                  const struct itimerspec *new_value,
+                  struct itimerspec *old_value);
+int timer_gettime(timer_t timerid, struct itimerspec *curr_value);
+</code></pre>
+
+<p><code>-lrt</code>로 링크.</p>
+<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<dl>
+<dt><code>timer_settime()</code>, <code>timer_gettime()</code>:</dt>
+<dd><code>_POSIX_C_SOURCE &gt;= 199309L</code></dd>
+</dl>
+<h2 id="description">DESCRIPTION</h2>
+<p><code>timer_settime()</code>은 <code>timerid</code>가 나타내는 타이머를 장전하거나 해제한다. <code>new_value</code> 인자는 타이머의 새 최초 값과 새 간격을 나타내는 <code>itimerspec</code> 구조체에 대한 포인터이다. <code>itimerspec</code> 구조체는 다음과 같이 정의되어 있다.</p>
+<pre><code class="c">struct timespec {
+    time_t tv_sec;                /* 초 */
+    long   tv_nsec;               /* 나노초 */
+};
+
+struct itimerspec {
+    struct timespec it_interval;  /* 타이머 간격 */
+    struct timespec it_value;     /* 최초 만료 */
+};
+</code></pre>
+
+<p><code>itimerspec</code> 구조체의 하위 구조 각각은 <code>timespec</code> 구조체여서 시간 값을 초와 나노초로 지정할 수 있다. <tt>[[timer_create(2)]]</tt>로 타이머를 만들 때 지정한 클럭에 따라 이 시간 값들을 측정한다.</p>
+<p><code>new_value-&gt;it_value</code>가 0 아닌 값이면 (즉 한 하위 필드라도 0이 아니면) <code>timer_settime()</code>은 그 시간에 최초 만료되도록 설정하여 타이머를 장전(시작)한다. (타이머가 이미 장전되어 있으면 이전 설정을 덮어 쓴다.) <code>new_value-&gt;it_value</code>가 0 값이면 (즉 두 하위 필드 모두 0이면) 타이머를 해제한다.</p>
+<p><code>new_value-&gt;it_interval</code> 필드는 초와 나노초로 타이머의 주기를 나타낸다. 이 필드가 0이 아니면 장전된 타이머가 만료될 때마다 <code>new_value-&gt;it_interval</code>에 지정한 값으로 타이머를 재장전한다. <code>new_value-&gt;it_interval</code>이 0 값이면 <code>it_value</code>로 지정한 시간에 한 번만 타이머가 만료된다.</p>
+<p>기본적으로 <code>new_value-&gt;it_value</code>로 지정하는 최초 만료 시간은 호출 시점에 타이머 클럭의 현재 시간을 기준으로 상대적으로 해석한다. <code>flags</code>에 <code>TIMER_ABSTIME</code>을 지정해서 바꿀 수 있는데, 그렇게 하면 <code>new_value-&gt;it_value</code>를 타이머 클럭에서 측정한 절댓값으로 해석한다. 즉 클럭 값이 <code>new_value-&gt;it_value</code>로 지정한 값에 도달할 때 타이머가 만료된다. 지정한 절대 시간이 이미 지났으면 타이머가 즉시 발화되며 초과 횟수(<tt>[[timer_getoverrun(2)]]</tt> 참고)가 그에 맞게 설정된다.</p>
+<p><code>CLOCK_REALTIME</code> 클럭 기반의 절댓값 타이머가 장전되어 있는 동안 그 클럭의 값을 조정하는 경우에는 타이머 만료가 적절히 조정된다. <code>CLOCK_REALTIME</code> 클럭 기반의 상댓값 타이머에는 클럭 조정이 영향을 주지 않는다.</p>
+<p><code>old_value</code>가 NULL이 아니면 그 버퍼를 이용해 타이머의 이전 간격(<code>old_value-&gt;it_interval</code>)과 타이머가 다음으로 만료될 때까지 남았던 시간(<code>old_value-&gt;it_value</code>)을 반환한다.</p>
+<p><code>timer_gettime()</code>은 <code>timerid</code>로 지정한 타이머에 대해 다음 만료까지의 시간과 간격을 <code>curr_value</code>가 가리키는 버퍼로 반환한다. 다음 타이머 만료까지 남은 시간을 <code>curr_value-&gt;it_value</code>로 반환하는데, 타이머를 장전할 때 <code>TIMER_ABSTIME</code> 플래그를 썼는지와 상관없이 항상 상대적인 값이다. <code>curr_value-&gt;it_value</code>로 반환된 값이 0이면 타이머가 현재 해제되어 있는 것이다. 타이머 간격은 <code>curr_value-&gt;it_interval</code>로 반환한다. <code>curr_value-&gt;it_interval</code>로 반환한 값이 0이면 "단발성" 타이머인 것이다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>성공 시 <code>timer_settime()</code> 및 <code>timer_gettime()</code>은 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
+<h2 id="errors">ERRORS</h2>
+<p>이 함수들은 다음 오류로 실패할 수 있다.</p>
+<dl>
+<dt><code>EFAULT</code></dt>
+<dd><code>new_value</code>나 <code>old_value</code>, <code>curr_value</code>가 유효한 포인터가 아니다.</dd>
+<dt><code>EINVAL</code></dt>
+<dd><code>timerid</code>가 유효하지 않다.</dd>
+</dl>
+<p><code>timer_settime()</code>은 다음 오류로 실패할 수도 있다.</p>
+<dl>
+<dt><code>EINVAL</code></dt>
+<dd><code>new_value.it_value</code>가 음수이다. 또는 <code>new_value.it_value.tv_nsec</code>이 음수이거나 999,999,999보다 크다.</dd>
+</dl>
+<h2 id="versions">VERSIONS</h2>
+<p>리눅스 2.6부터 이 시스템 호출들이 사용 가능하다.</p>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>POSIX.1-2001, POSIX.1-2008.</p>
+<h2 id="example">EXAMPLE</h2>
+<p><tt>[[timer_create(2)]]</tt> 참고.</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[timer_create(2)]]</tt>, <tt>[[timer_getoverrun(2)]]</tt>, <tt>[[time(7)]]</tt></p>
+<hr />
+<p>2017-09-15</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/evp(7)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Evp(7) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+        <li class="first-level "><a href="#copyright">COPYRIGHT</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>evp - 고수준 암호 함수</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;openssl/evp.h&gt;
+</code></pre>
+
+<h2 id="description">DESCRIPTION</h2>
+<p>EVP 라이브러리는 암호 함수들에 대한 고수준 인터페이스를 제공한다.</p>
+<p><code>EVP_Seal*</code> 및 <code>EVP_Open*</code> 함수는 전자 "봉투(envelope)"를 구현하기 위한 공개키 암호화 및 복호화를 제공한다.</p>
+<p><code>EVP_DigestSign*</code> 및 <code>EVP_DigestVerify*</code> 함수는 전자 서명 및 메시지 인증 코드(MAC)를 구현한다. 이전의 <code>EVP_Sign*</code> 및 <code>EVP_Verify*</code> 함수도 참고하라.</p>
+<p>대칭 암호는 <code>EVP_Encrypt*</code> 함수로 사용 가능하다. <code>EVP_Digest*</code> 함수는 메시지 다이제스트를 제공한다.</p>
+<p><code>EVP_PKEY*</code> 함수는 비대칭 알고리듬에 대한 고수준 인터페이스를 제공한다. 새 EVP_PKEY를 만드는 건 <code>EVP_PKEY_new(3)</code>를 보라. <code>EVP_PKEY_set1_RSA(3)</code> 페이지에서 기술하는 함수들을 이용해 EVP_PKEY를 특정 알고리듬의 개인키에 연계하거나 <code>EVP_PKEY_keygen(3)</code>으로 새 키를 생성할 수 있다. <code>EVP_PKEY_cmp(3)</code>으로 EVP_PKEY를 비교하거나 <code>EVP_PKEY_print_private(3)</code>으로 찍을 수 있다.</p>
+<p>EVP_PKEY 함수들은 비대칭 알고리듬 연산 전체를 지원한다.</p>
+<ul>
+<li>
+<p>키 협상은 <code>EVP_PKEY_derive(3)</code>를 보라.</p>
+</li>
+<li>
+<p>서명과 검증은 <code>EVP_PKEY_sign(3)</code>, <code>EVP_PKEY_verify(3)</code>, <code>EVP_PKEY_verify_recover(3)</code>를 보라. 단 이 함수들은 서명하는 데이터에 다이제스트를 수행하지 않는다. 따라서 보통은 <code>EVP_DigestSignInit(3)</code> 함수들을 쓰게 될 것이다.</p>
+</li>
+<li>
+<p>암호화와 복호화는 <code>EVP_PKEY_encrypt(3)</code>와 <code>EVP_PKEY_decrypt(3)</code>를 보라. 단 이 함수들은 암호화와 복호화만 수행한다. 공개키 연산은 비싼 연산이므로 보통은 암호화되는 메시지를 <code>EVP_SealInit(3)</code> 및 <code>EVP_OpenInit(3)</code> 함수를 이용해 "전자 봉투"에 넣게 될 것이다.</p>
+</li>
+</ul>
+<p><code>EVP_BytesToKey(3)</code> 함수는 좀 제한된 패스워드 기반 암호화를 지원한다. 매개변수들을 조심스럽게 선정하면 PKCS#5 PBKDF1 호환 구현이 가능하다. 하지만 새로 만드는 응용에서는 보통 이를 쓰지 않는 게 좋다. (대신 PKCS#5의 PBKDF2 등을 쓰는 게 좋다.)</p>
+<p><code>EVP_Encode*</code> 및 <code>EVP_Decode*</code> 함수는 베이스64 인코딩 및 디코딩을 구현한다.</p>
+<p>대체 구현을 제공하는 ENGINE 모듈이 있으면 대칭 알고리듬(암호), 다이제스트, 비대칭 알고리듬(공개키 알고리듬) 모두를 대신할 수 있다. 암호나 다이제스트의 ENGINE 구현이 기본으로 등록되어 있으면 여러 EVP 함수들에서 자동으로 내장 소프트웨어 구현 대신 그 구현을 사용하게 된다. 더 자세한 내용은 <code>engine(3)</code> 맨 페이지를 확인하라.</p>
+<p>여러 알고리듬들에 저수준의 알고리듬별 함수가 존재하기는 하지만 사용을 권하지 않는다. ENGINE과 함께 쓸 수 없으며 그 저수준 함수들로는 새 알고리듬의 ENGINE 버전에 접근할 수 없다. 또한 코드에 새 알고리듬을 도입하기 힘들게 만들고, 저수준에서는 일부 옵션들을 깔끔하게 지원하지 않으며, 어떤 연산들은 고수준 인터페이스를 쓸 때 더 효율적이다.</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><code>EVP_DigestInit(3)</code>, <code>EVP_EncryptInit(3)</code>, <code>EVP_OpenInit(3)</code>, <code>EVP_SealInit(3)</code>, <code>EVP_DigestSignInit(3)</code>, <code>EVP_SignInit(3)</code>, <code>EVP_VerifyInit(3)</code>, <code>EVP_EncodeInit(3)</code>, <code>EVP_PKEY_new(3)</code>, <code>EVP_PKEY_set1_RSA(3)</code>, <code>EVP_PKEY_keygen(3)</code>, <code>EVP_PKEY_print_private(3)</code>, <code>EVP_PKEY_decrypt(3)</code>, <code>EVP_PKEY_encrypt(3)</code>, <code>EVP_PKEY_sign(3)</code>, <code>EVP_PKEY_verify(3)</code>, <code>EVP_PKEY_verify_recover(3)</code>, <code>EVP_PKEY_derive(3)</code>, <code>EVP_BytesToKey(3)</code>, <code>ENGINE_by_id(3)</code></p>
+<h2 id="copyright">COPYRIGHT</h2>
+<p>Copyright 2000-2018 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Licensed under the OpenSSL license (the "License").  You may not use this file except in compliance with the License.  You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
+<hr />
+<p>2018-03-12</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

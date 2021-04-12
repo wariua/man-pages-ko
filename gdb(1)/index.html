@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/gdb(1)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Gdb(1) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#options">OPTIONS</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+        <li class="first-level "><a href="#copyright">COPYRIGHT</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>gdb - GNU 디버거</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre>
+gdb [<strong>-help</strong>] [<strong>-nh</strong>] [<strong>-nx</strong>] [<strong>-q</strong>] [<strong>-batch</strong>] [<strong>-cd=</strong><em>dir</em>] [<strong>-f</strong>] [<strong>-b</strong> <em>bps</em>]
+    [<strong>-tty=</strong><em>dev</em>] [<strong>-s</strong> <em>symfile</em>] [<strong>-e</strong> <em>prog</em>] [<strong>-se</strong> <em>prog</em>] [<strong>-c</strong> <em>core</em>] [<strong>-p</strong> <em>procID</em>]
+    [<strong>-x</strong> <em>cmds</em>] [<strong>-d</strong> <em>dir</em>] [<em>prog</em>|<em>prog procID</em>|<em>prog core</em>]
+</pre>
+
+<h2 id="description">DESCRIPTION</h2>
+<p>GDB 같은 디버거의 목적은 프로그램 실행 중에 그 "내부"에서 무슨 일이 일어나고 있는지를, 또는 프로그램이 죽는 순간에 뭘 하고 있었는지를 알 수 있게 해 주는 것이다.</p>
+<p>GDB는 크게 다음 네 가지를 (그리고 이를 지원하며 다른 것들을) 해서 현장에서 버그 잡는 걸 돕는다.</p>
+<ul>
+<li>
+<p>프로그램을 시작한다. 동작에 영향을 끼칠 수 있을 무엇이든 지정할 수 있다.</p>
+</li>
+<li>
+<p>지정한 조건에서 프로그램이 정지하게 한다.</p>
+</li>
+<li>
+<p>무슨 일이 일어났는지를 프로그램 정지 상태에서 조사한다.</p>
+</li>
+<li>
+<p>프로그램 내의 이것 저것을 바꾼다. 그래서 한번 어떤 버그의 효과를 바로잡고서 다른 버그를 살펴볼 수 있게 해 준다.</p>
+</li>
+</ul>
+<p>GDB를 사용해 C, C++, Fortran, Modula-2로 작성된 프로그램을 디버그 할 수 있다.</p>
+<p>셸 명령 "gdb"로 GDB를 실행한다. 시작하고 나면 GDB 명령 "quit"으로 나가라고 할 때까지 터미널에서 명령들을 읽어 들인다. "help" 명령을 쓰면 GDB 내장 도움말을 볼 수 있다.</p>
+<p>아무 인자나 옵션 없이도 "gdb"를 실행할 수 있다. 하지만 GDB를 실행할 때 가장 흔한 방식은 인자 한 개나 두 개로 실행 프로그램을 지정하는 것이다.</p>
+<pre><code class="sh">gdb program
+</code></pre>
+
+<p>실행 프로그램과 코어 파일을 모두 지정해서 시작할 수도 있다.</p>
+<pre><code class="sh">gdb program core
+</code></pre>
+
+<p>또는 실행 중인 프로세스를 디버그 하고 싶다면 두 번째 인자로 프로세스 ID를 지정할 수 있다.</p>
+<pre><code class="sh">gdb program 1234
+gdb -p 1234
+</code></pre>
+
+<p>그러면 GDB가 프로세스 1234에 붙게 된다. (단 <code>1234</code>라는 파일이 없어야 한다. GDB는 코어 파일을 먼저 확인한다.) <code>-p</code> 옵션을 쓰면 파일명 <code>program</code>을 생략할 수 있다.</p>
+<p>다음은 자주 쓰는 몇 가지 GDB 명령들이다.</p>
+<dl>
+<dt><code>break [file:]function</code></dt>
+<dd>(<code>file</code> 내의) <code>function</code>에 중지점을 설정한다.</dd>
+<dt><code>run [arglist]</code></dt>
+<dd>(<code>arglist</code>로) 프로그램을 시작한다.</dd>
+<dt><code>bt</code></dt>
+<dd>백트레이스. 프로그램 스택을 표시한다.</dd>
+<dt><code>print expr</code></dt>
+<dd>식의 값을 표시한다.</dd>
+<dt><code>c</code></dt>
+<dd>(중지점 등에서 멈춘 상태에서) 프로그램 실행을 계속한다.</dd>
+<dt><code>next</code></dt>
+<dd>(멈춘 상태에서) 프로그램 다음 행을 실행한다. 행에 함수 호출이 있으면 실행하고 지나간다.</dd>
+<dt><code>edit [file:]function</code></dt>
+<dd>현재 멈춰 있는 프로그램 행을 편집기로 본다.</dd>
+<dt><code>list [file:]function</code></dt>
+<dd>현재 멈춰 있는 곳 부근의 프로그램 텍스트를 표시한다.</dd>
+<dt><code>step</code></dt>
+<dd>(멈춘 상태에서) 프로그램 다음 행을 실행한다. 행에 함수 호출이 있으면 안으로 들어간다.</dd>
+<dt><code>help [name]</code></dt>
+<dd>GDB 명령 <code>name</code>에 대한 정보나 GDB 사용에 대한 일반적 정보를 표시한다.</dd>
+<dt><code>quit</code></dt>
+<dd>GDB에서 나간다.</dd>
+</dl>
+<p>GDB에 대한 자세한 내용은 Richard M. Stallman과 Roland H. Pesch의 <em>Using GDB: A Guide to the GNU Source-Level Debugger</em>를 보라. "info" 프로그램에서 "gdb" 항목으로 같은 내용을 볼 수 있다.</p>
+<h2 id="options">OPTIONS</h2>
+<p>옵션이 아닌 인자가 있으면 실행 파일과 코어 파일을 (또는 프로세스ID를) 지정하게 된다. 즉 연관된 옵션 플래그 없는 첫 번째 인자는 <code>-se</code> 옵션과 같으며 두 번째가 있고 파일 이름이면 <code>-c</code> 옵션과 같다. 여러 옵션들에는 긴 형태와 짧은 형태가 있다. 긴 형태는 다른 옵션과 구분이 가능하기만 하다면 일부만 입력하더라도 인식한다. (원한다면 옵션 인자에 - 대신 +를 붙일 수도 있지만 아래에선 일반적 관행을 따른다.)</p>
+<p>모든 옵션과 명령행 인자들은 순차적으로 처리된다. <code>-x</code> 옵션 사용 시 순서에 따라 차이가 생긴다.</p>
+<dl>
+<dt><code>-help</code><br><code>-h</code></dt>
+<dd>모든 옵션들을 간단한 설명과 함께 나열한다.</dd>
+<dt><code>-symbols=file</code><br><code>-s file</code></dt>
+<dd>파일 <code>file</code>에서 심볼 테이블을 읽어 들인다.</dd>
+<dt><code>-write</code></dt>
+<dd>실행 파일과 코어 파일로 쓰기를 할 수 있게 한다.</dd>
+<dt><code>-exec=file</code><br><code>-e file</code></dt>
+<dd>파일 <code>file</code>을 실행 파일로 사용해서 적절한 때에 실행하고 코어 덤프와 조합해서 초기 데이터를 알아내는 데 쓴다.</dd>
+<dt><code>-se=file</code></dt>
+<dd>파일 <code>file</code>에서 심볼 테이블을 읽어 들이고 실행 파일로 사용한다.</dd>
+<dt><code>-core=file</code><br><code>-c file</code></dt>
+<dd>파일 <code>file</code>을 코어 덤프로 사용해서 조사한다.</dd>
+<dt><code>-command=file</code><br><code>-x file</code></dt>
+<dd>파일 <code>file</code>에 있는 GDB 명령들을 실행한다.</dd>
+<dt><code>-ex command</code></dt>
+<dd>주어진 GDB 명령 <code>command</code>를 실행한다.</dd>
+<dt><code>-directory=directory</code><br><code>-d directory</code></dt>
+<dd>소스 파일 탐색 경로에 <code>directory</code>를 추가한다.</dd>
+<dt><code>-nh</code></dt>
+<dd><code>~/.gdbinit</code>의 명령을 실행하지 않는다.</dd>
+<dt><code>-nx</code><br><code>-n</code></dt>
+<dd>초기화 파일 <code>.gdbinit</code>의 명령을 실행하지 않는다.</dd>
+<dt><code>-quiet</code><br><code>-q</code></dt>
+<dd>조용히 한다. 소개 및 저작권 메시지를 찍지 않는다. 배치 모드에서도 이 메시지들을 숨긴다.</dd>
+<dt><code>-batch</code></dt>
+<dd>
+<p>배치 모드로 실행한다. <code>-x</code>로 지정한 명령 파일들 모두를 (그리고 금지하지 않았다면 <code>.gdbinit</code>을) 처리한 후에 상태 0으로 끝낸다. 명령 파일 내의 GDB 명령을 실행하다가 오류가 발생하면 0 아닌 상태 값으로 끝낸다.</p>
+<p>GDB를 필터로 실행할 때, 예를 들어 다른 컴퓨터의 프로그램을 내려받아서 돌릴 때 배치 모드가 유용할 수 있다. 더 편리하도록 배치 모드로 돌 때는 다음 메시지를 찍지 않는다. (보통 때는 GDB 제어 하에서 도는 프로그램이 종료할 때마다 찍는다.)</p>
+<pre><code>Program exited normally.
+</code></pre>
+</dd>
+<dt><code>-cd=directory</code></dt>
+<dd>현재 디렉터리 대신 <code>directory</code>를 작업 디렉터리로 해서 GDB를 실행한다.</dd>
+<dt><code>-fullname</code><br><code>-f</code></dt>
+<dd>Emacs에서 GDB를 하위 프로세스로 실행할 때 이 옵션을 설정한다. GDB에서 스택 프레임을 표시할 때(프로그램이 멈출 때 포함)마다 전체 파일명과 행 번호를 표준적이고 인식 가능한 방식으로 출력하도록 한다. 그 인식 가능한 형식이란 <code>\032</code> 문자 두 개 다음에 파일 이름이 오고, 콜론으로 구분된 행 번호와 문자 위치가 오고, 개행이 오는 것이다. Emacs에서 GDB로의 인터페이스 프로그램에서는 <code>\032</code> 문자 두 개를 프레임 소스 코드를 표시하라는 신호로 쓴다.</dd>
+<dt><code>-b bps</code></dt>
+<dd>GDB에서 원격 디버깅에 쓰는 시리얼 인터페이스의 회선 속도(보드 속도, 즉 초당 비트)를 설정한다.</dd>
+<dt><code>-tty=device</code></dt>
+<dd>장치 <code>device</code>를 프로그램의 표준 입출력으로 사용해서 실행한다.</dd>
+</dl>
+<h2 id="see-also">SEE ALSO</h2>
+<p>완전한 GDB 문서는 Texinfo 설명서 형태로 유지한다. "info"와 "gdb" 프로그램, 그리고 GDB의 Texinfo 문서가 올바로 설치돼 있다면 다음 명령으로 완전한 설명서를 볼 수 있다.</p>
+<pre><code class="sh">info gdb
+</code></pre>
+
+<p><em>Using GDB: A Guide to the GNU Source-Level Debugger</em>, Richard M. Stallman and Roland H. Pesch, 1991년 7월.</p>
+<h2 id="copyright">COPYRIGHT</h2>
+<p>Copyright (c) 1988-2018 Free Software Foundation, Inc.</p>
+<p>Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free Documentation License, Version 1.3 or any later version published by the Free Software Foundation; with the Invariant Sections being "Free Software" and "Free Software Needs Free Documentation", with the Front-Cover Texts being "A GNU Manual," and with the Back-Cover Texts as in (a) below.</p>
+<p>(a) The FSF's Back-Cover Text is: "You are free to copy and modify this GNU Manual.  Buying copies from GNU Press supports the FSF in developing GNU and promoting software freedom."</p>
+<hr />
+<p>2018-04-09</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

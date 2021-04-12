@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/errno(3)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Errno(3) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+            <li class="second-level"><a href="#errno">errno</a></li>
+                
+            <li class="second-level"><a href="#_1">오류 번호와 이름</a></li>
+                
+            <li class="second-level"><a href="#_2">오류 이름 목록</a></li>
+                
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>errno - 마지막 오류의 번호</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;errno.h&gt;
+</code></pre>
+
+<h2 id="description">DESCRIPTION</h2>
+<p><code>&lt;errno.h&gt;</code> 헤더 파일에서 정수 변수 <code>errno</code>를 정의한다. 시스템 호출과 일부 라이브러리 함수에서 오류 발생 시 무엇이 잘못됐는지 나타내기 위해 그 변수를 설정한다.</p>
+<h3 id="errno"><code>errno</code></h3>
+<p>호출의 반환 값이 오류를 나타낸 (즉 대부분 시스템 호출에서 -1, 대부분 라이브러리 함수에서 -1 내지 NULL인) 때에만 <code>errno</code>의 값이 의미가 있다. 즉 성공하는 함수에서 <code>errno</code>를 바꾸는 것이 <em>허용된다</em>. 어떤 시스템 호출이나 라이브러리 호출에서도 절대 <code>errno</code> 값을 0으로 설정하지는 않는다.</p>
+<p>어떤 시스템 호출과 라이브러리 함수(가령 <tt>[[getpriority(2)]]</tt>)에서는 -1이 성공 시의 유효한 반환 값이다. 그런 경우에는 호출 전에 <code>errno</code>를 0으로 설정해서 성공 반환과 오류 반환을 구별할 수 있다. 오류가 발생했을 수도 있음을 나타내는 상태를 호출에서 반환하면 <code>errno</code>가 0 아닌 값인지 확인하면 된다.</p>
+<p><code>errno</code>는 ISO C에서 <code>int</code> 타입의 변경 가능한 lvalue라고 규정돼 있으며 명시적으로 선언해서는 안 된다. 즉 <code>errno</code>가 매크로일 수도 있다. <code>errno</code>는 스레드 로컬이다. 그래서 한 스레드에서 그 값을 설정해도 다른 스레드의 값에 영향을 주지 않는다.</p>
+<h3 id="_1">오류 번호와 이름</h3>
+<p>유효한 오류 번호들은 모두 양수 번호이다. <code>errno</code>에 등장할 수 있는 오류 번호 각각의 심볼 이름이 <code>&lt;errno.h&gt;</code> 헤더 파일에 정의돼 있다.</p>
+<p>POSIX.1에서 명세하는 오류 이름들은 모두 서로 다른 값을 가져야 한다. 단 예외로 <code>EAGAIN</code>과 <code>EWOULDBLOCK</code>은 같을 수도 있다.</p>
+<p>각 심볼 이름에 대응하는 오류 번호는 유닉스 시스템 종류에 따라 다르며 심지어 리눅스에서 아키텍처에 따라 다르기도 하다. 그래서 아래의 오류 이름 목록에는 번호 값이 포함돼 있지 않다. <tt>[[perror(3)]]</tt> 및 <tt>[[strerror(3)]]</tt> 함수를 사용하면 그 이름을 대응하는 텍스트 오류 메시지로 변환할 수 있다.</p>
+<p>어떤 리눅스 시스템 상에서든 (<code>moreutils</code> 패키지에 포함된) <code>errno(1)</code> 명령을 쓰면 모든 오류 심볼 이름과 대응하는 오류 번호들의 목록을 얻을 수 있다.</p>
+<pre><code class="text">$ errno -l
+EPERM 1 Operation not permitted
+ENOENT 2 No such file or directory
+ESRCH 3 No such process
+EINTR 4 Interrupted system call
+EIO 5 Input/output error
+...
+</code></pre>
+
+<p>또한 <code>errno(1)</code> 명령을 사용해 다음과 같이 개별 오류 번호와 이름을 찾아보고 오류 서술에서 얻은 문자열로 오류를 검색할 수 있다.</p>
+<pre><code class="text">$ errno 2
+ENOENT 2 No such file or directory
+$ errno ESRCH
+ESRCH 3 No such process
+$ errno -s permission
+EACCES 13 Permission denied
+</code></pre>
+
+<h3 id="_2">오류 이름 목록</h3>
+<p>아래의 오류 심볼 이름 목록에서 여러 이름들에 다음과 같은 표시가 되어 있다.</p>
+<ul>
+<li>
+<p><em>POSIX.1-2001</em>: 그 이름을 POSIX.1-2001에서, 그리고 달리 표시돼 있지 않으면 이후 POSIX.1 버전들에서도 규정하고 있다.</p>
+</li>
+<li>
+<p><em>POSIX.1-2008</em>: 그 이름을 POSIX.1-2008에서는 규정하고 있지만 더 전의 POSIX.1 표준에는 없다.</p>
+</li>
+<li>
+<p><em>C99</em>: 그 이름을 C99에서 규정하고 있다. 다음은 리눅스에서 정의돼 있는 오류 심볼 이름들의 목록이다.</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>E2BIG</code></td>
+<td>인자 목록이 너무 긺. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>EACCES</code></td>
+<td>권한 거부됨. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>EADDRINUSE</code></td>
+<td>주소가 이미 사용 중. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>EADDRNOTAVAIL</code></td>
+<td>사용 가능 주소 없음. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>EAFNOSUPPORT</code></td>
+<td>지원하지 않는 주소 패밀리. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>EAGAIN</code></td>
+<td>자원이 일시적으로 사용 불가. (<code>EWOULDBLOCK</code>과 같은 값일 수도 있음.) (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>EALREADY</code></td>
+<td>연결이 이미 진행 중. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>EBADE</code></td>
+<td>유효하지 않은 교환.</td>
+</tr>
+<tr>
+<td><code>EBADF</code></td>
+<td>잘못된 파일 디스크립터. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>EBADFD</code></td>
+<td>잘못된 상태의 파일 디스크립터.</td>
+</tr>
+<tr>
+<td><code>EBADMSG</code></td>
+<td>잘못된 메시지. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>EBADR</code></td>
+<td>유효하지 않은 요청 디스크립터.</td>
+</tr>
+<tr>
+<td><code>EBADRQC</code></td>
+<td>유효하지 않은 요청 코드.</td>
+</tr>
+<tr>
+<td><code>EBADSLT</code></td>
+<td>유효하지 않은 슬롯.</td>
+</tr>
+<tr>
+<td><code>EBUSY</code></td>
+<td>장치 또는 자원이 사용 중. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>ECANCELED</code></td>
+<td>동작이 취소됐음. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>ECHILD</code></td>
+<td>자식 프로세스가 없음. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>ECHRNG</code></td>
+<td>범위를 벗어나는 채널 번호.</td>
+</tr>
+<tr>
+<td><code>ECOMM</code></td>
+<td>송신 중 통신 오류.</td>
+</tr>
+<tr>
+<td><code>ECONNABORTED</code></td>
+<td>연결 중단됨. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>ECONNREFUSED</code></td>
+<td>연결 거부됨. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>ECONNRESET</code></td>
+<td>연결 리셋 됨. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>EDEADLK</code></td>
+<td>자원 교착 회피했음. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>EDESTADDRREQ</code></td>
+<td>목적 주소 필요함. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>EDOM</code></td>
+<td>수학 인자가 함수 정의역을 벗어남. (POSIX.1, C99)</td>
+</tr>
+<tr>
+<td><code>EDQUOT</code></td>
+<td>디스크 쿼터 초과했음. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>EEXIST</code></td>
+<td>파일이 존재함. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>EFAULT</code></td>
+<td>잘못된 주소. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>EFBIG</code></td>
+<td>파일이 너무 큼. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>EHOSTDOWN</code></td>
+<td>호스트가 내려가 있음.</td>
+</tr>
+<tr>
+<td><code>EHOSTUNREACH</code></td>
+<td>호스트에 도달 불가능함. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>EHWPOISON</code></td>
+<td>메모리 페이지에 하드웨어 오류가 있음.</td>
+</tr>
+<tr>
+<td><code>EIDRM</code></td>
+<td>식별자가 제거됐음. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>EILSEQ</code></td>
+<td><p>다중 바이트 내지 확장 문자가 유효하지 않거나 불완전함. (POSIX.1, C99)</p><p>이는 glibc의 오류 설명임. POSIX.1에서는 이 오류를 "유효하지 않은 바이트 열"이라고 기술함.</p></td>
+</tr>
+<tr>
+<td><code>EINPROGRESS</code></td>
+<td>동작 진행 중. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>EINTR</code></td>
+<td>함수 호출이 중단됐음. (POSIX.1-2001) <tt>[[signal(7)]]</tt> 참고.</td>
+</tr>
+<tr>
+<td><code>EINVAL</code></td>
+<td>잘못된 인자. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>EIO</code></td>
+<td>입출력 오류. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>EISCONN</code></td>
+<td>소켓이 연결돼 있음. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>EISDIR</code></td>
+<td>디렉터리임. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>EISNAM</code></td>
+<td>기명 타입 파일임.</td>
+</tr>
+<tr>
+<td><code>EKEYEXPIRED</code></td>
+<td>키가 만료됐음.</td>
+</tr>
+<tr>
+<td><code>EKEYREJECTED</code></td>
+<td>키가 서비스에서 거부됐음.</td>
+</tr>
+<tr>
+<td><code>EKEYREVOKED</code></td>
+<td>키가 폐지됐음.</td>
+</tr>
+<tr>
+<td><code>EL2HLT</code></td>
+<td>2계층 중단.</td>
+</tr>
+<tr>
+<td><code>EL2NSYNC</code></td>
+<td>2계층 동기화 안 됨.</td>
+</tr>
+<tr>
+<td><code>EL3HLT</code></td>
+<td>3계층 중단.</td>
+</tr>
+<tr>
+<td><code>EL3RST</code></td>
+<td>3계층 재설정.</td>
+</tr>
+<tr>
+<td><code>ELIBACC</code></td>
+<td>필요한 공유 라이브러리에 접근할 수 없음.</td>
+</tr>
+<tr>
+<td><code>ELIBBAD</code></td>
+<td>접근하려는 공유 라이브러리에 오류.</td>
+</tr>
+<tr>
+<td><code>ELIBMAX</code></td>
+<td>링크 하려는 공유 라이브러리가 너무 많음.</td>
+</tr>
+<tr>
+<td><code>ELIBSCN</code></td>
+<td>a.out의 .lib 섹션에 오류.</td>
+</tr>
+<tr>
+<td><code>ELIBEXEC</code></td>
+<td>공유 라이브러리를 직접 실행할 수 없음.</td>
+</tr>
+<tr>
+<td><code>ELNRANGE</code></td>
+<td>링크 개수가 범위를 초과.</td>
+</tr>
+<tr>
+<td><code>ELOOP</code></td>
+<td>너무 긴 심볼릭 링크 단계. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>EMEDIUMTYPE</code></td>
+<td>잘못된 매체 유형.</td>
+</tr>
+<tr>
+<td><code>EMFILE</code></td>
+<td>열린 파일 너무 많음. (POSIX.1-2001) 보통 <tt>[[getrlimit(2)]]</tt>에 설명된 <code>RLIMIT_NOFILE</code> 자원 제한 초과 때문.</td>
+</tr>
+<tr>
+<td><code>EMLINK</code></td>
+<td>링크 너무 많음. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>EMSGSIZE</code></td>
+<td>메시지가 너무 긺. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>EMULTIHOP</code></td>
+<td>멀티홉 시도했음. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>ENAMETOOLONG</code></td>
+<td>파일 이름이 너무 긺. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>ENETDOWN</code></td>
+<td>네트워크 내려가 있음. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>ENETRESET</code></td>
+<td>연결이 네트워크에 의해 중단됨. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>ENETUNREACH</code></td>
+<td>네트워크 도달 불가능. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>ENFILE</code></td>
+<td>시스템에 열린 파일 너무 많음. (POSIX.1-2001) 리눅스에서는 아마 <code>/proc/sys/fs/file-max</code> 제한(<tt>[[proc(5)]]</tt> 참고)에 걸려서일 것.</td>
+</tr>
+<tr>
+<td><code>ENOANO</code></td>
+<td>anode 없음.</td>
+</tr>
+<tr>
+<td><code>ENOBUFS</code></td>
+<td>가용 버퍼 공간 없음. (POSIX.1 (XSI STREAMS 옵션))</td>
+</tr>
+<tr>
+<td><code>ENODATA</code></td>
+<td>STREAM 헤드 읽기 큐에 가용 메시지 없음. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>ENODEV</code></td>
+<td>그런 장치 없음. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>ENOENT</code></td>
+<td><p>그런 파일 내지 디렉터리 없음. (POSIX.1-2001)</p><p>보통 지정한 경로명이 존재하지 않거나, 경로명 디렉터리 선두부의 어느 요소가 존재하지 않거나, 지정한 경로명이 깨진 심볼릭 링크일 때 이 오류가 발생한다.</p></td>
+</tr>
+<tr>
+<td><code>ENOEXEC</code></td>
+<td>실행 파일 형식 오류. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>ENOKEY</code></td>
+<td>필요한 키가 없음.</td>
+</tr>
+<tr>
+<td><code>ENOLCK</code></td>
+<td>쓸 수 있는 락 없음. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>ENOLINK</code></td>
+<td>링크가 손상됐음. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>ENOMEDIUM</code></td>
+<td>매체를 찾지 못했음.</td>
+</tr>
+<tr>
+<td><code>ENOMEM</code></td>
+<td>공간 부족/메모리 할당할 수 없음. (POSIX-1.2001)</td>
+</tr>
+<tr>
+<td><code>ENOMSG</code></td>
+<td>원하는 유형의 메시지 없음. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>ENONET</code></td>
+<td>머신이 네트워크 상에 없음.</td>
+</tr>
+<tr>
+<td><code>ENOPKG</code></td>
+<td>패키지 설치 안 됐음.</td>
+</tr>
+<tr>
+<td><code>ENOPROTOOPT</code></td>
+<td>가용 프로토콜 없음. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>ENOSPC</code></td>
+<td>장치에 남은 공간 없음. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>ENOSR</code></td>
+<td>STREAM 자원 없음. (POSIX.1 (XSI STREAMS 옵션))</td>
+</tr>
+<tr>
+<td><code>ENOSTR</code></td>
+<td>STREAM 아님. (POSIX.1 (XSI STREAMS 옵션))</td>
+</tr>
+<tr>
+<td><code>ENOSYS</code></td>
+<td>기능 구현 안 돼 있음. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>ENOTBLK</code></td>
+<td>블록 장치 필요함.</td>
+</tr>
+<tr>
+<td><code>ENOTCONN</code></td>
+<td>소켓 연결 안 돼 있음. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>ENOTDIR</code></td>
+<td>디렉터리가 아님. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>ENOTEMPTY</code></td>
+<td>디렉터리가 비어 있지 않음. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>ENOTRECOVERABLE</code></td>
+<td>상태 복원 불가능. (POSIX.1-2008)</td>
+</tr>
+<tr>
+<td><code>ENOTSOCK</code></td>
+<td>소켓 아님. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>ENOTSUP</code></td>
+<td>지원 안 되는 동작. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>ENOTTY</code></td>
+<td>부적절한 I/O 제어 동작. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>ENOTUNIQ</code></td>
+<td>이름이 네트워크에서 유일하지 않음.</td>
+</tr>
+<tr>
+<td><code>ENXIO</code></td>
+<td>그런 장치 내지 주소 없음. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>EOPNOTSUPP</code></td>
+<td><p>소켓에서 지원 안 되는 동작. (POSIX.1-2001)</p><p>(리눅스에서는 <code>ENOTSUP</code>과 <code>EOPNOTSUPP</code>의 값이 같지만 POSIX.1에 따르면 두 오류 값이 구별돼야 한다.)</p></td>
+</tr>
+<tr>
+<td><code>EOVERFLOW</code></td>
+<td>값이 너무 커서 데이터 타입에 저장 안 됨. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>EOWNERDEAD</code></td>
+<td>소유자가 죽었음. (POSIX.1-2008)</td>
+</tr>
+<tr>
+<td><code>EPERM</code></td>
+<td>동작이 허용되지 않음. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>EPFNOSUPPORT</code></td>
+<td>지원하지 않은 프로토콜 패밀리.</td>
+</tr>
+<tr>
+<td><code>EPIPE</code></td>
+<td>파이프 깨졌음. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>EPROTO</code></td>
+<td>프로토콜 오류. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>EPROTONOSUPPORT</code></td>
+<td>지원하지 않는 프로토콜. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>EPROTOTYPE</code></td>
+<td>소켓에 맞지 않는 프로토콜 타입. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>ERANGE</code></td>
+<td>결과가 너무 큼. (POSIX.1, C99)</td>
+</tr>
+<tr>
+<td><code>EREMCHG</code></td>
+<td>원격 주소가 바뀌었음.</td>
+</tr>
+<tr>
+<td><code>EREMOTE</code></td>
+<td>객체가 원격에 있음.</td>
+</tr>
+<tr>
+<td><code>EREMOTEIO</code></td>
+<td>원격 I/O 오류.</td>
+</tr>
+<tr>
+<td><code>ERESTART</code></td>
+<td>중단된 시스템 호출을 재시작해야 함.</td>
+</tr>
+<tr>
+<td><code>ERFKILL</code></td>
+<td>RF-kill 때문에 동작 불가능.</td>
+</tr>
+<tr>
+<td><code>EROFS</code></td>
+<td>읽기 전용 파일 시스템. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>ESHUTDOWN</code></td>
+<td>전송 종단 정지 후 보낼 수 없음.</td>
+</tr>
+<tr>
+<td><code>ESPIPE</code></td>
+<td>위치 이동 불가능. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>ESOCKTNOSUPPORT</code></td>
+<td>지원하지 않는 소켓 유형.</td>
+</tr>
+<tr>
+<td><code>ESRCH</code></td>
+<td>그런 프로세스가 없음. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>ESTALE</code></td>
+<td><p>파일 핸들이 더는 유효하지 않음. (POSIX.1-2001)</p><p>NFS 및 기타 파일 시스템에서 이 오류가 발생할 수 있다.</p></td>
+</tr>
+<tr>
+<td><code>ESTRPIPE</code></td>
+<td>스트림 파이프 오류.</td>
+</tr>
+<tr>
+<td><code>ETIME</code></td>
+<td><p>타이머 만료됨. (POSIX.1 (XSI STREAMS 옵션))</p><p>(POSIX.1에서는 "STREAM <code>ioctl(2)</code> 타임아웃"이라고 함.</p></td>
+</tr>
+<tr>
+<td><code>ETIMEDOUT</code></td>
+<td>연결이 타임아웃 됨. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>ETOOMANYREFS</code></td>
+<td>참조가 너무 많음. splice 할 수 없음.</td>
+</tr>
+<tr>
+<td><code>ETXTBSY</code></td>
+<td>텍스트 파일 사용 중. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>EUCLEAN</code></td>
+<td>구조 정리 필요.</td>
+</tr>
+<tr>
+<td><code>EUNATCH</code></td>
+<td>프로토콜 드라이버 붙어 있지 않음.</td>
+</tr>
+<tr>
+<td><code>EUSERS</code></td>
+<td>사용자가 너무 많음.</td>
+</tr>
+<tr>
+<td><code>EWOULDBLOCK</code></td>
+<td>동작이 블록 하게 됨. (<code>EAGAIN</code>과 같은 값일 수도 있음.) (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>EXDEV</code></td>
+<td>부적절한 링크. (POSIX.1-2001)</td>
+</tr>
+<tr>
+<td><code>EXFULL</code></td>
+<td>교환기에 여유 없음.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="notes">NOTES</h2>
+<p>많이 하는 실수로 다음과 같은 게 있다.</p>
+<pre><code class="c">if (somecall() == -1) {
+    printf(&quot;somecall() failed\n&quot;);
+    if (errno == ...) { ... }
+}
+</code></pre>
+
+<p>여기서 <code>errno</code>가 꼭 <code>somecall()</code> 함수 반환 시의 값을 가지고 있는 게 아니다. (즉 <tt>[[printf(3)]]</tt>에 의해 바뀌었을 수도 있다.) 라이브러리 호출을 거치면서 <code>errno</code> 값이 보존돼야 한다면 저장을 해야 한다.</p>
+<pre><code class="c">if (somecall() == -1) {
+    int errsv = errno;
+    printf(&quot;somecall() failed\n&quot;);
+    if (errsv == ...) { ... }
+}
+</code></pre>
+
+<p>일부 아주 오래된 시스템에서는 <code>&lt;errno.h&gt;</code>가 존재하지 않거나 <code>errno</code>를 선언해 주지 않았으며, 그래서 <code>errno</code>를 직접 선언(<code>extern int errno</code>)해야 했다. 지금은 <strong>그렇게 해선 안 된다.</strong> 오래 전부터 그럴 필요가 없게 됐으며 최근의 C 라이브러리 버전들에서 문제를 일으키게 된다.</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><code>errno(1)</code>, <tt>[[err(3)]]</tt>, <tt>[[error(3)]]</tt>, <tt>[[perror(3)]]</tt>, <tt>[[strerror(3)]]</tt></p>
+<hr />
+<p>2019-03-06</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

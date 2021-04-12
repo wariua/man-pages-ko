@@ -1,0 +1,8 @@
+dd { margin-left: 2em; margin-bottom: 0.5em; }
+
+pre > code { font-size: 15px; }
+table { font-size: 16px; }
+blockquote p { font-size: 16px; }
+
+code, tt { font-family: monospace,Consolas,"Courier New" ; font-size: 100%; padding: 2px; }
+code { color: #400; }

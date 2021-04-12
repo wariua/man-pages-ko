@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/memfd_create(2)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Memfd create(2) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+            <li class="second-level"><a href="#_1">파일 봉인</a></li>
+                
+        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+            <li class="second-level"><a href="#t_memfd_createc">프로그램 소스: t_memfd_create.c</a></li>
+                
+            <li class="second-level"><a href="#t_get_sealsc">프로그램 소스: t_get_seals.c</a></li>
+                
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>memfd_create - 익명 파일 만들기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
+#include &lt;sys/mman.h&gt;
+
+int memfd_create(const char *name, unsigned int flags);
+</code></pre>
+
+<h2 id="description">DESCRIPTION</h2>
+<p><code>memfd_create()</code>는 익명 파일을 생성해서 그 파일을 가리키는 파일 디스크립터를 반환한다. 그 파일은 일반 파일처럼 동작하므로 변경하거나 잘라내거나 메모리에 맵 하거나 할 수 있다. 하지만 일반 파일과 달리 램 안에만 있으므로 기반 저장소가 휘발성이다. 파일에 대한 참조가 모두 없어지면 자동으로 해제된다. 그 파일의 기반 페이지 모두에 익명 메모리가 쓰인다. 따라서 <code>memfd_create()</code>로 만든 파일은 <code>MAP_ANONYMOUS</code> 플래그로 <tt>[[mmap(2)]]</tt>을 사용해 할당한 것 같은 다른 익명 메모리 할당과 동작 방식이 같다.</p>
+<p>처음에 파일의 크기는 0으로 설정돼 있다. 호출 후에 <tt>[[ftruncate(2)]]</tt>를 사용해 파일 크기를 설정해 주어야 할 것이다. (또는 <code>write(2)</code> 등을 호출해서 파일을 채울 수도 있다.)</p>
+<p><code>name</code>에 준 이름은 파일명으로 쓰며 <code>/proc/self/fd/</code> 디렉터리의 대응하는 심볼릭 링크의 대상으로 표시된다. 표시되는 이름 앞에 항상 <code>memfd:</code>가 붙으며 디버깅 용도로 쓰일 뿐이다. 파일 디스크립터의 동작에 이름이 영향을 주지 않으며 그래서 아무 부작용 없이 여러 파일이 같은 이름을 가질 수 있다.</p>
+<p><code>flags</code>에 다음 값들을 비트 OR 해서 <code>memfd_create()</code>의 동작 방식을 바꿀 수 있다.</p>
+<dl>
+<dt><code>MFD_CLOEXEC</code></dt>
+<dd>새 파일 디스크립터에 'exec에서 닫기'(<code>FD_CLOEXEC</code>) 플래그를 설정한다. 이게 유용할 수 있는 이유에 대해선 <tt>[[open(2)]]</tt>의 <code>O_CLOEXEC</code> 플래그 설명을 보라.</dd>
+<dt><code>MFD_ALLOW_SEALING</code></dt>
+<dd>파일에 대한 봉인 동작을 허용한다. <tt>[[fcntl(2)]]</tt>의 <code>F_ADD_SEALS</code> 및 <code>F_GET_SEALS</code> 동작 논의와 아래 NOTES를 참고하라. 최초 봉인 집합은 비어 있다. 이 플래그가 설정돼 있지 않으면 최초 봉인 집합이 <code>F_SEAL_SEAL</code>이 된다. 즉 파일에 다른 봉인을 설정할 수 없다.</dd>
+<dt><code>MFD_HUGETLB</code> (리눅스 4.14부터)</dt>
+<dd>익명 파일이 거대 페이지를 이용해 hugetlbfs 파일 시스템 안에 만들어지게 된다. hugetlbfs에 대한 자세한 내용은 리눅스 커널 소스 파일 <code>Documentation/admin-guide/mm/hugetlbpage.rst</code>를 보라. <code>flags</code>에 <code>MFD_HUGETLB</code>와 <code>MFD_ALLOW_SEALING</code>을 함께 지정하는 것은 리눅스 4.16부터 지원한다.</dd>
+<dt><code>MFD_HUGE_2MB</code>, <code>MFD_HUGE_1GB</code>, ...</dt>
+<dd>
+<p>hugetlb 페이지 크기를 여러 가지 지원하는 시스템에서 <code>MFD_HUGETLB</code>와 조합해 사용해서 다른 hugetlb 페이지 크기(각각 2MB, 1GB, ...)를 선택한다. 알려진 거대 페이지 크기들의 정의가 헤더 파일 <code>&lt;linux/memfd.h&gt;</code>에 포함돼 있다.</p>
+<p>헤더 파일에 포함돼 있지 않은 거대 페이지 크기를 인코딩 하는 자세한 방법에 대해선 <tt>[[mmap(2)]]</tt>의 비슷한 이름의 상수에 대한 설명을 보라.</p>
+</dd>
+</dl>
+<p><code>flags</code>의 안 쓰는 비트들은 0이어야 한다.</p>
+<p>반환 값으로 <code>memfd_create()</code>가 반환하는 새 파일 디스크립터를 파일을 가리킬 데 쓸 수 있다. 그 파일 디스크립터는 읽기 및 쓰기(<code>O_RDWR</code>)로 열려 있으며 파일 디스크립터에 <code>O_LARGEFILE</code>이 설정돼 있다.</p>
+<p><tt>[[fork(2)]]</tt> 및 <tt>[[execve(2)]]</tt>와 관련해선 일반적인 의미론이 <code>memfd_create()</code>로 만든 파일 디스크립터에 적용된다. <tt>[[fork(2)]]</tt>로 생긴 자식이 파일 디스크립터 사본을 물려받으며 그 사본은 파일을 가리킨다. 'exec에서 닫기' 플래그를 설정하지 않았으면 <tt>[[execve(2)]]</tt>를 거치면서 파일 디스크립터가 유지된다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>성공 시 <code>memfd_create()</code>는 새 파일 디스크립터를 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
+<h2 id="errors">ERRORS</h2>
+<dl>
+<dt><code>EFAULT</code></dt>
+<dd><code>name</code>의 주소가 유효하지 않은 메모리를 가리키고 있다.</dd>
+<dt><code>EINVAL</code></dt>
+<dd><code>flags</code>에 알 수 없는 비트가 포함돼 있다.</dd>
+<dt><code>EINVAL</code></dt>
+<dd><code>name</code>이 너무 길다. (종료용 널 바이트를 제외하고 249바이트가 제한 길이이다.)</dd>
+<dt><code>EINVAL</code></dt>
+<dd><code>flags</code>에 <code>MFD_HUGETLB</code>와 <code>MFD_ALLOW_SEALING</code>을 함께 지정했다.</dd>
+<dt><code>EMFILE</code></dt>
+<dd>열린 파일 디스크립터 개수에 대한 프로세스별 제한에 도달했다.</dd>
+<dt><code>ENFILE</code></dt>
+<dd>열린 파일 총개수에 대한 시스템 전역 제한에 도달했다.</dd>
+<dt><code>ENOMEM</code></dt>
+<dd>새 익명 파일을 생성하기에 메모리가 충분하지 않았다.</dd>
+</dl>
+<h2 id="versions">VERSIONS</h2>
+<p>리눅스 3.17에서 <code>memfd_create()</code> 시스템 호출이 처음 등장했다. glibc 버전 2.27에서 지원이 추가되었다.</p>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p><code>memfd_create()</code> 시스템 호출은 리눅스 전용이다.</p>
+<h2 id="notes">NOTES</h2>
+<p><code>memfd_create()</code> 시스템 호출은 수동으로 <tt>[[tmpfs(5)]]</tt> 파일 시스템을 마운트 해서 거기서 파일을 여는 방식의 간단한 대안이 돼 준다. <code>memfd_create()</code>의 주된 목적은 <tt>[[fcntl(2)]]</tt>에서 제공하는 파일 봉인 API와 함께 사용할 파일 및 연계 파일 디스크립터를 만드는 것이다.</p>
+<p>파일 봉인 없이도 <code>memfd_create()</code> 시스템 호출에 쓰임새가 있다. (그래서 <code>MFD_ALLOW_SEALING</code> 플래그로 명시적으로 요청하지 않으면 파일 봉인이 꺼져 있다.) 특히 결과 파일을 파일 시스템에 실제로 연결시킬 의도가 없는 경우에 <code>tmp</code>에 파일을 생성하는 것이나 <tt>[[open(2)]]</tt> <code>O_TMPFILE</code>를 사용하는 것의 대안으로 쓸 수 있다.</p>
+<h3 id="_1">파일 봉인</h3>
+<p>파일 봉인이 없는 경우에는 공유 메모리를 통해 통신하는 프로세스들이 서로를 신뢰하든지, 아니면 신뢰할 수 없는 상대가 문제 있는 방식으로 공유 메모리 영역을 조작할 가능성에 대처해야 한다. 예를 들어 신뢰할 수 없는 상대가 아무 때나 공유 메모리의 내용물을 변경할 수도 있을 것이고, 공유 메모리 영역을 줄여 버릴 수도 있을 것이다. 앞쪽 가능성은 프로세스가 검사 시점 사용 시점(TOCTTOU) 경쟁 조건에 노출되게 놔둔다. (보통 공유 메모리 영역의 데이터를 복사한 다음에 검사 및 사용하는 것으로 대처한다.) 뒤쪽 가능성은 프로세스가 공유 메모리 영역의 더는 존재하지 않는 위치에 접근하려 할 때 <code>SIGBUS</code>를 받게 한다. (이 경우에 대처하려면 <code>SIGBUS</code> 시그널에 대한 핸들러 사용이 필요해진다.)</p>
+<p>신뢰할 수 없는 상대를 다루려면 공유 메모리 사용 코드에 복잡도가 더해져야 한다. 메모리 봉인을 쓰면 상대가 바람직하지 않은 방식으로 공유 메모리를 조작할 수 없다고 안심하고 동작할 수 있으므로 그 추가 복잡도를 없앨 수 있다.</p>
+<p>다음은 봉인 메커니즘 사용 예시이다.</p>
+<ol>
+<li>
+<p>첫 번째 프로세스가 <code>memfd_create()</code>를 써서 <tt>[[tmpfs(5)]]</tt> 파일을 생성한다. 호출이 내놓는 파일 디스크립터를 이후 단계들에서 사용한다.</p>
+</li>
+<li>
+<p>첫 번째 프로세스가 앞서 생성한 파일 크기를 <tt>[[ftruncate(2)]]</tt>로 조정하고 <tt>[[mmap(2)]]</tt>으로 맵 한 다음 그 공유 메모리를 원하는 데이터로 채운다.</p>
+</li>
+<li>
+<p>첫 번째 프로세스가 파일에 대한 추가 변경을 제약하기 위해 <tt>[[fcntl(2)]]</tt> <code>F_ADD_SEALS</code> 동작을 이용해 파일에 한 개 이상의 봉인을 한다. (<code>F_SEAL_WRITE</code> 봉인을 하는 경우에는 앞 단계에서 만든 쓰기 가능한 공유 매핑을 먼저 해제해야 할 것이다.)</p>
+</li>
+<li>
+<p>두 번째 프로세스가 그 <tt>[[tmpfs(5)]]</tt> 파일에 대한 파일 디스크립터를 얻어서 맵 한다. 다음을 포함한 여러 방식으로 그렇게 할 수 있다.</p>
+</li>
+<li>
+<p><code>memfd_create()</code>를 호출한 프로세스가 결과로 나온 파일 디스크립터를 유닉스 도메인 소켓을 통해 두 번째 프로세스에게 전송할 수 있다. (<tt>[[unix(7)]]</tt> 및 <tt>[[cmsg(3)]]</tt> 참고.) 그러면 두 번째 프로세스가 <tt>[[mmap(2)]]</tt>으로 그 파일을 맵 한다.</p>
+</li>
+<li>
+<p>두 번째 프로세스가 <tt>[[fork(2)]]</tt>를 통해 생성되어 자동으로 파일 디스크립터와 매핑을 물려받는다. (참고로 이 경우와 다음 경우에서는 두 프로세스가 같은 사용자 ID 하에서 돌기 때문에 당연한 신뢰 관계가 있다. 따라서 보통은 파일 봉인이 필요하지 않다.)</p>
+</li>
+<li>
+<p>두 번째 프로세스가 <code>/proc/&lt;pid&gt;/fd/&lt;fd&gt;</code> 파일을 연다. 여기서 <code>&lt;pid&gt;</code>는 (<code>memfd_create()</code>을 호출한) 첫 번째 프로세스의 PID이고 <code>&lt;fd&gt;</code>는 그 프로세스의 <code>memfd_create()</code> 호출이 반환한 파일 디스크립터 번호이다. 그러고서 두 번째 프로세스가 <tt>[[mmap(2)]]</tt>으로 그 파일을 맵 한다.</p>
+</li>
+<li>
+<p>두 번째 프로세스가 <tt>[[fcntl(2)]]</tt> <code>F_GET_SEALS</code> 동작을 써서 그 파일에 적용된 봉인들의 비트 마스크를 가져온다. 이 비트 마스크를 살펴보면 파일 변경 방식에 어떤 제약이 가해졌는지 알아낼 수 있다. 원한다면 두 번째 프로세스에서 봉인을 더 적용해서 제약을 추가로 가할 수 있다. (단 <code>F_SEAL_SEAL</code> 봉인이 적용되지 않았어야 한다.)</p>
+</li>
+</ol>
+<h2 id="example">EXAMPLE</h2>
+<p><code>memfd_create()</code>와 파일 봉인 API 사용 방식을 보여 주는 두 가지 예시 프로그램이 아래에 있다.</p>
+<p>첫 번째 프로그램인 <code>t_memfd_create.c</code>에서는 <code>memfd_create()</code>로 <tt>[[tmpfs(5)]]</tt> 파일을 만들고, 파일 크기를 설정하고, 메모리로 맵 하고, 선택적으로 파일에 몇 가지 봉인을 둔다. 프로그램이 명령행 인자를 세 개까지 받는데 처음 두 개는 필수이다. 첫 번째 인자는 파일에 연계할 이름이고 두 번째 인자는 파일에 설정할 크기이며 선택적인 세 번째 인자는 파일에 설정할 봉인을 나타내는 문자열이다.</p>
+<p>두 번째 프로그램인 <code>t_get_seals.c</code>를 이용해 <code>memfd_create()</code>로 생성된 기존 파일을 열어서 그 파일에 적용된 봉인 집합을 살펴볼 수 있다.</p>
+<p>다음 셸 세션은 이 프로그램들의 사용 방식을 보여 준다. 먼저 <tt>[[tmpfs(5)]]</tt> 파일을 만들고 몇 가지 봉인을 설정한다.</p>
+<pre><code class="text">$ ./t_memfd_create my_memfd_file 4096 sw &amp;
+[1] 11775
+PID: 11775; fd: 3; /proc/11775/fd/3
+</code></pre>
+
+<p>이 시점에서 <code>t_memfd_create</code> 프로그램은 배경에서 실행을 계속한다. <code>memfd_create()</code>로 열었던 파일 디스크립터에 대응하는 <code>/proc/[pid]/fd</code> 파일을 또 다른 프로그램에서 열어서 <code>memfd_create()</code> 생성 파일에 대한 파일 디스크립터를 얻을 수 있다. 그 경로명을 이용해 심볼릭 링크 <code>/proc/[pid]/fd</code>의 내용을 확인하고 <code>t_get_seals</code> 프로그램을 이용해 그 파일에 적용된 봉인들을 본다.</p>
+<pre><code class="text">$ readlink /proc/11775/fd/3
+/memfd:my_memfd_file (deleted)
+$ ./t_get_seals /proc/11775/fd/3
+Existing seals: WRITE SHRINK
+</code></pre>
+
+<h3 id="t_memfd_createc">프로그램 소스: <code>t_memfd_create.c</code></h3>
+<pre><code class="c">#define _GNU_SOURCE
+#include &lt;sys/mman.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stdio.h&gt;
+
+#define errExit(msg)    do { perror(msg); exit(EXIT_FAILURE); \
+                        } while (0)
+
+int
+main(int argc, char *argv[])
+{
+    int fd;
+    unsigned int seals;
+    char *addr;
+    char *name, *seals_arg;
+    ssize_t len;
+
+    if (argc &lt; 3) {
+        fprintf(stderr, &quot;%s name size [seals]\n&quot;, argv[0]);
+        fprintf(stderr, &quot;\t'seals' can contain any of the &quot;
+                &quot;following characters:\n&quot;);
+        fprintf(stderr, &quot;\t\tg - F_SEAL_GROW\n&quot;);
+        fprintf(stderr, &quot;\t\ts - F_SEAL_SHRINK\n&quot;);
+        fprintf(stderr, &quot;\t\tw - F_SEAL_WRITE\n&quot;);
+        fprintf(stderr, &quot;\t\tS - F_SEAL_SEAL\n&quot;);
+        exit(EXIT_FAILURE);
+    }
+
+    name = argv[1];
+    len = atoi(argv[2]);
+    seals_arg = argv[3];
+
+    /* tmpfs에 익명 파일 생성. 파일에 봉인 할 수 있게 하기 */
+
+    fd = memfd_create(name, MFD_ALLOW_SEALING);
+    if (fd == -1)
+        errExit(&quot;memfd_create&quot;);
+
+    /* 명령행에서 지정한 대로 파일 크기 조정 */
+
+    if (ftruncate(fd, len) == -1)
+        errExit(&quot;truncate&quot;);
+
+    printf(&quot;PID: %ld; fd: %d; /proc/%ld/fd/%d\n&quot;,
+            (long) getpid(), fd, (long) getpid(), fd);
+
+    /* 파일을 맵 하고 그 매핑에 데이터를 채우는 코드는 생략 */
+
+    /* 명령행 인자 'seals'를 받았으면 파일에 봉인 설정 */
+
+    if (seals_arg != NULL) {
+        seals = 0;
+
+        if (strchr(seals_arg, 'g') != NULL)
+            seals |= F_SEAL_GROW;
+        if (strchr(seals_arg, 's') != NULL)
+            seals |= F_SEAL_SHRINK;
+        if (strchr(seals_arg, 'w') != NULL)
+            seals |= F_SEAL_WRITE;
+        if (strchr(seals_arg, 'S') != NULL)
+            seals |= F_SEAL_SEAL;
+
+        if (fcntl(fd, F_ADD_SEALS, seals) == -1)
+            errExit(&quot;fcntl&quot;);
+    }
+
+    /* memfd_create()로 생성한 파일이 계속 존재하도록
+       실행을 계속 */
+
+    pause();
+
+    exit(EXIT_SUCCESS);
+}
+</code></pre>
+
+<h3 id="t_get_sealsc">프로그램 소스: <code>t_get_seals.c</code></h3>
+<pre><code class="c">#define _GNU_SOURCE
+#include &lt;sys/mman.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;stdio.h&gt;
+
+#define errExit(msg)    do { perror(msg); exit(EXIT_FAILURE); \
+                        } while (0)
+
+int
+main(int argc, char *argv[])
+{
+    int fd;
+    unsigned int seals;
+
+    if (argc != 2) {
+        fprintf(stderr, &quot;%s /proc/PID/fd/FD\n&quot;, argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    fd = open(argv[1], O_RDWR);
+    if (fd == -1)
+        errExit(&quot;open&quot;);
+
+    seals = fcntl(fd, F_GET_SEALS);
+    if (seals == -1)
+        errExit(&quot;fcntl&quot;);
+
+    printf(&quot;Existing seals:&quot;);
+    if (seals &amp; F_SEAL_SEAL)
+        printf(&quot; SEAL&quot;);
+    if (seals &amp; F_SEAL_GROW)
+        printf(&quot; GROW&quot;);
+    if (seals &amp; F_SEAL_WRITE)
+        printf(&quot; WRITE&quot;);
+    if (seals &amp; F_SEAL_SHRINK)
+        printf(&quot; SHRINK&quot;);
+    printf(&quot;\n&quot;);
+
+    /* 파일을 맵 하고 결과 매핑 내용에 접근하는 코드는 생략 */
+
+    exit(EXIT_SUCCESS);
+}
+</code></pre>
+
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[fcntl(2)]]</tt>, <tt>[[ftruncate(2)]]</tt>, <tt>[[mmap(2)]]</tt>, <tt>[[shmget(2)]]</tt>, <tt>[[shm_open(3)]]</tt></p>
+<hr />
+<p>2019-03-06</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

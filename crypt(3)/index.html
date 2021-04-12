@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/crypt(3)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Crypt(3) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+            <li class="second-level"><a href="#glibc">glibc에서 사용 가능 여부</a></li>
+                
+            <li class="second-level"><a href="#glibc_1">glibc에서의 기능들</a></li>
+                
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>crypt, crypt_r - 패스워드 및 데이터 암호화</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#define _XOPEN_SOURCE       /* feature_test_macros(7) 참고 */
+#include &lt;unistd.h&gt;
+
+char *crypt(const char *key, const char *salt);
+
+#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
+#include &lt;crypt.h&gt;
+
+char *crypt_r(const char *key, const char *salt,
+              struct crypt_data *data);
+</code></pre>
+
+<p><code>-lcrypt</code>로 링크.</p>
+<h2 id="description">DESCRIPTION</h2>
+<p><code>crypt()</code>는 패스워드 암호화 함수이다. 데이터 암호화 표준(Data Encryption Standard) 알고리듬을 바탕으로 하드웨어 구현 키 탐색을 어렵게 하기 위한 변경 등을 가해서 사용한다.</p>
+<p><code>key</code>는 사용자가 입력한 패스워드이다.</p>
+<p><code>salt</code>는 <code>[a-zA-Z0-9./]</code> 집합에서 고른 두 문자로 된 문자열이다. 이 문자열을 사용해 4096가지 방식 중 하나로 알고리듬에 변화를 준다.</p>
+<p><code>key</code>의 처음 여덟 글자 각각에서 하위 7비트를 뽑아서 56비트 키를 얻는다. 이 56비트 키를 사용해 상수 열(일반적으로 모두 0으로 된 열)을 반복적으로 암호화한다. 반환 값이 암호화된 패스워드를 가리키는데, 출력 가능한 ASCII 문자 13개로 된 열이다. (그 중 처음 두 문자는 솔트 자체를 나타낸다.) 반환 값이 가리키는 것이 정적 데이터이므로 매 호출마다 그 내용물을 덮어 쓴다.</p>
+<p>경고: 키 공간을 이루는 값들이 2**56 개, 즉 7.2e16 개이다. 대규모 병렬 컴퓨터를 쓰면 이 키 공간 전체를 전수 검색하는 게 가능하다. 또 <code>crack(1)</code> 같은 소프트웨어는 이 키 공간에서 사람들이 패스워드에 많이 쓰는 부분을 검색한다. 따라서 패스워드를 선정할 때는 적어도 흔한 단어나 이름은 피해야 한다. 그리고 깰 수 있는 패스워드인지 선정 과정에서 검사해 주는 <code>passwd(1)</code> 프로그램을 쓰기를 권장한다.</p>
+<p>DES 알고리듬 자체에 있는 몇 가지 특이성 때문에 <code>crypt()</code> 인터페이스를 패스워드 인증 외의 용도에 쓰는 건 좋지 않은 선택이다. 혹시 암호 관련 프로젝트에 <code>crypt()</code>를 사용할 계획이라면 생각을 바꿔야 한다. 암호화에 대한 괜찮은 책을 하나 읽어 보고 널리 쓰는 DES 라이브러리들 중 하나를 찾아 보라.</p>
+<p><code>crypt_r()</code>은 <code>crypt()</code>의 재진입 가능 버전이다. <code>data</code>가 가리키는 구조체를 사용해 결과 데이터와 내부용 정보를 저장한다. 호출자가 이 구조체를 할당하는 것 외에 추가해 해 줄 일은 처음 <code>crypt_r()</code>를 호출하기 전에 <code>data-&gt;initialized</code>를 0으로 설정하는 것이다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>성공 시 암호화된 패스워드를 반환한다. 오류 시 NULL을 반환한다.</p>
+<h2 id="errors">ERRORS</h2>
+<dl>
+<dt><code>EINVAL</code></dt>
+<dd><code>salt</code>가 잘못된 형식이다.</dd>
+<dt><code>ENOSYS</code></dt>
+<dd><code>crypt()</code> 함수가 구현돼 있지 않다. 미국 수출 규제 때문일 수 있다.</dd>
+<dt><code>EPERM</code></dt>
+<dd><code>/proc/sys/crypto/fips_enabled</code>에 0 아닌 값이 있는데 DES 같은 약한 방식 암호화를 사용하려는 시도가 이뤄졌다.</dd>
+</dl>
+<h2 id="attributes">ATTRIBUTES</h2>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<table>
+<thead>
+<tr>
+<th>인터페이스</th>
+<th>속성</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>crypt()</code></td>
+<td>스레드 안전성</td>
+<td>MT-Unsafe race:crypt</td>
+</tr>
+<tr>
+<td><code>crypt_r()</code></td>
+<td>스레드 안전성</td>
+<td>MT-Safe</td>
+</tr>
+</tbody>
+</table>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p><code>crypt()</code>: POSIX.1-2001, POSIX.1-2008, SVr4, 4.3BSD.</p>
+<p><code>crypt_r()</code>은 GNU 확장이다.</p>
+<h2 id="notes">NOTES</h2>
+<h3 id="glibc">glibc에서 사용 가능 여부</h3>
+<p><code>crypt()</code>, <tt>[[encrypt(3)]]</tt>, <tt>[[setkey(3)]]</tt> 함수는 POSIX.1-2008 XSI Options Group for Encryption의 일부이며 선택적이다. 이 인터페이스들이 사용 가능하지 않은 경우에는 심볼 상수 <code>_XOPEN_CRYPT</code>가 정의돼 있지 않거나 -1로 정의돼 있으며, 런타임에는 <tt>[[sysconf(3)]]</tt>로 사용 가능 여부를 확인할 수 있다. 배포판에서 glibc의 crypt를 <code>libxcrypt</code>로 전환한 경우가 여기 해당할 수 있다. 그런 배포판에서 응용을 다시 컴파일 할 때 프로그래머는 <code>_XOPEN_CRYPT</code>가 사용 가능하지 않은 걸 감지하면 함수 원형을 위해 <code>&lt;crypt.h&gt;</code>를 포함시켜야 한다. 사용 가능하지 않은 경우 <code>libxcrypt</code>가 ABI 호환인 대체물이 돼 준다.</p>
+<h3 id="glibc_1">glibc에서의 기능들</h3>
+<p>이 함수의 glibc 버전에서는 다른 암호화 알고리듬들을 추가로 지원한다.</p>
+<p><code>salt</code>가 <code>$id$</code>로 시작해서 그 뒤에 선택적으로 "$"로 끝나는 문자열이 오는 경우에는 결과가 다음 형태가 된다.</p>
+<pre><code class="text">$id$salt$encrypted
+</code></pre>
+
+<p><code>id</code>는 DES 대신 쓰는 암호화 방식을 나타내며 이 값이 패스워드 문자열 나머지를 어떻게 해석해야 하는지 결정한다. 다음 <code>id</code> 값을 지원한다.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>방법</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>MD5</td>
+</tr>
+<tr>
+<td>2a</td>
+<td>블로피시 (glibc 메인라인에 없음. 일부 리눅스 배포판에서 추가)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>SHA-256 (glibc 2.7부터)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>SHA-512 (glibc 2.7부터)</td>
+</tr>
+</tbody>
+</table>
+<p>그래서 <code>$5$salt$encrypted</code>와 <code>$6$salt$encrypted</code>는 각각 SHA-256 및 SHA-512 기반 함수로 암호화한 패스워드를 담고 있다.</p>
+<p>"<code>salt</code>"는 솔트에서 "<code>$id$</code>" 다음에 오는 최대 16 문자를 나타낸다. 그리고 패스워드 문자열의 "<code>encrypted</code>" 부분은 실제 계산한 패스워드이다. 이 문자열의 크기는 고정돼 있다.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MD5</td>
+<td>22 문자</td>
+</tr>
+<tr>
+<td>SHA-256</td>
+<td>43 문자</td>
+</tr>
+<tr>
+<td>SHA-512</td>
+<td>86 문자</td>
+</tr>
+</tbody>
+</table>
+<p>"<code>salt</code>" 및 "<code>encrypted</code>"의 문자들은 <code>[a-zA-Z0-9./]</code> 집합에서 고른다. MD5 및 SHA 구현에서는 (DES에서처럼 처음 8바이트가 아니라) <code>key</code> 전체를 계산에 쓴다.</p>
+<p>glibc 2.7부터 SHA-256 및 SHA-512 구현에서 해싱 라운드 수를 사용자가 지정할 수 있으며 기본은 5000번이다. 솔트의 "<code>$id$</code>" 다음에 "<code>rounds=xxx$</code>"가 오는 경우에는 (<code>xxx</code>는 정수) 결과가 다음 형태가 된다.</p>
+<pre><code class="text">$id$rounds=yyy$salt$encrypted
+</code></pre>
+
+<p>여기서 <code>yyy</code>는 실제 적용된 해싱 라운드 수이다. 실제 적용된 라운드 수는 <code>xxx</code>가 1000보다 작은 경우에는 1000이고, <code>xxx</code>가 999999999보다 큰 경우에는 999999999이고, 그 외에는 <code>xxx</code>와 같다.</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><code>login(1)</code>, <code>passwd(1)</code>, <tt>[[encrypt(3)]]</tt>, <tt>[[getpass(3)]]</tt>, <code>passwd(5)</code></p>
+<hr />
+<p>2018-04-30</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

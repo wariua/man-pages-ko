@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/stdarg(3)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Stdarg(3) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+            <li class="second-level"><a href="#va_start">va_start()</a></li>
+                
+            <li class="second-level"><a href="#va_arg">va_arg()</a></li>
+                
+            <li class="second-level"><a href="#va_end">va_end()</a></li>
+                
+            <li class="second-level"><a href="#va_copy">va_copy()</a></li>
+                
+        <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#bugs">BUGS</a></li>
+        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>stdarg, va_start, va_arg, va_end, va_copy - 가변 인자 목록</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;stdarg.h&gt;
+
+void va_start(va_list ap, last);
+type va_arg(va_list ap, type);
+void va_end(va_list ap);
+void va_copy(va_list dest, va_list src);
+</code></pre>
+
+<h2 id="description">DESCRIPTION</h2>
+<p>가변 타입의 가변 개수 인자로 함수를 호출할 수 있다. 포함 파일 <code>&lt;stdarg.h&gt;</code>에서 타입 <code>va_list</code>를 선언하고 세 가지 매크로를 정의하는데, 이를 이용해 피호출 함수에게 개수와 타입이 알려져 있지 않은 인자들의 목록을 순회할 수 있다.</p>
+<p>피호출 함수에서 <code>va_list</code> 타입 객체를 선언해야 하며 그 객체를 매크로 <code>va_start()</code>, <code>va_arg()</code>, <code>va_end()</code>에서 사용한다.</p>
+<h3 id="va_start"><code>va_start()</code></h3>
+<p><code>va_start()</code> 매크로는 이후 <code>va_arg()</code> 및 <code>va_end()</code>가 쓸 수 있게 <code>ap</code>를 초기화 하며, 따라서 가장 먼저 호출해야 한다.</p>
+<p>인자 <code>last</code>는 가변 인자 목록 전의 마지막 인자, 즉 호출 함수에서 타입을 알고 있는 마지막 인자의 이름이다.</p>
+<p>이 인자의 주소를 <code>va_start()</code> 매크로 내에서 사용할 수도 있으므로 레지스터 변수로 선언되어 있거나 함수나 배열 타입으로 선언되어 있어선 안 된다.</p>
+<h3 id="va_arg"><code>va_arg()</code></h3>
+<p><code>va_arg()</code> 매크로는 호출의 다음 인자의 타입과 값을 가진 식으로 확장된다. 인자 <code>ap</code>는 <code>va_start()</code>로 초기화 한 <code>va_list ap</code>이다. <code>va_arg()</code>를 호출할 때마다 <code>ap</code>를 변경해서 다음 호출 때 다음 인자를 반환하도록 한다. 인자 <code>type</code>은 타입 이름으로, <code>type</code>에 *만 붙이면 지정한 타입의 객체에 대한 포인터 타입을 얻을 수 있도록 지정한다.</p>
+<p><code>va_start()</code> 매크로 다음으로 처음 <code>va_arg()</code> 매크로를 쓰면 <code>last</code> 다음 인자를 반환한다. 이어지는 호출이 나머지 인자들의 값을 반환한다.</p>
+<p>다음 인자가 없거나 <code>type</code>이 (기본 인자 승격 방식에 따라 승격된) 실제 다음 인자의 타입과 호환되지 않는 경우 정해져 있지 않은 오류가 발생하게 된다.</p>
+<p><code>ap</code>를 어떤 함수로 전달하고 그 함수에서 <code>va_arg(ap,type)</code>을 사용하는 경우에 함수 반환 후 <code>ap</code>의 값은 규정되어 있지 않다.</p>
+<h3 id="va_end"><code>va_end()</code></h3>
+<p>각 <code>va_start()</code> 호출에는 같은 함수 내에 대응하는 <code>va_end()</code> 호출이 있어야 한다. <code>va_end(ap)</code> 호출 후 변수 <code>ap</code>는 규정되어 있지 않다. <code>va_start()</code>와 <code>va_end()</code>로 각각 감싸서 목록을 여러 번 순회하는 것이 가능하다. <code>va_end()</code>가 매크로일 수도 있고 함수일 수도 있다.</p>
+<h3 id="va_copy"><code>va_copy()</code></h3>
+<p><code>va_copy()</code> 매크로는 (앞서 초기화 한) 가변 인자 목록 <code>src</code>를 <code>dest</code>로 복사한다. <code>dest</code>에 같은 <code>last</code> 인자로 <code>va_start()</code>를 적용하고 이어서 현재 <code>src</code> 상태에 도달하기까지 한 것과 같은 횟수의 <code>va_arg()</code> 호출을 적용한 것처럼 동작한다.</p>
+<p>단순 명백한 구현 방식에서는 <code>va_list</code>가 가변 인자 함수의 스택 프레임에 대한 포인터일 것이다. 그런 (가장 흔한) 방식에서는 다음 할당이 아무 문제가 없을 것이다.</p>
+<pre><code class="c">va_list aq = ap;
+</code></pre>
+
+<p>하지만 안타깝게도 <code>va_list</code>를 포인터의 (길이 1인) 배열로 만드는 시스템도 있으며, 거기선 다음과 같이 해야 한다.</p>
+<pre><code class="c">va_list aq;
+*aq = *ap;
+</code></pre>
+
+<p>그리고 레지스터로 인자를 전달하는 시스템에서는 <code>va_start()</code>에서 메모리를 할당해서 인자들을 저장하고 <code>va_arg()</code>가 목록을 순회할 수 있도록 다음 인자가 뭔지 표시도 해 두어야 할 수도 있다. 그럼 그 할당 메모리를 <code>va_end()</code>에서 다시 해제할 수 있다. 이런 상황에 대응하기 위해 C99에서는 매크로 <code>va_copy()</code>를 추가하여 위 할당을 다음 코드로 대체할 수 있도록 한다.</p>
+<pre><code class="c">va_list aq;
+va_copy(aq, ap);
+...
+va_end(aq);
+</code></pre>
+
+<p>각 <code>va_copy()</code> 호출에는 같은 함수 내에 대응하는 <code>va_end()</code> 호출이 있어야 한다. 일부 시스템에서는 <code>va_copy()</code>를 제공하지 않고 대신 <code>__va_copy</code>가 있는데, 제안 초안에서 사용했던 이름이다.</p>
+<h2 id="attributes">ATTRIBUTES</h2>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<table>
+<thead>
+<tr>
+<th>인터페이스</th>
+<th>속성</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>va_start()</code>, <code>va_end()</code>,<br><code>va_copy()</code></td>
+<td>스레드 안전성</td>
+<td>MT-Safe</td>
+</tr>
+<tr>
+<td><code>va_arg()</code></td>
+<td>스레드 안전성</td>
+<td>MT-Safe race:ap</td>
+</tr>
+</tbody>
+</table>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>매크로 <code>va_start()</code>, <code>var_arg()</code>, <code>va_end()</code>는 C89를 따른다. C99에서 <code>va_copy()</code> 매크로를 정의한다.</p>
+<h2 id="bugs">BUGS</h2>
+<p>과거의 <strong>varargs</strong> 매크로와 달리 <strong>stdarg</strong> 매크로에서는 고정 인자 없는 함수를 작성하는 것이 불가능하다. 이 문제가 일을 만드는 건 주로 <strong>varargs</strong> 코드를 <strong>stdarg</strong> 코드로 변환할 때지만 <code>va_list</code> 인자를 받는 <tt>[[vfprintf(3)]]</tt> 같은 함수로 모든 인자를 전달하려 하는 가변 인자 함수에서도 어려움이 생긴다.</p>
+<h2 id="example">EXAMPLE</h2>
+<p>함수 <code>foo</code>는 서식 문자열을 받아서 타입에 따라 각 서식 문자에 연계된 인자를 찍는다.</p>
+<pre><code class="c">#include &lt;stdio.h&gt;
+#include &lt;stdarg.h&gt;
+
+void
+foo(char *fmt, ...)   /* '...'은 C의 가변 함수 문법 */
+{
+    va_list ap;
+    int d;
+    char c, *s;
+
+    va_start(ap, fmt);
+    while (*fmt)
+        switch (*fmt++) {
+        case 's':              /* 문자열 */
+            s = va_arg(ap, char *);
+            printf(&quot;string %s\n&quot;, s);
+            break;
+        case 'd':              /* int */
+            d = va_arg(ap, int);
+            printf(&quot;int %d\n&quot;, d);
+            break;
+        case 'c':              /* char */
+            /* 완전히 승격된 타입을 va_arg가
+               받으므로 캐스트 필요 */
+            c = (char) va_arg(ap, int);
+            printf(&quot;char %c\n&quot;, c);
+            break;
+        }
+    va_end(ap);
+}
+</code></pre>
+
+<hr />
+<p>2019-05-09</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

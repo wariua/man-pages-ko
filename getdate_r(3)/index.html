@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/getdate_r(3)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Getdate r(3) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#environment">ENVIRONMENT</a></li>
+        <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+            <li class="second-level"><a href="#_1">프로그램 소스</a></li>
+                
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>getdate, getdate_r - 날짜-시간 문자열을 분할 시간으로 변환하기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;time.h&gt;
+
+struct tm *getdate(const char *string);
+
+extern int getdate_err;
+
+#include &lt;time.h&gt;
+
+int getdate_r(const char *string, struct tm *res);
+</code></pre>
+
+<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<dl>
+<dt><code>getdate()</code>:</dt>
+<dd><code>_XOPEN_SOURCE &gt;= 500</code></dd>
+<dt><code>getdate_r()</code>:</dt>
+<dd><code>_GNU_SOURCE</code></dd>
+</dl>
+<h2 id="description">DESCRIPTION</h2>
+<p><code>getdate()</code> 함수는 <code>string</code>이 가리키는 버퍼에 담긴 날짜 및 시간 문자열 표현을 분할 시간으로 변환한다. 분할 시간을 <code>tm</code> 구조체에 저장해서 그 구조체에 대한 포인터를 함수 결과로 반환한다. 그 <code>tm</code> 구조체는 정적 저장 공간에 할당돼 있으므로 이어서 <code>getdate()</code>를 또 호출하면 덮어 써지게 된다.</p>
+<p>(<code>format</code> 인자가 있는) <tt>[[strptime(3)]]</tt>과 달리 <code>getdate()</code>에서는 파일에서 얻은 형식들을 사용한다. 그 파일의 전체 경로명을 환경 변수 <code>DATEMSK</code>로 받는다. 주어진 입력 문자열에 맞는 파일 내의 첫 행을 변환에 쓴다.</p>
+<p>맞는지 확인할 때 대소문자를 무시한다. 패턴이나 변환할 문자열 내의 잉여 공백은 무시한다.</p>
+<p><tt>[[strptime(3)]]</tt>의 변환 지정 항목들이 패턴에 포함될 수 있다. POSIX.1-2001에는 변환 지정 항목 한 가지가 추가로 명세돼 있다.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>%Z</code></td>
+<td>시간대 이름. glibc에는 구현돼 있지 않음.</td>
+</tr>
+</tbody>
+</table>
+<p><code>%Z</code>가 있으면 분할 시간을 담는 구조체를 주어진 시간대의 현재 시간에 해당하는 값들로 초기화 한다. 아니면 구조체를 (<tt>[[localtime(3)]]</tt>을 호출한 것처럼) 현재 지역 시간에 해당하는 분할 시간으로 초기화 한다.</p>
+<p>주 중 날 번호만 있는 경우에는 그 날을 오늘이나 이후의 첫 해당 날로 받는다.</p>
+<p>월만 있는 (년은 없는) 경우에는 그 달을 금월이나 이후의 첫 해당 달로 받는다.</p>
+<p>시분초가 없는 경우에는 현재 시분초를 쓴다.</p>
+<p>날짜가 없지만 시간은 아는 경우에는 그 시간을 현재 시간이나 이후의 첫 해당 시간으로 받는다.</p>
+<p><code>getdate_r()</code>은 <code>getdate()</code>의 재진입 가능 버전을 제공하는 GNU 확장이다. 전역 변수로 오류를 보고하고 정적 버퍼로 분할 시간을 반환하는 대신 함수 반환 값을 통해 오류를 반환하고 <code>res</code> 인자가 가리키는 호출자 할당 버퍼로 결과 분할 시간을 반환한다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>성공 시 <code>getdate()</code>는 <code>struct tm</code>에 대한 포인터를 반환한다. 아니면 NULL을 반환하며 전역 변수 <code>getdate_err</code>를 아래 있는 오류 번호들 중 하나로 설정한다. <code>errno</code> 변화에 대해선 명세돼 있지 않다.</p>
+<p>성공 시 <code>getdate_r()</code>은 0을 반환한다. 오류 시 아래 있는 오류 번호들 중 하나를 반환한다.</p>
+<h2 id="errors">ERRORS</h2>
+<p><code>getdate_err</code>를 통해서 (<code>getdate()</code>), 또는 함수 결과를 통해서 (<code>getdate_r()</code>) 다음 오류를 반환한다.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>DATEMSK</code> 환경 변수가 정의돼 있지 않거나 그 값이 빈 문자열이다.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>DATEMSK</code>에 지정된 템플릿 파일을 읽기용으로 열 수 없다.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>파일 상태 정보를 얻는 데 실패했다.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>템플릿 파일이 정규 파일이 아니다.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>템플릿 파일을 읽는 중 오류를 만났다.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>메모리 할당에 실패했다. (가용 메모리가 충분치 않다.)</td>
+</tr>
+<tr>
+<td>7</td>
+<td>입력에 일치하는 행이 파일에 없다.</td>
+</tr>
+<tr>
+<td>8</td>
+<td>입력 지정 항목이 유효하지 않다.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="environment">ENVIRONMENT</h2>
+<dl>
+<dt><code>DATEMSK</code></dt>
+<dd>서식 패턴을 담은 파일.</dd>
+<dt><code>TZ</code>, <code>LC_TIME</code></dt>
+<dd><tt>[[strptime(3)]]</tt>에서 쓰는 변수들.</dd>
+</dl>
+<h2 id="attributes">ATTRIBUTES</h2>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<table>
+<thead>
+<tr>
+<th>인터페이스</th>
+<th>속성</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>getdate()</code></td>
+<td>스레드 안전성</td>
+<td>MT-Unsafe race:getdate env locale</td>
+</tr>
+<tr>
+<td><code>getdate_r()</code></td>
+<td>스레드 안전성</td>
+<td>MT-Safe env locale</td>
+</tr>
+</tbody>
+</table>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>POSIX.1-2001, POSIX.1-2008.</p>
+<h2 id="notes">NOTES</h2>
+<p>POSIX.1의 <tt>[[strptime(3)]]</tt> 명세에는 <code>%E</code> 및 <code>%O</code> 수식자를 이용한 변환 지정 항목이 있지만 <code>getdate()</code>에는 그런 지정 항목이 없다. glibc에서는 <tt>[[getptime(3)]]</tt>으로 <code>getdate()</code>를 구현하고 있으며, 그래서 양쪽에서 정확히 같은 변환들을 지원한다.</p>
+<h2 id="example">EXAMPLE</h2>
+<p>아래 프로그램에서는 명령행 인자 각각에 대해 <code>getdate()</code>를 호출하고 각 호출마다 반환된 <code>tm</code> 구조체의 필드 값들을 표시한다. 다음 셸 세션은 프로그램 사용 방식을 보여 준다.</p>
+<pre><code class="text">$ TFILE=$PWD/tfile
+$ echo '%A' &gt; $TFILE       # 주 중 날짜 이름
+$ echo '%T' &gt;&gt; $TFILE      # ISO 날짜 (YYYY-MM-DD)
+$ echo '%F' &gt;&gt; $TFILE      # 시간 (HH:MM:SS)
+$ date
+$ export DATEMSK=$TFILE
+$ ./a.out Tuesday '2009-12-28' '12:22:33'
+Sun Sep  7 06:03:36 CEST 2008
+Call 1 (&quot;Tuesday&quot;) succeeded:
+    tm_sec   = 36
+    tm_min   = 3
+    tm_hour  = 6
+    tm_mday  = 9
+    tm_mon   = 8
+    tm_year  = 108
+    tm_wday  = 2
+    tm_yday  = 252
+    tm_isdst = 1
+Call 2 (&quot;2009-12-28&quot;) succeeded:
+    tm_sec   = 36
+    tm_min   = 3
+    tm_hour  = 6
+    tm_mday  = 28
+    tm_mon   = 11
+    tm_year  = 109
+    tm_wday  = 1
+    tm_yday  = 361
+    tm_isdst = 0
+Call 3 (&quot;12:22:33&quot;) succeeded:
+    tm_sec   = 33
+    tm_min   = 22
+    tm_hour  = 12
+    tm_mday  = 7
+    tm_mon   = 8
+    tm_year  = 108
+    tm_wday  = 0
+    tm_yday  = 250
+    tm_isdst = 1
+</code></pre>
+
+<h3 id="_1">프로그램 소스</h3>
+<pre><code class="c">#define _GNU_SOURCE
+#include &lt;time.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int
+main(int argc, char *argv[])
+{
+    struct tm *tmp;
+    int j;
+
+    for (j = 1; j &lt; argc; j++) {
+        tmp = getdate(argv[j]);
+
+        if (tmp == NULL) {
+            printf(&quot;Call %d failed; getdate_err = %d\n&quot;,
+                   j, getdate_err);
+            continue;
+        }
+
+        printf(&quot;Call %d (\&quot;%s\&quot;) succeeded:\n&quot;, j, argv[j]);
+        printf(&quot;    tm_sec   = %d\n&quot;, tmp-&gt;tm_sec);
+        printf(&quot;    tm_min   = %d\n&quot;, tmp-&gt;tm_min);
+        printf(&quot;    tm_hour  = %d\n&quot;, tmp-&gt;tm_hour);
+        printf(&quot;    tm_mday  = %d\n&quot;, tmp-&gt;tm_mday);
+        printf(&quot;    tm_mon   = %d\n&quot;, tmp-&gt;tm_mon);
+        printf(&quot;    tm_year  = %d\n&quot;, tmp-&gt;tm_year);
+        printf(&quot;    tm_wday  = %d\n&quot;, tmp-&gt;tm_wday);
+        printf(&quot;    tm_yday  = %d\n&quot;, tmp-&gt;tm_yday);
+        printf(&quot;    tm_isdst = %d\n&quot;, tmp-&gt;tm_isdst);
+    }
+
+    exit(EXIT_SUCCESS);
+}
+</code></pre>
+
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[time(2)]]</tt>, <tt>[[localtime(3)]]</tt>, <tt>[[setlocale(3)]]</tt>, <tt>[[strftime(3)]]</tt>, <tt>[[strptime(3)]]</tt></p>
+<hr />
+<p>2019-03-06</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

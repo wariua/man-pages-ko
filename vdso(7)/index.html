@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/vdso(7)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Vdso(7) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+            <li class="second-level"><a href="#_1">배경 예시</a></li>
+                
+            <li class="second-level"><a href="#vdso">vDSO 찾기</a></li>
+                
+            <li class="second-level"><a href="#_2">파일 형식</a></li>
+                
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+            <li class="second-level"><a href="#_3">소스</a></li>
+                
+            <li class="second-level"><a href="#vdso_1">vDSO 이름</a></li>
+                
+            <li class="second-level"><a href="#strace1-seccomp2-vdso">[[strace(1)]] 및 [[seccomp(2)]]와 vDSO</a></li>
+                
+        <li class="first-level "><a href="#architecture-specific-notes">ARCHITECTURE-SPECIFIC NOTES</a></li>
+            <li class="second-level"><a href="#arm">ARM 함수</a></li>
+                
+            <li class="second-level"><a href="#aarch64">aarch64 함수</a></li>
+                
+            <li class="second-level"><a href="#bfin-blackfin-417">bfin (Blackfin) 함수 (리눅스 4.17에서 포트 제거)</a></li>
+                
+            <li class="second-level"><a href="#mips">mips 함수</a></li>
+                
+            <li class="second-level"><a href="#ia64-itanium">ia64 (Itanium) 함수</a></li>
+                
+            <li class="second-level"><a href="#parisc-hppa">parisc (hppa) 함수</a></li>
+                
+            <li class="second-level"><a href="#ppc32">ppc/32 함수</a></li>
+                
+            <li class="second-level"><a href="#ppc64">ppc/64 함수</a></li>
+                
+            <li class="second-level"><a href="#riscv">riscv 함수</a></li>
+                
+            <li class="second-level"><a href="#s390">s390 함수</a></li>
+                
+            <li class="second-level"><a href="#x390x">x390x 함수</a></li>
+                
+            <li class="second-level"><a href="#sh-superh">sh (SuperH) 함수</a></li>
+                
+            <li class="second-level"><a href="#i386">i386 함수</a></li>
+                
+            <li class="second-level"><a href="#x86-64">x86-64 함수</a></li>
+                
+            <li class="second-level"><a href="#x86x32">x86/x32 함수</a></li>
+                
+            <li class="second-level"><a href="#_4">역사</a></li>
+                
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>vdso - 가상 ELF 동적 공유 오브젝트 소개</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;sys/auxv.h&gt;
+
+void *vdso = (uintptr_t) getauxval(AT_SYSINFO_EHDR);
+</code></pre>
+
+<h2 id="description">DESCRIPTION</h2>
+<p>"vDSO" (virtual dynamic shared object: 가상 동적 공유 오브젝트)는 커널이 모든 사용자 공간 응용 프로그램의 주소 공간으로 자동으로 맵 하는 작은 공유 라이브러리이다. 보통 vDSO를 호출하는 것은 C 라이브러리이므로 응용 프로그램에서는 일반적으로 자세한 내용에 신경쓸 필요가 없다. 표준 함수들을 사용하는 정상적인 방식으로 코딩 하면 C 라이브러리에서 알아서 vDSO를 통해 사용 가능한 기능들을 이용한다.</p>
+<p>그런데 vDSO는 도대체 왜 존재하는 것일까? 커널이 제공하는 시스템 호출 중에는 사용자 공간 코드에서 워낙 빈번하게 사용해서 그 호출들이 전체 성능에 크게 영향을 줄 수 있는 것들이 있다. 이건 호출 빈도만이 아니라 사용자 공간을 빠져나와 커널로 들어가는 것으로 인한 문맥 전환 오버헤드 때문이기도 하다.</p>
+<p>이 문서의 나머지 부분은 일반 개발자보다는 호기심 있는 이들 및/또는 C 라이브러리 작성자에게 맞춰져 있다. 만약 C 라이브러리를 사용하는 대신에 응용에서 vDSO를 호출하려 하고 있다면 아마도 분명히 잘못하고 있는 것이다.</p>
+<h3 id="_1">배경 예시</h3>
+<p>시스템 호출을 하는 것은 느릴 수 있다. x86 32비트 시스템에서는 소프트웨어 인터럽트(<code>int $0x80</code>)를 유발시켜서 시스템 호출을 하고 싶다고 커널에게 알려줄 수 있다. 하지만 이 인스트럭션은 비용이 크다. 프로세서의 마이크로코드와 커널 내의 인터럽트 처리 경로 전체를 거친다. 더 최신 프로세서에는 시스템 호출을 개시할 수 있는 더 빠른 (하지만 하위 호환되지 않는) 인스트럭션이 있다. 런타임에 이 기능을 사용할 수 있는지를 C 라이브러리에서 알아내기는 요구하는 대신에 커널이 vDSO로 제공하는 함수들을 C 라이브러리가 사용하게 할 수 있다.</p>
+<p>용어가 혼란스러울 수 있으니 주의하라. x86 시스템에서 우선적인 시스템 호출 방법을 알아내는 데 사용하는 vDSO 함수의 이름이 "__kernel_vsyscall"인데, x86-64에서는 "vsyscall"이라는 용어가 지금이 몇 시이고 호출자가 어느 CPU에서 돌고 있는지 커널에게 물을 수 있는 구식 방법을 가리키기도 한다.</p>
+<p>자주 쓰는 시스템 호출로 <tt>[[gettimeofday(2)]]</tt>가 있다. 이 시스템 호출을 사용자 공간 응용에서 직접 부르기도 하고 C 라이브러리에서 간접적으로 부르기도 한다. 타임스탬프나 시간 제어 루프, 폴링을 생각해 보라. 이 모두에서는 바로 지금 시간을 자주 알아내야 한다. 또한 이 정보는 비밀이 아니다. 어느 특권 모드의 어떤 응용에서도 (루트도, 다른 비특권 사용자도) 같은 답을 얻게 된다. 따라서 커널은 이 질문에 답하기 위해 필요한 정보를 프로세스가 접근할 수 있는 메모리 내에 위치시킨다. 그러면 시스템 호출이었던 <tt>[[gettimeofday(2)]]</tt>가 일반 함수 호출과 몇 번의 메모리 접근으로 바뀐다.</p>
+<h3 id="vdso">vDSO 찾기</h3>
+<p>(존재하는 경우) vDSO의 기준 주소는 초기 보조 벡터(<tt>[[getauxval(3)]]</tt> 참고)의 <code>AT_SYSINFO_EHDR</code> 태그를 통해 커널이 각 프로그램에게 전달해 준다.</p>
+<p>vDSO가 사용자 메모리 맵의 특정 위치에 사상되어 있다고 가정해서는 안 된다. 일반적으로 새 프로세스 이미지가 만들어질 때마다 (<tt>[[execve(2)]]</tt> 시점에) 기준 주소가 임의로 정해진다. 이렇게 하는 건 "return-to-libc" 공격을 막기 위한 보안적 이유 때문이다.</p>
+<p>일부 아키텍처에는 <code>AT_SYSINFO</code> 태그도 있다. 이 태그는 vsyscall 진입점의 위치를 나타내기 위한 것으로, 많은 경우 빠져 있거나 0으로 설정되어 있다. (즉, 사용 가능하지 않다.) 이 태그는 초기 vDSO 작업의 유산이며 (아래의 <em>역사</em> 참고) 사용을 피하는 게 좋다.</p>
+<h3 id="_2">파일 형식</h3>
+<p>vDSO는 완전한 형태의 ELF 이미지이므로 거기서 심볼 검색을 할 수 있다. 그래서 최신 커널 릴리스에서 새 심볼을 추가하는 것이 가능하며 여러 커널 버전들에서 동작하는 C 라이브러리가 런타임에 사용 가능한 기능을 탐지할 수 있다. 많은 경우에 C 라이브러리는 첫 번째 호출에서 탐지를 하고서 이후 호출을 위해 그 결과를 캐싱 한다.</p>
+<p>모든 심볼에는 또한 버전이 있다. (GNU 버전 형식을 사용한다.) 그래서 커널이 하위 호환성을 깨지 않으면서 함수 시그너처를 갱신할 수 있다. 반환 값뿐 아니라 함수가 받는 인자를 바꾸는 것도 가능하다. 따라서 vDSO에서 심볼 검색을 할 때는 항상 기대하는 ABI에 맞는 버전을 포함시켜야 한다.</p>
+<p>보통 vDSO는 다른 표준 심볼과 구별하기 위해 모든 심볼 앞에 "__vdso_"나 "__kernel_"을 붙이는 명명 관행을 따른다. 예를 들어 "gettimeofday" 함수의 이름이 "__vdso_gettimeofday"가 된다.</p>
+<p>이 함수들을 호출할 때는 표준 C 호출 방식을 사용한다. 이상한 레지스터 내지 스택 동작 방식에 대해 염려할 필요가 없다.</p>
+<h2 id="notes">NOTES</h2>
+<h3 id="_3">소스</h3>
+<p>커널을 컴파일 할 때 자동으로 vDSO 코드를 컴파일 및 링크 해 준다. 많은 경우 아키텍처별 디렉터리 안에 들어 있다.</p>
+<pre><code class="sh">find arch/$ARCH/ -name '*vdso*.so*' -o -name '*gate*.so*'
+</code></pre>
+
+<h3 id="vdso_1">vDSO 이름</h3>
+<p>vDSO의 이름이 아키텍처마다 다르다. glibc의 <code>ldd(1)</code> 출력 같은 것에 종종 등장하게 된다. 어떤 코드에도 그 정확한 이름이 중요해서는 안 되므로 이름을 하드코딩 해서는 안 된다.</p>
+<table>
+<thead>
+<tr>
+<th>사용자 ABI</th>
+<th>vDSO 이름</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>aarch64</td>
+<td><code>linux-vdso.so.1</code></td>
+</tr>
+<tr>
+<td>arm</td>
+<td><code>linux-vdso.so.1</code></td>
+</tr>
+<tr>
+<td>ia64</td>
+<td><code>linux-gate.so.1</code></td>
+</tr>
+<tr>
+<td>mips</td>
+<td><code>linux-vdso.so.1</code></td>
+</tr>
+<tr>
+<td>ppc/32</td>
+<td><code>linux-vdso32.so.1</code></td>
+</tr>
+<tr>
+<td>ppc/64</td>
+<td><code>linux-vdso64.so.1</code></td>
+</tr>
+<tr>
+<td>riscv</td>
+<td><code>linux-vdso.so.1</code></td>
+</tr>
+<tr>
+<td>s390</td>
+<td><code>linux-vdso32.so.1</code></td>
+</tr>
+<tr>
+<td>s390x</td>
+<td><code>linux-vdso64.so.1</code></td>
+</tr>
+<tr>
+<td>sh</td>
+<td><code>linux-gate.so.1</code></td>
+</tr>
+<tr>
+<td>i386</td>
+<td><code>linux-gate.so.1</code></td>
+</tr>
+<tr>
+<td>x86-64</td>
+<td><code>linux-vdso.so.1</code></td>
+</tr>
+<tr>
+<td>x86/x32</td>
+<td><code>linux-vdso.so.1</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="strace1-seccomp2-vdso"><tt>[[strace(1)]]</tt> 및 <tt>[[seccomp(2)]]</tt>와 vDSO</h3>
+<p><tt>[[strace(1)]]</tt>로 시스템 호출을 추적할 때 vDSO가 내보이는 심볼들(시스템 호출들)은 추적 출력에 나오지 <em>않는다</em>. 유사하게 그런 시스템 호출은 <tt>[[seccomp(2)]]</tt> 필터에 보이지 않는다.</p>
+<h2 id="architecture-specific-notes">ARCHITECTURE-SPECIFIC NOTES</h2>
+<p>아래의 부절들은 vDSO에 대한 아키텍처별 내용이다.</p>
+<p>참고로 사용하는 vDSO는 커널의 ABI가 아니라 사용자 공간 코드의 ABI를 기준으로 한다. 따라서 예를 들어 i386 32비트 ELF 바이너리를 돌린다면 이를 i386 32비트 커널에서 돌리든 x86-64 64비트 커널에서 돌리든 상관없이 같은 vDSO를 얻게 된다. 따라서 아래에서 관련 절을 찾을 때 사용자 공간 ABI의 이름을 사용해야 한다.</p>
+<h3 id="arm">ARM 함수</h3>
+<p>아래 표에 vDSO가 내보이는 심볼들이 나열되어 있다.</p>
+<table>
+<thead>
+<tr>
+<th>심볼</th>
+<th>버전</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>__vdso_gettimeofday</code></td>
+<td><code>LINUX_2.6</code> (리눅스 4.1부터 내보임)</td>
+</tr>
+<tr>
+<td><code>__vdso_clock_gettime</code></td>
+<td><code>LINUX_2.6</code> (리눅스 4.1부터 내보임)</td>
+</tr>
+</tbody>
+</table>
+<p>더불어 ARM 포트에는 유틸리티 함수들로 가득한 코드 페이지가 있다. 그냥 코드가 있는 페이지일 뿐이므로 심볼 검색이나 버전 관리를 위한 ELF 정보가 전혀 없다. 하지만 다른 식으로 버전을 지원한다.</p>
+<p>이 코드 페이지에 대해 알려면 커널 문서를 참조하는 것이 최선이다. 아주 자세하며 알아야 할 모든 것들을 다루고 있다. <code>Documentation/arm/kernel_user_helpers.txt</code>이다.</p>
+<h3 id="aarch64">aarch64 함수</h3>
+<p>아래 표에 vDSO가 내보이는 심볼들이 나열되어 있다.</p>
+<table>
+<thead>
+<tr>
+<th>심볼</th>
+<th>버전</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>__kernel_rt_sigreturn</code></td>
+<td><code>LINUX_2.6.39</code></td>
+</tr>
+<tr>
+<td><code>__kernel_gettimeofday</code></td>
+<td><code>LINUX_2.6.39</code></td>
+</tr>
+<tr>
+<td><code>__kernel_clock_gettime</code></td>
+<td><code>LINUX_2.6.39</code></td>
+</tr>
+<tr>
+<td><code>__kernel_clock_getres</code></td>
+<td><code>LINUX_2.6.39</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="bfin-blackfin-417">bfin (Blackfin) 함수 (리눅스 4.17에서 포트 제거)</h3>
+<p>이 CPU에는 메모리 관리 유닛(MMU)이 없으므로 일반적 의미의 vDSO를 만들지 않는다. 대신 부팅 때 저수준 함수 몇 개를 메모리의 고정된 위치에 맵 한다. 그러면 사용자 공간 응용에서 그 영역을 바로 호출한다. 하위 호환성에 있어선 opcode를 훔쳐보는 것 이상의 방안이 없지만 임베디드 CPU이므로 문제가 안 된다. 심지어 실행하는 오브젝트 형식 중 일부는 ELF 기반도 아니다 (bFLT/FLAT).</p>
+<p>이 코드 페이지에 대한 정보는 공개된 문서를 참조하는 것이 최선이다: <a href="http://docs.blackfin.uclinux.org/doku.php?id=linux-kernel:fixed-code">http://docs.blackfin.uclinux.org/doku.php?id=linux-kernel:fixed-code</a></p>
+<h3 id="mips">mips 함수</h3>
+<p>아래 표에 vDSO가 내보이는 심볼들이 나열되어 있다.</p>
+<table>
+<thead>
+<tr>
+<th>심볼</th>
+<th>버전</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>__kernel_gettimeofday</code></td>
+<td><code>LINUX_2.6</code> (리눅스 4.4부터 내보임)</td>
+</tr>
+<tr>
+<td><code>__kernel_clock_gettime</code></td>
+<td><code>LINUX_2.6</code> (리눅스 4.4부터 내보임)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ia64-itanium">ia64 (Itanium) 함수</h3>
+<p>아래 표에 vDSO가 내보이는 심볼들이 나열되어 있다.</p>
+<table>
+<thead>
+<tr>
+<th>심볼</th>
+<th>버전</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>__kernel_sigtramp</code></td>
+<td><code>LINUX_2.5</code></td>
+</tr>
+<tr>
+<td><code>__kernel_syscall_via_break</code></td>
+<td><code>LINUX_2.5</code></td>
+</tr>
+<tr>
+<td><code>__kernel_syscall_via_epc</code></td>
+<td><code>LINUX_2.5</code></td>
+</tr>
+</tbody>
+</table>
+<p>아이테니엄 포트는 좀 복잡하다. 위의 vDSO에 더해서 "경량 시스템 호출"("fast syscall" 내지 "fsys"라고도 함)이라는 것이 있으며 vDSO 헬퍼 <code>__kernel_syscall_via_epc</code>를 통해 호출할 수 있다. 여기 나열된 시스템 호출들의 동작 결과는 <tt>[[syscall(2)]]</tt>을 통해 직접 호출했을 때와 동일하므로 각각의 관련 문서를 참고하라. 아래 표에서 이 메커니즘을 통해 사용 가능한 함수들을 보여 준다.</p>
+<table>
+<thead>
+<tr>
+<th>함수</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>clock_gettime</code></td>
+</tr>
+<tr>
+<td><code>getcpu</code></td>
+</tr>
+<tr>
+<td><code>getpid</code></td>
+</tr>
+<tr>
+<td><code>getppid</code></td>
+</tr>
+<tr>
+<td><code>gettimeofday</code></td>
+</tr>
+<tr>
+<td><code>set_tid_address</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="parisc-hppa">parisc (hppa) 함수</h3>
+<p>parisc 포트에는 유틸리티 함수들이 있는 게이트웨이 페이지라는 이름의 코드 페이지가 있다. 일반적인 ELF 보조 벡터 방식을 사용하는 대신 SR2 레지스터를 통해 페이지의 주소를 프로세스에게 전달한다. 페이지의 권한은 그 주소를 실행만 해도 자동으로 사용자 공간이 아닌 커널 특권으로 실행하게 되어 있다. HP-UX의 동작 방식과 일치하게 하기 위해서이다.</p>
+<p>그냥 코드가 있는 페이지일 뿐이므로 심볼 검색이나 버전 관리를 위한 ELF 정보가 전혀 없다. 브랜치 인스트럭션을 통해 적절한 오프셋으로 호출해 들어가기만 하면 된다. 예:</p>
+<pre><code>ble &lt;offset&gt;(%sr2, %r0)
+</code></pre>
+
+<table>
+<thead>
+<tr>
+<th>오프셋</th>
+<th>함수</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>00b0</td>
+<td><code>lws_entry</code> (CAS 연산들)</td>
+</tr>
+<tr>
+<td>00e0</td>
+<td><code>set_thread_pointer</code> (glibc에서 사용)</td>
+</tr>
+<tr>
+<td>0100</td>
+<td><code>linux_gateway_entry</code> (syscall)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ppc32">ppc/32 함수</h3>
+<p>아래 표에 vDSO가 내보이는 심볼들이 나열되어 있다. * 표시가 된 함수는 커널이 PowerPC64 (64비트) 커널일 때만 사용 가능하다.</p>
+<table>
+<thead>
+<tr>
+<th>심볼</th>
+<th>버전</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>__kernel_clock_getres</code></td>
+<td><code>LINUX_2.6.15</code></td>
+</tr>
+<tr>
+<td><code>__kernel_clock_gettime</code></td>
+<td><code>LINUX_2.6.15</code></td>
+</tr>
+<tr>
+<td><code>__kernel_datapage_offset</code></td>
+<td><code>LINUX_2.6.15</code></td>
+</tr>
+<tr>
+<td><code>__kernel_get_syscall_map</code></td>
+<td><code>LINUX_2.6.15</code></td>
+</tr>
+<tr>
+<td><code>__kernel_get_tbfreq</code></td>
+<td><code>LINUX_2.6.15</code></td>
+</tr>
+<tr>
+<td><code>__kernel_getcpu</code> *</td>
+<td><code>LINUX_2.6.15</code></td>
+</tr>
+<tr>
+<td><code>__kernel_gettimeofday</code></td>
+<td><code>LINUX_2.6.15</code></td>
+</tr>
+<tr>
+<td><code>__kernel_sigtramp_rt32</code></td>
+<td><code>LINUX_2.6.15</code></td>
+</tr>
+<tr>
+<td><code>__kernel_sigtramp32</code></td>
+<td><code>LINUX_2.6.15</code></td>
+</tr>
+<tr>
+<td><code>__kernel_sync_dicache</code></td>
+<td><code>LINUX_2.6.15</code></td>
+</tr>
+<tr>
+<td><code>__kernel_sync_dicache_p5</code></td>
+<td><code>LINUX_2.6.15</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>CLOCK_REALTIME_COARSE</code> 및 <code>CLOCK_MONOTONIC_COARSE</code> 클럭은 <code>__kernel_clock_getres</code> 및 <code>__kernel_clock_gettime</code> 인터페이스에서 지원하지 <em>않는다</em>. 커널이 실제 시스템 호출로 돌린다.</p>
+<h3 id="ppc64">ppc/64 함수</h3>
+<p>아래 표에 vDSO가 내보이는 심볼들이 나열되어 있다.</p>
+<table>
+<thead>
+<tr>
+<th>심볼</th>
+<th>버전</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>__kernel_clock_getres</code></td>
+<td><code>LINUX_2.6.15</code></td>
+</tr>
+<tr>
+<td><code>__kernel_clock_gettime</code></td>
+<td><code>LINUX_2.6.15</code></td>
+</tr>
+<tr>
+<td><code>__kernel_datapage_offset</code></td>
+<td><code>LINUX_2.6.15</code></td>
+</tr>
+<tr>
+<td><code>__kernel_get_syscall_map</code></td>
+<td><code>LINUX_2.6.15</code></td>
+</tr>
+<tr>
+<td><code>__kernel_get_tbfreq</code></td>
+<td><code>LINUX_2.6.15</code></td>
+</tr>
+<tr>
+<td><code>__kernel_getcpu</code></td>
+<td><code>LINUX_2.6.15</code></td>
+</tr>
+<tr>
+<td><code>__kernel_gettimeofday</code></td>
+<td><code>LINUX_2.6.15</code></td>
+</tr>
+<tr>
+<td><code>__kernel_sigtramp_rt64</code></td>
+<td><code>LINUX_2.6.15</code></td>
+</tr>
+<tr>
+<td><code>__kernel_sync_dicache</code></td>
+<td><code>LINUX_2.6.15</code></td>
+</tr>
+<tr>
+<td><code>__kernel_sync_dicache_p5</code></td>
+<td><code>LINUX_2.6.15</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>CLOCK_REALTIME_COARSE</code> 및 <code>CLOCK_MONOTONIC_COARSE</code> 클럭은 <code>__kernel_clock_getres</code> 및 <code>__kernel_clock_gettime</code> 인터페이스에서 지원하지 <em>않는다</em>. 커널이 실제 시스템 호출로 돌린다.</p>
+<h3 id="riscv">riscv 함수</h3>
+<p>아래 표에 vDSO가 내보이는 심볼들이 나열되어 있다.</p>
+<table>
+<thead>
+<tr>
+<th>심볼</th>
+<th>버전</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>__kernel_rt_sigreturn</code></td>
+<td><code>LINUX_4.15</code></td>
+</tr>
+<tr>
+<td><code>__kernel_gettimeofday</code></td>
+<td><code>LINUX_4.15</code></td>
+</tr>
+<tr>
+<td><code>__kernel_clock_gettime</code></td>
+<td><code>LINUX_4.15</code></td>
+</tr>
+<tr>
+<td><code>__kernel_clock_getres</code></td>
+<td><code>LINUX_4.15</code></td>
+</tr>
+<tr>
+<td><code>__kernel_getcpu</code></td>
+<td><code>LINUX_4.15</code></td>
+</tr>
+<tr>
+<td><code>__kernel_flush_icache</code></td>
+<td><code>LINUX_4.15</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="s390">s390 함수</h3>
+<p>아래 표에 vDSO가 내보이는 심볼들이 나열되어 있다.</p>
+<table>
+<thead>
+<tr>
+<th>심볼</th>
+<th>버전</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>__kernel_clock_getres</code></td>
+<td><code>LINUX_2.6.29</code></td>
+</tr>
+<tr>
+<td><code>__kernel_clock_gettime</code></td>
+<td><code>LINUX_2.6.29</code></td>
+</tr>
+<tr>
+<td><code>__kernel_gettimeofday</code></td>
+<td><code>LINUX_2.6.29</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="x390x">x390x 함수</h3>
+<p>아래 표에 vDSO가 내보이는 심볼들이 나열되어 있다.</p>
+<table>
+<thead>
+<tr>
+<th>심볼</th>
+<th>버전</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>__kernel_clock_getres</code></td>
+<td><code>LINUX_2.6.29</code></td>
+</tr>
+<tr>
+<td><code>__kernel_clock_gettime</code></td>
+<td><code>LINUX_2.6.29</code></td>
+</tr>
+<tr>
+<td><code>__kernel_gettimeofday</code></td>
+<td><code>LINUX_2.6.29</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="sh-superh">sh (SuperH) 함수</h3>
+<p>아래 표에 vDSO가 내보이는 심볼들이 나열되어 있다.</p>
+<table>
+<thead>
+<tr>
+<th>심볼</th>
+<th>버전</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>__kernel_rt_sigreturn</code></td>
+<td><code>LINUX_2.6</code></td>
+</tr>
+<tr>
+<td><code>__kernel_sigreturn</code></td>
+<td><code>LINUX_2.6</code></td>
+</tr>
+<tr>
+<td><code>__kernel_vsyscall</code></td>
+<td><code>LINUX_2.6</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="i386">i386 함수</h3>
+<p>아래 표에 vDSO가 내보이는 심볼들이 나열되어 있다.</p>
+<table>
+<thead>
+<tr>
+<th>심볼</th>
+<th>버전</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>__kernel_sigreturn</code></td>
+<td><code>LINUX_2.5</code></td>
+</tr>
+<tr>
+<td><code>__kernel_rt_sigreturn</code></td>
+<td><code>LINUX_2.5</code></td>
+</tr>
+<tr>
+<td><code>__kernel_vsyscall</code></td>
+<td><code>LINUX_2.5</code></td>
+</tr>
+<tr>
+<td><code>__vdso_clock_gettime</code></td>
+<td><code>LINUX_2.6</code> (리눅스 3.15부터 내보임)</td>
+</tr>
+<tr>
+<td><code>__vdso_gettimeofday</code></td>
+<td><code>LINUX_2.6</code> (리눅스 3.15부터 내보임)</td>
+</tr>
+<tr>
+<td><code>__vdso_time</code></td>
+<td><code>LINUX_2.6</code> (리눅스 3.15부터 내보임)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="x86-64">x86-64 함수</h3>
+<p>아래 표에 vDSO가 내보이는 심볼들이 나열되어 있다. 이 심볼들 모두 "__vdso_" 접두부가 없는 형태로도 있지만 그건 무시하고 아래 나열된 이름만 쓰는 게 좋다.</p>
+<table>
+<thead>
+<tr>
+<th>심볼</th>
+<th>버전</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>__vdso_clock_gettime</code></td>
+<td><code>LINUX_2.6</code></td>
+</tr>
+<tr>
+<td><code>__vdso_getcpu</code></td>
+<td><code>LINUX_2.6</code></td>
+</tr>
+<tr>
+<td><code>__vdso_gettimeofday</code></td>
+<td><code>LINUX_2.6</code></td>
+</tr>
+<tr>
+<td><code>__vdso_time</code></td>
+<td><code>LINUX_2.6</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="x86x32">x86/x32 함수</h3>
+<p>아래 표에 vDSO가 내보이는 심볼들이 나열되어 있다.</p>
+<table>
+<thead>
+<tr>
+<th>심볼</th>
+<th>버전</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>__vdso_clock_gettime</code></td>
+<td><code>LINUX_2.6</code></td>
+</tr>
+<tr>
+<td><code>__vdso_getcpu</code></td>
+<td><code>LINUX_2.6</code></td>
+</tr>
+<tr>
+<td><code>__vdso_gettimeofday</code></td>
+<td><code>LINUX_2.6</code></td>
+</tr>
+<tr>
+<td><code>__vdso_time</code></td>
+<td><code>LINUX_2.6</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="_4">역사</h3>
+<p>vDSO는 원래 함수 하나, 즉 vsyscall이었다. 이전 커널들에서는 "vdso"가 아니라 프로세스의 메모리 맵에서 그 이름을 볼 수도 있었다. 시간이 지나면서 이 메커니즘이 사용자 공간으로 더 많은 기능을 전달할 멋진 방법이라는 걸 사람들이 알게 되었고, 그래서 현재 형식의 vDSO로 다시 생각하게 되었다.</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[syscalls(2)]]</tt>, <tt>[[getauxval(3)]]</tt>, <tt>[[proc(5)]]</tt></p>
+<p>리눅스 소스 코드 트리의 문서, 예시, 소스 코드:
+* <code>Documentation/ABI/stable/vdso</code>
+* <code>Documentation/ia64/fsys.txt</code>
+* <code>Documentation/vDSO/*</code> (vDSO 사용 예시 포함)</p>
+<pre><code class="sh">find arch/ -iname '*vdso*' -o -iname '*gate*'
+</code></pre>
+
+<hr />
+<p>2019-08-02</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

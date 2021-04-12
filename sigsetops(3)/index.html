@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/sigsetops(3)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Sigsetops(3) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+            <li class="second-level"><a href="#glibc">glibc 확장</a></li>
+                
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>sigemptyset, sigfillset, sigaddset, sigdelset, sigismember - POSIX 시그널 집합 연산</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;signal.h&gt;
+
+int sigemptyset(sigset_t *set);
+
+int sigfillset(sigset_t *set);
+
+int sigaddset(sigset_t *set, int signum);
+
+int sigdelset(sigset_t *set, int signum);
+
+int sigismember(const sigset_t *set, int signum);
+</code></pre>
+
+<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<dl>
+<dt><code>sigemptyset()</code>, <code>sigfillset()</code>, <code>sigaddset()</code>, <code>sigdelset()</code>, <code>sigismember()</code>:</dt>
+<dd><code>_POSIX_C_SOURCE</code></dd>
+</dl>
+<h2 id="description">DESCRIPTION</h2>
+<p>이 함수들을 이용해 POSIX 시그널 집합을 조작할 수 있다.</p>
+<p><code>sigemptyset()</code>은 <code>set</code>으로 준 시그널 집합을 시그널이 모두 빠진 빈 집합으로 초기화 한다.</p>
+<p><code>sigfillset()</code>은 <code>set</code>을 모든 시그널을 포함한 가득 찬 집합으로 초기화 한다.</p>
+<p><code>sigaddset()</code>과 <code>sigdelset()</code>은 <code>set</code>에 시그널 <code>signum</code>을 더하고 뺀다.</p>
+<p><code>sigismember()</code>는 <code>signum</code>이 <code>set</code>에 속하는지 검사한다.</p>
+<p><code>sigset_t</code> 타입 객체를 함수 <code>sigaddset()</code>, <code>sigdelset()</code>, <code>sigismember()</code>나 아래 기술하는 추가 glibc 함수들(<code>sigisemptyset()</code>, <code>sigandset()</code>, <code>sigorset()</code>)로 전달하기 전에 <code>sigemptyset()</code>이나 <code>sigfillset()</code> 호출로 초기화 해야 한다. 그러지 않은 경우 결과는 규정되어 있지 않다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p><code>sigemptyset()</code>, <code>sigfillset()</code>, <code>sigaddset()</code>, <code>sigdelset()</code>은 성공 시 0을 반환하고 오류 시 -1을 반환한다.</p>
+<p><code>sigismember()</code>는 <code>signum</code>이 <code>set</code>에 속하면 1을 반환하고 속하지 않으면 0을 반환하며 오류 시 -1을 반환한다.</p>
+<p>오류 시 이 함수들은 오류 원인을 나타내도록 <code>errno</code>를 설정한다.</p>
+<h2 id="errors">ERRORS</h2>
+<dl>
+<dt><code>EINVAL</code></dt>
+<dd><code>signum</code>이 유효한 시그널이 아니다.</dd>
+</dl>
+<h2 id="attributes">ATTRIBUTES</h2>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<table>
+<thead>
+<tr>
+<th>인터페이스</th>
+<th>속성</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>sigemptyset()</code>, <code>sigfillset()</code>,<br><code>sigaddset()</code>, <code>sigdelset()</code>,<br><code>sigismember()</code>, <code>sigisemptyset()</code>,<br><code>sigorset()</code>, <code>sigandset()</code></td>
+<td>스레드 안전성</td>
+<td>MT-Safe</td>
+</tr>
+</tbody>
+</table>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>POSIX.1-2001, POSIX-1.2008.</p>
+<h2 id="notes">NOTES</h2>
+<p>가득 찬 시그널 집합을 만들 때 glibc의 <code>sigfillset()</code> 함수는 NPTL 스레딩 구현 내부에서 쓰는 두 가지 실시간 시그널을 포함시키지 않는다. 자세한 내용은 <tt>[[nptl(7)]]</tt>을 보라.</p>
+<h3 id="glibc">glibc 확장</h3>
+<p>기능 확인 매크로 <code>_GNU_SOURCE</code>가 정의되어 있으면 <code>&lt;signal.h&gt;</code>에서 시그널 집합 조작을 위한 또 다른 함수 세 가지를 드러낸다.</p>
+<pre><code class="c">int sigisemptyset(const sigset_t *set);
+int sigorset(sigset_t *dest, const sigset_t *left,
+              const sigset_t *right);
+int sigandset(sigset_t *dest, const sigset_t *left,
+              const sigset_t *right);
+</code></pre>
+
+<p><code>sigisemptyset()</code>은 <code>set</code>이 아무 시그널도 담고 있지 않으면 1을 반환하고 그 외의 경우 0을 반환한다.</p>
+<p><code>sigorset()</code>은 집합 <code>left</code>와 <code>right</code>의 합집합을 <code>dest</code>에 집어넣는다. <code>sigandset()</code>은 집합 <code>left</code>와 <code>right</code>의 교집합을 <code>dest</code>에 집어넣는다. 두 함수 모두 성공 시 0을 반환하고 실패 시 -1을 반환한다.</p>
+<p>이 함수들은 비표준이며 (몇몇 다른 시스템에서 비슷한 함수들을 제공함) 이식 가능한 응용에서는 사용을 피해야 한다.</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[sigaction(2)]]</tt>, <tt>[[sigpending(2)]]</tt>, <tt>[[sigprocmask(2)]]</tt>, <tt>[[sigsuspend(2)]]</tt></p>
+<hr />
+<p>2016-03-15</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/sync_file_range2(2)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Sync file range2(2) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+            <li class="second-level"><a href="#_1">경고</a></li>
+                
+            <li class="second-level"><a href="#_2">몇 가지 세부 사항</a></li>
+                
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+            <li class="second-level"><a href="#sync_file_range2">sync_file_range2()</a></li>
+                
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>sync_file_range - 파일 조각을 디스크로 동기화하기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
+#include &lt;fcntl.h&gt;
+
+int sync_file_range(int fd, off64_t offset, off64_t nbytes,
+                    unsigned int flags);
+</code></pre>
+
+<h2 id="description">DESCRIPTION</h2>
+<p><code>sync_file_range()</code>는 파일 디스크립터 <code>fd</code>가 가리키는 열린 파일을 디스크와 동기화하면서 세밀한 제어를 할 수 있게 해 준다.</p>
+<p><code>offset</code>은 동기화할 파일 범위의 시작 바이트이다. <code>nbytes</code>는 동기화할 범위의 길이를 바이트 단위로 지정한다. <code>nbytes</code>가 0이면 <code>offset</code>부터 파일 끝까지의 모든 바이트를 동기화한다. 동기화는 시스템 페이지 크기를 단위로 이뤄진다. <code>offset</code>을 페이지 경계로 내리고 <code>(offset+nbytes-1)</code>을 페이지 경계로 올린다.</p>
+<p><code>flags</code> 비트 마스크 인자는 다음 값들을 포함할 수 있다.</p>
+<dl>
+<dt><code>SYNC_FILE_RANGE_WAIT_BEFORE</code></dt>
+<dd>쓰기를 수행하기 전에 이미 장치 드라이버에 쓰기를 위해 제출돼 있는 지정 범위 내 모든 페이지들의 쓰기가 이뤄지기를 기다린다.</dd>
+<dt><code>SYNC_FILE_RANGE_WRITE</code></dt>
+<dd>현재 쓰기를 위해 제출돼 있지 않은 지정 범위 내 변경 페이지 모두의 쓰기를 개시한다. 요청 큐 크기를 넘게 쓰려고 하면 블록 할 수도 있음에 유의하라.</dd>
+<dt><code>SYNC_FILE_RANGE_WAIT_AFTER</code></dt>
+<dd>쓰기를 수행한 후에 범위 내 모든 페이지들의 쓰기가 이뤄지기를 기다린다.</dd>
+</dl>
+<p><code>flags</code>를 0으로 지정하는 것이 가능하다. no-op이다.</p>
+<h3 id="_1">경고</h3>
+<p>이 시스템 호출은 극히 위험하며 이식성 있는 프로그램에서는 사용하지 말아야 한다. 이 동작들 어느 것도 파일의 메타데이터를 기록하지 않는다. 따라서 응용에서 엄격하게 이미 실체화된 디스크 블록 덮어쓰기만 수행하는 경우가 아니면 크래시 후에 데이터가 사용 가능하다는 보장이 없다. 하지만 쓰기가 순수하게 덮어쓰기인지 알아낼 수 있는 사용자 인터페이스는 없다. 그리고 copy-on-write 동작 방식의 파일 시스템(가령 <code>btrfs</code>)에서는 기존에 할당된 블록을 덮어쓰는 게 불가능하다. 또 기할당 공간에 쓰기를 할 때 많은 파일 시스템에서 블록 할당자 호출까지 필요로 하는데 이 시스템 호출은 그 블록을 디스크로 동기화하지 않는다. 이 시스템 호출은 디스크 쓰기 캐시를 플러시 하지 않으며, 따라서 디스크 쓰기 캐시가 휘발성인 시스템에서 데이터 무결성을 제공하지 않는다.</p>
+<h3 id="_2">몇 가지 세부 사항</h3>
+<p><code>SYNC_FILE_RANGE_WAIT_BEFORE</code> 및 <code>SYNC_FILE_RANGE_WAIT_AFTER</code>는 I/O 오류나 <code>ENOSPC</code> 조건이 발생하면 탐지하여 호출자에게 반환해 준다.</p>
+<p>유용한 <code>flags</code> 비트 조합은 다음과 같다.</p>
+<dl>
+<dt><code>SYNC_FILE_RANGE_WAIT_BEFORE | SYNC_FILE_RANGE_WRITE</code></dt>
+<dd><code>sync_file_range()</code> 호출 때 지정 범위 내에 있던 변경 페이지들 모두가 쓰기 목록 하에 있도록 한다. "데이터 무결성 위한 쓰기 개시" 동작이다.</dd>
+<dt><code>SYNC_FILE_RANGE_WRITE</code></dt>
+<dd>현재 쓰기 목록 하에 있지 않은 지정 범위 내 변경 페이지들 모두의 쓰기를 시작한다. 비동기적인 "디스크로 플러시" 동작이다. 데이터 무결성 동작에는 적합하지 않다.</dd>
+<dt><code>SYNC_FILE_RANGE_WAIT_BEFORE</code> (또는 <code>SYNC_FILE_RANGE_WAIT_AFTER</code>)</dt>
+<dd>지정 범위 내 모든 페이지들의 쓰기 완료를 기다린다. 앞서 나온 <code>SYNC_FILE_RANGE_WAIT_BEFORE | SYNC_FILE_RANGE_WRITE</code> 동작 후에 사용해서 그 동작의 완료를 기다리고 그 결과를 얻을 수 있다.</dd>
+<dt><code>SYNC_FILE_RANGE_WAIT_BEFORE | SYNC_FILE_RANGE_WRITE | SYNC_FILE_RANGE_WAIT_AFTER</code></dt>
+<dd><code>sync_file_range()</code> 호출 때 지정 범위 내에 있던 변경 페이지들 모두가 디스크로 가도록 하는 "데이터 무결성 위한 쓰기 개시" 동작이다.</dd>
+</dl>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>성공 시 <code>sync_file_range()</code>는 0을 반환한다. 실패 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
+<h2 id="errors">ERRORS</h2>
+<dl>
+<dt><code>EBADF</code></dt>
+<dd><code>fd</code>가 유효한 파일 디스크립터가 아니다.</dd>
+<dt><code>EINVAL</code></dt>
+<dd><code>flags</code>에 유효하지 않은 비트를 지정했다. 또는 <code>offset</code>이나 <code>nbytes</code>가 유효하지 않다.</dd>
+<dt><code>EIO</code></dt>
+<dd>I/O 오류.</dd>
+<dt><code>ENOMEM</code></dt>
+<dd>메모리 부족.</dd>
+<dt><code>ENOSPC</code></dt>
+<dd>디스크 공간 부족.</dd>
+<dt><code>ESPIPE</code></dt>
+<dd><code>fd</code>가 정규 파일, 블록 장치, 디렉터리 아닌 뭔가를 가리키고 있다.</dd>
+</dl>
+<h2 id="versions">VERSIONS</h2>
+<p>리눅스 커널 2.6.17에서 <code>sync_file_range()</code>가 처음 등장했다.</p>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>이 시스템 호출은 리눅스 전용이므로 이식성 있는 프로그램에서는 피해야 한다.</p>
+<h2 id="notes">NOTES</h2>
+<h3 id="sync_file_range2"><code>sync_file_range2()</code></h3>
+<p>어떤 아키텍처(가령 PowerPC, ARM)에서는 64비트 인자를 적절한 레지스터 쌍에 맞춰 넣어야 한다. 그런 아키텍처에서 SYNOPSIS에 있는 <code>sync_file_range()</code> 호출 시그너처는 <code>fd</code>와 <code>offset</code> 인자 사이 패딩으로 레지스터 하나를 낭비하게 만들 것이다. (자세한 내용은 <tt>[[syscall(2)]]</tt> 참고.) 그래서 그런 아키텍처들에서는 인자 순서를 적절히 바꾼 다른 시스템 호출을 정의한다.</p>
+<pre><code class="c">int sync_file_range2(int fd, unsigned int flags,
+                     off64_t offset, off64_t nbytes);
+</code></pre>
+
+<p>이 시스템 호출의 동작은 그 외 부분에서는 <code>sync_file_range()</code>와 정확히 같다.</p>
+<p>리눅스 2.6.20에서 ARM 아키텍처에 <code>arm_sync_file_range()</code>라는 이름으로 이 시그너처의 시스템 호출이 처음 등장했다. 리눅스 2.6.22에서 PowerPC에 비슷한 시스템 호출이 추가되면서 이름이 바뀌었다. glibc 지원이 제공되는 아키텍처에서는 glibc가 <code>sync_file_range()</code> 이름 하에 투명하게 <code>sync_file_range2()</code>를 감싸 준다.</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[fdatasync(2)]]</tt>, <tt>[[fsync(2)]]</tt>, <tt>[[msync(2)]]</tt>, <tt>[[sync(2)]]</tt></p>
+<hr />
+<p>2017-09-15</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

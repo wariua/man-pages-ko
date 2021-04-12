@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/userfaultfd(2)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Userfaultfd(2) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+            <li class="second-level"><a href="#_1">사용법</a></li>
+                
+            <li class="second-level"><a href="#userfaultfd">userfaultfd 작업</a></li>
+                
+            <li class="second-level"><a href="#userfaultfd_1">userfaultfd 구조체 읽어들이기</a></li>
+                
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#bugs">BUGS</a></li>
+        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+            <li class="second-level"><a href="#_2">프로그램 소스</a></li>
+                
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>userfaultfd - 사용자 공간에서 페이지 폴트를 처리하기 위한 파일 디스크립터 만들기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;sys/types.h&gt;
+#include &lt;linux/userfaultfd.h&gt;
+
+int userfaultfd(int flags);
+</code></pre>
+
+<p><em>주의</em>: 이 시스템 호출들에 대한 glibc 래퍼가 없다. NOTES 참고.</p>
+<h2 id="description">DESCRIPTION</h2>
+<p><code>userfaultfd()</code>는 페이지 폴트 처리를 사용자 공간 응용에게 위임하는 데 쓸 수 있는 userfaultfd 객체를 새로 생성하고 그 새 객체를 가리키는 파일 디스크립터를 반환한다. <code>ioctl(2)</code>을 이용해 새 userfaultfd 객체를 설정한다.</p>
+<p>userfaultfd를 설정하고 나면 응용에서 <code>read(2)</code>를 사용해 userfaultfd 알림을 수신할 수 있다. userfaultfd 읽기는 userfaultfd 생성이나 이어진 <tt>[[fcntl(2)]]</tt> 호출에 사용한 <code>flags</code> 값에 따라 블로킹일 수도 있고 논블로킹일 수도 있다.</p>
+<p><code>flags</code>에 다음 값들을 비트 OR 해서 <code>userfaultfd()</code>의 동작 방식을 바꿀 수 있다.</p>
+<dl>
+<dt><code>O_CLOEXEC</code></dt>
+<dd>새 userfaultfd 파일 디스크립터에 'exec에서 닫기' 플래그를 켠다. <tt>[[open(2)]]</tt>의 <code>O_CLOEXEC</code> 플래그 설명을 보라.</dd>
+<dt><code>O_NONBLOCK</code></dt>
+<dd>userfaultfd 객체에 논블로킹 동작을 켠다. <tt>[[open(2)]]</tt>의 <code>O_NONBLOCK</code> 플래그 설명을 보라.</dd>
+</dl>
+<p>userfaultfd 객체를 가리키는 마지막 파일 디스크립터가 닫힐 때 그 객체에 등록되어 있던 모든 메모리 범위들을 해제하고 읽지 않은 이벤트들을 버린다.</p>
+<h3 id="_1">사용법</h3>
+<p>userfaultfd 메커니즘은 다중 스레드 프로그램에서 한 스레드가 프로세스 내 다른 스레드들을 위해 사용자 공간 페이징을 수행할 수 있도록 설계되었다. userfaultfd 객체에 등록된 영역들 중 하나에 페이지 폴트가 일어나면 폴트를 일으킨 스레드가 잠재워지고 userfaultfd 파일 디스크립터를 통해 읽을 수 있는 이벤트가 생성된다. 폴트 처리 스레드가 이 파일 디스크립터에서 이벤트를 읽어들여서 <tt>[[ioctl_userfaultfd(2)]]</tt>에서 기술하는 작업들을 이용해 처리한다. 페이지 폴트 이벤트를 처리할 때 폴트 처리 스레드가 잠든 스레드의 기상을 촉발시킬 수 있다.</p>
+<p>...</p>
+<p>...</p>
+<p>...</p>
+<h3 id="userfaultfd">userfaultfd 작업</h3>
+<p>...</p>
+<p>...</p>
+<p>...</p>
+<p>...</p>
+<p>...</p>
+<p>...</p>
+<h3 id="userfaultfd_1">userfaultfd 구조체 읽어들이기</h3>
+<p>...</p>
+<pre><code class="c">struct uffd_msg {
+    __u8  event;            /* 이벤트 종류 */
+    ...
+    union {
+        struct {
+            __u64 flags;    /* 폴트를 설명하는 플래그들 */
+            __u64 address;  /* 플트를 일으킨 주소 */
+        } pagefault;
+
+        struct {            /* 리눅스 4.11부터 */
+            __u32 ufd;      /* 자식 프로세스의 userfault
+                               파일 디스크립터 */
+        } fork;
+
+        struct {            /* 리눅스 4.11부터 */
+            __u64 from;     /* 리매핑 영역의 이전 주소 */
+            __u64 to;       /* 리매핑 영역의 새 주소 */
+            __u64 len;      /* 원래 매핑 길이 */
+        } remap;
+
+        struct {            /* 리눅스 4.11부터 */
+            __u64 start;    /* 제거된 영역의 시작 주소 */
+            __u64 end;      /* 제거된 영역의 끝 주소 */
+        } remove;
+        ...
+    } arg;
+
+    /* 패딩 필드 생략 */
+} __packed;
+</code></pre>
+
+<p>...</p>
+<p>...</p>
+<dl>
+<dt><code>event</code></dt>
+<dd>
+<p>...</p>
+<p>...</p>
+<dl>
+<dt><code>UFFD_EVENT_PAGEFAULT</code> (리눅스 4.3부터)</dt>
+<dd>...</dd>
+<dt><code>UFFD_EVENT_FORK</code> (리눅스 4.11부터)</dt>
+<dd>...</dd>
+<dt><code>UFFD_EVENT_REMAP</code> (리눅스 4.11부터)</dt>
+<dd>...</dd>
+<dt><code>UFFD_EVENT_REMOVE</code> (리눅스 4.11부터)</dt>
+<dd>...</dd>
+<dt><code>UFFD_EVENT_UNMAP</code> (리눅스 4.11부터)</dt>
+<dd>...</dd>
+</dl>
+</dd>
+<dt><code>pagefault.address</code></dt>
+<dd>...</dd>
+<dt><code>pagefault.flags</code></dt>
+<dd>
+<p>...</p>
+<dl>
+<dt><code>UFFD_PAGEFAULT_FLAG_WRITE</code></dt>
+<dd>...</dd>
+</dl>
+</dd>
+<dt><code>fork.ufd</code></dt>
+<dd>...</dd>
+<dt><code>remap.from</code></dt>
+<dd>...</dd>
+<dt><code>remap.to</code></dt>
+<dd>...</dd>
+<dt><code>remap.len</code></dt>
+<dd>...</dd>
+<dt><code>remove.start</code></dt>
+<dd>...</dd>
+<dt><code>remove.end</code></dt>
+<dd>...</dd>
+</dl>
+<p>...</p>
+<dl>
+<dt><code>EINVAL</code></dt>
+<dd>...</dd>
+</dl>
+<p>...</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>성공 시 <code>userfaultfd()</code>는 userfaultfd 객체를 가리키는 새 파일 디스크립터를 반환한다. 오류 시 -1을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<h2 id="errors">ERRORS</h2>
+<dl>
+<dt><code>EINVAL</code></dt>
+<dd>...</dd>
+<dt><code>EMFILE</code></dt>
+<dd>...</dd>
+<dt><code>ENFILE</code></dt>
+<dd>...</dd>
+<dt><code>ENOMEM</code></dt>
+<dd>...</dd>
+</dl>
+<h2 id="versions">VERSIONS</h2>
+<p>리눅스 4.3에서 <code>userfaultfd()</code> 시스템 호출이 처음 등장했다.</p>
+<p>...</p>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p><code>userfaultfd()</code>는 리눅스 전용이므로 이식성이 있어야 하는 프로그램에서는 사용하지 말아야 한다.</p>
+<h2 id="notes">NOTES</h2>
+<p>...</p>
+<p>...</p>
+<h2 id="bugs">BUGS</h2>
+<p>...</p>
+<h2 id="example">EXAMPLE</h2>
+<p>...</p>
+<p>...</p>
+<p>...</p>
+<p>...</p>
+<p>...</p>
+<pre><code class="text">$ ./userfaultfd_demo 3
+Address returned by mmap() = 0x7fd30106c000
+
+fault_handler_thread():
+    poll() returns: nready = 1; POLLIN = 1; POLLERR = 0
+    UFFD_EVENT_PAGEFAULT event: flags = 0; address = 7fd30106c00f
+        (uffdio_copy.copy returned 4096)
+Read address 0x7fd30106c00f in main(): A
+Read address 0x7fd30106c40f in main(): A
+Read address 0x7fd30106c80f in main(): A
+Read address 0x7fd30106cc0f in main(): A
+
+fault_handler_thread():
+    poll() returns: nready = 1; POLLIN = 1; POLLERR = 0
+    UFFD_EVENT_PAGEFAULT event: flags = 0; address = 7fd30106d00f
+        (uffdio_copy.copy returned 4096)
+Read address 0x7fd30106d00f in main(): B
+Read address 0x7fd30106d40f in main(): B
+Read address 0x7fd30106d80f in main(): B
+Read address 0x7fd30106dc0f in main(): B
+
+fault_handler_thread():
+    poll() returns: nready = 1; POLLIN = 1; POLLERR = 0
+    UFFD_EVENT_PAGEFAULT event: flags = 0; address = 7fd30106e00f
+        (uffdio_copy.copy returned 4096)
+Read address 0x7fd30106e00f in main(): C
+Read address 0x7fd30106e40f in main(): C
+Read address 0x7fd30106e80f in main(): C
+Read address 0x7fd30106ec0f in main(): C
+</code></pre>
+
+<h3 id="_2">프로그램 소스</h3>
+<pre><code class="c">/* userfaultfd_demo.c
+
+   Licensed under the GNU General Public License version 2 or later.
+*/
+#define _GNU_SOURCE
+#include &lt;sys/types.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;linux/userfaultfd.h&gt;
+#include &lt;pthread.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;signal.h&gt;
+#include &lt;poll.h&gt;
+#include &lt;string.h&gt;
+#include &lt;sys/mman.h&gt;
+#include &lt;sys/syscall.h&gt;
+#include &lt;sys/ioctl.h&gt;
+#include &lt;poll.h&gt;
+
+#define errExit(msg)    do { perror(msg); exit(EXIT_FAILURE); \
+                        } while (0)
+
+static int page_size;
+
+static void *
+fault_handler_thread(void *arg)
+{
+    static struct uffd_msg msg;   /* userfaultfd에서 읽는 데이터 */
+    static int fault_cnt = 0;     /* 지금까지 처리한 폴트 수 */
+    long uffd;                    /* userfaultfd 파일 디스크립터 */
+    static char *page = NULL;
+    struct uffdio_copy uffdio_copy;
+    ssize_t nread;
+
+    uffd = (long) arg;
+
+    /* 폴트 발생 영역으로 복사할 페이지 만들기 */
+
+    if (page == NULL) {
+        page = mmap(NULL, page_size, PROT_READ | PROT_WRITE,
+                    MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+        if (page == MAP_FAILED)
+            errExit(&quot;mmap&quot;);
+    }
+
+    /* 루프, userfaultfd 파일 디스크립터로 들어온 이벤트
+       처리하기 */
+
+    for (;;) {
+
+        /* userfaultfd에 대해 poll()이 뭐라는지 보자 */
+
+        struct pollfd pollfd;
+        int nready;
+        pollfd.fd = uffd;
+        pollfd.events = POLLIN;
+        nready = poll(&amp;pollfd, 1, -1);
+        if (nready == -1)
+            errExit(&quot;poll&quot;);
+
+        printf(&quot;\nfault_handler_thread():\n&quot;);
+        printf(&quot;    poll() returns: nready = %d; &quot;
+                &quot;POLLIN = %d; POLLERR = %d\n&quot;, nready,
+                (pollfd.revents &amp; POLLIN) != 0,
+                (pollfd.revents &amp; POLLERR) != 0);
+
+        /* userfaultfd에서 이벤트 읽기 */
+
+        nread = read(uffd, &amp;msg, sizeof(msg));
+        if (nread == 0) {
+            printf(&quot;EOF on userfaultfd!\n&quot;);
+            exit(EXIT_FAILURE);
+        }
+
+        if (nread == -1)
+            errExit(&quot;read&quot;);
+
+        /* 한 가지 이벤트만 예상. 가정이 맞는지 확인 */
+
+        if (msg.event != UFFD_EVENT_PAGEFAULT) {
+            fprintf(stderr, &quot;Unexpected event on userfaultfd\n&quot;);
+            exit(EXIT_FAILURE);
+        }
+
+        /* 페이지 폴트 이벤트에 대한 정보 표시 */
+
+        printf(&quot;    UFFD_EVENT_PAGEFAULT event: &quot;);
+        printf(&quot;flags = %llx; &quot;, msg.arg.pagefault.flags);
+        printf(&quot;address = %llx\n&quot;, msg.arg.pagefault.address);
+
+        /* 'page'가 가리키는 페이지를 폴트 발생 영역으로 복사.
+           복사해 넣는 내용물을 다르게 해서 각 폴트를 따로 처리하는
+           걸 더 분명하게 함. */
+
+        memset(page, 'A' + fault_cnt % 20, page_size);
+        fault_cnt++;
+
+        uffdio_copy.src = (unsigned long) page;
+
+        /* 페이지 단위로(!) 페이지 폴트를 처리해야 함. 따라서
+           폴트 발생 주소를 페이지 경계로 내림. */
+
+        uffdio_copy.dst = (unsigned long) msg.arg.pagefault.address &amp;
+                                           ~(page_size - 1);
+        uffdio_copy.len = page_size;
+        uffdio_copy.mode = 0;
+        uffdio_copy.copy = 0;
+        if (ioctl(uffd, UFFDIO_COPY, &amp;uffdio_copy) == -1)
+            errExit(&quot;ioctl-UFFDIO_COPY&quot;);
+
+        printf(&quot;        (uffdio_copy.copy returned %lld)\n&quot;,
+                uffdio_copy.copy);
+    }
+}
+
+int
+main(int argc, char *argv[])
+{
+    long uffd;          /* userfaultfd 파일 디스크립터 */
+    char *addr;         /* userfaultfd로 처리하는 영역의 시작 */
+    unsigned long len;  /* userfaultfd로 처리하는 영역의 길이 */
+    pthread_t thr;      /* 페이지 폴트를 처리하는 스레드의 ID */
+    struct uffdio_api uffdio_api;
+    struct uffdio_register uffdio_register;
+    int s;
+
+    if (argc != 2) {
+        fprintf(stderr, &quot;Usage: %s num-pages\n&quot;, argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    page_size = sysconf(_SC_PAGE_SIZE);
+    len = strtoul(argv[1], NULL, 0) * page_size;
+
+    /* userfaultfd 객체를 만들고 활성화 */
+
+    uffd = syscall(__NR_userfaultfd, O_CLOEXEC | O_NONBLOCK);
+    if (uffd == -1)
+        errExit(&quot;userfaultfd&quot;);
+
+    uffdio_api.api = UFFD_API;
+    uffdio_api.features = 0;
+    if (ioctl(uffd, UFFDIO_API, &amp;uffdio_api) == -1)
+        errExit(&quot;ioctl-UFFDIO_API&quot;);
+
+    /* 비공유 익명 매핑 만들기. 메모리가 .......
+    /* Create a private anonymous mapping. The memory will be
+       demand-zero paged--that is, not yet allocated. When we
+       actually touch the memory, it will be allocated via
+       the userfaultfd. */
+
+    addr = mmap(NULL, len, PROT_READ | PROT_WRITE,
+                MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
+    if (addr == MAP_FAILED)
+        errExit(&quot;mmap&quot;);
+
+    printf(&quot;Address returned by mmap() = %p\n&quot;, addr);
+
+    /* Register the memory range of the mapping we just created for
+       handling by the userfaultfd object. In mode, we request to track
+       missing pages (i.e., pages that have not yet been faulted in). */
+
+    uffdio_register.range.start = (unsigned long) addr;
+    uffdio_register.range.len = len;
+    uffdio_register.mode = UFFDIO_REGISTER_MODE_MISSING;
+    if (ioctl(uffd, UFFDIO_REGISTER, &amp;uffdio_register) == -1)
+        errExit(&quot;ioctl-UFFDIO_REGISTER&quot;);
+
+    /* userfaultfd 이벤트를 처리할 스레드 만들기 */
+
+    s = pthread_create(&amp;thr, NULL, fault_handler_thread, (void *) uffd);
+    if (s != 0) {
+        errno = s;
+        errExit(&quot;pthread_create&quot;);
+    }
+
+    /* Main thread now touches memory in the mapping, touching
+       locations 1024 bytes apart. This will trigger userfaultfd
+       events for all pages in the region. */
+
+    int l;
+    l = 0xf;    /* Ensure that faulting address is not on a page
+                   boundary, in order to test that we correctly
+                   handle that case in fault_handling_thread() */
+    while (l &lt; len) {
+        char c = addr[l];
+        printf(&quot;Read address %p in main(): &quot;, addr + l);
+        printf(&quot;%c\n&quot;, c);
+        l += 1024;
+        usleep(100000);         /* Slow things down a little */
+    }
+
+    exit(EXIT_SUCCESS);
+}
+</code></pre>
+
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[fcntl(2)]]</tt>, <code>ioctl(2)</code>, <tt>[[ioctl_userfaultfd(2)]]</tt>, <tt>[[madvise(2)]]</tt>, <tt>[[mmap(2)]]</tt></p>
+<p>리눅스 커널 소스 트리의 <code>Documentation/admin-guide/mm/userfaultfd.rst</code></p>
+<hr />
+<p>2019-03-06</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

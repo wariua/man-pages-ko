@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/fopencookie(3)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Fopencookie(3) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+            <li class="second-level"><a href="#_1">프로그램 소스</a></li>
+                
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>fopencookie - 맞춤형 스트림 열기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
+#include &lt;stdio.h&gt;
+
+FILE *fopencookie(void *cookie, const char *mode,
+                  cookie_io_functions_t io_funcs);
+</code></pre>
+
+<h2 id="description">DESCRIPTION</h2>
+<p><code>fopencookie()</code> 함수를 통해 프로그래머가 표준 I/O 스트림의 맞춤형 구현을 만들 수 있다. 그 구현에서는 원하는 위치에 스트림의 데이터를 저장할 수 있다. 예를 들어 메모리 내 버퍼에 저장된 데이터에 대해 스트림 인터페이스를 제공하는 <tt>[[fmemopen(3)]]</tt>을 구현하는 데 <code>fopencookie()</code>가 쓰인다.</p>
+<p>맞춤형 스트림을 만들려면 프로그래머가 다음을 해 주어야 한다.</p>
+<ul>
+<li>
+<p>스트림에 I/O를 수행할 때 표준 I/O 라이브러리에서 내부적으로 쓰는 네 가지 "훅" 함수를 구현해야 한다.</p>
+</li>
+<li>
+<p>"쿠키" 자료형을 정의한다. 앞서 언급한 훅 함수들에서 사용하는 정보(가령 데이터를 어디에 저장하는지)를 담는 자료 구조이다. 표준 I/O 패키지는 이 쿠키의 내용에 대해 아무것도 알지 못하며 (그래서 <code>fopencookie()</code>로 전달할 때 <code>void *</code> 타입) 훅 함수 호출 시 기계적으로 쿠키를 첫 번째 인자로 제공하기만 한다.</p>
+</li>
+<li>
+<p><code>fopencookie()</code>를 호출해 새 스트림을 열고 스트림에 쿠키와 훅 함수를 연계한다.</p>
+</li>
+</ul>
+<p><code>fopencookie()</code> 함수는 <tt>[[fopen(3)]]</tt>과 비슷한 역할을 한다. 즉 새 스트림을 열고 그 스트림 조작 시 사용할 <code>FILE</code> 객체에 대한 포인터를 반환한다.</p>
+<p><code>cookie</code> 인자는 호출자의 쿠키 자료 구조에 대한 포인터이며 새 스트림에 연계된다. 표준 I/O 라이브러리에서 아래 기술하는 훅 함수들을 호출할 때 이 포인터를 첫 번째 인자로 제공한다.</p>
+<p><code>mode</code> 인자는 <tt>[[fopen(3)]]</tt>에서와 같은 역할을 한다. 지원하는 모드는 <code>r</code>, <code>w</code>, <code>a</code>, <code>r+</code>, <code>w+</code>, <code>a+</code>이다. 자세한 내용은 <tt>[[fopen(3)]]</tt>을 보라.</p>
+<p><code>io_funcs</code> 인자는 스트림 구현을 위해 프로그래머가 정의한 훅 함수들을 가리키는 필드 네 개가 담긴 구조체이다. 이 구조체는 다음과 같이 정의돼 있다.</p>
+<pre><code class="c">typedef struct {
+    cookie_read_function_t  *read;
+    cookie_write_function_t *write;
+    cookie_seek_function_t  *seek;
+    cookie_close_function_t *close;
+} cookie_io_functions_t;
+</code></pre>
+
+<p>네 필드는 다음과 같다.</p>
+<dl>
+<dt><code>cookie_read_function_t *read</code></dt>
+<dd>
+<p>이 함수는 스트림의 읽기 동작을 구현한다. 호출 시 인자 세 개를 받는다.</p>
+<pre><code>ssize_t read(void *cookie, char *buf, size_t size);
+</code></pre>
+<p><code>buf</code> 인자와 <code>size</code> 인자는 각각 입력 데이터를 넣을 수 있는 버퍼와 그 버퍼의 크기이다. 함수 결과로 <code>read</code> 함수는 <code>buf</code>로 복사한 바이트 수를, 또는 파일 끝이면 0을, 또는 오류 시 -1을 반환해야 한다. <code>read</code> 함수는 스트림 오프셋을 적절히 갱신해야 한다.</p>
+<p><code>*read</code>가 널 포인터이면 맞춤형 스트림 읽기가 항상 파일 끝을 반환한다.</p>
+</dd>
+<dt><code>cookie_write_function_t *write</code></dt>
+<dd>
+<p>이 함수는 스트림의 쓰기 동작을 구현한다. 호출 시 인자 세 개를 받는다.</p>
+<pre><code>ssize_t write(void *cookie, const char *buf, size_t size);
+</code></pre>
+<p><code>buf</code> 인자와 <code>size</code> 인자는 각각 스트림으로 출력할 데이터가 있는 버퍼와 그 버퍼의 크기이다. 함수 결과로 <code>write</code> 함수는 <code>buf</code>로부터 복사한 바이트 수를, 또는 오류 시 0을 반환해야 한다. (함수가 음수 값을 반환해선 안 된다.) <code>write</code> 함수는 스트림 오프셋을 적절히 갱신해야 한다.</p>
+<p><code>*write</code>가 널 포인터이면 스트림에 대한 출력이 버려진다.</p>
+</dd>
+<dt><code>cookie_seek_function_t *seek</code></dt>
+<dd>
+<p>이 함수는 스트림의 탐색 동작을 구현한다. 호출 시 인자 세 개를 받는다.</p>
+<p>int seek(void <em>cookie, off64_t </em>offset, int whence);</p>
+<p><code>*offset</code> 인자는 새 파일 오프셋을 나타내는데, <code>whence</code>에 다음 중 어느 값이 있느냐에 따라 달라진다.</p>
+<dl>
+<dt><code>SEEK_SET</code></dt>
+<dd>스트림 오프셋을 스트림 시작점 기준 <code>*offset</code> 바이트로 설정해야 한다.</dd>
+<dt><code>SEEK_CUR</code></dt>
+<dd>현재 스트림 오프셋에 <code>*offset</code>을 더해야 한다.</dd>
+<dt><code>SEEK_END</code></dt>
+<dd>스트림 오프셋을 스트림 크기 더하기 <code>*offset</code>으로 설정해야 한다.</dd>
+</dl>
+<p>반환 전에 <code>seek</code> 함수는 새 스트림 오프셋을 나타내도록 <code>*offset</code>을 갱신해야 한다.</p>
+<p>함수 결과로 <code>seek</code> 함수는 성공 시 0을 반환하고 오류 시 -1을 반환해야 한다.</p>
+<p><code>*seek</code>이 널 포인터이면 스트림에서 탐색 동작을 수행하는 게 불가능하다.</p>
+</dd>
+<dt><code>cookie_close_function_t *close</code></dt>
+<dd>
+<p>이 함수는 스트림을 닫는다. 스트림을 위해 할당했던 버퍼를 해제하는 것 같은 일을 훅 함수에서 할 수 있다. 호출 시 인자 한 개를 받는다.</p>
+<pre><code>int close(void *cookie);
+</code></pre>
+<p><code>cookie</code> 인자는 프로그래머가 <code>fopencookie()</code> 호출 시 제공했던 쿠키이다.</p>
+<p>함수 결과로 <code>close</code> 함수는 성공 시 0을 반환하고 오류 시 <code>EOF</code>를 반환해야 한다.</p>
+<p><code>*close</code>가 NULL이면 스트림을 닫을 때 별다른 동작을 수행하지 않는다.</p>
+</dd>
+</dl>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>성공 시 <code>fopencookie()</code>는 새 스트림에 대한 포인터를 반환한다. 오류 시 NULL을 반환한다.</p>
+<h2 id="attributes">ATTRIBUTES</h2>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<table>
+<thead>
+<tr>
+<th>인터페이스</th>
+<th>속성</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fopencookie()</code></td>
+<td>스레드 안전성</td>
+<td>MT-Safe</td>
+</tr>
+</tbody>
+</table>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>이 함수는 비표준 GNU 확장이다.</p>
+<h2 id="example">EXAMPLE</h2>
+<p>아래 프로그램에서는 <tt>[[fmemopen(3)]]</tt>을 통해 사용 가능한 것과 기능이 비슷한 (하지만 동일하지는 않은) 맞춤형 스트림을 구현한다. 즉 메모리 버퍼에 데이터를 저장하는 스트림을 구현한다. 프로그램에서 명령행 인자들을 스트림으로 써넣은 다음 스트림을 탐색하며 다섯 글자마다 두 글자씩을 읽어서 표준 출력에 쓴다. 다음 셸 세션이 프로그램 사용 방식을 보여 준다.</p>
+<pre><code class="text">$ ./a.out 'hello world'
+/he/
+/ w/
+/d/
+Reached end of file
+</code></pre>
+
+<p>참고로 아래 프로그램을 더 범용적으로 만들려면 다양한 오류 상황들(가령 스트림 여는 데 사용한 쿠키로 다른 스트림 열기, 이미 닫힌 스트림 닫기)을 견고하게 다루도록 개선할 수 있을 것이다.</p>
+<h3 id="_1">프로그램 소스</h3>
+<pre><code class="c">#define _GNU_SOURCE
+#include &lt;sys/types.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;string.h&gt;
+
+#define INIT_BUF_SIZE 4
+
+struct memfile_cookie {
+    char   *buf;         /* 동적 크기의 데이터 버퍼 */
+    size_t  allocated;   /* buf의 크기 */
+    size_t  endpos;      /* buf 내의 문자 개수 */
+    off_t   offset;      /* buf 내의 현재 파일 오프셋 */
+};
+
+ssize_t
+memfile_write(void *c, const char *buf, size_t size)
+{
+    char *new_buff;
+    struct memfile_cookie *cookie = c;
+
+    /* 버퍼 부족? 충분히 커질 때까지 두 배씩 키우기 */
+
+    while (size + cookie-&gt;offset &gt; cookie-&gt;allocated) {
+        new_buff = realloc(cookie-&gt;buf, cookie-&gt;allocated * 2);
+        if (new_buff == NULL) {
+            return -1;
+        } else {
+            cookie-&gt;allocated *= 2;
+            cookie-&gt;buf = new_buff;
+        }
+    }
+
+    memcpy(cookie-&gt;buf + cookie-&gt;offset, buf, size);
+
+    cookie-&gt;offset += size;
+    if (cookie-&gt;offset &gt; cookie-&gt;endpos)
+        cookie-&gt;endpos = cookie-&gt;offset;
+
+    return size;
+}
+
+ssize_t
+memfile_read(void *c, char *buf, size_t size)
+{
+    ssize_t xbytes;
+    struct memfile_cookie *cookie = c;
+
+    /* 요청 바이트와 가용 바이트 중 작은 쪽 가져오기 */
+
+    xbytes = size;
+    if (cookie-&gt;offset + size &gt; cookie-&gt;endpos)
+        xbytes = cookie-&gt;endpos - cookie-&gt;offset;
+    if (xbytes &lt; 0)     /* offset이 endpos를 지났을 수 있음 */
+        xbytes = 0;
+
+    memcpy(buf, cookie-&gt;buf + cookie-&gt;offset, xbytes);
+
+    cookie-&gt;offset += xbytes;
+    return xbytes;
+}
+
+int
+memfile_seek(void *c, off64_t *offset, int whence)
+{
+    off64_t new_offset;
+    struct memfile_cookie *cookie = c;
+
+    if (whence == SEEK_SET)
+        new_offset = *offset;
+    else if (whence == SEEK_END)
+        new_offset = cookie-&gt;endpos + *offset;
+    else if (whence == SEEK_CUR)
+        new_offset = cookie-&gt;offset + *offset;
+    else
+        return -1;
+
+    if (new_offset &lt; 0)
+        return -1;
+
+    cookie-&gt;offset = new_offset;
+    *offset = new_offset;
+    return 0;
+}
+
+int
+memfile_close(void *c)
+{
+    struct memfile_cookie *cookie = c;
+
+    free(cookie-&gt;buf);
+    cookie-&gt;allocated = 0;
+    cookie-&gt;buf = NULL;
+
+    return 0;
+}
+
+int
+main(int argc, char *argv[])
+{
+    cookie_io_functions_t  memfile_func = {
+        .read  = memfile_read,
+        .write = memfile_write,
+        .seek  = memfile_seek,
+        .close = memfile_close
+    };
+    FILE *stream;
+    struct memfile_cookie mycookie;
+    ssize_t nread;
+    long p;
+    int j;
+    char buf[1000];
+
+    /* 쿠키 준비하고 fopencookie() 호출 */
+
+    mycookie.buf = malloc(INIT_BUF_SIZE);
+    if (mycookie.buf == NULL) {
+        perror(&quot;malloc&quot;);
+        exit(EXIT_FAILURE);
+    }
+
+    mycookie.allocated = INIT_BUF_SIZE;
+    mycookie.offset = 0;
+    mycookie.endpos = 0;
+
+    stream = fopencookie(&amp;mycookie,&quot;w+&quot;, memfile_func);
+    if (stream == NULL) {
+        perror(&quot;fopencookie&quot;);
+        exit(EXIT_FAILURE);
+    }
+
+    /* 명령행 인자를 우리 파일로 기록 */
+
+    for (j = 1; j &lt; argc; j++)
+        if (fputs(argv[j], stream) == EOF) {
+            perror(&quot;fputs&quot;);
+            exit(EXIT_FAILURE);
+        }
+
+    /* EOF 전까지 다섯 바이트마다 두 바이트씩 읽기 */
+
+    for (p = 0; ; p += 5) {
+        if (fseek(stream, p, SEEK_SET) == -1) {
+            perror(&quot;fseek&quot;);
+            exit(EXIT_FAILURE);
+        }
+        nread = fread(buf, 1, 2, stream);
+        if (nread == -1) {
+            perror(&quot;fread&quot;);
+            exit(EXIT_FAILURE);
+        }
+        if (nread == 0) {
+            printf(&quot;Reached end of file\n&quot;);
+            break;
+        }
+
+        printf(&quot;/%.*s/\n&quot;, nread, buf);
+    }
+
+    exit(EXIT_SUCCESS);
+}
+</code></pre>
+
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[fclose(3)]]</tt>, <tt>[[fmemopen(3)]]</tt>, <tt>[[fopen(3)]]</tt>, <code>fseek(3)</code></p>
+<hr />
+<p>2019-03-06</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

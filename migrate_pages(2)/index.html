@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/migrate_pages(2)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Migrate pages(2) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>migrate_pages - 프로세스의 모든 페이지들을 다른 노드들로 옮기기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;numaif.h&gt;
+
+long migrate_pages(int pid, unsigned long maxnode,
+                   const unsigned long *old_nodes,
+                   const unsigned long *new_nodes);
+</code></pre>
+
+<p><code>-lnuma</code>로 링크.</p>
+<h2 id="description">DESCRIPTION</h2>
+<p><code>migrate_pages()</code>는 프로세스 <code>pid</code>의 페이지들 중 메모리 노드 <code>old_nodes</code>에 있는 것들을 모두 메모리 노드 <code>new_nodes</code>로 옮기려고 시도한다. <code>old_nodes</code>의 어느 노드에도 위치해 있지 않은 페이지는 이동하지 않는다. 커널에서는 <code>new_nodes</code>로 이동시키는 동안 <code>old_nodes</code> 내의 상대적 위상 관계를 가급적 유지한다.</p>
+<p><code>old_nodes</code> 및 <code>new_nodes</code> 인자는 노드 번호들의 비트 마스크에 대한 포인터이며, 각 마스크에 최대 <code>maxnode</code> 개 비트가 있다. 그 마스크들은 부호 없는 <code>long</code> 정수들의 배열 형태로 유지한다. (마지막 <code>long</code> 정수에서 <code>maxnode</code>로 지정한 것 너머의 비트들은 무시한다.) <code>maxnode</code> 인자는 비트 마스크 내의 가장 큰 노드 번호에 1을 더한 것이다. (<tt>[[mbind(2)]]</tt>와는 같지만 <tt>[[select(2)]]</tt>와는 다르다.)</p>
+<p><code>pid</code> 인자는 이동할 페이지들을 소유한 프로세스의 ID이다. 다른 프로세스의 페이지들을 옮기려면 호출자에게 특권(<code>CAP_SYS_NICE</code>)이 있거나 호출 프로세스의 실제 내지 실효 사용자 ID가 대상 프로세스의 실제 내지 saved-set 사용자 ID와 일치해야 한다. <code>pid</code>가 0이면 <code>migrate_pages()</code>는 호출 프로세스의 페이지를 옮긴다.</p>
+<p>다른 프로세스와 공유하는 페이지들은 개시 프로세스에게 <code>CAP_SYS_NICE</code> 특권이 있는 경우에만 옮긴다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>성공 시 <code>migrate_pages()</code>는 옮길 수 없었던 페이지 개수를 반환한다. (즉 0이 반환되면 모든 페이지를 성공적으로 옮겼다는 뜻이다.) 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
+<h2 id="errors">ERRORS</h2>
+<dl>
+<dt><code>EFAULT</code></dt>
+<dd><code>old_nodes</code>/<code>new_nodes</code>와 <code>maxnode</code>로 지정한 메모리 범위의 일부 내지 전체가 접근 가능한 주소 공간 밖을 가리킨다.</dd>
+<dt><code>EINVAL</code></dt>
+<dd><code>maxnode</code>에 지정한 값이 커널에서 두는 제한치를 초과한다. 또는 지원하는 가장 큰 노드보다 큰 노드 ID를 <code>old_nodes</code>나 <code>new_nodes</code>에 한 개 이상 지정했다. 또는 <code>new_nodes</code>로 지정한 노드 ID들 중에서 온라인이고 프로세스의 현재 cpuset 문맥에서 허용되는 게 없거나, 지정한 노드들 중에서 메모리를 담고 있는 게 없다.</dd>
+<dt><code>EPERM</code></dt>
+<dd><code>pid</code>로 지정한 프로세스의 페이지를 옮길 특권(<code>CAP_SYS_NICE</code>)이 부족하거나, 지정한 대상 노드에 접근하기 위한 특권(<code>CAP_SYS_NICE</code>)이 부족하다.</dd>
+<dt><code>ESRCH</code></dt>
+<dd><code>pid</code>에 일치하는 프로세스를 찾을 수 없다.</dd>
+</dl>
+<h2 id="versions">VERSIONS</h2>
+<p>리눅스 버전 2.6.16에서 <code>migrate_pages()</code> 시스템 호출이 처음 등장했다.</p>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>이 시스템 호출은 리눅스 전용이다.</p>
+<h2 id="notes">NOTES</h2>
+<p>라이브러리 지원에 대한 정보는 <tt>[[numa(7)]]</tt>를 보라.</p>
+<p><tt>[[get_mempolicy(2)]]</tt>를 <code>MPOL_F_MEMS_ALLOWED</code> 플래그로 사용하면 호출 프로세스의 cpuset에서 허용하는 노드들의 집합을 얻을 수 있다. 참고로 그 정보는 수동 내지 자동으로 이뤄지는 cpuset 재구성으로 인해 언제든 바뀔 수 있다.</p>
+<p><code>migrate_pages()</code>를 사용하면 페이지들의 위치(노드)가 지정 주소(<tt>[[mbind(2)]]</tt>) 및/또는 지정 프로세스(<tt>[[set_mempolicy(2)]]</tt>)에 대해 설정한 메모리 정책과 어긋나게 될 수도 있다. 다시 말해 메모리 정책이 <code>migrate_pages()</code>에서 쓰는 목적지 노드를 제약하지 않는다.</p>
+<p><code>&lt;numaif.h&gt;</code> 헤더는 glibc에 포함되어 있지 않으며 <code>libnuma-devel</code> 내지 그와 비슷한 패키지를 설치해야 한다.</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[get_mempolicy(2)]]</tt>, <tt>[[mbind(2)]]</tt>, <tt>[[set_mempolicy(2)]]</tt>, <tt>[[numa(3)]]</tt>, <tt>[[numa_maps(5)]]</tt>, <tt>[[cpuset(7)]]</tt>, <tt>[[numa(7)]]</tt>, <code>migratepages(8)</code>, <code>numastat(8)</code></p>
+<p>리눅스 커널 소스 트리의 <code>Documentation/vm/page_migration.rst</code></p>
+<hr />
+<p>2019-03-06</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/strfromf(3)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Strfromf(3) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+            <li class="second-level"><a href="#_1">서식 문자열의 형식</a></li>
+                
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
+        <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>strfromd, strfromf, strfroml - 부동소수점 값을 문자열로 변환하기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;stdlib.h&gt;
+
+int strfromd(char *restrict str, size_t n,
+             const char *restrict format, double fp);
+int strfromf(char *restrict str, size_t n,
+             const char *restrict format, float fp);
+int strfroml(char *restrict str, size_t n,
+             const char *restrict format, long double fp);
+</code></pre>
+
+<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<dl>
+<dt><code>strfromd()</code>, <code>strfromf()</code>, <code>strfroml()</code>:</dt>
+<dd><code>__STDC_WANT_IEC_60559_BFP_EXT__</code></dd>
+</dl>
+<h2 id="description">DESCRIPTION</h2>
+<p>이 함수들은 설정 가능한 <code>format</code>에 따라 부동소수점 값 <code>fp</code>를 문자열 <code>str</code>으로 변환한다. <code>str</code>에 최대 <code>n</code> 개 문자를 저장한다.</p>
+<p><code>n</code>이 충분히 큰 경우에만 종료용 널 문자(<code>'\0'</code>)를 써 넣는다. 그렇지 않으면 <code>n</code> 개 문자에서 잘린 문자열을 써 넣는다.</p>
+<p><code>strfromd()</code>, <code>strfromf()</code>, <code>strfroml()</code> 함수는 <code>format</code> 문자열을 빼면 다음과 동등하다.</p>
+<pre><code class="c">snprintf(str, n, format, fp);
+</code></pre>
+
+<h3 id="_1">서식 문자열의 형식</h3>
+<p><code>format</code> 문자열은 문자 '%'로 시작해야 한다. 그 다음에 선택적으로 정밀도가 오는데, 마침표 문자(.)로 시작하고 선택적으로 10진법 정수가 따라온다. 마침표 다음에 정수를 지정하지 않으면 정밀도를 0으로 한다. 마지막으로 서식 문자열에는 변환 지정자 <code>a</code>, <code>A</code>, <code>e</code>, <code>E</code>, <code>f</code>, <code>F</code>, <code>g</code>, <code>G</code> 중 하나가 있어야 한다.</p>
+<p>함수 뒷부분이 나타내는 부동소수점 종류에 따라 변환 지정자를 적용한다. 따라서 <code>snprintf()</code>와는 달리 서식 문자열에 길이 수식자 문자가 없다. 변환 지정자들에 대한 자세한 설명은 <tt>[[snprintf(3)]]</tt>를 보라.</p>
+<p>NaN 및 무한대 값의 변환에서 C99 표준을 준수한다.</p>
+<blockquote>
+<p><code>fp</code>가 NaN, +NaN, -NaN이고 변환 지정자가 <code>f</code>(또는 <code>a</code>, <code>e</code>, <code>g</code>)이면 변환 결과는 각각 "nan", "nan", "-nan"이다. 변환 지정자가 <code>F</code>(또는 <code>A</code>, <code>E</code>, <code>G</code>)이면 변환 결과는 "NAN"이나 "-NAN"이다.</p>
+<p>마찬가지로 <code>fp</code>가 무한대이면 [-]inf나 [-]INF로 변환된다.</p>
+</blockquote>
+<p>잘못된 형식의 <code>format</code> 문자열로 인한 동작 방식은 규정되어 있지 않다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p><code>strfromd()</code>, <code>strfromf()</code>, <code>strfroml()</code> 함수는 <code>n</code>이 충분히 클 때 <code>str</code>에 써 넣게 되는 문자 개수를 반환한다. 종료용 널 문자는 세지 않는다. 따라서 반환 값이 <code>n</code> 이상이면 출력이 잘렸다는 뜻이다.</p>
+<h2 id="versions">VERSIONS</h2>
+<p>glibc 버전 2.25부터 <code>strfromd()</code>, <code>strfromf()</code>, <code>strfroml()</code> 함수가 사용 가능하다.</p>
+<h2 id="attributes">ATTRIBUTES</h2>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>와 GNU C 라이브러리 매뉴얼 <strong>POSIX Safety Concepts</strong> 절을 보라.</p>
+<table>
+<thead>
+<tr>
+<th>인터페이스</th>
+<th>속성</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>strfromd()</code>,<br><code>strfromf()</code>,<br><code>strfroml()</code></td>
+<td>스레드 안전성</td>
+<td>MT-Safe locale</td>
+</tr>
+<tr>
+<td><code>strfromd()</code>,<br><code>strfromf()</code>,<br><code>strfroml()</code></td>
+<td>비동기 시그널 안전성</td>
+<td>AS-Unsafe heap</td>
+</tr>
+<tr>
+<td><code>strfromd()</code>,<br><code>strfromf()</code>,<br><code>strfroml()</code></td>
+<td>비동기 취소 안전성</td>
+<td>AC-Unsafe mem</td>
+</tr>
+</tbody>
+</table>
+<p>참고: 예비 속성들이다.</p>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>C99, ISO/IEC TS 18661-1.</p>
+<h2 id="notes">NOTES</h2>
+<p><code>strfromd()</code>, <code>strfromf()</code>, <code>strfroml()</code> 함수에서는 현재 로캘의 <code>LC_NUMERIC</code> 범주를 따진다.</p>
+<h2 id="example">EXAMPLE</h2>
+<p><code>float</code> 타입 값 12.1을 10진법 문자열로 변환하면 "12.100000"가 나온다.</p>
+<pre><code class="c">#define __STDC_WANT_IEC_60559_BFP_EXT__
+#include &lt;stdlib.h&gt;
+int ssize = 10;
+char s[ssize];
+strfromf(s, ssize, &quot;%f&quot;, 12.1);
+</code></pre>
+
+<p><code>float</code> 타입 값 12.3456을 정밀도 2자리인 10진법 문자열로 변환하면 "12.35"가 나온다.</p>
+<pre><code class="c">#define __STDC_WANT_IEC_60559_BFP_EXT__
+#include &lt;stdlib.h&gt;
+int ssize = 10;
+char s[ssize];
+strfromf(s, ssize, &quot;%.2f&quot;, 12.3456);
+</code></pre>
+
+<p><code>double</code> 타입 값 12.345e19를 정밀도 0자리인 과학적 기수법 문자열로 변환하면 "1E+20"이 나온다.</p>
+<pre><code class="c">#define __STDC_WANT_IEC_60559_BFP_EXT__
+#include &lt;stdlib.h&gt;
+int ssize = 10;
+char s[ssize];
+strfromd(s, ssize, &quot;%.E&quot;, 12.345e19);
+</code></pre>
+
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[atof(3)]]</tt>, <tt>[[snprintf(3)]]</tt>, <tt>[[strtod(3)]]</tt></p>
+<hr />
+<p>2019-03-06</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

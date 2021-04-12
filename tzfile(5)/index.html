@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/tzfile(5)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Tzfile(5) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+            <li class="second-level"><a href="#2">버전 2 형식</a></li>
+                
+            <li class="second-level"><a href="#3">버전 3 형식</a></li>
+                
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>tzfile - 시간대 정보</p>
+<h2 id="description">DESCRIPTION</h2>
+<p><tt>[[tzset(3)]]</tt>에서 쓰는 시간대 정보 파일들은 보통 <code>/usr/share/zoneinfo</code> 같은 이름의 디렉터리 아래에 있다. 그 파일들은 다음 필드들을 담은 44바이트 헤더로 시작한다.</p>
+<ul>
+<li>
+<p>시간대 정보 파일임을 나타내는 4바이트짜리 ASCII 열 "TZif".</p>
+</li>
+<li>
+<p>파일 형식 버전을 나타내는 한 바이트. (2017년 현재 ASCII NUL이거나, "2"이거나, "3".)</p>
+</li>
+<li>
+<p>향후 용도를 위해 예비된 0을 담은 15바이트.</p>
+</li>
+<li>
+<p>표준 바이트 순서(값의 상위 바이트 먼저)로 기록된 4바이트짜리 정수 값 여섯 개. 그 값들은 차례로 다음과 같다.</p>
+<dl>
+<dt><code>tzh_ttisgmtcnt</code></dt>
+<dd>파일에 저장된 UT/로컬 표시자 수.</dd>
+<dt><code>tzh_ttisstdcnt</code></dt>
+<dd>파일에 저장된 표준/벽시계 표시자 수.</dd>
+<dt><code>tzh_leapcnt</code></dt>
+<dd>파일에 데이터 항목이 저장돼 있는 윤초 수.</dd>
+<dt><code>tzh_timecnt</code></dt>
+<dd>파일에 데이터 항목이 저장돼 있는 전환 시간 수.</dd>
+<dt><code>tzh_typecnt</code></dt>
+<dd>파일에 데이터 항목이 저장돼 있는 지역 시간 종류 개수. (0이 아니어야 함.)</dd>
+<dt><code>tzh_charcnt</code></dt>
+<dd>파일에 저장된 시간대 축약명 문자열들의 바이트 수.</dd>
+</dl>
+</li>
+</ul>
+<p>위 헤더 다음으로 다음 필드들이 오는데, 헤더 내용에 따라 길이가 정해진다.</p>
+<ul>
+<li>
+<p>오름차순으로 정렬된 4바이트 부호 있는 정수 값 <code>tzh_timecnt</code> 개. 이 값들은 표준 바이트 순서로 기록된다. 지역 시간 계산 규칙이 바뀌는 전환 시간으로 쓰인다. (<tt>[[time(2)]]</tt> 반환 값으로 나타냄.)</p>
+</li>
+<li>
+<p>1바이트 부호 없는 정수 값 <code>tzh_timecnt</code> 개. 파일에 기술된 여러 지역 시간 종류들 중 어느 게 같은 인덱스의 전환 시간부터 다음 전환 시간 전까지의 기간에 연계돼 있는지 알려 준다. (단 마지막 시간 종류 항목은 아래 기술된 POSIX 스타일 TZ 문자열과의 일관성 검사를 위해 있을 뿐이다.) 이 값들이 다음 필드에서 인덱스 역할을 한다.</p>
+</li>
+<li>
+<p>다음처럼 정의된 <code>ttinfo</code> 항목 <code>tzh_typecnt</code> 개.</p>
+<pre><code>struct ttinfo {
+     int32_t        tt_gmtoff;
+     unsigned char  tt_isdst;
+     unsigned char  tt_abbrind;
+};
+</code></pre>
+<p>각 구조체는 표준 바이트 순서로 된 4바이트 부호 있는 정수 값 <code>tt_gmtoff</code>, 1바이트 값 <code>tt_isdst</code>, 1바이트 값 <code>tt_abbrind</code>로 이뤄진다. 각 구조체에서 <code>tt_gmtoff</code>는 UT에 더해야 할 초 수이고, <code>tt_isdst</code>는 <tt>[[localtime(3)]]</tt>에서 <code>tm_isdst</code>를 설정해야 하는지 여부를 나타내며, <code>tt_abbrind</code>는 파일에서 <code>ttinfo</code> 구조체(들) 다음에 오는 시간대 축약명 문자열 배열에서의 인덱스 역할을 한다.</p>
+</li>
+<li>
+<p>표준 바이트 순서로 된 4바이트 값 <code>tzh_leapcnt</code> 쌍. 각 쌍의 첫 번째 값은 윤초가 일어나는 음수 아닌 시간이고 (<tt>[[time(2)]]</tt> 반환 값으로 나타냄), 두 번째는 그 시간부터의 기간 동안에 적용할 윤초 <em>총</em> 개수이다. 시간 오름차순으로 쌍들이 저장돼 있다. 각 전환은 양수 또는 음수 1초 만큼의 윤초이며, 전환 간에는 항상 최소 28일 빼기 1초만큼의 간격을 둔다.</p>
+</li>
+<li>
+<p>1바이트 값으로 저장된 표준/벽시계 표시자 <code>tzh_ttisdstcnt</code> 개. 지역 시간 종류와 연계된 전환 시간들이 표준 시간과 벽시계 시간 중 어느 쪽으로 지정돼 있는지 나타낸다. POSIX 방식 시간대 환경 변수들을 다루는 과정에서 시간대 파일을 이용할 때 쓰인다.</p>
+</li>
+<li>
+<p>1바이트 값으로 저장된 UT/지역 표시자 <code>tzh_ttisgmtcnt</code> 개. 지역 시간 종류와 연계된 전환 시간들이 UT 시간과 지역 시간 중 어느 쪽으로 지정돼 있는지 나타낸다. POSIX 방식 시간대 환경 변수들을 다루는 과정에서 시간대 파일을 이용할 때 쓰인다.</p>
+</li>
+</ul>
+<p><code>tzh_timecnt</code>가 0이거나 시간 인자가 파일에 기록돼 있는 첫 번째 전환 시간보다 앞인 경우에 <tt>[[localtime(3)]]</tt> 함수는 파일의 첫 번째 표준 시간 <code>ttinfo</code> 구조체를 (표준 시간 구조체가 없으면 그냥 첫 번째 <code>ttinfo</code> 구조체를) 사용한다.</p>
+<h3 id="2">버전 2 형식</h3>
+<p>버전 2 형식의 시간대 파일에서는 위의 헤더 및 데이터 다음에 두 번째 헤더 및 데이터가 오는데, 전환 시간과 윤초 시간에 각각 8바이트를 쓴다는 점을 빼곤 동일한 형식이다. (윤초 개수는 여전히 4바이트다.) 두 번째 헤더 및 데이터 다음에는 개행으로 감싼 POSIX TZ 환경 변수 스타일 문자열이 오는데, 파일에 저장된 마지막 전환 시간 후의 순간들을 (파일에 전환이 없다면 모든 순간들을) 처리할 때 쓰기 위한 것이다. 그 순간들에 대한 POSIX 표현이 존재하지 않는 경우에는 POSIX 스타일 TZ 문자열이 비어 있다. (즉 개행 사이에 아무것도 없다.) POSIX 스타일 TZ 문자열이 비어 있지 않은 경우에는 그 여덟 바이트 데이터로 된 전환 시간이 있다면 마지막 전환 시간 후의 지역 시간 종류와 그 TZ 문자열이 부합해야 한다. 예를 들어 그 문자열이 "WET0WEST,M3.5.0,M10.5.0/3"라고 하고, 마지막 전환 시간이 7월에 있다면 그 전환의 지역 시간 종류에서 UT보다 한 시간 동쪽이고 "WEST"로 줄여 쓰는 일광 절약 시간을 명시해야 한다. 또한 전환이 최소 한 번은 있을 때 무한대 과거부터 가장 이른 전환 시간 전까지의 기간에는 시간 종류 0번이 연계된다.</p>
+<h3 id="3">버전 3 형식</h3>
+<p>버전 3 형식의 시간대 파일에서는 <code>newtzset(3)</code>에서 기술하는 POSIX TZ 형식에 대한 두 가지 소규모 확장을 그 POSIX TZ 스타일 문자열에서 쓸 수 있다. 첫째로, 전환 시간의 시간 부분이 POSIX에서 요구하는 0에서 24까지의 부호 없는 값이 아니라 -167에서 167까지 범위의 부호 있는 값일 수 있다. 둘째로, DST가 1월 1일 00:00에 시작해서 12월 31일 24:00에 일광 절약 시간과 표준시 차이를 더한 때에 끝나는 경우에는 DST가 연중 내내 효력이 있다.</p>
+<p>향후 형식이 바뀌면서 더 많은 데이터가 덧붙을 수 있다.</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[time(2)]]</tt>, <tt>[[localtime(3)]]</tt>, <tt>[[tzset(3)]]</tt>, <code>tzselect(8)</code>, <code>zdump(8)</code>, <code>zic(8)</code></p>
+<hr />
+<p>2019-03-06</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/perf_event_open(2)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Perf event open(2) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+            <li class="second-level"><a href="#_1">인자</a></li>
+                
+            <li class="second-level"><a href="#_2">결과 읽기</a></li>
+                
+            <li class="second-level"><a href="#mmap">MMAP 레이아웃</a></li>
+                
+            <li class="second-level"><a href="#_3">넘침 처리하기</a></li>
+                
+            <li class="second-level"><a href="#rdpmc">rdpmc 인스트럭션</a></li>
+                
+            <li class="second-level"><a href="#perf_event-ioctl">perf_event ioctl 호출</a></li>
+                
+            <li class="second-level"><a href="#prctl2">[[prctl(2)]] 사용하기</a></li>
+                
+            <li class="second-level"><a href="#perf_event">perf_event 관련 설정 파일</a></li>
+                
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#version">VERSION</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#bugs">BUGS</a></li>
+        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>perf_event_open - 성능 모니터링 설정하기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;linux/perf_event.h&gt;
+#include &lt;linux/hw_breakpoint.h&gt;
+
+int perf_event_open(struct perf_event_attr *attr,
+                    pid_t pid, int cpu, int group_fd,
+                    unsigned long flags);
+</code></pre>
+
+<p><em>주의</em>: 이 시스템 호출에 대한 glibc 래퍼가 없다. NOTES 참고.</p>
+<h2 id="description">DESCRIPTION</h2>
+<p>매개변수 목록을 받은 <code>perf_event_open()</code>은 후속 시스템 호출(<code>read(2)</code>, <tt>[[mmap(2)]]</tt>, <tt>[[prctl(2)]]</tt>, <tt>[[fcntl(2)]]</tt> 등)에 사용할 파일 디스크립터를 반환한다.</p>
+<p><code>perf_event_open()</code> 호출은 성능 정보를 계측하기 위한 파일 디스크립터를 생성한다. 각 파일 디스크립터가 측정하는 한 이벤트에 대응한다. 이를 한데 묶어서 여러 이벤트를 동시에 측정할 수 있다.</p>
+<p><code>ioctl(2)</code>이나 <tt>[[prctl(2)]]</tt>을 통해서 이벤트를 켜고 끌 수 있다. 이벤트가 꺼져 있을 때에는 수를 세거나 오버플로우를 생성하지 않는다. 하지만 계속 존재하면서 그 수 값을 유지한다.</p>
+<p>이벤트에는 계수 방식과 샘플 방식이 있다. <em>계수(counting)</em> 이벤트는 발생한 이벤트 총수를 세기 위한 것이다. 계수 이벤트 결과는 일반적으로 <code>read(2)</code> 호출로 수집한다. <em>샘플(sampled)</em> 이벤트는 주기적으로 측정치를 어떤 버퍼에 기록하고, <tt>[[mmap(2)]]</tt>을 통해 거기 접근할 수 있다.</p>
+<h3 id="_1">인자</h3>
+<p><code>pid</code>와 <code>cpu</code> 인자를 통해 감시할 프로세스와 CPU를 지정할 수 있다.</p>
+<dl>
+<dt><code>pid == 0</code>이고 <code>cpu == -1</code></dt>
+<dd>아무 CPU에서나 호출 프로세스/스레드를 계측한다.</dd>
+<dt><code>pid == 0</code>이고 <code>cpu &gt;= 0</code></dt>
+<dd>지정한 CPU에서 돌 때만 호출 프로세스/스레드를 계측한다.</dd>
+<dt><code>pid &gt; 0</code>이고 <code>cpu == -1</code></dt>
+<dd>아무 CPU에서나 지정한 프로세스/스레드를 계측한다.</dd>
+<dt><code>pid &gt; 0</code>이고 <code>cpu &gt;= 0</code></dt>
+<dd>지정한 CPU에서 돌 때만 지정한 프로세스/스레드를 계측한다.</dd>
+<dt><code>pid == -1</code>이고 <code>cpu &gt;= 0</code></dt>
+<dd>지정한 CPU의 모든 프로세스/스레드를 계측한다. 이를 위해선 <code>CAP_SYS_ADMIN</code> 역능이나 <code>/proc/sys/kernel/perf_event_paranoid</code>에 1보다 작은 값이 필요하다.</dd>
+<dt><code>pid == -1</code>이고 <code>cpu == -1</code></dt>
+<dd>이 구성은 유효하지 않으며 오류를 반환하게 된다.</dd>
+</dl>
+<p><code>pid</code>가 0보다 클 때 이 시스템 호출 수행 권한은 ptrace 접근 모드 <code>PTRACE_MODE_READ_REALCREDS</code> 검사에 따라 결정된다. <tt>[[ptrace(2)]]</tt> 참고.</p>
+<p><code>group_fd</code> 인자를 통해 이벤트 그룹을 만들 수 있다. 이벤트 그룹에는 그룹 리더인 이벤트가 하나 있다. 먼저 <code>group_id</code> = -1로 해서 리더를 만든다. 그리고 이어지는 <code>perf_event_open()</code> 호출에서 <code>group_fd</code>를 그룹 리더의 파일 디스크립터로 설정해서 나머지 그룹 구성원들을 만든다. (단독인 이벤트는 <code>group_fd</code> = -1로 해서 만들며 구성원 1개인 그룹으로 본다.) 이벤트 그룹은 한 단위로 CPU로 스케줄 한다. ...........</p>
+<p><code>flags</code> 인자는 다음 값들을 0개 이상 OR 해서 만든다.</p>
+<dl>
+<dt><code>PERF_FLAG_FD_CLOEXEC</code> (리눅스 3.14부터)</dt>
+<dd>.........</dd>
+<dt><code>PERF_FLAG_FD_NO_GROUP</code></dt>
+<dd>.........</dd>
+<dt><code>PERF_FLAG_FD_OUTPUT</code> (리눅스 2.6.35부터 동작하지 않음)</dt>
+<dd>.........</dd>
+<dt><code>PERF_FLAG_FD_CGROUP</code> (리눅스 2.6.39부터)</dt>
+<dd>.........</dd>
+</dl>
+<p>생성하려는 이벤트에 대한 자세한 구성 정보를 <code>perf_event_attr</code> 구조체로 제공한다.</p>
+<pre><code class="c">struct perf_event_attr {
+    __u32 type;                 /* Type of event */
+    __u32 size;                 /* Size of attribute structure */
+    __u64 config;               /* Type-specific configuration */
+
+    union {
+        __u64 sample_period;    /* Period of sampling */
+        __u64 sample_freq;      /* Frequency of sampling */
+    };
+
+    __u64 sample_type;  /* Specifies values included in sample */
+    __u64 read_format;  /* Specifies values returned in read */
+
+    __u64 disabled       : 1,   /* off by default */
+          inherit        : 1,   /* children inherit it */
+          pinned         : 1,   /* must always be on PMU */
+          exclusive      : 1,   /* only group on PMU */
+          exclude_user   : 1,   /* don't count user */
+          exclude_kernel : 1,   /* don't count kernel */
+          exclude_hv     : 1,   /* don't count hypervisor */
+          exclude_idle   : 1,   /* don't count when idle */
+          mmap           : 1,   /* include mmap data */
+          comm           : 1,   /* include comm data */
+          freq           : 1,   /* use freq, not period */
+          inherit_stat   : 1,   /* per task counts */
+          enable_on_exec : 1,   /* next exec enables */
+          task           : 1,   /* trace fork/exit */
+          watermark      : 1,   /* wakeup_watermark */
+          precise_ip     : 2,   /* skid constraint */
+          mmap_data      : 1,   /* non-exec mmap data */
+          sample_id_all  : 1,   /* sample_type all events */
+          exclude_host   : 1,   /* don't count in host */
+          exclude_guest  : 1,   /* don't count in guest */
+          exclude_callchain_kernel : 1,
+                                /* exclude kernel callchains */
+          exclude_callchain_user   : 1,
+                                /* exclude user callchains */
+          mmap2          :  1,  /* include mmap with inode data */
+          comm_exec      :  1,  /* flag comm events that are
+                                   due to exec */
+          use_clockid    :  1,  /* use clockid for time fields */
+          context_switch :  1,  /* context switch data */
+
+          __reserved_1   : 37;
+
+    union {
+        __u32 wakeup_events;    /* wakeup every n events */
+        __u32 wakeup_watermark; /* bytes before wakeup */
+    };
+
+    __u32     bp_type;          /* breakpoint type */
+
+    union {
+        __u64 bp_addr;          /* breakpoint address */
+        __u64 kprobe_func;      /* for perf_kprobe */
+        __u64 uprobe_path;      /* for perf_uprobe */
+        __u64 config1;          /* extension of config */
+    };
+
+    union {
+        __u64 bp_len;           /* breakpoint length */
+        __u64 kprobe_addr;      /* with kprobe_func == NULL */
+        __u64 probe_offset;     /* for perf_[k,u]probe */
+        __u64 config2;          /* extension of config1 */
+    };
+    __u64 branch_sample_type;   /* enum perf_branch_sample_type */
+    __u64 sample_regs_user;     /* user regs to dump on samples */
+    __u32 sample_stack_user;    /* size of stack to dump on
+                                   samples */
+    __s32 clockid;              /* clock to use for time fields */
+    __u64 sample_regs_intr;     /* regs to dump on samples */
+    __u32 aux_watermark;        /* aux bytes before wakeup */
+    __u16 sample_max_stack;     /* max frames in callchain */
+    __u16 __reserved_2;         /* align to u64 */
+
+};
+</code></pre>
+
+<p>..........</p>
+<h3 id="_2">결과 읽기</h3>
+<p>.......</p>
+<ul>
+<li>
+<p>..........</p>
+<p>struct read_format {
+       u64 nr;            /<em> The number of events </em>/
+       u64 time_enabled;  /<em> if PERF_FORMAT_TOTAL_TIME_ENABLED </em>/
+       u64 time_running;  /<em> if PERF_FORMAT_TOTAL_TIME_RUNNING </em>/
+       struct {
+           u64 value;     /<em> The value of the event </em>/
+           u64 id;        /<em> if PERF_FORMAT_ID </em>/
+       } values[nr];
+   };</p>
+</li>
+<li>
+<p>......</p>
+<p>struct read_format {
+       u64 value;         /<em> The value of the event </em>/
+       u64 time_enabled;  /<em> if PERF_FORMAT_TOTAL_TIME_ENABLED </em>/
+       u64 time_running;  /<em> if PERF_FORMAT_TOTAL_TIME_RUNNING </em>/
+       u64 id;            /<em> if PERF_FORMAT_ID </em>/
+   };</p>
+</li>
+</ul>
+<p>.....</p>
+<h3 id="mmap">MMAP 레이아웃</h3>
+<p>.........</p>
+<pre><code class="c">struct perf_event_mmap_page {
+    __u32 version;        /* version number of this structure */
+    __u32 compat_version; /* lowest version this is compat with */
+    __u32 lock;           /* seqlock for synchronization */
+    __u32 index;          /* hardware counter identifier */
+    __s64 offset;         /* add to hardware counter value */
+    __u64 time_enabled;   /* time event active */
+    __u64 time_running;   /* time event on CPU */
+    union {
+        __u64   capabilities;
+        struct {
+            __u64 cap_usr_time / cap_usr_rdpmc / cap_bit0 : 1,
+                  cap_bit0_is_deprecated : 1,
+                  cap_user_rdpmc         : 1,
+                  cap_user_time          : 1,
+                  cap_user_time_zero     : 1,
+        };
+    };
+    __u16 pmc_width;
+    __u16 time_shift;
+    __u32 time_mult;
+    __u64 time_offset;
+    __u64 __reserved[120];   /* Pad to 1 k */
+    __u64 data_head;         /* head in the data section */
+    __u64 data_tail;         /* user-space written tail */
+    __u64 data_offset;       /* where the buffer starts */
+    __u64 data_size;         /* data buffer size */
+    __u64 aux_head;
+    __u64 aux_tail;
+    __u64 aux_offset;
+    __u64 aux_size;
+
+}
+</code></pre>
+
+<p>...........</p>
+<h3 id="_3">넘침 처리하기</h3>
+<p>....</p>
+<h3 id="rdpmc">rdpmc 인스트럭션</h3>
+<p>........</p>
+<h3 id="perf_event-ioctl">perf_event ioctl 호출</h3>
+<p>...........</p>
+<dl>
+<dt><code>PERF_EVENT_IOC_ENABLE</code></dt>
+<dd>........</dd>
+</dl>
+<p>....</p>
+<h3 id="prctl2"><tt>[[prctl(2)]]</tt> 사용하기</h3>
+<p>........</p>
+<h3 id="perf_event">perf_event 관련 설정 파일</h3>
+<p><code>/proc/sys/kernel/</code> 내의 파일</p>
+<p>........</p>
+<p><code>/sys/bus/event_source/devices/</code> 내의 파일</p>
+<p>..........</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p><code>perf_event_open()</code>은 새 파일 디스크립터를 반환한다. 오류가 발생하면 -1을 반환한다. (이 경우 <code>errno</code>를 적절히 설정한다.)</p>
+<h2 id="errors">ERRORS</h2>
+<p>.............</p>
+<dl>
+<dt><code>E2BIG</code></dt>
+<dd>....</dd>
+<dt><code>EACCES</code></dt>
+<dd>....</dd>
+</dl>
+<p>...</p>
+<h2 id="version">VERSION</h2>
+<p>리눅스 2.6.31에서 <code>perf_event_open()</code>이 처음 도입되었는데 <code>perf_counter_open()</code>라는 이름이었다. 리눅스 2.6.32에서 이름이 바뀌었다.</p>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p><code>perf_event_open()</code> 시스템 호출은 리눅스 전용이므로 이식성이 있어야 하는 프로그램에서는 사용하지 말아야 한다.</p>
+<h2 id="notes">NOTES</h2>
+<p>glibc에서 이 시스템 호출의 래퍼를 제공하지 않는다. <tt>[[syscall(2)]]</tt>을 이용해 호출해야 한다. 아래 예를 보라.</p>
+<p><code>perf_event_open()</code> 지원 활성화 여부를 알아내는 공식적인 방법은 <code>/proc/sys/kernel/perf_event_paranoid</code> 파일이 존재하는지 확인하는 것이다.</p>
+<h2 id="bugs">BUGS</h2>
+<p>..........</p>
+<h2 id="example">EXAMPLE</h2>
+<p>다음은 <tt>[[printf(3)]]</tt> 호출의 총 인스트럭션 수를 측정하는 짧은 예이다.</p>
+<pre><code class="c">#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;string.h&gt;
+#include &lt;sys/ioctl.h&gt;
+#include &lt;linux/perf_event.h&gt;
+#include &lt;asm/unistd.h&gt;
+
+static long
+perf_event_open(struct perf_event_attr *hw_event, pid_t pid,
+                int cpu, int group_fd, unsigned long flags)
+{
+    int ret;
+
+    ret = syscall(__NR_perf_event_open, hw_event, pid, cpu,
+                   group_fd, flags);
+    return ret;
+}
+
+int
+main(int argc, char **argv)
+{
+    struct perf_event_attr pe;
+    long long count;
+    int fd;
+
+    memset(&amp;pe, 0, sizeof(struct perf_event_attr));
+    pe.type = PERF_TYPE_HARDWARE;
+    pe.size = sizeof(struct perf_event_attr);
+    pe.config = PERF_COUNT_HW_INSTRUCTIONS;
+    pe.disabled = 1;
+    pe.exclude_kernel = 1;
+    pe.exclude_hv = 1;
+
+    fd = perf_event_open(&amp;pe, 0, -1, -1, 0);
+    if (fd == -1) {
+       fprintf(stderr, &quot;Error opening leader %llx\n&quot;, pe.config);
+       exit(EXIT_FAILURE);
+    }
+
+    ioctl(fd, PERF_EVENT_IOC_RESET, 0);
+    ioctl(fd, PERF_EVENT_IOC_ENABLE, 0);
+
+    printf(&quot;Measuring instruction count for this printf\n&quot;);
+
+    ioctl(fd, PERF_EVENT_IOC_DISABLE, 0);
+    read(fd, &amp;count, sizeof(long long));
+
+    printf(&quot;Used %lld instructions\n&quot;, count);
+
+    close(fd);
+}
+</code></pre>
+
+<h2 id="see-also">SEE ALSO</h2>
+<p><code>perf(1)</code>, <tt>[[fcntl(2)]]</tt>, <tt>[[mmap(2)]]</tt>, <tt>[[open(2)]]</tt>, <tt>[[prctl(2)]]</tt>, <code>read(2)</code></p>
+<hr />
+<p>2019-03-06</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

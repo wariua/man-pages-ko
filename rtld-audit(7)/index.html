@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/rtld-audit(7)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Rtld audit(7) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+            <li class="second-level"><a href="#la_version">la_version()</a></li>
+                
+            <li class="second-level"><a href="#la_objsearch">la_objsearch()</a></li>
+                
+            <li class="second-level"><a href="#la_activity">la_activity()</a></li>
+                
+            <li class="second-level"><a href="#la_objopen">la_objopen()</a></li>
+                
+            <li class="second-level"><a href="#la_objclose">la_objclose()</a></li>
+                
+            <li class="second-level"><a href="#la_preinit">la_preinit()</a></li>
+                
+            <li class="second-level"><a href="#la_symbind">la_symbind*()</a></li>
+                
+            <li class="second-level"><a href="#la_pltenter">la_pltenter()</a></li>
+                
+            <li class="second-level"><a href="#la_pltexit">la_pltexit()</a></li>
+                
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#bugs">BUGS</a></li>
+        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>rtld-audit - 동적 링커 감사 API</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#define _GNU_SOURCE             /* feature_test_macros(7) 참고 */
+#include &lt;link.h&gt;
+</code></pre>
+
+<h2 id="description">DESCRIPTION</h2>
+<p>GNU 동적 링커(런타임 링커)에서 감사 API를 제공하는데 이를 통해 다양한 동적 링크 이벤트 발생 시에 응용에서 알림을 받을 수 있다. 이 API는 솔라리스 런타임 링커에서 제공하는 감사 인터페이스와 매우 비슷하다. <code>&lt;link.h&gt;</code>를 포함시켜서 필요한 상수 및 원형들을 정의한다.</p>
+<p>이 인터페이스를 사용하려는 프로그래머는 표준 이름의 함수들을 구현한 공유 라이브러리를 만들게 된다. 모든 함수를 구현해야 하는 건 아니다. 대부분의 경우 특정 이벤트 감사 유형에 대해 프로그래머가 관심이 없으면 대응하는 감사 함수 구현을 제공할 필요가 없다.</p>
+<p>감사 인터페이스를 사용하려면 환경 변수 <code>LD_AUDIT</code>을 콤마로 구분된 공유 라이브러리 목록을 담도록 정의해야 한다. 그 라이브러리들 각각에서 감사 API(의 일부)를 구현할 수 있다. 감사 대상 이벤트가 발생하면 라이브러리 나열 순서 대로 각 라이브러리의 대응 함수가 호출된다.</p>
+<h3 id="la_version"><code>la_version()</code></h3>
+<pre><code class="c">unsigned int la_version(unsigned int version);
+</code></pre>
+
+<p>감사 라이브러리에 <em>꼭 정의돼 있어야 하는</em> 유일한 함수이며 동적 링커와 감사 라이브러리 간의 첫인사를 수행한다. 동적 링커가 이 함수를 호출할 때 링커에서 지원하는 가장 높은 감사 인터페이스 버전을 <code>version</code>으로 전달한다. 필요 시 감사 라이브러리에서 자기 요건에 그 버전이 충분한지 확인할 수 있다.</p>
+<p>함수 결과로 이 함수는 이 감사 라이브러리에서 사용을 기대하는 감사 인터페이스 버전을 반환해야 한다. (<code>version</code>을 반환하는 것도 가능하다.) 반환 값이 0이거나 동적 링커가 지원하는 것보다 큰 버전이면 그 감사 라이브러리를 무시한다.</p>
+<h3 id="la_objsearch"><code>la_objsearch()</code></h3>
+<pre><code class="c">char *la_objsearch(const char *name, uintptr_t *cookie,
+                   unsigned int flag);
+</code></pre>
+
+<p>동적 링커에서 이 함수를 호출해서 공유 오브젝트 탐색을 하려 한다는 걸 감사 라이브러리에게 알린다. <code>name</code> 인자는 탐색할 파일명이나 경로명이다. <code>cookie</code>는 탐색을 유발한 공유 오브젝트를 식별할 수 있게 해 준다. <code>flag</code>는 다음 값들 중 하나로 설정돼 있다.</p>
+<dl>
+<dt><code>LA_SER_ORIG</code></dt>
+<dd><code>name</code>이 탐색하려는 원래 이름이다. 보통 ELF <code>DT_NEEDED</code> 항목에서 온 이름이거나 <tt>[[dlopen(3)]]</tt>의 <code>filename</code> 인자이다.</dd>
+<dt><code>LA_SER_LIBPATH</code></dt>
+<dd><code>LD_LIBRARY_PATH</code>에 지정된 디렉터리를 이용해 <code>name</code>을 만들었다.</dd>
+<dt><code>LA_SER_RUNPATH</code></dt>
+<dd>ELF <code>DT_RPATH</code> 내지 <code>DT_RUNPATH</code> 목록에 지정된 디렉터리를 이용해 <code>name</code>을 만들었다.</dd>
+<dt><code>LA_SER_CONFIG</code></dt>
+<dd><code>ldconfig(8)</code> 캐시(<code>/etc/ld.so.cache</code>)를 통해 <code>name</code>을 찾았다.</dd>
+<dt><code>LA_SER_DEFAULT</code></dt>
+<dd>기본 디렉터리들 중 하나를 탐색해서 <code>name</code>을 찾았다.</dd>
+<dt><code>LA_SER_SECURE</code></dt>
+<dd><code>name</code>이 보안 오브젝트로 한정돼 있다. (리눅스에서는 쓰지 않음.)</dd>
+</dl>
+<p>함수 결과로 <code>la_objsearch()</code>는 동적 링커가 이후 처리에 사용해야 할 경로명을 반환한다. NULL을 반환하면 이 경로명을 이후 처리에서 무시한다. 감사 라이브러리에서 탐색 경로를 감시만 하려는 거라면 <code>name</code>을 반환하면 된다.</p>
+<h3 id="la_activity"><code>la_activity()</code></h3>
+<pre><code class="c">void la_activity(uintptr_t *cookie, unsigned int flag);
+</code></pre>
+
+<p>동적 링커가 이 함수를 호출해서 링크 맵 동작이 있어나고 있다는 걸 감사 라이브러리에게 알린다. <code>cookie</code>는 링크 맵의 머리에 있는 오브젝트를 식별할 수 있게 해 준다. 동적 링커가 이 함수를 호출할 때 <code>flag</code>를 다음 값들 중 하나로 설정한다.</p>
+<dl>
+<dt><code>LA_ACT_ADD</code></dt>
+<dd>링크 맵에 새 오브젝트들을 추가하려 한다.</dd>
+<dt><code>LA_ACT_DELETE</code></dt>
+<dd>링크 맵에서 오브젝트들을 제거하려 한다.</dd>
+<dt><code>LA_ACT_CONSISTENT</code></dt>
+<dd>링크 맵 동작이 끝났다. 맵이 다시 모순 없는 상태이다.</dd>
+</dl>
+<h3 id="la_objopen"><code>la_objopen()</code></h3>
+<pre><code class="c">unsigned int la_objopen(struct link_map *map, Lmid_t lmid,
+                        uintptr_t *cookie);
+</code></pre>
+
+<p>새 공유 오브젝트를 적재할 때 동적 링커가 이 함수를 호출한다. <code>map</code> 인자는 그 오브젝트를 기술하는 링크 맵 구조체에 대한 포인터이다. <code>lmid</code> 인자는 다음 값들 중 하나이다.</p>
+<dl>
+<dt><code>LM_ID_BASE</code></dt>
+<dd>링크 맵이 최초 네임스페이스에 속한다.</dd>
+<dt><code>LM_ID_NEWLM</code></dt>
+<dd>링크 맵이 <tt>[[dlmopen(3)]]</tt>을 통해 요청된 새 네임스페이스에 속한다.</dd>
+</dl>
+<p><code>cookie</code>는 이 오브젝트의 식별자에 대한 포인터이다. 이후의 감사 라이브러리 함수 호출에 이 식별자가 제공되므로 이 오브젝트를 식별할 수 있다. 이 식별자는 오브젝트의 링크 맵을 가리키도록 초기화 돼 있지만 감사 라이브러리에서 오브젝트 식별에 쓰기 편한 다른 어떤 값으로 바꿀 수 있다.</p>
+<p>반환 값으로 <code>la_objopen()</code>은 다음 상수들을 0개 이상 OR 해서 만든 비트 마스크를 반환한다. 그래서 감사 라이브러리에서 <code>la_symbind*()</code>로 감시할 오브젝트를 선택할 수 있다.</p>
+<dl>
+<dt><code>LA_FLG_BINDTO</code></dt>
+<dd>이 오브젝트로의 심볼 바인딩을 감사한다.</dd>
+<dt><code>LA_FLG_BINDFROM</code></dt>
+<dd>이 오브젝트로부터의 심볼 바인딩을 감사한다.</dd>
+</dl>
+<p><code>la_objopen()</code>의 반환 값 0은 이 오브젝트에 대해 어떤 심볼 바인딩도 감사하지 않을 것임을 나타낸다.</p>
+<h3 id="la_objclose"><code>la_objclose()</code></h3>
+<pre><code class="c">unsinged int la_objclose(uintptr_t *cookie);
+</code></pre>
+
+<p>오브젝트에 마무리 코드가 있으면 실행한 후이면서 그 오브젝트를 내리기는 전에 동적 링커가 이 함수를 호출한다. <code>cookie</code> 인자는 앞선 <code>la_objopen()</code> 호출에서 얻은 식별자이다.</p>
+<p>현재 구현에서는 <code>la_objclose()</code>가 반환하는 값을 무시한다.</p>
+<h3 id="la_preinit"><code>la_preinit()</code></h3>
+<pre><code class="c">void la_preinit(uintptr_t *cookie);
+</code></pre>
+
+<p>모든 공유 오브젝트들을 적재한 후이면서 응용으로 제어를 넘기기는 전에 (즉 <code>main()</code> 호출 전에) 동적 링커가 이 함수를 호출한다. 참고로 이후 <code>main()</code>에서도 <tt>[[dlopen(3)]]</tt>으로 오브젝트를 동적으로 적재할 수 있다.</p>
+<h3 id="la_symbind"><code>la_symbind*()</code></h3>
+<pre><code class="c">uintptr_t la_symbind32(Elf32_Sym *sym, unsigned int ndx,
+                       uintptr_t *refcook, uintptr_t *defcook,
+                       unsigned int *flags, const char *symname);
+uintptr_t la_symbind64(Elf64_Sym *sym, unsigned int ndx,
+                       uintptr_t *refcook, uintptr_t *defcook,
+                       unsigned int *flags, const char *symname);
+</code></pre>
+
+<p><code>la_objopen()</code>에서 감사 알림을 받게 표시했던 두 공유 오브젝트 간에 심볼 바인딩이 이뤄질 때 동적 링커가 이 함수들 중 하나를 호출한다. <code>la_symbind32()</code> 함수는 32비트 플랫폼에서 쓰는 것이고 <code>la_symbind64()</code> 함수는 64비트 플랫폼에서 쓰는 것이다.</p>
+<p><code>sym</code> 인자는 바인드 하려는 심볼에 대한 정보를 제공하는 구조체에 대한 포인터이다. 구조체 정의는 <code>&lt;elf.h&gt;</code>에 있다. 이 구조체의 필드들 중에 <code>st_value</code>은 심볼이 바인드 되는 주소를 나타낸다.</p>
+<p><code>ndx</code> 인자는 바인드 대상 공유 오브젝트의 심볼 테이블에서 그 심볼의 인덱스이다.</p>
+<p><code>refcook</code> 인자는 심볼 참조를 하고 있는 공유 오브젝트를 나타낸다. <code>LA_FLG_BINDFROM</code>을 반환한 <code>la_objopen()</code> 함수에 제공된 것과 같은 식별자이다. <code>defcook</code> 인자는 참조되는 심볼을 정의하고 있는 공유 오브젝트를 나타낸다. <code>LA_FLG_BINDTO</code>를 반환한 <code>la_objopen()</code> 함수에 제공된 것과 같은 식별자이다.</p>
+<p><code>symname</code> 인자는 심볼 이름은 담은 문자열을 가리킨다.</p>
+<p><code>flags</code> 인자는 심볼에 대한 정보를 제공하면서 동시에 이 PLT(Procedure Linkage Table) 항목의 이후 감사 방식을 변경하는 데 쓸 수 있는 비트 마스크이다. 동적 링커가 이 인자에 다음 비트 값들을 제공할 수 있다.</p>
+<dl>
+<dt><code>LA_SYMB_DLSYM</code></dt>
+<dd><tt>[[dlsym(3)]]</tt> 호출로 인해 바인딩이 발생했다.</dd>
+<dt><code>LA_SYMB_ALTVALUE</code></dt>
+<dd>앞선 <code>la_symbind*()</code> 호출이 이 심볼에 대해 대체 값을 반환했다.</dd>
+</dl>
+<p>기본적으로 감사 라이브러리에서 <code>la_pltenter()</code> 및 <code>la_pltexit()</code> 함수(아래 참고)를 구현하고 있으면 <code>la_symbind()</code> 후에 심볼이 참조될 때마다 PLT 항목에 대해 그 함수들이 호출된다. <code>*flags</code>에 다음 플래그들을 OR 해서 그 기본 동작을 바꿀 수 있다.</p>
+<dl>
+<dt><code>LA_SYMB_NOPLTENTER</code></dt>
+<dd>이 심볼에 <code>la_pltenter()</code>를 호출하지 말 것.</dd>
+<dt><code>LA_SYMB_NOPLTEXIT</code></dt>
+<dd>이 심볼에 <code>la_pltexit()</code>을 호출하지 말 것.</dd>
+</dl>
+<p><code>la_symbind32()</code> 및 <code>la_symbind64()</code>의 반환 값은 함수 반환 후 제어가 넘어가야 할 주소이다. 감사 라이브러리에서 심볼 바인딩을 감시만 하려는 거라면 <code>sym-&gt;st_value</code>를 반환하면 된다. 라이브러리에서 제어를 다른 방향으로 바꾸고 싶다면 다른 값을 반환할 수 있다.</p>
+<h3 id="la_pltenter"><code>la_pltenter()</code></h3>
+<p>이 함수의 정확한 이름과 인자 타입은 하드웨어 플랫폼에 따라 다르다. (<code>&lt;link.h&gt;</code>에 절적한 정의가 있다.) 다음은 x86-32용 정의이다.</p>
+<pre><code class="c">Elf32_Addr la_i86_gnu_pltenter(Elf32_Sym *sym, unsigned int ndx,
+                 uintptr_t *refcook, uintptr_t *defcook,
+                 La_i86_regs *regs, unsigned int *flags,
+                 const char *symname, long int *framesizep);
+</code></pre>
+
+<p>바인딩 알림을 받게 표시된 두 공유 오브젝트 간에서 PLT 항목이 호출되기 바로 전에 이 함수가 호출된다.</p>
+<p><code>sym</code>, <code>ndx</code>, <code>refcook</code>, <code>defcook</code>, <code>symname</code>은 <code>la_symbind*()</code>에서와 같다.</p>
+<p><code>regs</code> 인자는 이 PLT 항목 호출에 사용될 레지스터들의 값을 담은 구조체(<code>&lt;link.h&gt;</code>에 정의돼 있음)를 가리킨다.</p>
+<p><code>flags</code> 인자는 <code>la_symbind*()</code>에서처럼 이 PLT 항목에 대한 정보를 담고 있고 이후 감사 방식 변경에 이용할 수 있는 비트 마스크를 가리킨다.</p>
+<p><code>framesizep</code> 인자는 <code>long int</code> 버퍼를 가리키는데 이를 이용해 이 PLT 항목 호출에 사용하는 프레임 크기를 명확히 설정할 수 있다. 이 심볼에 대해 여러 <code>la_pltenter()</code>에서 다른 값들을 반환하면 가장 큰 반환 값을 쓴다. 이 버퍼가 명확하게 적절한 값으로 설정된 경우에만 <code>la_pltexit()</code> 함수가 호출된다.</p>
+<p><code>la_pltenter()</code>의 반환 값은 <code>la_symbind*()</code>에서와 같다.</p>
+<h3 id="la_pltexit"><code>la_pltexit()</code></h3>
+<p>이 함수의 정확한 이름과 인자 타입은 하드웨어 플랫폼에 따라 다르다. (<code>&lt;link.h&gt;</code>에 절적한 정의가 있다.) 다음은 x86-32용 정의이다.</p>
+<pre><code class="c">unsigned int la_i86_gnu_pltexit(Elf32_Sym *sym, unsigned int ndx,
+                 uintptr_t *refcook, uintptr_t *defcook,
+                 const La_i86_regs *inregs, La_i86_retval *outregs,
+                 const char *symname);
+</code></pre>
+
+<p>바인딩 알림을 받게 표시된 두 공유 오브젝트 간에서 PLT 항목이 반환할 때 이 함수가 호출된다. PLT 항목 호출자에게 제어가 돌아가기 바로 전에 함수가 호출된다.</p>
+<p><code>sym</code>, <code>ndx</code>, <code>refcook</code>, <code>defcook</code>, <code>symname</code>은 <code>la_symbind*()</code>에서와 같다.</p>
+<p><code>inregs</code> 인자는 이 PLT 항목 호출에 사용된 레지스터들의 값을 담은 구조체(<code>&lt;link.h&gt;</code>에 정의돼 있음)를 가리킨다. <code>outregs</code> 인자는 이 PLT 항목 호출의 반환 값을 담은 구조체(<code>&lt;link.h&gt;</code>에 정의돼 있음)를 가리킨다. 이 값들을 호출자가 변경할 수 있으며 그 변경 내용이 PLT 항목 호출자에게 보이게 된다.</p>
+<p>현재 GNU 구현에서는 <code>la_pltexit()</code>의 반환 값을 무시한다.</p>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>이 API는 비표준이되 솔라리스 <em>Linker and Libraries Guide</em>의 <em>Runtime Linker Auditing Interface</em> 장에 기술된 솔라리스 API와 매우 비슷하다.</p>
+<h2 id="notes">NOTES</h2>
+<p>솔라리스 동적 링커 감사 API와의 다음 차이에 유의하라.</p>
+<ul>
+<li>
+<p>솔라리스의 <code>la_objfilter()</code> 인터페이스를 GNU 구현에서는 지원하지 않는다.</p>
+</li>
+<li>
+<p>솔라리스의 <code>la_symbind32()</code> 및 <code>la_pltexit()</code> 함수에는 <code>symname</code> 인자가 없다.</p>
+</li>
+<li>
+<p>솔라리스의 <code>la_pltexit()</code> 함수에는 <code>inregs</code> 및 <code>outregs</code> 인자가 없다. (하지만 <code>regval</code> 인자로 함수 반환 값은 제공한다.)</p>
+</li>
+</ul>
+<h2 id="bugs">BUGS</h2>
+<p>glibc 버전 2.9까지에서 <code>LD_AUDIT</code>에 감사 라이브러리를 여러 개 지정하면 런타임 크래시가 발생한다. glibc 2.10에서 고쳐졌다고 한다.</p>
+<h2 id="example">EXAMPLE</h2>
+<pre><code class="c">#include &lt;link.h&gt;
+#include &lt;stdio.h&gt;
+
+unsigned int
+la_version(unsigned int version)
+{
+    printf(&quot;la_version(): %d\n&quot;, version);
+
+    return version;
+}
+
+char *
+la_objsearch(const char *name, uintptr_t *cookie, unsigned int flag)
+{
+    printf(&quot;la_objsearch(): name = %s; cookie = %p&quot;, name, cookie);
+    printf(&quot;; flag = %s\n&quot;,
+            (flag == LA_SER_ORIG) ?    &quot;LA_SER_ORIG&quot; :
+            (flag == LA_SER_LIBPATH) ? &quot;LA_SER_LIBPATH&quot; :
+            (flag == LA_SER_RUNPATH) ? &quot;LA_SER_RUNPATH&quot; :
+            (flag == LA_SER_DEFAULT) ? &quot;LA_SER_DEFAULT&quot; :
+            (flag == LA_SER_CONFIG) ?  &quot;LA_SER_CONFIG&quot; :
+            (flag == LA_SER_SECURE) ?  &quot;LA_SER_SECURE&quot; :
+            &quot;???&quot;);
+
+    return name;
+}
+
+void
+la_activity (uintptr_t *cookie, unsigned int flag)
+{
+    printf(&quot;la_activity(): cookie = %p; flag = %s\n&quot;, cookie,
+            (flag == LA_ACT_CONSISTENT) ? &quot;LA_ACT_CONSISTENT&quot; :
+            (flag == LA_ACT_ADD) ?        &quot;LA_ACT_ADD&quot; :
+            (flag == LA_ACT_DELETE) ?     &quot;LA_ACT_DELETE&quot; :
+            &quot;???&quot;);
+}
+
+unsigned int
+la_objopen(struct link_map *map, Lmid_t lmid, uintptr_t *cookie)
+{
+    printf(&quot;la_objopen(): loading \&quot;%s\&quot;; lmid = %s; cookie=%p\n&quot;,
+            map-&gt;l_name,
+            (lmid == LM_ID_BASE) ?  &quot;LM_ID_BASE&quot; :
+            (lmid == LM_ID_NEWLM) ? &quot;LM_ID_NEWLM&quot; :
+            &quot;???&quot;,
+            cookie);
+
+    return LA_FLG_BINDTO | LA_FLG_BINDFROM;
+}
+
+unsigned int
+la_objclose (uintptr_t *cookie)
+{
+    printf(&quot;la_objclose(): %p\n&quot;, cookie);
+
+    return 0;
+}
+
+void
+la_preinit(uintptr_t *cookie)
+{
+    printf(&quot;la_preinit(): %p\n&quot;, cookie);
+}
+
+uintptr_t
+la_symbind32(Elf32_Sym *sym, unsigned int ndx, uintptr_t *refcook,
+        uintptr_t *defcook, unsigned int *flags, const char *symname)
+{
+    printf(&quot;la_symbind32(): symname = %s; sym-&gt;st_value = %p\n&quot;,
+            symname, sym-&gt;st_value);
+    printf(&quot;        ndx = %d; flags = 0x%x&quot;, ndx, *flags);
+    printf(&quot;; refcook = %p; defcook = %p\n&quot;, refcook, defcook);
+
+    return sym-&gt;st_value;
+}
+
+uintptr_t
+la_symbind64(Elf64_Sym *sym, unsigned int ndx, uintptr_t *refcook,
+        uintptr_t *defcook, unsigned int *flags, const char *symname)
+{
+    printf(&quot;la_symbind64(): symname = %s; sym-&gt;st_value = %p\n&quot;,
+            symname, sym-&gt;st_value);
+    printf(&quot;        ndx = %d; flags = 0x%x&quot;, ndx, *flags);
+    printf(&quot;; refcook = %p; defcook = %p\n&quot;, refcook, defcook);
+
+    return sym-&gt;st_value;
+}
+
+Elf32_Addr
+la_i86_gnu_pltenter(Elf32_Sym *sym, unsigned int ndx,
+        uintptr_t *refcook, uintptr_t *defcook, La_i86_regs *regs,
+        unsigned int *flags, const char *symname, long int *framesizep)
+{
+    printf(&quot;la_i86_gnu_pltenter(): %s (%p)\n&quot;, symname, sym-&gt;st_value);
+
+    return sym-&gt;st_value;
+}
+</code></pre>
+
+<h2 id="see-also">SEE ALSO</h2>
+<p><code>ldd(1)</code>, <tt>[[dlopen(3)]]</tt>, <tt>[[ld.so(8)]]</tt>, <code>ldconfig(8)</code></p>
+<hr />
+<p>2019-03-06</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

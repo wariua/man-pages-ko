@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/addr2line(1)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Addr2line(1) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#options">OPTIONS</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+        <li class="first-level "><a href="#copyright">COPYRIGHT</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>addr2line - 주소를 파일 이름과 행 번호로 변환하기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre>
+addr2line [<strong>-a</strong>|<strong>--addresses</strong>]
+          [<strong>-b</strong> <em>bfdname</em>|<strong>--target=</strong><em>bfdname</em>]
+          [<strong>-C</strong>|<strong>--demangle</strong>[=<em>style</em>]]
+          [<strong>-e</strong> <em>filename</em>|<strong>--exe=</strong><em>filename</em>]
+          [<strong>-i</strong>|<strong>--inlines</strong>]
+          [<strong>-p</strong>|<strong>--pretty-print</strong>]
+          [<strong>-j</strong>|<strong>--section=</strong><em>name</em>]
+          [<strong>-H</strong>|<strong>--help</strong>] [<strong>-V</strong>|<strong>--version</strong>]
+          [addr addr ...]
+</pre>
+
+<h2 id="description">DESCRIPTION</h2>
+<p><code>addr2line</code>은 주소를 파일 이름과 행 번호로 바꿔 준다. 실행 파일 내 주소나 재배치 가능 오브젝트 섹션 내 오프셋을 받아서 디버깅 정보를 이용해 연계된 파일 이름과 행 번호를 알아낸다.</p>
+<p>사용할 실행 파일 내지 재배치 가능 오브젝트를 <code>-e</code> 옵션으로 지정한다. 기본은 <code>a.out</code> 파일이다. 사용할 재배치 가능 오브젝트 내 섹션은 <code>-j</code> 옵션으로 지정한다.</p>
+<p><code>addr2line</code>에는 두 가지 동작 방식이 있다.</p>
+<p>첫 번째 방식에서는 명령행에서 16진수 주소를 지정하면 <code>addr2line</code>이 각 주소에 대한 파일 이름과 행 번호를 표시한다.</p>
+<p>두 번째 방식에서는 <code>addr2line</code>이 표준 입력으로부터 16진수 주소를 읽어서 각 주소에 대한 파일 이름과 행 번호를 표준 출력으로 찍는다. 이 방식을 쓰면 파이프 내에 <code>addr2line</code>을 써서 동적으로 선택한 주소를 변환할 수 있다.</p>
+<p>출력 형식은 <code>FILENAME:LINENO</code>이다. 기본적으로 각 입력 주소가 한 행씩 출력을 만들어 낸다.</p>
+<p>각 <code>FILENAME:LINENO</code> 행 앞에 행을 추가할 수 있는 옵션이 두 가지 있다.</p>
+<p><code>-a</code> 옵션을 쓰면 입력 주소 행을 표시한다.</p>
+<p><code>-f</code> 옵션을 쓰면 <code>FUNCTIONNAME</code> 행을 표시한다. 그 주소를 담은 함수의 이름이다.</p>
+<p><code>FILENAME:LINENO</code> 행 뒤에 행을 추가할 수 있는 옵션이 한 가지 있다.</p>
+<p><code>-i</code> 옵션을 쓰면 해당 주소가 컴파일러 인라인 처리 때문에 거기 있는 것이면 뒤에 행들을 추가로 표시한다. 인라인 처리된 함수마다 한 행 또는 (<code>-f</code> 옵션을 쓴 경우) 두 행씩을 추가로 표시한다.</p>
+<p>또는 <code>-p</code> 옵션을 쓰면 각 입력 주소마다 주소, 함수 이름, 파일 이름, 행 번호를 담은 한 줄짜리 긴 행이 출력된다. <code>-i</code>까지 썼다면 인라인 처리된 함수들도 같은 방식으로 찍히되, 별도 행에서 앞에 <code>(inlined by)</code>가 붙어서 표시된다.</p>
+<p>파일 이름이나 함수 이름을 알아낼 수 없으면 <code>addr2line</code>에서는 그 자리에 물음표 두 개를 찍는다. 행 번호를 알아낼 수 없으면 <code>addr2line</code>에서는 0을 찍는다.</p>
+<h2 id="options">OPTIONS</h2>
+<p>여기 같이 나와 있는 긴 옵션과 짧은 옵션은 동등하다.</p>
+<dl>
+<dt><code>-a</code><br><code>--addresses</code></dt>
+<dd>함수 이름과 파일 및 행 번호 정보 앞에 주소를 표시한다. 쉽게 식별할 수 있도록 주소 앞에 <code>0x</code>를 붙여서 찍는다.</dd>
+<dt><code>-b bfdname</code><br><code>--target=bfdname</code></dt>
+<dd>오브젝트 파일의 오브젝트 코드 형식이 <code>bfdname</code>이라고 지정한다.</dd>
+<dt><code>-C</code><br><code>--demangle[=style]</code></dt>
+<dd>저수준 심볼 이름을 사용자 수준 이름으로 해독(<em>디맹글(demangle)</em>)한다. 시스템에서 앞에 붙인 밑줄을 없애는 것에 더해서 C++ 함수 이름을 읽을 수 있게 만들어 준다. 컴파일러마다 맹글링(mangling) 방식이 다르다. 선택적인 해독 방식 인자를 사용해서 자기 컴파일러에 맞는 해독 방식을 선택할 수 있다.</dd>
+<dt><code>-e filename</code><br><code>--exe=filename</code></dt>
+<dd>주소들을 변환할 실행 파일의 이름을 지정한다. 기본 파일은 <code>a.out</code>이다.</dd>
+<dt><code>-f</code><br><code>--functions</code></dt>
+<dd>파일 및 행 번호 정보와 함께 함수 이름도 표시한다.</dd>
+<dt><code>-s</code><br><code>--basenames</code></dt>
+<dd>각 파일 이름의 기본 이름만 표시한다.</dd>
+<dt><code>-i</code><br><code>--inlines</code></dt>
+<dd>주소가 인라인 처리된 함수에 속하면 첫 번째 비인라인 함수까지의 모든 감싸는 스코프에 대한 소스 정보를 함께 찍는다. 예를 들어 "main"에서 "callee1"을 인라인 하고 거기서 다시 "callee2"를 인라인 하는데 주소가 "callee2"에 있으면 "callee1" 및 "main"에 대한 소스 정보도 함께 찍힌다.</dd>
+<dt><code>-j</code><br><code>--section</code></dt>
+<dd>절대 주소가 아니라 지정한 섹션 기준 오프셋을 읽는다.</dd>
+<dt><code>-p</code><br><code>--pretty-print</code></dt>
+<dd>출력을 더 인간 친화적으로 만든다. 즉 각 위치를 한 행에 찍는다. <code>-i</code> 옵션을 지정하면 모든 감싸는 스코프 행 앞에 <code>(inlined by)</code>가 붙는다.</dd>
+<dt><code>@file</code></dt>
+<dd>
+<p><code>file</code>에서 명령행 옵션들을 읽는다. 읽어 들인 옵션들이 원래 <code>@file</code> 옵션 자리에 들어간다. <code>file</code>이 존재하지 않거나 읽을 수 없는 경우에는 이 옵션을 제거하지 않고 문자 그대로 다루게 된다.</p>
+<p><code>file</code> 내의 옵션들은 공백으로 구분한다. 옵션에 공백 문자를 포함시키려면 옵션 전체를 작은따옴표나 큰따옴표로 감싸면 된다. 문자 앞에 백슬래시를 붙이면 (백슬래시를 포함한) 어떤 문자든 집어넣을 수 있다. <code>file</code> 자체에 다시 <code>@file</code> 옵션이 있을 수 있다. 그러면 재귀적으로 처리가 이뤄진다.</p>
+</dd>
+</dl>
+<h2 id="see-also">SEE ALSO</h2>
+<p>info <em>binutils</em> 항목.</p>
+<h2 id="copyright">COPYRIGHT</h2>
+<p>Copyright (c) 1991-2018 Free Software Foundation, Inc.</p>
+<p>Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free Documentation License, Version 1.3 or any later version published by the Free Software Foundation; with no Invariant Sections, with no Front-Cover Texts, and with no Back-Cover Texts.  A copy of the license is included in the section entitled "GNU Free Documentation License".</p>
+<hr />
+<p>2018-09-12</p>
+<p>binutils-2.30-system</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

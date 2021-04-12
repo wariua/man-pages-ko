@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/argz_create(3)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Argz create(3) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#bugs">BUGS</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>argz_add, argz_add_sep, argz_append, argz_count, argz_create, argz_create_sep, argz_delete, argz_extract, argz_insert, argz_next, argz_replace, argz_stringify - argz 목록을 다루는 함수들</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;argz.h&gt;
+
+error_t argz_add(char **argz, size_t *argz_len, const char *str);
+
+error_t argz_add_sep(char **argz, size_t *argz_len,
+                     const char *str, int delim);
+
+error_t argz_append(char **argz, size_t *argz_len,
+                    const char *buf, size_t buf_len);
+
+size_t argz_count(const char *argz, size_t argz_len);
+
+error_t argz_create(char * const argv[], char **argz,
+                    size_t *argz_len);
+
+error_t argz_create_sep(const char *str, int sep, char **argz,
+                        size_t *argz_len);
+
+void argz_delete(char **argz, size_t *argz_len, char *entry);
+
+void argz_extract(const char *argz, size_t argz_len, char **argv);
+
+error_t argz_insert(char **argz, size_t *argz_len, char *before,
+                    const char *entry);
+
+char *argz_next(const char *argz, size_t argz_len, const char *entry);
+
+error_t argz_replace(char **argz, size_t *argz_len, const char *str,
+                     const char *with, unsigned int *replace_count);
+
+void argz_stringify(char *argz, size_t len, int sep);
+</code></pre>
+
+<h2 id="description">DESCRIPTION</h2>
+<p>이 함수들은 glibc 전용이다.</p>
+<p>argz 벡터는 문자 버퍼에 대한 포인터에 길이가 함께 있는 것이다. 문자 버퍼는 문자열의 배열로 해석하게 되어 있으며 널 바이트(<code>'\0'</code>)로 그 문자열들을 구분한다. 길이가 0이 아닌 경우 버퍼의 마지막 바이트가 널 바이트여야 한다.</p>
+<p>이 함수들은 argz 벡터를 다루기 위한 것이다. (NULL,0) 쌍 역시 argz 벡터이며, 역으로 길이 0인 argz 벡터는 포인터가 널이어야 한다. 비어 있지 않은 argz 벡터를 할당하는 것은 <tt>[[malloc(3)]]</tt>으로 이뤄지며, 따라서 <tt>[[free(3)]]</tt>를 이용해 다시 없앨 수 있다.</p>
+<p><code>argz_add()</code>는 배열 <code>*argz</code> 끝에 문자열 <code>str</code>을 추가하고 <code>*argz</code>와 <code>*argz_len</code>을 갱신한다.</p>
+<p><code>argz_add_sep()</code>도 비슷하되 문자열 <code>str</code>을 구분자 <code>delim</code>으로 나눠지는 하위 문자열들로 쪼갠다. 예를 들어 유닉스 검색 경로에 구분자 ':'로 이 함수를 쓸 수 있을 것이다.</p>
+<p><code>argz_append()</code>는 argz 벡터 (<code>*argz</code>, <code>*argz_len</code>) 뒤에 (<code>buf</code>, <code>buf_len</code>)을 덧붙이고 <code>*argz</code>와 <code>*argz_len</code>을 갱신한다. (그래서 <code>*argz_len</code>이 <code>buf_len</code>만큼 커지게 된다.)</p>
+<p><code>argz_count()</code>는 (<code>argz</code>, <code>argz_len</code>) 내의 문자열 개수, 즉 널 바이트(<code>'\0'</code>) 개수를 센다.</p>
+<p><code>argz_create()</code>는 <code>(char *) 0</code>으로 끝나는 유닉스 방식 인자 벡터 <code>argv</code>를 argz 벡터 (<code>*argz</code>, <code>*argz_len</code>)으로 변환한다.</p>
+<p><code>argz_create_sep()</code>은 널 종료 문자열 <code>str</code>을 구분자 <code>sep</code>이 있는 모든 곳에서 나눠서 argz 벡터 (<code>*argz</code>, <code>*argz_len</code>)으로 변환한다.</p>
+<p><code>argz_delete()</code>는 argz 벡터 (<code>*argz</code>, <code>*argz_len</code>)에서 <code>entry</code>가 가리키는 하위 문자열을 제거하고 <code>*argz</code>와 <code>*argz_len</code>을 갱신한다.</p>
+<p><code>argz_extract()</code>는 <code>argz_create()</code>의 반대이다. argz 벡터 (<code>argz</code>, <code>argz_len</code>)을 받아서 <code>argv</code>에서 시작하는 배열을 하위 문자열 포인터들과 마지막의 NULL로 채워서 유닉스 방식 argv 벡터를 만든다. 배열 <code>argv</code>에는 포인터 <code>argz_count(argz, argz_len) + 1</code> 개만큼의 공간이 있어야 한다.</p>
+<p><code>argz_insert()</code>는 <code>argz_delete()</code>의 반대이다. argz 벡터 (<code>*argz</code>, <code>*argz_len</code>)의 <code>before</code> 위치에 인자 <code>entry</code>를 끼워 넣고 <code>*argz</code>와 <code>*argz_len</code>을 갱신한다. <code>before</code>가 NULL이면 끝에 <code>entry</code>를 집어넣는다.</p>
+<p><code>argz_next()</code>는 argz 벡터를 순회하기 위한 함수이다. <code>entry</code>가 NULL이면 첫 번째 항목을 반환하고, 아니면 다음 항목을 반환한다. 다음 항목이 없으면 NULL을 반환한다.</p>
+<p><code>argz_replace()</code>는 각 <code>str</code>을 <code>with</code>로 교체하며 필요한 대로 argz를 재할당한다. <code>replace_count</code>가 NULL이 아니면 교체 횟수만큼 <code>*replace_count</code>를 올린다.</p>
+<p><code>argz_stringify()</code>는 <code>argz_create_sep()</code>의 반대이다. 마지막을 뺀 모든 널 바이트(<code>'\0'</code>)를 <code>sep</code>으로 교체해서 argz 벡터를 보통 문자열로 변환한다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>메모리 할당을 하는 argz 함수들은 모두 반환 타입이 <code>error_t</code>이며, 성공 시 0을 반환하고 할당 오류 발생 시 <code>ENOMEM</code>을 반환한다.</p>
+<h2 id="attributes">ATTRIBUTES</h2>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<table>
+<thead>
+<tr>
+<th>인터페이스</th>
+<th>속성</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>argz_add()</code>, <code>argz_add_sep()</code>,<br><code>argz_append()</code>, <code>argz_count()</code>,<br><code>argz_create()</code>, <code>argz_create_sep()</code>,<br><code>argz_delete()</code>, <code>argz_extract()</code>,<br><code>argz_insert()</code>, <code>argz_next()</code>,<br><code>argz_replace()</code>, <code>argz_stringify()</code></td>
+<td>스레드 안전성</td>
+<td>MT-Safe</td>
+</tr>
+</tbody>
+</table>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>이 함수들은 GNU 확장이다. 조심해서 써야 한다.</p>
+<h2 id="bugs">BUGS</h2>
+<p>종료용 널 바이트가 없는 argz 벡터가 세그멘테이션 폴트로 이어질 수 있다.</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[envz_add(3)]]</tt></p>
+<hr />
+<p>2019-03-06</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/sbrk(2)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Sbrk(2) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+            <li class="second-level"><a href="#c">C 라이브러리/커널 차이</a></li>
+                
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>brk, sbrk - 데이터 세그먼트 크기 바꾸기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;unistd.h&gt;
+
+int brk(void *addr);
+
+void *sbrk(intptr_t increment);
+</code></pre>
+
+<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<dl>
+<dt><code>brk()</code>, <code>sbrk()</code>:</dt>
+<dd>
+<dl>
+<dt>glibc 2.19부터:</dt>
+<dd><code>_DEFAULT_SOURCE ||</code><br>
+<code>(_XOPEN_SOURCE &gt;= 500) &amp;&amp;</code><br>
+<code>! (_POSIX_C_SOURCE &gt;= 200112L)</code></dd>
+<dt>glibc 2.12부터 2.19까지:</dt>
+<dd><code>_BSD_SOURCE || _SVID_SOURCE ||</code><br>
+<code>(_XOPEN_SOURCE &gt;= 500) &amp;&amp;</code><br>
+<code>! (_POSIX_C_SOURCE &gt;= 200112L)</code></dd>
+<dt>glibc 2.12 전:</dt>
+<dd><code>_BSD_SOURCE || _SVID_SOURCE || _XOPEN_SOURCE &gt;= 500</code></dd>
+</dl>
+</dd>
+</dl>
+<h2 id="description">DESCRIPTION</h2>
+<p><code>brk()</code>와 <code>sbrk()</code>는 <em>프로그램 단절점(program break)</em>의 위치를 바꾼다. 프로그램 단절점은 프로세스의 데이터 세그먼트 끝을 규정한다. (즉, 프로그램 단절점은 비초기화 데이터 세그먼트의 끝 다음의 첫 위치이다.) 프로그램 단절점을 올리면 프로세스에게 메모리를 할당하는 효과가 있고 단절점을 내리면 메모리를 해제하는 것이다.</p>
+<p><code>brk()</code>는 데이터 세그먼트의 끝을 <code>addr</code>에 지정한 값으로 설정한다. 단, 그 값이 적당하고, 시스템에 충분한 메모리가 있고, 프로세스가 자기 최대 데이터 크기(<tt>[[setrlimit(2)]]</tt> 참고)를 초과하지 않아야 한다.</p>
+<p><code>sbrk()</code>는 프로그램의 데이터 공간을 <code>increment</code> 바이트만큼 올린다. <code>increment</code>를 0으로 해서 <code>sbrk()</code>를 호출하면 프로그램 단절점의 현재 위치를 알아낼 수 있다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>성공 시 <code>brk()</code>는 0을 반환한다. 오류 시 -1을 반환하며 <code>errno</code>를 <code>ENOMEM</code>으로 설정한다.</p>
+<p>성공 시 <code>sbrk()</code>는 이전 프로그램 단절점을 반환한다. (단절점이 증가했다면 이 값은 새로 할당된 메모리 시작점에 대한 포인터이다.) 오류 시 <code>(void *) -1</code>을 반환하며 <code>errno</code>를 <code>ENOMEM</code>으로 설정한다.</p>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>4.3BSD, SUSv1. SUSv2에서 LEGACY로 표시됨. POSIX.1-2001에서 제거됨.</p>
+<h2 id="notes">NOTES</h2>
+<p><code>brk()</code>와 <code>sbrk()</code> 사용을 피하라. <tt>[[malloc(3)]]</tt> 메모리 할당 패키지가 메모리를 할당하는 이식성 있고 편리한 방식이다.</p>
+<p>여러 시스템들에서 <code>sbrk()</code> 인자에 다양한 타입을 쓴다. 흔하게는 <code>int</code>, <code>ssize_t</code>, <code>ptrdiff_t</code>, <code>intptr_t</code>가 있다.</p>
+<h3 id="c">C 라이브러리/커널 차이</h3>
+<p>위에서 기술한 <code>brk()</code> 반환 값은 리눅스 <code>brk()</code> 시스템 호출을 위한 glibc 래퍼 함수가 제공하는 동작 방식이다. (다른 대부분의 구현에서도 <code>brk()</code> 반환 값이 그와 같다. 이 반환 값이 SUSv2에 명세되기도 했다.) 하지만 실제 리눅스 시스템 호출은 성공 시 새로운 프로그램 단절점을 반환한다. 그리고 실패 시 시스템 호출은 현재 단절점을 반환한다. glibc 래퍼 함수에서 약간의 작업을 해서 (즉 새 단절점이 <code>addr</code>보다 작은지 확인해서) 위에 기술한 0과 -1 반환 값을 제공한다.</p>
+<p>리눅스에서 <code>sbrk()</code>는 <code>brk()</code> 시스템 호출을 사용하는 라이브러리 함수로 구현되어 있으며, 내부적으로 어떤 상태 관리를 해서 이전 단절점 값을 반환할 수 있도록 한다.</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[execve(2)]]</tt>, <tt>[[getrlimit(2)]]</tt>, <tt>[[end(3)]]</tt>, <tt>[[malloc(3)]]</tt></p>
+<hr />
+<p>2016-03-15</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

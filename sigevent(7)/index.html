@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/sigevent(7)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Sigevent(7) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>sigevent - 비동기 루틴으로부터의 알림을 위한 구조체</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;signal.h&gt;
+
+union sigval {          /* 알림과 함께 전달되는 데이터 */
+    int     sival_int;         /* 정수 값 */
+    void   *sival_ptr;         /* 포인터 값 */
+};
+
+struct sigevent {
+    int          sigev_notify; /* 알림 방법 */
+    int          sigev_signo;  /* 알림 시그널 */
+    union sigval sigev_value;  /* 알림과 함께 전달되는 데이터 */
+    void       (*sigev_notify_function) (union sigval);
+                     /* 스레드 알림에 쓰는 함수 (SIGEV_THREAD) */
+    void        *sigev_notify_attributes;
+                     /* 알림 스레드의 속성 (SIGEV_THREAD) */
+    pid_t        sigev_notify_thread_id;
+                     /* 신호를 받을 스레드의 ID (SIGEV_THREAD_ID) */
+};
+</code></pre>
+
+<h2 id="description">DESCRIPTION</h2>
+<p>다양한 API에서 <code>sigevent</code> 구조체를 사용하여 프로세스가 이벤트 (가령 비동기 요청 완료, 타이머 만료, 메시지 도착) 알림을 받을 방식을 기술한다.</p>
+<p>SYNOPSIS에서 보여준 정의는 대략적인 것이다. <code>sigevent</code> 구조체의 일부 필드들이 공용체의 일부로 정의되어 있을 수도 있다. 프로그램에서는 <code>sigev_notify</code>에 지정한 값에 관련된 필드만을 사용해야 한다.</p>
+<p><code>sigev_notify</code> 필드는 알림을 어떻게 수행할지 지정한다. 다음 값들 중 하나일 수 있다.</p>
+<dl>
+<dt><code>SIGEV_NONE</code></dt>
+<dd>"null" 알림. 사건이 발생했을 때 아무것도 하지 않는다.</dd>
+<dt><code>SIGEV_SIGNAL</code></dt>
+<dd>
+<p><code>sigev_signo</code>에 지정된 시그널을 보내서 프로세스에게 알린다.</p>
+<p><tt>[[sigaction(2)]]</tt> <code>SA_SIGINFO</code> 플래그를 써서 등록한 시그널 핸들러로 시그널을 잡는 경우에는 핸들러 두 번째 인자로 전달되는 <code>siginfo_t</code> 구조체에 다음 필드들을 설정한다.</p>
+<dl>
+<dt><code>si_code</code></dt>
+<dd>알림을 보내는 API에 따라 달라지는 어떤 값으로 이 필드를 설정한다.</dd>
+<dt><code>si_signo</code></dt>
+<dd>시그널 번호로 (즉, <code>sigev_signo</code>와 값은 값으로) 이 필드를 설정한다.</dd>
+<dt><code>si_value</code></dt>
+<dd><code>sigev_value</code>에서 지정한 값으로 이 필드를 설정한다.</dd>
+</dl>
+<p>API에 따라서 <code>siginfo_t</code> 구조체 내의 다른 필드들까지 설정할 수도 있다.</p>
+<p><tt>[[sigwaitinfo(2)]]</tt>로 시그널을 받는 경우에도 같은 정보를 사용할 수 있다.</p>
+</dd>
+<dt><code>SIGEV_THREAD</code></dt>
+<dd><code>sigev_notify_function</code>을 새 스레드의 시작 함수"인 것처럼" 호출하여 프로세스에게 알린다. (이를 구현할 수 있는 방안들 중에는 각 타이머 알림마다 새 스레드를 생성하는 것도 있고, 한 스레드를 만들어서 모든 알림을 받는 것도 있다.) <code>sigev_value</code>를 유일한 인자로 해서 함수를 호출한다. <code>sigev_notify_attributes</code>는 NULL이 아니라면 새 스레드의 속성을 정의하는 <code>pthread_attr_t</code> 구조체(<tt>[[pthread_attr_init(3)]]</tt> 참고)를 가리켜야 한다.</dd>
+<dt><code>SIGEV_THREAD_ID</code> (리눅스 한정)</dt>
+<dd>현재 POSIX 타이머에서만 사용함. <tt>[[timer_create(2)]]</tt> 참고.</dd>
+</dl>
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[timer_create(2)]]</tt>, <tt>[[aio_fsync(3)]]</tt>, <tt>[[aio_read(3)]]</tt>, <tt>[[aio_write(3)]]</tt>, <tt>[[getaddrinfo_a(3)]]</tt>, <tt>[[lio_listio(3)]]</tt>, <tt>[[mq_notify(3)]]</tt>, <tt>[[aio(7)]]</tt>, <tt>[[pthreads(7)]]</tt></p>
+<hr />
+<p>2017-07-13</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/malloc_info(3)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Malloc info(3) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
+        <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+            <li class="second-level"><a href="#_1">프로그램 소스</a></li>
+                
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>malloc_info - malloc 상태를 스트림으로 내보내기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;malloc.h&gt;
+
+int malloc_info(int options, FILE *stream);
+</code></pre>
+
+<h2 id="description">DESCRIPTION</h2>
+<p><code>malloc_info()</code> 함수는 호출자 내의 메모리 할당 구현의 현재 상태를 기술하는 XML 문자열을 내보낸다. 파일 스트림 <code>stream</code>으로 그 문자열을 찍는다. 내보내는 문자열에는 모든 아레나에 대한 정보가 포함되어 있다. (<tt>[[malloc(3)]]</tt> 참고.)</p>
+<p>현재 구현 기준으로 <code>options</code>는 0이어야 한다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>성공 시 <code>malloc_info()</code>는 0을 반환한다. 오류 시 -1을 반환하며 원인을 나타내도록 <code>errno</code>를 설정한다.</p>
+<h2 id="errors">ERRORS</h2>
+<dl>
+<dt><code>EINVAL</code></dt>
+<dd><code>options</code>가 0이 아니다.</dd>
+</dl>
+<h2 id="versions">VERSIONS</h2>
+<p>glibc 버전 2.10에서 <code>malloc_info()</code>가 추가되었다.</p>
+<h2 id="attributes">ATTRIBUTES</h2>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<table>
+<thead>
+<tr>
+<th>인터페이스</th>
+<th>속성</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>malloc_info()</code></td>
+<td>스레드 안전성</td>
+<td>MT-Safe</td>
+</tr>
+</tbody>
+</table>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>이 함수는 GNU 확장이다.</p>
+<h2 id="notes">NOTES</h2>
+<p>메모리 할당 정보를 (C 구조체가 아니라) XML 문자열로 제공하는 이유는 시간이 흐르면서 (기반 구현의 변화에 따라) 정보가 바뀔 수 있기 때문이다. 출력 XML 문자열에 버전 필드가 들어 있다.</p>
+<p><tt>[[open_memstream(3)]]</tt> 함수를 쓰면 <code>malloc_info()</code> 출력을 파일이 아니라 메모리 내 버퍼로 바로 보낼 수 있다.</p>
+<p><code>malloc_info()</code> 함수는 <tt>[[malloc_stats(3)]]</tt>와 <tt>[[mallinfo(3)]]</tt>의 결점들을 해결하도록 설계되었다.</p>
+<h2 id="example">EXAMPLE</h2>
+<p>아래 프로그램은 4개까지의 명령행 인자를 받으며, 그 중 처음 3개는 필수이다. 첫 번째 인자는 프로그램이 생성해야 하는 스레드 수를 지정한다. 메인 스레드를 포함한 모든 스레드에서 두 번째 인자로 지정한 개수의 메모리 블록을 할당한다. 세 번째 인자는 할당할 블록의 크기를 제어한다. 메인 스레드는 이 크기의 블록을 만들고, 두 번째 스레드는 두 배 크기 블록을 할당하고, 세 번째 스레드는 세 배 크기 블록을 할당하고 하는 식이다.</p>
+<p>프로그램에서 <code>malloc_info()</code>를 두 번 호출해서 메모리 할당 상태를 표시한다. 첫 번째 호출은 스레드 생성이나 메모리 할당을 하기 전에 한다. 두 번째 호출은 모든 스레드가 메모리를 할당한 후에 수행한다.</p>
+<p>다음 예의 명령행 인자는 추가 스레드를 1개 만들고 메인 스레드와 그 추가 스레드 모두 메모리 블록 10000개를 할당하라는 뜻이다. 그 메모리 블록들을 할당한 후에 <code>malloc_info()</code>로 두 할당 아레나의 상태를 보인다.</p>
+<pre><code class="text">$ getconf GNU_LIBC_VERSION
+glibc 2.13
+$ ./a.out 1 10000 100
+============ Before allocating blocks ============
+&lt;malloc version=&quot;1&quot;&gt;
+&lt;heap nr=&quot;0&quot;&gt;
+&lt;sizes&gt;
+&lt;/sizes&gt;
+&lt;total type=&quot;fast&quot; count=&quot;0&quot; size=&quot;0&quot;/&gt;
+&lt;total type=&quot;rest&quot; count=&quot;0&quot; size=&quot;0&quot;/&gt;
+&lt;system type=&quot;current&quot; size=&quot;135168&quot;/&gt;
+&lt;system type=&quot;max&quot; size=&quot;135168&quot;/&gt;
+&lt;aspace type=&quot;total&quot; size=&quot;135168&quot;/&gt;
+&lt;aspace type=&quot;mprotect&quot; size=&quot;135168&quot;/&gt;
+&lt;/heap&gt;
+&lt;total type=&quot;fast&quot; count=&quot;0&quot; size=&quot;0&quot;/&gt;
+&lt;total type=&quot;rest&quot; count=&quot;0&quot; size=&quot;0&quot;/&gt;
+&lt;system type=&quot;current&quot; size=&quot;135168&quot;/&gt;
+&lt;system type=&quot;max&quot; size=&quot;135168&quot;/&gt;
+&lt;aspace type=&quot;total&quot; size=&quot;135168&quot;/&gt;
+&lt;aspace type=&quot;mprotect&quot; size=&quot;135168&quot;/&gt;
+&lt;/malloc&gt;
+
+============ After allocating blocks ============
+&lt;malloc version=&quot;1&quot;&gt;
+&lt;heap nr=&quot;0&quot;&gt;
+&lt;sizes&gt;
+&lt;/sizes&gt;
+&lt;total type=&quot;fast&quot; count=&quot;0&quot; size=&quot;0&quot;/&gt;
+&lt;total type=&quot;rest&quot; count=&quot;0&quot; size=&quot;0&quot;/&gt;
+&lt;system type=&quot;current&quot; size=&quot;1081344&quot;/&gt;
+&lt;system type=&quot;max&quot; size=&quot;1081344&quot;/&gt;
+&lt;aspace type=&quot;total&quot; size=&quot;1081344&quot;/&gt;
+&lt;aspace type=&quot;mprotect&quot; size=&quot;1081344&quot;/&gt;
+&lt;/heap&gt;
+&lt;heap nr=&quot;1&quot;&gt;
+&lt;sizes&gt;
+&lt;/sizes&gt;
+&lt;total type=&quot;fast&quot; count=&quot;0&quot; size=&quot;0&quot;/&gt;
+&lt;total type=&quot;rest&quot; count=&quot;0&quot; size=&quot;0&quot;/&gt;
+&lt;system type=&quot;current&quot; size=&quot;1032192&quot;/&gt;
+&lt;system type=&quot;max&quot; size=&quot;1032192&quot;/&gt;
+&lt;aspace type=&quot;total&quot; size=&quot;1032192&quot;/&gt;
+&lt;aspace type=&quot;mprotect&quot; size=&quot;1032192&quot;/&gt;
+&lt;/heap&gt;
+&lt;total type=&quot;fast&quot; count=&quot;0&quot; size=&quot;0&quot;/&gt;
+&lt;total type=&quot;rest&quot; count=&quot;0&quot; size=&quot;0&quot;/&gt;
+&lt;system type=&quot;current&quot; size=&quot;2113536&quot;/&gt;
+&lt;system type=&quot;max&quot; size=&quot;2113536&quot;/&gt;
+&lt;aspace type=&quot;total&quot; size=&quot;2113536&quot;/&gt;
+&lt;aspace type=&quot;mprotect&quot; size=&quot;2113536&quot;/&gt;
+&lt;/malloc&gt;
+</code></pre>
+
+<h3 id="_1">프로그램 소스</h3>
+<pre><code class="c">#include &lt;unistd.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;pthread.h&gt;
+#include &lt;malloc.h&gt;
+#include &lt;errno.h&gt;
+
+static size_t blockSize;
+static int numThreads, numBlocks;
+
+#define errExit(msg)    do { perror(msg); exit(EXIT_FAILURE); \
+                        } while (0)
+
+static void *
+thread_func(void *arg)
+{
+    int j;
+    int tn = (int) arg;
+
+    /* '(2 + tn)'을 곱해 주면 각 스레드(메인 스레드 포함)가
+       각기 다른 양의 메모리를 할당하게 된다 */
+
+    for (j = 0; j &lt; numBlocks; j++)
+        if (malloc(blockSize * (2 + tn)) == NULL)
+            errExit(&quot;malloc-thread&quot;);
+
+    sleep(100);         /* 메인 스레드가 종료할 때까지 잠들기 */
+    return NULL;
+}
+
+int
+main(int argc, char *argv[])
+{
+    int j, tn, sleepTime;
+    pthread_t *thr;
+
+    if (argc &lt; 4) {
+        fprintf(stderr,
+                &quot;%s num-threads num-blocks block-size [sleep-time]\n&quot;,
+                argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    numThreads = atoi(argv[1]);
+    numBlocks = atoi(argv[2]);
+    blockSize = atoi(argv[3]);
+    sleepTime = (argc &gt; 4) ? atoi(argv[4]) : 0;
+
+    thr = calloc(numThreads, sizeof(pthread_t));
+    if (thr == NULL)
+        errExit(&quot;calloc&quot;);
+
+    printf(&quot;============ Before allocating blocks ============\n&quot;);
+    malloc_info(0, stdout);
+
+    /* 각기 다른 양의 메모리를 할당하는 스레드 생성 */
+
+    for (tn = 0; tn &lt; numThreads; tn++) {
+        errno = pthread_create(&amp;thr[tn], NULL, thread_func,
+                               (void *) tn);
+        if (errno != 0)
+            errExit(&quot;pthread_create&quot;);
+
+        /* 스레드 시작 후마다 잠자는 간격을 추가하면 스레드들이
+       malloc 뮤텍스를 두고 경쟁하지 않게 되고, 그래서 아레나를
+       추가로 할당하지 않게 됨. (malloc(3) 참고.) */
+
+        if (sleepTime &gt; 0)
+            sleep(sleepTime);
+    }
+
+    /* 메인 스레드에서도 메모리를 좀 할당 */
+
+    for (j = 0; j &lt; numBlocks; j++)
+        if (malloc(blockSize) == NULL)
+            errExit(&quot;malloc&quot;);
+
+    sleep(2);           /* 모든 스레드가 할당을 마칠 시간 주기 */
+
+    printf(&quot;\n============ After allocating blocks ============\n&quot;);
+    malloc_info(0, stdout);
+
+    exit(EXIT_SUCCESS);
+}
+</code></pre>
+
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[mallinfo(3)]]</tt>, <tt>[[malloc(3)]]</tt>, <tt>[[malloc_stats(3)]]</tt>, <tt>[[mallopt(3)]]</tt>, <tt>[[open_memstream(3)]]</tt></p>
+<hr />
+<p>2019-03-06</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

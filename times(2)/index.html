@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/times(2)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Times(2) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+            <li class="second-level"><a href="#_1">이력</a></li>
+                
+        <li class="first-level "><a href="#bugs">BUGS</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>times - 프로세스 시간 얻기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;sys/times.h&gt;
+
+clock_t times(struct tms *buf);
+</code></pre>
+
+<h2 id="description">DESCRIPTION</h2>
+<p><code>times()</code>는 현재 프로세스 시간들을 <code>buf</code>가 가리키는 <code>struct tms</code>에 저장한다. <code>struct tms</code>는 <code>&lt;sys/times.h&gt;</code>에 다음처럼 정의돼 있다.</p>
+<pre><code class="c">struct tms {
+    clock_t tms_utime;  /* 사용자 시간 */
+    clock_t tms_stime;  /* 시스템 시간 */
+    clock_t tms_cutime; /* 자식들의 사용자 시간 */
+    clock_t tms_cstime; /* 자식들의 시스템 시간 */
+};
+</code></pre>
+
+<p><code>tms_utime</code> 필드는 호출 프로세스의 인스트럭션을 실행하는 데 쓴 CPU 시간을 담는다. <code>tms_stime</code> 필드는 호출 프로세스 대신 작업을 수행하며 커널 내에서 실행에 쓴 CPU 시간을 담는다.</p>
+<p><code>tms_cutime</code> 필드는 <code>tms_utime</code>에다가 종료돼서 대기가 이뤄진 자식들 모두의 <code>tms_cutime</code>을 합친 값을 담는다. <code>tms_cstime</code> 필드는 <code>tms_stime</code>에다가 종료돼서 대기가 이뤄진 자식들 모두의 <code>tms_cstime</code>을 합친 값을 담는다.</p>
+<p>종료된 자식들의 (그리고 그 후손들의) 시간은 <tt>[[wait(2)]]</tt> 내지 <tt>[[waitpid(2)]]</tt>에서 프로세스 ID를 반환하는 시점에 합쳐진다. 특히 자식이 대기하지 않은 손주의 시간은 절대 보이지 않게 된다.</p>
+<p>모든 시간을 클럭 틱 단위로 보고한다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p><code>times()</code>는 과거 임의 시점 이후 경과한 클럭 틱 수를 반환한다. 반환 값이 <code>clock_t</code> 타입의 가능 범위를 넘을 수도 있다. 오류 시 <code>(clock_t) -1</code>을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<h2 id="errors">ERRORS</h2>
+<dl>
+<dt><code>EFAULT</code></dt>
+<dd><code>tms</code>가 프로세스의 주소 공간 밖을 가리키고 있다.</dd>
+</dl>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>POSIX.1-2001, POSIX.1-2008, SVr4, 4.3BSD.</p>
+<h2 id="notes">NOTES</h2>
+<p>초당 클럭 틱 수는 다음 방법으로 얻을 수 있다.</p>
+<pre><code class="c">sysconf(_SC_CLK_TCK);
+</code></pre>
+
+<p>POSIX.1-1996에서는 (<code>&lt;time.h&gt;</code>에 정의된) <code>CLK_TCK</code> 심볼이 구식화되고 있다고 말한다. 현재 구식이 되었다.</p>
+<p>리눅스 커널 버전 2.6.9 전에서는 <code>SIGCHLD</code> 처리 방식이 <code>SIG_IGN</code>으로 설정돼 있는 경우에 종료한 자식들의 시간이 자동으로 <code>tms_cstime</code> 및 <code>tms_cutime</code> 필드에 포함된다. 하지만 POSIX.1-2001에 따르면 호출 프로세스가 자식들에 <tt>[[wait(2)]]</tt> 하는 경우에만 그래야 한다. 리눅스 2.6.9 및 이후에서는 이 불일치가 시정돼 있다.</p>
+<p>리눅스에서는 <code>buf</code> 인자를 NULL로 지정할 수 있으며 그러면 <code>times()</code>가 함수 결과만 반환한다. 하지만 POSIX에서는 이런 동작을 명세하고 있지 않으며 대다수의 다른 유닉스 구현에서는 <code>buf</code>에 NULL 아닌 값을 요구한다.</p>
+<p>참고로 <tt>[[clock(3)]]</tt>도 <code>clock_t</code> 타입인 값을 반환하지만 그 값은 <code>times()</code>에서 쓰는 클럭 틱이 아니라 <code>CLOCKS_PER_SEC</code> 단위로 측정한 값이다.</p>
+<p>리눅스에서 <code>times()</code>의 반환 값을 측정하는 기준인 "과거 임의 시점"은 커널 버전에 따라 달랐다. 리눅스 2.4 및 이전에서는 시스템이 부팅 된 순간이었다. 리눅스 2.6부터는 이 시점이 시스템 부팅 시각에서 <code>(2^32/HZ) - 300</code> 초 전이다. 커널 버전에 따른 (그리고 유닉스 구현들에 따른) 이런 다양성에다가 반환 값이 <code>clock_t</code>의 범위를 넘을 수 있다는 걸 생각하면 이식 가능한 응용에서는 이 값을 쓰지 않는 게 현명할 것이다. 경과 시간 변화를 측정하려면 <tt>[[clock_gettime(2)]]</tt>을 쓰면 된다.</p>
+<h3 id="_1">이력</h3>
+<p>SVr1-3에서는 <code>long</code>을 반환하며 에포크 이후 초가 아니라 클럭 틱을 저장하는데도 구조체 멤버가 <code>time_t</code> 타입이다. V7에서는 구조체 멤버에 <code>long</code>을 썼는데, 그때는 <code>time_t</code> 타입이 없었기 때문이다.</p>
+<h2 id="bugs">BUGS</h2>
+<p>일부 시스템(특히 i386)에서 리눅스 시스템 호출 규약의 한계 때문에 부팅 직후의 짧은 시간(41초) 동안 <code>times()</code>가 -1을 반환해서 오류가 발생한 것처럼 잘못 보이게 될 가능성이 있다. 반환 값이 <code>clock_t</code>에 저장할 수 있는 최댓값을 넘어갈 때에도 같은 문제가 발생할 수 있다.</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><code>time(1)</code>, <tt>[[getrusage(2)]]</tt>, <tt>[[wait(2)]]</tt>, <tt>[[clock(3)]]</tt>, <tt>[[sysconf(3)]]</tt>, <tt>[[time(7)]]</tt></p>
+<hr />
+<p>2017-09-15</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/fstat(2)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Fstat(2) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+            <li class="second-level"><a href="#stat">stat 구조체</a></li>
+                
+            <li class="second-level"><a href="#fstatat">fstatat()</a></li>
+                
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+            <li class="second-level"><a href="#_1">타임스탬프 필드</a></li>
+                
+            <li class="second-level"><a href="#c">C 라이브러리/커널 차이</a></li>
+                
+        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>stat, fstat, lstat, fstatat - 파일 상태 정보 얻기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;unistd.h&gt;
+
+int stat(const char *pathname, struct stat *statbuf);
+int fstat(int fd, struct stat *statbuf);
+int lstat(const char *pathname, struct stat *statbuf);
+
+#include &lt;fcntl.h&gt;           /* AT_* 상수 정의 */
+#include &lt;sys/stat.h&gt;
+
+int fstatat(int dirfd, const char *pathname, struct stat *statbuf,
+            int flags);
+</code></pre>
+
+<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<dl>
+<dt><code>lstat()</code>:</dt>
+<dd><code>/* glibc 2.19 및 이전: */ _BSD_SOURCE</code><br>
+<code>|| /* glibc 2.20부터 */ _DEFAULT_SOURCE</code><br>
+<code>|| _XOPEN_SOURCE &gt;= 500</code><br>
+<code>|| /* glibc 2.10부터: */ _POSIX_C_SOURCE &gt;= 200112L</code></dd>
+<dt><code>fstatat()</code>:</dt>
+<dd>
+<dl>
+<dt>glibc 2.10부터:</dt>
+<dd><code>_POSIX_C_SOURCE &gt;= 200809L</code></dd>
+<dt>glibc 2.10 전:</dt>
+<dd><code>_ATFILE_SOURCE</code></dd>
+</dl>
+</dd>
+</dl>
+<h2 id="description">DESCRIPTION</h2>
+<p>이 함수들은 파일에 대한 정보를 <code>statbuf</code>가 가리키는 버퍼로 반환한다. 그 파일 자체에 대해선 어떤 권한도 필요치 않지만 (<code>stat()</code>, <code>fstatat()</code>, <code>lstat()</code>에서는) <code>pathname</code>에서 그 파일까지 이어지는 디렉터리 모두에 대해 실행(탐색) 권한이 필요하다.</p>
+<p><code>stat()</code>과 <code>fstatat()</code>은 <code>pathname</code>이 가리키는 파일에 대한 정보를 가져온다. <code>fstatat()</code>의 차이점을 아래에서 설명한다.</p>
+<p><code>lstat()</code>은 <code>stat()</code>과 동일하되 <code>pathname</code>이 심볼릭 링크인 경우에는 대상 파일이 아니라 링크 자체에 대한 정보를 반환한다.</p>
+<p><code>fstat()</code>은 <code>stat()</code>과 동일하되 어떤 파일에 대한 정보를 가져올지를 파일 디스크립터 <code>fd</code>로 지정한다.</p>
+<h3 id="stat"><code>stat</code> 구조체</h3>
+<p>이 시스템 호출들은 모두 <code>stat</code> 구조체를 반환하는데, 이는 다음 필드들을 담고 있다.</p>
+<pre><code class="c">struct stat {
+    dev_t     st_dev;         /* 파일을 담은 장치의 ID */
+    ino_t     st_ino;         /* 아이노드 번호 */
+    mode_t    st_mode;        /* 파일 종류 및 모드 */
+    nlink_t   st_nlink;       /* 하드 링크 수 */
+    uid_t     st_uid;         /* 소유자의 사용자 ID */
+    gid_t     st_gid;         /* 소유자의 그룹 ID */
+    dev_t     st_rdev;        /* 장치 ID (특수 파일인 경우) */
+    off_t     st_size;        /* 총 크기, 바이트 단위 */
+    blksize_t st_blksize;     /* 파일 시스템 I/O의 블록 크기 */
+    blkcnt_t  st_blocks;      /* 할당된 512B 블록 수 */
+
+    /* 리눅스 2.6부터 커널에서 다음 타임스탬프 필드들에
+       나노초 정밀도를 지원한다. 리눅스 2.6 전에 대한
+       내용은 NOTES 참고. */
+
+    struct timespec st_atim;  /* 최근 접근 시간 */
+    struct timespec st_mtim;  /* 최근 수정 시간 */
+    struct timespec st_ctim;  /* 최근 상태 변경 시간 */
+
+#define st_atime st_atim.tv_sec      /* 하위 호환성 */
+#define st_mtime st_mtim.tv_sec
+#define st_ctime st_ctim.tv_sec
+};
+</code></pre>
+
+<p><em>주의</em>: <code>stat</code> 구조체 내 필드 순서가 아키텍처에 따라 약간 다르다. 더불어 위 정의에는 여러 아키텍처에서 일부 필드들 사이에 있는 패딩 바이트가 나와 있지 않다. 자세한 내용을 알 필요가 있다면 glibc 및 커널 소스 코드를 확인해 보라.</p>
+<p><em>주의</em>: 성능과 단순성을 위해 <code>stat</code> 구조체의 필드들이 시스템 호출 실행 중의 상이한 시점의 상태 정보를 담을 수 있다. 예를 들어 다른 프로세스에서 <tt>[[chmod(2)]]</tt>나 <tt>[[chown(2)]]</tt>을 호출해서 <code>st_mode</code>나 <code>st_uid</code>를 바꾸는 경우에 <code>stat()</code>이 이전 <code>st_mode</code>와 새 <code>st_uid</code>를 반환할 수도 있고 이전 <code>st_uid</code>와 새 <code>st_mode</code>를 반환할 수도 있다.</p>
+<p><code>stat</code> 구조체의 필드는 다음과 같다.</p>
+<dl>
+<dt><code>st_dev</code></dt>
+<dd>이 필드는 이 파일이 위치한 장치를 기술한다. (이 필드의 장치 ID를 분해하는 데 <tt>[[major(3)]]</tt> 및 <tt>[[minor(3)]]</tt> 매크로가 유용할 수 있다.)</dd>
+<dt><code>st_ino</code></dt>
+<dd>이 필드는 파일의 아이노드 번호를 담는다.</dd>
+<dt><code>st_mode</code></dt>
+<dd>이 필드는 파일 종류와 모드를 담는다. 자세한 내용은 <tt>[[inode(7)]]</tt> 참고.</dd>
+<dt><code>st_nlink</code></dt>
+<dd>이 필드는 파일에 대한 하드 링크 수를 담는다.</dd>
+<dt><code>st_uid</code></dt>
+<dd>이 필드는 파일 소유자의 사용자 ID를 담는다.</dd>
+<dt><code>st_gid</code></dt>
+<dd>이 필드는 파일 그룹 소유자의 ID를 담는다.</dd>
+<dt><code>st_rdev</code></dt>
+<dd>이 필드는 이 파일이 (아이노드가) 나타내는 장치를 기술한다.</dd>
+<dt><code>st_size</code></dt>
+<dd>이 필드는 (정규 파일이나 심볼릭 링크인 경우) 바이트 단위 파일 크기를 알려 준다. 심볼릭 링크의 크기란 담고 있는 (종료 널 바이트 없는) 경로명의 길이다.</dd>
+<dt><code>st_blksize</code></dt>
+<dd>이 필드는 효율적인 파일 시스템 I/O를 위한 "선호" 블록 크기를 알려 준다.</dd>
+<dt><code>st_blocks</code></dt>
+<dd>이 필드는 파일에 할당된 512바이트 단위 블록 수를 나타낸다. (파일에 구멍이 있을 때는 <code>st_size</code>/512보다 작을 수도 있다.</dd>
+<dt><code>st_atime</code></dt>
+<dd>파일의 최근 접근 타임스탬프다.</dd>
+<dt><code>st_mtime</code></dt>
+<dd>파일의 최근 수정 타임스탬프다.</dd>
+<dt><code>st_ctime</code></dt>
+<dd>파일의 최근 상태 변경 타임스탬프다.</dd>
+</dl>
+<p>위 필드들에 대한 더 자세한 내용은 <tt>[[inode(7)]]</tt>를 보라.</p>
+<h3 id="fstatat"><code>fstatat()</code></h3>
+<p><code>fstatat()</code> 시스템 호출은 파일 정보에 접근하기 위한 범용적 인터페이스로 <code>stat()</code>, <code>lstat()</code>, <code>fstat()</code> 각각의 동작 방식까지 정확하게 제공할 수 있다.</p>
+<p><code>pathname</code>에 준 경로명이 상대 경로이면 (상대 경로명에 대해 <code>stat()</code> 및 <code>lstat()</code>에서 하듯 호출 프로세스의 현재 작업 디렉터리를 기준으로 하는 게 아니라) 파일 디스크립터 <code>dirfd</code>가 가리키는 디렉터리를 기준으로 경로명을 해석한다.</p>
+<p><code>pathname</code>이 상대 경로이고 <code>dirfd</code>가 특수 값 <code>AT_FDCWD</code>이면 (<code>stat()</code> 및 <code>lstat()</code>처럼) 호출 프로세스의 현재 작업 디렉터리를 기준으로 <code>pathname</code>을 해석한다.</p>
+<p><code>pathname</code>이 절대 경로이면 <code>dirfd</code>를 무시한다.</p>
+<p><code>flags</code>는 0일 수도 있고 다음 플래그를 1개 이상 OR 해서 담을 수도 있다.</p>
+<dl>
+<dt><code>AT_EMPTY_PATH</code> (리눅스 2.6.39부터)</dt>
+<dd><code>pathname</code>이 빈 문자열이면 (<tt>[[open(2)]]</tt> <code>O_PATH</code> 플래그로 얻은 것일 수도 있는) <code>dirfd</code>가 가리키는 파일에 대해 동작한다. 이 경우에 <code>dirfd</code>는 디렉터리만이 아니라 임의 종류의 파일을 가리킬 수 있으며 <code>fstatat()</code>의 동작 방식은 <code>fstat()</code>과 비슷하다. <code>dirfd</code>가 <code>AT_FDCWD</code>이면 현재 작업 디렉터리에 대해 호출이 동작한다. 이 플래그는 리눅스 전용이다. 이 정의를 얻으려면 <code>_GNU_SOURCE</code>를 정의해야 한다.</dd>
+<dt><code>AT_NO_AUTOMOUNT</code> (리눅스 2.6.38부터)</dt>
+<dd><code>pathname</code>의 마지막 요소("basename")가 자동 마운트 지점인 디렉터리인 경우에 자동 마운트를 하지 않는다. 이를 통해 (마운트 될 위치가 아니라) 자동 마운트 지점의 속성들을 호출자가 얻을 수 있다. 또한 리눅스 4.14부터는 automounter 간접 맵 등에 쓰이는 on-demand 디렉터리에 실재하지 않는 이름을 만들어 내지 않는다. 디렉터리들을 훑는 도구들에서 이 플래그를 사용해서 자동 마운트 지점인 디렉터리를 잔뜩 자동 마운트 하는 걸 방지할 수 있다. 마운트 지점에 이미 마운트가 됐으면 <code>AT_NO_AUTOMOUNT</code> 플래그에 아무 효력이 없다. 이 플래그는 리눅스 전용이다. 이 정의를 얻으려면 <code>_GNU_SOURCE</code>를 정의해야 한다. <code>stat()</code>과 <code>lstat()</code> 모두 <code>AT_NO_AUTOMOUNT</code>가 설정된 것처럼 동작한다.</dd>
+<dt><code>AT_SYMLINK_NOFOLLOW</code></dt>
+<dd><code>pathname</code>이 심볼릭 링크인 경우 역참조를 하지 않는다. 대신 <code>lstat()</code>처럼 링크 자체에 대한 정보를 반환한다. (기본적으로 <code>fstatat()</code>은 <code>stat()</code>처럼 심볼릭 링크를 역참조 한다.)</dd>
+</dl>
+<p><code>fstatat()</code>의 필요성에 대한 설명은 <tt>[[openat(2)]]</tt>을 보라.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>성공 시 0을 반환한다. 오류 시 -1을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<h2 id="errors">ERRORS</h2>
+<dl>
+<dt><code>EACCES</code></dt>
+<dd><code>pathname</code>의 경로 선두부의 한 디렉터리에 대해 탐색 권한이 거부되었다. (<tt>[[path_resolution(7)]]</tt> 참고.)</dd>
+<dt><code>EBADF</code></dt>
+<dd><code>fd</code>가 유효한 열린 파일 디스크립터가 아니다.</dd>
+<dt><code>EFAULT</code></dt>
+<dd>잘못된 주소.</dd>
+<dt><code>ELOOP</code></dt>
+<dd>경로명을 순회하는 동안 너무 많은 심볼릭 링크를 만났다.</dd>
+<dt><code>ENAMETOOLONG</code></dt>
+<dd><code>pathname</code>이 너무 길다.</dd>
+<dt><code>ENOENT</code></dt>
+<dd><code>pathname</code>의 어느 요소가 존재하지 않거나 깨진 심볼릭 링크이다.</dd>
+<dt><code>ENOENT</code></dt>
+<dd><code>pathname</code>이 빈 문자열인데 <code>flags</code>에 <code>AT_EMPTY_PATH</code>를 지정하지 않았다.</dd>
+<dt><code>ENOMEM</code></dt>
+<dd>메모리 (즉 커널 메모리) 부족.</dd>
+<dt><code>ENOTDIR</code></dt>
+<dd><code>pathname</code>의 경로 선두부의 어느 요소가 디렉터리가 아니다.</dd>
+<dt><code>EOVERFLOW</code></dt>
+<dd><code>pathname</code>이나 <code>fd</code>가 그 크기, 아이노드 번호, 블록 수를 각기 <code>off_t</code>, <code>ino_t</code>, <code>blkcnt_t</code> 타입으로 표현할 수 없는 파일을 가리키고 있다. 예를 들어 32비트 플랫폼에서 <code>-D_FILE_OFFSET_BITS=64</code> 없이 컴파일 한 응용이 크기가 <code>(1&lt;&lt;31)-1</code> 바이트를 넘는 파일을 열려고 하는 경우에 이 오류가 발생할 수 있다.</dd>
+</dl>
+<p><code>fstatat()</code>에서 다음 오류들이 추가로 발생할 수 있다.</p>
+<dl>
+<dt><code>EBADF</code></dt>
+<dd><code>dirfd</code>가 유효한 파일 디스크립터가 아니다.</dd>
+<dt><code>EINVAL</code></dt>
+<dd><code>flags</code>에 유효하지 않은 플래그를 지정했다.</dd>
+<dt><code>ENOTDIR</code></dt>
+<dd><code>pathname</code>이 상대 경로인데 <code>dirfd</code>가 디렉터리 아닌 파일을 가리키는 파일 디스크립터이다.</dd>
+</dl>
+<h2 id="versions">VERSIONS</h2>
+<p>리눅스 커널 2.6.16에서 <code>fstatat()</code>이 추가되었다. glibc 버전 2.4에서 라이브러리 지원이 추가되었다.</p>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p><code>stat()</code>, <code>fstat()</code>, <code>lstat()</code>: SVr4, 4.3BSD, POSIX.1-2001, POSIX.1-2008.</p>
+<p><code>fstatat()</code>: POSIX.1-2008.</p>
+<p>POSIX.1-2001에 따르면 심볼릭 링크에 <code>lstat()</code>을 하면 <code>stat</code> 구조체의 <code>st_size</code> 필드와 <code>st_mode</code> 필드의 파일 종류에만 유효한 정보를 반환하면 된다. POSIX.1-2008에서는 명세를 더 강화해서 <code>lstat()</code>이 <code>st_mode</code>의 모드 비트를 제외한 모든 필드들에 유효한 정보를 반환하도록 한다.</p>
+<p><code>st_blocks</code> 및 <code>st_blksize</code> 필드를 쓰면 이식성이 좀 떨어질 수도 있다. (두 필드는 BSD에서 도입됐다. 시스템에 따라 해석 방식이 다르고, NFS 마운트가 있으면 단일 시스템 내에서도 다를 수 있다.)</p>
+<h2 id="notes">NOTES</h2>
+<h3 id="_1">타임스탬프 필드</h3>
+<p>구식 커널 및 구식 표준에서는 나노초 타임스탬프 필드를 지원하지 않았다. 대신 <code>time_t</code> 타입으로 타임스탬프 필드 세 개(<code>st_atime</code>, <code>st_mtime</code>, <code>st_ctime</code>)가 있어서 초 단위로 타임스탬프를 기록했다.</p>
+<p>커널 2.5.48부터 <code>stat</code> 구조체의 그 세 가지 타임스탬프 필드에서 나노초 해상도를 지원한다. 적절한 기능 확인 매크로가 정의돼 있으면 각 타임스탬프의 나노초 부분을 <code>st_atim.tv_nsec</code> 형태의 이름으로 쓸 수 있다. 나노초 타임스탬프는 POSIX.1-2008에서 표준화됐으며, glibc 버전 2.12부터 <code>_POSIX_C_SOURCE</code>가 200809L 이상 값으로 정의돼 있거나 <code>_XOPEN_SOURCE</code>가 700 이상 값으로 정의돼 있으면 나노초 부분 이름이 드러난다. glibc 2.19까지에서는 <code>_BSD_SOURCE</code>나 <code>_SVID_SOURCE</code>가 정의돼 있는 경우에도 나노초 부분의 정의가 드러난다. 앞서 언급한 어떤 매크로도 정의돼 있지 않은 경우에는 <code>st_atimensec</code> 형태의 이름으로 나노초 값들을 쓸 수 있다.</p>
+<h3 id="c">C 라이브러리/커널 차이</h3>
+<p>시간이 흐르며 <code>stat</code> 구조체가 커지면서 세 가지 <code>stat()</code> 버전이 생겼다. i386 같은 32비트 플랫폼에서 <code>sys_stat()</code> (슬롯 <code>__NR_oldstat</code>), <code>sys_newstat()</code> (슬롯 <code>__NR_stat</code>), 그리고 <code>sys_stat64()</code> (슬롯 <code>__NR_stat64</code>)이다. 처음 두 버전은 (다른 이름이기는 했지만) 리눅스 1.0에도 있었으며, 마지막 버전은 리눅스 2.4에서 추가됐다. 비슷한 내용이 <code>fstat()</code>과 <code>lstat()</code>에도 적용된다.</p>
+<p>각 버전에서 다루는 커널 내부 <code>stat</code> 구조체 버전은 다음과 같다.</p>
+<dl>
+<dt><code>__old_kernel_stat</code></dt>
+<dd>원래 구조체. 필드들이 좀 작고 패딩 없음.</dd>
+<dt><code>stat</code></dt>
+<dd><code>st_ino</code> 필드가 커지고 향후 확장을 위해 구조체 여러 부분에 패딩이 추가됨.</dd>
+<dt><code>stat64</code></dt>
+<dd><code>st_ino</code> 필드가 더 커지고, 리눅스 2.4에서 UID 및 GID를 32비트로 확장한 것에 맞춰 <code>st_uid</code> 및 <code>st_gid</code> 필드가 커지고, 여러 다른 필드들이 더 커지고 구조체에 패딩들이 추가됨. (리눅스 2.6에서 32비트 장치 ID와 타임스탬프 나노초 부분이 등장하면서 여러 패딩 바이트가 사라졌다.)</dd>
+</dl>
+<p>glibc의 <code>stat()</code> 래퍼 함수에서 이런 세부 사항을 응용에게 감춰 주고 커널이 제공하는 가장 최신 버전의 시스템 호출을 부르며 구식 바이너리를 위해 필요한 경우 반환된 정보를 다시 포장해 준다.</p>
+<p>최신 64비트 시스템에서는 간단하다. <code>stat()</code> 시스템 호출이 하나만 있고 커널에서는 필드 크기가 충분히 큰 <code>stat</code> 구조체를 사용한다.</p>
+<p>glibc의 <code>fstatat()</code> 래퍼 함수에서 이용하는 기반 시스템 호출의 실제 이름이 <code>fstatat64()</code>이고 일부 아키텍처에서는 <code>newfstatat()</code>이다.</p>
+<h2 id="example">EXAMPLE</h2>
+<p>다음 프로그램에서는 <code>lstat()</code>을 호출해서 반환된 <code>stat</code> 구조체의 주요 필드들을 표시한다.</p>
+<pre><code class="c">#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;time.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;sys/sysmacros.h&gt;
+
+int
+main(int argc, char *argv[])
+{
+    struct stat sb;
+
+    if (argc != 2) {
+        fprintf(stderr, &quot;Usage: %s &lt;pathname&gt;\n&quot;, argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    if (lstat(argv[1], &amp;sb) == -1) {
+        perror(&quot;lstat&quot;);
+        exit(EXIT_FAILURE);
+    }
+
+    printf(&quot;ID of containing device:  [%lx,%lx]\n&quot;,
+         (long) major(sb.st_dev), (long) minor(sb.st_dev));
+
+    printf(&quot;File type:                &quot;);
+
+    switch (sb.st_mode &amp; S_IFMT) {
+    case S_IFBLK:  printf(&quot;block device\n&quot;);            break;
+    case S_IFCHR:  printf(&quot;character device\n&quot;);        break;
+    case S_IFDIR:  printf(&quot;directory\n&quot;);               break;
+    case S_IFIFO:  printf(&quot;FIFO/pipe\n&quot;);               break;
+    case S_IFLNK:  printf(&quot;symlink\n&quot;);                 break;
+    case S_IFREG:  printf(&quot;regular file\n&quot;);            break;
+    case S_IFSOCK: printf(&quot;socket\n&quot;);                  break;
+    default:       printf(&quot;unknown?\n&quot;);                break;
+    }
+
+    printf(&quot;I-node number:            %ld\n&quot;, (long) sb.st_ino);
+
+    printf(&quot;Mode:                     %lo (octal)\n&quot;,
+            (unsigned long) sb.st_mode);
+
+    printf(&quot;Link count:               %ld\n&quot;, (long) sb.st_nlink);
+    printf(&quot;Ownership:                UID=%ld   GID=%ld\n&quot;,
+            (long) sb.st_uid, (long) sb.st_gid);
+
+    printf(&quot;Preferred I/O block size: %ld bytes\n&quot;,
+            (long) sb.st_blksize);
+    printf(&quot;File size:                %lld bytes\n&quot;,
+            (long long) sb.st_size);
+    printf(&quot;Blocks allocated:         %lld\n&quot;,
+            (long long) sb.st_blocks);
+
+    printf(&quot;Last status change:       %s&quot;, ctime(&amp;sb.st_ctime));
+    printf(&quot;Last file access:         %s&quot;, ctime(&amp;sb.st_atime));
+    printf(&quot;Last file modification:   %s&quot;, ctime(&amp;sb.st_mtime));
+
+    exit(EXIT_SUCCESS);
+}
+</code></pre>
+
+<h2 id="see-also">SEE ALSO</h2>
+<p><code>ls(1)</code>, <code>stat(1)</code>, <tt>[[access(2)]]</tt>, <tt>[[chmod(2)]]</tt>, <tt>[[chown(2)]]</tt>, <tt>[[readlink(2)]]</tt>, <tt>[[statx(2)]]</tt>, <tt>[[utime(2)]]</tt>, <tt>[[capabilities(7)]]</tt>, <tt>[[inode(7)]]</tt>, <tt>[[symlink(7)]]</tt></p>
+<hr />
+<p>2019-03-06</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

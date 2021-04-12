@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_rwlockattr_setkind_np(3)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Pthread rwlockattr setkind np(3) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>pthread_rwlockattr_setkind_np, pthread_rwlockattr_getkind_np - 스레드 읽기-쓰기 락 속성 객체의 읽기-쓰기 락 종류 설정하기/얻기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;pthread.h&gt;
+
+int pthread_rwlockattr_setkind_np(pthread_rwlockattr_t *attr,
+                                  int pref);
+int pthread_rwlockattr_getkind_np(const pthread_rwlockattr_t *attr,
+                                  int *pref);
+</code></pre>
+
+<p><code>-pthread</code>로 컴파일 및 링크.</p>
+<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<dl>
+<dt><code>pthread_rwlockattr_setkind_np()</code>, <code>pthread_rwlockattr_getkind_np()</code>:</dt>
+<dd><code>_XOPEN_SOURCE &gt;= 500 || _POSIX_C_SOURCE &gt;= 200809L</code></dd>
+</dl>
+<h2 id="description">DESCRIPTION</h2>
+<p><code>pthread_rwlockattr_setkind_np()</code> 함수는 <code>attr</code>이 가리키는 읽기-쓰기 락 속성 객체의 "락 종류" 속성을 <code>pref</code>에 지정한 값으로 설정한다. 인자 <code>pref</code>를 다음 중 하나로 설정할 수 있다.</p>
+<dl>
+<dt><code>PTHREAD_RWLOCK_PREFER_READER_NP</code></dt>
+<dd>기본값이다. 한 스레드가 읽기 락을 여러 번 잡을 수 있다. 즉 읽기 락이 재귀적이다. 단일 유닉스 규격에 따르면 읽기 쪽이 락을 잡으려 하는데 쓰기 락은 없지만 쓰기 쪽이 대기 중일 때의 동작 방식이 명세되어 있지 않다. <code>PTHREAD_RWLOCK_PREFER_READER_NP</code>를 설정해서 읽기 쪽을 우선한다는 것은 쓰기 쪽이 대기 중인 경우에도 읽기 쪽이 요청한 락을 받게 된다는 의미이다. 읽기 쪽이 있는 동안은 쓰기 쪽이 굶주리게 된다.</dd>
+<dt><code>PTHREAD_RWLOCK_PREFER_WRITER_NP</code></dt>
+<dd><code>PTHREAD_RWLOCK_PREFER_READER_NP</code>의 쓰기 락 짝으로 의도된 것이다. glibc에서는 무시하는데, 재귀적 쓰기 락을 지원해야 한다는 POSIX 요구 사항 때문에 이 옵션이 사소한 교착들을 만들게 되기 때문이다. 대신 <code>PTHREAD_RWLOCK_PREFER_WRITER_NONRECURSIVE_NP</code>를 쓰면 되는데, 응용 개발자가 재귀적 읽기 락을 잡지 않도록 해서 교착을 피한다.</dd>
+<dt><code>PTHREAD_RWLOCK_PREFER_WRITER_NONRECURSIVE_NP</code></dt>
+<dd>락 종류를 이 값으로 설정하면 읽기 락이 재귀적 방식으로 이뤄지지만 않으면 쓰기 쪽 굶주림을 피하게 된다.</dd>
+</dl>
+<p><code>pthread_rwlockattr_getkind_np()</code> 함수는 <code>attr</code>이 가리키는 읽기-쓰기 락 속성 객체의 락 종류 속성 값을 포인터 <code>pref</code>로 반환한다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>성공 시 이 함수들은 0을 반환한다. 유효한 포인터 인자가 주어지면 <code>pthread_rwlockattr_getkind_np()</code>는 항상 성공한다. 오류 시 <code>pthread_rwlockattr_setkind_np()</code>는 0 아닌 오류 번호를 반환한다.</p>
+<h2 id="errors">ERRORS</h2>
+<dl>
+<dt><code>EINVAL</code></dt>
+<dd><code>pref</code>가 지원하지 않는 값을 나타낸다.</dd>
+</dl>
+<h2 id="versions">VERSIONS</h2>
+<p>glibc 2.1에서 <code>pthread_rwlockattr_getkind_np()</code> 및 <code>pthread_rwlockattr_setkind_np()</code> 함수가 처음 등장했다.</p>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>이 함수들은 비표준 GNU 확장이다. 그래서 이름 뒤에 "_np"(nonportable: 이식성 없음)가 붙어 있다.</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[pthreads(7)]]</tt></p>
+<hr />
+<p>2019-03-06</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

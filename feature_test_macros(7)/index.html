@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/feature_test_macros(7)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Feature test macros(7) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+            <li class="second-level"><a href="#_1">매뉴얼 페이지 내의 기능 확인 매크로 요구 조건 명세</a></li>
+                
+        <li class="first-level "><a href="#include">include </a></li>
+            <li class="second-level"><a href="#glibc">glibc에서 이해하는 기능 확인 매크로</a></li>
+                
+            <li class="second-level"><a href="#_2">기본 정의, 암묵적 정의, 결합 정의</a></li>
+                
+            <li class="second-level"><a href="#conforming-to">CONFORMING TO</a></li>
+                
+            <li class="second-level"><a href="#notes">NOTES</a></li>
+                
+            <li class="second-level"><a href="#example">EXAMPLE</a></li>
+                
+                <li class="third-level"><a href="#_3">프로그램 소스</a></li>
+            <li class="second-level"><a href="#see-also">SEE ALSO</a></li>
+                
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>feature_test_macros - 기능 확인 매크로</p>
+<h2 id="description">DESCRIPTION</h2>
+<p>기능 확인 매크로를 이용하면 프로그램 컴파일 시 시스템 헤더 파일에 노출되는 정의들을 프로그래머가 제어할 수 있다.</p>
+<p><strong>주의</strong>: 기능 확인 매크로가 효과가 있으려면 <em>헤더 파일 포함 전에 정의해야 한다</em>. 컴파일 명령(<code>cc -DMACRO=value</code>)으로 정의하거나 소스 코드에서 헤더 파일을 포함시키기 전에 정의하면 된다. ....</p>
+<pre><code class="c">#include &lt;abc.h&gt;
+#define _GNU_SOURCE
+#include &lt;xyz.h&gt;
+</code></pre>
+
+<p>....</p>
+<p>....</p>
+<h3 id="_1">매뉴얼 페이지 내의 기능 확인 매크로 요구 조건 명세</h3>
+<p>....</p>
+<blockquote>
+<p>```c</p>
+<h1 id="include">include <unistd.h></h1>
+<p>int acct(const char *filename);
+```</p>
+<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<dl>
+<dt><code>acct()</code></dt>
+<dd><code>_BSD_SOURCE || (_XOPEN_SOURCE &amp;&amp; _XOPEN_SOURCE &lt; 500)</code></dd>
+</dl>
+</blockquote>
+<p>....</p>
+<pre><code class="c">#define _BSD_SOURCE
+#define _XOPEN_SOURCE        /* 또는 &lt; 500 인 아무 값 */
+</code></pre>
+
+<p>....</p>
+<pre><code class="sh">cc -D_BSD_SOURCE
+cc -D_XOPEN_SOURCE           # 또는 &lt; 500 인 아무 값
+</code></pre>
+
+<p>....</p>
+<p>....</p>
+<pre><code class="c">#define _GNU_SOURCE
+#include &lt;fcntl.h&gt;
+
+ssize_t readahead(int fd, off64_t *offset, size_t count);
+</code></pre>
+
+<p>....</p>
+<h3 id="glibc">glibc에서 이해하는 기능 확인 매크로</h3>
+<p>....</p>
+<p>....</p>
+<ul>
+<li>
+<p>....</p>
+</li>
+<li>
+<p>....</p>
+</li>
+<li>
+<p>....</p>
+<p>_POSIX_C_SOURCE &gt;= 200112L</p>
+</li>
+</ul>
+<p>....</p>
+<pre><code>  _XOPEN_SOURCE &gt;= 600
+</code></pre>
+<ul>
+<li>
+<p>....</p>
+<p>_POSIX_C_SOURCE &gt;= 200809L</p>
+</li>
+</ul>
+<p>....</p>
+<pre><code>  _XOPEN_SOURCE &gt;= 700
+</code></pre>
+<p>....</p>
+<p>....</p>
+<dl>
+<dt><code>__STRICT_ANSI__</code></dt>
+<dd>....</dd>
+<dt><code>_POSIX_C_SOURCE</code></dt>
+<dd>
+<p>....</p>
+<ul>
+<li>....</li>
+<li>....</li>
+<li>....</li>
+<li>....</li>
+<li>....</li>
+<li>....</li>
+</ul>
+</dd>
+<dt><code>_POSIX_SOURCE</code></dt>
+<dd>
+<p>....</p>
+<p>....</p>
+</dd>
+<dt><code>_XOPEN_SOURCE</code></dt>
+<dd>
+<p>....</p>
+<ul>
+<li>....</li>
+<li>....</li>
+<li>....</li>
+<li>....</li>
+</ul>
+<p>....</p>
+<ul>
+<li>....</li>
+<li>....</li>
+</ul>
+<dl>
+<dt><code>_XOPEN_SOURCE &lt; 500</code></dt>
+<dd>....</dd>
+<dt><code>500 &lt;= _XOPEN_SOURCE &lt; 600</code></dt>
+<dd>....</dd>
+<dt><code>600 &lt;= _XOPEN_SOURCE &lt; 700</code></dt>
+<dd>....</dd>
+<dt><code>700 &lt;= _XOPEN_SOURCE</code> (glibc 2.10부터)</dt>
+<dd>....</dd>
+</dl>
+<p>....</p>
+</dd>
+<dt><code>_XOPEN_SOURCE_EXTENDED</code></dt>
+<dd>
+<p>....</p>
+<p>....</p>
+</dd>
+<dt><code>_ISOC99_SOURCE</code> (glibc 2.1.3부터)</dt>
+<dd>
+<p>....</p>
+<p>....</p>
+<p>....</p>
+<p>....</p>
+</dd>
+<dt><code>_ISOC11_SOURCE</code> (glibc 2.16부터)</dt>
+<dd>
+<p>....</p>
+<p>....</p>
+</dd>
+<dt><code>_LARGEFILE64_SOURCE</code></dt>
+<dd>....</dd>
+<dt><code>_LARGEFILE_SOURCE</code></dt>
+<dd>....</dd>
+<dt><code>_FILE_OFFSET_BITS</code></dt>
+<dd>
+<p>....</p>
+<p>....</p>
+</dd>
+<dt><code>_BSD_SOURCE</code> (glibc 2.20부터 제거 예정 상태)</dt>
+<dd>
+<p>....</p>
+<p>....</p>
+<p>....</p>
+</dd>
+<dt><code>_SVID_SOURCE</code> (glibc 2.20부터 제거 예정 상태)</dt>
+<dd>
+<p>....</p>
+<p>....</p>
+</dd>
+<dt><code>_DEFAULT_SOURCE</code> (glibc 2.19부터)</dt>
+<dd>
+<p>....</p>
+<p>....</p>
+<pre><code>cc -D_BSD_SOURCE -D_SVID_SOURCE -D_POSIX_C_SOURCE=200809
+</code></pre>
+</dd>
+<dt><code>_ATFILE_SOURCE</code> (glibc 2.4부터)</dt>
+<dd>....</dd>
+<dt><code>_GNU_SOURCE</code></dt>
+<dd>
+<p>....</p>
+<p>....</p>
+</dd>
+<dt><code>_REENTRANT</code></dt>
+<dd>
+<p>....</p>
+<p>....</p>
+<p>....</p>
+<p>....</p>
+</dd>
+<dt><code>_THREAD_SAFE</code></dt>
+<dd>....</dd>
+<dt><code>_FORTIFY_SOURCE</code> (glibc 2.3.4부터)</dt>
+<dd>
+<p>....</p>
+<p>....</p>
+<p>....</p>
+<p>....</p>
+</dd>
+</dl>
+<h3 id="_2">기본 정의, 암묵적 정의, 결합 정의</h3>
+<p>....</p>
+<p>....</p>
+<p>....</p>
+<ul>
+<li>
+<p>....</p>
+</li>
+<li>
+<p>....</p>
+</li>
+<li>
+<p>....</p>
+</li>
+<li>
+<p>....</p>
+</li>
+<li>
+<p>....</p>
+</li>
+<li>
+<p>....</p>
+</li>
+<li>
+<p>....</p>
+</li>
+<li>
+<p>....</p>
+</li>
+</ul>
+<p>....</p>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>....</p>
+<p>....</p>
+<p>....</p>
+<h2 id="notes">NOTES</h2>
+<p>....</p>
+<p>....</p>
+<h2 id="example">EXAMPLE</h2>
+<p>....</p>
+<pre><code class="text">$ cc ftm.c
+$ ./a.out
+_POSIX_SOURCE defined
+_POSIX_C_SOURCE defined: 200809L
+_BSD_SOURCE defined
+_SVID_SOURCE defined
+_ATFILE_SOURCE defined
+$ cc -D_XOPEN_SOURCE=500 ftm.c
+$ ./a.out
+_POSIX_SOURCE defined
+_POSIX_C_SOURCE defined: 199506L
+_XOPEN_SOURCE defined: 500
+$ cc -D_GNU_SOURCE ftm.c
+$ ./a.out
+_POSIX_SOURCE defined
+_POSIX_C_SOURCE defined: 200809L
+_ISOC99_SOURCE defined
+_XOPEN_SOURCE defined: 700
+_XOPEN_SOURCE_EXTENDED defined
+_LARGEFILE64_SOURCE defined
+_BSD_SOURCE defined
+_SVID_SOURCE defined
+_ATFILE_SOURCE defined
+_GNU_SOURCE defined
+</code></pre>
+
+<h3 id="_3">프로그램 소스</h3>
+<pre><code class="c">/* ftm.c */
+
+#include &lt;stdio.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;stdlib.h&gt;
+
+int
+main(int argc, char *argv[])
+{
+#ifdef _POSIX_SOURCE
+    printf(&quot;_POSIX_SOURCE defined\n&quot;);
+#endif
+
+#ifdef _POSIX_C_SOURCE
+    printf(&quot;_POSIX_C_SOURCE defined: %ldL\n&quot;, (long) _POSIX_C_SOURCE);
+#endif
+
+#ifdef _ISOC99_SOURCE
+    printf(&quot;_ISOC99_SOURCE defined\n&quot;);
+#endif
+
+#ifdef _ISOC11_SOURCE
+    printf(&quot;_ISOC11_SOURCE defined\n&quot;);
+#endif
+
+#ifdef _XOPEN_SOURCE
+    printf(&quot;_XOPEN_SOURCE defined: %d\n&quot;, _XOPEN_SOURCE);
+#endif
+
+#ifdef _XOPEN_SOURCE_EXTENDED
+    printf(&quot;_XOPEN_SOURCE_EXTENDED defined\n&quot;);
+#endif
+
+#ifdef _LARGEFILE64_SOURCE
+    printf(&quot;_LARGEFILE64_SOURCE defined\n&quot;);
+#endif
+
+#ifdef _FILE_OFFSET_BITS
+    printf(&quot;_FILE_OFFSET_BITS defined: %d\n&quot;, _FILE_OFFSET_BITS);
+#endif
+
+#ifdef _BSD_SOURCE
+    printf(&quot;_BSD_SOURCE defined\n&quot;);
+#endif
+
+#ifdef _SVID_SOURCE
+    printf(&quot;_SVID_SOURCE defined\n&quot;);
+#endif
+
+#ifdef _DEFAULT_SOURCE
+    printf(&quot;_DEFAULT_SOURCE defined\n&quot;);
+#endif
+
+#ifdef _ATFILE_SOURCE
+    printf(&quot;_ATFILE_SOURCE defined\n&quot;);
+#endif
+
+#ifdef _GNU_SOURCE
+    printf(&quot;_GNU_SOURCE defined\n&quot;);
+#endif
+
+#ifdef _REENTRANT
+    printf(&quot;_REENTRANT defined\n&quot;);
+#endif
+
+#ifdef _THREAD_SAFE
+    printf(&quot;_THREAD_SAFE defined\n&quot;);
+#endif
+
+#ifdef _FORTIFY_SOURCE
+    printf(&quot;_FORTIFY_SOURCE defined\n&quot;);
+#endif
+
+    exit(EXIT_SUCCESS);
+}
+</code></pre>
+
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[libc(7)]]</tt>, <tt>[[standards(7)]]</tt></p>
+<p><code>info libc</code>의 "Feature Test Macros" 절.</p>
+<p><code>/usr/include/features.h</code></p>
+<hr />
+<p>2019-03-06</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

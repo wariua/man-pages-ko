@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/fmtmsg(3)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Fmtmsg(3) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+            <li class="second-level"><a href="#_1">더미 인자</a></li>
+                
+            <li class="second-level"><a href="#classification">classification 인자</a></li>
+                
+            <li class="second-level"><a href="#severity">severity 인자</a></li>
+                
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#environment">ENVIRONMENT</a></li>
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
+        <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>fmtmsg - 형식 있는 오류 메시지 출력하기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;fmtmsg.h&gt;
+
+int fmtmsg(long classification, const char *label,
+           int severity, const char *text,
+           const char *action, const char *tag);
+</code></pre>
+
+<h2 id="description">DESCRIPTION</h2>
+<p>이 함수는 그 인자들이 기술하는 메시지를 <code>classification</code> 인자로 나타낸 장치(들)에 표시한다. <code>stderr</code>로 찍는 메시지는 <code>MSGVERB</code> 환경 변수에 따라 형식이 달라진다.</p>
+<p><code>label</code> 인자는 메시지의 원천을 식별해 준다. 문자열은 콜론으로 구분된 두 부분으로 되어 있어야 한다. 첫 번째 부분은 10글자를 넘을 수 없고 두 번째 부분은 14글자를 넘을 수 없다.</p>
+<p><code>text</code> 인자는 오류의 상태를 기술한다.</p>
+<p><code>action</code> 인자는 오류를 복구하기 위해 할 수 있는 조치를 기술한다. 이를 찍는 경우 앞에 "TO FIX: "가 붙는다.</p>
+<p><code>tag</code> 인자는 추가 정보를 찾을 수 있는 온라인 문서에 대한 참조이다. <code>label</code>의 값과 고유한 식별 번호를 담아야 할 것이다.</p>
+<h3 id="_1">더미 인자</h3>
+<p>인자 각각이 더미 값을 가질 수 있다. 더미 분류 값인 <code>MM_NULLMC</code>(<code>0L</code>)는 어떤 출력도 나타내지 않고, 그래서 아무 것도 찍히지 않는다. 더미 심각도 값인 <code>NO_SEV</code>(<code>0</code>)는 어떤 심각도도 제공하지 않는다는 말이다. <code>MM_NULLLBL</code>, <code>MM_NULLTXT</code>, <code>MM_NULLACT</code>, <code>MM_NULLTAG</code>는 <code>((char *) 0)</code>, 즉 빈 문자열과 동의어이며 <code>MM_NULLSEV</code>는 <code>NO_SEV</code>와 동의어이다.</p>
+<h3 id="classification"><code>classification</code> 인자</h3>
+<p><code>classification</code> 인자는 4가지 종류의 정보를 기술하는 값들을 합친 것이다.</p>
+<p>첫 번째 값은 출력 채널을 규정한다.</p>
+<dl>
+<dt><code>MM_PRINT</code></dt>
+<dd><code>stderr</code>로 출력.</dd>
+<dt><code>MM_CONSOLE</code></dt>
+<dd>시스템 콘솔로 출력.</dd>
+<dt><code>MM_PRINT | MM_CONSOLE</code></dt>
+<dd>둘 모두로 출력.</dd>
+</dl>
+<p>두 번째 값은 오류의 원천이다.</p>
+<dl>
+<dt><code>MM_HARD</code></dt>
+<dd>하드웨어 오류가 발생했음.</dd>
+<dt><code>MM_FIRM</code></dt>
+<dd>펌웨어 오류가 발생했음.</dd>
+<dt><code>MM_SOFT</code></dt>
+<dd>소프트웨어 오류가 발생했음.</dd>
+</dl>
+<p>세 번째 값은 어디서 문제를 탐지했는지 기록한다.</p>
+<dl>
+<dt><code>MM_APPL</code></dt>
+<dd>응용이 탐지했음.</dd>
+<dt><code>MM_UTIL</code></dt>
+<dd>유틸리티가 탐지했음.</dd>
+<dt><code>MM_OPSYS</code></dt>
+<dd>운영 체제가 탐지했음.</dd>
+</dl>
+<p>네 번째 값은 사건의 심각도를 보여 준다.</p>
+<dl>
+<dt><code>MM_RECOVER</code></dt>
+<dd>복구 가능한 오류임.</dd>
+<dt><code>MM_NRECOV</code></dt>
+<dd>복구 불가능한 오류임.</dd>
+</dl>
+<h3 id="severity"><code>severity</code> 인자</h3>
+<p><code>severity</code> 인자는 다음 값들 중 하나를 받을 수 있다.</p>
+<dl>
+<dt><code>MM_NOSEV</code></dt>
+<dd>심각도를 찍지 않음.</dd>
+<dt><code>MM_HALT</code></dt>
+<dd>이 값은 <code>HALT</code>라고 찍음.</dd>
+<dt><code>MM_ERROR</code></dt>
+<dd>이 값은 <code>ERROR</code>라고 찍음.</dd>
+<dt><code>MM_WARNING</code></dt>
+<dd>이 값은 <code>WARNING</code>이라고 찍음.</dd>
+<dt><code>MM_INFO</code></dt>
+<dd>이 값은 <code>INFO</code>라고 찍음.</dd>
+</dl>
+<p>숫자 값으로는 0에서 4까지이다. <tt>[[addseverity(3)]]</tt>나 환경 변수 <code>SEV_LEVEL</code>을 사용하면 수준과 찍을 문자열을 더 추가할 수 있다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>함수가 4가지 값을 반환할 수 있다.</p>
+<dl>
+<dt><code>MM_OK</code></dt>
+<dd>모든 게 잘 돌아갔음.</dd>
+<dt><code>MM_NOTOK</code></dt>
+<dd>완전한 실패.</dd>
+<dt><code>MM_NOMSG</code></dt>
+<dd><code>stderr</code>에 쓰는 중에 오류.</dd>
+<dt><code>MM_NOCON</code></dt>
+<dd>콘솔에 쓰는 중 오류.</dd>
+</dl>
+<h2 id="environment">ENVIRONMENT</h2>
+<p>환경 변수 <code>MSGVERB</code>("message verbosity")를 이용해 <code>stderr</code>로의 출력 일부를 숨길 수 있다. (콘솔로의 출력에는 영향을 주지 않는다.) 이 변수가 정의되어 있고, NULL이 아니고, 유효한 키워드들의 콜론 구분 목록이면 메시지에서 그 키워드들에 대응하는 부분들만 찍힌다. 유효한 키워드는 "<code>label</code>", "<code>severity</code>", "<code>text</code>", "<code>action</code>", "<code>tag</code>"이다.</p>
+<p>환경 변수 <code>SEV_LEVEL</code>을 이용해 새로운 심각도 수준을 도입할 수 있다. 기본적으로는 위에서 기술한 다섯 가지 심각도 수준만 사용할 수 있다. 다른 숫자 값을 사용하면 <code>fmtmsg()</code>가 아무 것도 찍지 않을 것이다. 하지만 사용자가 첫 번째 <code>fmtmsg()</code> 호출 전에 프로세스의 환경에 다음과 같은 형식으로 <code>SEV_LEVEL</code>을 넣어 주면 <code>fmtmsg()</code>가 (표준 수준 0~4에 더해서) 지정한 값들도 받아들이게 되어 그 수준의 오류 발생 시 지정한 출력 문자열을 사용하게 된다.</p>
+<pre><code class="text">SEV_LEVEL=[description[:description[:...]]]
+</code></pre>
+
+<p><code>description</code> 각각은 다음 형식이다.</p>
+<pre><code class="text">severity-keyword,level,printstring
+</code></pre>
+
+<p><code>severity-keyword</code> 부분은 <code>fmtmsg()</code>에서 사용하지 않지만 그래도 있어야 한다. <code>level</code> 부분은 숫자를 문자열로 표현한 것이다. 그 숫자 값은 4보다 커야 한다. 이 수준을 선택하려면 <code>fmtmsg()</code>의 <code>severity</code> 인자로 이 값을 사용해야 한다. 이미 정의된 수준들을 덮어쓰는 것은 불가능하다. <code>printstring</code>은 <code>fmtmsg()</code>에서 이 수준의 메시지를 처리할 때 찍히는 문자열이다.</p>
+<h2 id="versions">VERSIONS</h2>
+<p>glibc 버전 2.1부터 <code>fmtmsg()</code>를 제공한다.</p>
+<h2 id="attributes">ATTRIBUTES</h2>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<table>
+<thead>
+<tr>
+<th>인터페이스</th>
+<th>속성</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fmtmsg()</code></td>
+<td>스레드 안전성</td>
+<td>glibc &gt;= 2.16: MT-Safe<br>glibc &lt; 2.16: MT-Unsafe</td>
+</tr>
+</tbody>
+</table>
+<p>glibc 2.16 전에서 <code>fmtmsg()</code> 함수는 보호가 되지 않는 정적 변수를 사용하며, 그래서 스레드 안전하지 않다.</p>
+<p>glibc 2.16부터 <code>fmtmsg()</code> 함수는 락을 사용해 그 정적 변수를 보호하며, 그래서 스레드 안전하다.</p>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>함수 <code>fmtmsg()</code> 및 <tt>[[addseverity(3)]]</tt>, 그리고 환경 변수 <code>MSGVERB</code> 및 <code>SEV_LEVEL</code>은 시스템 V에서 온 것이다.</p>
+<p>함수 <code>fmtmsg()</code>와 환경 변수 <code>MSGVERB</code>를 POSIX.1-2001 및 POSIX.1-2008에서 기술하고 있다.</p>
+<h2 id="notes">NOTES</h2>
+<p>시스템 V 및 UnixWare 맨 페이지에서는 이 함수들이 "<code>pfmt</code> 및 <code>addsev()</code>" 내지 "<code>pfmt()</code>, <code>vpfmt()</code>, <code>lfmt()</code>, <code>vlfmt()</code>"으로 대체되었으며 나중에 제거될 것이라고 얘기한다.</p>
+<h2 id="example">EXAMPLE</h2>
+<pre><code class="c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;fmtmsg.h&gt;
+
+int
+main(void)
+{
+    long class = MM_PRINT | MM_SOFT | MM_OPSYS | MM_RECOVER;
+    int err;
+
+    err = fmtmsg(class, &quot;util-linux:mount&quot;, MM_ERROR,
+                &quot;unknown mount option&quot;, &quot;See mount(8).&quot;,
+                &quot;util-linux:mount:017&quot;);
+    switch (err) {
+    case MM_OK:
+        break;
+    case MM_NOTOK:
+        printf(&quot;Nothing printed\n&quot;);
+        break;
+    case MM_NOMSG:
+        printf(&quot;Nothing printed to stderr\n&quot;);
+        break;
+    case MM_NOCON:
+        printf(&quot;No console output\n&quot;);
+        break;
+    default:
+        printf(&quot;Unknown error from fmtmsg()\n&quot;);
+    }
+    exit(EXIT_SUCCESS);
+}
+</code></pre>
+
+<p>출력이 다음과 같을 것이다:</p>
+<pre><code class="text">util-linux:mount: ERROR: unknown mount option
+TO FIX: See mount(8).  util-linux:mount:017
+</code></pre>
+
+<p>다음과 같이 한 후에는:</p>
+<pre><code class="sh">MSGVERB=text:action; export MSGVERB
+</code></pre>
+
+<p>출력이 다음과 같이 된다:</p>
+<pre><code class="text">unknown mount option
+TO FIX: See mount(8).
+</code></pre>
+
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[addseverity(3)]]</tt>, <tt>[[perror(3)]]</tt></p>
+<hr />
+<p>2017-09-15</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

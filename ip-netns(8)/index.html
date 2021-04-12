@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/ip-netns(8)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Ip netns(8) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+        <li class="first-level "><a href="#author">AUTHOR</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>ip-netns - 프로세스 네트워크 네임스페이스 관리</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre>
+<strong>ip</strong> [ <em>OPTIONS</em> ] <strong>netns</strong> { <em>COMMAND</em> | <strong>help</strong> }
+
+<strong>ip netns</strong> [ <strong>list</strong> ]
+
+<strong>ip netns add</strong> <em>NETNSNAME</em>
+
+<strong>ip</strong> [<strong>-all</strong>] <strong>netns del</strong> [ <em>NETNSNAME</em> ]
+
+<strong>ip netns set</strong> <em>NETNSNAME NETNSID</em>
+
+<strong>ip netns identify</strong> [ <em>PID</em> ]
+
+<strong>ip netns pids</strong> <em>NETNSNAME</em>
+
+<strong>ip</strong> [<strong>-all</strong>] <strong>netns exec</strong> [ <em>NETNSNAME</em> ] <em>command</em>...
+
+<strong>ip netns monitor</strong>
+
+<strong>ip netns list-id</strong>
+</pre>
+
+<h2 id="description">DESCRIPTION</h2>
+<p>네트워크 네임스페이스는 논리적으로 네트워크 스택의 또 다른 사본이다. 자체 라우트와 방화벽 규칙, 네트워크 장치가 있다.</p>
+<p>기본적으로 프로세스는 부모의 네트워크 네임스페이스를 물려받는다. 처음에는 모든 프로세스가 init 프로세스에서 온 기본 네트워크 네임스페이스를 같이 공유한다.</p>
+<p>관행 상 기명(named) 네트워크 네임스페이스란 <code>/var/run/netns/NAME</code>에 있는 열 수 있는 객체이다. <code>/var/run/netns/NAME</code>을 열어서 나온 파일 디스크립터가 지정한 네트워크 네임스페이스를 가리킨다. 파일 디스크립터를 열어 두면 네트워크 네임스페이스가 계속 살아 있게 된다. 이 파일 디스크립터를 <tt>[[setns(2)]]</tt> 시스템 호출에 사용해서 태스크에 연계된 네트워크 네임스페이스를 바꿀 수 있다.</p>
+<p>네트워크 네임스페이스를 인식하는 응용에서는 전역 네트워크 설정을 <code>/etc/netns/NAME/</code>에서 먼저 찾아본 다음 <code>/etc/</code>에서 찾는 게 관행이다. 예를 들어 vpn을 격리시키기 위한 어느 네트워크 네임스페이스에 다른 버전의 <code>/etc/resolv.conf</code>를 쓰고 싶다면 이름을 <code>/etc/netns/myvpn/resolv.conf</code>라고 하게 될 것이다.</p>
+<p>네트워크 네임스페이스 비인식 응용을 위해 <code>ip netns exec</code>가 이런 설정 및 파일 관행 처리를 자동화해 준다. 마운트 네임스페이스를 만들어서 네트워크 네임스페이스별 설정 파일 모두를 <code>/etc</code> 내의 전통적 위치로 결속(bind) 마운트 한다.</p>
+<dl>
+<dt><code>ip netns list</code> - 모든 기명 네트워크 네임스페이스 표시하기</dt>
+<dd>이 명령은 <code>/var/run/netns</code> 내의 네트워크 네임스페이스를 모두 표시한다.</dd>
+<dt><code>ip netns add NAME</code> - 새 기명 네트워크 네임스페이스 생성하기</dt>
+<dd>이 명령은 <code>/var/run/netns/</code>에서 NAME이 사용 가능하면 새 네트워크 네임스페이스를 만들고 NAME을 부여한다.</dd>
+<dt><code>ip [-all] netns delete [ NAME ]</code> - 네트워크 네임스페이스(들)의 이름 삭제하기</dt>
+<dd>
+<p><code>/var/run/netns</code>에 NAME이 있으면 언마운트 하고 마운트 지점을 제거한다. 이 명령이 그 네트워크 네임스페이스의 마지막 사용자이면 네트워크 네임스페이스가 해제되고 모든 물리적 장치들이 기본 네임스페이스로 옮겨진다. 그렇지 않으면 더 이상 사용자가 없을 때까지 네트워크 네임스페이스가 유지된다. 마운트 지점이 다른 마운트 네임스페이스에서 사용 중이면 <code>ip netns delete</code>가 실패할 수 있다.</p>
+<p><code>-all</code> 옵션을 지정하면 모든 네트워크 네임스페이스 이름이 제거된다.</p>
+<p>물리적 장치를 어떤 netns로 옮기고서 동작 프로세스가 있는 채로 netns를 삭제하면 그 장치를 놓치게 될 수 있다.</p>
+<pre><code>$ ip netns add net0
+$ ip link set dev eth0 netns net0
+$ ip netns exec net0 SOME_PROCESS_IN_BACKGROUND
+$ ip netns del net0
+</code></pre>
+<p>이렇게 하면 SOME_PROCESS_IN_BACKGROUND가 종료하거나 죽은 후에만 eth0가 기본 netns에 나타나게 된다. 이를 막으려면 net0를 삭제하기 전에 그 netns에서 도는 프로세스들을 죽이는 게 좋다.</p>
+<pre><code>$ ip netns pids net0 | xargs kill
+$ ip netns del net0
+</code></pre>
+</dd>
+<dt><code>ip netns set NAME SETNSID</code> - 상대 네트워크 네임스페이스에 id 부여하기</dt>
+<dd>이 명령은 상대 네트워크 네임스페이스에 id를 부여한다. 이 id는 현재 네트워크 네임스페이스에서만 유효하다. 커널이 몇 가지 넷링크 메시지에서 이 id를 사용한다. 커널에서 필요할 때 id가 부여되어 있지 않으면 커널이 자동으로 부여한다. 한번 부여된 후에는 바꾸는 것이 불가능하다.</dd>
+<dt><code>ip netns identify [PID]</code> - 프로세스의 네트워크 네임스페이스들 이름 알려주기</dt>
+<dd>이 명령은 <code>/var/run/netns</code>를 뒤져서 지정한 프로세스의 네트워크 네임스페이스에 대한 모든 네트워크 네임스페이스 이름을 찾는다. PID를 지정하지 않으면 현재 프로세스를 쓴다.</dd>
+<dt><code>ip netns pids NAME</code> - 기명 네트워크 네임스페이스 내의 프로세스들 알려주기</dt>
+<dd>이 명령은 proc을 뒤져서 주 네트워크 네임스페이스가 지정한 네트워크 네임스페이스인 모든 프로세스를 찾는다.</dd>
+<dt><code>ip [-all] netns exec [ NAME ] cmd ...</code> - 기명 네트워크 네임스페이스에서 <code>cmd</code> 실행하기</dt>
+<dd>
+<p>이 명령을 이용하면 네트워크 네임스페이스 비인식인 응용을 기본 네트워크 네임스페이스 아닌 어딘가에서 돌릴 수 있다. 지정한 네트워크 네임스페이스에 대한 모든 설정들이 전통적인 전역 위치에 보인다. 네트워크 네임스페이스와 결속 마운트를 이용해서 다른 프로세스에 영향을 끼치지 않고 네트워크 네임스페이스별 위치에서 기본 위치로 파일들을 옮긴다.</p>
+<p><code>-all</code> 옵션을 지정하면 기명 네트워크 네임스페이스 각각에서 동기적으로 <code>cmd</code>를 실행한다. 일부에서 <code>cmd</code>가 실패해도 마저 실행한다. 각 <code>cmd</code> 실행마다 네트워크 네임스페이스 이름을 찍는다.</p>
+</dd>
+<dt><code>ip netns monitor</code> - 네트워크 네임스페이스 이름 추가되거나 삭제되면 알려주기</dt>
+<dd>이 명령은 네트워크 네임스페이스 이름 추가 및 삭제 이벤트를 감시해서 이벤트마다 한 줄씩 찍는다.</dd>
+<dt><code>ip netns list-id</code> - 네트워크 네임스페이스 id(nsid) 나열하기</dt>
+<dd>네트워크 네임스페이스 id는 상대 네트워크 네임스페이스를 식별하는 데 쓰인다. 이 명령은 현재 네트워크 네임스페이스의 nsid를 표시하며 대응하는 (<code>/var/run/netns</code>에서 온) iproute2 netns 이름이 있으면 알려 준다.</dd>
+</dl>
+<h2 id="examples">EXAMPLES</h2>
+<dl>
+<dt><code>ip netns list</code></dt>
+<dd>현재의 기명 네트워크 네임스페이스 목록 보기</dd>
+<dt><code>ip netns add vpn</code></dt>
+<dd>네트워크 네임스페이스 생성하고 이름을 vpn으로 하기</dd>
+<dt><code>ip netns exec vpn ip link set lo up</code></dt>
+<dd>vpn 네트워크 네임스페이스에서 루프백 인터페이스 올리기</dd>
+</dl>
+<h2 id="see-also">SEE ALSO</h2>
+<p><code>ip(8)</code></p>
+<h2 id="author">AUTHOR</h2>
+<p>Eric W. Biederman이 맨 페이지 작성함.</p>
+<hr />
+<p>2013년 1월 16일</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

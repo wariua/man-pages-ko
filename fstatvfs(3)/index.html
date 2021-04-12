@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/fstatvfs(3)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Fstatvfs(3) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>statvfs, fstatvfs - 파일 시스템 통계 얻기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;sys/statvfs.h&gt;
+
+int statvfs(const char *path, struct statvfs *buf);
+int fstatvfs(int fd, struct statvfs *buf);
+</code></pre>
+
+<h2 id="description">DESCRIPTION</h2>
+<p><code>statvfs()</code> 함수는 마운트 된 파일 시스템에 대한 정보를 반환한다. <code>path</code>는 마운트 된 파일 시스템 내 임의 파일의 경로명이다. <code>buf</code>는 대략 다음처럼 정의돼 있는 <code>statvfs</code> 구조체에 대한 포인터다.</p>
+<pre><code class="c">struct statvfs {
+    unsigned long  f_bsize;    /* 파일 시스템 블록 크기 */
+    unsigned long  f_frsize;   /* 단편 크기 */
+    fsblkcnt_t     f_blocks;   /* f_frsize 단위의 fs 크기 */
+    fsblkcnt_t     f_bfree;    /* 유휴 블록 수 */
+    fsblkcnt_t     f_bavail;   /* 비특권 사용자를 위한
+                                  유휴 블록 수 */
+    fsfilcnt_t     f_files;    /* 아이노드 수 */
+    fsfilcnt_t     f_ffree;    /* 유휴 아이노드 수 */
+    fsfilcnt_t     f_favail;   /* 비특권 사용자를 위한
+                                  유휴 아이노드 수 */
+    unsigned long  f_fsid;     /* 파일 시스템 ID */
+    unsigned long  f_flag;     /* 마운트 플래그 */
+    unsigned long  f_namemax;  /* 파일명 최대 길이 */
+};
+</code></pre>
+
+<p>타입 <code>fsblkcnt_t</code>와 <code>fsfilcnt_t</code>는 <code>&lt;sys/types.h&gt;</code>에 정의돼 있다. 둘 모두 예전에는 <code>unsigned long</code>이었다.</p>
+<p><code>f_flag</code> 필드는 이 파일 시스템을 마운트 할 때 사용한 여러 옵션들을 나타내는 비트 마스크이다. 다음 비트를 0개 이상 담는다.</p>
+<dl>
+<dt><code>ST_MANDLOCK</code></dt>
+<dd>파일 시스템 상에서 강제적 락킹을 허용한다. (<tt>[[fcntl(2)]]</tt> 참고.)</dd>
+<dt><code>ST_NOATIME</code></dt>
+<dd>접근 시간을 갱신하지 않는다. <tt>[[mount(2)]]</tt> 참고.</dd>
+<dt><code>ST_NODEV</code></dt>
+<dd>파일 시스템 상에서 장치 특수 파일에 대한 접근을 불허한다.</dd>
+<dt><code>ST_NODIRATIME</code></dt>
+<dd>디렉터리 접근 시간을 갱신하지 않는다. <tt>[[mount(2)]]</tt> 참고.</dd>
+<dt><code>ST_NOEXEC</code></dt>
+<dd>파일 시스템 상에서 프로그램 실행을 불허한다.</dd>
+<dt><code>ST_NOSUID</code></dt>
+<dd>파일 시스템 상의 실행 파일에 대해 <tt>[[exec(3)]]</tt>에서 set-user-ID 및 set-group-ID 비트를 무시한다.</dd>
+<dt><code>ST_RDONLY</code></dt>
+<dd>파일 시스템이 읽기 전용으로 마운트 돼 있다.</dd>
+<dt><code>ST_RELATIME</code></dt>
+<dd>mtime/ctime에 따라서 atime을 갱신한다. <tt>[[mount(2)]]</tt> 참고.</dd>
+<dt><code>ST_SYNCHRONOUS</code></dt>
+<dd>쓰기를 파일 시스템으로 즉시 동기화한다. (<tt>[[open(2)]]</tt>의 <code>O_SYNC</code> 설명 참고.)</dd>
+</dl>
+<p>모든 파일 시스템에서 반환 구조체의 모든 필드들에 유의미한 값이 있는지 여부는 명세돼 있지 않다.</p>
+<p><code>fstatvfs()</code>는 디스크립터 <code>fd</code>가 가리키는 열린 파일에 대해서 같은 정보를 반환한다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>성공 시 0을 반환한다. 오류 시 -1을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<h2 id="errors">ERRORS</h2>
+<dl>
+<dt><code>EACCES</code></dt>
+<dd>(<code>statvfs()</code>) <code>path</code>의 경로 선두부의 어느 요소에 대해 탐색 권한이 거부되었다. (<tt>[[path_resolution(7)]]</tt>도 참고.)</dd>
+<dt><code>EBADF</code></dt>
+<dd>(<code>fstatvfs()</code>) <code>fd</code>가 유효한 열린 파일 디스크립터가 아니다.</dd>
+<dt><code>EFAULT</code></dt>
+<dd><code>buf</code>나 <code>path</code>가 유효하지 않은 주소를 가리키고 있다.</dd>
+<dt><code>EINTR</code></dt>
+<dd>호출이 시그널에 의해 중단되었다. <tt>[[signal(7)]]</tt> 참고.</dd>
+<dt><code>EIO</code></dt>
+<dd>파일 시스템에서 읽기를 하던 중 I/O 오류가 발생했다.</dd>
+<dt><code>ELOOP</code></dt>
+<dd>(<code>statvfs()</code>) <code>path</code>를 변환하는 동안 너무 많은 심볼릭 링크를 만났다.</dd>
+<dt><code>ENAMETOOLONG</code></dt>
+<dd>(<code>statvfs()</code>) <code>path</code>가 너무 길다.</dd>
+<dt><code>ENOENT</code></dt>
+<dd>(<code>statvfs()</code>) <code>path</code>가 가리키는 파일이 존재하지 않는다.</dd>
+<dt><code>ENOMEM</code></dt>
+<dd>사용 가능한 커널 메모리가 충분하지 않다.</dd>
+<dt><code>ENOSYS</code></dt>
+<dd>파일 시스템에서 이 호출을 지원하지 않는다.</dd>
+<dt><code>ENOTDIR</code></dt>
+<dd>(<code>statvfs()</code>) <code>path</code>의 경로 선두부의 한 요소가 디렉터리가 아니다.</dd>
+<dt><code>EOVERFLOW</code></dt>
+<dd>일부 값이 너무 커서 반환 구조체로 표현할 수 없다.</dd>
+</dl>
+<h2 id="attributes">ATTRIBUTES</h2>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<table>
+<thead>
+<tr>
+<th>인터페이스</th>
+<th>속성</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>statvfs()</code>, <code>fstatvfs()</code></td>
+<td>스레드 안전성</td>
+<td>MT-Safe</td>
+</tr>
+</tbody>
+</table>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>POSIX.1-2001, POSIX.1-2008.</p>
+<p><code>f_flag</code> 필드의 <code>ST_NOSUID</code> 및 <code>ST_RDONLY</code> 플래그만 POSIX.1에 명세돼 있다. 다른 필드들의 정의를 얻으려면 <code>_GNU_SOURCE</code>를 정의해야 한다.</p>
+<h2 id="notes">NOTES</h2>
+<p>리눅스 커널에 있는 시스템 호출 <tt>[[statfs(2)]]</tt> 및 <tt>[[fstatfs(2)]]</tt>가 이 라이브러리 호출을 뒷받침한다.</p>
+<p>glibc 버전 2.13 전의 <code>statvfs()</code>에서는 <code>/proc/mounts</code>에 나오는 마운트 옵션들을 훑어서 <code>f_flag</code> 필드의 비트들을 채웠다. 하지만 리눅스 2.6.36부터 기반 시스템 호출 <tt>[[statfs(2)]]</tt>가 <code>f_flags</code> 필드를 통해 필요한 정보를 제공해 주며, 그래서 glibc 버전 2.13부터는 <code>statvfs()</code> 함수에서 <code>/proc/mounts</code>를 훑는 대신 그 필드의 정보를 이용하게 된다.</p>
+<p>다음 호출의 glibc 구현에서는 <code>path</code>를 인자로 <code>statvfs()</code>를 호출해서 반환된 <code>f_frsize</code>, <code>f_frsize</code>, <code>f_bsize</code> 필드를 각각 사용한다.</p>
+<pre><code class="c">pathconf(path, _PC_REC_XFER_ALIGN);
+pathconf(path, _PC_ALLOC_SIZE_MIN);
+pathconf(path, _PC_REC_MIN_XFER_SIZE);
+</code></pre>
+
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[statfs(2)]]</tt></p>
+<hr />
+<p>2017-09-15</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

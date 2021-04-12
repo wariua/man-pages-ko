@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/dlvsym(3)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Dlvsym(3) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
+        <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+            <li class="second-level"><a href="#_1">역사</a></li>
+                
+        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>dlsym, dlvsym - 공유 오브젝트나 실행 파일 내 심볼의 주소 얻기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;dlfcn.h&gt;
+
+void *dlsym(void *handle, const char *symbol);
+
+#define _GNU_SOURCE
+#include &lt;dlfcn.h&gt;
+
+void *dlvsym(void *handle, char *symbol, char *version);
+</code></pre>
+
+<p><code>-ldl</code>로 링크.</p>
+<h2 id="description">DESCRIPTION</h2>
+<p><code>dlsym()</code> 함수는 <tt>[[dlopen(3)]]</tt>이 반환하는 동적 적재 공유 오브젝트 "핸들"을 널 종료 심볼 이름과 함께 받아서 그 심볼이 메모리에 적재된 주소를 반환한다. 지정한 오브젝트에서, 그리고 그 오브젝트 적재 시 <tt>[[dlopen(3)]]</tt>에 의해 자동으로 적재된 공유 오브젝트들 어디서도 그 심볼을 찾지 못하면 <code>dlsym()</code>이 NULL을 반환한다. (<code>dlsym()</code>의 탐색은 그 공유 오브젝트들의 의존 관계 트리에서 너비 우선 방식으로 이뤄진다.)</p>
+<p>드문 경우에는 (아래 NOTES 참고) 심볼의 값이 실제로 NULL일 수도 있다. 따라서 <code>dlsym()</code>이 NULL을 반환한 게 꼭 오류를 나타내는 건 아니다. 오류와 값이 NULL인 심볼을 구별하는 정확한 방법은 <tt>[[dlerror(3)]]</tt> 호출로 이전 오류 조건을 지우고서 <code>dlsym()</code>을 호출한 다음 다시 <tt>[[dlerror(3)]]</tt>를 호출해서 반환 값을 변수에 저장하고, 그 저장된 값이 NULL이 아닌지 확인하는 것이다.</p>
+<p><code>handle</code>에 지정할 수 있는 특수한 가상 핸들이 두 가지 있다.</p>
+<dl>
+<dt><code>RTLD_DEFAULT</code></dt>
+<dd>기본 오브젝트 탐색 순서에 따라서 원하는 심볼의 첫 번째 위치를 찾는다. 실행 파일 및 그 의존 대상들의 전역 심볼에 더해서 <code>RTLD_GLOBAL</code> 플래그로 동적으로 적재된 공유 오브젝트들의 심볼들이 탐색 대상에 포함된다.</dd>
+<dt><code>RTLD_NEXT</code></dt>
+<dd>현재 오브젝트 다음에서 탐색 순서에 따라서 원하는 심볼의 다음 위치를 찾는다. 이를 이용해 다른 공유 오브젝트의 함수를 감싸는 래퍼를 제공할 수 있다. 예를 들어 사전 적재된 (<tt>[[ld.so(8)]]</tt>의 <code>LD_PRELOAD</code> 참고) 공유 오브젝트의 함수 정의에서 다른 공유 오브젝트에 있는 "진짜" 함수를 (또는 사전 적재가 여러 단계로 이뤄지는 경우에 "다음" 함수 정의를) 찾아서 호출할 수 있다.</dd>
+</dl>
+<p><code>&lt;dlfcn.h&gt;</code>에서 <code>RTLD_DEFAULT</code> 및 <code>RTLD_NEXT</code> 정의를 얻으려면 기능 확인 매크로 <code>_GNU_SOURCE</code>가 정의돼 있어야 한다.</p>
+<p><code>dlvsym()</code> 함수는 <code>dlsym()</code>과 같은 동작을 하되 추가 인자로 버전 문자열을 받는다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>성공 시 이 함수들은 <code>symbol</code>에 연계된 주소를 반환한다. 실패 시 NULL을 반환한다. <tt>[[dlerror(3)]]</tt>로 오류 원인을 진단할 수 있다.</p>
+<h2 id="versions">VERSIONS</h2>
+<p>glibc 2.0 및 이후에 <code>dlsym()</code>이 있다. glibc 2.1에서 <code>dlvsym()</code>이 처음 등장했다.</p>
+<h2 id="attributes">ATTRIBUTES</h2>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<table>
+<thead>
+<tr>
+<th>인터페이스</th>
+<th>속성</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>dlsym()</code>, <code>dlvsym()</code></td>
+<td>스레드 안전성</td>
+<td>MT-Safe</td>
+</tr>
+</tbody>
+</table>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>POSIX.1-2001에서 <code>dlsym()</code>을 기술한다. <code>dlvsym()</code> 함수는 GNU 확장이다.</p>
+<h2 id="notes">NOTES</h2>
+<p>정상적인 컴파일 결과로 나온 공유 오브젝트라면 <code>dlsym()</code>이 반환하는 심볼의 값이 절대 NULL이 아닐 것이다. 전역 심볼을 절대 NULL 주소에 위치시키지 않기 때문이다. 그렇지만 <code>dlsym()</code>을 이용한 검색 결과 심볼 값으로 NULL이 반환될 수도 있다. 예를 들어 GNU 간접 함수(IFUNC) 결정 함수가 결정 결과로 NULL을 반환해서 그게 심볼 값이 될 수 있다.</p>
+<h3 id="_1">역사</h3>
+<p><code>dlsym()</code> 함수가 포함된 dlopen API는 SunOS에서 유래한 것이다. 그 시스템에 <code>dlvsym()</code>은 없다.</p>
+<h2 id="example">EXAMPLE</h2>
+<p><tt>[[dlopen(3)]]</tt> 참고.</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[dl_iterate_phdr(3)]]</tt>, <tt>[[dladdr(3)]]</tt>, <tt>[[dlerror(3)]]</tt>, <tt>[[dlinfo(3)]]</tt>, <tt>[[dlopen(3)]]</tt>, <tt>[[dl.so(8)]]</tt></p>
+<hr />
+<p>2019-03-06</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/ld.so(8)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Ld.so(8) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+            <li class="second-level"><a href="#rpath">rpath 토큰 확장</a></li>
+                
+        <li class="first-level "><a href="#options">OPTIONS</a></li>
+        <li class="first-level "><a href="#environment">ENVIRONMENT</a></li>
+            <li class="second-level"><a href="#_1">안전 실행 모드</a></li>
+                
+            <li class="second-level"><a href="#_2">환경 변수</a></li>
+                
+        <li class="first-level "><a href="#files">FILES</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+            <li class="second-level"><a href="#_3">하드웨어 호환성</a></li>
+                
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>ld.so, ld-linux.so - 동적 링커/로더</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<p>어떤 동적 링크 된 프로그램 내지 공유 오브젝트를 실행함으로써 동적 링커를 간접적으로 실행할 수도 있고 (이 경우 동적 링커에 명령행 옵션을 줄 수 없으며, ELF인 경우 프로그램의 <code>.interp</code> 섹션에 저장된 동적 링커를 실행한다.) 다음처럼 직접 실행할 수도 있다.</p>
+<pre><code>/lib/ld-linux.so.*  [OPTIONS] [PROGRAM [ARGUMENTS]]
+</code></pre>
+
+<h2 id="description">DESCRIPTION</h2>
+<p>프로그램 <code>ld.so</code> 및 <code>ld-linux.so*</code>는 프로그램에 필요한 공유 오브젝트(공유 라이브러리)들을 찾아서 적재하고 프로그램을 실행을 위한 준비를 한 다음 실행한다.</p>
+<p>리눅스 바이너리들은 컴파일 때 <code>ld(1)</code>에 <code>-static</code> 옵션을 준 경우가 아니라면 동적 링크(런타임 링크)가 필요하다.</p>
+<p><code>ld.so</code> 프로그램은 예전에 쓰던 바이너리 형식인 a.out 바이너리를 다룬다. <code>ld-linux.so*</code>(libc5에선 <code>/lib/ld-linux.so.1</code>, glibc2에선 <code>/lib/ld-linux.so.2</code>) 프로그램은 더 최신인 ELF 형식으로 된 바이너리를 다룬다. 두 프로그램은 동작 방식이 동일하며 같은 지원 파일 및 프로그램(<code>ldd(1)</code>, <code>ldconfig(8)</code>, <code>/etc/ld.so.conf</code>)을 사용한다.</p>
+<p>공유 오브젝트 의존성을 해결할 때 동적 링커에서는 먼저 각 의존성 문자열에 슬래시가 있는지 확인한다. (링크 때 슬래시가 포함된 공유 오브젝트 경로명을 지정했으면 그럴 수 있다.) 슬래시가 있으면 그 의존성 문자열을 (상대 또는 절대) 경로명으로 해석하여 그 경로명으로 공유 오브젝트를 적재한다.</p>
+<p>공유 오브젝트 의존성에 슬래시가 없으면 다음 순서로 탐색을 한다.</p>
+<ul>
+<li>
+<p>바이너리에 dynamic 섹션 속성 DT_RPATH가 있으면서 DT_RUNPATH 속성이 존재하지 않으면 거기 명시된 디렉터리들을 사용. DT_RPATH 사용 방식은 제거될 예정이다.</p>
+</li>
+<li>
+<p>환경 변수 <code>LD_LIBRARY_PATH</code>를 사용. 단 실행 파일이 안전 실행 모드(아래 참고)로 돌고 있으면 이 변수를 무시한다.</p>
+</li>
+<li>
+<p>바이너리에 dynamic 섹션 속성 DT_RUNPATH가 있으면 거기 명시된 디렉터리들을 사용. DT_NEEDED (직접 의존) 항목이 요구하는 오브젝트들을 찾는 데만 그 디렉터리들을 탐색한다. 그 오브젝트의 자식을 찾는 데는 적용되지 않으므로 그 오브젝트에 따로 DT_RUNPATH 항목이 있어야 한다. 이는 의존 트리 내 자식들 모두의 탐색에 적용되는 DT_RPATH와 다른 점이다.</p>
+</li>
+<li>
+<p>캐시 파일 <code>/etc/ld.so.cache</code>. 이 파일은 앞서 찾았던 후보 공유 오브젝트들에 라이브러리 경로를 덧붙여서 만든 목록이다. 다만 바이너리를 <code>-z nodeflib</code> 링커 옵션을 써서 링크했다면 기본 경로들 내의 공유 오브젝트들을 건너뛴다. 하드웨어 능력별 디렉터리(아래 참고)에 설치된 공유 오브젝트를 다른 공유 오브젝트보다 선호한다.</p>
+</li>
+<li>
+<p>기본 경로 <code>/lib</code>, 그 다음으로 <code>/usr/lib</code>. (일부 64비트 아키텍처에서는 64비트 공유 오브젝트들의 기본 경로가 <code>/lib64</code> 및 <code>/usr/lib64</code>이다.) 바이너리를 <code>-z nodeflib</code> 링커 옵션을 써서 링크했다면 이 단계를 건너뛴다.</p>
+</li>
+</ul>
+<h3 id="rpath">rpath 토큰 확장</h3>
+<p>동적 링커는 rpath 지정 항목(DT_RPATH 또는 DT_RUNPATH)에서 특정 토큰 문자열들을 알아본다. 그 문자열들을 다음과 같이 치환한다.</p>
+<dl>
+<dt><code>$ORIGIN</code> (또는 <code>${ORIGIN}</code>)</dt>
+<dd>
+<p>프로그램 내지 공유 오브젝트를 담은 디렉터리로 확장된다. 즉 <code>somedir/app</code>에 위치한 응용을 다음과 같이 컴파일 하면</p>
+<pre><code>gcc -Wl,-rpath,'$ORIGIN/../lib'
+</code></pre>
+<p><code>somedir</code>이 디렉터리 구조에서 어디든 간에 <code>somedir/dir</code>에서 관련 공유 오브젝트를 찾게 된다. 이를 이용하면 특정 디렉터리에 설치할 필요 없이 아무 디렉터리에나 풀어 주면 자체 공유 오브젝트를 찾아내는 "턴키" 응용을 쉽게 만들 수 있다.</p>
+</dd>
+<dt><code>$LIB</code> (또는 <code>${LIB}</code>)</dt>
+<dd>아키텍처에 따라서 <code>lib</code> 또는 <code>lib64</code>로 확장된다. (가령 x86-64에서는 <code>lib64</code>로 확장되고 x86-32에서는 <code>lib</code>로 확장된다.)</dd>
+<dt><code>$PLATFORM</code> (또는 <code>${PLATFORM}</code>)</dt>
+<dd>호스트 시스템의 프로세서 유형에 대응하는 문자열(가령 "x86_64")로 확장된다. 일부 아키텍처에서는 리눅스 커널이 동적 링커에게 플랫폼 문자열을 알려 주지 않는다. 보조 벡터(<tt>[[getauxval(3)]]</tt> 참고)의 <code>AT_PLATFORM</code>에서 이 문자열 값을 가져온다.</dd>
+</dl>
+<h2 id="options">OPTIONS</h2>
+<dl>
+<dt><code>--audit list</code></dt>
+<dd><code>list</code>에 지정한 오브젝트들을 감사자로 쓴다. <code>list</code>의 오브젝트들은 콜론으로 구분한다.</dd>
+<dt><code>--inhibit-cache</code></dt>
+<dd><code>/etc/ld.so.cache</code>를 쓰지 않는다.</dd>
+<dt><code>--library-path path</code></dt>
+<dd>환경 변수 <code>LD_LIBRARY_PATH</code> 대신 <code>path</code>를 사용한다. (아래 참고.) 이름 <code>ORIGIN</code>, <code>LIB</code>, <code>PLATFORM</code>을 <code>LD_LIBRARY_PATH</code> 환경 변수에서처럼 해석한다.</dd>
+<dt><code>--inhibit-rpath list</code></dt>
+<dd>RPATH 및 RUNPATH 정보가 <code>list</code>의 오브젝트 이름들 중 하나이면 무시한다. 안전 실행 모드(아래 참고)에서 돌고 있을 때는 이 옵션을 무시한다. <code>list</code>의 오브젝트들은 콜론이나 공백으로 구분한다.</dd>
+<dt><code>--list</code></dt>
+<dd>모든 의존 관계과 각각이 어떻게 해결되었는지를 나열한다.</dd>
+<dt><code>--preload list</code> (glibc 2.30부터)</dt>
+<dd>
+<p><code>list</code>에 지정한 오브젝트들을 사전 적재한다. <code>list</code>의 오브젝트들은 콜론이나 공백으로 구분한다. 아래의 <code>LD_PRELOAD</code> 환경 변수 설명처럼 오브젝트들이 사전 적재된다.</p>
+<p><code>LD_PRELOAD</code>와 달리 <code>--preload</code> 옵션에서는 새 프로그램을 실행하는 자식 프로세스에서 수행되는 사전 적재에 영향을 끼치지 않고 실행 파일 하나에만 사전 적재를 수행할 수 있다.</p>
+</dd>
+<dt><code>--verify</code></dt>
+<dd>프로그램이 동적으로 링크 되어 있고 이 동적 링커에서 다룰 수 있는지 확인한다.</dd>
+</dl>
+<h2 id="environment">ENVIRONMENT</h2>
+<p>다양한 환경 변수들이 동적 링커의 동작에 영향을 준다.</p>
+<h3 id="_1">안전 실행 모드</h3>
+<p>보안상 이유 때문에 동적 링커에서 바이너리를 안전 실행(secure-execution) 모드로 돌려야 한다고 판단한 경우에는 일부 환경 변수의 효과가 무효화되거나 바뀌고 환경에서 그 환경 변수들이 제거돼서 프로그램에서는 그 정의조차 볼 수 없게 된다. 동적 링커 자체의 동작에 영향을 끼치는 몇 가지 환경 변수를 아래에서 설명한다. 이런 식으로 처리되는 다른 환경 변수로 <code>GCONV_PATH</code>, <code>GETCONF_DIR</code>, <code>HOSTALIASES</code>, <code>LOCALDOMAIN</code>, <code>LOCPATH</code>, <code>MALLOC_TRACE</code>, <code>NIS_PATH</code>, <code>NLSPATH</code>, <code>RESOLV_HOST_CONF</code>, <code>RES_OPTIONS</code>, <code>TMPDIR</code>, <code>TZDIR</code> 등이 있다.</p>
+<p>보조 벡터(<tt>[[getauxval(3)]]</tt> 참고)의 <code>AT_SECURE</code> 항목이 0 아닌 값을 가지고 있으면 바이너리를 안전 실행 모드로 실행한다. 여러 이유로 그 항목이 0 아닌 값을 가질 수 있다.</p>
+<ul>
+<li>
+<p>프로세스의 실제 사용자 ID와 실효 사용자 ID가, 또는 실제 그룹 ID와 실효 그룹 ID가 다르다. 보통 set-user-ID 내지 set-group-ID 프로그램 실행 결과로 그렇게 된다.</p>
+</li>
+<li>
+<p>루트 아닌 사용자 ID의 프로세스가 역능을 부여해 주는 바이너리를 실행했다.</p>
+</li>
+<li>
+<p>리눅스 보안 모듈 때문에 0 아닌 값이 설정됐을 수도 있다.</p>
+</li>
+</ul>
+<h3 id="_2">환경 변수</h3>
+<p>가장 중요한 환경 변수들로 다음이 있다.</p>
+<dl>
+<dt><code>LD_ASSUME_KERNEL</code> (glibc 2.2.3부터)</dt>
+<dd>
+<p>각 공유 오브젝트에서는 필요한 최소 커널 ABI 버전을 동적 링커에게 알려 줄 수 있다. (ELF note 섹션에 이 요건이 들어가는데 <code>readelf -n</code>을 통해 <code>NT_GNU_ABI_TAG</code>라는 레이블의 섹션으로 볼 수 있다.) 런타임에 동적 링커가 돌고 있는 커널의 ABI 버전을 알아내서 그 ABI 버전을 넘는 최소 ABI 버전을 지정한 공유 오브젝트를 적재하지 않게 된다.</p>
+<p><code>LD_ASSUME_KERNEL</code>을 쓰면 동적 링커에서 다른 커널 ABI 버전의 시스템에서 돌고 있다고 여기게 만들 수 있다. 예를 들어 다음 명령행은 <code>myprog</code>가 필요로 하는 공유 오브젝트들을 동적 링커가 적재할 때 리눅스 2.2.5 상에서 돌고 있다고 상정하도록 한다.</p>
+<pre><code>$ LD_ASSUME_KERNEL=2.2.5 ./myprog
+</code></pre>
+<p>각기 최소 커널 ABI 버전 요건이 다른 여러 버전의 공유 오브젝트를 (탐색 경로의 다른 디렉터리들에서) 제공하는 시스템에서는 <code>LD_ASSUME_KERNEL</code>을 이용해 (디렉터리 탐색 순서에 따라서) 사용할 오브젝트 버전을 선택할 수 있다.</p>
+<p>역사적으로 <code>LD_ASSUME_KERNEL</code> 기능의 가장 큰 용도는 LinuxThreads와 NPTL를 모두 제공하는 시스템에서 (그럴 때는 보통 후자가 기본인데) 더 구식인 LinuxThreads POSIX 스레드 구현을 수동으로 선택하는 것이었다. <tt>[[pthreads(7)]]</tt> 참고.</p>
+</dd>
+<dt><code>LD_BIND_NOW</code> (glibc 2.1.1부터)</dt>
+<dd>비어 있지 않은 문자열로 설정돼 있으면 함수 호출 결정을 첫 참조 시점까지 미루지 않고 프로그램 시작 때 동적 링커가 모든 심볼들을 결정하게 한다. 디버거 사용 시 유용하다.</dd>
+<dt><code>LD_LIBRARY_PATH</code></dt>
+<dd>
+<p>실행 시점에 ELF 라이브러리들을 탐색할 디렉터리들의 목록. 콜론이나 세미콜론으로 목록 내 항목들을 구분하는데 어느 쪽 구분자에도 이스케이핑 지원은 없다.</p>
+<p>안전 실행 모드에서는 이 변수를 무시한다.</p>
+<p>동적 링커는 <code>LD_LIBRARY_PATH</code>에 지정된 경로명에서 토큰 <code>$ORIGIN</code>, <code>$LIB</code>, <code>$PLATFORM</code>을 (또는 이름에 중괄호를 두른 버전을) 위의 <em>rpath 토큰 확장</em>에서 설명한 것처럼 확장한다. 그래서 예를 들어 다음과 같이 하면 실행할 프로그램을 담은 디렉터리 아래의 <code>lib</code> 또는 <code>lib64</code> 서브디렉터리에서 라이브러리를 찾게 된다.</p>
+<pre><code>$ LD_LIBRARY_PATH='$ORIGIN/$LIB' prog
+</code></pre>
+<p>(작은따옴표를 쓴 것에 유의하라. <code>$ORIGIN</code>과 <code>$LIB</code>가 셸 변수로 확장되는 걸 막기 위해서이다.)</p>
+</dd>
+<dt><code>LD_PRELOAD</code></dt>
+<dd>
+<p>다른 어떤 오브젝트보다 먼저 추가로 적재할 사용자 지정 ELF 공유 오브젝트들의 목록. 이 기능을 이용해 다른 공유 오브젝트의 함수들을 선택적으로 오버라이드 할 수 있다.</p>
+<p>공백이나 콜론으로 목록 내 항목들을 구분하는데 어느 쪽 구분자에도 이스케이핑 지원은 없다. 오브젝트 탐색은 DESCRIPTION에 기술된 규칙에 따라 이뤄진다. 목록에 지정한 좌에서 우로의 순서에 따라 오브젝트를 탐색해서 링크 맵에 추가한다.</p>
+<p>안전 실행 모드에서는 슬래시가 포함된 사전 적재 경로명을 무시한다. 또한 표준 탐색 디렉터리에 있는 것만, 그리고 set-user-ID 모드 비트가 켜져 있는 (흔치 않은) 경우에만 공유 오브젝트를 미리 적재한다.</p>
+<p>동적 링커는 <code>LD_PRELOAD</code> 목록에 지정된 이름에서 토큰 <code>$ORIGIN</code>, <code>$LIB</code>, <code>$PLATFORM</code>을 (또는 이름에 중괄호를 두른 버전을) 위의 <em>rpath 토큰 확장</em>에서 설명한 것처럼 처리한다. (<code>LD_LIBRARY_PATH</code> 설명의 따옴표 처리 내용도 참고.)</p>
+<p>사전 적재할 라이브러리를 지정하는 방법이 여러 가지 있으며, 다음 순서로 처리된다.</p>
+<p>(1) <code>LD_PRELOAD</code> 환경 변수.</p>
+<p>(2) 동적 링커 직접 호출 시의 명령행 옵션 <code>--preload</code>.</p>
+<p>(3) <code>/etc/ld.so.preload</code> 파일. (아래에서 설명함.)</p>
+</dd>
+<dt><code>LD_TRACE_LOADED_OBJECTS</code></dt>
+<dd>(어떤 값으로든) 설정돼 있으면 프로그램이 정상 실행하는 대신 <code>ldd(1)</code>로 실행한 것처럼 자기의 동적 의존성을 나열하게 된다.</dd>
+</dl>
+<p>그리고 좀 덜 알려진 변수들이 여럿 있는데, 다수는 구식이거나 내부용이다.</p>
+<dl>
+<dt><code>LD_AUDIT</code> (glibc 2.4부터)</dt>
+<dd>
+<p>다른 어떤 오브젝트보다 먼저 별도의 링커 네임스페이스에 적재할 (즉 프로세스에서 이뤄질 정상적 심볼 결속을 침해하지 않는다) 사용자 지정 ELF 공유 오브젝트들의 목록이다. 이 오브젝트들을 이용해 동적 링커의 동작을 감사할 수 있다. 리스트의 항목들을 콜론으로 구분하며 구분자 이스케이핑 지원이 없다.</p>
+<p>안전 실행 모드에서는 <code>LD_AUDIT</code>을 무시한다.</p>
+<p>이른바 감사 지점들에서 (예를 들어 새 공유 오브젝트 적재 시, 심볼 결정 시, 다른 공유 오브젝트로부터 심볼 호출 시) 동적 링커가 감사 공유 오브젝트 내의 적절한 함수를 호출하여 알려 주게 된다. 자세한 내용은 <tt>[[rtld-audit(7)]]</tt>을 보라. 감사 인터페이스가 솔라리스에서 제공하는 <em>Linker and Libraries Guide</em>의 <em>Runtime Linker Auditing Interface</em> 장에서 설명하는 내용과 전반적으로 호환된다.</p>
+<p>동적 링커는 <code>LD_AUDIT</code> 목록에 지정된 이름에서 토큰 <code>$ORIGIN</code>, <code>$LIB</code>, <code>$PLATFORM</code>을 (또는 이름에 중괄호를 두른 버전을) 위의 <em>rpath 토큰 확장</em>에서 설명한 것처럼 처리한다. (<code>LD_LIBRARY_PATH</code> 설명의 따옴표 처리 내용도 참고.)</p>
+<p>glibc 2.13부터 안전 실행 모드에서는 감사 목록에서 슬래시가 포함된 이름을 무시하며 표준 탐색 디렉터리에 있고 set-user-ID 비트가 켜진 공유 오브젝트만 적재한다.</p>
+</dd>
+<dt><code>LD_BIND_NOT</code> (glibc 2.1.95부터)</dt>
+<dd>이 환경 변수가 비어 있지 않은 문자열로 설정돼 있으면 함수 심볼 결정 후에 GOT(global offset table)과 PLT(procedure linkage table)을 갱신하지 않는다. 이 변수를 <code>LD_DEBUG</code>(<code>bindings</code> 및 <code>symbols</code> 분류)와 함께 사용하면 모든 런타임 함수 결속을 관찰할 수 있다.</dd>
+<dt><code>LD_DEBUG</code> (glibc 2.1부터)</dt>
+<dd>
+<p>동적 링커의 동작에 대한 자세한 디버깅 정보를 출력한다. 이 변수의 내용은 다음 분류들을 하나 이상 콜론이나 쉽표, (값을 따옴표로 감싼 경우) 공백으로 구분한 것이다.</p>
+<dl>
+<dt><code>help</code></dt>
+<dd>이 변수 값에 <code>help</code>를 지정하면 해당 프로그램을 실행하지 않으며 이 환경 변수에 어떤 분류들을 지정할 수 있는지에 대한 도움말 메시지를 표시한다.</dd>
+<dt><code>all</code></dt>
+<dd>모든 디버깅 정보를 찍는다. (<code>statistics</code> 및 <code>unused</code> 제외. 아래 참고.)</dd>
+<dt><code>bindings</code></dt>
+<dd>각 심볼이 어느 정의로 결속되는지에 대한 정보를 표시한다.</dd>
+<dt><code>files</code></dt>
+<dd>입력 파일 진행 상태를 표시한다.</dd>
+<dt><code>libs</code></dt>
+<dd>라이브러리 탐색 경로를 표시한다.</dd>
+<dt><code>reloc</code></dt>
+<dd>재배치 처리를 표시한다.</dd>
+<dt><code>scopes</code></dt>
+<dd>스코프 정보를 표시한다.</dd>
+<dt><code>statistics</code></dt>
+<dd>재배치 통계를 표시한다.</dd>
+<dt><code>symbols</code></dt>
+<dd>각 심볼 검색에 대해 탐색 경로를 표시한다.</dd>
+<dt><code>unused</code></dt>
+<dd>안 쓰이는 DSO를 알아낸다.</dd>
+<dt><code>versions</code></dt>
+<dd>버전 의존성을 표시한다.</dd>
+</dl>
+<p>glibc 2.3.4부터 안전 실행 모드에서는 <code>/etc/suid-debug</code> 파일이 존재하지 않는 한 (파일 내용은 상관없음) <code>LD_DEBUG</code>를 무시한다.</p>
+</dd>
+<dt><code>LD_DEBUG_OUTPUT</code> (glibc 2.1부터)</dt>
+<dd>
+<p>기본적으로 <code>LD_DEBUG</code> 출력을 표준 오류에 기록한다. <code>LD_DEBUG_OUTPUT</code>이 정의돼 있으면 그 값에 "."(마침표)와 프로세스 ID를 덧붙인 경로명에 출력을 기록한다.</p>
+<p>안전 실행 모드에서는 <code>LD_DEBUG_OUTPUT</code>을 무시한다.</p>
+</dd>
+<dt><code>LD_DYNAMIC_WEAK</code> (glibc 2.1.91부터)</dt>
+<dd>
+<p>기본적으로 공유 라이브러리들을 찾아서 심볼 참조를 결정할 때 동적 링커에서는 처음 찾은 정의로 결정하게 된다.</p>
+<p>예전 glibc 버전들(2.2 전)에서 제공하는 동작은 달랐다. 약한 심볼을 찾으면 링커가 그 심볼을 기억해 두고 나머지 공유 라이브러리들에서 계속 탐색을 했다. 이후 동일 심볼에 대한 강한 정의를 찾게 되면 그 정의를 대신 사용했다. (더는 심볼을 찾지 못하면 동적 링커가 처음 찾았던 약한 심볼을 사용했다.)</p>
+<p>예전 glibc 동작 방식은 비표준이었다. (표준 방식에선 약한 심볼과 강한 심볼 구별이 정적 링크 때만 효력이 있어야 한다.) glibc 2.2에서 (당시 다른 대다수 구현체에서 제공하던 방식이었던) 현재의 동작 방식을 제공하도록 동적 링커가 변경됐다.</p>
+<p><code>LD_DYNAMIC_WEAK</code> 변수를 (어떤 값으로든) 설정하면 어떤 공유 라이브러리의 약한 심볼을 이후 다른 공유 라이브러리에서 발견된 강한 심볼이 오버라이드 할 수 있는 예전의 (비표준) glibc 동작 방식을 제공한다. (참고로 이 변수가 설정돼 있는 경우에도 공유 라이브러리의 강한 심볼이 메인 프로그램에 있는 동일 심볼의 약한 정의를 오버라이드 하지는 않는다.)</p>
+<p>glibc 2.3.4부터 안전 실행 모드에서는 <code>LD_DYNAMIC_WEAK</code>를 무시한다.</p>
+</dd>
+<dt><code>LD_HWCAP_MASK</code> (glibc 2.1부터)</dt>
+<dd>하드웨어 능력들에 대한 마스크.</dd>
+<dt><code>LD_ORIGIN_PATH</code> (glibc 2.1부터&gt;</dt>
+<dd>
+<p>바이너리를 찾은 경로.</p>
+<p>glibc 2.4부터 안전 실행 모드에서는 <code>LD_ORIGIN_PATH</code>를 무시한다.</p>
+</dd>
+<dt><code>LD_POINTER_GUARD</code> (glibc 2.4에서 2.22까지)</dt>
+<dd>0으로 설정하면 포인터 보호 기능을 끈다. 그 외 다른 값은 포인터 보호 기능을 켜며, 이게 기본이다. 포인터 보호 기능이란 쓰기 가능한 프로그램 메모리에 저장되는 몇몇 코드 포인터들(<tt>[[setjmp(3)]]</tt>에서 저장하는 반환 주소나 여러 glibc 내부 함수에서 쓰는 함수 포인터들)을 난수에 가깝게 바꿔 놔서 공격자가 버퍼 오버런 내지 스택 넘침 공격 시 그 포인터들을 악용하는 걸 어렵게 만드는 보안 메커니즘이다. glibc 2.23부터는 포인터 보호 기능이 항상 켜져 있으므로 더는 <code>LD_POINTER_GUARD</code>를 써서 기능을 끌 수 없다.</dd>
+<dt><code>LD_PROFILE</code> (glibc 2.1부터)</dt>
+<dd>
+<p>프로파일 할 (단일) 공유 오브젝트의 이름을 경로명이나 soname으로 지정한 것. "<code>$LD_PROFILE_OUTPUT</code>/<code>$LD_PROFILE</code>.profile"이라는 이름의 파일에 프로파일링 출력이 덧붙는다.</p>
+<p>glibc 2.2.5부터 안전 실행 모드에서는 <code>LD_PROFILE</code>를 무시한다.</p>
+</dd>
+<dt><code>LD_PROFILE_OUTPUT</code> (glibc 2.1부터)</dt>
+<dd>
+<p><code>LD_PROFILE</code> 출력이 기록되는 디렉터리. 이 변수가 정의돼 있지 않거나 빈 문자열로 정의돼 있는 경우 기본값은 <code>/var/tmp</code>이다.</p>
+<p>안전 실행 모드에서는 <code>LD_PROFILE_OUTPUT</code>을 무시한다. 대신 항상 <code>/var/profile</code>을 쓴다. (이 사항은 glibc 2.2.5 전에서만 유효하다. 이후의 glibc 버전들에서는 안전 실행 모드에서 <code>LD_PROFILE</code>까지 무시한다.)</p>
+</dd>
+<dt><code>LD_SHOW_AUXV</code> (glibc 2.1부터)</dt>
+<dd>
+<p>이 환경 변수가 (어떤 값으로든) 정의돼 있으면 커널로부터 전달받은 보조 배열(<tt>[[getauxval(3)]]</tt> 참고)을 보여 준다.</p>
+<p>glibc 2.3.4부터 안전 실행 모드에서는 <code>LD_SHOW_AUXV</code>를 무시한다.</p>
+</dd>
+<dt><code>LD_TRACE_PRELINKING</code> (glibc 2.4부터)</dt>
+<dd>이 환경 변수가 설정돼 있으면 이 변수에 이름이 할당돼 있는 오브젝트의 사전 링크 처리를 추적한다. (<code>ldd(1)</code>를 써서 추적 가능한 오브젝트들의 목록을 얻을 수 있다.) 알 수 없는 오브젝트 이름이면 모든 사전 링크 처리 활동을 추적한다.</dd>
+<dt><code>LD_USE_LOAD_BIAS</code> (glibc 2.3.3부터)</dt>
+<dd>
+<p>기본적으로 (즉 이 변수가 정의돼 있지 않으면) 실행 파일과 사전 링크 된 공유 오브젝트들은 의존하는 공유 오브젝트의 기준 주소(base address)를 존중하는 반면 (사전 링크 돼 있지 않은) 위치 독립 실행 파일(PIE)과 다른 공유 오브젝트들은 존중하지 않는다. <code>LD_USE_LOAD_BIAS</code>를 값을 1로 해서 사용하면 실행 파일과 PIE 모두 기준 주소를 존중하게 된다. <code>LD_USE_LOAD_BIAS</code>가 0으로 정의돼 있으면 실행 파일과 PIE 어느 쪽도 기준 주소를 존중하지 않게 된다.</p>
+<p>glibc 2.3.3부터 안전 실행 모드에서는 이 변수를 무시한다.</p>
+</dd>
+<dt><code>LD_VERBOSE</code> (glibc 2.1부터)</dt>
+<dd>비어 있지 않은 문자열로 설정돼 있으면 <code>LD_TRACE_LOADED_OBJECTS</code> 환경 변수가 설정돼 있을 때 프로그램에 대한 심볼 버전 정보를 출력한다.</dd>
+<dt><code>LD_WARN</code> (glibc 2.1.3부터)</dt>
+<dd>비어 있지 않은 문자열로 설정돼 있으면 결정 안 된 심볼들에 대한 경고를 표시한다.</dd>
+<dt><code>LD_PREFER_MAP_32BIT_EXEC</code> (x86-64 전용, glibc 2.23부터)</dt>
+<dd>
+<p>인텔 실버몬트 소프트웨어 최적화 안내서에 따르면 64비트 응용에서 브랜치의 대상이 브랜치에서 4GB 넘게 떨어져 있으면 브랜치 예측 성능에 부정적 영향이 있을 수 있다. 이 환경 변수가 (어떤 값으로든) 설정돼 있으면 동적 링커에서 먼저 <tt>[[mmap(2)]]</tt> <code>MAP_32BIT</code> 플래그를 써서 실행 파일 페이지 매핑을 시도하고, 실패하면 그 플래그 없이 매핑하게 된다. 주의: <code>MAP_32BIT</code>는 주소 공간 하위 (4GB가 아닌) 2GB로 매핑 한다.</p>
+<p><code>MAP_32BIT</code>를 쓰면 주소 공간 배치 무작위화(ASLR)에 쓸 수 있는 주소 범위가 줄어들기 때문에 안전 실행 모드에서는 항상 <code>LD_PREFER_MAP_32BIT_EXEC</code>를 끈다.</p>
+</dd>
+</dl>
+<h2 id="files">FILES</h2>
+<dl>
+<dt><code>/lib/ld.so</code></dt>
+<dd>a.out 동적 링커/로더</dd>
+<dt><code>/lib/ld-linux.so.{1,2}</code></dt>
+<dd>ELF 동적 링커/로더</dd>
+<dt><code>/etc/ld.so.cache</code></dt>
+<dd>공유 오브젝트를 탐색할 디렉터리들의 목록과 후보 공유 오브젝트들의 순서 목록을 담은 파일. <code>ldconfig(8)</code> 참고.</dd>
+<dt><code>/etc/ld.so.preload</code></dt>
+<dd>프로그램보다 먼저 적재할 ELF 공유 오브젝트들의 공백 구분 목록을 담은 파일. 위의 <code>LD_PRELOAD</code> 설명 참고. <code>LD_PRELOAD</code>와 <code>/etc/ld.so.preload</code>를 모두 사용하면 <code>LD_PRELOAD</code>에 지정한 라이브러리들을 먼저 적재한다. <code>/etc/ld.so.preload</code>는 효과가 시스템 전역이어서 시스템에서 실행되는 모든 프로그램에 대해 지정한 라이브러리들이 사전 적재된다. (일반적으로 이는 바람직하지 않으며 보통은 긴급 요법으로만 쓰인다. 예를 들어 라이브러리가 잘못 구성됐을 때 임시 처치용으로 쓸 수 있다.)</dd>
+<dt><code>lib*.so*</code></dt>
+<dd>공유 오브젝트</dd>
+</dl>
+<h2 id="notes">NOTES</h2>
+<h3 id="_3">하드웨어 호환성</h3>
+<p>어떤 공유 오브젝트들은 모든 CPU에 존재하지는 않는 하드웨어별 인스트럭션을 이용해 컴파일 된다. 그런 오브젝트들은 <code>/usr/lib/sse2/</code>처럼 필요한 하드웨어 능력을 나타내는 이름의 디렉터리에 설치돼야 한다. 동적 링커에서 그런 디렉터리들을 머신 하드웨어와 맞는지 확인해서 해당 공유 오브젝트의 가장 적절한 버전을 선택한다. 하드웨어 능력 디렉터리들을 계층적으로 만들어서 CPU 기능들을 합칠 수도 있다. 지원하는 하드웨어 능력 이름의 목록은 CPU에 따라 다르다. 현재 다음 이름들을 인식한다.</p>
+<dl>
+<dt>Alpha</dt>
+<dd>ev4, ev5, ev56, ev6, ev67</dd>
+<dt>MIPS</dt>
+<dd>loongson2e, loongson2f, octeon, octeon2</dd>
+<dt>PowerPC</dt>
+<dd>4xxmac, altivec, arch_2_05, arch_2_06, booke, cellbe, dfp, efpdouble, efpsingle, fpu, ic_snoop, mmu, notb, pa6t, power4, power5, power5+, power6x, ppc32, ppc601, ppc64, smt, spe, ucache, vsx</dd>
+<dt>SPARC</dt>
+<dd>flush, muldiv, stbar, swap, ultra3, v9, v9v, v9v2</dd>
+<dt>s390</dt>
+<dd>dfp, eimm, esan3, etf3enh, g5, highgprs, hpage, ldisp, msa, stfle, z900, z990, z9-109, z10, zarch</dd>
+<dt>x86 (32비트)</dt>
+<dd>acpi, apic, clflush, cmov, cx8, dts, fxsr, ht, i386, i486, i586, i686, mca, mmx, mtrr, pat, pbe, pge, pn, pse36, sep, ss, sse, sse2, tm</dd>
+</dl>
+<h2 id="see-also">SEE ALSO</h2>
+<p><code>ld(1)</code>, <code>ldd(1)</code>, <code>pldd(1)</code>, <code>sprof(1)</code>, <tt>[[dlopen(3)]]</tt>, <tt>[[getauxval(3)]]</tt>, <tt>[[elf(5)]]</tt>, <tt>[[capabilities(7)]]</tt>, <tt>[[rtld-audit(7)]]</tt>, <code>ldconfig(8)</code>, <code>sln(8)</code></p>
+<hr />
+<p>2019-08-02</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

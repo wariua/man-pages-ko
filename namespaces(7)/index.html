@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/namespaces(7)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Namespaces(7) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+            <li class="second-level"><a href="#api">네임스페이스 API</a></li>
+                
+            <li class="second-level"><a href="#procpidns">/proc/[pid]/ns/ 디렉터리</a></li>
+                
+            <li class="second-level"><a href="#procsysuser">/proc/sys/user 디렉터리</a></li>
+                
+            <li class="second-level"><a href="#cgroup-clone_newcgroup">cgroup 네임스페이스 (CLONE_NEWCGROUP)</a></li>
+                
+            <li class="second-level"><a href="#ipc-clone_newipc">IPC 네임스페이스 (CLONE_NEWIPC)</a></li>
+                
+            <li class="second-level"><a href="#clone_newnet">네트워크 네임스페이스 (CLONE_NEWNET)</a></li>
+                
+            <li class="second-level"><a href="#clone_newns">마운트 네임스페이스 (CLONE_NEWNS)</a></li>
+                
+            <li class="second-level"><a href="#pid-clone_newpid">PID 네임스페이스 (CLONE_NEWPID)</a></li>
+                
+            <li class="second-level"><a href="#clone_newuser">사용자 네임스페이스 (CLONE_NEWUSER)</a></li>
+                
+            <li class="second-level"><a href="#uts-clone_newuts">UTS 네임스페이스 (CLONE_NEWUTS)</a></li>
+                
+            <li class="second-level"><a href="#_1">네임스페이스의 수명</a></li>
+                
+        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>namespaces - 리눅스 네임스페이스 개요</p>
+<h2 id="description">DESCRIPTION</h2>
+<p>네임스페이스는 전역 시스템 자원을 어떤 추상화로 감싸서 네임스페이스 안의 프로세스들에게는 독립적인 전역 자원 인스턴스가 따로 있는 것처럼 보이도록 만든다. 그 전역 자원에 대한 변경 사항이 네임스페이스 일원인 다른 프로세스들에게는 보이지만 그 외의 프로세스들에게는 보이지 않는다. 네임스페이스의 용도 중 하나가 컨테이너 구현이다.</p>
+<p>리눅스에서 제공하는 네임스페이스는 다음과 같다.</p>
+<table>
+<thead>
+<tr>
+<th>네임스페이스</th>
+<th>상수</th>
+<th>격리 대상</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cgroup</td>
+<td><code>CLONE_NEWCGROUP</code></td>
+<td>cgroup 루트 디렉터리</td>
+</tr>
+<tr>
+<td>IPC</td>
+<td><code>CLONE_NEWIPC</code></td>
+<td>시스템 V IPC, POSIX 메시지 큐</td>
+</tr>
+<tr>
+<td>네트워크</td>
+<td><code>CLONE_NEWNET</code></td>
+<td>네트워크 장치, 스택, 포트 등</td>
+</tr>
+<tr>
+<td>마운트</td>
+<td><code>CLONE_NEWNS</code></td>
+<td>마운트 포인트</td>
+</tr>
+<tr>
+<td>PID</td>
+<td><code>CLONE_NEWPID</code></td>
+<td>프로세스 ID</td>
+</tr>
+<tr>
+<td>사용자</td>
+<td><code>CLONE_NEWUSER</code></td>
+<td>사용자 ID와 그룹 ID</td>
+</tr>
+<tr>
+<td>UTS</td>
+<td><code>CLONE_NEWUTS</code></td>
+<td>호스트명과 NIS 도메인 이름</td>
+</tr>
+</tbody>
+</table>
+<p>이 페이지에서는 다양한 네임스페이스와 관련 <code>/proc</code> 파일들을 설명하고 네임스페이스를 다루기 위한 API들을 요약한다.</p>
+<h3 id="api">네임스페이스 API</h3>
+<p>아래 기술하는 여러 <code>/proc</code> 파일들에 더해서 다음 시스템 호출들이 네임스페이스 API에 포함된다.</p>
+<dl>
+<dt><tt>[[clone(2)]]</tt></dt>
+<dd><tt>[[clone(2)]]</tt> 시스템 호출은 새 프로세스를 만든다. 호출의 <code>flags</code> 인자에 아래 나열된 <code>CLONE_NEW*</code> 플래그를 하나 이상 지정하면 각 플래그에 대한 새 네임스페이스가 생성되고 자식 프로세스가 그 네임스페이스들에 속하게 된다. (이 시스템 호출은 네임스페이스와 무관한 기능들도 여럿 구현하고 있다.)</dd>
+<dt><tt>[[setns(2)]]</tt></dt>
+<dd><tt>[[setns(2)]]</tt> 시스템 호출을 통해 호출 프로세스가 기존 네임스페이스에 참여할 수 있다. 아래 설명하는 <code>/proc/[pid]/ns</code> 파일들 중 하나를 가리키는 파일 디스크립터를 통해 참여할 네임스페이스를 지정한다.</dd>
+<dt><tt>[[unshare(2)]]</tt></dt>
+<dd><tt>[[unshare(2)]]</tt> 시스템 호출은 호출 프로세스를 새 네임스페이스로 옮긴다. 호출의 <code>flags</code> 인자가 아래 나열된 <code>CLONE_NEW*</code> 플래그를 하나 이상 지정하면 각 플래그에 대한 새 네임스페이스가 생성되고 호출 프로세스가 그 네임스페이스들에 속하게 된다. (이 시스템 호출은 네임스페이스와 무관한 기능들도 여럿 구현하고 있다.)</dd>
+<dt><code>ioctl(2)</code></dt>
+<dd>다양한 <code>ioctl(2)</code> 동작을 이용해 네임스페이스에 대한 정보를 알아낼 수 있다. 그 동작들을 <tt>[[ioctl_ns(2)]]</tt>에서 설명한다.</dd>
+</dl>
+<p><tt>[[clone(2)]]</tt>과 <tt>[[unshare(2)]]</tt>로 새 네임스페이스를 만들려면 대부분의 경우 <code>CAP_SYS_ADMIN</code> 역능이 필요하다. 새 네임스페이스 안에서 생성 프로세스가 이후 그 네임스페이스에서 생성되거나 그 네임스페이스에 참여할 다른 프로세스들에게 보이는 전역 자원들을 변경할 능력을 가지게 되기 때문이다. 사용자 네임스페이스가 예외인데, 리눅스 3.8부터는 사용자 네임스페이스를 만드는 데 특권이 필요 없다.</p>
+<h3 id="procpidns"><code>/proc/[pid]/ns/</code> 디렉터리</h3>
+<p>각 프로세스마다 서브디렉터리 <code>/proc/[pid]/ns/</code>가 있고 그 안에는 <tt>[[setns(2)]]</tt>를 통한 조작을 지원하는 네임스페이스마다 항목이 하나씩 있다.</p>
+<pre><code class="text">$ ls -l /proc/$$/ns
+total 0
+lrwxrwxrwx. 1 mtk mtk 0 Apr 28 12:46 cgroup -&gt; cgroup:[4026531835]
+lrwxrwxrwx. 1 mtk mtk 0 Apr 28 12:46 ipc -&gt; ipc:[4026531839]
+lrwxrwxrwx. 1 mtk mtk 0 Apr 28 12:46 mnt -&gt; mnt:[4026531840]
+lrwxrwxrwx. 1 mtk mtk 0 Apr 28 12:46 net -&gt; net:[4026531969]
+lrwxrwxrwx. 1 mtk mtk 0 Apr 28 12:46 pid -&gt; pid:[4026531836]
+lrwxrwxrwx. 1 mtk mtk 0 Apr 28 12:46 pid_for_children -&gt; pid:[4026531834]
+lrwxrwxrwx. 1 mtk mtk 0 Apr 28 12:46 user -&gt; user:[4026531837]
+lrwxrwxrwx. 1 mtk mtk 0 Apr 28 12:46 uts -&gt; uts:[4026531838]
+</code></pre>
+
+<p>이 디렉터리의 파일들 중 하나를 파일 시스템의 다른 어딘가로 결속 마운트(<tt>[[mount(2)]]</tt> 참고) 하면 <code>pid</code>로 지정한 프로세스의 해당 네임스페이스가 그 네임스페이스의 현재 프로세스가 모두 종료하더라도 유지된다.</p>
+<p>이 디렉터리의 파일들 중 하나를 (또는 그 파일들 중 하나를 결속 마운트 한 파일을) 열면 <code>pid</code>로 지정한 프로세스의 해당 네임스페이스의 파일 핸들이 반환된다. 그 파일 디스크립터가 열려 있는 동안에는 그 네임스페이스의 프로세스가 모두 종료하더라도 네임스페이스가 계속 살아 있게 된다. 그 파일 디스크립터를 <tt>[[setns(2)]]</tt>에 줄 수 있다.</p>
+<p>리눅스 3.7 및 이전에서는 이 파일들이 하드 링크처럼 보였다. 리눅스 3.8부터는 심볼릭 링크로 보인다. 두 프로세스가 같은 네임스페이스에 있으면 그 <code>/proc/[pid]/ns/xxx</code> 심볼릭 링크의 장치 ID와 아이노드 번호가 동일하게 된다. 응용에서는 <tt>[[stat(2)]]</tt>이 반환하는 <code>stat.st_dev</code> 및 <code>stat.st_ino</code> 필드를 이용해 확인할 수 있다. 이 심볼릭 링크의 내용물은 다음처럼 네임스페이스 유형과 아이노드 번호를 담은 문자열이다.</p>
+<pre><code class="text">$ readlink /proc/$$/ns/uts
+uts:[4026531838]
+</code></pre>
+
+<p>이 서브디렉터리 내의 심볼릭 링크들은 다음과 같다.</p>
+<dl>
+<dt><code>/proc/[pid]/ns/cgroup</code> (리눅스 4.6부터)</dt>
+<dd>이 파일은 프로세스의 cgroup 네임스페이스에 대한 핸들이다.</dd>
+<dt><code>/proc/[pid]/ns/ipc</code> (리눅스 3.0부터)</dt>
+<dd>이 파일은 프로세스의 IPC 네임스페이스에 대한 핸들이다.</dd>
+<dt><code>/proc/[pid]/ns/mnt</code> (리눅스 3.8부터)</dt>
+<dd>이 파일은 프로세스의 마운트 네임스페이스에 대한 핸들이다.</dd>
+<dt><code>/proc/[pid]/ns/net</code> (리눅스 3.0부터)</dt>
+<dd>이 파일은 프로세스의 네트워크 네임스페이스에 대한 핸들이다.</dd>
+<dt><code>/proc/[pid]/ns/pid</code> (리눅스 3.8부터)</dt>
+<dd>이 파일은 프로세스의 PID 네임스페이스에 대한 핸들이다. 이 핸들은 프로세스의 수명 동안 불변이다. (즉 프로세스의 PID 네임스페이스 소속은 절대 바뀌지 않는다.)</dd>
+<dt><code>/proc/[pid]/ns/pid_for_children</code> (리눅스 4.12부터)</dt>
+<dd>이 파일은 이 프로세스가 생성한 자식 프로세스들의 PID 네임스페이스에 대한 핸들이다. 이 네임스페이스는 <tt>[[unshare(2)]]</tt>와 <tt>[[setns(2)]]</tt> 호출의 결과로 바뀔 수 있으며 (<tt>[[pid_namespaces(7)]]</tt> 참고), 따라서 파일이 <code>/proc/[pid]/ns/pid</code>와 다를 수 있다. 그 네임스페이스에 첫 번째 자식 프로세스가 생성된 후에야 심볼릭 링크에 값이 들어간다. (그 전에는 심볼릭 링크를 <tt>[[readlink(2)]]</tt> 하면 빈 버퍼를 반환한다.)</dd>
+<dt><code>/proc/[pid]/ns/user</code> (리눅스 3.8부터)</dt>
+<dd>이 파일은 프로세스의 사용자 네임스페이스에 대한 핸들이다.</dd>
+<dt><code>/proc/[pid]/ns/uts</code> (리눅스 3.0부터)</dt>
+<dd>이 파일은 프로세스의 UTS 네임스페이스에 대한 핸들이다.</dd>
+</dl>
+<p>이 심볼릭 링크들을 역참조하거나 읽을 수 있는 권한은 ptrace 접근 모드 <code>PTRACE_MODE_READ_FSCREDS</code> 검사에 따라 결정된다. <tt>[[ptrace(2)]]</tt> 참고.</p>
+<h3 id="procsysuser"><code>/proc/sys/user</code> 디렉터리</h3>
+<p><code>/proc/sys/user</code> 디렉터리(리눅스 4.9부터 존재)의 파일들은 여러 유형의 네임스페이스들을 몇 개까지 만들 수 있는지 보여 준다.</p>
+<dl>
+<dt><code>max_cgroup_namespaces</code></dt>
+<dd>이 파일의 값은 그 사용자 네임스페이스 내에 만들 수 있는 cgroup 네임스페이스 수의 사용자별 제한을 규정한다.</dd>
+<dt><code>max_ipc_namespaces</code></dt>
+<dd>이 파일의 값은 그 사용자 네임스페이스 내에 만들 수 있는 IPC 네임스페이스 수의 사용자별 제한을 규정한다.</dd>
+<dt><code>max_mnt_namespaces</code></dt>
+<dd>이 파일의 값은 그 사용자 네임스페이스 내에 만들 수 있는 마운트 네임스페이스 수의 사용자별 제한을 규정한다.</dd>
+<dt><code>max_net_namespaces</code></dt>
+<dd>이 파일의 값은 그 사용자 네임스페이스 내에 만들 수 있는 네트워크 네임스페이스 수의 사용자별 제한을 규정한다.</dd>
+<dt><code>max_pid_namespaces</code></dt>
+<dd>이 파일의 값은 그 사용자 네임스페이스 내에 만들 수 있는 PID 네임스페이스 수의 사용자별 제한을 규정한다.</dd>
+<dt><code>max_user_namespaces</code></dt>
+<dd>이 파일의 값은 그 사용자 네임스페이스 내에 만들 수 있는 사용자 네임스페이스 수의 사용자별 제한을 규정한다.</dd>
+<dt><code>max_uts_namespaces</code></dt>
+<dd>이 파일의 값은 그 사용자 네임스페이스 내에 만들 수 있는 UTC 네임스페이스 수의 사용자별 제한을 규정한다.</dd>
+</dl>
+<p>이 파일들에 대해 다음 사항에 유의하라.</p>
+<ul>
+<li>
+<p>특권 프로세스가 이 파일들의 값을 변경할 수 있다.</p>
+</li>
+<li>
+<p>이 파일들이 내보이는 값은 여는 프로세스가 있는 사용자 네임스페이스에서의 제한이다.</p>
+</li>
+<li>
+<p>제한이 사용자별이다. 같은 사용자 네임스페이스 내의 각 사용자가 각각 규정된 제한만큼 네임스페이스를 만들 수 있다.</p>
+</li>
+<li>
+<p>UID 0을 포함한 모든 사용자에게 제한이 적용된다.</p>
+</li>
+<li>
+<p>이 제한들에 더해서 (PID 및 사용자 네임스페이스에서처럼) 다른 네임스페이스별 제한이 적용될 수도 있다.</p>
+</li>
+<li>
+<p>이 제한에 걸리면 <tt>[[clone(2)]]</tt>와 <tt>[[unshare(2)]]</tt>가 <code>ENOSPC</code> 오류로 실패한다.</p>
+</li>
+<li>
+<p>최초 사용자 네임스페이스에서 이 파일들의 기본값은 생성 가능 스레드 수 제한(<code>/proc/sys/kernel/threads-max</code>)의 절반이다. 모든 자손 사용자 네임스페이스에서는 각 파일의 기본값이 <code>MAXINT</code>이다.</p>
+</li>
+<li>
+<p>네임스페이스가 생길 때 조상 네임스페이스들에도 그 객체가 상계된다. 정확히 말하자면,</p>
+</li>
+<li>
+<p>각 사용자 네임스페이스에는 생성자 UID가 있다.</p>
+</li>
+<li>
+<p>네임스페이스가 생길 때 조상 사용자 네임스페이스들 각각의 생성자 UID로 상계되며, 커널에서는 그 조상 네임스페이스의 생성자 UID에 대해 대응하는 네임스페이스 제한이 초과하지 않도록 한다.</p>
+</li>
+<li>
+<p>방금 언급한 점 때문에 사용자 네임스페이스를 새로 만드는 것이 현재 사용자 네임스페이스에 적용 중인 제한을 빠져나가는 방법이 될 수 없다.</p>
+</li>
+</ul>
+<h3 id="cgroup-clone_newcgroup">cgroup 네임스페이스 (<code>CLONE_NEWCGROUP</code>)</h3>
+<p><tt>[[cgroup_namespaces(7)]]</tt>를 보라.</p>
+<h3 id="ipc-clone_newipc">IPC 네임스페이스 (<code>CLONE_NEWIPC</code>)</h3>
+<p>IPC 네임스페이스는 특정 IPC 자원들, 즉 시스템 V IPC 객체(<tt>[[sysvipc(7)]]</tt> 참고)와 (리눅스 2.6.30부터) POSIX 메시지 큐(<tt>[[mq_overview(7)]]</tt> 참고)를 격리한다. 이 IPC 메커니즘들의 공통 특징은 파일 시스템 경로명 외의 메커니즘으로 IPC 객체를 식별할 수 있다는 점이다.</p>
+<p>각 IPC 네임스페이스마다 자체 시스템 V IPC 식별자 집합과 자체 POSIX 메시지 큐 파일 시스템이 있다. IPC 네임스페이스 내에서 생성된 객체는 그 네임스페이스에 속한 다른 모든 프로세스에게 보이지만 다른 IPC 네임스페이스의 프로세스들에게는 보이지 않는다.</p>
+<p>IPC 네임스페이스마다 다음 <code>/proc</code> 인터페이스들이 별개로 있다.</p>
+<ul>
+<li>
+<p><code>/proc/sys/fs/mqueue</code> 안의 POSIX 메시지 큐 인터페이스들.</p>
+</li>
+<li>
+<p><code>/proc/sys/kernel</code> 안의 시스템 V IPC 인터페이스들. 즉 <code>msgmax</code>, <code>msgmnb</code>, <code>msgmni</code>, <code>sem</code>, <code>shmall</code>, <code>shmmax</code>, <code>shmmni</code>, <code>shm_rmid_forced</code>.</p>
+</li>
+<li>
+<p><code>/proc/sysvipc</code> 안의 시스템 V IPC 인터페이스들.</p>
+</li>
+</ul>
+<p>IPC 네임스페이스가 파기될 때 (즉 그 네임스페이스에 속한 마지막 프로세스가 종료할 때) 네임스페이스 내의 모든 IPC 객체들이 자동으로 파기된다.</p>
+<p>IPC 네임스페이스 사용을 위해선 커널이 <code>CONFIG_IPC_NS</code> 옵션으로 구성돼 있어야 한다.</p>
+<h3 id="clone_newnet">네트워크 네임스페이스 (<code>CLONE_NEWNET</code>)</h3>
+<p><tt>[[network_namespaces(7)]]</tt>를 보라.</p>
+<h3 id="clone_newns">마운트 네임스페이스 (<code>CLONE_NEWNS</code>)</h3>
+<p><tt>[[mount_namespaces(7)]]</tt>를 보라.</p>
+<h3 id="pid-clone_newpid">PID 네임스페이스 (<code>CLONE_NEWPID</code>)</h3>
+<p><tt>[[pid_namespaces(7)]]</tt>를 보라.</p>
+<h3 id="clone_newuser">사용자 네임스페이스 (<code>CLONE_NEWUSER</code>)</h3>
+<p><tt>[[user_namespaces(7)]]</tt>를 보라.</p>
+<h3 id="uts-clone_newuts">UTS 네임스페이스 (<code>CLONE_NEWUTS</code>)</h3>
+<p>UTS 네임스페이스는 두 가지 시스템 식별자, 즉 호스트명과 NIS 도메인 이름을 격리할 수 있게 해 준다. <tt>[[sethostname(2)]]</tt>과 <tt>[[setdomainname(2)]]</tt>으로 그 식별자들을 설정하며 <tt>[[uname(2)]]</tt>, <tt>[[gethostname(2)]]</tt>, <tt>[[getdomainname(2)]]</tt>으로 얻어 올 수 있다.</p>
+<p>프로세스에서 <code>CLONE_NEWUTS</code> 플래그를 쓴 <tt>[[clone(2)]]</tt>이나 <tt>[[unshare(2)]]</tt>로 새 UTS 네임스페이스를 만들 때 새 UTS 네임스페이스의 호스트명과 도메인 이름은 호출자의 UTS 네임스페이스의 해당 값을 복사한다.</p>
+<p>UTS 네임스페이스 사용을 위해선 커널이 <code>CONFIG_UTS_NS</code> 옵션으로 구성돼 있어야 한다.</p>
+<h3 id="_1">네임스페이스의 수명</h3>
+<p>다른 요인이 없을 때 네임스페이스는 그 안의 마지막 프로세스가 종료하거나 네임스페이스를 떠날 때 자동으로 해체된다. 하지만 참여 프로세스가 없는 경우에도 네임스페이스가 존재하도록 고정할 수 있는 다른 요인들이 몇 가지 있다. 다음이 거기에 포함된다.</p>
+<ul>
+<li>
+<p>대응하는 <code>/proc/[pid]/ns/*</code> 파일에 대한 열린 파일 디스크립터나 바인드 마운트가 존재한다.</p>
+</li>
+<li>
+<p>계층적인 네임스페이스(즉 PID 또는 사용자 네임스페이스)인데 자식 네임스페이스가 있다.</p>
+</li>
+<li>
+<p>사용자 네임스페이스인데 사용자 아닌 네임스페이스를 하나 이상 소유하고 있다.</p>
+</li>
+<li>
+<p>PID 네임스페이스인데 심볼릭 링크 <code>/proc/[pid]/ns/pid_for_children</code>을 통해 그 네임스페이스를 가리키고 있는 프로세스가 있다.</p>
+</li>
+<li>
+<p>IPC 네임스페이스인데 대응하는 <code>mqueue</code> 파일 시스템 마운트(<tt>[[mq_overview(7)]]</tt> 참고)가 그 네임스페이스를 가리키고 있다.</p>
+</li>
+<li>
+<p>PID 네임스페이스인데 대응하는 <tt>[[proc(5)]]</tt> 파일 시스템 마운트가 그 네임스페이스를 가리키고 있다.</p>
+</li>
+</ul>
+<h2 id="example">EXAMPLE</h2>
+<p><tt>[[clone(2)]]</tt> 및 <tt>[[user_namespaces(7)]]</tt> 참고.</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><code>nsenter(1)</code>, <code>readlink(1)</code>, <code>unshare(1)</code>, <tt>[[clone(2)]]</tt>, <tt>[[ioctl_ns(2)]]</tt>, <tt>[[setns(2)]]</tt>, <tt>[[unshare(2)]]</tt>, <tt>[[proc(5)]]</tt>, <tt>[[capabilities(7)]]</tt>, <tt>[[cgroup_namespaces(7)]]</tt>, <tt>[[cgroups(7)]]</tt>, <tt>[[credentials(7)]]</tt>, <tt>[[network_namespaces(7)]]</tt>, <tt>[[pid_namespaces(7)]]</tt>, <tt>[[user_namespaces(7)]]</tt>, <code>lsns(8)</code>, <code>pam_namespace(8)</code>, <code>switch_root(8)</code></p>
+<hr />
+<p>2019-08-02</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

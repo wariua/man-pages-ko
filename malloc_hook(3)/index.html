@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/malloc_hook(3)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Malloc hook(3) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>__malloc_hook, __malloc_initialize_hook, __memalign_hook, __free_hook, __realloc_hook, __after_morecore_hook - malloc 디버깅 변수</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;malloc.h&gt;
+
+void *(*__malloc_hook)(size_t size, const void *caller);
+
+void *(*__realloc_hook)(void *ptr, size_t size, const void *caller);
+
+void *(*__memalign_hook)(size_t alignment, size_t size,
+                         const void *caller);
+
+void (*__free_hook)(void *ptr, const void *caller);
+
+void (*__malloc_initialize_hook)(void);
+
+void (*__after_morecore_hook)(void);
+</code></pre>
+
+<h2 id="description">DESCRIPTION</h2>
+<p>GNU C 라이브러리 사용 시 적절한 훅 함수를 지정해서 <tt>[[malloc(3)]]</tt>, <tt>[[realloc(3)]]</tt>, <tt>[[free(3)]]</tt>의 동작 방식을 바꿀 수 있다. 예를 들어 동적 메모리 할당을 하는 프로그램을 디버깅 하는 데 이 훅들이 도움이 될 수 있다.</p>
+<p>변수 <code>__malloc_initialize_hook</code>은 malloc 구현에서 초기화를 할 때 딱 한 번 호출되는 함수를 가리킨다. 약한 변수이므로 응용에서 다음과 같은 정의로 오버라이드 할 수 있다.</p>
+<pre><code class="c">void (*__malloc_initialize_hook)(void) = my_init_hook;
+</code></pre>
+
+<p>그러면 함수 <code>my_init_hook()</code>에서 모든 훅들을 초기화 할 수 있다.</p>
+<p><code>__malloc_hook</code>, <code>__realloc_hook</code>, <code>__memalign_hook</code>, <code>__free_hook</code>이 가리키는 네 함수는 마지막 인자 <code>caller</code>가 있는 걸 제외하면 각각 함수 <tt>[[malloc(3)]]</tt>, <tt>[[realloc(3)]]</tt>, <tt>[[memalign(3)]]</tt>, <tt>[[free(3)]]</tt>와 원형이 같다. <code>caller</code>는 <tt>[[malloc(3)]]</tt> 등의 호출자의 주소이다.</p>
+<p>변수 <code>__after_morecore_hook</code>은 <tt>[[sbrk(2)]]</tt>에 추가 메모리 요청이 있으면 처리 후 호출되는 함수를 가리킨다.</p>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>이 함수들은 GNU 확장이다.</p>
+<h2 id="notes">NOTES</h2>
+<p>이 훅 함수들은 다중 스레드 프로그램에서 쓰기에 안전하지 않고, 그래서 현재 제거 예정 상태이다. glibc 2.24부터 API에서 <code>__malloc_initialize_hook</code>이 없어졌다. 프로그래머들은 대신 "malloc"이나 "free" 같은 함수를 정의해서 내보이는 방식으로 관련 함수 호출을 선점해야 한다.</p>
+<h2 id="example">EXAMPLE</h2>
+<p>다음은 간단한 사용 예시이다.</p>
+<pre><code class="c">#include &lt;stdio.h&gt;
+#include &lt;malloc.h&gt;
+
+/* 훅 원형 */
+static void my_init_hook(void);
+static void *my_malloc_hook(size_t, const void *);
+
+/* 원래 훅을 저장할 변수 */
+static void *(*old_malloc_hook)(size_t, const void *);
+
+/* C 라이브러리의 초기화 훅 오버라이드 */
+void (*__malloc_initialize_hook) (void) = my_init_hook;
+
+static void
+my_init_hook(void)
+{
+    old_malloc_hook = __malloc_hook;
+    __malloc_hook = my_malloc_hook;
+}
+
+static void *
+my_malloc_hook(size_t size, const void *caller)
+{
+    void *result;
+
+    /* 이전 훅 복원 */
+    __malloc_hook = old_malloc_hook;
+
+    /* 재귀적으로 호출 */
+    result = malloc(size);
+
+    /* 하위 훅 저장 */
+    old_malloc_hook = __malloc_hook;
+
+    /* printf()에서도 malloc()을 호출할 수도 있으므로 보호 필요 */
+    printf(&quot;malloc(%u) called from %p returns %p\n&quot;,
+            (unsigned int) size, caller, result);
+
+    /* 우리 훅 복원 */
+    __malloc_hook = my_malloc_hook;
+
+    return result;
+}
+</code></pre>
+
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[mallinfo(3)]]</tt>, <tt>[[malloc(3)]]</tt>, <tt>[[mcheck(3)]]</tt>, <tt>[[mtrace(3)]]</tt></p>
+<hr />
+<p>2019-03-06</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

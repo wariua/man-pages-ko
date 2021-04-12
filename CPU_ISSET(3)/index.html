@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/CPU_ISSET(3)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>CPU ISSET(3) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+            <li class="second-level"><a href="#cpu">동적 크기 CPU 세트</a></li>
+                
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#bugs">BUGS</a></li>
+        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>CPU_SET, CPU_CLR, CPU_ISSET, CPU_ZERO, CPU_COUNT, CPU_AND, CPU_OR, CPU_XOR, CPU_EQUAL, CPU_ALLOC, CPU_ALLOC_SIZE, CPU_FREE, CPU_SET_S, CPU_CLR_S, CPU_ISSET_S, CPU_ZERO_S, CPU_COUNT_S, CPU_AND_S, CPU_OR_S, CPU_XOR_S, CPU_EQUAL_S - CPU 세트 조작을 위한 매크로</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#define _GNU_SOURCE             /* feature_test_macros(7) 참고 */
+#include &lt;sched.h&gt;
+
+void CPU_ZERO(cpu_set_t *set);
+
+void CPU_SET(int cpu, cpu_set_t *set);
+void CPU_CLR(int cpu, cpu_set_t *set);
+int  CPU_ISSET(int cpu, cpu_set_t *set);
+
+int  CPU_COUNT(cpu_set_t *set);
+
+void CPU_AND(cpu_set_t *destset,
+             cpu_set_t *srcset1, cpu_set_t *srcset2);
+void CPU_OR(cpu_set_t *destset,
+             cpu_set_t *srcset1, cpu_set_t *srcset2);
+void CPU_XOR(cpu_set_t *destset,
+             cpu_set_t *srcset1, cpu_set_t *srcset2);
+
+int  CPU_EQUAL(cpu_set_t *set1, cpu_set_t *set2);
+
+cpu_set_t *CPU_ALLOC(int num_cpus);
+void CPU_FREE(cpu_set_t *set);
+size_t CPU_ALLOC_SIZE(int num_cpus);
+
+void CPU_ZERO_S(size_t setsize, cpu_set_t *set);
+
+void CPU_SET_S(int cpu, size_t setsize, cpu_set_t *set);
+void CPU_CLR_S(int cpu, size_t setsize, cpu_set_t *set);
+int  CPU_ISSET_S(int cpu, size_t setsize, cpu_set_t *set);
+
+int  CPU_COUNT_S(size_t setsize, cpu_set_t *set);
+
+void CPU_AND_S(size_t setsize, cpu_set_t *destset,
+             cpu_set_t *srcset1, cpu_set_t *srcset2);
+void CPU_OR_S(size_t setsize, cpu_set_t *destset,
+             cpu_set_t *srcset1, cpu_set_t *srcset2);
+void CPU_XOR_S(size_t setsize, cpu_set_t *destset,
+             cpu_set_t *srcset1, cpu_set_t *srcset2);
+
+int  CPU_EQUAL_S(size_t setsize, cpu_set_t *set1, cpu_set_t *set2);
+</code></pre>
+
+<h2 id="description">DESCRIPTION</h2>
+<p><code>cpu_set_t</code> 데이터 구조는 CPU들의 집합을 표현한다. <tt>[[sched_setaffinity(2)]]</tt> 및 유사 인터페이스들에서 CPU 세트를 사용한다.</p>
+<p><code>cpu_set_t</code> 데이터 타입은 비트 마스크로 구현되어 있다. 하지만 이 자료 구조를 불투명한 것으로 다루어야 한다. 즉, 모든 CPU 세트 조작이 이 페이지에서 기술하는 매크로들을 통해 이뤄져야 한다.</p>
+<p>CPU 세트 <code>cpu</code>에 동작하는 다음 매크로들이 있다.</p>
+<dl>
+<dt><code>CPU_ZERO()</code></dt>
+<dd><code>set</code>을 비워서 어떤 CPU도 담지 않게 만듦.</dd>
+<dt><code>CPU_SET()</code></dt>
+<dd>CPU <code>cpu</code>를 <code>set</code>에 추가.</dd>
+<dt><code>CPU_CLR()</code></dt>
+<dd>CPU <code>cpu</code>를 <code>set</code>에서 제거.</dd>
+<dt><code>CPU_ISSET()</code></dt>
+<dd>CPU <code>cpu</code>가 <code>set</code>에 속하는지 검사.</dd>
+<dt><code>CPU_COUNT()</code></dt>
+<dd><code>set</code> 내의 CPU 개수 반환.</dd>
+</dl>
+<p><code>cpu</code> 인자를 지정하는 경우 그 인자에 부대 효과가 없어야 한다. 위 매크로들에서 그 인자를 여러 번 평가할 수도 있기 때문이다.</p>
+<p>시스템의 첫 번째 CPU가 <code>cpu</code> 값 0에 해당하고 다음 CPU가 <code>cpu</code> 값 1에 해당하는 식이다. 특정 CPU가 사용 가능한지에 대해, 또는 CPU 세트가 연속인지에 대해 어떤 가정도 해서는 안 된다. CPU가 동적으로 오프라인이 되거나 다른 이유로 빠져 있을 수 있기 때문이다. 상수 <code>CPU_SETSIZE</code>(현재 1024)는 <code>cpu_set_t</code>에 저장할 수 있는 가장 큰 CPU 번호보다 1만큼 큰 값을 나타낸다.</p>
+<p>다음 매크로들은 CPU 세트에 논리 연산을 수행한다.</p>
+<dl>
+<dt><code>CPU_AND()</code></dt>
+<dd>세트 <code>srcset1</code>과 <code>srcset2</code>의 교집합을 (출발 세트 중 하나일 수도 있는) <code>destset</code>에 저장.</dd>
+<dt><code>CPU_OR()</code></dt>
+<dd>세트 <code>srcset1</code>과 <code>srcset2</code>의 합집합을 (출발 세트 중 하나일 수도 있는) <code>destset</code>에 저장.</dd>
+<dt><code>CPU_XOR()</code></dt>
+<dd>세트 <code>srcset1</code>과 <code>srcset2</code>의 XOR을 (출발 세트 중 하나일 수도 있는) <code>destset</code>에 저장. XOR은 <code>srcset1</code>과 <code>srcset2</code> 중 한 쪽에만 있는 CPU들의 집합을 뜻한다.</dd>
+<dt><code>CPU_EQUAL()</code></dt>
+<dd>두 CPU 세트가 정확히 같은 CPU들을 담고 있는지 검사.</dd>
+</dl>
+<h3 id="cpu">동적 크기 CPU 세트</h3>
+<p>CPU 세트 크기를 동적으로 정할 수 있어야 하는 (가령 표준 <code>cpu_set_t</code> 데이터 타입이 규정하는 것보다 큰 세트를 할당해야 하는) 응용이 있을 수 있기 때문에 요즘 glibc에서는 이를 지원하기 위한 매크로들을 제공한다.</p>
+<p>다음 매크로들을 사용해 CPU 세트를 할당하고 해제한다.</p>
+<dl>
+<dt><code>CPU_ALLOC()</code></dt>
+<dd>0에서 <code>num_cpus-1</code>까지 범위의 CPU들을 담을 만큼 큰 CPU 세트를 할당.</dd>
+<dt><code>CPU_ALLOC_SIZE()</code></dt>
+<dd>0에서 <code>num_cpus-1</code>까지 범위의 CPU들을 담는 데 필요한 CPU 세트의 바이트 단위 크기를 반환. 아래에서 설명하는 <code>CPU_*_S()</code> 매크로들의 <code>setsize</code> 인자로 사용할 수 있는 값을 이 매크로가 제공한다.</dd>
+<dt><code>CPU_FREE()</code></dt>
+<dd>앞서 <code>CPU_ALLOC()</code>으로 할당한 CPU 세트 해제.</dd>
+</dl>
+<p>이름이 "_S"로 끝나는 매크로들은 이름에 접두사 없는 매크로들의 상사형이다. 이 매크로들은 그 상사형과 같은 일을 수행하되 크기가 <code>setsize</code> 바이트인 동적 할당 CPU 세트에 대해 동작한다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p><code>CPU_ISSET()</code> 및 <code>CPU_ISSET_S()</code>는 <code>set</code>에 <code>cpu</code>가 설정되어 있으면 0 아닌 값을 반환한다. 아니면 0을 반환한다.</p>
+<p><code>CPU_COUNT()</code> 및 <code>CPU_COUNT_S()</code>는 <code>set</code> 내의 CPU 개수를 반환한다.</p>
+<p><code>CPU_EQUAL()</code> 및 <code>CPU_EQUAL_S()</code>는 두 CPU 세트가 같으면 0 아닌 값을 반환한다. 아니면 0을 반환한다.</p>
+<p><code>CPU_ALLOC()</code>은 성공 시 포인터를, 실패 시 NULL을 반환한다. (오류는 <tt>[[malloc(3)]]</tt>에서와 같다.)</p>
+<p><code>CPU_ALLOC_SIZE()</code>는 지정한 크기의 CPU 세트를 저장하는 데 필요한 바이트 수를 반환한다.</p>
+<p>다른 함수들은 값을 반환하지 않는다.</p>
+<h2 id="versions">VERSIONS</h2>
+<p>glibc 2.3.3에서 <code>CPU_ZERO()</code>, <code>CPU_SET()</code>, <code>CPU_CLR()</code>, <code>CPU_ISSET()</code> 매크로가 추가되었다.</p>
+<p>glibc 2.6에서 <code>CPU_COUNT()</code>가 처음 등장했다.</p>
+<p>glibc 2.7에서 <code>CPU_AND()</code>, <code>CPU_OR()</code>, <code>CPU_XOR()</code>, <code>CPU_EQUAL()</code>, <code>CPU_ALLOC()</code>, <code>CPU_ALLOC_SIZE()</code>, <code>CPU_FREE()</code>, <code>CPU_ZERO_S()</code>, <code>CPU_SET_S()</code>, <code>CPU_CLR_S()</code>, <code>CPU_ISSET_S()</code>, <code>CPU_AND_S()</code>, <code>CPU_OR_S()</code>, <code>CPU_XOR_S()</code>, <code>CPU_EQUAL_S()</code>가 처음 등장했다.</p>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>이 인터페이스들은 리눅스 전용이다.</p>
+<h2 id="notes">NOTES</h2>
+<p>CPU 세트를 복제하려면 <code>memcpy(3)</code>를 쓰면 된다.</p>
+<p>CPU 세트는 긴 워드 단위로 할당된 비트 마스크이다. 그래서 동적 할당 CPU 세트의 실제 CPU 수는 가장 가까운 <code>sizeof(unsigned long)</code>의 배수로 올림한 것이 된다. 응용에서는 이 추가 비트들의 내용물을 정의되어 있지 않은 것으로 보아야 한다.</p>
+<p>이름의 유사성에도 불구하고 상수 <code>CPU_SETSIZE</code>는 <code>cpu_set_t</code> 데이터 타입 내의 CPU 수를 나타내는 것이고 (그래서 실질적으로 비트 마스크의 비트 개수이고) <code>CPU_*_S()</code> 매크로의 <code>setsize</code> 인자는 바이트 단위 크기이다.</p>
+<p>SYNOPSIS에 나와 있는 인자와 반환 값의 데이터 타입은 각 경우에 무엇을 예상하는지에 대한 힌트이다. 하지만 이 인터페이스들은 매크로로 구현되어 있기 때문에 그 제안을 어긴 경우 컴파일러가 타입 오류들을 꼭 다 잡아 주지는 않을 것이다.</p>
+<h2 id="bugs">BUGS</h2>
+<p>glibc가 2.8 이전인 32비트 플랫폼에서 <code>CPU_ALLOC()</code>이 필요한 크기 두 배로 공간을 할당하며 <code>CPU_ALLOC_SIZE()</code>가 두 배로 값을 반환한다. 이 버그가 프로그램의 동작 결과에 영향을 주지는 않겠지만 메모리가 낭비되며 동적 할당 CPU 세트에 동작하는 매크로들이 덜 효율적으로 동작하게 된다. glibc 2.9에서 이 버그들이 수정되었다.</p>
+<h2 id="example">EXAMPLE</h2>
+<p>다음 프로그램은 동적 할당 CPU 세트에 쓰는 매크로 몇 가지의 사용 방식을 보여 준다.</p>
+<pre><code class="c">#define _GNU_SOURCE
+#include &lt;sched.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;assert.h&gt;
+
+int
+main(int argc, char *argv[])
+{
+    cpu_set_t *cpusetp;
+    size_t size;
+    int num_cpus, cpu;
+
+    if (argc &lt; 2) {
+        fprintf(stderr, &quot;Usage: %s &lt;num-cpus&gt;\n&quot;, argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    num_cpus = atoi(argv[1]);
+
+    cpusetp = CPU_ALLOC(num_cpus);
+    if (cpusetp == NULL) {
+        perror(&quot;CPU_ALLOC&quot;);
+        exit(EXIT_FAILURE);
+    }
+
+    size = CPU_ALLOC_SIZE(num_cpus);
+
+    CPU_ZERO_S(size, cpusetp);
+    for (cpu = 0; cpu &lt; num_cpus; cpu += 2)
+        CPU_SET_S(cpu, size, cpusetp);
+
+    printf(&quot;CPU_COUNT() of set:    %d\n&quot;, CPU_COUNT_S(size, cpusetp));
+
+    CPU_FREE(cpusetp);
+    exit(EXIT_SUCCESS);
+}
+</code></pre>
+
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[sched_setaffinity(2)]]</tt>, <tt>[[pthread_attr_setaffinity_np(3)]]</tt>, <tt>[[pthread_setaffinity_np(3)]]</tt>, <tt>[[cpuset(7)]]</tt></p>
+<hr />
+<p>2019-03-06</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

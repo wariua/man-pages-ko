@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/clock_gettime(2)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Clock gettime(2) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
+        <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#availability">AVAILABILITY</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+            <li class="second-level"><a href="#c">C 라이브러리/커널 차이</a></li>
+                
+            <li class="second-level"><a href="#smp">SMP 시스템 관련 역사적 기록</a></li>
+                
+        <li class="first-level "><a href="#bugs">BUGS</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>clock_getres, clock_gettime, clock_settime - 클럭 및 시간 함수들</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;time.h&gt;
+
+int clock_getres(clockid_t clk_id, struct timespec *res);
+
+int clock_gettime(clockid_t clk_id, struct timespec *tp);
+
+int clock_settime(clockid_t clk_id, const struct timespec *tp);
+</code></pre>
+
+<p><code>-lrt</code>로 링크 (glibc 버전 2.17 전에서만).</p>
+<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<dl>
+<dt><code>clock_getres()</code>, <code>clock_gettime()</code>, <code>clock_settime()</code>:</dt>
+<dd><code>_POSIX_C_SOURCE &gt;= 199309L</code></dd>
+</dl>
+<h2 id="description">DESCRIPTION</h2>
+<p><code>clock_getres()</code> 함수는 지정한 클럭 <code>clk_id</code>의 해상도(정밀도)를 알아내고, <code>res</code>가 NULL이 아니면 <code>res</code>가 가리키는 <code>struct timespec</code>에 그 해상도를 저장한다. 클럭의 해상도는 구현체에 따라 달라지며 특정 프로세스가 설정할 수 있는 것이 아니다. <code>clock_settime()</code>의 인자 <code>tp</code>가 가리키는 시간 값이 <code>res</code>의 배수가 아니면 배수가 되게 잘라낸다.</p>
+<p>함수 <code>clock_gettime()</code> 및 <code>clock_settime()</code>은 지정한 클럭 <code>clk_id</code>의 시간을 가져오거나 설정한다.</p>
+<p><code>res</code> 및 <code>tp</code> 인자는 <code>&lt;time.h&gt;</code>에 있는 <code>timespec</code> 구조체이다.</p>
+<pre><code class="c">struct timespec {
+    time_t   tv_sec;        /* 초 */
+    long     tv_nsec;       /* 나노초 */
+};
+</code></pre>
+
+<p><code>clk_id</code> 인자는 동작을 수행할 구체적 클럭의 식별자이다. 클럭은 시스템 전역이어서 모든 프로세스에게 보일 수도 있고 프로세스별로 있어서 한 프로세스 내에서만 시간을 측정할 수도 있다.</p>
+<p>모든 구현체는 시스템 전역 실제 시간 클럭을 제공하며 <code>CLOCK_REALTIME</code>으로 이를 나타낸다. 이 클럭의 시간은 에포크 이후 지난 초와 나노초를 나타낸다. 이 클럭의 시간이 바뀔 때 상대적 시간의 타이머는 영향을 받지 않지만 절대적 시점에 대한 타이머는 영향을 받는다.</p>
+<p>더 많은 클럭들이 구현되어 있을 수 있다. 해당하는 시간 값을 해석하는 방식과 타이머에 대한 영향은 명세되어 있지 않다.</p>
+<p>충분히 최신인 glibc 및 리눅스 커널에서는 다음 클럭들을 지원한다.</p>
+<dl>
+<dt><code>CLOCK_REALTIME</code></dt>
+<dd>실제 시간을 (즉 벽시계 시간을) 재는 시스템 전역 클럭. 이 클럭을 설정하려면 적절한 특권이 필요하다. 이 클럭은 시스템 시간의 불연속적 도약(가령 시스템 관리자가 수동으로 클럭을 변경하는 경우)과 <tt>[[adjtime(3)]]</tt> 및 NTP가 수행하는 점진적 조정에 영향을 받는다.</dd>
+<dt><code>CLOCK_REALTIME_COARSE</code> (리눅스 2.6.32부터. 리눅스 전용.)</dt>
+<dd><code>CLOCK_REALTIME</code>의 더 빠르지만 덜 정확한 버전. 아주 빠르되 정밀하지는 않은 타임스탬프가 필요할 때 쓰면 된다. 아키텍처별 지원이 필요하며, <tt>[[vdso(7)]]</tt> 내에서 이 플래그에 대한 아키텍처 지원도 필요할 것이다.</dd>
+<dt><code>CLOCK_MONOTONIC</code></dt>
+<dd>
+<p>"어떤 규정돼 있지 않은 시점"(POSIX의 서술)부터 단조 증가하는 시간을 나타내며 설정할 수 없는 클럭. 리눅스에서는 시스템이 부팅 하고 동작한 초 수에 해당한다.</p>
+<p><code>CLOCK_MONOTONIC</code> 클럭은 시스템 시간의 불연속적 도약(가령 시스템 관리자가 수동으로 클럭을 변경하는 경우)에는 영향을 받지 않지만 <tt>[[adjtime(3)]]</tt> 및 NTP가 수행하는 점진적 조정에는 영향을 받는다. 시스템이 절전 대기 상태인 시간은 포함하지 않는다.</p>
+</dd>
+<dt><code>CLOCK_MONOTONIC_COARSE</code> (리눅스 2.6.32부터. 리눅스 전용.)</dt>
+<dd><code>CLOCK_MONOTONIC</code>의 더 빠르지만 덜 정확한 버전. 아주 빠르되 정밀하지는 않은 타임스탬프가 필요할 때 쓰면 된다. 아키텍처별 지원이 필요하며, <tt>[[vdso(7)]]</tt> 내에서 이 플래그에 대한 아키텍처 지원도 필요할 것이다.</dd>
+<dt><code>CLOCK_MONOTONIC_RAW</code> (리눅스 2.6.28부터. 리눅스 전용.)</dt>
+<dd><code>CLOCK_MONOTONIC</code>과 유사하되 NTP 조정이나 <tt>[[adjtime(3)]]</tt>이 수행하는 점진적 조정의 영향을 받지 않는 하드웨어 기반 시간에 대한 접근을 제공한다. 시스템이 절전 대기 상태인 시간은 포함하지 않는다.</dd>
+<dt><code>CLOCK_BOOTTIME</code> (리눅스 2.6.39부터. 리눅스 전용.)</dt>
+<dd><code>CLOCK_MONOTONIC</code>과 동일하되 시스템이 절전 대기 상태인 시간도 포함한다. <tt>[[settimeofday(2)]]</tt> 등을 이용해 시간을 바꾸면 불연속적일 수도 있는 <code>CLOCK_REALTIME</code>의 복잡함을 응용에서 다룰 필요 없이 절전 대기를 인식하는 단조 증가 클럭을 얻을 수 있다.</dd>
+<dt><code>CLOCK_PROCESS_CPUTIME_ID</code> (리눅스 2.6.12부터.)</dt>
+<dd>프로세스별 CPU 시간 클럭. (프로세스 내 모든 스레드들이 소모한 CPU 시간을 측정함.)</dd>
+<dt><code>CLOCK_THREAD_CPUTIME_ID</code> (리눅스 2.6.12부터.)</dt>
+<dd>스레드 한정 CPU 시간 클럭.</dd>
+</dl>
+<h2 id="return-value">RETURN VALUE</h2>
+<p><code>clock_gettime()</code>, <code>clock_settime()</code>, <code>clock_getres()</code>는 성공 시 0을 반환하고 실패 시 -1을 반환한다. (그리고 실패한 경우 <code>errno</code>를 적절히 설정한다.)</p>
+<h2 id="errors">ERRORS</h2>
+<dl>
+<dt><code>EFAULT</code></dt>
+<dd><code>tp</code>가 접근 가능한 주소 공간 밖을 가리키고 있다.</dd>
+<dt><code>EINVAL</code></dt>
+<dd>지정한 <code>clk_id</code>를 이 시스템에서 지원하지 않는다.</dd>
+<dt><code>EINVAL</code> (리눅스 4.3부터)</dt>
+<dd><code>clk_id</code>를 <code>CLOCK_REALTIME</code>으로 한 <code>clock_settime()</code> 호출에서 시간을 <code>CLOCK_MONOTINIC</code> 클럭 현재 값보다 작은 값으로 설정하려 했다.</dd>
+<dt><code>EPERM</code></dt>
+<dd><code>clock_settime()</code>에서 표시 클럭을 설정할 권한을 가지고 있지 않다.</dd>
+</dl>
+<h2 id="versions">VERSIONS</h2>
+<p>리눅스 2.6에서 이 시스템 호출들이 처음 등장했다.</p>
+<h2 id="attributes">ATTRIBUTES</h2>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<table>
+<thead>
+<tr>
+<th>인터페이스</th>
+<th>속성</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>clock_getres()</code>, <code>clock_gettime()</code>,<br><code>clock_settime()</code></td>
+<td>스레드 안전성</td>
+<td>MT-Safe</td>
+</tr>
+</tbody>
+</table>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>POSIX.1-2001, POSIX.1-2008, SUSv2.</p>
+<h2 id="availability">AVAILABILITY</h2>
+<p>이 함수들이 사용 가능한 POSIX 시스템에는 <code>&lt;unistd.h&gt;</code>에 심볼 <code>_POSIX_TIMERS</code>가 0보다 큰 값으로 정의되어 있다. 심볼 <code>_POSIX_MONOTONIC_CLOCK</code>, <code>_POSIX_CPUTIME</code>, <code>_POSIX_THREAD_CPUTIME</code>은 <code>CLOCK_MONOTONIC</code>, <code>CLOCK_PROCESS_CPUTIME_ID</code>, <code>CLOCK_THREAD_CPUTIME_ID</code>가 사용 가능함을 나타낸다. (<tt>[[sysconf(3)]]</tt>도 참고.)</p>
+<h2 id="notes">NOTES</h2>
+<p>POSIX.1에서 다음과 같이 명세하고 있다.</p>
+<blockquote>
+<p><code>clock_settime()</code>을 통해 <code>CLOCK_REALTIME</code> 클럭의 값을 설정하는 것이 <code>nanosleep()</code>을 포함해 이 클럭 기반의 상대적 시간 서비스를 기다리며 블록 되어 있는 스레드들에 어떤 영향도 끼치지 않아야 하며, 이 클럭 기반의 상대적 타이머의 만료에 대해서도 마찬가지이다. 따라서 이런 시간 서비스들은 그 클럭의 신규 내지 이전 값과 상관없이 요청했던 상대적 시간이 경과했을 때에 만료되어야 한다.</p>
+</blockquote>
+<h3 id="c">C 라이브러리/커널 차이</h3>
+<p>일부 아키텍처에서는 <code>clock_gettime()</code> 구현을 <tt>[[vdso(7)]]</tt>로 제공한다.</p>
+<h3 id="smp">SMP 시스템 관련 역사적 기록</h3>
+<p>리눅스에 <code>CLOCK_PROCESS_CPUTIME_ID</code> 및 <code>CLOCK_THREAD_CPUTIME_ID</code>에 대한 커널 지원이 추가되기 전에 glibc에서는 여러 플랫폼들에서 CPU의 타이머 레지스터(i386의 TSC, Itanium의 AR.ITC)를 이용해 이 클럭들을 구현했다. 이런 레지스터들은 CPU마다 값이 다를 수도 있으며 그로 인해 프로세스가 다른 CPU로 이전하는 경우 이 클럭들이 <strong>엉터리 결과</strong>를 내놓을 수도 있다.</p>
+<p>SMP 시스템에서 CPU들이 클럭 원천이 서로 다르면 각 CPU가 살짝 다른 진동수로 동작할 것이므로 그 타이머 레지스터들 사이에 연관성을 유지할 방법이 없다. 그런 경우에 <code>clock_getcpuclockid(0)</code>은 <code>ENOENT</code>를 반환하여 이런 상황을 나타낸다. 그럴 때는 프로세스가 특정 CPU에 머물러 있다고 확신할 수 있는 경우에만 두 클럭이 쓸모가 있게 된다.</p>
+<p>SMP 시스템 내의 프로세서들이 모두 정확히 같은 때에 시작하지는 않기 때문에 보통은 타이머 레지스터들이 차이를 가지고 돈다. 어떤 아키텍처들에는 부팅 때 이 차이를 제한하려고 시도하는 코드가 들어있다. 하지만 그 코드가 차이를 정확하게 조정한다고 보장하지는 못한다. glibc에는 (리눅스 커널과 달리) 이런 차이를 다루기 위한 어떤 대비책도 담겨 있지 않다. 보통 이 차이는 작기 때문에 대부분의 경우에서는 그 효과를 무시할 수 있다.</p>
+<p>glibc 2.4부터는 이 페이지에서 기술하는 시스템 호출들에 대한 래퍼 함수들이 <code>CLOCK_PROCESS_CPUTIME_ID</code> 및 <code>CLOCK_THREAD_CPUTIME_ID</code>의 커널 구현을 제공하는 시스템(즉 리눅스 2.6.12 및 이후)에서는 그 구현을 사용하여 앞서 언급한 문제들을 피한다.</p>
+<h2 id="bugs">BUGS</h2>
+<p>POSIX.1-2001에 따르면 "적절한 특권"을 가진 프로세스가 <code>clock_settime()</code>을 이용해 <code>CLOCK_PROCESS_CPUTIME_ID</code> 및 <code>CLOCK_THREAD_CPUTIME_ID</code> 클럭을 설정할 수 있다. 리눅스에서 이 클럭들은 설정 가능하지 않다. (즉, 어떤 프로세스도 "적절한 특권"을 가지고 있지 않다.)</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><code>date(1)</code>, <tt>[[gettimeofday(2)]]</tt>, <tt>[[settimeofday(2)]]</tt>, <tt>[[time(2)]]</tt>, <tt>[[adjtime(3)]]</tt>, <tt>[[clock_getcpuclockid(3)]]</tt>, <tt>[[ctime(3)]]</tt>, <tt>[[ftime(3)]]</tt>, <tt>[[pthread_getcpuclockid(3)]]</tt>, <tt>[[sysconf(3)]]</tt>, <tt>[[time(7)]]</tt>, <tt>[[vdso(7)]]</tt>, <tt>[[hwclock(8)]]</tt></p>
+<hr />
+<p>2019-03-06</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

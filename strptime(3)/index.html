@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/strptime(3)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Strptime(3) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+            <li class="second-level"><a href="#glibc">glibc 참고 사항</a></li>
+                
+        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>strptime - 시간 문자열 표현을 시간 tm 구조체로 변환하기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#define _XOPEN_SOURCE       /* feature_test_macros(7) 참고 */
+#include &lt;time.h&gt;
+
+char *strptime(const char *s, const char *format, struct tm *tm);
+</code></pre>
+
+<h2 id="description">DESCRIPTION</h2>
+<p><code>strptime()</code> 함수는 <tt>[[strftime(3)]]</tt>의 반대이다. 즉 <code>s</code>가 가리키는 문자열을 <code>format</code>에 지정된 서식을 써서 <code>tm</code>이 가리키는 "분할 시간" 구조체에 저장된 값들로 변환한다.</p>
+<p>분할 시간 구조체 <code>tm</code>은 <code>&lt;time.h&gt;</code>에 다음처럼 정의돼 있다.</p>
+<pre><code class="c">struct tm {
+    int tm_sec;    /* 초 (0-60) */
+    int tm_min;    /* 분 (0-59) */
+    int tm_hour;   /* 시간 (0-23) */
+    int tm_mday;   /* 월 중 날 번호 (1-31) */
+    int tm_mon;    /* 월 (0-11) */
+    int tm_year;   /* 년 - 1900 */
+    int tm_wday;   /* 주 중 날 번호 (0-6, 일요일 = 0) */
+    int tm_yday;   /* 연 중 날 번호 (0-365, 1월 1일 = 0) */
+    int tm_isdst;  /* 일광 절약 시간 */
+};
+</code></pre>
+
+<p><code>tm</code> 구조체에 대한 더 자세한 내용은 <tt>[[ctime(3)]]</tt>을 보라.</p>
+<p><code>format</code> 인자는 <tt>[[scanf(3)]]</tt>를 연상시키는 필드 기술 항목과 텍스트 문자들로 이뤄진 문자열이다. 각 필드 기술 항목은 % 문자와 뒤이은 다른 문자 하나로 되어 있어서 그 필드 기술 항목이 무엇을 대신하는지 나타낸다. <code>format</code> 문자열의 다른 문자들은 모두 입력 문자열에 대응하는 문자가 있어야 한다. 단 예외적으로 공백 문자는 입력 문자열의 0개 이상의 공백 문자와 대응한다. 두 필드 기술 항목 사이에는 공백이나 다른 영자 또는 숫자 문자가 있어야 한다.</p>
+<p><code>strptime()</code> 함수는 왼쪽에서 오른쪽으로 입력 문자열을 처리해 나간다. 가능한 세 가지 입력 요소(공백, 리터럴, 서식) 각각을 하나씩 처리한다. 입력이 서식 문자열에 일치되지 않으면 함수 동작을 멈춘다. 서식 및 입력 문자열 나머지는 처리하지 않는다.</p>
+<p>지원하는 입력 필드 기술 항목들이 아래 나열돼 있다. 텍스트 문자열(가령 요일 이름이나 월 이름)을 맞춰 보는 경우에는 대소문자 구분 없이 비교한다. 수를 맞춰 보는 경우에는 앞에 0이 오는 걸 허용하되 요구하지는 않는다.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>%%</code></td>
+<td>% 문자.</td>
+</tr>
+<tr>
+<td><code>%a</code> 또는 <code>%A</code></td>
+<td>현재 로캘에 따른 요일 이름. 축약 이름 또는 원래 이름.</td>
+</tr>
+<tr>
+<td><code>%b</code> 또는 <code>%B</code> 또는 <code>%h</code></td>
+<td>현재 로캘에 따른 월 이름. 축약 이름 또는 원래 이름.</td>
+</tr>
+<tr>
+<td><code>%c</code></td>
+<td>현재 로캘의 날짜 및 시간 표현.</td>
+</tr>
+<tr>
+<td><code>%C</code></td>
+<td>세기 번호. (0-99)</td>
+</tr>
+<tr>
+<td><code>%d</code> 또는 <code>%e</code></td>
+<td>월 중 날짜. (1-31)</td>
+</tr>
+<tr>
+<td><code>%D</code></td>
+<td><code>%m/%d/%y</code>와 같음. (미국 방식 날짜로 미국인 아닌 이들에게 대단히 혼란스러운 방식이다. 유럽에서는 <code>%d/%m/%y</code>가 널리 쓰이기 때문에 특히 그렇다. ISO 8601 표준 형식은 <code>%Y-%m-%d</code>이다.</td>
+</tr>
+<tr>
+<td><code>%H</code></td>
+<td>시간. (0-23)</td>
+</tr>
+<tr>
+<td><code>%I</code></td>
+<td>12시간 시계의 시간. (1-12)</td>
+</tr>
+<tr>
+<td><code>%j</code></td>
+<td>연 중 날짜. (1-366)</td>
+</tr>
+<tr>
+<td><code>%m</code></td>
+<td>월 번호. (1-12)</td>
+</tr>
+<tr>
+<td><code>%M</code></td>
+<td>분. (0-59)</td>
+</tr>
+<tr>
+<td><code>%n</code></td>
+<td>임의 길이 공백.</td>
+</tr>
+<tr>
+<td><code>%p</code></td>
+<td>로캘의 오전 오후 텍스트. (주의: 없을 수도 있음.)</td>
+</tr>
+<tr>
+<td><code>%r</code></td>
+<td>12시간 시계의 시간. (로캘의 오전 오후 사용.) POSIX 로캘에서는 <code>%I:%M:%S %p</code>와 같다. 현재 로캘의 <code>LC_TIME</code>에서 <code>t_fmt_ampm</code>이 비어 있으면 동작 방식이 규정돼 있지 않다.</td>
+</tr>
+<tr>
+<td><code>%R</code></td>
+<td><code>%H:%M</code>과 같음.</td>
+</tr>
+<tr>
+<td><code>%S</code></td>
+<td>초. (0-60. 윤초 때문에 60이 가능. 이전에는 61도 허용했음.)</td>
+</tr>
+<tr>
+<td><code>%t</code></td>
+<td>임의 길이 공백.</td>
+</tr>
+<tr>
+<td><code>%T</code></td>
+<td><code>%H:%M:%S</code>와 같음.</td>
+</tr>
+<tr>
+<td><code>%U</code></td>
+<td>일요일을 주의 첫째 날로 하는 주 번호. (0-53) 1월 첫 번째 일요일이 1번 주 첫날이다.</td>
+</tr>
+<tr>
+<td><code>%w</code></td>
+<td>주 중 날 번호. (0-6) 일요일 = 0.</td>
+</tr>
+<tr>
+<td><code>%W</code></td>
+<td>월요일을 주의 첫째 날로 하는 주 번호. (0-53) 1월 첫 번째 월요일이 1번 주 첫날이다.</td>
+</tr>
+<tr>
+<td><code>%x</code></td>
+<td>날짜. 로캘의 날짜 형식 사용.</td>
+</tr>
+<tr>
+<td><code>%X</code></td>
+<td>시간. 로캘의 시간 형식 사용.</td>
+</tr>
+<tr>
+<td><code>%y</code></td>
+<td>세기 내 연도. (0-99) 세기를 따로 지정하지 않았을 때 69-99 범위의 값은 20세기의 연도(1969-1999)를 가리키고, 00-68 범위의 값은 21세기의 연도(2000-2068)를 가리킨다.</td>
+</tr>
+<tr>
+<td><code>%Y</code></td>
+<td>세기 포함 연도. (예를 들어 1991)</td>
+</tr>
+</tbody>
+</table>
+<p>수식자 E 또는 O로 일부 필드 기술 항목들을 변경해서 대체 형식 내지 지정 방식을 써야 함을 나타낼 수 있다. 현재 로캘에 대체 형식 내지 지정 방식이 존재하지 않는 경우에는 변경 안 된 필드 기술 항목을 쓴다.</p>
+<p>E 수식자는 입력 문자열에 날짜 및 시간을 위한 로캘별 대체 표현이 있을 수 있음을 나타낸다.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>%Ec</code></td>
+<td>로캘의 날짜 및 시간 대체 표현.</td>
+</tr>
+<tr>
+<td><code>%EC</code></td>
+<td>로캘의 대체 표현으로 된 기준 연도(기간) 이름.</td>
+</tr>
+<tr>
+<td><code>%Ex</code></td>
+<td>로캘의 날짜 대체 표현.</td>
+</tr>
+<tr>
+<td><code>%EX</code></td>
+<td>로캘의 시간 대체 표현.</td>
+</tr>
+<tr>
+<td><code>%Ey</code></td>
+<td>로캘의 대체 표현으로 된 <code>%EC</code>의 오프셋. (연도만)</td>
+</tr>
+<tr>
+<td><code>%EY</code></td>
+<td>전체 연도 대체 표현.</td>
+</tr>
+</tbody>
+</table>
+<p>O 수식자는 숫자 입력이 로캘별 대체 형식일 수 있음을 나타낸다.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>%Od</code> 또는 <code>%Oe</code></td>
+<td>로캘의 대체 숫자 심볼을 이용한 월 중 날짜. 앞의 0을 허용하되 요구하지는 않는다.</td>
+</tr>
+<tr>
+<td><code>%OH</code></td>
+<td>로캘의 대체 숫자 심볼을 이용한 (24시간 시계) 시간.</td>
+</tr>
+<tr>
+<td><code>%OI</code></td>
+<td>로캘의 대체 숫자 심볼을 이용한 (12시간 시계) 시간.</td>
+</tr>
+<tr>
+<td><code>%Om</code></td>
+<td>로캘의 대체 숫자 심볼을 이용한 월.</td>
+</tr>
+<tr>
+<td><code>%OM</code></td>
+<td>로캘의 대체 숫자 심볼을 이용한 분.</td>
+</tr>
+<tr>
+<td><code>%OS</code></td>
+<td>로캘의 대체 숫자 심볼을 이용한 초.</td>
+</tr>
+<tr>
+<td><code>%OU</code></td>
+<td>로캘의 대체 숫자 심볼을 이용한 연 중 주 번호. (일요일이 주의 첫날)</td>
+</tr>
+<tr>
+<td><code>%Ow</code></td>
+<td>로캘의 대체 숫자 심볼을 이용한 주 중 날 번호. (일요일=0)</td>
+</tr>
+<tr>
+<td><code>%OW</code></td>
+<td>로캘의 대체 숫자 심볼을 이용한 연 중 주 번호. (월요일이 주의 첫날)</td>
+</tr>
+<tr>
+<td><code>%Oy</code></td>
+<td>로캘의 대체 숫자 심볼을 이용한 연도. (<code>%C</code> 기준 오프셋)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>함수의 반환 값은 그 함수 호출에서 처리되지 않은 첫 문자에 대한 포인터이다. 입력 문자열이 서식 문자열에서 요구하는 것보다 많은 문자를 담고 있는 경우에는 마지막으로 소모한 입력 문자 바로 다음을 반환 값이 가리킨다. 입력 문자열 전체를 소모한 경우에는 문자열 끝의 널 바이트를 반환 값이 가리킨다. <code>strptime()</code>에서 서식 문자열 전체를 맞추는 데 실패하면, 즉 오류가 발생했으면 함수가 NULL을 반환한다.</p>
+<h2 id="attributes">ATTRIBUTES</h2>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<table>
+<thead>
+<tr>
+<th>인터페이스</th>
+<th>속성</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>strptime()</code></td>
+<td>스레드 안전성</td>
+<td>MT-Safe env locale</td>
+</tr>
+</tbody>
+</table>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>POSIX.1-2001, POSIX.1-2008, SUSv2.</p>
+<h2 id="notes">NOTES</h2>
+<p>원칙적으로 이 함수에서는 <code>tm</code>을 초기화 하지 않고 명시된 값들을 저장할 뿐이다. 이는 호출 전에 <code>tm</code>을 초기화 해야 한다는 뜻이다. 하지만 세부 사항은 유닉스 시스템들 간에 조금씩 다르다. glibc 구현에서는 명확히 지정돼 있지 않은 필드들을 건드리지 않는다. 단 연월일 요소들 중 하나라도 바뀌었으면 <code>tm_wday</code> 및 <code>tm_yday</code> 필드를 다시 계산한다.</p>
+<p>'y'(세기 내 연도) 지정 항목을 glibc 2.0에선 1950-2049 범위의 연도를 나타내는 것으로 처리한다. glibc 2.1부터는 1969-2068 내 연도로 받는다.</p>
+<h3 id="glibc">glibc 참고 사항</h3>
+<p>대칭성을 위해 glibc에서는 <tt>[[strftime(3)]]</tt>에서와 같은 서식 문자들을 <code>strptime()</code>에서 지원하려고 노력한다. (대부분의 경우 해당 필드를 파싱은 하되 <code>tm</code> 내 필드는 바꾸지 않는다.)</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>%F</code></td>
+<td><code>%Y-%m-%d</code>와 같음. ISO 8601 날짜 형식.</td>
+</tr>
+<tr>
+<td><code>%g</code></td>
+<td>ISO 주 번호 방식에 부합하는 세기 없는 연도. (0-99)</td>
+</tr>
+<tr>
+<td><code>%G</code></td>
+<td>ISO 주 번호 방식에 부합하는 연도. (예를 들어 1991)</td>
+</tr>
+<tr>
+<td><code>%u</code></td>
+<td>십진수로 된 주 중 날 번호. (1-7, 월요일 = 1)</td>
+</tr>
+<tr>
+<td><code>%V</code></td>
+<td>십진수로 된 ISO 8601:1988 주 번호. (1-53) 1월 1일을 포함한 (월요일부터 시작하는) 주에서 4일 이상이 새해에 있으면 1번 주로 본다. 아니면 전년 마지막 주이고 그 다음 주가 1번 주가 된다.</td>
+</tr>
+<tr>
+<td><code>%z</code></td>
+<td>RFC-822/ISO 8601 표준 시간대 지정.</td>
+</tr>
+<tr>
+<td><code>%Z</code></td>
+<td>시간대 이름.</td>
+</tr>
+</tbody>
+</table>
+<p>비슷하게 <tt>[[strftime(3)]]</tt>의 GNU 확장 때문에 <code>%H</code> 동의어로 <code>%k</code>를 받아들이고, <code>%I</code> 동의어로 <code>%l</code>을, <code>%p</code> 동의어로 <code>%P</code>를 받아들인다. 마지막으로 다음을 지원한다.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>%s</code></td>
+<td>에포크 1970-01-01 00:00:00 +0000 (UTC) 이후의 초 수. 윤초를 지원하지 않는 경우에는 윤초를 세지 않는다.</td>
+</tr>
+</tbody>
+</table>
+<p>glibc 구현에서는 두 필드 기술 항목 사이에 공백이 있기를 요구하지 않는다.</p>
+<h2 id="example">EXAMPLE</h2>
+<p>다음 예는 <code>strptime()</code> 및 <tt>[[strftime(3)]]</tt> 사용 방식을 보여 준다.</p>
+<pre><code class="c">#define _XOPEN_SOURCE
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+#include &lt;time.h&gt;
+
+int
+main(void)
+{
+    struct tm tm;
+    char buf[255];
+
+    memset(&amp;tm, 0, sizeof(struct tm));
+    strptime(&quot;2001-11-12 18:31:01&quot;, &quot;%Y-%m-%d %H:%M:%S&quot;, &amp;tm);
+    strftime(buf, sizeof(buf), &quot;%d %b %Y %H:%M&quot;, &amp;tm);
+    puts(buf);
+    exit(EXIT_SUCCESS);
+}
+</code></pre>
+
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[time(2)]]</tt>, <tt>[[getdate(3)]]</tt>, <tt>[[scanf(3)]]</tt>, <tt>[[setlocale(3)]]</tt>, <tt>[[strftime(3)]]</tt></p>
+<hr />
+<p>2017-09-15</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

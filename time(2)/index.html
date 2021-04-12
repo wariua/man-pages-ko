@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/time(2)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Time(2) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#bugs">BUGS</a></li>
+            <li class="second-level"><a href="#c">C 라이브러리/커널 차이</a></li>
+                
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>time - 초 단위 시간 얻기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;time.h&gt;
+
+time_t time(time_t *tloc);
+</code></pre>
+
+<h2 id="description">DESCRIPTION</h2>
+<p><code>time()</code>은 에포크(Epoch), 즉 1970-01-01 00:00:00 +0000 (UTC) 이후의 초 수로 시간을 반환한다.</p>
+<p><code>tloc</code>이 NULL이 아니면 반환 값을 <code>tloc</code>이 가리키는 메모리에도 저장한다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>성공 시 에포크 이후 초 단위 시간 값을 반환한다. 오류 시 <code>((time_t) -1)</code>을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<h2 id="errors">ERRORS</h2>
+<dl>
+<dt><code>EFAULT</code></dt>
+<dd>
+<p><code>tloc</code>이 접근 가능한 주소 공간 밖을 가리킨다. (하지만 BUGS 참고.)</p>
+<p>C 라이브러리의 <code>time()</code> 래퍼 함수가 <tt>[[vdso(7)]]</tt>에서 제공하는 구현체를 호출하는 (그래서 커널 내 트랩이 발생하지 않는) 시스템에서는 유효하지 않은 주소 사용 시 <code>SIGSEGV</code> 시그널이 유발될 수 있다.</p>
+</dd>
+</dl>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>SVr4, 4.3BSD, C89, C99, POSIX.1-2001. POSIX에서는 어떤 오류 조건도 명세하고 있지 않다.</p>
+<h2 id="notes">NOTES</h2>
+<p>POSIX.1에서는 <em>에포크 이후의 초 수</em>를 정의할 때 특정 시간과 에포크 사이 초 수를 근사적으로 계산하는 식을 쓴다. 이 식에서는 4로 나눠떨어지는 해가 윤년이면서 100으로 나눠떨어지는 해는 윤년이 아니고, 400으로 나눠떨어지는 해는 다시 윤년이라는 점을 참작한다. 하지만 이 값이 어떤 시간과 에포크 사이의 실제 초 수와 같지는 않은데, 윤초 때문이기도 하고 시스템 클럭이 꼭 어떤 표준 기준에 동기화돼 있지는 않을 수도 있기 때문이다. 어쨌든 그 의도는 에포크 이후 초 값이라는 것을 일관적으로 해석할 수 있게 하는 것이다. 다른 근거들은 POSIX.1-2008 Rationale A.4.15 참고.</p>
+<p>리눅스에서 <code>tloc</code>을 NULL로 해서 <code>time()</code>을 호출하면 ABI에서 <code>time_t</code>가 부호 있는 32비트 정수이고 클럭이 2**31 시점(2038-01-19 03:14:08 UTC, 윤초는 계산에서 제외)을 넘어가는 경우에도 <code>EOVERFLOW</code> 오류로 실패할 수 없다. (POSIX.1에서는 에포크 이후 초 수가 <code>time_t</code>에 들어가지 않는 경우에 <code>EOVERFLOW</code> 오류를 허용하되 요구하지는 않는다.) 시스템 시간이 <code>time_t</code> 범위 밖일 때 리눅스에서의 동작 방식은 규정돼 있지 않다. 2038년 후에도 동작해야 하는 응용에서는 <code>time_t</code>가 32비트보다 큰 ABI를 이용하는 게 좋다.</p>
+<h2 id="bugs">BUGS</h2>
+<p>이 시스템 호출에서 오류를 반환하는 경우와 에포크에서 몇 초 <em>전</em> 시간에 성공 값을 알려 주는 경우를 구별할 수 없다. 따라서 C 라이브러리 래퍼 함수에서는 절대로 이 호출의 결과 값에 따라 <code>errno</code>를 설정하지 않는다.</p>
+<p><code>tloc</code> 인자는 구식이 됐으며 새로 작성하는 코드에서는 항상 NULL로 설정하는 게 좋다. <code>tloc</code>이 NULL일 때 이 호출은 실패할 수 없다.</p>
+<h3 id="c">C 라이브러리/커널 차이</h3>
+<p>일부 아키텍처에서는 <tt>[[vdso(7)]]</tt>에서 <code>time()</code> 구현을 제공한다.</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><code>date(1)</code>, <tt>[[gettimeofday(2)]]</tt>, <tt>[[ctime(3)]]</tt>, <tt>[[ftime(3)]]</tt>, <tt>[[time(7)]]</tt>, <tt>[[vdso(7)]]</tt></p>
+<hr />
+<p>2017-09-15</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

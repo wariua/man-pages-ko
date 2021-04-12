@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/tfind(3)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Tfind(3) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
+        <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>tsearch, tfind, tdelete, twalk, tdestroy - 이진 탐색 트리 관리하기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;search.h&gt;
+
+typedef enum { preorder, postorder, endorder, leaf } VISIT;
+
+void *tsearch(const void *key, void **rootp,
+                int (*compar)(const void *, const void *));
+
+void *tfind(const void *key, void *const *rootp,
+                int (*compar)(const void *, const void *));
+
+void *tdelete(const void *key, void **rootp,
+                int (*compar)(const void *, const void *));
+
+void twalk(const void *root,
+                void (*action)(const void *nodep, VISIT which,
+                               int depth));
+
+#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
+#include &lt;search.h&gt;
+
+void twalk_r(const void *root,
+                void (*action)(const void *nodep, VISIT which,
+                               void *closure),
+                void *closure);
+
+void tdestroy(void *root, void (*free_node)(void *nodep));
+</code></pre>
+
+<h2 id="description">DESCRIPTION</h2>
+<p><code>tsearch()</code>, <code>tfind()</code>, <code>twalk()</code>, <code>tdelete()</code>는 이진 탐색 트리를 관리한다. Knuth의 (6.2.2) 알고리듬 T를 일반화 한 것이다. 각 트리 노드의 첫 필드가 대응하는 데이터 항목에 대한 포인터이다. (실제 데이터는 호출 프로그램에서 저장해야 한다.) <code>compar</code>는 비교 루틴을 가리키며 두 항목에 대한 포인터를 받는다. 첫 번째 항목이 두 번째 항목보다 작거나 같거나 크면 음수이거나 0이거나 양수인 정수를 반환해야 한다.</p>
+<p><code>tsearch()</code>는 트리에서 항목을 탐색한다. <code>key</code>는 찾을 항목을 가리킨다. <code>rootp</code>는 트리 루트를 가리키는 변수를 가리킨다. 트리가 비어 있으면 <code>rootp</code>가 가리키는 변수가 NULL로 설정돼 있어야 한다. 트리에서 항목을 찾은 경우에 <code>tsearch()</code>는 대응하는 트리 노드에 대한 포인터를 반환한다. (달리 말해 데이터 항목에 대한 포인터에 대한 포인터를 반환한다.) 항목을 찾지 못하면 항목을 추가하고서 대응하는 트리 노드에 대한 포인터를 반환한다.</p>
+<p><code>tfind()</code>는 <code>tsearch()</code>와 비슷하되 항목을 찾지 못한 경우에 NULL을 반환한다.</p>
+<p><code>tdelete()</code>는 트리에서 항목을 삭제한다. 인자들은 <code>tsearch()</code>와 동일하다.</p>
+<p><code>twalk()</code>는 깊이 우선으로 왼쪽에서 오른쪽으로 이진 트리 순회를 수행한다. <code>root</code>는 순회 시작 노드를 가리킨다. 그 노드가 루트가 아니면 트리의 일부만 방문하게 된다. <code>twalk()</code>에서 노드를 방문할 때마다 (즉 내부 노드는 세 번씩, 말단 노드는 한 번씩) 사용자 함수 <code>action</code>을 호출한다. 그리고 <code>action</code>은 인자 세 개를 받는다. 첫 번째 인자는 방문 중인 노드에 대한 포인터이다. 노드의 구조는 명세돼 있지 않지만 그 포인터를 항목 포인터에 대한 포인터로 캐스트 해서 노드에 저장된 항목에 접근하는 게 가능하다. 이 인자가 가리키는 자료 구조를 응용에서 변경해선 안 된다. 두 번째 인자는 정수인데 내부 노드에 대한 첫 번째, 두 번째, 세 번째 방문이면 <code>preorder</code>, <code>postorder</code>, <code>endorder</code> 값을, 말단 노드에 대한 한 번의 방문이면 <code>leaf</code> 값을 가진다. (이 심볼들은 <code>&lt;search.h&gt;</code>에 정의되어 있다.) 세 번째 인자는 노드의 깊이이다. 루트 노드의 깊이가 0이다.</p>
+<p>(<code>preorder</code>, <code>postorder</code>, <code>endorder</code>를 더 흔히 쓰는 말로 하면 <code>preorder</code>, <code>inorder</code>, <code>postorder</code>이다. 즉, 자식 방문 전, 첫 번째 후 두 번째 전, 자식 방문 후이다. <code>postorder</code>라는 이름을 써서 좀 헛갈릴 수 있다.)</p>
+<p><code>twalk_r()</code>은 <code>twalk()</code>와 비슷하되 <code>depth</code> 인자 대신 <code>closure</code> 인자 포인터가 그대로 action 콜백 호출으로 전달된다. 그 포인터를 이용하면 전역 변수에 기대지 않고 스레드에 안전한 방식으로 콜백 함수와 정보를 주고 받을 수 있다.</p>
+<p><code>tdestroy()</code>는 <code>root</code>가 가리키는 트리 전체를 없애며 <code>tsearch()</code> 함수에서 할당한 자원을 모두 해제한다. 각 트리 노드의 데이터에 대해 <code>free_node</code> 함수를 호출한다. 함수 인자로 그 데이터에 대한 포인터가 전달된다. 그런 작업이 필요하지 않은 경우에 <code>free_node</code>는 아무것도 하지 않는 함수를 가리켜야 한다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p><code>tsearch()</code>는 트리 내의 일치 노드나 새로 추가한 노드에 대한 포인터를 반환한다. 항목을 추가하기 위한 메모리가 충분하지 않은 경우 NULL을 반환한다. <code>tfind()</code>는 노드에 대한 포인터를 반환한다. 일치 항목을 찾지 못한 경우 NULL을 반환한다. 키에 일치하는 항목이 여러 개 있는 경우에 어느 항목의 노드를 반환하는지는 명세돼 있지 않다.</p>
+<p><code>tdelete()</code>는 삭제한 노드의 부모에 대한 포인터를 반환한다. 항목을 찾지 못했으면 NULL을 반환한다. 삭제한 노드가 루트 노드이면 깨진 포인터를 반환하며 그 포인터에 접근해서는 안 된다.</p>
+<p><code>tsearch()</code>, <code>tfind()</code>, <code>tdelete()</code>는 또한 진입 시 <code>rootp</code>가 NULL이면 NULL을 반환한다.</p>
+<h2 id="versions">VERSIONS</h2>
+<p>glibc 버전 2.30부터 <code>tralk_r()</code>이 사용 가능하다.</p>
+<h2 id="attributes">ATTRIBUTES</h2>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<table>
+<thead>
+<tr>
+<th>인터페이스</th>
+<th>속성</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tsearch()</code>, <code>tfind()</code>,<br><code>tdelete()</code></td>
+<td>스레드 안전성</td>
+<td>MT-Safe race:rootp</td>
+</tr>
+<tr>
+<td><code>twalk()</code></td>
+<td>스레드 안전성</td>
+<td>MT-Safe race:root</td>
+</tr>
+<tr>
+<td><code>twalk_r()</code></td>
+<td>스레드 안전성</td>
+<td>MT-Safe race:root</td>
+</tr>
+<tr>
+<td><code>tdestroy()</code></td>
+<td>스레드 안전성</td>
+<td>MT-Safe</td>
+</tr>
+</tbody>
+</table>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>POSIX.1-2001, POSIX.1-2008, SVr4. <code>tdestroy()</code> 및 <code>twalk_r()</code> 함수는 GNU 확장이다.</p>
+<h2 id="notes">NOTES</h2>
+<p><code>twalk()</code>는 루트에 대한 포인터를 받는 반면 다른 함수들은 루트를 가지키는 변수에 대한 포인터를 받는다.</p>
+<p><code>tdelete()</code>는 트리에서 노드에 필요한 메모리를 해제한다. 대응하는 데이터를 위한 메모리를 해제하는 것은 사용자의 몫이다.</p>
+<p>아래 예시 프로그램에서는 <code>twalk()</code>에서 <code>endorder</code> 내지 <code>leaf</code> 인자로 사용자 함수를 호출한 후에 더는 그 노드를 참조하지 않는다는 점에 기댄다. GNU 라이브러리 구현에서는 동작하지만 시스템 V 문서에서는 그렇지 않다.</p>
+<h2 id="example">EXAMPLE</h2>
+<p>다음 프로그램에서는 중복을 없애며 이진 트리에 난수 열두 개를 삽입한 다음 그 수들을 차례로 찍는다.</p>
+<pre><code class="c">#define _GNU_SOURCE     /* tdestroy() 선언 드러내기 */
+#include &lt;search.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;time.h&gt;
+
+static void *root = NULL;
+
+static void *
+xmalloc(unsigned n)
+{
+    void *p;
+    p = malloc(n);
+    if (p)
+        return p;
+    fprintf(stderr, &quot;insufficient memory\n&quot;);
+    exit(EXIT_FAILURE);
+}
+
+static int
+compare(const void *pa, const void *pb)
+{
+    if (*(int *) pa &lt; *(int *) pb)
+        return -1;
+    if (*(int *) pa &gt; *(int *) pb)
+        return 1;
+    return 0;
+}
+
+static void
+action(const void *nodep, VISIT which, int depth)
+{
+    int *datap;
+
+    switch (which) {
+    case preorder:
+        break;
+    case postorder:
+        datap = *(int **) nodep;
+        printf(&quot;%6d\n&quot;, *datap);
+        break;
+    case endorder:
+        break;
+    case leaf:
+        datap = *(int **) nodep;
+        printf(&quot;%6d\n&quot;, *datap);
+        break;
+    }
+}
+
+int
+main(void)
+{
+    int i, *ptr;
+    void *val;
+
+    srand(time(NULL));
+    for (i = 0; i &lt; 12; i++) {
+        ptr = xmalloc(sizeof(int));
+        *ptr = rand() &amp; 0xff;
+        val = tsearch((void *) ptr, &amp;root, compare);
+        if (val == NULL)
+            exit(EXIT_FAILURE);
+        else if ((*(int **) val) != ptr)
+            free(ptr);
+    }
+    twalk(root, action);
+    tdestroy(root, free);
+    exit(EXIT_SUCCESS);
+}
+</code></pre>
+
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[bsearch(3)]]</tt>, <tt>[[hsearch(3)]]</tt>, <tt>[[lsearch(3)]]</tt>, <code>qsort(3)</code></p>
+<hr />
+<p>2019-05-09</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

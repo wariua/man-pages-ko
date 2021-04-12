@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/des_setparity(3)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Des setparity(3) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
+        <li class="first-level "><a href="#versions_1">VERSIONS</a></li>
+        <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>des_crypt, ecb_crypt, cbc_crypt, des_setparity, DES_FAILED - 빠른 DES 암호화</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;rpc/des_crypt.h&gt;
+
+int ecb_crypt(char *key, char *data, unsigned datalen,
+              unsigned mode);
+
+int cbc_crypt(char *key, char *data, unsigned datalen,
+              unsigned mode, char *ivec);
+
+void des_setparity(char *key);
+
+int DES_FAILED(int status);
+</code></pre>
+
+<h2 id="description">DESCRIPTION</h2>
+<p><code>ecb_crypt()</code>와 <code>cbc_crypt()</code>는 NBS DES(데이터 암호화 표준)을 구현한다. 이 루틴들은 <tt>[[crypt(3)]]</tt>보다 더 빠르고 범용적이다. 또한 DES 하드웨어가 있으면 그걸 활용할 수 있다. <code>ecb_crypt()</code>는 ECB(전자 코드북) 모드로 암호화를 하는데, 각 데이터 블록을 독립적으로 암호화하는 방식이다. <code>cbc_crypt()</code>는 CBC(암호 블록 체인) 모드로 암호화를 하는데, 연속한 블록들을 연결하는 방식이다. CBC 모드는 블록 삽입, 삭제, 바꿔치기를 방어할 수 있다. 또한 평문 내의 규칙성이 암호문에 등장하지 않게 된다.</p>
+<p>이 루틴들을 사용하는 방법은 이렇다. 첫 번째 인자 <code>key</code>는 패리티 있는 8바이트 암호화 키이다. 키의 패리티는 DES에서는 각 바이트의 최하위 비트이며 <code>des_setparity()</code>로 설정한다. 두 번째 인자 <code>data</code>는 암호화나 복호화를 할 데이터를 담는다. 세 번째 인자 <code>datalen</code>은 <code>data</code>의 바이트 단위 길이인데 8의 배수여야 한다. 네 번째 인자 <code>mode</code>는 몇 가지를 OR 해서 만든다. 암호화 방향으로 <code>DES_ENCRYPT</code> 아니면 <code>DES_DECRYPT</code>를 OR 한다. 그리고 소프트웨어 대 하드웨어 암호화로 <code>DES_HW</code> 아니면 <code>DES_SW</code>를 OR 한다. <code>DES_HW</code>를 지정했는데 하드웨어가 없으면 소프트웨어에서 암호화를 수행하고서 루틴이 <code>DESERR_NOHWDEVICE</code>를 반환한다. <code>cbc_crypt()</code>에서 <code>ivec</code> 인자는 체인 처리를 위한 8바이트 초기화 벡터이다. 반환 시에 다음 초기화 벡터로 갱신돼 있다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<dl>
+<dt><code>DESERR_NONE</code></dt>
+<dd>오류 없음.</dd>
+<dt><code>DESERR_NOHWDEVICE</code></dt>
+<dd>암호화가 성공하긴 했지만 요청한 하드웨어가 아니라 소프트웨어에서 이뤄졌다.</dd>
+<dt><code>DESERR_HWERROR</code></dt>
+<dd>하드웨어나 드라이버에서 오류가 발생했다.</dd>
+<dt><code>DESERR_BADPARAM</code></dt>
+<dd>루틴 인자가 잘못되었다.</dd>
+</dl>
+<p>결과 상태 <code>stat</code>이 있을 때 처음 두 가지 상태에 대해서만 매크로 <code>DES_FAILED(stat)</code>이 거짓이다.</p>
+<h2 id="versions">VERSIONS</h2>
+<p>glibc 2.1 및 이후에 이 함수들이 있다.</p>
+<h2 id="versions_1">VERSIONS</h2>
+<p>더 이상 안전하지 않다고 보는 DES 블록 암호를 이용하기 때문에 <code>ecb_crypt()</code>, <code>cbc_crypt()</code>, <code>crypt_r()</code>, <code>des_setparity()</code>가 glibc 2.28에서 제거되었다. 응용들은 <code>libgcrypt</code> 같은 현대적인 암호 라이브러리로 전환하는 게 좋다.</p>
+<h2 id="attributes">ATTRIBUTES</h2>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<table>
+<thead>
+<tr>
+<th>인터페이스</th>
+<th>속성</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ecb_crypt()</code>, <code>cbc_crypt()</code>,<br><code>des_setparity()</code></td>
+<td>스레드 안전성</td>
+<td>MT-Safe</td>
+</tr>
+</tbody>
+</table>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>4.3BSD. POSIX.1에는 없음.</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><code>des(1)</code>, <tt>[[crypt(3)]]</tt>, <tt>[[xcrypt(3)]]</tt></p>
+<hr />
+<p>2019-03-06</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

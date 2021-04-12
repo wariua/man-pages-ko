@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/timer_getoverrun(2)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Timer getoverrun(2) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#bugs">BUGS</a></li>
+        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>timer_getoverrun - POSIX 프로세스별 타이머에 대해 초과 횟수 얻기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;time.h&gt;
+
+int timer_getoverrun(timer_t timerid);
+</code></pre>
+
+<p><code>-lrt</code>로 링크.</p>
+<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<dl>
+<dt><code>timer_getoverrun()</code>:</dt>
+<dd><code>_POSIX_C_SOURCE &gt;= 199309L</code></dd>
+</dl>
+<h2 id="description">DESCRIPTION</h2>
+<p><code>timer_getoverrun()</code>은 <code>timerid</code>가 가리키는 타이머에 대한 "초과 횟수(overrun count)"를 반환한다. 응용에서 그 초과 횟수를 이용해 주어진 시간 간격 동안 발생했을 타이머 만료 횟수를 정확히 계산할 수 있다. 시그널을 통해 (<code>SIGEV_SIGNAL</code>) 만료 알림을 수신할 때와 스레드를 통해 (<code>SIGEV_THREAD</code>) 수신할 때 모두에서 타이머 초과가 발생할 수 있다.</p>
+<p>만료 알림이 시그널을 통해 전달될 때 다음과 같이 초과가 발생할 수 있다. 타이머 알림에 실시간 알림을 쓰는지 여부와 상관없이 시스템은 타이머마다 최대 한 개 시그널을 큐에 넣는다. (이는 POSIX.1에서 명세하는 동작 방식이다. 이와 달리 각 타이머 만료마다 시그널 하나를 큐에 넣는다면 큐에 넣을 수 있는 시그널 개수에 대한 시스템 상의 한계를 쉽게 넘을 수 있을 것이다.) 시스템 스케줄링 지연 때문에, 또는 시그널이 일시적으로 차단되어 있을 수도 있기 때문에 알림 시그널이 생성되는 시간과 (가령 시그널 핸들러에 잡혀서) 전달되거나 (가령 <tt>[[sigwaitinfo(2)]]</tt>로) 수용되는 시간 사이에 지연이 있을 수 있다. 그리고 그 시간 동안 타이머 만료가 추가로 발생할 수도 있다. 타이머 초과 횟수는 시그널이 생성된 시간과 전달 내지 수용된 시간 사이에 추가로 발생한 타이머 만료 횟수이다.</p>
+<p>스레드 호출을 통해 만료 알림을 전달할 때 타이머 넘침이 발생할 수 있다. 타이머 만료와 알림 스레드 호출 사이에 임의적 지연이 있을 수 있으며 그 지연 시간 중에 추가 타이머 만료가 발생할 수도 있기 때문이다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>성공 시 <code>timer_getoverrun()</code>은 지정한 타이머의 초과 횟수를 반환한다. 초과가 일어나지 않았으면 이 횟수가 0일 수도 있다. 실패 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
+<h2 id="errors">ERRORS</h2>
+<dl>
+<dt><code>EINVAL</code></dt>
+<dd><code>timerid</code>가 유효한 타이머 ID가 아니다.</dd>
+</dl>
+<h2 id="versions">VERSIONS</h2>
+<p>리눅스 2.6부터 이 시스템 호출이 사용 가능하다.</p>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>POSIX.1-2001, POSIX.1-2008.</p>
+<h2 id="notes">NOTES</h2>
+<p>리눅스에서 시그널을 통해 (<code>SIGEV_SIGNAL</code>) 타이머 알림을 전달할 때에 <code>siginfo_t</code> 구조체(<tt>[[sigaction(2)]]</tt> 참고)의 <code>si_overrun</code> 필드를 통해 초과 횟수를 얻는 것도 가능하다. 이렇게 하면 응용에서 초과 횟수를 얻기 위해 시스템 호출을 하는 오버헤드를 피할 수 있다. 하지만 이는 POSIX.1에 대한 확장이며 이식성이 없다.</p>
+<p>POSIX.1에서는 시그널을 이용한 타이머 알림 맥락에서만 타이머 초과를 논의한다.</p>
+<h2 id="bugs">BUGS</h2>
+<p>POSIX.1에서는 타이머 초과 횟수가 구현에서 정의하는 최댓값 <code>DELAYTIMER_MAX</code>와 같거나 더 크면 <code>timer_getoverrun()</code>이 <code>DELAYTIMER_MAX</code>를 반환해야 한다고 명세한다. 하지만 리눅스에서는 이 기능을 구현하고 있지 않다. 대신 타이머 초과 값이 표현 가능한 정수 최댓값을 초과하면 카운터가 되돌아서 낮은 값부터 다시 시작한다.</p>
+<h2 id="example">EXAMPLE</h2>
+<p><tt>[[timer_create(2)]]</tt> 참고.</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[clock_gettime(2)]]</tt>, <tt>[[sigaction(2)]]</tt>, <tt>[[signalfd(2)]]</tt>, <tt>[[sigwaitinfo(2)]]</tt>, <tt>[[timer_create(2)]]</tt>, <tt>[[timer_delete(2)]]</tt>, <tt>[[timer_settime(2)]]</tt>, <tt>[[signal(7)]]</tt>, <tt>[[time(7)]]</tt></p>
+<hr />
+<p>2017-09-15</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

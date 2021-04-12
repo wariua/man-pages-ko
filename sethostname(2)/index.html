@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/sethostname(2)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Sethostname(2) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+            <li class="second-level"><a href="#c">C 라이브러리/커널 차이</a></li>
+                
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>gethostname, sethostname - 호스트명 얻기/설정하기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;unistd.h&gt;
+
+int gethostname(char *name, size_t len);
+int sethostname(const char *name, size_t len);
+</code></pre>
+
+<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<dl>
+<dt><code>gethostname()</code>:</dt>
+<dd>
+<dl>
+<dt>glibc 2.12부터:</dt>
+<dd><code>_BSD_SOURCE || _XOPEN_SOURCE &gt;= 500</code><br>
+<code>|| /* glibc 2.12부터: */ _POSIX_C_SOURCE &gt;= 200112L</code></dd>
+</dl>
+</dd>
+<dt><code>sethostname()</code>:</dt>
+<dd>
+<dl>
+<dt>glibc 2.21부터:</dt>
+<dd><code>_DEFAULT_SOURCE</code></dd>
+<dt>glibc 2.19 및 2.20:</dt>
+<dd><code>_DEFAULT_SOURCE || (_XOPEN_SOURCE &amp;&amp; _XOPEN_SOURCE &lt; 500)</code></dd>
+<dt>glibc 2.19까지:</dt>
+<dd><code>_BSD_SOURCE || (_XOPEN_SOURCE &amp;&amp; _XOPEN_SOURCE &lt; 500)</code></dd>
+</dl>
+</dd>
+</dl>
+<h2 id="description">DESCRIPTION</h2>
+<p>이 시스템 호출들을 이용해 현재 프로세서의 호스트명에 접근하거나 변경한다.</p>
+<p><code>sethostname()</code>은 호스트명을 문자 배열 <code>name</code>에 준 값으로 설정한다. <code>len</code> 인자는 <code>name</code>의 바이트 수를 나타낸다. (즉 <code>name</code>에 종료용 널 바이트가 필요치 않다.)</p>
+<p><code>gethostname()</code>은 널로 끝나는 호스트명을 길이가 <code>len</code> 바이트인 문자 배열 <code>name</code>으로 반환한다. 그 널 종료 호스트명이 너무 긴 경우에는 이름이 잘리며 어떤 오류도 반환하지 않는다. (단 아래 NOTES 참고.) POSIX.1에서는 그런 절단이 발생하는 경우에 반환 버퍼에 종료용 널 바이트가 포함되는지 여부가 명세되어 있지 않다고 한다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>성공 시 0을 반환한다. 오류 시 -1을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<h2 id="errors">ERRORS</h2>
+<dl>
+<dt><code>EFAULT</code></dt>
+<dd><code>name</code>이 유효하지 않은 주소이다.</dd>
+<dt><code>EINVAL</code></dt>
+<dd><code>len</code>이 음수이거나, <code>sethostname()</code>에서 <code>len</code>이 허용 최대 길이보다 크다.</dd>
+<dt><code>ENAMETOOLONG</code></dt>
+<dd>(glibc <code>gethostname()</code>) <code>len</code>이 실제 크기보다 작다. (버전 2.1 전에서 glibc는 이 경우에 <code>EINVAL</code>을 사용한다.)</dd>
+<dt><code>EPERM</code></dt>
+<dd><code>sethostname()</code>에서 호출자가 자기 UTS 네임스페이스에 연계된 사용자 네임스페이스에서 <code>CAP_SYS_ADMIN</code> 역능을 가지고 있지 않다. (<tt>[[namespaces(7)]]</tt> 참고.)</dd>
+</dl>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>SVr4, 4.4BSD (4.2BSD에서 이 인터페이스들이 처음 등장). POSIX.1-2001과 POSIX.1-2008에서 <code>gethostname()</code>은 명세하지만 <code>sethostname()</code>은 명세하지 않는다.</p>
+<h2 id="notes">NOTES</h2>
+<p>SUSv2에서는 "호스트 이름이 255바이트로 제한된다"고 보장한다. POSIX.1에서는 "호스트 이름이 (종료용 널 바이트 포함하지 않음) <code>HOST_NAME_MAX</code> 바이트로 제한된다"고 보장한다. 리눅스에서 <code>HOST_NAME_MAX</code>는 64 값으로 정의돼 있으며 리눅스 1.0부터 그랬다. (그 전 커널에서는 제한값이 8바이트였다.)</p>
+<h3 id="c">C 라이브러리/커널 차이</h3>
+<p>GNU C 라이브러리에서는 <code>gethostname()</code> 시스템 호출을 이용하지 않는다. 대신 <tt>[[uname(2)]]</tt>을 호출해서 반환된 <code>nodename</code> 필드를 <code>name</code>으로 <code>len</code> 바이트까지 복사하는 라이브러리 함수로 <code>gethostname()</code>을 구현한다. 복사를 수행한 다음 그 함수에서는 <code>nodename</code>의 길이가 <code>len</code>과 같거나 그보다 큰지 확인하고, 그런 경우에는 <code>errno</code>를 <code>ENAMETOOLONG</code>으로 설정하고 -1을 반환한다. 이 경우 반환되는 <code>name</code>에 종료용 널 바이트가 포함되어 있지 않다.</p>
+<p>glibc 버전 2.2 전에서는 <code>nodename</code> 길이가 <code>len</code>과 같거나 그보다 큰 경우를 다르게 처리한다. 함수에서 <code>name</code>으로 아무것도 복사하지 않고서 <code>errno</code>를 <code>ENAMETOOLONG</code>으로 설정하고 -1을 반환한다.</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><code>hostname(1)</code>, <tt>[[getdomainname(2)]]</tt>, <tt>[[uname(2)]]</tt></p>
+<hr />
+<p>2017-09-15</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

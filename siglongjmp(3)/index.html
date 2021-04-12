@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/siglongjmp(3)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Siglongjmp(3) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+            <li class="second-level"><a href="#sigsetjmp-siglongjmp">sigsetjmp()와 siglongjmp()</a></li>
+                
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+            <li class="second-level"><a href="#goto">비지역적 goto와 프로그램 가독성</a></li>
+                
+            <li class="second-level"><a href="#_1">경고</a></li>
+                
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>setjmp, sigsetjmp, longjmp, siglongjmp - 비지역적 goto 수행하기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;setjmp.h&gt;
+
+int setjmp(jmp_buf env);
+int sigsetjmp(sigjmp_buf env, int savesigs);
+
+void longjmp(jmp_buf env, int val);
+void siglongjmp(sigjmp_buf env, int val);
+</code></pre>
+
+<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<dl>
+<dt><code>setjmp()</code>:</dt>
+<dd>NOTES 참고.</dd>
+<dt><code>sigsetjmp()</code>:</dt>
+<dd><code>_POSIX_C_SOURCE</code></dd>
+</dl>
+<h2 id="description">DESCRIPTION</h2>
+<p>이 페이지에서 기술하는 함수들은 "비지역적 goto" 수행, 즉 한 함수에서 다른 함수 내의 미리 정해 둔 위치로 실행을 이전하는 데 쓴다. <code>setjmp()</code> 함수는 이후에 제어를 이전할 목표점을 동적으로 설정하며 <code>longjmp()</code>는 실행 이전을 수행한다.</p>
+<p><code>setjmp()</code> 함수는 호출 환경에 대한 다양한 정보(보통은 스택 포인터와 인스트럭션 포인터, 그리고 아마도 다른 레지스터들의 값과 시그널 마스크)를 버퍼 <code>env</code>에 저장하여 이후에 <code>longjmp()</code>가 사용할 수 있게 한다. 이 경우에 <code>setjmp()</code>는 0을 반환한다.</p>
+<p><code>longjmp()</code> 함수는 <code>env</code>에 저장된 정보를 이용해 <code>setjmp()</code>를 호출했던 지점으로 제어를 이전하고 <code>setjmp()</code> 호출 시점의 상태로 스택을 복원("되감기")한다. 더불어 구현에 따라서 (NOTES 참고) 다른 레지스터들의 값과 프로세스 시그널 마스크가 <code>setjmp()</code> 호출 시점의 상태로 복원될 수도 있다.</p>
+<p><code>longjmp()</code> 성공 후에는 <code>setjmp()</code>가 두 번째로 반환된 것처럼 실행이 이어진다. 이 "가짜" 반환을 진짜 <code>setjmp()</code> 호출과 구별할 수 있는 것은 "가짜" 반환에서는 <code>val</code>에 제공한 값을 반환하기 때문이다. 프로그래머가 실수로 <code>val</code>에 0 값을 전달하면 "가짜" 반환에서는 그 대신 1을 반환하게 된다.</p>
+<h3 id="sigsetjmp-siglongjmp"><code>sigsetjmp()</code>와 <code>siglongjmp()</code></h3>
+<p><code>sigsetjmp()</code>와 <code>siglongjmp()</code> 역시 비지역적 goto를 수행하되 프로세스 시그널 마스크를 예측 가능하게 처리해 준다.</p>
+<p><code>sigsetjmp()</code>에게 준 <code>savesigs</code> 인자가 0이 아닌 경우에는, 그리고 그 경우에만 프로세스의 현재 시그널 마스크를 <code>env</code>에 저장하며 이후 이 <code>env</code>로 <code>siglongjmp()</code>를 수행하면 다시 복원하게 된다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p><code>setjmp()</code>와 <code>sigsetjmp()</code>는 직접 호출 시 0을 반환한다. <code>longjmp()</code>나 <code>siglongjmp()</code> 후에 일어나는 "가짜" 반환에서는 <code>val</code>로 지정한 0 아닌 값을 반환한다.</p>
+<p><code>longjmp()</code> 내지 <code>siglongjmp()</code> 함수는 반환하지 않는다.</p>
+<h2 id="attributes">ATTRIBUTES</h2>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<table>
+<thead>
+<tr>
+<th>인터페이스</th>
+<th>속성</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>setjmp()</code>, <code>sigsetjmp()</code></td>
+<td>스레드 안전성</td>
+<td>MT-Safe</td>
+</tr>
+<tr>
+<td><code>longjmp()</code>, <code>siglongjmp()</code></td>
+<td>스레드 안전성</td>
+<td>MT-Safe</td>
+</tr>
+</tbody>
+</table>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p><code>setjmp()</code>, <code>longjmp()</code>: POSIX.1-2001, POSIX.1-2008, C89, C99.</p>
+<p><code>sigsetjmp()</code>, <code>siglongjmp()</code>: POSIX.1-2001, POSIX.1-2008.</p>
+<h2 id="notes">NOTES</h2>
+<p>POSIX에서는 <code>setjmp()</code>가 시그널 마스크를 저장하게 되는지 (그리고 이후 <code>longjmp()</code> 과정에서 복원하게 되는지) 여부를 명세하고 있지 않다. 시스템 V에서는 그렇게 되지 않는다. 4.3BSD에서는 그렇게 되며, 또 그렇게 되지 않는 <code>_setjmp()</code> 함수가 있다. 리눅스에서의 동작 방식은 glibc 버전과 기능 확인 매크로 설정에 따라 달라진다. 리눅스에서 glibc 버전 2.19 전까지는 <code>setjmp()</code>가 기본적으로 시스템 V 동작 방식을 따르되, <code>_BSD_SOURCE</code> 기능 확인 매크로가 명시적으로 정의되어 있으며 <code>_POSIX_SOURCE</code>, <code>_POSIX_C_SOURCE</code>, <code>_XOPEN_SOURCE</code>, <code>_GNU_SOURCE</code> 중 어느 것도 정의되어 있지 않으면 BSD 동작 방식을 제공한다. glibc 2.19부터는 <code>&lt;setjmp.h&gt;</code>에서 시스템 V 버전의 <code>setjmp()</code>만 드러낸다. BSD 동작 방식이 필요한 프로그램에서는 <code>setjmp()</code> 호출을 <code>savesigs</code> 인자가 0이 아닌 <code>sigsetjmp()</code> 호출로 교체해야 한다.</p>
+<p><code>setjmp()</code>와 <code>longjmp()</code>는 깊이 이어진 함수 호출 내의 오류를 다루는 데 유용할 수 있으며 시그널 핸들러에서 주 프로그램이 중단됐던 지점으로 돌아가는 대신 프로그램 내 특정 위치로 제어를 전달할 수도 있다. 후자에서 시그널 마스크를 이식성 있게 저장 및 복원하고 싶다면 <code>sigsetjmp()</code>와 <code>siglongjmp()</code>를 사용하면 된다. 아래의 프로그램 가독성에 대한 논의도 참고하라.</p>
+<p>컴파일러가 변수들을 레지스터로 최적화할 수도 있는데 <code>longjmp()</code>가 스택 포인터와 프로그램 카운터에 더해 다른 레지스터들의 값을 복원할 수도 있다. 따라서 다음 기준들에 모두 해당하는 경우에는 <code>longjmp()</code> 호출 후에 자동 변수의 값이 정해져 있지 않다.</p>
+<ul>
+<li>
+<p>변수가 대응하는 <code>setjmp()</code> 호출을 했던 함수에 로컬이다.</p>
+</li>
+<li>
+<p>그 값이 <code>setjmp()</code> 호출과 <code>longjmp()</code> 호출 사이에서 바뀐다.</p>
+</li>
+<li>
+<p><code>volatile</code>로 선언되어 있지 않다.</p>
+</li>
+</ul>
+<p>유사한 내용이 <code>siglongjmp()</code>에도 적용된다.</p>
+<h3 id="goto">비지역적 goto와 프로그램 가독성</h3>
+<p>오용 가능성이 있기는 하지만 전통적인 C의 "goto" 문에는 적어도 언어적 신호(goto 문과 대상 레이블)를 통해 프로그래머가 실행 흐름을 쉽게 인식할 수 있다는 장점이 있다. 하지만 비지역적 goto에는 그런 신호가 없다. 여러 <code>setjmp()</code> 호출들이 동일한 <code>jmp_buf</code> 변수를 이용할 수도 있을 테고, 그러면 그 변수의 내용이 응용의 수명 동안 바뀔 수도 있다. 그래서 특정 <code>longjmp()</code> 호출의 동적인 대상을 알아내기 위해 프로그래머가 어쩔 수 없이 코드를 자세히 읽어야 할 수도 있다. (그 프로그래머를 도와 주려면 <code>setjmp()</code> 호출마다 각자의 <code>jmp_buf</code> 변수를 이용하는 게 좋다.)</p>
+<p>더 난이도를 올리자면 <code>setjmp()</code> 호출과 <code>longjmp()</code> 호출이 같은 소스 코드 모듈에 있지 않을 수도 있다.</p>
+<p>요약하자면 비지역적 goto는 프로그램 이해과 유지 보수를 어렵게 만들며 가능하다면 다른 대안을 사용하는 게 좋다.</p>
+<h3 id="_1">경고</h3>
+<p><code>setjmp()</code>를 호출했던 함수가 <code>longjmp()</code> 호출 전에 반환하는 경우의 동작 방식은 규정되어 있지 않다. 어떤 미묘하거나 미묘하지 않은 혼란이 분명히 발생한다.</p>
+<p>다중 스레드 프로그램에서 다른 스레드에서의 <code>setjmp()</code> 호출로 초기화 했던 <code>env</code> 버퍼를 <code>longjmp()</code> 호출에서 사용하는 경우 그 동작 방식은 규정되어 있지 않다.</p>
+<p>POSIX.1-2008 기술 정오표 2에서 <code>longjmp()</code>와 <code>siglongjmp()</code>를 비동기 시그널 안전 함수 목록에 추가하였다. 하지만 그 표준에서는 시그널 핸들러에서 이 함수들의 사용을 피하기를 권하고 있으며 계속해서 지적하기를, 비동기 시그널 안전 아닌 함수에 대한 호출을 중단시켰던 시그널 핸들러에서 (또는 <code>main()</code>에 대한 최초 호출에서 반환 시 일어나는 <tt>[[exit(3)]]</tt>에 해당하는 단계들처럼 동등한 무언가에서) 이 함수들을 호출한다면 프로그램에서 이후 비동기 시그널 안전 아닌 함수를 호출하는 경우 그 동작 방식이 규정되어 있지 않다. 정의 안 된 동작을 피할 유일한 방법은 다음 중 하나를 보장하는 것이다.</p>
+<ul>
+<li>
+<p>시그널 핸들러로부터 긴 점프를 한 후에는 프로그램에서 어떤 비동기 시그널 안전 아닌 함수도 호출하지 않고 <code>main()</code>에 대한 최초 호출로부터 반환하지 않는다.</p>
+</li>
+<li>
+<p><em>모든</em> 비동기 시그널 안전 아닌 함수 호출 동안 핸들러에서 긴 점프를 수행하는 시그널들을 차단해야 하며 <code>main()</code>에 대한 최초 호출로부터 반환한 후에 어떤 비동기 시그널 안전 아닌 함수도 호출하지 않는다.</p>
+</li>
+</ul>
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[signal(7)]]</tt>, <tt>[[signal-safety(7)]]</tt></p>
+<hr />
+<p>2017-03-13</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

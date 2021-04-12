@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/basename(3)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Basename(3) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#bugs">BUGS</a></li>
+        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>basename, dirname - 경로명 요소 파싱 하기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;libgen.h&gt;
+
+char *dirname(char *path);
+
+char *basename(char *path);
+</code></pre>
+
+<h2 id="description">DESCRIPTION</h2>
+<p>주의: 두 가지 다른 <code>basename()</code> 함수가 있다. 아래 참고.</p>
+<p><code>dirname()</code> 및 <code>basename()</code> 함수는 널로 끝나는 경로명 문자열을 디렉터리 부분과 파일명 부분으로 나눈다. 보통 경우에 <code>dirname()</code>은 마지막 '/' 전까지의 문자열을 반환하고 <code>basename()</code>은 그 마지막 '/' 다음 부분을 반환한다. 끝에 붙은 '/' 문자는 경로명에 포함시키지 않는다.</p>
+<p><code>path</code> 안에 슬래시가 없으면 <code>dirname()</code>은 문자열 "."을 반환하고 <code>basename()</code>은 <code>path</code>의 사본을 반환한다. <code>path</code>가 문자열 "/"이면 <code>dirname()</code>과 <code>basename()</code> 모두 문자열 "/"를 반환한다. <code>path</code>가 널 포인터거나 빈 문자열에 대한 포인터면 <code>dirname()</code>과 <code>basename()</code> 모두 문자열 "."를 반환한다.</p>
+<p><code>dirname()</code>이 반환한 문자열, "/", <code>basename()</code>이 반환한 문자열을 이어 붙이면 완전한 경로명이 나온다.</p>
+<p><code>dirname()</code>과 <code>basename()</code>에서 <code>path</code>의 내용을 변경할 수도 있으므로 이 함수들을 호출할 때는 사본을 전달하는 게 바람직할 수도 있다.</p>
+<p>이 함수들이 정적으로 할당한 메모리에 대한 포인터를 반환할 수 있고 이어지는 호출에서 그 메모리에 덮어 쓸 수도 있다. 또는 <code>path</code>의 일부분에 대한 포인터를 반환할 수도 있으므로 함수가 반환한 포인터가 더는 필요치 않게 될 때까지는 <code>path</code>를 변경하거나 해제하지 말아야 한다.</p>
+<p>(SUSv2에서 가져온) 다음 예시 목록은 여러 경로에 대해 <code>dirname()</code>과 <code>basename()</code>이 반환하는 문자열을 보여 준다.</p>
+<table>
+<thead>
+<tr>
+<th>경로</th>
+<th>dirname</th>
+<th>basename</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/usr/lib</code></td>
+<td><code>/usr</code></td>
+<td><code>lib</code></td>
+</tr>
+<tr>
+<td><code>/usr/</code></td>
+<td><code>/</code></td>
+<td><code>usr</code></td>
+</tr>
+<tr>
+<td><code>usr</code></td>
+<td><code>.</code></td>
+<td><code>usr</code></td>
+</tr>
+<tr>
+<td><code>/</code></td>
+<td><code>/</code></td>
+<td><code>/</code></td>
+</tr>
+<tr>
+<td><code>.</code></td>
+<td><code>.</code></td>
+<td><code>.</code></td>
+</tr>
+<tr>
+<td><code>..</code></td>
+<td><code>.</code></td>
+<td><code>..</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="return-value">RETURN VALUE</h2>
+<p><code>dirname()</code>과 <code>basename()</code> 모두 널 종료 문자열에 대한 포인터를 반환한다. (이 포인터를 <tt>[[free(3)]]</tt>로 전달해선 안 된다.)</p>
+<h2 id="attributes">ATTRIBUTES</h2>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<table>
+<thead>
+<tr>
+<th>인터페이스</th>
+<th>속성</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>basename()</code>, <code>dirname()</code></td>
+<td>스레드 안전성</td>
+<td>MT-Safe</td>
+</tr>
+</tbody>
+</table>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>POSIX.1-2001, POSIX.1-2008.</p>
+<h2 id="notes">NOTES</h2>
+<p>두 가지 서로 다른 <code>basename()</code> 버전이 있다. 위에서 기술한 POSIX 버전, 그리고 다음과 같이 얻는 GNU 버전이다.</p>
+<pre><code class="c">#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
+#include &lt;string.h&gt;
+</code></pre>
+
+<p>GNU 버전에서는 절대 인자를 변경하지 않으며 <code>path</code> 끝에 슬래시가 있을 때, 특히 <code>path</code>가 "/"일 때에도 빈 문자열을 반환한다. <code>dirname()</code>의 GNU 버전은 없다.</p>
+<p>glibc에서는 <code>&lt;libgen.h&gt;</code>를 포함하면 POSIX 버전 <code>basename()</code>을 얻고 아니면 GNU 버전을 얻는다.</p>
+<h2 id="bugs">BUGS</h2>
+<p>glibc 구현에서 이 함수들의 POSIX 버전이 <code>path</code> 인자를 변경하며, "/usr/" 같은 정적 문자열로 호출 시 세그멘테이션 폴트가 발생한다.</p>
+<p>glibc 2.2.1 전에서 <code>dirname()</code>의 glibc 버전이 끝에 '/' 문자가 있는 경로명을 올바로 처리하지 못했으며 NULL 인자를 주면 세그멘테이션 폴트가 발생했다.</p>
+<h2 id="example">EXAMPLE</h2>
+<p>다음 코드 조각은 <code>basename()</code> 및 <code>dirname()</code> 사용 방식을 보여 준다.</p>
+<pre><code class="c">char *dirc, *basec, *bname, *dname;
+char *path = &quot;/etc/passwd&quot;;
+
+dirc = strdup(path);
+basec = strdup(path);
+dname = dirname(dirc);
+bname = basename(basec);
+printf(&quot;dirname=%s, basename=%s\n&quot;, dname, bname);
+</code></pre>
+
+<h2 id="see-also">SEE ALSO</h2>
+<p><code>basename(1)</code>, <code>dirname(1)</code></p>
+<hr />
+<p>2019-03-06</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

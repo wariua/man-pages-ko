@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/process_vm_writev(2)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Process vm writev(2) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>process_vm_readv, process_vm_writev - 프로세스 주소 공간들 간에 데이터 전송하기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;sys/uio.h&gt;
+
+ssize_t process_vm_readv(pid_t pid,
+                         const struct iovec *local_iov,
+                         unsigned long liovcnt,
+                         const struct iovec *remote_iov,
+                         unsigned long riovcnt,
+                         unsigned long flags);
+
+ssize_t process_vm_writev(pid_t pid,
+                          const struct iovec *local_iov,
+                          unsigned long liovcnt,
+                          const struct iovec *remote_iov,
+                          unsigned long riovcnt,
+                          unsigned long flags);
+</code></pre>
+
+<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<dl>
+<dt><code>process_vm_readv()</code>, <code>process_vm_writev()</code>:</dt>
+<dd><code>_GNU_SOURCE</code></dd>
+</dl>
+<h2 id="description">DESCRIPTION</h2>
+<p>이 시스템 호출들은 호출 프로세스("지역 프로세스")와 <code>pid</code>로 나타낸 프로세스("원격 프로세스")의 주소 공간들 사이에서 데이터를 전송한다. 데이터가 커널을 거치지 않고 두 프로세스 주소 공간 간에 직접 이동한다.</p>
+<p><code>process_vm_readv()</code> 시스템 호출은 원격 프로세스에서 지역 프로세스로 데이터를 전송한다. 전송할 데이터를 <code>remote_iov</code>와 <code>riovcnt</code>로 나타낸다. <code>remote_iov</code>는 프로세스 <code>pid</code> 내 주소 범위를 기술하는 배열에 대한 포인터이고 <code>riovcnt</code>는 <code>remote_iov</code>의 항목 개수를 나타낸다. 그 데이터가 <code>local_iov</code>와 <code>liovcnt</code>로 나타낸 위치로 전송된다. <code>local_iov</code>는 호출 프로세스 내 주소 범위를 기술하는 배열에 대한 포인터이고 <code>liovcnt</code>는 <code>local_iov</code>의 항목 개수를 나타낸다.</p>
+<p><code>process_vm_writev()</code> 시스템 호출은 <code>process_vm_readv()</code>의 반대이다. 즉, 지역 프로세스에서 원격 프로세스로 데이터를 전송한다. 전송 방향을 제외하고 인자 <code>liovcnt</code>, <code>local_iov</code>, <code>riovcnt</code>, <code>remote_iov</code>의 의미는 <code>process_vm_readv()</code>에서와 같다.</p>
+<p><code>local_iov</code>와 <code>remote_iov</code> 인자는 <code>iovec</code> 구조체 배열을 가리킨다. 이 구조체는 <code>&lt;sys/uio.h&gt;</code>에 다음과 같이 정의되어 있다.</p>
+<pre><code class="c">struct iovec {
+    void  *iov_base;    /* 시작 주소 */
+    size_t iov_len;     /* 옮길 바이트 수 */
+};
+</code></pre>
+
+<p>배열 순서대로 버퍼들을 처리한다. 즉 <code>process_vm_readv()</code>에서 <code>local_iov[0]</code>를 완전히 채운 다음 <code>local_iov[1]</code>로 진행하는 식이다. 또한 <code>remote_iov[0]</code>를 완전히 읽은 다음 <code>remote_iov[1]</code>로 진행한다.</p>
+<p>마찬가지로 <code>process_vm_writev()</code>에서는 <code>local_iov[0]</code>의 내용을 모두 쓴 다음 <code>local_iov[1]</code>로 진행하고 <code>remote_iov[0]</code>를 완전히 채운 다음 <code>remote_iov[1]</code>로 진행한다.</p>
+<p><code>remote_iov[i].iov_len</code>과 <code>local_iov[i].iov_len</code>의 길이 값이 같을 필요가 없다. 즉, 지역 버퍼 한 개를 원격 버퍼 여러 개로 쪼개거나 그 반대로 하는 것이 가능하다.</p>
+<p><code>flags</code> 인자는 현재 사용하지 않으며 0으로 설정해야 한다.</p>
+<p><code>liovcnt</code> 및 <code>riovcnt</code> 인자에 지정한 값은 <code>IOV_MAX</code> 이하여야 한다. (<code>IOV_MAX</code>는 <code>&lt;limits.h&gt;</code>에 정의되어 있거나 <code>sysconf(_SC_IOV_MAX)</code> 호출로 얻을 수 있다.)</p>
+<p>전송을 하기 전에 개수 인자들과 <code>local_iov</code>를 확인한다. 개수가 너무 크거나, <code>local_iov</code>가 유효하지 않거나, 그 주소가 지역 프로세스에서 접근 불가능한 영역을 가리키는 경우 어떤 벡터도 처리하지 않고 즉시 오류를 반환한다.</p>
+<p>하지만 이 시스템 호출들은 읽기/쓰기를 하기 직전까지 원격 프로세스의 메모리 영역을 확인하지 않는다. 따라서 <code>remote_iov</code>의 한 항목이 원격 프로세스에서 유효하지 않은 메모리 영역을 가리키는 경우 불완전 읽기/쓰기가 일어날 수도 있다. (RETURN VALUE 참고.) 그 지점 이후로는 읽기/쓰기를 더 시도하지 않는다. 길이를 모르는 (널 종료 C 문자열 같은) 데이터를 원격 프로세스로부터 읽으려 할 때 이를 고려하여 원격 <code>iovec</code> 항목 하나가 메모리 페이지(보통 4 KiB) 여러 개에 걸치지 않게 하는 게 좋다. (그 원격 읽기를 <code>remote_iov</code> 항목 두 개로 쪼개고 <code>local_iov</code> 한 개에 쓰는 것으로 합쳐지게 하면 된다. 첫 번째 읽기 항목이 페이지 경계까지 가고 두 번째가 다음 페이지 경계에서 시작하는 것이다.)</p>
+<p>다른 프로세스에 읽거나 쓰는 권한은 ptrace 접근 모드 <code>PTRACE_MODE_ATTACH_REALCREDS</code> 검사로 결정된다. <tt>[[ptrace(2)]]</tt> 참고.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>성공 시 <code>process_vm_readv()</code>는 읽은 바이트 수를 반환하고 <code>process_vm_writev()</code>는 쓴 바이트 수를 반환한다. 불완전 읽기/쓰기가 일어난 경우 반환 값이 요청한 바이트 총수보다 작을 수 있다. (불완전 전송은 <code>iovec</code> 항목 단위로 이뤄진다. 이 시스템 호출들은 <code>iovec</code> 항목 하나를 쪼개는 불완전 전송을 수행하지 않는다.) 호출자는 반환 값을 확인해서 불완전 읽기/쓰기가 일어났는지 여부를 알아보는 게 좋다.</p>
+<p>오류 시 -1을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<h2 id="errors">ERRORS</h2>
+<dl>
+<dt><code>EFAULT</code></dt>
+<dd><code>local_iov</code>가 나타내는 메모리가 호출자의 접근 가능 메모리 공간 밖에 있다.</dd>
+<dt><code>EFAULT</code></dt>
+<dd><code>remote_iov</code>가 나타내는 메모리가 프로세스 <code>pid</code>의 접근 가능 메모리 공간 밖에 있다.</dd>
+<dt><code>EINVAL</code></dt>
+<dd><code>local_iov</code>나 <code>remote_iov</code>의 <code>iov_len</code> 값들의 합이 <code>ssize_t</code> 값 범위를 넘어간다.</dd>
+<dt><code>EINVAL</code></dt>
+<dd><code>flags</code>가 0이 아니다.</dd>
+<dt><code>EINVAL</code></dt>
+<dd><code>liovcnt</code>나 <code>riovcnt</code>가 너무 크다.</dd>
+<dt><code>ENOMEM</code></dt>
+<dd><code>iovec</code> 구조체의 내부 사본을 위한 메모리를 할당하지 못했다.</dd>
+<dt><code>EPERM</code></dt>
+<dd>호출자가 프로세스 <code>pid</code>의 주소 공간에 접근할 권한을 가지고 있지 않다.</dd>
+<dt><code>ESRCH</code></dt>
+<dd>ID가 <code>pid</code>인 프로세스가 존재하지 않는다.</dd>
+</dl>
+<h2 id="versions">VERSIONS</h2>
+<p>리눅스 3.2에서 이 시스템 호출들이 추가되었다. glibc 버전 2.15부터 지원을 제공한다.</p>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>이 시스템 호출들은 비표준 리눅스 확장이다.</p>
+<h2 id="notes">NOTES</h2>
+<p><code>process_vm_readv()</code>와 <code>process_vm_writev()</code>가 수행하는 데이터 전송은 어떤 식으로도 원자성이 보장되지 않는다.</p>
+<p>이 시스템 호출들은 한 번의 복사 동작으로 메시지를 교환할 수 있게 하여 빠른 메시지 전달을 가능케 하도록 설계되었다. (예를 들어 공유 메모리나 파이프를 사용한다면 두 번의 복사가 필요할 것이다.)</p>
+<h2 id="example">EXAMPLE</h2>
+<p>다음 코드 샘플이 <code>process_vm_readv()</code> 사용 방식을 보여 준다. PID가 10인 프로세스로부터 주소 0x10000에 있는 20바이트를 읽어서 처음 10바이트를 <code>buf1</code>에 쓰고 두 번째 10바이트를 <code>buf2</code>에 쓴다.</p>
+<pre><code class="c">#include &lt;sys/uio.h&gt;
+
+int
+main(void)
+{
+    struct iovec local[2];
+    struct iovec remote[1];
+    char buf1[10];
+    char buf2[10];
+    ssize_t nread;
+    pid_t pid = 10;            /* 원격 프로세스의 PID */
+
+    local[0].iov_base = buf1;
+    local[0].iov_len = 10;
+    local[1].iov_base = buf2;
+    local[1].iov_len = 10;
+    remote[0].iov_base = (void *) 0x10000;
+    remote[0].iov_len = 20;
+
+    nread = process_vm_readv(pid, local, 2, remote, 1, 0);
+    if (nread != 20)
+        return 1;
+    else
+        return 0;
+}
+</code></pre>
+
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[readv(2)]]</tt>, <tt>[[writev(2)]]</tt></p>
+<hr />
+<p>2017-09-15</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

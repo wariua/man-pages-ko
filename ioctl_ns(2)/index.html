@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/ioctl_ns(2)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Ioctl ns(2) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+            <li class="second-level"><a href="#_1">네임스페이스 관계 알아내기</a></li>
+                
+            <li class="second-level"><a href="#_2">네임스페이스 종류 알아내기</a></li>
+                
+            <li class="second-level"><a href="#_3">사용자 네임스페이스 소유자 알아내기</a></li>
+                
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+            <li class="second-level"><a href="#_4">프로그램 소스</a></li>
+                
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>ioctl_ns - 리눅스 네임스페이스를 위한 ioctl() 동작들</p>
+<h2 id="description">DESCRIPTION</h2>
+<h3 id="_1">네임스페이스 관계 알아내기</h3>
+<p>네임스페이스 관계(<tt>[[user_namespaces(7)]]</tt> 및 <tt>[[pid_namespaces(7)]]</tt> 참고)를 알아낼 수 있도록 다음 <code>ioctl(2)</code> 동작을 제공한다. 호출 형태는 이렇다.</p>
+<pre><code class="c">new_fd = ioctl(fd, request);
+</code></pre>
+
+<p>각 경우에서 <code>fd</code>는 <code>/proc/[pid]/ns/*</code> 파일을 가리킨다. 성공 시 두 동작 모두 새 파일 디스크립터를 반환한다.</p>
+<dl>
+<dt><code>NS_GET_USERNS</code> (리눅스 4.9부터)</dt>
+<dd><code>fd</code>가 가리키는 네임스페이스를 소유한 사용자 네임스페이스를 가리키는 파일 디스크립터를 반환한다.</dd>
+<dt><code>NS_GET_PARENT</code> (리눅스 4.9부터)</dt>
+<dd><code>fd</code>가 가리키는 네임스페이스의 부모 네임스페이스를 가리키는 파일 디스크립터를 반환한다. 계층적 네임스페이스(즉 PID 네임스페이스와 사용자 네임스페이스)에만 이 동작이 유효하다. 사용자 네임스페이스에서 <code>NS_GET_PARENT</code>와 <code>NS_GET_USERNS</code>는 같은 의미이다.</dd>
+</dl>
+<p>이 동작들이 반환하는 새 파일 디스크립터는 <code>O_RDONLY</code> 및 <code>O_CLOEXEC</code>(exec에서 닫기, <tt>[[fcntl(2)]]</tt> 참고) 플래그로 열려 있다.</p>
+<p>반환된 파일 디스크립터에 <tt>[[fstat(2)]]</tt> 하면 얻는 <code>stat</code> 구조체의 <code>st_dev</code>(거주 장치) 및 <code>st_ino</code>(아이노드 번호) 필드로 소유/부모 네임스페이스를 식별한다. 그 아이노드 번호를 다른 <code>/proc/[pid]/ns/{pid,user}</code> 파일의 아이노드 번호와 맞춰 봐서 소유/부모 네임스페이스인지를 알아낼 수 있다.</p>
+<p>어느 쪽 <code>ioctl(2)</code> 동작이든 다음 오류로 실패할 수 있다.</p>
+<dl>
+<dt><code>EPERM</code></dt>
+<dd>요청한 네임스페이스가 호출자의 네임스페이스 범위 밖에 있다. 예를 들어 소유 사용자 네임스페이스가 호출자의 현재 사용자 네임스페이스의 조상이면 이 오류가 발생할 수 있다. 최초 사용자 내지 PID 네임스페이스의 부모를 얻으려고 할 때에도 발생할 수 있다.</dd>
+<dt><code>ENOTTY</code></dt>
+<dd>현 커널 버전에서 동작을 지원하지 않는다.</dd>
+</dl>
+<p>추가로 <code>NS_GET_PARENT</code> 동작이 다음 오류로 실패할 수 있다.</p>
+<dl>
+<dt><code>EINVAL</code></dt>
+<dd><code>fd</code>가 비계층적 네임스페이스를 가리키고 있다.</dd>
+</dl>
+<p>이 동작들의 사용 예시는 EXAMPLE 절 참고.</p>
+<h3 id="_2">네임스페이스 종류 알아내기</h3>
+<p><code>NS_GET_NSTYPE</code> 동작(리눅스 4.11부터 사용 가능)을 이용해 파일 디스크립터 <code>fd</code>가 가리키는 네임스페이스의 유형을 알아낼 수 있다.</p>
+<pre><code class="c">nstype = ioctl(fd, NS_GET_NSTYPE);
+</code></pre>
+
+<p><code>fd</code>는 <code>/proc/[pid]/ns/*</code> 파일을 가리킨다.</p>
+<p>반환 값은 네임스페이스를 만들기 위해 <tt>[[clone(2)]]</tt>이나 <tt>[[unshare(2)]]</tt>에 지정할 수 있는 <code>CLONE_NEW*</code> 값들 중 하나이다.</p>
+<h3 id="_3">사용자 네임스페이스 소유자 알아내기</h3>
+<p><code>NS_GET_OWNER_UID</code> 동작(리눅스 4.11부터 사용 가능)을 이용해 사용자 네임스페이스를 소유한 사용자 ID를 (즉 사용자 네임스페이스를 생성한 프로세스의 실효 사용자 ID를) 알아낼 수 있다. 다음처럼 호출한다.</p>
+<pre><code class="c">uid_t uid;
+ioctl(fd, NS_GET_OWNER_UID, &amp;uid);
+</code></pre>
+
+<p><code>fd</code>는 <code>/proc/[pid]/ns/user</code> 파일을 가리킨다.</p>
+<p>세 번째 인자가 가리키는 <code>uid_t</code>로 소유 사용자 ID가 반환된다.</p>
+<p>이 동작이 다음 오류로 실패할 수 있다.</p>
+<dl>
+<dt><code>EINVAL</code></dt>
+<dd><code>fd</code>가 사용자 네임스페이스를 가리키고 있지 않다.</dd>
+</dl>
+<h2 id="errors">ERRORS</h2>
+<p>위의 <code>ioctl()</code> 동작들 어느 것이든 다음 오류를 반환할 수 있다.</p>
+<dl>
+<dt><code>ENOTTY</code></dt>
+<dd><code>fd</code>가 <code>/proc/[pid]/ns/*</code> 파일을 가리키고 있지 않다.</dd>
+</dl>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>이 페이지에서 설명하는 네임스페이스 및 동작들은 리눅스 전용이다.</p>
+<h2 id="example">EXAMPLE</h2>
+<p>아래 있는 예시 프로그램에서는 위에 설명한 <code>ioctl(2)</code> 동작들을 사용해 간단한 네임스페이스 관계 탐색을 수행한다. 다음 셸 세션들은 이 프로그램의 다양한 사용 방식을 보여 준다.</p>
+<p>최초 사용자 네임스페이스의 부모를 얻으려고 시도하면 부모가 없으므로 실패한다.</p>
+<pre><code class="text">$ ./ns_show /proc/self/ns/user p
+The parent namespace is outside your namespace scope
+</code></pre>
+
+<p>새로운 사용자 및 UTS 네임스페이스 내에서 <code>sleep(1)</code>을 실행하는 프로세스를 만든다. 그리고 새 UTS 네임스페이스가 새 사용자 네임스페이스와 연계돼 있음을 보인다.</p>
+<pre><code class="text">$ unshare -Uu sleep 1000 &amp;
+[1] 23235
+$ ./ns_show /proc/23235/ns/uts u
+Device/Inode of owning user namespace is: [0,3] / 4026532448
+$ readlink /proc/23235/ns/user
+user:[4026532448]
+</code></pre>
+
+<p>그리고 위 예의 새 사용자 네임스페이스의 부모가 최초 사용자 네임스페이스임을 보인다.</p>
+<pre><code class="text">$ readlink /proc/self/ns/user
+user:[4026531837]
+$ ./ns_show /proc/23235/ns/user p
+Device/Inode of parent namespace is: [0,3] / 4026531837
+</code></pre>
+
+<p>새 사용자 네임스페이스에서 셸을 시작한다. 그리고 그 셸 내에서 부모 사용자 네임스페이스를 알아낼 수 없음을 보인다. 마찬가지로 (최초 사용자 네임스페이스에 연계돼 있는) UTS 네임스페이스도 알아낼 수 없다.</p>
+<pre><code class="text">$ PS1=&quot;sh2$ &quot; unshare -U bash
+sh2$ ./ns_show /proc/self/ns/user p
+The parent namespace is outside your namespace scope
+sh2$ ./ns_show /proc/self/ns/uts u
+The owning user namespace is outside your namespace scope
+</code></pre>
+
+<h3 id="_4">프로그램 소스</h3>
+<pre><code class="c">/* ns_show.c
+
+   Licensed under the GNU General Public License v2 or later.
+*/
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;string.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;sys/ioctl.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;sys/sysmacros.h&gt;
+
+#ifndef NS_GET_USERNS
+#define NSIO    0xb7
+#define NS_GET_USERNS   _IO(NSIO, 0x1)
+#define NS_GET_PARENT   _IO(NSIO, 0x2)
+#endif
+
+int
+main(int argc, char *argv[])
+{
+    int fd, userns_fd, parent_fd;
+    struct stat sb;
+
+    if (argc &lt; 2) {
+        fprintf(stderr, &quot;Usage: %s /proc/[pid]/ns/[file] [p|u]\n&quot;,
+                argv[0]);
+        fprintf(stderr, &quot;\nDisplay the result of one or both &quot;
+                &quot;of NS_GET_USERNS (u) or NS_GET_PARENT (p)\n&quot;
+                &quot;for the specified /proc/[pid]/ns/[file]. If neither &quot;
+                &quot;'p' nor 'u' is specified,\n&quot;
+                &quot;NS_GET_USERNS is the default.\n&quot;);
+        exit(EXIT_FAILURE);
+    }
+
+    /* argv[1]에 지정된 'ns' 파일에 대한 파일 디스크립터 얻기 */
+
+    fd = open(argv[1], O_RDONLY);
+    if (fd == -1) {
+        perror(&quot;open&quot;);
+        exit(EXIT_FAILURE);
+    }
+
+    /* 소유 사용자 네임스페이스에 대한 파일 디스크립터를 얻고
+       그 네임스페이스의 아이노드 번호를 얻어서 표시 */
+
+    if (argc &lt; 3 || strchr(argv[2], 'u')) {
+        userns_fd = ioctl(fd, NS_GET_USERNS);
+
+        if (userns_fd == -1) {
+            if (errno == EPERM)
+                printf(&quot;The owning user namespace is outside &quot;
+                        &quot;your namespace scope\n&quot;);
+            else
+                perror(&quot;ioctl-NS_GET_USERNS&quot;);
+            exit(EXIT_FAILURE);
+        }
+
+        if (fstat(userns_fd, &amp;sb) == -1) {
+            perror(&quot;fstat-userns&quot;);
+            exit_EXIT_FAILURE);
+        }
+        printf(&quot;Device/Inode of owning user namespace is: &quot;
+                &quot;[%lx,%lx] / %ld\n&quot;,
+                (long) major(sb.st_dev), (long) minor(sb.st_dev),
+                (long) sb.st_ino);
+
+        close(userns_fd);
+    }
+
+    /* 부모 네임스페이스에 대한 파일 디스크립터를 얻고
+       그 네임스페이스의 아이노드 번호를 얻어서 표시 */
+
+    if (argc &gt; 2 &amp;&amp; strchr(argv[2], 'p')) {
+        parent_fd = ioctl(fd, NS_GET_PARENT);
+
+        if (parent_fd == -1) {
+            if (errno == EINVAL)
+                printf(&quot;Can't get parent namespace of a &quot;
+                        &quot;nonhierarchical namespace\n&quot;);
+            else if (errno == EPERM)
+                printf(&quot;The parent namespace is outside &quot;
+                        &quot;your namespace scope\n&quot;);
+            else
+                perror(&quot;ioctl-NS_GET_PARENT&quot;);
+            exit(EXIT_FAILURE);
+        }
+
+        if (fstat(parent_fd, &amp;sb) == -1) {
+            perror(&quot;fstat-parentns&quot;);
+            exit_EXIT_FAILURE);
+        }
+        printf(&quot;Device/Inode of parent namespace is: [%lx,%lx] / %ld\n&quot;,
+                (long) major(sb.st_dev), (long) minor(sb.st_dev),
+                (long) sb.st_ino);
+
+        close(parent_fd);
+    }
+
+    exit(EXIT_SUCCESS);
+}
+</code></pre>
+
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[fstat(2)]]</tt>, <code>ioctl(2)</code>, <tt>[[proc(5)]]</tt>, <tt>[[namespaces(7)]]</tt></p>
+<hr />
+<p>2019-03-06</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/dup3(2)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Dup3(2) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+            <li class="second-level"><a href="#dup2">dup2()</a></li>
+                
+            <li class="second-level"><a href="#dup3">dup3()</a></li>
+                
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>dup, dup2, dup3 - 파일 디스크립터 복제하기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;unistd.h&gt;
+
+int dup(int oldfd);
+int dup2(int oldfd, int newfd);
+
+#define _GNU_SOURCE             /* feature_test_macros(7) 참고 */
+#include &lt;fcntl.h&gt;              /* O_* 상수 정의 얻기 */
+#include &lt;unistd.h&gt;
+
+int dup3(int oldfd, int newfd, int flags);
+</code></pre>
+
+<h2 id="description">DESCRIPTION</h2>
+<p><code>dup()</code> 시스템 호출은 파일 디스크립터 <code>oldfd</code>의 사본을 만든다. 안 쓰는 가장 낮은 파일 디스크립터 번호를 새 디스크립터에 쓴다.</p>
+<p>성공 반환 후에는 이전 파일 디스크립터와 새 파일 디스크립터를 서로 바꿔 가며 사용할 수도 있다. 같은 열린 파일 기술 항목(<tt>[[open(2)]]</tt> 참고)을 가리키기 때문에 오프셋과 파일 상태를 공유한다. 예를 들어 한쪽 파일 디스크립터에서 <tt>[[lseek(2)]]</tt>으로 파일 오프셋을 변경하면 다른 쪽에서도 오프셋이 바뀐다.</p>
+<p>두 파일 디스크립터가 파일 디스크립터 플래그('exec에서 닫기' 플래그)는 공유하지 않는다. 복제 디스크립터에서는 'exec에서 닫기'(<code>FD_CLOEXEC</code>, <tt>[[fcntl(2)]]</tt> 참고) 플래그가 꺼져 있다.</p>
+<h3 id="dup2"><code>dup2()</code></h3>
+<p><code>dup2()</code> 시스템 호출은 <code>dup()</code>과 같은 일을 하되 안 쓰는 가장 낮은 파일 디스크립터 번호를 쓰는 게 아니라 <code>newfd</code>에 지정한 파일 디스크립터 번호를 쓴다. 파일 디스크립터 <code>newfd</code>가 이미 열려 있으면 조용히 닫고서 재사용한다.</p>
+<p>파일 디스크립터 <code>newfd</code>를 닫고 재사용하는 단계를 <em>원자적으로</em> 수행한다. 이 점이 중요한 건 <tt>[[close(2)]]</tt>와 <code>dup()</code>을 이용해 동등한 기능성을 구현하려 하면 <code>newfd</code>가 두 단계 사이에서 재사용될 수도 있는 경쟁 조건에 직면하게 되기 때문이다. 메인 프로그램을 중단시킨 시그널 핸들러에서 파일 디스크립터를 할당하거나 병렬 스레드에서 파일 디스크립터를 할당하여 그런 재사용이 일어날 수 있을 것이다.</p>
+<p>다음 사항에 주의해야 한다.</p>
+<ul>
+<li>
+<p><code>oldfd</code>가 유효한 파일 디스크립터가 아닌 경우 호출이 실패하며 <code>newfd</code>는 닫히지 않는다.</p>
+</li>
+<li>
+<p><code>oldfd</code>가 유효한 파일 디스크립터이고 <code>newfd</code>가 <code>oldfd</code>와 값이 같은 경우 <code>dup2()</code>는 아무것도 하지 않고 <code>newfd</code>를 반환한다.</p>
+</li>
+</ul>
+<h3 id="dup3"><code>dup3()</code></h3>
+<p><code>dup3()</code>는 다음 사항을 제외하면 <code>dup2()</code>와 같다.</p>
+<ul>
+<li>
+<p>호출자가 <code>flags</code>에 <code>O_CLOEXEC</code>를 지정해서 새 파일 디스크립터에 'exec에서 닫기' 플래그가 설정되게 할 수 있다. 이게 유용할 수 있는 이유에 대해선 <tt>[[open(2)]]</tt>의 해당 플래그 설명을 보라.</p>
+</li>
+<li>
+<p><code>oldfd</code>가 <code>newfd</code>와 같은 경우에 <code>dup3()</code>는 <code>EINVAL</code> 오류로 실패한다.</p>
+</li>
+</ul>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>성공 시 이 시스템 호출들은 새 파일 디스크립터를 반환한다. 오류 시 -1을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<h2 id="errors">ERRORS</h2>
+<dl>
+<dt><code>EBADF</code></dt>
+<dd><code>oldfd</code>가 열린 파일 디스크립터가 아니다.</dd>
+<dt><code>EBADF</code></dt>
+<dd><code>newfd</code>가 파일 디스크립터 허용 범위를 벗어난다. (<tt>[[getrlimit(2)]]</tt>의 <code>RLIMIT_NOFILE</code> 설명 참고.)</dd>
+<dt><code>EBUSY</code></dt>
+<dd>(리눅스 한정) <tt>[[open(2)]]</tt>과 <code>dup()</code>의 경쟁 조건 시에 <code>dup2()</code>나 <code>dup3()</code>에서 반환할 수 있다.</dd>
+<dt><code>EINTR</code></dt>
+<dd><code>dup2()</code>나 <code>dup3()</code> 호출이 시그널에 의해 중단되었다. <tt>[[signal(7)]]</tt> 참고.</dd>
+<dt><code>EINVAL</code></dt>
+<dd>(<code>dup3()</code>) <code>flags</code>에 유효하지 않은 값이 있다.</dd>
+<dt><code>EINVAL</code></dt>
+<dd>(<code>dup3()</code>) <code>oldfd</code>가 <code>newfd</code>와 같다.</dd>
+<dt><code>EMFILE</code></dt>
+<dd>열린 파일 디스크립터 개수에 대한 프로세스별 제한에 도달했다. (<tt>[[getrlimit(2)]]</tt>의 <code>RLIMIT_NOFILE</code> 설명 참고.)</dd>
+</dl>
+<h2 id="versions">VERSIONS</h2>
+<p>리눅스 2.6.27에서 <code>dup3()</code>가 추가되었다. glibc 버전 2.9부터 지원이 사용 가능하다.</p>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p><code>dup()</code>, <code>dup2()</code>: POSIX.1-2001, POSIX.1-2008, SVr4, 4.3BSD.</p>
+<p><code>dup3()</code>는 리눅스 전용이다.</p>
+<h2 id="notes">NOTES</h2>
+<p><code>newfd</code>가 범위를 벗어날 때 <code>dup2()</code>가 반환하는 오류가 <code>fcntl(..., F_DUPFD, ...)</code>이 반환하는 오류와 다르다. 어떤 시스템에서는 <code>dup2()</code>가 <code>F_DUPFD</code>처럼 <code>EINVAL</code>을 반환하기도 한다.</p>
+<p><code>newfd</code>가 열려 있었을 때 <tt>[[close(2)]]</tt> 시점에 오류가 보고되더라도 그 정보가 유실된다. 이 점이 신경 쓰이는 경우에 (프로그램이 단일 스레드이고 시그널 핸들러에서 파일 디스크립터를 할당하지 않는 경우가 아니라면) <code>dup2()</code> 호출 전에 <code>newfd</code>를 닫는 것은 위에서 설명한 경쟁 조건 때문에 올바른 해법이 <em>아니다</em>. 대신 다음과 같은 식의 코드를 쓸 수 있을 것이다.</p>
+<pre><code class="c">/* 'newfd'를 복제해서 아래에서 close() 오류 검사에 사용.
+   EBADF 오류는 'newfd'가 열려 있지 않다는 뜻. */
+
+tmpfd = dup(newfd);
+if (tmpfd == -1 &amp;&amp; errno != EBADF) {
+    /* 예상 외의 dup() 오류 처리 */
+}
+
+/* 'oldfd'를 'newfd'로 원자적으로 복제 */
+
+if (dup2(oldfd, newfd) == -1) {
+    /* dup2() 오류 처리 */
+}
+
+/* 이제 'newfd'가 원래 가리키던 파일에 대해서
+   close() 오류 검사 */
+
+if (tmpfd != -1) {
+    if (close(tmpfd) == -1) {
+        /* close 오류 처리 */
+    }
+}
+</code></pre>
+
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[close(2)]]</tt>, <tt>[[fcntl(2)]]</tt>, <tt>[[open(2)]]</tt></p>
+<hr />
+<p>2017-09-15</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_setaffinity_np(3)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Pthread setaffinity np(3) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
+        <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>pthread_setaffinity_np, pthread_getaffinity_np - 스레드의 CPU 친화성 설정하기/얻기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#define _GNU_SOURCE             /* feature_test_macros(7) 참고 */
+#include &lt;pthread.h&gt;
+
+int pthread_setaffinity_np(pthread_t thread, size_t cpusetsize,
+                           const cpu_set_t *cpuset);
+int pthread_getaffinity_np(pthread_t thread, size_t cpusetsize,
+                           cpu_set_t *cpuset);
+</code></pre>
+
+<p><code>-pthread</code>로 컴파일 및 링크.</p>
+<h2 id="description">DESCRIPTION</h2>
+<p><code>pthread_setaffinity_np()</code> 함수는 스레드 <code>thread</code>의 CPU 친화성 마스크를 <code>cpuset</code>이 가리키는 CPU 세트로 설정한다. 호출이 성공하고 스레드가 현재 <code>cpuset</code>의 한 CPU에서 돌고 있지 않으면 그 CPU들 중 하나로 스레드를 옮긴다.</p>
+<p><code>pthread_getaffinity_np()</code> 함수는 스레드 <code>thread</code>의 CPU 친화성 마스크를 <code>cpuset</code>이 가리키는 버퍼로 반환한다.</p>
+<p>CPU 친화성 마스크에 대한 더 자세한 내용은 <tt>[[sched_setaffinity(2)]]</tt>를 보라. CPU 세트 조작과 검사에 사용할 수 있는 매크로들에 대한 설명은 <tt>[[CPU_SET(3)]]</tt>을 보라.</p>
+<p><code>cpusetsize</code> 인자는 <code>cpuset</code>이 가리키는 버퍼의 (바이트 단위) 길이이다. 보통은 이 인자를 <code>sizeof(cpu_set_t)</code>로 지정할 것이다. (<tt>[[CPU_SET(3)]]</tt>에서 기술하는 CPU 세트 동적 할당을 위한 매크로들을 사용하고 있다면 어떤 다른 값일 수도 있다.)</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>성공 시 이 함수들은 0을 반환한다. 오류 시 0 아닌 오류 번호를 반환한다.</p>
+<h2 id="errors">ERRORS</h2>
+<dl>
+<dt><code>EFAULT</code></dt>
+<dd>제공한 메모리 주소가 유효하지 않다.</dd>
+<dt><code>EINVAL</code></dt>
+<dd>(<code>pthread_setaffinity_np()</code>) 친화성 비트 마스크 <code>mask</code>가 현재 물리적으로 시스템 상에 있으면서 <tt>[[cpuset(7)]]</tt>에서 기술하는 "cpuset" 메커니즘으로 부과할 수 있는 제약에 따라 스레드에게 허용된 프로세서를 하나도 포함하고 있지 않다.</dd>
+<dt><code>EINVAL</code></dt>
+<dd>(<code>pthread_setaffinity_np()</code>) <code>cpuset</code>으로 커널에서 지원하는 집합을 벗어나는 CPU를 지정했다. (커널 구성 옵션 <code>CONFIG_NR_CPUS</code>가 CPU 집합 표현에 쓰는 커널 데이터 타입이 지원하는 집합의 범위를 규정한다.)</dd>
+<dt><code>EINVAL</code></dt>
+<dd>(<code>pthread_getaffinity_np()</code>) <code>cpusetsize</code>가 커널에서 쓰는 친화성 마스크의 크기보다 작다.</dd>
+<dt><code>ESRCH</code></dt>
+<dd>ID가 <code>thread</code>인 스레드를 찾을 수 없다.</dd>
+</dl>
+<h2 id="versions">VERSIONS</h2>
+<p>glibc 버전 2.3.4부터 이 함수들을 제공한다.</p>
+<h2 id="attributes">ATTRIBUTES</h2>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<table>
+<thead>
+<tr>
+<th>인터페이스</th>
+<th>속성</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pthread_setaffinity_np()</code>,<br><code>pthread_getaffinity_np()</code></td>
+<td>스레드 안전성</td>
+<td>MT-Safe</td>
+</tr>
+</tbody>
+</table>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>이 함수들은 비표준 GNU 확장이다. 그래서 이름 뒤에 "_np"(nonportable: 이식성 없음)가 붙어 있다.</p>
+<h2 id="notes">NOTES</h2>
+<p><code>pthread_setaffinity_np()</code> 호출 후에 스레드가 실제로 돌게 될 CPU들의 집합은 <code>cpuset</code> 인자에 지정한 집합과 시스템에 실제 존재하는 CPU들의 집합의 교집합이다. <tt>[[cpuset(7)]]</tt>에서 기술하는 "cpuset" 메커니즘을 사용하고 있으면 스레드가 도는 CPU 집합을 시스템에서 추가로 제약할 수도 있다. 스레드가 돌게 될 실제 CPU들의 집합에 대한 이 제약들은 커널이 조용히 적용한다.</p>
+<p>이 함수들은 <tt>[[sched_setaffinity(2)]]</tt> 및 <tt>[[sched_getaffinity(2)]]</tt> 시스템 호출 위에 구현되어 있다.</p>
+<p>glibc 2.3.3에 한해 제공됐던 버전에 <code>cpusetsize</code> 인자가 없었다. 기반 시스템 호출에게 주는 CPU 세트 크기가 항상 <code>sizeof(cpu_set_t)</code>였다.</p>
+<p><tt>[[pthread_create(3)]]</tt>로 생성한 신규 스레드는 자기를 생성한 스레드의 CPU 친화성 마스크 사본을 물려받는다.</p>
+<h2 id="example">EXAMPLE</h2>
+<p>다음 프로그램에서 주 스레드는 <code>pthread_setaffinity_np()</code>를 이용해 CPU 0에서 7까지를 (시스템에서 모두 사용 가능하지는 않을 수도 있음) 포함하도록 자기 CPU 친화성 마스크를 설정하고서 <code>pthread_getaffinity_np()</code>를 호출해 그렇게 바꾼 스레드의 CPU 친화성 마스크를 확인한다.</p>
+<pre><code class="c">#define _GNU_SOURCE
+#include &lt;pthread.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;errno.h&gt;
+
+#define handle_error_en(en, msg) \
+        do { errno = en; perror(msg); exit(EXIT_FAILURE); } while (0)
+
+int
+main(int argc, char *argv[])
+{
+    int s, j;
+    cpu_set_t cpuset;
+    pthread_t thread;
+
+    thread = pthread_self();
+
+    /* CPU 0에서 7까지 포함하도록 친화성 마스크 설정 */
+
+    CPU_ZERO(&amp;cpuset);
+    for (j = 0; j &lt; 8; j++)
+        CPU_SET(j, &amp;cpuset);
+
+    s = pthread_setaffinity_np(thread, sizeof(cpu_set_t), &amp;cpuset);
+    if (s != 0)
+        handle_error_en(s, &quot;pthread_setaffinity_np&quot;);
+
+    /* 스레드에 친화성 마스크가 실제 부여되었는지 확인 */
+
+    s = pthread_getaffinity_np(thread, sizeof(cpu_set_t), &amp;cpuset);
+    if (s != 0)
+        handle_error_en(s, &quot;pthread_getaffinity_np&quot;);
+
+    printf(&quot;Set returned by pthread_getaffinity_np() contained:\n&quot;);
+    for (j = 0; j &lt; CPU_SETSIZE; j++)
+        if (CPU_ISSET(j, &amp;cpuset))
+            printf(&quot;    CPU %d\n&quot;, j);
+
+    exit(EXIT_SUCCESS);
+}
+</code></pre>
+
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[sched_setaffinity(2)]]</tt>, <tt>[[CPU_SET(3)]]</tt>, <tt>[[pthread_attr_setaffinity_np(3)]]</tt>, <tt>[[pthread_self(3)]]</tt>, <tt>[[sched_getcpu(3)]]</tt>, <tt>[[cpuset(7)]]</tt>, <tt>[[pthreads(7)]]</tt>, <tt>[[sched(7)]]</tt></p>
+<hr />
+<p>2019-03-06</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

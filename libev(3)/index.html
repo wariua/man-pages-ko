@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/libev(3)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Libev(3) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+            <li class="second-level"><a href="#_1">예시 프로그램</a></li>
+                
+        <li class="first-level "><a href="#_2">이 문서에 대해</a></li>
+        <li class="first-level "><a href="#_3">바쁘다면</a></li>
+        <li class="first-level "><a href="#libev">libev에 대해</a></li>
+            <li class="second-level"><a href="#_4">특장점</a></li>
+                
+            <li class="second-level"><a href="#_5">관행</a></li>
+                
+            <li class="second-level"><a href="#_6">시간 표현</a></li>
+                
+        <li class="first-level "><a href="#_7">오류 처리</a></li>
+        <li class="first-level "><a href="#_8">전역 함수</a></li>
+        <li class="first-level "><a href="#_9">이벤트 루프 제어 함수</a></li>
+        <li class="first-level "><a href="#_10">감시자 해부</a></li>
+            <li class="second-level"><a href="#_11">일반 감시 함수</a></li>
+                
+            <li class="second-level"><a href="#_12">감시자 상태</a></li>
+                
+            <li class="second-level"><a href="#_13">감시자 우선순위 모델</a></li>
+                
+        <li class="first-level "><a href="#_14">감시자 종류</a></li>
+        <li class="first-level "><a href="#_15">기타 함수</a></li>
+        <li class="first-level "><a href="#_16">흔히 쓰거나 유용한 관용구</a></li>
+            <li class="second-level"><a href="#_17">감시자에 자체 데이터 붙이기</a></li>
+                
+            <li class="second-level"><a href="#_18">나만의 조합 감시자 만들기</a></li>
+                
+            <li class="second-level"><a href="#_19">반환 전 완료 피하기</a></li>
+                
+            <li class="second-level"><a href="#_20">중첩 이벤트 루프 호출과 종료 조건</a></li>
+                
+            <li class="second-level"><a href="#_21">스레드 락킹 예시</a></li>
+                
+            <li class="second-level"><a href="#continuation">콜백 대신 스레드, 코루틴, continuation, 큐, ...</a></li>
+                
+        <li class="first-level "><a href="#libevent">libevent 에뮬레이션</a></li>
+        <li class="first-level "><a href="#c">C++ 지원</a></li>
+            <li class="second-level"><a href="#c-api">C API</a></li>
+                
+            <li class="second-level"><a href="#c-api_1">C++ API</a></li>
+                
+        <li class="first-level "><a href="#_22">기타 언어 바인딩</a></li>
+        <li class="first-level "><a href="#_23">매크로 마술</a></li>
+        <li class="first-level "><a href="#_24">내장시키기</a></li>
+            <li class="second-level"><a href="#_25">파일 세트</a></li>
+                
+            <li class="second-level"><a href="#_26">전처리기 심볼/매크로</a></li>
+                
+            <li class="second-level"><a href="#api">노출되는 API 심볼</a></li>
+                
+            <li class="second-level"><a href="#_27">예시</a></li>
+                
+        <li class="first-level "><a href="#_28">다른 프로그램, 라이브러리, 환경과의 상호작용</a></li>
+            <li class="second-level"><a href="#_29">스레드 및 코루틴</a></li>
+                
+            <li class="second-level"><a href="#_30">컴파일러 경고</a></li>
+                
+            <li class="second-level"><a href="#valgrind">Valgrind</a></li>
+                
+        <li class="first-level "><a href="#_31">호환성 관련 사항</a></li>
+            <li class="second-level"><a href="#gnulinux-32">GNU/Linux 32비트 제한</a></li>
+                
+            <li class="second-level"><a href="#osx-darwin">OS/X 및 Darwin 버그</a></li>
+                
+            <li class="second-level"><a href="#_32">솔라리스 문제와 우회 방법</a></li>
+                
+            <li class="second-level"><a href="#aix-poll">AIX poll 버그</a></li>
+                
+            <li class="second-level"><a href="#win32">Win32 플랫폼 제약과 우회 방법</a></li>
+                
+            <li class="second-level"><a href="#_33">이식 요건</a></li>
+                
+        <li class="first-level "><a href="#_34">알고리즘 복잡도</a></li>
+        <li class="first-level "><a href="#libev-3x-4x">libev 3.x에서 4.x로 옮기기</a></li>
+        <li class="first-level "><a href="#_35">용어집</a></li>
+        <li class="first-level "><a href="#author">AUTHOR</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>libev - C로 작성된 다양한 기능의 고성능 이벤트 루프</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;ev.h&gt;
+</code></pre>
+
+<h3 id="_1">예시 프로그램</h3>
+<pre><code class="c">// 헤더 파일 하나만 필요
+#include &lt;ev.h&gt;
+
+#include &lt;stdio.h&gt; // for puts
+
+# 감시자 타입마다 ev_TYPE 형식 이름의
+# typedef 구조체가 있음
+ev_io stdin_watcher;
+ev_timer timeout_watcher;
+
+// 감시자 콜백은 모두 시그너처가 비슷함
+// 이 콜백은 stdin에서 데이터 읽기가 가능할 때 호출됨
+static void
+stdin_cb (EV_P_ ev_io *w, int revents)
+{
+  puts (&quot;stdin ready&quot;);
+  // 일회성 이벤트를 위해선 대응하는 정지 함수를 써서
+  // 직접 감시자를 멈춰야 한다.
+  ev_io_stop (EV_A_ w);
+
+  // 이러면 중첩된 모든 ev_run들이 반복을 멈추게 됨
+  ev_break (EV_A_ EVBREAK_ALL);
+}
+
+// 이번에는 타임아웃용 콜백
+static void
+timeout_cb (EV_P_ ev_timer *w, int revents)
+{
+  puts (&quot;timeout&quot;);
+  // 이러면 가장 안쪽의 ev_run이 반복을 멈추게 됨
+  ev_break (EV_A_ EVBREAK_ONE);
+}
+
+int
+main (void)
+{
+  // 특별히 경우가 아니면 기본 이벤트 루프를 쓰면 됨
+  struct ev_loop *loop = EV_DEFAULT;
+
+  // io 감시자를 초기화하고 시작
+  // stdin이 읽기 가능해지는 걸 감시하게 됨
+  ev_io_init (&amp;stdin_watcher, stdin_cb, /*STDIN_FILENO*/ 0, EV_READ);
+  ev_io_start (loop, &amp;stdin_watcher);
+
+  // 타이머 감시자를 초기화하고 시작
+  // 5.5초짜리 반복 없는 단순한 타임아웃
+  ev_timer_init (&amp;timeout_watcher, timeout_cb, 5.5, 0.);
+  ev_timer_start (loop, &amp;timeout_watcher);
+
+  // 이제 이벤트 도착을 기다리자
+  ev_run (loop, 0);
+
+  // break가 호출됐으므로 종료
+  return 0;
+}
+</code></pre>
+
+<h2 id="_2">이 문서에 대해</h2>
+<p>이 문서는 소프트웨어 패키지 libev를 설명한다.</p>
+<p>이 문서의 최신 버전을 HTML 형식 웹 페이지로도 제공한다. 처음 읽을 때는 그쪽이 필요한 내용을 찾아가는 게 더 쉬울 수도 있다. <a href="http://pod.tst.eu/http://cvs.schmorp.de/libev/ev.pod">http://pod.tst.eu/http://cvs.schmorp.de/libev/ev.pod</a>.</p>
+<p>이 문서에서는 libev와 그 사용법, 설계 근거를 최대한 빠진 것 없이 설명하려고 한다. 하지만 이 문서는 이벤트 기반 프로그래밍에 대한 안내서가 아니며, libev를 이용한 이벤트 기반 프로그래밍을 소개하는 문서도 아니다.</p>
+<p>문서 전체적으로 독자가 이벤트 기반 프로그래밍 기법 일반에 친숙하다고 가정한다.</p>
+<h2 id="_3">바쁘다면</h2>
+<p>이 매뉴얼에서는 내용을 아주 상세히 설명하려고 하며, 그 때문에 아주 길어지기도 한다. libev 기본 내용만 알고 싶은 거라면 "감시자 해부" 절에 이어서 위의 "예시 프로그램"을 읽고, "전역 함수" 절에서 궁금한 함수를 찾아 보고 "감시자 종류"의 <code>ev_io</code> 및 <code>ev_timer</code> 절을 보면 된다.</p>
+<h2 id="libev">libev에 대해</h2>
+<p>libev는 이벤트 루프다. 특정 이벤트(파일 디스크립터가 읽기 가능, 타임아웃 발생 등)에 관심이 있다고 등록해 두면 그 이벤트 출처들을 관리해서 프로그램에게 이벤트를 제공해 준다.</p>
+<p>그렇게 하기 위해 <em>이벤트 루프</em> 핸들러를 실행을 통해 프로세스(또는 스레드)에 대한 제어를 다소 빼앗은 다음 콜백 메커니즘을 통해 이벤트를 알려 주게 된다.</p>
+<p>소위 <em>이벤트 감시자(event watcher)</em>를 등록해서 특정 이벤트에 관심이 있다고 등록한다. 좀 작은 C 구조체인 감시자를 이벤트 세부 내용으로 초기화한 다음에 감시자를 <em>시작</em>해서 libev에게 맡긴다.</p>
+<h3 id="_4">특장점</h3>
+<p>libev는 <code>select</code>와 <code>poll</code>, 리눅스 전용인 aio와 <code>epoll</code> 인터페이스, BSD 전용인 <code>kqueue</code>, 솔라리스 전용인 파일 디스크립터 이벤트용 이벤트 포트 메커니즘을 지원한다 (<code>ev_io</code>). 또한 (<code>ev_start</code>에서) 리눅스의 <code>inotify</code> 인터페이스, (빠르고 깔끔한 스레드간 깨우기(<code>ev_async</code>)/시그널 처리(<code>ev_signal</code>)를 위해) 리눅스의 eventfd/signalfd, 상대 타이머(<code>ev_timer</code>), 반복 스케줄링 가능한 절대 타이머(<code>ev_periodic</code>), 동기적 시그널(<code>ev_signal</code>), 프로세스 상태 변경 이벤트(<code>ev_child</code>), 이벤트 루프 메커니즘 자체를 다루기 위한 이벤트 감시자(<code>ev_idle</code>, <code>ev_embed</code>, <code>ev_prepare</code>, <code>ev_check</code>), 파일 감시자(<code>ev_stat</code>), 그리고 제한적으로 포크 이벤트(<code>ev_fork</code>)까지 지원한다.</p>
+<p>또한 꽤 빠르다. (예를 들어 libevent와 비교한 벤치마크 <a href="http://libev.schmorp.de/bench.html">http://libev.schmorp.de/bench.html</a> 참고.)</p>
+<h3 id="_5">관행</h3>
+<p>libev는 구성할 수 있는 부분이 많다. 이 매뉴얼에선 기본 (가장 흔히 쓰는) 구성을 가지고 설명하는데, 여러 이벤트 루프를 지원한다. 다양한 구성 옵션에 대한 내용은 이 매뉴얼의 "내장시키기" 절을 보면 된다. libev를 다중 이벤트 루프를 지원하지 않게 구성하면 <code>loop</code>라는 이름의 (타입이 항상 <code>struct ev_loop *</code>인) 첫 번째 인자를 받는 모든 함수에서 그 인자가 없어지게 된다.</p>
+<h3 id="_6">시간 표현</h3>
+<p>libev에서는 부동소수점 수 하나로 시간을 표현한다. 그 값은 (POSIX) 에포크(실제로는 1970년 시작 근방의 어느 시점인데, 자세한 건 복잡하니 묻지 마시라) 이후의 (소수부를 포함한) 초 수를 나타낸다. 그 타입에 <code>ev_tstamp</code>라는 이름을 붙였으니 이 이름을 쓰면 된다. 보통은 C의 <code>double</code> 타입에 대한 별칭이다. 여기에 뭔가 계산을 해야 할 때는 어떤 부동소수점 값으로 다뤄야 한다.</p>
+<p>이름에 "stamp"가 들어가 있기는 하지만 libev 전반에서 시간 차이(예: 지연 시간)에도 쓰인다.</p>
+<h2 id="_7">오류 처리</h2>
+<p>libev에서는 세 가지 오류 유형을 구별하는데, 운영 체제 오류, 사용 오류, 그리고 내부 오류(버그)이다.</p>
+<p>libev에서 처리할 수 없는 운영 체제 오류(예를 들어 어느 시스템 호출에서 libev가 고칠 수 없는 상황을 알림)를 감지하면 <code>ev_set_syserr_cb</code>를 통해 설정된 콜백을 호출한다. 그 콜백에서 문제를 고치거나 실행을 중단하면 된다. 따로 설정하지 않으면 진단 메시지를 찍고 <code>abort()</code>를 호출한다.</p>
+<p>libev에서 음수인 타이머 간격 같은 사용 오류를 탐지하면 진단 메시지를 찍고 실행을 중단하게 된다. (<code>assert</code> 메커니즘을 이용하며, 따라서 <code>NDEBUG</code>를 쓰면 이 검사가 비활성화된다.) libev 호출자 쪽의 프로그래밍 오류이므로 거기서 고쳐야 한다.</p>
+<p><code>EV_FREQUENT</code> 매크로를 이용하면 보통 응용 버그가 유발하는 내부 무결성 깨짐을 검사하는 데 쓸 수 있는 libev 내의 추가적인 무결성 검사 코드를 컴파일 및/또는 활성화할 수 있다.</p>
+<p>또한 libev에는 내부 오류 검사용 <code>assert</code>들이 좀 있다. libev의 버그나 그보다 나쁜 뭔가를 나타내는 것이므로 정상적인 상황에서는 걸리지 않는다.</p>
+<h2 id="_8">전역 함수</h2>
+<p>이 함수들은 언제든, 어떻게든 라이브러리를 초기화하기 전에도 호출할 수 있다.</p>
+<dl>
+<dt><code>ev_tstamp ev_time ()</code></dt>
+<dd>libev가 이용하는 그대로의 현재 시간을 반환한다. 일반적으로 <code>ev_now</code> 함수가 더 빠르며 보통 실제 알고 싶어 하는 바로 그 타임스탬프를 반환한다. <code>ev_now_update</code>와 <code>ev_now</code>의 조합도 살펴볼 만하다.</dd>
+<dt><code>ev_sleep (ev_tstamp interval)</code></dt>
+<dd>
+<p>지정한 시간 동안 잠든다. 도중에 중단되거나 지정한 시간이 (대략적으로. 방해를 받지 않더라도 살짝 일찍 반환할 수도 있음.) 지날 때까지 현재 스레드가 블록하게 된다. <code>interval &lt;= 0</code>이면 즉시 반환한다.</p>
+<p>기본적으로 초보다 정밀한 해상도의 <code>sleep ()</code>이다.</p>
+<p><code>interval</code>의 범위에 한계가 있다. libev에서는 하루까지의 (<code>interval &lt;= 86400</code>) 시간에서만 동작을 보장한다.</p>
+</dd>
+<dt><code>int ev_version_major ()</code>, <code>ev_version_minor ()</code></dt>
+<dd>
+<p><code>ev_version_major</code> 및 <code>ev_version_minor</code> 함수를 호출하면 링크된 라이브러리의 ABI 주버전 및 부버전 번호를 알아낼 수 있다. 원한다면 그 값을 프로그램이 컴파일된 라이브러리 버전을 나타내는 전역 심볼 <code>EV_VERSION_MAJOR</code> 및 <code>EV_VERSION_MINOR</code>와 비교할 수 있다.</p>
+<p>이 버전 번호들은 릴리스 버전이 아니라 라이브러리의 ABI 버전을 나타낸다.</p>
+<p>일반적으로 주버전이 다르다면 호환 안 되는 차이가 있다는 뜻이므로 종료하는 쪽이 좋다. 부버전은 일반적으로 이전 버전과 호환되며, 따라서 부버전만 큰 건 보통 문제가 안 된다.</p>
+<p>예: 실수로 잘못된 버전에 링크되지 않았는지 확인하기. (단, 이는 LFS나 재진입 가능성 같은 다른 ABI 불일치를 탐지하지는 못한다.)</p>
+<pre><code>assert (("libev version mismatch",
+         ev_version_major () == EV_VERSION_MAJOR
+         &amp;&amp; ev_version_minor () &gt;= EV_VERSION_MINOR));
+</code></pre>
+</dd>
+<dt><code>unsigned int ev_supported_backends ()</code></dt>
+<dd>
+<p>현재 libev 바이너리에 컴파일돼 들어가 있는 모든 백엔드(즉 대응하는 <code>EV_BACKEND_*</code> 값)들의 조합을 반환한다. (돌고 있는 시스템에서 사용 가능한지 여부와는 무관한다.) 조합 값들에 대한 설명은 <code>ev_default_loop</code>을 보라.</p>
+<p>예: 졸라 멋지고 필수인 epoll 방식이 있는지 확인하기.</p>
+<pre><code>assert (("sorry, no epoll, no sex",
+         ev_supported_backends () &amp; EVBACKEND_EPOLL));
+</code></pre>
+</dd>
+<dt><code>unsigned int ev_recommended_backends ()</code></dt>
+<dd>현재 libev 바이너리에 컴파일돼 들어가 있으며 이 플랫폼에서 권장하는, 즉 대부분의 파일 디스크립터 유형들에 동작하는 모든 벡엔드들의 조합을 반환한다. 많은 경우 이 조합은 <code>ev_supported_backends</code>가 반환하는 조합보다 작다. 예를 들어 대다수의 BSD에서 kqueue는 제대로 동작하지 않으므로 명시적으로 (자기가 뭘 하고 있는지 알고서) 요청하지 않는 한 자동 감지가 안 된다. 백엔드를 명시적으로 지정하지 않는 경우 libev가 이 백엔드들을 확인해 보게 된다.</dd>
+<dt><code>unsigned int ev_embeddable_backends ()</code></dt>
+<dd>
+<p>다른 이벤트 루프에 내장 가능한 백엔드들의 조합을 반환한다. 플랫폼에 따라 값이 정해지는데 현재 시스템에서 사용 가능하지 않은 백엔드가 포함될 수 있다. 현재 시스템에서 어떤 내장 가능 백엔드를 지원할지를 알아내려면 권장 백엔드와 마찬가지로 <code>ev_embeddable_backends () &amp; ev_supported_backends ()</code>를 보면 된다.</p>
+<p>자세한 내용은 <code>ev_embed</code> 감시자 설명을 보라.</p>
+</dd>
+<dt><code>ev_set_alocator (void *(*cb)(void *ptr, long size) throw ())</code></dt>
+<dd>
+<p>사용할 할당 함수를 설정한다. (<code>realloc</code> C89/SuS/POSIX 함수와 원형이 비슷하고 동작 방식이 동일하다.) 메모리를 할당하고 해제(여기서 놀라지 말자)하는 데 이 함수를 쓴다. 메모리를 할당해야 할 때 (<code>size != 0</code>) 0을 반환하면 라이브러리에서 실행을 중단하거나 어떤 파괴적일 수 있는 동작을 취할 수도 있다.</p>
+<p>어떤 시스템들(적어도 OpenBSD와 Darwin)에선 <code>realloc</code> 동작 방식을 올바로 구현하고 있지 않으므로 libev에서 기본적으로 시스템의 <code>realloc</code> 및 <code>free</code> 함수를 감싸는 래퍼를 쓴다.</p>
+<p>고가용성이 필요한 프로그램에서 이 함수를 오버라이드해서 가령 메모리를 할당할 수 없는 경우에 어떤 메모리를 해제하거나, 특별한 할당자를 이용하거나, 가용 메모리가 생길 때까지 좀 기다렸다 재시도할 수 있을 것이다.</p>
+<p>예: 다음은 libev 자체에서 쓰는 <code>realloc</code> 함수다. 모든 종류의 <code>realloc</code> 및 <code>free</code> 함수와 잘 동작하므로 새로운 구현을 위한 좋은 기반이 될 수 있을 것이다.</p>
+<pre><code>static void *
+ev_realloc_emul (void *ptr, long size) EV_NOEXCEPT
+{
+  if (size)
+    return realloc (ptr, size);
+
+  free (ptr);
+  return 0;
+}
+</code></pre>
+<p>예: libev 할당자를 잠깐 기다렸다 재시도하는 함수로 교체하기.</p>
+<pre><code>static void *
+persistent_realloc (void *ptr, size_t size)
+{
+  if (!size)
+    {
+      free (ptr);
+      return 0;
+    }
+
+  for (;;)
+    {
+      void *newptr = realloc (ptr, size);
+
+      if (newptr)
+        return newptr;
+
+      sleep (60);
+    }
+}
+
+...
+ev_set_allocator (persistent_realloc);
+</code></pre>
+</dd>
+<dt><code>ev_set_syserr_cb (void (*cb)(const char *msg) throw ())</code></dt>
+<dd>
+<p>재시도 가능한 시스템 호출 오류(select, poll, epoll_wait 실패 등) 시 호출할 콜백 함수를 설정한다. <code>msg</code>는 문제를 유발한 시스템 호출이나 서브시스템을 나타내는 출력 가능한 문자열이다. 이 콜백이 설정돼 있는 경우에 libev에선 콜백 반환 때 어떻게든 상황이 바로잡혀 있기를 기대하게 된다. 즉, libev에서 일반적으로 동작을 재시도하거나, 상황이 바뀌지 않으면 (실행 중단 같은) 나쁜 동작을 하게 된다.</p>
+<p>예: 다음은 기본적으로 libev 내부 동작과 같은 일을 한다.</p>
+<pre><code>static void
+fatal_error (const char *msg)
+{
+  perror (msg);
+  abort ();
+}
+
+...
+ev_set_syserr_cb (fatal_error);
+</code></pre>
+</dd>
+<dt><code>ev_feed_signal (int signum)</code></dt>
+<dd>
+<p>이 함수를 이용해 시그널 수신을 "흉내낼" 수 있다. 시그널 핸들러나 임의 스레드를 포함한 어떤 문맥에서도, 그리고 언제든 완전히 안심하고 이 함수를 호출할 수 있다.</p>
+<p>주된 용도는 특히 스레드가 있는 경우에서 프로세스의 시그널 처리 방식을 원하는 대로 바꾸는 것이다. 예를 들어 모든 스레드에서 기본적으로 시그널을 막고서 (그리고 루프를 생성할 때 <code>EVFLAG_NOSIGMASK</code>를 지정하고서), 한 스레드에서 <code>sigwait</code>이나 기타 메커니즘을 이용해 시그널을 기다리게 한 다음 <code>ev_feed_signal</code>을 호출해 libev로 시그널을 "보낼" 수 있다.</p>
+</dd>
+</dl>
+<h2 id="_9">이벤트 루프 제어 함수</h2>
+<p><code>struct ev_loop *</code>로 이벤트 루프를 기술한다. (여기서는 libev 3 호환성이 비활성화돼 있지 않는 한 <code>struct</code>가 꼭 있어야 한다. libev 3에 구조체 이름과 충돌하는 <code>ev_loop</code> 함수가 있었기 때문이다.)</p>
+<p>두 가지 종류의 루프가 있는데, 자식 프로세스 이벤트를 지원하는 <strong>기본</strong> 루프와 지원하지 않는 동적 생성 이벤트 루프다.</p>
+<dl>
+<dt><code>struct ev_loop *ev_default_loop (unsigned int flags)</code></dt>
+<dd>
+<p>"기본" 이벤트 루프 객체를 반환한다. "이벤트 루프"가 필요할 뿐이라면 보통은 이를 사용하면 된다. 이벤트 루프 객체와 <code>flags</code> 매개변수에 대해 <code>ev_loop_new</code> 항목에서 자세히 설명한다.</p>
+<p>기본 루프가 이미 초기화돼 있으면 이 함수는 그걸 반환할 뿐이다. (이때 플래그는 무시한다. 문제가 된다면 아래의 <code>ev_backend ()</code>를 확인해 보자.) 초기화가 안 돼 있으면 주어진 플래그로 루프를 생성한다. 이때 호출자가 <code>ev_run</code>까지도 호출하여, 또는 다른 기준으로 "주 프로그램"에 해당하는 경우가 아니라면 거의 모든 경우에 flags는 0이어야 한다.</p>
+<p>어떤 이벤트 루프를 사용해야 할지 모르겠다면 이 함수가 (또는 <code>EV_DEFAULT</code> 매크로를 통해서) 반환하는 루프를 쓰면 된다.</p>
+<p>이 함수는 스레드에 <strong>안전하지 않다</strong>. 따라서 여러 스레드에서 사용하려면 적당한 뮤텍스를 써야 한다. (다만 이런 경우가 흔치는 않다. 스레드 간에 루프를 공유하는 게 쉬운 일은 아니기 때문이다.)</p>
+<p>기본 루프는 <code>ev_child</code> 감시자를 처리할 수 있는 유일한 루프이며, 그러기 위해 항상 <code>SIGCHLD</code> 핸들러를 등록한다. 만들려는 응용에서 이게 문제가 된다면 <code>ev_loop_new</code>로 등록을 안 하는 동적 루프를 만들거나, <code>ev_default_init</code> 호출 <strong>후에</strong> <code>SIGCHLD</code> 시그널 핸들러를 그냥 덮어 쓰면 된다.</p>
+<p>예: 다음은 가장 흔한 사용 방식이다.</p>
+<pre><code>if (!ev_default_loop (0))
+  fatal ("could not initialise libev, bad $LIBEV_FLAGS in environment?");
+</code></pre>
+<p>예: select 및 poll 백엔드로 제약하고, 환경 설정을 고려하지 않게 하기.</p>
+<pre><code>ev_default_loop (EVBACKEND_POLL | EVBACKEND_SELECT | EVFLAG_NOENV);
+</code></pre>
+</dd>
+<dt><code>struct ev_loop *ev_loop_new (unsigned int flags)</code></dt>
+<dd>
+<p>새로운 이벤트 루프 객체를 생성한다. 루프를 초기화할 수 없으면 거짓을 반환한다.</p>
+<p>이 함수는 스레드에 안전하다. 스레드 응용에서 libev를 쓰는 주된 방법 하나는 스레드마다 하나씩 이벤트 루프를 만들고 "주" 스레드 내지 "최초" 스레드에서 기본 루프를 쓰는 것이다.</p>
+<p>flags 인자를 써서 특별한 동작이나 이용할 특정 백엔드를 지정할 수 있는데, 일반적으로 0으로 (또는 <code>EVFLAG_AUTO</code>로) 지정한다.</p>
+<p>다음 플래그를 지원한다.</p>
+<dl>
+<dt><code>EVFLAG_AUTO</code></dt>
+<dd>기본 플래그 값. 특별한 생각이 없으면 이걸 쓰면 된다. (그러는 게 맞다. 정말이다.)</dd>
+<dt><code>EVFLAG_NOENV</code></dt>
+<dd>플래그 값에 이 플래그 비트가 or되어 있으면 (또는 프로그램이 setuid 내지 setgid로 도는 경우) libev에서는 환경 변수 <code>LIBEV_FLAGS</code>를 보지 <strong>않는다</strong>. 아니라면 (기본 동작) 그 환경 변수가 환경에 있으면 flags를 완전히 대체하게 된다. 성능 테스트를 위해서나 버그를 우회하기 위해, 또는 libev를 스레드에 안전하게 만들기 위해 (스레드에 안전한 방식으로 환경 변수에 접근할 수 있는 건 아니지만 다른 스레드에서 환경을 변경하지만 않는다면 일반적으로 잘 동작한다.) 특정 백엔드를 시도해 보는 데 유용하다.</dd>
+<dt><code>EVFLAG_FORCHECK</code></dt>
+<dd>
+<p>포크 후에 직접 <code>ev_loop_fork</code>를 호출하는 대신 이 플래그를 켜서 libev에서 매 반복마다 포크 여부를 확인하게 할 수도 있다.</p>
+<p>루프의 반복마다 <code>getpid ()</code>를 호출하는 식으로 동작하며, 그래서 루프 반복이 많은데 실제 작업은 별로 없는 경우에 이벤트 루프가 느려질 수도 있지만 일반적으로 눈에 띌 정도는 아니다. (예를 들어 내 GNU/Linux 시스템에서 <code>getpid</code>는 사실 시스템 호출도 없는 5개 인스트럭션일 뿐이고 그래서 <strong>정말</strong> 빠르다. 하지만 내 GNU/Linux 시스템에는 더 빠른 <code>pthread_atfork</code>가 있기도 하다.) (추가: glibc 버전 2.25에서 <code>getpid</code> 최적화를 다시 없앤 것 같다.)</p>
+<p>이 플래그의 큰 장점은 포크에 대한 걸 잊어 버릴 수 있다는 점이다. (그리고 libev에게 포크에 대해 알려 주는 걸 잊는 것에 대한 걸 잊을 수 있다. 하지만 <code>SIGPIPE</code>를 무시하는 건 해 줘야 한다.)</p>
+<p><code>LIBEV_FLAGS</code> 환경 변수로는 이 플래그 설정을 바꾸거나 지정할 수 없다.</p>
+</dd>
+<dt><code>EVFLAG_NOINOTIFY</code></dt>
+<dd>이 플래그를 지정하면 libev에서 <code>ev_stat</code> 감시자에 <em>inotify</em> API를 쓰려고 시도하지 않게 된다. 디버깅과 테스팅 외에도 inotify 파일 디스크립터를 아끼는 데도 이 플래그가 유용할 수 있는데, 지정하지 않으면 <code>ev_stat</code> 감시자 사용 루프마다 inotify 핸들을 한 개씩 소모하기 때문이다.</dd>
+<dt><code>EVFLAG_SIGNALFD</code></dt>
+<dd>
+<p>이 플래그를 지정하면 libev에서 <code>ev_signal</code> (및 <code>ev_child</code>) 감시자에 <em>signalfd</em> API를 쓰려고 시도하게 된다. 그 API는 시그널을 동기적으로 전달하며, 그래서 더 빠를 뿐 아니라 큐의 시그널 데이터를 얻는 게 가능해질 수도 있다. 또한 스레드 구조에서의 시그널 처리를 단순하게 만들 수 있다. 시그널 처리에 관심 없는 스레드에서 시그널을 제대로 차단해 주기만 하면 된다.</p>
+<p>이 방식은 시그널 마스크를 변경하는데 자기 시그널 마스크를 제대로 초기화하지 못하는 조잡한 라이브러리와 프로그램이 많기 때문에 (예를 들어 glib의 threadpool) 기본적으로는 signalfd를 쓰지 않는다.</p>
+</dd>
+<dt><code>EVFLAG_NOSIGMASK</code></dt>
+<dd>
+<p>이 플래그를 지정하면 libev에서 시그널 마스크 변경을 피하게 된다. 구체적으로 말하자면 수신하려는 시그널이 있을 때 차단을 해제하는 걸 직접 해 줘야 한다.</p>
+<p>시그널 처리를 직접 하려고 할 때, 또는 특정 스레드에서만 시그널을 처리하게 하고 싶은데 libev에서 그 시그널을 차단 해제하는 걸 피하고 싶을 때 이 동작이 유용하다.</p>
+<p>스레드 방식 프로그램에서 POSIX를 따르자면 필수이기도 한데, libev에서 호출하는 <code>sigprocmask</code>의 동작 방식이 공식적으로 명세돼 있지 않기 때문이다.</p>
+</dd>
+<dt><code>EVFLAG_NOTIMERFD</code></dt>
+<dd>
+<p>이 플래그를 지정하면 libev에서 시간 점프 감지에 <code>timerfd</code>를 쓰는 걸 피하게 된다. 여전히 시간 점프를 감지할 수 있긴 하지만 더 오래 걸리고 정확도가 떨어지게 된다. 하지만 루프마다 파일 디스크립터 하나씩을 절약할 수 있다.</p>
+<p>현재 구현에서는 첫 번째 <code>ev_periodic</code> 감시자가 시작할 때만 <code>timerfd</code> 사용을 시도하며 생성할 수 없으면 다른 방법으로 후퇴한다. 하지만 이 동작은 향후 바뀔 수도 있다.</p>
+</dd>
+<dt><code>EVBACKEND_SELECT</code> (값 1. 이식성 있는 select 백엔드)</dt>
+<dd>
+<p>표준 <tt>[[select(2)]]</tt> 백엔드다. <strong>완전하게</strong> 표준은 아닌 것이, 이 백엔드를 쓸 때 libev에서는 fd 수 제한 없는 자체 fd_set으로 돌다가 실패하면 꽤 낮은 fd 수 제한을 상정한다. 성능 확장성이 아주 좋지는 않지만 (O(highest_fd)) fd 수가 적을 (그리고 값이 작을) 때는 일반적으로 가장 빠른 백엔드다.</p>
+<p>이 백엔드에서 좋은 성능을 얻으려면 병렬성이 높아야 (대부분의 파일 디스크립터에 할 일이 있어야) 한다. 서버를 작성한다면 루프의 한 반복 안에서 <code>accept ()</code>로 가능하면 많은 연결을 받아들여야 한다. <code>ev_set_io_collect_interval ()</code>로 반복당 준비 알림 수를 늘이는 걸 살펴볼 수도 있겠다.</p>
+<p>이 백엔드에선 <code>EV_READ</code>가 <code>readfds</code>가 되고 <code>EV_WRITE</code>가 <code>writefds</code>가 (그리고 마이크로소프트 윈도우 버그를 우회하기 위해 그 플랫폼에서는 <code>exceptfds</code>도) 된다.</p>
+</dd>
+<dt><code>EVBACKEND_POLL</code> (값 2. 윈도우를 빼고 어디에나 있는 poll 백엔드)</dt>
+<dd>
+<p>표준 <tt>[[poll(2)]]</tt> 백엔드다. select보다 복잡하지만 한산한 fd들을 더 잘 다루며 사용할 수 있는 fd 수에 인위적 제한이 없다. (다만 비활성 fd가 많으면 상당히 느려지긴 한다.) 성능 확장성이 select와 비슷하다. 즉 O(total_fds)다. 위 <code>EVBACKEND_SELECT</code> 항목에 성능을 위한 팁이 있다.</p>
+<p>이 백엔드에선 <code>EV_READ</code>가 <code>POLLIN | POLLERR | POLLHUP</code>이 되고 <code>EV_WRITE</code>가 <code>POLLOUT | POLLERR | POLLHUP</code>이 된다.</p>
+</dd>
+<dt><code>EVBACKEND_EPOLL</code> (값 4. 리눅스)</dt>
+<dd>
+<p>리눅스 전용인 <tt>[[epoll(7)]]</tt> 인터페이스를 (2.6.9 전후 커널 모두에서) 쓴다.</p>
+<p>fd가 적으면 이 백엔드가 poll과 select보다 살짝 느리지만 성능 확장성은 경이적으로 더 좋다. poll과 select에선 일반적으로 O(total_fds)지만 (여기서 total_fds는 fd의 총 개수 또는 가장 높은 fd 값) epoll에선 O(1) 또는 O(active_fds)다.</p>
+<p>epoll과 관련해선 고급 이벤트 메커니즘들 가운데 가장 잘못 설계됐다는 영예로운 언급을 빼놓을 수 없다. 짜증나는 정도의 문제를 꼽자면 파일 디스크립터를 조용히 버리는 것, 파일 디스크립터별로 변경마다 시스템 호출이 필요한 것 (그리고 불필요한 매개변수 추측하기), dup 했을 때의 문제, 타임아웃 값 전에 반환해서 반복을 더 하게 되는 것 (그리고 같은 플랫폼에서 select는 0.1ms인 정밀도가 5ms인 것) 등이 있다. 하지만 가장 큰 문제는 포크 경쟁이다. 프로그램이 포크하면 부모와 자식 <strong>모두</strong> epoll 세트를 다시 만들어야 하는데, 상당한 시간이 걸리고 (파일 디스크립터마다 시스템 호출 한 번씩) 당연히 알아채기도 어렵다.</p>
+<p>epoll은 버그로도 악명이 높다. epoll fd를 포함시키는 게 동작해야 하지만 당연히 동작하지 않는다. 그리고 epoll은 (특히 SMP 시스템에서) 등록한 것과 완전히 다른 파일 디스크립터에 대해 (이미 닫힌 것까지, 그래서 세트에서 제거할 수조차 없다.) 이벤트를 보고하기를 좋아한다. libev에서는 따로 세대 카운터를 도입해서 이벤트와 비교해 가짜 이벤트를 걸러내고, 필요시 세트를 재생성하는 방식으로 이런 가짜 알림에 대응한다. 또 epoll에서는 타임아웃 시간을 잘못 내림하는데 언제 얼마나 그랬는지 알 방법이 없다. 그래서 때로는 0 아닌 타임아웃에 대해 epoll이 즉시 반환하기 때문에 바쁜 대기를 해야 한다. 그리고 마지막으로 <code>select</code>에선 완벽하게 잘 도는 몇몇 파일 디스크립터들(파일, 여러 문자 장치, ...)과 제대로 동작하지 않는다.</p>
+<p>epoll은 진정 이벤트 감시 메커니즘계의 재앙이며, 설계에 어떤 고민도 없이 또는 다른 이와 어떤 소통도 없이 급히 기워 붙인 프랑켄슈타인 같은 것이다. 아아, 이 고통이 과연 멈출 수 있을까...</p>
+<p>같은 반복 내에서 I/O 감시자를 중단시키고 설정해서 시작시키면 캐싱이 좀 이뤄진다고 해도 (같은 <em>파일 디스크립터</em>가 다른 <em>파일 기술 항목</em>을 가리킬 수 있을 것이기에) 매번 시스템 호출이 일어나게 되다. 따라서 그러지 않는 게 최선이다. 또한 <code>dup ()</code> 하고서 두 파일 디스크립터 모두에 이벤트를 등록하면 제대로 동작하지않을 수도 있다.</p>
+<p>이 백엔드에서 최대 성능을 얻으려면 파일 디스크립터가 닫히기 전까지는 가능하면 그 파일 디스크립터에 대한 감시자를 모두 등록 해제하지는 않으면 된다. 즉, 항상 fd마다 감시자를 최소 1개는 유지하는 것이다. 그리고 감시자를 중단시키고 (재설정하지 않고) 시작시키는 것은 일반적으로 오버헤드를 추가로 만들지 않는다. 포크는 가짜 알림을 유발할 수 있으며 또한 libev가 epoll 객체를 파기하고 다시 만들어야 한다. 이는 상당한 시간이 걸릴 수 있으므로 피하는 게 좋다.</p>
+<p>요컨데 사용 방식에 따라 다르긴 하겠지만 파일 디스크립터 백 개 정도까지는 <code>EVBACKEND_SELECT</code>가 실제로 epoll만큼 또는 그보다 더 빠를 수 있다는 뜻이다. 안타깝게도.</p>
+<p>다른 이벤트 루프들에도 명목상 들어가 있긴 하지만 이 기능은 여러 커널 버전에서 오동작한다. 다만 현행 버전에서는 어쩌면(!) 동작할 수도 있다.</p>
+<p>이 백엔드에선 <code>EV_READ</code>와 <code>EV_WRITE</code>가 <code>EVBACKEND_POLL</code>과 같은 방식으로 바뀐다.</p>
+</dd>
+<dt><code>EVBACKEND_LINUXAIO</code> (값 64. 리눅스)</dt>
+<dd>
+<p>4.18 후 커널에서 사용 가능한 리눅스 전용의 리눅스 AIO (<tt>[[aio(7)]]</tt>가 아니라 <tt>[[io_submit(2)]]</tt>) 이벤트 인터페이스를 쓴다.</p>
+<p>이는 리눅스의 또 다른 재앙적 이벤트 인터페이스다.</p>
+<p>이 백엔드가 동작한다면 (작성 시점 현재는 아주 실험적인 수준임) 리눅스에서 사용 가능한 최선의 이벤트 인터페이스이므로 켜 볼 만할지도 모르겠다. 쓰고 있는 커널에서 사용 가능하지 않은 경우에는 탐지해서 이 백엔드를 건너뛰게 된다.</p>
+<p>이 백엔드는 한 방에 여러 요청을 할 수 있고 사용자 공간 링 버퍼로 이벤트를 받는 걸 지원한다. 또한 (epoll 세트에서 이벤트 발생처를 제거할 수 없는 점 같은) epoll의 설계 문제들 대부분에서 자유롭다. 전반적으로 정말 멋지다. 하지만 리눅스 커널이기에 당연히 새로운 종류의 제한들이 있고, 어쩔 수 없이 epoll로 후퇴하면 그 설계 문제들을 그대로 이어 받는다.</p>
+<p>첫째로, 내장시키기가 쉽지 않다. (하지만 어느 정도 오버헤드를 감수하고 이벤트 fd를 써서 가능할 수도 있다.) 또한 <code>/proc/sys/fs/aio-max-nr</code>에서 설정할 수 있는 시스템 전역 제한에 걸릴 수 있다. 초기화 때 남은 AIO 요청이 없으면 이 백엔드를 건너뛰게 되고 루프가 활성이 될 때 epoll로 바꾸게 된다.</p>
+<p>하지만 현실에서 가장 큰 문제는 모든 파일 디스크립터에 이용할 수는 없다는 점이다. 예를 들어, 리눅스 5.1에서 TCP 소켓, 파이프, 이벤트 fd, 파일, <code>/dev/null</code> 등은 지원하지만 tty는 제대로 동작하지 않는다. (알려진 버그인데 커널 개발자들은 신경쓰지 않고 있다. <a href="https://lore.kernel.org/patchwork/patch/1047453/">https://lore.kernel.org/patchwork/patch/1047453/</a> 참고.) 따라서 (아직은?) 범용적인 이벤트 감시 인터페이스가 아니다.</p>
+<p>전반적으로 볼 때 리눅스 개발자들은 <code>select</code>나 <code>poll</code> 외에 다른 범용적 이벤트 처리 메커니즘을 두는 걸 바라지 않는 것 같다.</p>
+<p>이런 문제들을 우회하기 위해 libev 현행 버전에서는 동작하지 않는 종류의 파일 디스크립터에는 epoll 백엔드를 쓴다. 그래도 커널이 말을 안 들으면 완전히 epoll로 후퇴한다.</p>
+<p>이 백엔드에선 <code>EV_READ</code>와 <code>EV_WRITE</code>가 <code>EVBACKEND_POLL</code>과 같은 방식으로 바뀐다.</p>
+</dd>
+<dt><code>EVBACKEND_KQUEUE</code> (값 8. 대부분의 BSD 클론)</dt>
+<dd>
+<p>....</p>
+<p>....</p>
+<p>....</p>
+<p>이 백엔드는 일반적으로 대부분의 상황에서 좋은 성능이 나온다.</p>
+<p>....</p>
+<p>이 백엔드에선 <code>EV_READ</code>가 <code>NOTE_EOF</code> 설정한 <code>EVFILT_READ</code> kevent가 되고 <code>EV_WRITE</code>가 <code>NOTE_EOF</code> 설정한 <code>EVFILT_WRITE</code> kevent가 된다.</p>
+</dd>
+<dt><code>EVBACKEND_DEVPOLL</code> (값 16. 솔라리스 8)</dt>
+<dd>....</dd>
+<dt><code>EVBACKEND_PORT</code> (값 32. 솔라리스 10)</dt>
+<dd>
+<p>....</p>
+<p>....</p>
+<p>....</p>
+<p>....</p>
+<p>....</p>
+<p>이 백엔드에선 <code>EV_READ</code>와 <code>EV_WRITE</code>가 <code>EVBACKEND_POLL</code>과 같은 방식으로 바뀐다.</p>
+</dd>
+<dt><code>EVBACKEND_ALL</code></dt>
+<dd>
+<p>....</p>
+<p>....</p>
+</dd>
+<dt><code>EVBACKEND_MASK</code></dt>
+<dd>....</dd>
+</dl>
+<p>....</p>
+<p>예: epoll만 이용하는 이벤트 루프 만들기.</p>
+<pre><code>struct ev_loop *epoller = ev_loop_new (EVBACKEND_EPOLL | EVFLAG_NOENV);
+if (!epoller)
+  fatal ("no epoll found here, maybe it hides under your chair");
+</code></pre>
+<p>예: libev에서 제공하는 뭐든 이용하되, 사용 가능한 경우 kqueue 이용하기.</p>
+<pre><code>struct ev_loop *loop = ev_loop_new (ev_recommended_backends () | EVBACKEND_KQUEUE);
+</code></pre>
+<p>예: 비슷하게 리눅스에서 가능한 경우 aio 백엔드를 이용하고 그렇지 않으면 다른 뭔가로 후퇴할 수 있다.</p>
+<pre><code>struct ev_loop *loop = ev_loop_new (ev_recommended_backends () | EVBACKEND_LINUXAIO);
+</code></pre>
+</dd>
+<dt><code>ev_loop_destroy (loop)</code></dt>
+<dd></dd>
+<dt><code>ev_loop_fork (loop)</code></dt>
+<dd></dd>
+<dt><code>int ev_is_default_loop (loop)</code></dt>
+<dd></dd>
+<dt><code>unsigned int ev_iteration (loop)</code></dt>
+<dd></dd>
+<dt><code>unsigned int ev_depth (loop)</code></dt>
+<dd></dd>
+<dt><code>unsigned int ev_backend (loop)</code></dt>
+<dd></dd>
+<dt><code>ev_tstamp ev_now (loop)</code></dt>
+<dd></dd>
+<dt><code>ev_now_update (loop)</code></dt>
+<dd></dd>
+<dt><code>ev_suspend (loop)</code>, <code>ev_resume (loop)</code></dt>
+<dd></dd>
+<dt><code>bool ev_run (loop, int flags)</code></dt>
+<dd></dd>
+<dt><code>ev_break (loop, how)</code></dt>
+<dd></dd>
+<dt><code>ev_ref (loop)</code>, <code>ev_unref (loop)</code></dt>
+<dd></dd>
+<dt><code>ev_set_io_collect_interval (loop, ev_tstamp interval)</code>, <code>ev_set_timeout_collect_interval (loop, ev_tstamp interval)</code></dt>
+<dd></dd>
+<dt><code>ev_invoke_pending (loop)</code></dt>
+<dd></dd>
+<dt><code>int ev_pending_count (loop)</code></dt>
+<dd></dd>
+<dt><code>ev_set_invoke_pending_cb (loop, void (*invoke_pending_cb)(EV_P))</code></dt>
+<dd></dd>
+<dt><code>ev_set_loop_release_cb (loop, void (*release)(EV_P) throw (), void (*acquire)(EV_P) throw ())</code></dt>
+<dd></dd>
+<dt><code>ev_set_userdata (loop, void *data)</code></dt>
+<dd></dd>
+<dt><code>ev_verify (loop)</code></dt>
+<dd></dd>
+</dl>
+<h2 id="_10">감시자 해부</h2>
+<h3 id="_11">일반 감시 함수</h3>
+<h3 id="_12">감시자 상태</h3>
+<h3 id="_13">감시자 우선순위 모델</h3>
+<h2 id="_14">감시자 종류</h2>
+<h2 id="_15">기타 함수</h2>
+<h2 id="_16">흔히 쓰거나 유용한 관용구</h2>
+<h3 id="_17">감시자에 자체 데이터 붙이기</h3>
+<h3 id="_18">나만의 조합 감시자 만들기</h3>
+<h3 id="_19">반환 전 완료 피하기</h3>
+<h3 id="_20">중첩 이벤트 루프 호출과 종료 조건</h3>
+<h3 id="_21">스레드 락킹 예시</h3>
+<h3 id="continuation">콜백 대신 스레드, 코루틴, continuation, 큐, ...</h3>
+<h2 id="libevent">libevent 에뮬레이션</h2>
+<h2 id="c">C++ 지원</h2>
+<h3 id="c-api">C API</h3>
+<h3 id="c-api_1">C++ API</h3>
+<h2 id="_22">기타 언어 바인딩</h2>
+<h2 id="_23">매크로 마술</h2>
+<h2 id="_24">내장시키기</h2>
+<h3 id="_25">파일 세트</h3>
+<h3 id="_26">전처리기 심볼/매크로</h3>
+<h3 id="api">노출되는 API 심볼</h3>
+<h3 id="_27">예시</h3>
+<h2 id="_28">다른 프로그램, 라이브러리, 환경과의 상호작용</h2>
+<h3 id="_29">스레드 및 코루틴</h3>
+<h3 id="_30">컴파일러 경고</h3>
+<h3 id="valgrind">Valgrind</h3>
+<h2 id="_31">호환성 관련 사항</h2>
+<h3 id="gnulinux-32">GNU/Linux 32비트 제한</h3>
+<h3 id="osx-darwin">OS/X 및 Darwin 버그</h3>
+<h3 id="_32">솔라리스 문제와 우회 방법</h3>
+<h3 id="aix-poll">AIX poll 버그</h3>
+<h3 id="win32">Win32 플랫폼 제약과 우회 방법</h3>
+<h3 id="_33">이식 요건</h3>
+<h2 id="_34">알고리즘 복잡도</h2>
+<h2 id="libev-3x-4x">libev 3.x에서 4.x로 옮기기</h2>
+<p>주버전 4에서 몇 가지 호환 불가능한 변화들이 API에 도입됐다.</p>
+<p>....</p>
+<h2 id="_35">용어집</h2>
+<dl>
+<dt>감시자 (watcher)</dt>
+<dd>특정 이벤트에 대한 관심을 기술하는 자료 구조. 감시자를 시작해야 (이벤트 루프에 붙여야) 이벤트를 받을 수 있다.</dd>
+<dt>미처리 (pending)</dt>
+<dd>대응하는 이벤트를 감지하자마자 감시자가 미처리 상태가 된다. 자세한 내용은 "감시자 상태"를 보라.</dd>
+<dt>백엔드 (backend)</dt>
+<dd>운영 체제 인터페이스를 다루는 코드 부분.</dd>
+<dt>벽시계 시간 (wall-clock time)</dt>
+<dd>시계에 보이는 시간과 날짜. 실제 시간과 달리 틀릴 수도 있으며, 가령 시계를 조정할 때 앞이나 뒤로 점프할 수 있다.</dd>
+<dt>실제 시간 (real time)</dt>
+<dd>관측된 물리적 시간. 당연히 엄밀하게 단조 증가한다. :)</dd>
+<dt>응용 (application)</dt>
+<dd>이 문서에서 응용이란 libev를 이용하는 무언가이다.</dd>
+<dt>이벤트 (event)</dt>
+<dd>어떤 외부 사건의 상태 변화. 파일 디스크립터에서 이제 읽을 데이터가 있거나, 시간이 경과했거나, 그냥 다른 아무 사건도 일어나지 않았거나 하는 것들.</dd>
+<dt>이벤트 라이브러리 (event library)</dt>
+<dd>이벤트 모델과 루프를 구현하고 있는 소프트웨어 패키지.</dd>
+<dt>이벤트 루프 (event loop)</dt>
+<dd>외부 사건을 처리하고 가공해서 콜백 호출과 바꿔 주는 존재.</dd>
+<dt>이벤트 모델 (event model)</dt>
+<dd>이벤트 루프가 감시자와 이벤트를 어떻게 처리하고 가공하는지 기술하는 모델.</dd>
+<dt>콜백 (callback)</dt>
+<dd>어떤 이벤트를 감지했을 때 호출되는 함수의 주소. 이벤트 루프, 이벤트를 받은 감시자, 실제 이벤트 비트셋이 콜백으로 전달된다.</dd>
+<dt>콜백/감시자 호출 (callback/watcher invocation)</dt>
+<dd>감시자에 연계된 콜백을 호출하는 동작.</dd>
+<dt>활성 (active)</dt>
+<dd>감시자가 시작되고서 아직 정지되지 않았으면 활성이다. 자세한 내용은 "감시자 상태"를 보라.</dd>
+</dl>
+<h2 id="author">AUTHOR</h2>
+<p>Marc Lehmann <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#108;&#105;&#98;&#101;&#118;&#64;&#115;&#99;&#104;&#109;&#111;&#114;&#112;&#46;&#100;&#101;">&#108;&#105;&#98;&#101;&#118;&#64;&#115;&#99;&#104;&#109;&#111;&#114;&#112;&#46;&#100;&#101;</a>이 작성했고, Mikael Magnusson과 Emanuele Giaquinta가 많이 고쳐 주었고, 다른 여러 사람들이 조금씩 고쳐 주었다.</p>
+<hr />
+<p>2020-03-20</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

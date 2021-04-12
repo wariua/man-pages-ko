@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/futex(2)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Futex(2) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+            <li class="second-level"><a href="#_1">인자</a></li>
+                
+            <li class="second-level"><a href="#_2">퓨텍스 동작</a></li>
+                
+            <li class="second-level"><a href="#_3">우선순위 상속 퓨텍스</a></li>
+                
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+            <li class="second-level"><a href="#_4">프로그램 소스</a></li>
+                
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>futex - 빠른 사용자 공간 락킹</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;linux/futex.h&gt;
+#include &lt;sys/time.h&gt;
+
+int futex(int *uaddr, int futex_op, int val,
+          const struct timespec *timeout,   /* 또는: uint32_t val2 */
+          int *uaddr2, int val3);
+</code></pre>
+
+<p><em>주의</em>: 이 시스템 호출에 대한 glibc 래퍼가 없다. NOTES 참고.</p>
+<h2 id="description">DESCRIPTION</h2>
+<p><code>futex()</code> 시스템 호출은 어떤 조건이 참이 될 때까지 기다리는 방법을 제공한다. 보통 공유 메모리 동기화 쪽에서 블로킹 요소로 쓰인다. 퓨텍스 사용 시 동기화 동작은 대부분 사용자 공간에서 이뤄진다. ...</p>
+<p>....</p>
+<p>....</p>
+<p>....</p>
+<p>....</p>
+<p>....</p>
+<h3 id="_1">인자</h3>
+<p>....</p>
+<p>....</p>
+<p>....</p>
+<p>....</p>
+<p>....</p>
+<h3 id="_2">퓨텍스 동작</h3>
+<p>....</p>
+<dl>
+<dt><code>FUTEX_PRIVATE_FLAG</code> (리눅스 2.6.22부터)</dt>
+<dd>
+<p>....</p>
+<p>....</p>
+</dd>
+<dt><code>FUTEX_CLOCK_REALTIME</code> (리눅스 2.6.28부터)</dt>
+<dd>
+<p>....</p>
+<p>....</p>
+<p>....</p>
+</dd>
+</dl>
+<p>....</p>
+<dl>
+<dt><code>FUTEX_WAIT</code> (리눅스 2.6.0부터)</dt>
+<dd>
+<p>....</p>
+<p>....</p>
+<p>....</p>
+<p>....</p>
+<p><code>uaddr2</code>, <code>val3</code> 인자는 무시한다.</p>
+</dd>
+<dt><code>FUTEX_WAKE</code> (리눅스 부터 2.6.0)</dt>
+<dd>
+<p>....</p>
+<p><code>timeout</code>, <code>uaddr2</code>, <code>val3</code> 인자는 무시한다.</p>
+</dd>
+<dt><code>FUTEX_FD</code> (리눅스 2.6.0부터 리눅스 2.6.25까지)</dt>
+<dd>
+<p>....</p>
+<p>....</p>
+<p><code>timeout</code>, <code>uaddr2</code>, <code>val3</code> 인자는 무시한다.</p>
+<p>근본적으로 경쟁이 있으므로 리눅스 2.6.26부터 <code>FUTEX_FD</code>가 제거되었다.</p>
+</dd>
+<dt><code>FUTEX_REQUEUE</code> (리눅스 2.6.0부터)</dt>
+<dd>....</dd>
+<dt><code>FUTEX_CMP_REQUEUE</code> (리눅스 2.6.7부터)</dt>
+<dd>
+<p>....</p>
+<p>....</p>
+<p>....</p>
+<p>....</p>
+<p>....</p>
+<pre><code>lock(A);
+while (!check_value(V)) {
+    unlock(A);
+    block_on(B);
+    lock(A);
+}
+unlock(A);
+</code></pre>
+<p>....</p>
+</dd>
+<dt><code>FUTEX_WAKE_OP</code> (리눅스 2.6.14부터)</dt>
+<dd>
+<p>....</p>
+<p>....</p>
+<pre><code>int oldval = *(int *) uaddr2;
+*(int *) uaddr2 = oldval op oparg;
+futex(uaddr, FUTEX_WAKE, val, 0, 0, 0);
+if (oldval cmp cmparg)
+    futex(uaddr2, FUTEX_WAKE, val2, 0, 0, 0);
+</code></pre>
+<p>....</p>
+<ul>
+<li>
+<p>....</p>
+</li>
+<li>
+<p>....</p>
+</li>
+<li>
+<p>....</p>
+</li>
+</ul>
+<p>....</p>
+<pre><code>+---+---+-----------+-----------+
+|op |cmp|   oparg   |  cmparg   |
++---+---+-----------+-----------+
+  4   4       12          12    &lt;== 비트 수
+</code></pre>
+<p>....</p>
+<pre><code>#define FUTEX_OP(op, oparg, cmp, cmparg) \
+                (((op &amp; 0xf) &lt;&lt; 28) | \
+                ((cmp &amp; 0xf) &lt;&lt; 24) | \
+                ((oparg &amp; 0xfff) &lt;&lt; 12) | \
+                (cmparg &amp; 0xfff))
+</code></pre>
+<p>....</p>
+<p>....</p>
+<pre><code>FUTEX_OP_SET        0  /* uaddr2 = oparg; */
+FUTEX_OP_ADD        1  /* uaddr2 += oparg; */
+FUTEX_OP_OR         2  /* uaddr2 |= oparg; */
+FUTEX_OP_ANDN       3  /* uaddr2 &amp;= ~oparg; */
+FUTEX_OP_XOR        4  /* uaddr2 ^= oparg; */
+</code></pre>
+<p>....</p>
+<pre><code>FUTEX_OP_ARG_SHIFT  8  /* Use (1 &lt;&lt; oparg) as operand */
+</code></pre>
+<p>....</p>
+<pre><code>FUTEX_OP_CMP_EQ     0  /* if (oldval == cmparg) wake */
+FUTEX_OP_CMP_NE     1  /* if (oldval != cmparg) wake */
+FUTEX_OP_CMP_LT     2  /* if (oldval &lt; cmparg) wake */
+FUTEX_OP_CMP_LE     3  /* if (oldval &lt;= cmparg) wake */
+FUTEX_OP_CMP_GT     4  /* if (oldval &gt; cmparg) wake */
+FUTEX_OP_CMP_GE     5  /* if (oldval &gt;= cmparg) wake */
+</code></pre>
+<p>....</p>
+</dd>
+<dt><code>FUTEX_WAIT_BITSET</code> (리눅스 2.6.25부터)</dt>
+<dd>
+<p>....</p>
+<p>....</p>
+<p><code>uaddr2</code> 인자는 무시한다.</p>
+</dd>
+<dt><code>FUTEX_WAKE_BITSET</code> (리눅스 2.6.25부터)</dt>
+<dd>
+<p>....</p>
+<p>....</p>
+<p>....</p>
+<p><code>uaddr2</code>, <code>timeout</code> 인자는 무시한다.</p>
+</dd>
+</dl>
+<h3 id="_3">우선순위 상속 퓨텍스</h3>
+<p>....</p>
+<p>....</p>
+<p>....</p>
+<p>....</p>
+<ul>
+<li>
+<p>....</p>
+</li>
+<li>
+<p>....</p>
+</li>
+<li>
+<p>....</p>
+<pre><code>FUTEX_WAITERS | TID
+</code></pre>
+<p>....</p>
+</li>
+</ul>
+<p>....</p>
+<p>....</p>
+<p>....</p>
+<p>....</p>
+<p>....</p>
+<p>....</p>
+<ul>
+<li>
+<p>....</p>
+</li>
+<li>
+<p>....</p>
+</li>
+</ul>
+<p>....</p>
+<dl>
+<dt><code>FUTEX_LOCK_PI</code> (리눅스 2.6.18부터)</dt>
+<dd>
+<p>....</p>
+<p>....</p>
+<ol>
+<li>
+<p>....</p>
+</li>
+<li>
+<p>....</p>
+</li>
+<li>
+<p>....</p>
+</li>
+</ol>
+<p>....</p>
+<p>....</p>
+<p><code>uaddr2</code>, <code>val</code>, <code>val3</code> 인자는 무시한다.</p>
+</dd>
+<dt><code>FUTEX_TRYLOCK_PI</code> (리눅스 2.6.18부터)</dt>
+<dd>
+<p>....</p>
+<p>....</p>
+<p><code>uaddr2</code>, <code>val</code>, <code>timeout</code>, <code>val3</code> 인자는 무시한다.</p>
+</dd>
+<dt><code>FUTEX_UNLOCK_PI</code> (리눅스 2.6.18부터)</dt>
+<dd>
+<p>....</p>
+<p>....</p>
+<p><code>uaddr2</code>, <code>val</code>, <code>timeout</code>, <code>val3</code> 인자는 무시한다.</p>
+</dd>
+<dt><code>FUTEX_CMP_REQUEUE_PI</code> (리눅스 2.6.31부터)</dt>
+<dd>
+<p>....</p>
+<p>....</p>
+<p>....</p>
+</dd>
+<dt><code>FUTEX_WAIT_REQUEUE_PI</code> (리눅스 2.6.31부터)</dt>
+<dd>
+<p>....</p>
+<p>....</p>
+<p>....</p>
+<p><code>val3</code> 인자는 무시한다.</p>
+<p>....</p>
+</dd>
+</dl>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>....</p>
+<p>....</p>
+<dl>
+<dt><code>FUTEX_WAIT</code></dt>
+<dd>....</dd>
+<dt><code>FUTEX_WAKE</code></dt>
+<dd>....</dd>
+<dt><code>FUTEX_FD</code></dt>
+<dd>....</dd>
+<dt><code>FUTEX_REQUEUE</code></dt>
+<dd>....</dd>
+<dt><code>FUTEX_CMP_REQUEUE</code></dt>
+<dd>....</dd>
+<dt><code>FUTEX_WAKE_OP</code></dt>
+<dd>....</dd>
+<dt><code>FUTEX_WAIT_BITSET</code></dt>
+<dd>....</dd>
+<dt><code>FUTEX_WAKE_BITSET</code></dt>
+<dd>....</dd>
+<dt><code>FUTEX_LOCK_PI</code></dt>
+<dd>....</dd>
+<dt><code>FUTEX_TRYLOCK_PI</code></dt>
+<dd>....</dd>
+<dt><code>FUTEX_UNLOCK_PI</code></dt>
+<dd>....</dd>
+<dt><code>FUTEX_CMP_REQUEUE_PI</code></dt>
+<dd>....</dd>
+<dt><code>FUTEX_WAIT_REQUEUE_PI</code></dt>
+<dd>....</dd>
+</dl>
+<h2 id="errors">ERRORS</h2>
+<dl>
+<dt><code>EACCES</code></dt>
+<dd>....</dd>
+<dt><code>EAGAIN</code></dt>
+<dd>
+<p>....</p>
+<p><strong>주의</strong>: ....</p>
+</dd>
+<dt><code>EAGAIN</code></dt>
+<dd>....</dd>
+<dt><code>EAGAIN</code></dt>
+<dd>....</dd>
+<dt><code>EDEADLK</code></dt>
+<dd>....</dd>
+<dt><code>EDEADLK</code></dt>
+<dd>....</dd>
+<dt><code>EFAULT</code></dt>
+<dd>....</dd>
+<dt><code>EINTR</code></dt>
+<dd>....</dd>
+<dt><code>EINVAL</code></dt>
+<dd>....</dd>
+<dt><code>EINVAL</code></dt>
+<dd>....</dd>
+<dt><code>EINVAL</code></dt>
+<dd>....</dd>
+<dt><code>EINVAL</code></dt>
+<dd>....</dd>
+<dt><code>EINVAL</code></dt>
+<dd>....</dd>
+<dt><code>EINVAL</code></dt>
+<dd>....</dd>
+<dt><code>EINVAL</code></dt>
+<dd>....</dd>
+<dt><code>EINVAL</code></dt>
+<dd>....</dd>
+<dt><code>EINVAL</code></dt>
+<dd>....</dd>
+<dt><code>EINVAL</code></dt>
+<dd>....</dd>
+<dt><code>EINVAL</code></dt>
+<dd>....</dd>
+<dt><code>EINVAL</code></dt>
+<dd>....</dd>
+<dt><code>EINVAL</code></dt>
+<dd>....</dd>
+<dt><code>ENFILE</code></dt>
+<dd>....</dd>
+<dt><code>ENOMEM</code></dt>
+<dd>....</dd>
+<dt><code>ENOSYS</code></dt>
+<dd>....</dd>
+<dt><code>ENOSYS</code></dt>
+<dd>....</dd>
+<dt><code>ENOSYS</code></dt>
+<dd>....</dd>
+<dt><code>EPERM</code></dt>
+<dd>....</dd>
+<dt><code>EPERM</code></dt>
+<dd>....</dd>
+<dt><code>ESRCH</code></dt>
+<dd>....</dd>
+<dt><code>ESRCH</code></dt>
+<dd>....</dd>
+<dt><code>ETIMEDOUT</code></dt>
+<dd>....</dd>
+</dl>
+<h2 id="versions">VERSIONS</h2>
+<p>....</p>
+<p>....</p>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>이 시스템 호출은 리눅스 전용이다.</p>
+<h2 id="notes">NOTES</h2>
+<p>glibc에서 이 시스템 호출에 대한 래퍼를 제공하지 않는다. <tt>[[syscall(2)]]</tt>을 이용해 호출해야 한다.</p>
+<p>....</p>
+<h2 id="example">EXAMPLE</h2>
+<p>....</p>
+<pre><code class="text">$ ./futex_demo
+Parent (18534) 0
+Child  (18535) 0
+Parent (18534) 1
+Child  (18535) 1
+Parent (18534) 2
+Child  (18535) 2
+Parent (18534) 3
+Child  (18535) 3
+Parent (18534) 4
+Child  (18535) 4
+</code></pre>
+
+<h3 id="_4">프로그램 소스</h3>
+<pre><code class="c">/* futex_demo.c
+
+   Usage: futex_demo [nloops]
+                    (Default: 5)
+
+   Demonstrate the use of futexes in a program where parent and child
+   use a pair of futexes located inside a shared anonymous mapping to
+   synchronize access to a shared resource: the terminal. The two
+   processes each write 'num-loops' messages to the terminal and employ
+   a synchronization protocol that ensures that they alternate in
+   writing messages.
+*/
+#define _GNU_SOURCE
+#include &lt;stdio.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;stdatomic.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/wait.h&gt;
+#include &lt;sys/mman.h&gt;
+#include &lt;sys/syscall.h&gt;
+#include &lt;linux/futex.h&gt;
+#include &lt;sys/time.h&gt;
+
+#define errExit(msg)    do { perror(msg); exit(EXIT_FAILURE); \
+                        } while (0)
+
+static int *futex1, *futex2, *iaddr;
+
+static int
+futex(int *uaddr, int futex_op, int val,
+      const struct timespec *timeout, int *uaddr2, int val3)
+{
+    return syscall(SYS_futex, uaddr, futex_op, val,
+                   timeout, uaddr, val3);
+}
+
+/* Acquire the futex pointed to by 'futexp': wait for its value to
+   become 1, and then set the value to 0. */
+
+static void
+fwait(int *futexp)
+{
+    int s;
+
+    /* atomic_compare_exchange_strong(ptr, oldval, newval)
+       atomically performs the equivalent of:
+
+           if (*ptr == *oldval)
+               *ptr = newval;
+
+       It returns true if the test yielded true and *ptr was updated. */
+
+    while (1) {
+
+        /* Is the futex available? */
+
+        const int zero = 0;
+        if (atomic_compare_exchange_strong(futexp, &amp;zero, 1))
+            break;      /* Yes */
+
+        /* Futex is not available; wait */
+
+        s = futex(futexp, FUTEX_WAIT, 0, NULL, NULL, 0);
+        if (s == -1 &amp;&amp; errno != EAGAIN)
+            errExit(&quot;futex-FUTEX_WAIT&quot;);
+    }
+}
+
+/* Release the futex pointed to by 'futexp': if the futex currently
+   has the value 0, set its value to 1 and the wake any futex waiters,
+   so that if the peer is blocked in fpost(), it can proceed. */
+
+static void
+fpost(int *futexp)
+{
+    int s;
+
+    /* atomic_compare_exchange_strong() was described in comments above */
+
+    const int one = 1;
+    if (atomic_compare_exchange_strong(futexp, &amp;one, 0)) {
+        s = futex(futexp, FUTEX_WAKE, 1, NULL, NULL, 0);
+        if (s  == -1)
+            errExit(&quot;futex-FUTEX_WAKE&quot;);
+    }
+}
+
+int
+main(int argc, char *argv[])
+{
+    pid_t childPid;
+    int j, nloops;
+
+    setbuf(stdout, NULL);
+
+    nloops = (argc &gt; 1) ? atoi(argv[1]) : 5;
+
+    /* Create a shared anonymous mapping that will hold the futexes.
+       Since the futexes are being shared between processes, we
+       subsequently use the &quot;shared&quot; futex operations (i.e., not the
+       ones suffixed &quot;_PRIVATE&quot;) */
+
+    iaddr = mmap(NULL, sizeof(int) * 2, PROT_READ | PROT_WRITE,
+                MAP_ANONYMOUS | MAP_SHARED, -1, 0);
+    if (iaddr == MAP_FAILED)
+        errExit(&quot;mmap&quot;);
+
+    futex1 = &amp;iaddr[0];
+    futex2 = &amp;iaddr[1];
+
+    *futex1 = 0;        /* State: unavailable */
+    *futex2 = 1;        /* State: available */
+
+    /* Create a child process that inherits the shared anonymous
+       mapping */
+
+    childPid = fork();
+    if (childPid == -1)
+        errExit(&quot;fork&quot;);
+
+    if (childPid == 0) {        /* Child */
+        for (j = 0; j &lt; nloops; j++) {
+            fwait(futex1);
+            printf(&quot;Child  (%ld) %d\n&quot;, (long) getpid(), j);
+            fpost(futex2);
+        }
+
+        exit(EXIT_SUCCESS);
+    }
+
+    /* Parent falls through to here */
+
+    for (j = 0; j &lt; nloops; j++) {
+        fwait(futex2);
+        printf(&quot;Parent (%ld) %d\n&quot;, (long) getpid(), j);
+        fpost(futex1);
+    }
+
+    wait(NULL);
+
+    exit(EXIT_SUCCESS);
+}
+</code></pre>
+
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[get_robust_list(2)]]</tt>, <tt>[[restart_syscall(2)]]</tt>, <tt>[[pthread_mutexattr_getprotocol(3)]], <tt>[[futex(7)]]</tt>, <tt>[[sched(7)]]</tt></p>
+<p>다음 커널 소스 파일:</p>
+<ul>
+<li>
+<p><code>Documentation/pi-futex.txt</code></p>
+</li>
+<li>
+<p><code>Documentation/futex-requeue-pi.txt</code></p>
+</li>
+<li>
+<p><code>Documentation/locking/rt-mutex.txt</code></p>
+</li>
+<li>
+<p><code>Documentation/locking/rt-mutex-design.txt</code></p>
+</li>
+<li>
+<p><code>Documentation/robust-futex-ABI.txt</code></p>
+</li>
+</ul>
+<p>Franke, H., Russell. R., and Kirwood, M., 2002. <em>Fuss, Futexes and Furwocks: Fast Userlevel Locking in Linux</em> (from proceedings of the Ottawa Linux Symposium 2002), <a href="http://kernel.org/doc/ols/2002/ols2002-pages-479-495.pdf">http://kernel.org/doc/ols/2002/ols2002-pages-479-495.pdf</a></p>
+<p>Hart, D., 2009. <em>A futex overview and update</em>, <a href="http://lwn.net/Articles/360699/">http://lwn.net/Articles/360699/</a></p>
+<p>Hart, D. and Guniguntala, D., 2009, <em>Requeue-PI: Making Glibc Condvars PI-Aware</em> (from proceedings of the 2009 Real-Time Linux Workshop), <a href="http://lwn.net/images/conf/rtlws11/papers/proc/p10.pdf">http://lwn.net/images/conf/rtlws11/papers/proc/p10.pdf</a></p>
+<p>Drepper, U., 2011, <em>Futexes Are Tricky</em>, <a href="http://www.akkadia.org/drepper/futex.pdf">http://www.akkadia.org/drepper/futex.pdf</a></p>
+<p>Futex 예시 라이브러리, futex-*.tar.bz2 at <a href="ftp://ftp.kernel.org/pub/linux/kernel/people/rusty/">ftp://ftp.kernel.org/pub/linux/kernel/people/rusty/</a></p>
+<hr />
+<p>2019-03-06</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

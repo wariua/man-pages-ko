@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/poll(2)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Poll(2) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+            <li class="second-level"><a href="#ppoll">ppoll()</a></li>
+                
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+            <li class="second-level"><a href="#c">C 라이브러리/커널 차이</a></li>
+                
+        <li class="first-level "><a href="#bugs">BUGS</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>poll, ppoll - 파일 디스크립터에서 어떤 이벤트 기다리기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;poll.h&gt;
+
+int poll(struct pollfd *fds, nfds_t nfds, int timeout);
+
+#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
+#include &lt;signal.h&gt;
+#include &lt;poll.h&gt;
+
+int ppoll(struct pollfd *fds, nfds_t nfds,
+        const struct timespec *tmo_p, const sigset_t *sigmask);
+</code></pre>
+
+<h2 id="description">DESCRIPTION</h2>
+<p><code>poll()</code>은 <tt>[[select(2)]]</tt>와 비슷한 작업을 한다. 즉 한 파일 디스크립터라도 I/O를 수행할 수 있는 상태가 되기를 기다린다.</p>
+<p>감시할 파일 디스크립터들의 집합을 <code>fds</code> 인자에서 지정하는데, 다음과 같은 구조체의 배열이다.</p>
+<pre><code class="c">struct pollfd {
+    int   fd;         /* 파일 디스크립터 */
+    short events;     /* 요청한 이벤트 */
+    short revents;    /* 반환된 이벤트 */
+};
+</code></pre>
+
+<p><code>fds</code>의 항목 개수를 호출자가 <code>nfds</code>에 명시해야 한다.</p>
+<p><code>fd</code> 필드는 열린 파일에 대한 파일 디스크립터를 담는다. 이 필드가 음수이면 대응하는 <code>events</code> 필드를 무시하며 <code>revents</code> 필드에 0을 반환한다. (이 점을 이용하면 어떤 파일 디스크립터를 <code>poll()</code> 호출 한 번 동안만 무시하는 걸 간단히 할 수 있다. <code>fd</code> 필드 부호만 바꾸면 된다. 다만 파일 디스크립터 0은 이 기법으로 무시할 수 없다.)</p>
+<p><code>events</code> 필드는 입력 매개변수이며 파일 디스크립터 <code>fd</code>에 대해 응용에서 관심 있는 이벤트들을 나타내는 비트 마스크이다. 이 필드를 0으로 지정할 수도 있으며, 그 경우 <code>revents</code>로 반환될 수 이벤트는 <code>POLLHUP</code>, <code>POLLERR</code>, <code>POLLNVAL</code>뿐이다. (아래 참고.)</p>
+<p><code>revents</code> 필드는 출력 매개변수이며 실제 발생한 이벤트들을 커널에서 채운다. <code>revents</code>로 반환되는 비트들에는 <code>events</code>에 지정한 비트들이, 그리고 값 <code>POLLERR</code>, <code>POLLHUP</code>, <code>POLLNVAL</code> 중 하나가 포함될 수 있다. (이 세 비트는 <code>events</code> 필드에서는 무의미하며 해당 조건이 참이면 <code>revents</code> 필드에 설정된다.)</p>
+<p>파일 디스크립터 모두에서 요청 이벤트 어느 것도 (그리고 어떤 오류도) 발생하지 않았으면 그 이벤트들 중 하나가 일어날 때까지 <code>poll()</code>이 블록 한다.</p>
+<p><code>timeout</code> 인자는 파일 디스크립터가 준비 상태가 되기를 기다리며 <code>poll()</code>에서 블록 할 밀리초 수를 나타낸다. 다음 어느 경우든 해당할 때까지 호출이 블록 하게 된다.</p>
+<ul>
+<li>
+<p>파일 디스크립터가 준비 상태가 된다.</p>
+</li>
+<li>
+<p>호출이 시그널 핸들러에 의해 중단된다.</p>
+</li>
+<li>
+<p>타임아웃이 만료된다.</p>
+</li>
+</ul>
+<p>참고로 <code>timeout</code> 시간을 시스템 클럭 해상도에 따라 올림 하게 되며 커널 스케줄링 지연도 있기 때문에 그 블록 시간을 약간 넘길 수도 있다. <code>timeout</code>에 음수 값을 지정하는 건 무한 타임아웃을 뜻한다. <code>timeout</code>을 0으로 지정하면 준비 상태인 파일 디스크립터가 없더라도 <code>poll()</code>이 즉시 반환하게 된다.</p>
+<p><code>events</code>에 설정하고 <code>revents</code>로 반환될 수 있는 비트들이 <code>&lt;poll.h&gt;</code>에 정의돼 있다.</p>
+<dl>
+<dt><code>POLLIN</code></dt>
+<dd>읽을 데이터가 있다.</dd>
+<dt><code>POLLPRI</code></dt>
+<dd>
+<p>파일 디스크립터에 어떤 예외 상황이 있다. 다음 경우들 등이 가능하다.</p>
+<ul>
+<li>
+<p>TCP 소켓에 대역외 데이터가 있다. (<tt>[[tcp(7)]]</tt> 참고.)</p>
+</li>
+<li>
+<p>패킷 모드인 유사 터미널 마스터가 슬레이브에서의 상태 변화를 보았다. (<code>ioctl_tty(2)</code> 참고.)</p>
+</li>
+<li>
+<p><code>cgroup.events</code> 파일이 변경되었다. (<tt>[[cgroups(7)]]</tt> 참고.)</p>
+</li>
+</ul>
+</dd>
+<dt><code>POLLOUT</code></dt>
+<dd>현재 쓰기가 가능하다. 다만 소켓 내지 파이프의 가용 공간보다 큰 데이터를 써넣으면 (<code>O_NONBLOCK</code>이 설정돼 있지 않으면) 여전히 블록 된다.</dd>
+<dt><code>POLLRDHUP</code> (리눅스 2.6.17부터)</dt>
+<dd>스트림 소켓의 상대가 연결을 닫았거나 연결의 쓰기 쪽을 닫았다. 이 비트 정의를 쓸 수 있으려면 (<em>어떤</em> 헤더 파일도 포함시키기 전에) 기능 확인 매크로 <code>_GNU_SOURCE</code>가 정의돼 있어야 한다.</dd>
+<dt><code>POLLERR</code></dt>
+<dd>오류 상황. (<code>revents</code>로 반환되기만 하고 <code>events</code>에서는 무시.) 파이프의 쓰기 쪽을 가리키는 파일 디스크립터에 대해서 읽기 쪽이 닫혔을 때도 이 비트가 설정된다.</dd>
+<dt><code>POLLHUP</code></dt>
+<dd>연결 끊겼음. (<code>revents</code>로 반환되기만 하고 <code>events</code>에서는 무시.) 참고로 파이프나 스트림 소켓 같은 채널에서 읽기를 할 때 이 이벤트는 상대가 채널의 그쪽 끝을 닫았다는 표시일 뿐이다. 그 채널의 미처리 데이터를 모두 소비한 후에야 채널 읽기가 0(파일 끝)을 반환하게 된다.</dd>
+<dt><code>POLLNVAL</code></dt>
+<dd>유효하지 않은 요청: <code>fd</code>가 열려 있지 않음. (<code>revents</code>로 반환되기만 하고 <code>events</code>에서는 무시.) </dd>
+</dl>
+<p><code>_XOPEN_SOURCE</code>가 정의된 채로 컴파일 하면 다음 비트들도 쓸 수 있게 되는데, 위에 나열한 비트들 이상의 정보를 주지는 않는다.</p>
+<dl>
+<dt><code>POLLRDNORM</code></dt>
+<dd><code>POLLIN</code>과 동등하다.</dd>
+<dt><code>POLLRDBAND</code></dt>
+<dd>우선 대역 데이터를 읽을 수 있다. (리눅스에서는 보통 쓰지 않음.)</dd>
+<dt><code>POLLWRNORM</code></dt>
+<dd><code>POLLOUT</code>과 동등하다.</dd>
+<dt><code>POLLWRBAND</code></dt>
+<dd>우선 대역 데이터를 쓸 수 있다.</dd>
+</dl>
+<p>리눅스에는 <code>POLLMSG</code>도 있지만 쓰지는 않는다.</p>
+<h3 id="ppoll"><code>ppoll()</code></h3>
+<p><code>poll()</code>과 <code>ppoll()</code>의 관계는 <tt>[[select(2)]]</tt>와 <tt>[[pselect(2)]]</tt>의 관계와 비슷하다. <tt>[[pselect(2)]]</tt>처럼 응용에서 <code>ppoll()</code>을 사용해 파일 디스크립터가 준비 상태가 되거나 시그널을 잡을 때까지 안전하게 대기할 수 있다.</p>
+<p><code>timeout</code> 인자의 정밀도 차이를 제외하면 다음 <code>ppoll()</code> 호출은</p>
+<pre><code class="c">ready = ppoll(&amp;fds, nfds, tmo_p, &amp;sigmask);
+</code></pre>
+
+<p>다음 호출들을 <em>원자적으로</em> 실행하는 것과 거의 동등하다.</p>
+<pre><code class="c">sigset_t origmask;
+int timeout;
+
+timeout = (tmo_p == NULL) ? -1 :
+          (tmo_p-&gt;tv_sec * 1000 + tmo_p-&gt;tv_nsec / 1000000);
+pthread_sigmask(SIG_SETMASK, &amp;sigmask, &amp;origmask);
+ready = poll(&amp;fds, nfds, timeout);
+pthread_sigmask(SIG_SETMASK, &amp;origmask, NULL);
+</code></pre>
+
+<p>위 코드가 <em>거의</em> 동등하다고 한 이유는 <code>poll()</code>에선 음수 <code>timeout</code> 값을 무한대 타임아웃으로 해석하지만 <code>ppoll()</code>에선 <code>*tmo_p</code>의 값이 음수이면 오류가 나기 때문이다.</p>
+<p><code>ppoll()</code>이 필요한 이유는 <tt>[[pselect(2)]]</tt>의 설명을 보라.</p>
+<p><code>sigmask</code>를 NULL로 지정한 경우에는 시그널 마스크 조작을 수행하지 않는다. (그러면 <code>ppoll()</code>과 <code>poll()</code>의 차이는 <code>timeout</code> 인자의 정밀도뿐이다.)</p>
+<p><code>tmo_p</code> 인자는 <code>ppoll()</code>에서 블록 할 시간의 상한을 나타낸다. 이 인자는 다음 구조체에 대한 포인터이다.</p>
+<pre><code class="c">struct timespec {
+    long    tv_sec;         /* 초 */
+    long    tv_nsec;        /* 나노초 */
+};
+</code></pre>
+
+<p><code>tmo_p</code>를 NULL로 지정한 경우에는 <code>ppoll()</code>에서 무한정 블록 할 수 있다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>성공 시 양수를 반환한다. 이는 <code>revents</code> 필드가 0이 아닌 구조체들의 (달리 말해 이벤트나 오류가 보고된 디스크립터들의) 수이다. 0 값은 호출이 타임아웃 되었고 어떤 파일 디스크립터도 준비 상태가 아니었음을 나타낸다. 오류 시 -1을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<h2 id="errors">ERRORS</h2>
+<dl>
+<dt><code>EFAULT</code></dt>
+<dd>인자로 준 배열이 호출 프로그램의 주소 공간에 들어 있지 않다.</dd>
+<dt><code>EINTR</code></dt>
+<dd>요청한 이벤트들에 앞서 시그널이 발생했다. <tt>[[signal(7)]]</tt> 참고.</dd>
+<dt><code>EINVAL</code></dt>
+<dd><code>nfds</code> 값이 <code>RLIMIT_NOFILE</code> 값을 초과한다.</dd>
+<dt><code>EINVAL</code></dt>
+<dd>(<code>ppoll()</code>) <code>*ip</code>에 있는 타임아웃 값이 유효하지 않다 (음수다).</dd>
+<dt><code>ENOMEM</code></dt>
+<dd>파일 디스크립터 테이블을 할당할 공간이 없다.</dd>
+</dl>
+<h2 id="versions">VERSIONS</h2>
+<p>리눅스 2.1.23에서 <code>poll()</code> 시스템 호출이 도입되었다. 이 시스템 호출이 없는 더 전 커널에서는 glibc의 (그리고 구식 리눅스 libc의) <code>poll()</code> 래퍼 함수에서 <tt>[[select(2)]]</tt>를 써서 에뮬레이션을 제공한다.</p>
+<p>리눅스 커널 2.6.16에서 <code>ppoll()</code> 시스템 호출이 추가되었다. glibc 2.4에서 <code>ppoll()</code> 라이브러리 호출이 추가되었다.</p>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p><code>poll()</code>은 POSIX.1-2001 및 POSIX.1-2008을 준수한다. <code>ppoll()</code>은 리눅스 전용이다.</p>
+<h2 id="notes">NOTES</h2>
+<p><code>poll()</code> 및 <code>ppoll()</code>의 동작은 <code>O_NONBLOCK</code> 플래그에 영향을 받지 않는다.</p>
+<p>일부 다른 유닉스 시스템에서는 커널 내부 자원을 할당하지 못했을 때 리눅스의 <code>ENOMEM</code>이 아니라 <code>EAGAIN</code> 오류로 실패할 수 있다. POSIX에서 그런 동작을 허용한다. 이식 가능한 프로그램에서는 <code>EAGAIN</code>을 확인해서 <code>EINTR</code> 경우처럼 루프를 계속 도는 게 좋을 수 있다.</p>
+<p>어떤 구현들에서는 <code>poll()</code>에서 <code>timeout</code>에 쓸 수 있는 비표준 상수 <code>INFTIM</code>을 -1 값으로 정의하고 있다. glibc에서는 이 상수를 제공하지 않는다.</p>
+<p><code>poll()</code>로 감시 중인 파일 디스크립터를 다른 스레드에서 닫으면 어떻게 될 수 있는지에 대한 논의는 <tt>[[select(2)]]</tt>를 보라.</p>
+<h3 id="c">C 라이브러리/커널 차이</h3>
+<p>리눅스의 <code>ppoll()</code> 시스템 호출에서는 <code>tmo_p</code> 인자를 변경한다. 하지만 glibc 래퍼 함수에서 타임아웃 인자에 대한 지역 변수를 쓰고 그 변수를 시스템 호출로 전달하여 그 동작 방식을 감춘다. 그리하여 glibc의 <code>ppoll()</code> 함수는 <code>tmo_p</code> 인자를 변경하지 않는다.</p>
+<p>진짜 <code>ppoll()</code> 시스템 호출에는 다섯 번째 인자 <code>size_t sigsetsize</code>가 있는데, 이는 <code>sigmask</code> 인자의 바이트 단위 크기를 나타낸다. glibc의 <code>ppoll()</code> 래퍼 함수에서 이 인자를 고정된 값(<code>sizeof(kernel_sigset_t)</code>)으로 지정한다. 커널과 libc에서의 시그널 집합 개념 차이에 대한 설명은 <tt>[[sigprocmask(2)]]</tt>를 보라.</p>
+<h2 id="bugs">BUGS</h2>
+<p><tt>[[select(2)]]</tt>의 BUGS 절에 있는 준비 상태 거짓 알림 논의를 보라.</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[restart_syscall(2)]]</tt>, <tt>[[select(2)]]</tt>, <tt>[[select_tut(2)]]</tt>, <tt>[[epoll(7)]]</tt>, <tt>[[time(7)]]</tt></p>
+<hr />
+<p>2019-08-02</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

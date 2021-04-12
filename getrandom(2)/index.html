@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/getrandom(2)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Getrandom(2) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+            <li class="second-level"><a href="#_1">반환하는 최대 바이트 수</a></li>
+                
+            <li class="second-level"><a href="#_2">시그널 핸들러에 의한 중단</a></li>
+                
+        <li class="first-level "><a href="#bugs">BUGS</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>getrandom - 일련의 난수 바이트 얻기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;sys/random.h&gt;
+
+ssize_t getrandom(void *buf, size_t buflen, unsigned int flags);
+</code></pre>
+
+<h2 id="description">DESCRIPTION</h2>
+<p><code>getrandom()</code> 시스템 호출은 <code>buf</code>가 가리키는 버퍼를 <code>buflen</code> 개까지의 난수 바이트들로 채운다. 이 바이트들을 사용자 공간 난수 생성기의 시드로 사용하거나 암호학적 용도에 사용할 수 있다.</p>
+<p>기본적으로 <code>getrandom()</code>은 <code>urandom</code> 원천으로부터 (즉 <code>/dev/urandom</code> 장치와 같은 원천으로부터) 엔트로피를 뽑아낸다. <code>flags</code> 인자를 통해 이 동작을 바꿀 수 있다.</p>
+<p><code>urandom</code> 원천이 초기화 되어 있는 경우에는 256바이트까지의 읽기는 항상 요청한 만큼의 바이트를 반환하며 시그널에 의해 중단되지 않게 된다. 더 큰 버퍼 크기에 대해선 그런 보장이 없다. 예를 들어 호출이 시그널 핸들러에 의해 중단되면 일부만 채워진 버퍼를 반환할 수도 있고 <code>EINTR</code> 오류로 실패할 수도 있다.</p>
+<p><code>urandom</code> 원천이 아직 초기화 되어 있지 않은 경우에는 <code>flags</code>에 <code>GRND_NONBLOCK</code>을 지정하지 않았으면 <code>getrandom()</code>이 블록 하게 된다.</p>
+<p><code>flags</code> 인자는 비트 마스크이며 다음 값들을 0개 또는 그 이상 OR 한 값을 담을 수 있다.</p>
+<dl>
+<dt><code>GRND_RANDOM</code></dt>
+<dd>이 비트가 설정되어 있으면 <code>urandom</code> 원천 대신 <code>random</code> 원천으로부터 (즉 <code>/dev/random</code> 장치와 같은 원천으로부터) 난수 바이트를 뽑아낸다. <code>random</code> 원천은 환경 잡음에서 얻은 엔트로피를 기반으로 하도록 제한되어 있다. <code>random</code> 원천 내에 사용 가능한 바이트 수가 <code>buflen</code>에 요청한 값보다 작으면 사용 가능한 난수 바이트들만 반환한다. 사용 가능한 난수 바이트가 없는 경우의 동작 방식은 <code>flags</code> 인자에 <code>GRND_NONBLOCK</code>이 있는지 여부에 따라 다르다.</dd>
+<dt><code>GRND_NONBLOCK</code></dt>
+<dd>기본적으로 <code>getrandom()</code>이 <code>random</code> 원천으로부터 읽어들일 때 사용 가능한 난수 바이트가 없으면 블록 하며, <code>urandom</code> 원천으로부터 읽어들일 때 엔트로피 풀이 아직 초기화 되지 않았으면 블록 한다. <code>GRND_NONBLOCK</code> 플래그를 설정하면 이런 경우에 <code>getrandom()</code>이 블록 하지 않고 즉시 -1을 반환하며 <code>errno</code>를 <code>EAGAIN</code>으로 설정한다.</dd>
+</dl>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>성공 시 <code>getrandom()</code>은 버퍼 <code>buf</code>로 복사된 바이트 수를 반환한다. <code>flags</code>에 <code>GRND_RANDOM</code>을 지정했는데 <code>random</code> 원천에 충분한 엔트로피가 있지 않았거나 시스템 호출이 시그널에 의해 중단되었다면 이 값이 <code>buflen</code>을 통해 요청한 바이트 수보다 작을 수도 있다.</p>
+<p>오류 시 -1을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<h2 id="errors">ERRORS</h2>
+<dl>
+<dt><code>EAGAIN</code></dt>
+<dd>요청한 만큼의 엔트로피가 사용 가능하지 않았으며 <code>GRND_NONBLOCK</code>을 설정하지 않았다면 <code>getrandom()</code>이 블록 했을 것이다.</dd>
+<dt><code>EFAULT</code></dt>
+<dd><code>buf</code>가 가리키는 주소가 접근 가능한 주소 공간 밖에 있다.</dd>
+<dt><code>EINTR</code></dt>
+<dd>호출이 시그널 핸들러에 의해 중단되었다. <tt>[[signal(7)]]</tt> 맨 페이지에서 <code>SA_RESTART</code> 플래그가 있거나 없을 때 "느린" 장치에 대한 <code>read(2)</code> 호출 중단을 어떻게 처리하는지에 대한 설명을 보라.</dd>
+<dt><code>EINVAL</code></dt>
+<dd><code>flags</code>에 유효하지 않은 플래그를 지정했다.</dd>
+<dt><code>ENOSYS</code></dt>
+<dd><code>getrandom()</code>의 glibc 래퍼 함수에서 기반 커널이 이 시스템 호출을 구현하고 있지 않다고 판단했다.</dd>
+</dl>
+<h2 id="versions">VERSIONS</h2>
+<p>리눅스 커널 버전 3.17에서 <code>getrandom()</code>이 도입되었다. glibc 버전 2.25에서 지원이 추가되었다.</p>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>이 시스템 호출은 리눅스 전용이다.</p>
+<h2 id="notes">NOTES</h2>
+<p>난수를 얻는 데 사용할 수 있는 다양한 인터페이스들의 소개와 비교는 <tt>[[random(7)]]</tt>을 보라.</p>
+<p><code>/dev/random</code> 및 <code>/dev/urandom</code>과 달리 <code>getrandom()</code>에는 경로명이나 파일 디스크립터 사용이 수반되지 않는다. 따라서 <tt>[[chroot(2)]]</tt> 때문에 <code>/dev</code> 경로명이 보이지 않게 되는 경우나 라이브러리에서 이 파일들 중 하나를 연 파일 디스크립터를 응용이 (가령 데몬이 개시 과정 중에) 닫는 경우에 <code>getrandom()</code>이 유용할 수 있다.</p>
+<h3 id="_1">반환하는 최대 바이트 수</h3>
+<p>리눅스 3.19 현재 다음 제한이 적용된다.</p>
+<ul>
+<li>
+<p><code>urandom</code> 원천으로부터 읽어들일 때 <code>int</code>의 크기가 32비트인 시스템에서 <code>getrandom()</code> 호출 한 번이 최대 33554431바이트를 반환한다.</p>
+</li>
+<li>
+<p><code>random</code> 원천으로부터 읽어들일 때 최대 512바이트를 반환한다.</p>
+</li>
+</ul>
+<h3 id="_2">시그널 핸들러에 의한 중단</h3>
+<p><code>urandom</code> 원천으로부터 읽어들일 때 (<code>GRND_RANDOM</code>이 설정되어 있지 않을 때) <code>getrandom()</code>은 (<code>GRND_NONBLOCK</code> 플래그를 지정하지 않았다면) 엔트로피 풀이 초기화 될 때까지 블록 하게 된다. 많은 수의 (256 넘는) 바이트를 읽도록 요청하면 그 바이트들을 생성하여 커널 메모리에서 <code>buf</code>로 복사할 때까지 <code>getrandom()</code>이 블록 하게 된다. <code>random</code> 원천으로부터 읽어들일 때 (<code>GRND_RANDOM</code>이 설정되어 있을 때) <code>getrandom()</code>은 (<code>GRND_NONBLOCK</code> 플래그를 지정하지 않았다면) 사용 가능한 난수 바이트가 있게 될 때까지 블록 하게 된다.</p>
+<p><code>urandom</code> 원천으로부터 읽고 있는 동안 블록 된 <code>getrandom()</code> 호출이 시그널 핸들러에 의해 중단되었을 때의 동작 방식은 엔트로피 버퍼의 최초 상태와 요청 크기인 <code>buflen</code>에 따라 달라진다. 아직 엔트로피가 초기화 되지 않았으면 <code>EINTR</code> 오류로 호출이 실패한다. 엔트로피 풀이 초기화 되었으며 요청 크기가 크면 (<code>buflen</code> &gt; 256) 호출이 일부만 채워진 버퍼를 반환하며 성공하거나 <code>EINTR</code> 오류로 실패한다. 엔트로피 풀이 초기화 되었으며 요청 크기가 작으면 (<code>buflen</code> &lt;= 256) <code>getrandom()</code>이 <code>EINTR</code>로 실패하지 않게 된다. 요청 받은 만큼의 바이트를 모두 반환하게 된다.</p>
+<p><code>random</code> 원천으로부터 읽고 있는 중에 임의 크기의 블로킹 요청이 시그널 핸들러에 의해 중단될 수 있다. (호출이 <code>EINTR</code> 오류로 실패한다.)</p>
+<p><code>urandom</code> 원천으로부터 작은 (&lt;= 256바이트) 버퍼를 읽어들이는 것이 <code>getrandom()</code>의 선호 사용 방식이다.</p>
+<p>작은 <code>buflen</code> 값에 대한 특별한 처리는 요즘 glibc에서도 지원하는 OpenBSD의 <tt>[[getentropy(3)]]</tt>와의 호환성을 위해 설계된 것이다.</p>
+<p><code>getrandom()</code> 사용자는 언제나 반환 값을 확인하여 오류가 발생했거나 요청보다 적은 바이트가 반환되었는지 판단<em>해야 한다</em>. <code>GRND_RANDOM</code>을 지정하지 않았고 <code>buflen</code>가 256 이하인 경우에는 요청보다 적은 바이트가 반환되는 경우가 절대 없을 테지만 세심한 프로그래머라면 그래도 확인할 것이다!</p>
+<h2 id="bugs">BUGS</h2>
+<p>리눅스 3.19 현재 다음 버그가 존재한다.</p>
+<ul>
+<li>CPU 부하에 따라 <code>getrandom()</code>이 요청한 바이트 모두를 읽기 전까지 시그널에 반응하지 않는다.</li>
+</ul>
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[getentropy(3)]]</tt>, <tt>[[random(4)]]</tt>, <tt>[[urandom(4)]]</tt>, <tt>[[random(7)]]</tt>, <tt>[[signal(7)]]</tt></p>
+<hr />
+<p>2017-09-15</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

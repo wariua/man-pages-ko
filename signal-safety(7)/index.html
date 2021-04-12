@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/signal-safety(7)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Signal safety(7) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+            <li class="second-level"><a href="#gnu-c">GNU C 라이브러리의 일탈</a></li>
+                
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>signal-safety - 비동기 시그널 안전 함수들</p>
+<h2 id="description">DESCRIPTION</h2>
+<p><em>비동기 시그널 안전(async-signal-safe)</em> 함수는 시그널 핸들러 안에서 안전하게 호출할 수 있는 함수이다. 많은 함수들은 비동기 시그널 안전 함수가 <em>아니다</em>. 특히 재진입 가능하지 않은 함수들은 일반적으로 시그널 핸들러 안에서 호출하는 게 안전하지 않다.</p>
+<p>모든 함수들이 비동기 시그널에 안전하지 않은 <code>stdio</code> 라이브러리 구현을 생각해 보면 함수를 안전하지 않게 만드는 종류의 문제들을 금방 이해할 수 있다.</p>
+<p>파일에 대해 버퍼링 I/O를 수행할 때 <code>stdio</code> 함수들에서는 정적 할당 데이터 버퍼와 함께 버퍼 내 데이터 양과 현재 위치를 기록하는 연계 카운터 및 인덱스를 (또는 포인터들을) 유지해야 한다. 주 프로그램이 <tt>[[printf(3)]]</tt> 같은 <code>stdio</code> 함수 호출 중에 있고 그 안에서 버퍼와 연관 변수들을 부분적으로 갱신했다고 하자. 만약 그 순간에 시그널 핸들러가 프로그램을 중단시키고 핸들러에서 다시 <tt>[[printf(3)]]</tt>를 호출하면 그 두 번째 <tt>[[printf(3)]]</tt> 호출은 일관적이지 않은 데이터로 동작하게 되며 결과가 예측 불가능하다.</p>
+<p>안전하지 않은 함수의 문제를 피하려면 두 가지 선택지가 있다.</p>
+<ol>
+<li>
+<p>(a) 시그널 핸들러에서 비동기 시그널 안전 함수만 호출하고 (b) 시그널 핸들러 자체가 주 프로그램의 전역 변수들에 대해 재진입 가능이게 한다.</p>
+</li>
+<li>
+<p>주 프로그램에서 안전하지 않은 함수를 호출하거나 시그널 핸들러에서도 접근하는 전역 데이터를 다룰 때 시그널 전달을 막는다.</p>
+</li>
+</ol>
+<p>일반적으로 두 번째 선택지는 여하한 복잡도의 프로그램에서도 어렵기 때문에 첫 번째 선택지를 취한다.</p>
+<p>POSIX.1에서는 구현에서 비동기 시그널 안전으로 만들어야 하는 함수들을 명세한다. (어떤 구현에서는 더 많은 함수들에 안전한 구현을 제공할 수도 있다. 하지만 표준에서 요구하는 것이 아니므로 다른 구현에서는 같은 보장을 하지 않을 수도 있다.) 일반적으로 함수가 비동기 시그널에 안전한 건 재진입 가능하거나 시그널에 대해 원자적(즉 시그널 핸들러로 실행을 중단시킬 수 없음)이어서이다.</p>
+<p>POSIX.1에서 비동기 시그널 안전이기를 요구하는 함수들이 아래 표에 있다. 별다른 언급이 없는 함수는 POSIX.1-2001에서 비동기 시그널 안전을 요구한 것이며, 후속 표준에서 바뀐 내용이 적혀 있다.</p>
+<table>
+<thead>
+<tr>
+<th>함수</th>
+<th>참고</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><tt>[[abort(3)]]</tt></td>
+<td>POSIX.1-2003에서 추가</td>
+</tr>
+<tr>
+<td><code>accept(2)</code></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[access(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[aio_error(3)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[aio_return(3)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[aio_suspend(3)]]</tt></td>
+<td>아래 참고</td>
+</tr>
+<tr>
+<td><tt>[[alarm(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><code>bind(2)</code></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[cfgetispeed(3)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[cfgetospeed(3)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[cfsetispeed(3)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[cfsetospeed(3)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[chdir(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[chmod(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[chown(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[clock_gettime(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[close(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><code>connect(2)</code></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[creat(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[dup(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[dup2(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[execl(3)]]</tt></td>
+<td>POSIX.1-2008에서 추가. 아래 참고</td>
+</tr>
+<tr>
+<td><tt>[[execle(3)]]</tt></td>
+<td>아래 참고</td>
+</tr>
+<tr>
+<td><tt>[[execv(3)]]</tt></td>
+<td>POSIX.1-2008에서 추가</td>
+</tr>
+<tr>
+<td><tt>[[execve(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[_exit(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[_Exit(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[faccessat(2)]]</tt></td>
+<td>POSIX.1-2008에서 추가</td>
+</tr>
+<tr>
+<td><tt>[[fchdir(2)]]</tt></td>
+<td>POSIX.1-2013에서 추가</td>
+</tr>
+<tr>
+<td><tt>[[fchmod(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[fchmodat(2)]]</tt></td>
+<td>POSIX.1-2008에서 추가</td>
+</tr>
+<tr>
+<td><tt>[[fchown(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[fchownat(2)]]</tt></td>
+<td>POSIX.1-2008에서 추가</td>
+</tr>
+<tr>
+<td><tt>[[fcntl(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[fdatasync(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[fexecve(3)]]</tt></td>
+<td>POSIX.1-2008에서 추가</td>
+</tr>
+<tr>
+<td><tt>[[ffs(3)]]</tt></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><tt>[[fork(2)]]</tt></td>
+<td>아래 참고</td>
+</tr>
+<tr>
+<td><tt>[[fstat(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[fstatat(2)]]</tt></td>
+<td>POSIX.1-2008에서 추가</td>
+</tr>
+<tr>
+<td><tt>[[fsync(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[ftruncate(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[futimens(3)]]</tt></td>
+<td>POSIX.1-2008에서 추가</td>
+</tr>
+<tr>
+<td><tt>[[getegid(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[geteuid(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[getgid(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[getgroups(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[getpeername(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[getpgrp(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[getpid(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[getppid(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[getsockname(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><code>getsockopt(2)</code></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[getuid(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[htonl(3)]]</tt></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><tt>[[htons(3)]]</tt></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><tt>[[kill(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[link(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[linkat(2)]]</tt></td>
+<td>POSIX.1-2008에서 추가</td>
+</tr>
+<tr>
+<td><code>listen(2)</code></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[longjmp(3)]]</tt></td>
+<td>POSIX.1-2016에서 추가, 아래 참고</td>
+</tr>
+<tr>
+<td><tt>[[lseek(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[lstat(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[memccpy(3)]]</tt></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><tt>[[memchr(3)]]</tt></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>memcmp(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>memcpy(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>memmove(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>memset(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><tt>[[mkdir(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[mkdirat(2)]]</tt></td>
+<td>POSIX.1-2008에서 추가</td>
+</tr>
+<tr>
+<td><tt>[[mkfifo(3)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[mkfifoat(3)]]</tt></td>
+<td>POSIX.1-2008에서 추가</td>
+</tr>
+<tr>
+<td><tt>[[mknod(2)]]</tt></td>
+<td>POSIX.1-2008에서 추가</td>
+</tr>
+<tr>
+<td><tt>[[mknodat(2)]]</tt></td>
+<td>POSIX.1-2008에서 추가</td>
+</tr>
+<tr>
+<td><tt>[[ntohl(3)]]</tt></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><tt>[[ntohs(3)]]</tt></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><tt>[[open(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[openat(2)]]</tt></td>
+<td>POSIX.1-2008에서 추가</td>
+</tr>
+<tr>
+<td><tt>[[pause(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[pipe(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[poll(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><code>posix_trace_event(3)</code></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[pselect(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[pthread_kill(3)]]</tt></td>
+<td>POSIX.1-2013에서 추가</td>
+</tr>
+<tr>
+<td><tt>[[pthread_self(3)]]</tt></td>
+<td>POSIX.1-2013에서 추가</td>
+</tr>
+<tr>
+<td><tt>[[pthread_sigmask(3)]]</tt></td>
+<td>POSIX.1-2013에서 추가</td>
+</tr>
+<tr>
+<td><tt>[[raise(3)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><code>read(2)</code></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[readlink(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[readlinkat(2)]]</tt></td>
+<td>POSIX.1-2008에서 추가</td>
+</tr>
+<tr>
+<td><tt>[[recv(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[recvfrom(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[recvmsg(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[rename(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[renameat(2)]]</tt></td>
+<td>POSIX.1-2008에서 추가</td>
+</tr>
+<tr>
+<td><tt>[[rmdir(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[select(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[sem_post(3)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[send(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[sendmsg(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[sendto(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[setgid(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[setpgid(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[setsid(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><code>setsockopt(2)</code></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[setuid(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[shutdown(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[sigaction(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[sigaddset(3)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[sigdelset(3)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[sigemptyset(3)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[sigfillset(3)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[sigismember(3)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[siglongjmp(3)]]</tt></td>
+<td>POSIX.1-2016에서 추가, 아래 참고</td>
+</tr>
+<tr>
+<td><tt>[[signal(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[sigpause(3)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[sigpending(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[sigprocmask(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[sigqueue(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[sigset(3)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[sigsuspend(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[sleep(3)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[sockatmark(3)]]</tt></td>
+<td>POSIX.1-2004에서 추가</td>
+</tr>
+<tr>
+<td><tt>[[socket(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[socketpair(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[stat(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[stpcpy(3)]]</tt></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><tt>[[stpncpy(3)]]</tt></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>strcat(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>strchr(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>strcmp(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>strcpy(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>strcspn(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>strlen(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>strncat(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>strncmp(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>strncpy(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><tt>[[strnlen(3)]]</tt></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>strpbrk(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>strrchr(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>strspn(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>strstr(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><tt>[[strtok_r(3)]]</tt></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><tt>[[symlink(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[symlinkat(2)]]</tt></td>
+<td>POSIX.1-2008에서 추가</td>
+</tr>
+<tr>
+<td><tt>[[tcdrain(3)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[tcflow(3)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[tcflush(3)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[tcgetattr(3)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[tcgetpgrp(3)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[tcsendbreak(3)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[tcsetattr(3)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[tcsetpgrp(3)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[time(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[timer_getoverrun(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[timer_gettime(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[timer_settime(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[times(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[umask(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[uname(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[unlink(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[unlinkat(2)]]</tt></td>
+<td>POSIX.1-2008에서 추가</td>
+</tr>
+<tr>
+<td><tt>[[utime(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[utimensat(2)]]</tt></td>
+<td>POSIX.1-2008에서 추가</td>
+</tr>
+<tr>
+<td><tt>[[utimes(2)]]</tt></td>
+<td>POSIX.1-2008에서 추가</td>
+</tr>
+<tr>
+<td><tt>[[wait(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><tt>[[waitpid(2)]]</tt></td>
+<td></td>
+</tr>
+<tr>
+<td><code>wcpcpy(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>wcpncpy(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>wcscat(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>wcscat(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>wcschr(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>wcscmp(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>wcscpy(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>wcscspn(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>wcslen(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>wcsncat(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>wcsncmp(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>wcsncpy(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>wcsnlen(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>wcspbrk(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>wcsrchr(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>wcsspn(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>wcsstr(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>wcstok(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>wmemchr(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>wmemcmp(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>wmemcpy(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>wmemmove(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>wmemset(3)</code></td>
+<td>POSIX.1-2016에서 추가</td>
+</tr>
+<tr>
+<td><code>write(2)</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>참고:</p>
+<ul>
+<li>
+<p>POSIX.1-2001과 POSIX.1-2004에서는 <tt>[[fpathconf(3)]]</tt>, <tt>[[pathconf(3)]]</tt>, <tt>[[sysconf(3)]]</tt>가 비동기 시그널 안전이기를 요구했지만 POSIX.1-2008에서 이 요구가 제거되었다.</p>
+</li>
+<li>
+<p>안전하지 않은 함수의 실행이 시그널 핸들러로 중단되고, 그 핸들러가 <tt>[[longjmp(3)]]</tt>나 <tt>[[siglongjmp(3)]]</tt> 호출을 통해 끝나고, 이후 프로그램에서 안전하지 않은 함수를 호출하는 경우에 프로그램의 동작 방식이 규정되어 있지 않다.</p>
+</li>
+<li>
+<p>POSIX.1-2003에서는 응용이 시그널 핸들러에서 <tt>[[fork(2)]]</tt>를 호출하고 <tt>[[pthread_atfork(3)]]</tt> 호출로 등록한 포크 핸들러에서 비동기 시그널에 안전하지 않은 함수를 호출하는 경우 동작 방식이 규정되어 있지 않음을 분명히 하였다. 그 표준의 향후 리비전에서 <tt>[[fork(2)]]</tt>를 비동기 시그널 안전 함수 목록에서 제거할 가능성이 높다.</p>
+</li>
+</ul>
+<h3 id="gnu-c">GNU C 라이브러리의 일탈</h3>
+<p>GNU C 라이브러리에 다음과 같은 표준 일탈이 있다.</p>
+<ul>
+<li>
+<p>glibc 2.24 전에서 <tt>[[execl(3)]]</tt>과 <tt>[[execle(3)]]</tt>이 내부적으로 <tt>[[realloc(3)]]</tt>을 이용했고 그로 인해 비동기 시그널 안전이 아니었다. glibc 2.24에서 수정되었다.</p>
+</li>
+<li>
+<p>glibc의 <tt>[[aio_suspend(3)]]</tt> 구현이 내부적으로 <tt>[[pthread_mutex_lock(3)]]</tt>을 사용하기 때문에 비동기 시그널 안전이 아니다.</p>
+</li>
+</ul>
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[sigaction(2)]]</tt>, <tt>[[signal(7)]]</tt>, <tt>[[standards(7)]]</tt></p>
+<hr />
+<p>2017-03-13</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

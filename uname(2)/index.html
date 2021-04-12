@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/uname(2)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Uname(2) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+            <li class="second-level"><a href="#c">C 라이브러리/커널 차이</a></li>
+                
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>uname - 현재 커널에 대한 이름과 정보 얻기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;sys/utsname.h&gt;
+
+int uname(struct utsname *buf);
+</code></pre>
+
+<h2 id="description">DESCRIPTION</h2>
+<p><code>uname()</code>은 시스템 정보를 <code>buf</code>가 가리키는 구조체로 반환한다. <code>utsname</code> 구조체는 <code>&lt;sys/utsname.h&gt;</code>에 정의되어 있다.</p>
+<pre><code class="c">struct utsname {
+    char sysname[];    /* 운영 체제 이름 (가령 &quot;Linux&quot;) */
+    char nodename[];   /* &quot;구현에서 규정하는 어떤 망&quot;
+                          내에서의 이름 */
+    char release[];    /* 운영 체제 릴리스 (가령 &quot;2.6.28&quot;) */
+    char version[];    /* 운영 체제 버전 */
+    char machine[];    /* 하드웨어 식별자 */
+#ifdef _GNU_SOURCE
+    char domainname[]; /* NIS 또는 YP 도메인 이름 */
+#endif
+};
+</code></pre>
+
+<p><code>struct utsname</code> 내 배열들의 길이는 명세되어 있지 않다 (NOTES 참고). 그 필드들은 널 바이트(<code>'\0'</code>)로 끝난다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>성공 시 0을 반환한다. 오류 시 -1을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<h2 id="errors">ERRORS</h2>
+<dl>
+<dt><code>EFAULT</code></dt>
+<dd><code>buf</code>가 유효하지 않다.</dd>
+</dl>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>POSIX.1-2001, POSIX.1-2008, SVr4. 4.3BSD에는 <code>uname()</code> 호출이 없다.</p>
+<p><code>domainname</code> 멤버(NIS 또는 YP 도메인 이름)는 GNU 확장이다.</p>
+<h2 id="notes">NOTES</h2>
+<p>이 함수는 시스템 호출이고 아마 운영 체제는 자기 이름과 릴리스, 버전을 알고 있을 것이다. 또 자기가 어떤 하드웨어 위에서 도는지도 안다. 그래서 구조체의 네 필드에는 의미가 있다. 반면 <code>nodename</code> 필드에는 의미가 없다. 어떤 규정돼 있지 않은 망에서 현 머신의 이름인데, 보통 머신들은 여러 망 내에 있고 여러 이름을 가지고 있다. 게다가 커널이 그런 내용을 알 방법도 없으므로 여기에 뭐라고 답할지를 커널에게 알려 주어야 한다. <code>domainname</code> 필드에서도 마찬가지이다.</p>
+<p>이를 위해 리눅스에서는 시스템 호출 <code>sethostname(2)</code>과 <code>setdomainname(2)</code>을 사용한다. 참고로 어느 표준에서도 <code>sethostname(2)</code>으로 설정한 호스트명이 <code>uname()</code>이 반환하는 구조체의 <code>nodename</code> 필드와 같은 문자열이라고 말하지 않는다. (실제로 어떤 시스템에서는 256바이트 호스트명과 8바이트 노드명이 가능하다.) 하지만 리눅스에서는 그렇다. <code>setdomainname(2)</code>과 <code>domainname</code> 필드도 마찬가지이다.</p>
+<p>구조체의 필드 길이는 다양하다. 어떤 운영 체제나 라이브러리에서는 9, 33, 65, 257을 하드코딩 해서 사용한다. 다른 시스템에서는 <code>SYS_NMLN</code>이나 <code>_SYS_NMLN</code>, <code>UTSLEN</code>, <code>_UTSNAME_LENGTH</code>를 사용한다. 이 상수들을 이용하는 건 분명 좋지 않은 생각이다. 그냥 <code>sizeof(...)</code>를 사용하라. 인터넷 호스트명을 담을 수 있도록 257을 선택하는 경우가 많다.</p>
+<p><code>/proc/sys/kernel/{ostype,hostname,osrelease,version,domainname}</code>을 통해서도 utsname 정보 일부에 접근할 수 있다.</p>
+<h3 id="c">C 라이브러리/커널 차이</h3>
+<p>시간이 흐르며 <code>utsname</code> 구조체가 커지면서 세 가지 <code>uname()</code> 버전이 생겼다. <code>sys_olduname()</code> (슬롯 <code>__NR_oldolduname</code>), <code>sys_uname()</code> (슬롯 <code>__NR_olduname</code>), 그리고 <code>sys_newuname()</code> (슬롯 <code>__NR_uname</code>)이다. 첫 번째에서는 모든 필드를 길이 9로 사용했고, 두 번째에서는 65를 사용했다. 세 번째에서도 65를 사용하지만 <code>domainname</code> 필드를 추가한다. glibc의 <code>uname()</code> 래퍼 함수에서 이런 세부 사항을 응용에게 감춰 주고 커널이 제공하는 가장 최신 버전의 시스템 호출을 부른다.</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><code>uname(1)</code>, <tt>[[getdomainname(2)]]</tt>, <tt>[[gethostname(2)]]</tt>, <tt>[[namespaces(7)]]</tt></p>
+<hr />
+<p>2019-03-06</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

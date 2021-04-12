@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/kill(2)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Kill(2) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+            <li class="second-level"><a href="#_1">리눅스 참고 사항</a></li>
+                
+        <li class="first-level "><a href="#bugs">BUGS</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>kill - 프로세스에게 시그널 보내기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;sys/types.h&gt;
+#include &lt;signal.h&gt;
+
+int kill(pid_t pid, int sig);
+</code></pre>
+
+<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<dl>
+<dt><code>kill()</code>:</dt>
+<dd><code>_POSIX_C_SOURCE</code></dd>
+</dl>
+<h2 id="description">DESCRIPTION</h2>
+<p><code>kill()</code> 시스템 호출을 사용해 임의의 프로세스 그룹 내지 프로세스에게 임의의 시그널을 보낼 수 있다.</p>
+<p><code>pid</code>가 양수이면 <code>pid</code>로 지정한 ID의 프로세스에게 시그널 <code>sig</code>를 보낸다.</p>
+<p><code>pid</code>가 0이면 호출 프로세스의 프로세스 그룹 내의 모든 프로세스에게 <code>sig</code>를 보낸다.</p>
+<p><code>pid</code>가 -1이면 프로세스 1(<code>init</code>)을 제외하고 호출 프로세스가 시그널을 보낼 권한을 가진 모든 프로세스에게 <code>sig</code>를 보낸다. 단 아래 있는 내용을 보라.</p>
+<p><code>pid</code>가 -1보다 작으면 ID가 <code>-pid</code>인 프로세스 그룹 내의 모든 프로세스에게 <code>sig</code>를 보낸다.</p>
+<p><code>sig</code>가 0이면 어떤 시그널도 보내지 않되, 존재 및 권한 검사는 마찬가지로 수행한다. 호출자가 시그널을 보낼 수 있는 프로세스 ID 내지 프로세스 그룹 ID의 존재를 확인하는 데 이용할 수 있다.</p>
+<p>프로세스가 시그널을 보낼 권한이 있으려면 특권이 있거나 (리눅스에서: 대상 프로세스의 사용자 네임스페이스에서 <code>CAP_KILL</code> 역능을 가지고 있거나), 보내는 프로세스의 실제 사용자 ID나 실효 사용자 ID가 대상 프로세스의 실제 사용자 ID나 저장된 set-user-ID와 같아야 한다. <code>SIGCONT</code>에서는 송신 프로세스와 수신 프로세스가 같은 세션에 속하는 것으로 충분하다. (역사적으로는 그 규칙이 달랐다. NOTES 참고.)</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>성공 시 (시그널을 최소 하나 보냈으면) 0을 반환한다. 오류 시 -1을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<h2 id="errors">ERRORS</h2>
+<dl>
+<dt><code>EINVAL</code></dt>
+<dd>유효하지 않은 시그널을 지정했다.</dd>
+<dt><code>EPERM</code></dt>
+<dd>프로세스에게 대상 프로세스들 중 어느 것에도 시그널을 보낼 권한이 없다.</dd>
+<dt><code>ESRCH</code></dt>
+<dd>프로세스 내지 프로세스 그룹이 존재하지 않는다. 참고로 존재하는 프로세스가 실행을 마쳤지만 아직 <tt>[[wait(2)]]</tt> 되지 않은 좀비일 수도 있다.</dd>
+</dl>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>POSIX.1-2001, POSIX.1-2008, SVr4, 4.3BSD.</p>
+<h2 id="notes">NOTES</h2>
+<p>프로세스 ID가 1인 <code>init</code> 프로세스에게는 <code>init</code>에서 명시적으로 시그널 핸들러를 설치한 시그널들만 보낼 수 있다. 의도치 않게 시스템을 내리는 일이 없도록 하기 위해서이다.</p>
+<p>POSIX.1에서는 <code>kill(-1,sig)</code>라고 하면 구현에서 정의하는 일부 시스템 프로세스들을 제외하고 호출 프로세스가 시그널을 보낼 수 있는 모든 프로세스들에게 <code>sig</code>를 보내기를 요구한다. 리눅스에서는 프로세스가 스스로에게 시그널을 보낼 수 있지만 <code>kill(-1,sig)</code> 호출은 호출 프로세스에게 시그널을 보내지 않는다.</p>
+<p>POSIX.1에서는 프로세스가 스스로에게 시그널을 보내는데 송신 스레드가 그 시그널을 막고 있지 않고, 다른 어떤 스레드도 그 시그널을 비차단으로 두거나 <tt>[[sigwait(3)]]</tt>에서 기다리고 있지 않으면 <code>kill()</code>이 반환하기 전에 송신 스레드에게 최소 한 개의 비차단 시그널이 전달되어야 한다고 요구한다.</p>
+<h3 id="_1">리눅스 참고 사항</h3>
+<p>다양한 커널 버전들에 걸쳐 리눅스에서는 비특권 프로세스가 다른 프로세스에게 시그널을 보내기 위해 필요한 권한에 있어 상이한 규칙들을 적용해 왔다. 커널 1.0에서 1.2.2까지에서는 송신자의 실효 사용자 ID가 대상의 실효 사용자 ID와 일치하거나 송신자의 실제 사용자 ID가 대상의 실제 사용자 ID와 일치하면 시그널을 보낼 수 있었다. 커널 1.2.3에서 1.3.77까지에서는 송신자의 실효 사용자 ID가 대상의 실제 사용자 ID와 실효 사용자 ID 중 한쪽과 일치하면 시그널을 보낼 수 있었다. 커널 1.3.78에서 POSIX.1을 준수하는 현행 규칙을 채택했다.</p>
+<h2 id="bugs">BUGS</h2>
+<p>2.6.7까지의 2.6 커널들에는 프로세스 그룹에게 시그널을 보낼 때 호출자가 그 프로세스 그룹의 (<em>전체</em>가 아니라) <em>아무</em> 구성원에게라도 시그널을 보낼 권한이 없으면 <code>EPERM</code> 오류로 <code>kill()</code>이 실패하는 버그가 있었다. 이 오류 반환에도 불구하고 호출자가 시그널을 보낼 권한이 있는 모든 프로세스에게 시그널이 전달되기는 했다.</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><code>kill(1)</code>, <tt>[[_exit(2)]]</tt>, <tt>[[signal(2)]]</tt>, <tt>[[tkill(2)]]</tt>, <tt>[[exit(3)]]</tt>, <tt>[[killpg(3)]]</tt>, <tt>[[sigqueue(3)]]</tt>, <tt>[[capabilities(7)]]</tt>, <tt>[[credentials(7)]]</tt>, <tt>[[signal(7)]]</tt></p>
+<hr />
+<p>2017-09-15</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

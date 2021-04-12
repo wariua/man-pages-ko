@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/kexec_load(2)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Kexec load(2) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+            <li class="second-level"><a href="#kexec_file_load">kexec_file_load()</a></li>
+                
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>kexec_load, kexec_file_load - 후에 실행할 새 커널 적재하기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;linux/kexec.h&gt;
+
+long kexec_load(unsigned long entry, unsigned long nr_segments,
+                struct kexec_segment *segments, unsigned long flags);
+
+long kexec_file_load(int kernel_fd, int initrd_fd,
+                     unsigned long cmdline_len, const char *cmdline,
+                     unsigned long flags);
+</code></pre>
+
+<p><em>주의</em>: 이 시스템 호출에 대한 glibc 래퍼가 없다. NOTES 참고.</p>
+<h2 id="description">DESCRIPTION</h2>
+<p><code>kexec_load()</code> 시스템 호출은 후에 <tt>[[reboot(2)]]</tt>로 실행할 수 있는 새 커널을 적재한다.</p>
+<p><code>flags</code> 인자는 호출의 동작을 제어하는 비트 마스크이다. <code>flags</code>에 다음 값들을 지정할 수 있다.</p>
+<dl>
+<dt><code>KEXEC_ON_CRASH</code> (리눅스 2.6.13부터)</dt>
+<dd>시스템 크래시 발생 시 새 커널을 자동으로 실행한다. 이 "크래시 커널"을 부팅 때 커널 명령행 매개변수 <code>crashkernel</code>로 정한 예약된 메모리 영역으로 적재한다. 그 예약 메모리의 위치는 <code>/proc/iomem</code> 파일의 "Crash kernel"이라는 항목을 통해 사용자 공간으로 노출된다. 사용자 공간 응용에서 그 파일을 파싱 해서 예약된 메모리를 목적지로 하는 세그먼트 목록(아래 참고)을 준비할 수 있다. 이 플래그를 지정하면 커널에서는 <code>segments</code>에 지정한 대상 세그먼트들이 그 예약 영역 안에 있는지 확인한다.</dd>
+<dt><code>KEXEC_PRESERVE_CONTEXT</code> (리눅스 2.6.27부터)</dt>
+<dd>새 커널을 실행하기 전에 시스템 하드웨어 및 소프트웨어 상태를 보존한다. 시스템 일시 정지에 쓸 수 있을 것이다. 커널이 <code>CONFIG_KEXEC_JUMP</code>로 구성된 경우에만 이 플래그를 쓸 수 있으며, <code>nr_segments</code>가 0보다 큰 경우에만 효력이 있다.</dd>
+</dl>
+<p><code>flags</code>의 (마스크 0xffff0000에 해당하는) 상위 비트들은 실행할 커널의 아키텍처를 담는다. 현재 아키텍처를 쓰려면 상수 <code>KEXEC_ARCH_DEFAULT</code>를, 아니면 아키텍처 상수 <code>KEXEC_ARCH_386</code>, <code>KEXEC_ARCH_68K</code>, <code>KEXEC_ARCH_X86_64</code>, <code>KEXEC_ARCH_PPC</code>, <code>KEXEC_ARCH_PPC64</code>, <code>KEXEC_ARCH_IA_64</code>, <code>KEXEC_ARCH_ARM</code>, <code>KEXEC_ARCH_S390</code>, <code>KEXEC_ARCH_SH</code>, <code>KEXEC_ARCH_MIPS</code>, <code>KEXEC_ARCH_MIPS_LE</code> 중 하나를 지정(OR)하면 된다. 시스템의 CPU 상에서 실행 가능한 아키텍처여야 한다.</p>
+<p><code>entry</code> 인자는 커널 이미지 내 진입점의 물리 주소이다. <code>nr_segments</code> 인자는 <code>segments</code> 포인터가 가리키는 세그먼트들의 수이다. 커널에서 세그먼트 개수를 (임의적으로) 16개로 제한한다. <code>segments</code> 인자는 커널 배치를 규정하는 <code>kexec_segment</code> 구조체의 배열이다.</p>
+<pre><code class="c">struct kexec_segment {
+    void   *buf;        /* 사용자 공간의 버퍼 */
+    size_t  bufsz;      /* 사용자 공간의 버퍼 길이 */
+    void   *mem;        /* 커널의 물리 주소 */
+    size_t  memsz;      /* 물리 주소 길이 */
+};
+</code></pre>
+
+<p><code>segments</code>로 지정한 커널 이미지는 호출 프로세스로부터 커널의 정규 메모리나 (<code>KEXEC_ON_CRASH</code>가 설정돼 있으면) 예약 메모리로 복사된다. 커널에서는 먼저 <code>segments</code>로 받은 정보에 대해 다양한 검사를 수행한다. 그 검사들을 통과하면 세그먼트 데이터를 커널 메모리로 복사한다. <code>segments</code>에 지정한 각 세그먼트를 다음과 같이 복사한다.</p>
+<ul>
+<li>
+<p><code>buf</code> 및 <code>bufsz</code>는 복사 출발지이며 호출자 가상 주소 공간 내 메모리 영역을 나타낸다. <code>bufsz</code>의 값이 <code>memsz</code> 필드의 값을 초과할 수 없다.</p>
+</li>
+<li>
+<p><code>mem</code> 및 <code>memsz</code>는 복사 목적지이며 물리 주소 범위를 나타낸다. 두 필드 모두 값이 시스템 페이지 크기의 배수여야 한다.</p>
+</li>
+<li>
+<p>출발 버퍼에서 대상 커널 버퍼로 <code>bufsz</code> 바이트를 복사한다. <code>bufsz</code>가 <code>memsz</code>보다 작은 경우에는 커널 버퍼의 남는 바이트들을 0으로 채운다.</p>
+</li>
+</ul>
+<p>일반 kexec에서는 (즉 <code>KEXEC_ON_CRASH</code> 플래그가 설정돼 있지 않을 때는) 사용 가능한 적당한 메모리로 세그먼트 데이터를 적재했다가 kexec 재부팅 시점에 (즉 <code>kexec(8)</code> 명령을 <code>-e</code> 옵션으로 실행할 때) 최종 목적지로 옮긴다.</p>
+<p>패닉 kexec에서는 (즉 <code>KEXEC_ON_CRASH</code> 플래그가 설정돼 있을 때는) 호출 시점에 예약 메모리로 세그먼트 데이터를 적재하며 크래시 후에 kexec 메커니즘에서 그대로 그 커널로 제어를 넘긴다.</p>
+<p>커널이 <code>CONFIG_KEXEC</code>로 구성된 경우에만 <code>kexec_load()</code> 시스템 호출이 사용 가능하다.</p>
+<h3 id="kexec_file_load"><code>kexec_file_load()</code></h3>
+<p><code>kexec_file_load()</code> 시스템 호출은 <code>kexec_load()</code>와 비슷하되 받는 인자들이 다르다. 파일 디스크립터 <code>kernel_fd</code>가 가리키는 파일에서 적재할 커널을 읽어 들이고 파일 디스크립터 <code>initrd_fd</code>가 가리키는 파일에서 적재할 initrd(최초 램 디스크)를 읽어 들인다. <code>cmdline</code> 인자는 새 커널을 위한 명령행을 담은 버퍼에 대한 포인터이다. <code>cmdline_len</code> 인자는 그 버퍼의 크기를 나타낸다. 버퍼의 마지막 바이트가 널 바이트('\0')여야 한다.</p>
+<p><code>flags</code> 인자는 호출의 동작 방식을 변경하는 비트 마스크이다. <code>flags</code>에 다음 값들을 지정할 수 있다.</p>
+<dl>
+<dt><code>KEXEC_FILE_UNLOAD</code></dt>
+<dd>현재 적재된 커널을 내린다.</dd>
+<dt><code>KEXEC_FILE_ON_CRASH</code></dt>
+<dd>(<code>KEXEC_ON_CRASH</code>처럼) 크래시 커널을 위해 예약된 메모리 영역에 새 커널을 적재한다. 현재 돌고 있는 커널이 죽으면 이 커널로 부팅 한다.</dd>
+<dt><code>KEXEC_FILE_NO_INITRAMFS</code></dt>
+<dd>initrd/initramfs 적재는 선택적이다. initramfs를 적재하지 않을 경우 이 플래그를 지정하면 된다. 이 플래그가 설정돼 있으면 <code>initrd_fd</code> 값을 무시한다.</dd>
+</dl>
+<p><code>kexec_file_load()</code> 시스템 호출은 서명된 커널들만 "kexec" 적재를 하도록 한정해야 하는 시스템을 위해 추가된 것이다. 커널이 <code>CONFIG_KEXEC_FILE</code>로 구성된 경우에만 이 시스템 호출이 사용 가능하다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>성공 시 이 시스템 호출들은 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
+<h2 id="errors">ERRORS</h2>
+<dl>
+<dt><code>EADDRNOTAVAIL</code></dt>
+<dd><code>KEXEC_ON_CRASH</code> 플래그를 지정했는데 <code>segments</code> 항목들 중 하나의 <code>mem</code> 및 <code>memsz</code> 필드로 지정한 영역이 크래시 커널을 위해 예약된 메모리 영역 밖에 있다.</dd>
+<dt><code>EADDRNOTAVAIL</code></dt>
+<dd><code>segments</code> 항목들 중 하나에서 <code>mem</code>이나 <code>memsz</code> 필드 값이 시스템 페이지 크기의 배수가 아니다.</dd>
+<dt><code>EBADF</code></dt>
+<dd><code>kernel_fd</code>나 <code>initrd_fd</code>가 유효한 파일 디스크립터가 아니다.</dd>
+<dt><code>EBUSY</code></dt>
+<dd>다른 크래시 커널이 이미 적재돼 있거나 이미 크래시 커널을 쓰고 있다.</dd>
+<dt><code>EINVAL</code></dt>
+<dd><code>flags</code>가 유효하지 않다.</dd>
+<dt><code>EINVAL</code></dt>
+<dd><code>segments</code> 항목들 중 하나에서 <code>bufsz</code> 필드의 값이 대응하는 <code>memsz</code> 필드 값을 초과한다.</dd>
+<dt><code>EINVAL</code></dt>
+<dd><code>nr_segments</code>가 <code>KEXEC_SEGMENT_MAX</code>(16)를 초과한다.</dd>
+<dt><code>EINVAL</code></dt>
+<dd>둘 이상의 커널 대상 버퍼가 겹친다.</dd>
+<dt><code>EINVAL</code></dt>
+<dd><code>cmdline[cmdline_len-1]</code>의 값이 '<code>\0</code>'이 아니다.</dd>
+<dt><code>EINVAL</code></dt>
+<dd><code>kernel_fd</code>나 <code>initrd_fd</code>가 가리키는 파일이 비어 있다 (길이가 0이다).</dd>
+<dt><code>ENOEXEC</code></dt>
+<dd><code>kernel_fd</code>가 열린 파일을 가리키고 있지 않거나 커널에서 그 파일을 적재할 수 없다. 현재 그 파일은 bzImage여야 하고 메모리의 4GiB 위에 적재 가능한 x86 커널을 담고 있어야 한다. (커널 소스 파일 <code>Documentation/x86/boot.txt</code> 참고.)</dd>
+<dt><code>ENOMEM</code></dt>
+<dd>메모리를 할당할 수 없다.</dd>
+<dt><code>EPERM</code></dt>
+<dd>호출자가 <code>CAP_SYS_BOOT</code> 역능을 가지고 있지 않다.</dd>
+</dl>
+<h2 id="versions">VERSIONS</h2>
+<p>리눅스 2.6.13에서 <code>kexec_load()</code> 시스템 호출이 처음 등장했다. 리눅스 3.17에서 <code>kexec_file_load()</code> 시스템 호출이 처음 등장했다.</p>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>이 시스템 호출들은 리눅스 전용이다.</p>
+<h2 id="notes">NOTES</h2>
+<p>현재 이 시스템 호출들에 대한 glibc 지원이 없다. <tt>[[syscall(2)]]</tt>을 이용해 호출해야 한다.</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[reboot(2)]]</tt>, <tt>[[syscall(2)]]</tt>, <code>kexec(8)</code></p>
+<p>커널 소스 파일 <code>Documentation/kdump/kdump.txt</code> 및 <code>Documentation/admin-guide/kernel-parameters.txt</code></p>
+<hr />
+<p>2019-03-06</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

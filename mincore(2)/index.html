@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/mincore(2)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Mincore(2) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#bugs">BUGS</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>mincore - 페이지가 메모리에 상주하고 있는지 확인하기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;unistd.h&gt;
+#include &lt;sys/mman.h&gt;
+
+int mincore(void *addr, size_t length, unsigned char *vec);
+</code></pre>
+
+<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<dl>
+<dt><code>mincore()</code>:</dt>
+<dd>
+<dl>
+<dt>glibc 2.19부터:</dt>
+<dd><code>_DEFAULT_SOURCE</code></dd>
+<dt>glibc 2.19 및 이전:</dt>
+<dd><code>_BSD_SOURCE || _SVID_SOURCE</code></dd>
+</dl>
+</dd>
+</dl>
+<h2 id="description">DESCRIPTION</h2>
+<p><code>mincore()</code>는 호출 프로세스 가상 메모리의 페이지들이 코어(RAM)에 상주하고 있어서 참조 시 디스크 접근(페이지 폴트)을 유발하지 않는지 여부를 나타내는 벡터를 반환한다. 주소 <code>addr</code>에서 시작해서 <code>length</code> 바이트만큼 이어지는 페이지들에 대한 상주 정보를 커널이 반환한다.</p>
+<p><code>addr</code> 인자는 시스템 페이지 크기의 배수여야 한다. <code>length</code> 인자는 페이지 크기의 배수일 필요가 없다. 하지만 페이지 단위로 상주 정보를 반환하기 때문에 실질적으로 <code>length</code>가 페이지 크기의 다음 배수로 올림 된다. <code>sysconf(_SC_PAGESIZE)</code>로 페이지 크기(<code>PAGE_SIZE</code>)를 얻을 수 있다.</p>
+<p><code>vec</code> 인자는 적어도 <code>(length+PAGE_SIZE-1) / PAGE_SIZE</code> 바이트를 담은 배열에 대한 포인터여야 한다. 반환 시에, 페이지가 현재 메모리에 상주하고 있으면 대응하는 바이트의 최하위 비트가 설정되고, 아니면 해제된다. (각 바이트의 다른 비트들의 설정은 규정되어 있지 않다. 그 비트들은 향후 용도를 위해 예비되어 있다.) 당연하지만 <code>vec</code>에 반환된 정보는 스냅샷일 뿐이다. 메모리에 고정되어 있지 않은 페이지는 언제든 들어오고 나갈 수 있으므로 호출 반환 시점에 <code>vec</code>의 내용이 이미 낡은 것일 수도 있다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>성공 시 <code>mincore()</code>는 0을 반환한다. 오류 시 -1을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<h2 id="errors">ERRORS</h2>
+<dl>
+<dt><code>EAGAIN</code></dt>
+<dd>커널에 일시적으로 자원이 부족하다.</dd>
+<dt><code>EFAULT</code></dt>
+<dd><code>vec</code>이 유효하지 않은 주소를 가리키고 있다.</dd>
+<dt><code>EINVAL</code></dt>
+<dd><code>addr</code>이 페이지 크기의 배수가 아니다.</dd>
+<dt><code>ENOMEM</code></dt>
+<dd><code>length</code>가 <code>(TASK_SIZE - addr)</code>보다 크다. (<code>length</code>에 음수 값을 지정하면 그 값을 큰 부호 없는 정수로 해석하기 때문에 이렇게 될 수 있다.) 리눅스 2.6.11 및 이전에서는 이 경우에 <code>EINVAL</code> 오류를 반환했다.</dd>
+<dt><code>ENOMEM</code></dt>
+<dd><code>addr</code>에서 <code>addr + length</code>까지에 맵 안 된 메모리가 포함되어 있다.</dd>
+</dl>
+<h2 id="versions">VERSIONS</h2>
+<p>리눅스 2.3.99pre1 및 glibc 2.2부터 사용 가능하다.</p>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p><code>mincore()</code>는 POSIX.1에 명세되어 있지 않으며, 모든 유닉스 구현에서 사용 가능하지는 않다.</p>
+<h2 id="bugs">BUGS</h2>
+<p>커널 2.6.21 전에서 <code>MAP_PRIVATE</code> 매핑이나 (<tt>[[remap_file_pages(2)]]</tt>로 수립한) 비선형 매핑에 대해 <code>mincore()</code>가 올바른 정보를 반환하지 않았다.</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><code>fincore(1)</code>, <tt>[[madvise(2)]]</tt>, <tt>[[mlock(2)]]</tt>, <tt>[[mmap(2)]]</tt>, <tt>[[posix_fadvise(2)]]</tt>, <tt>[[posix_madvise(3)]]</tt></p>
+<hr />
+<p>2017-09-15</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

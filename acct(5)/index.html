@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/acct(5)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Acct(5) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+            <li class="second-level"><a href="#3">버전 3 통계 파일 형식</a></li>
+                
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>acct - 프로세스 통계 파일</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;sys/acct.h&gt;
+</code></pre>
+
+<h2 id="description">DESCRIPTION</h2>
+<p>프로세스 통계 옵션(<code>CONFIG_BSD_PROCESS_ACCT</code>)을 켜서 커널을 빌드 한 경우에 다음과 같이 <tt>[[acct(2)]]</tt>를 호출하면 프로세스 통계 수집을 시작한다.</p>
+<pre><code class="c">acct(&quot;/var/log/pacct&quot;);
+</code></pre>
+
+<p>프로세스 통계를 켜면 시스템의 각 프로세스가 종료할 때마다 커널이 통계 파일에 레코드를 기록한다. 그 레코드는 종료 프로세스에 대한 정보를 담고 있으며 <code>&lt;sys/acct.h&gt;</code>에 다음과 같이 정의돼 있다.</p>
+<pre><code class="c">#define ACCT_COMM 16
+
+typedef u_int16_t comp_t;
+
+struct acct {
+    char ac_flag;           /* 통계 플래그 */
+    u_int16_t ac_uid;       /* 사용자 ID */
+    u_int16_t ac_gid;       /* 그룹 ID */
+    u_int16_t ac_tty;       /* 제어 터미널 */
+    u_int32_t ac_btime;     /* 프로세스 생성 시각
+                               (에포크 이후 초) */
+    comp_t    ac_utime;     /* 사용자 CPU 시간 */
+    comp_t    ac_stime;     /* 시스템 CPU 시간 */
+    comp_t    ac_etime;     /* 경과 시간 */
+    comp_t    ac_mem;       /* 평균 메모리 사용량 (kB) */
+    comp_t    ac_io;        /* 전송한 문자 수 (사용 안 함) */
+    comp_t    ac_rw;        /* 읽거나 쓴 블록 수 (사용 안 함) */
+    comp_t    ac_minflt;    /* 마이너 페이지 폴트 */
+    comp_t    ac_majflt;    /* 메이저 페이지 폴트 */
+    comp_t    ac_swaps;     /* 스왑 개수 (사용 안 함) */
+    u_int32_t ac_exitcode;  /* 프로세스 종료 상태
+                               (wait(2) 참고) */
+    char      ac_comm[ACCT_COMM+1];
+                            /* 명령 이름 (마지막 실행 명령의
+                               basename. 널 종료) */
+    char      ac_pad[X];    /* 패딩 바이트 */
+};
+
+enum {          /* ac_flag 필드에 설정될 수 있는 비트들 */
+    AFORK = 0x01,           /* fork는 실행하고 exec는 실행하지 않았음 */
+    ASU   = 0x02,           /* 수퍼유저 특권 사용했음 */
+    ACORE = 0x08,           /* 코어 덤프 했음 */
+    AXSIG = 0x10            /* 시그널로 죽었음 */
+};
+</code></pre>
+
+<p>데이터 타입 <code>comp_t</code>는 3비트 8진수 지수와 13비트 가수로 이뤄진 부동소수점 값이다. 다음과 같이 해서 이 타입의 값 <code>c</code>를 (long 형) 정수로 변환할 수 있다.</p>
+<pre><code class="c">v = (c &amp; 0x1fff) &lt;&lt; (((c &gt;&gt; 13) &amp; 0x7) * 3);
+</code></pre>
+
+<p><code>ac_utime</code>, <code>ac_stime</code>, <code>ac_etime</code> 필드는 "클럭 틱" 단위로 측정한 시간이다. 그 값을 <code>sysconf(_SC_CLK_TCK)</code>으로 나누면 초 단위로 바꿀 수 있다.</p>
+<h3 id="3">버전 3 통계 파일 형식</h3>
+<p>커널 2.6.8부터는 커널을 빌드 할 때 <code>CONFIG_BSD_PROCESS_ACCT_V3</code> 옵션을 설정하면 다른 버전으로 통계 파일을 만들어 낼 수 있다. 이 옵션이 설정돼 있으면 통계 파일에 기록되는 레코드에 몇 가지 필드가 추가되며 <code>ac_uid</code> 및 <code>ac_gid</code> 필드가 (리눅스 2.4 및 이후에서의 UID 및 GID 크기 증가에 맞춰) 16비트에서 32비트로 커진다. 레코드가 다음과 같이 정의돼 있다.</p>
+<pre><code class="c">struct acct_v3 {
+    char      ac_flag;      /* 플래그 */
+    char      ac_version;   /* 항상 ACCT_VERSION(3)으로 설정 */
+    u_int16_t ac_tty;       /* 제어 터미널 */
+    u_int32_t ac_exitcode;  /* 프로세스 종료 상태 */
+    u_int32_t ac_uid;       /* 실제 사용자 ID */
+    u_int32_t ac_gid;       /* 실제 그룹 ID */
+    u_int32_t ac_pid;       /* 프로세스 ID */
+    u_int32_t ac_ppid;      /* 부모 프로세스 ID */
+    u_int32_t ac_btime;     /* 프로세스 생성 시각 */
+    float     ac_etime;     /* 경과 시간 */
+    comp_t    ac_utime;     /* 사용자 CPU 시간 */
+    comp_t    ac_stime;     /* 시스템 시간 */
+    comp_t    ac_mem;       /* 평균 메모리 사용량 (kB) */
+    comp_t    ac_io;        /* 전송한 문자 수 (사용 안 함) */
+    comp_t    ac_rw;        /* 읽거나 쓴 블록 수 (사용 안 함) */
+    comp_t    ac_minflt;    /* 마이너 페이지 폴트 */
+    comp_t    ac_majflt;    /* 메이저 페이지 폴트 */
+    comp_t    ac_swaps;     /* 스왑 개수 (사용 안 함) */
+    char      ac_comm[ACCT_COMM]; /* 명령 이름 */
+};
+</code></pre>
+
+<h2 id="versions">VERSIONS</h2>
+<p><code>acct_v3</code> 구조체는 glibc 버전 2.6부터 정의돼 있다.</p>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>프로세스 통계는 BSD에서 유래한 것이다. 대다수 시스템에 있기는 하지만 표준화는 되어 있지 않아서 시스템마다 세부 내용이 다소 다르다.</p>
+<h2 id="notes">NOTES</h2>
+<p>통계 파일의 레코드들은 프로세스 종료 시간 순서로 들어가 있다.</p>
+<p>커널 2.6.9까지에서는 NPTL 스레드 라이브러리로 생성된 스레드마다 따로 통계 레코드가 기록된다. 리눅스 2.6.10부터는 프로세스의 마지막 스레드 종료 때 프로세스 전체에 대한 통계 레코드 하나만 기록한다.</p>
+<p><tt>[[proc(5)]]</tt>에서 설명하는 <code>/proc/sys/kernel/acct</code> 파일에는 디스크 공간이 모자랄 때 프로세스 통계 기능의 동작 방식을 제어하는 설정들이 있다.</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><code>lastcomm(1)</code>, <tt>[[acct(2)]]</tt>, <code>accton(8)</code>, <code>sa(8)</code></p>
+<hr />
+<p>2017-09-15</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

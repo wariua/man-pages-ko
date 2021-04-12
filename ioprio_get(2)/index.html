@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/ioprio_get(2)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Ioprio get(2) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+            <li class="second-level"><a href="#io">I/O 스케줄러 선택</a></li>
+                
+            <li class="second-level"><a href="#completely-fair-queuing-cfq-io">Completely Fair Queuing (CFQ) I/O 스케줄러</a></li>
+                
+            <li class="second-level"><a href="#io_1">I/O 우선순위 설정에 필요한 권한</a></li>
+                
+        <li class="first-level "><a href="#bugs">BUGS</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>ioprio_get, ioprio_set - I/O 스케줄링 클래스 및 우선순위 얻기/설정하기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">int ioprio_get(int which, int who);
+int ioprio_set(int which, int who, int ioprio);
+</code></pre>
+
+<p><em>주의</em>: 이 시스템 호출에 대한 glibc 래퍼가 없다. NOTES 참고.</p>
+<h2 id="description">DESCRIPTION</h2>
+<p><code>ioprio_get()</code> 및 <code>ioprio_set()</code> 시스템 호출은 한 개 또는 여러 스레드의 I/O 스케줄링 클래스와 우선순위를 얻고 설정한다.</p>
+<p><code>which</code>와 <code>who</code> 인자는 시스템 호출의 동작 대상이 되는 스레드(들)을 나타낸다. <code>which</code> 인자는 <code>who</code>를 해석하는 방식을 결정하며 다음 값들 중 하나이다.</p>
+<dl>
+<dt><code>IOPRIO_WHO_PROCESS</code></dt>
+<dd><code>who</code>가 프로세스 ID나 스레드 ID이며 단일 프로세스 내지 스레드를 나타낸다. <code>who</code>가 0이면 호출 스레드가 대상이다.</dd>
+<dt><code>IOPRIO_WHO_PGRP</code></dt>
+<dd><code>who</code>가 프로세스 그룹 ID이며 프로세스 그룹의 구성원 모두를 나타낸다. <code>who</code>가 0이면 호출자가 구성원인 프로세스 그룹이 대상이다.</dd>
+<dt><code>IOPRIO_WHO_USER</code></dt>
+<dd><code>who</code>가 사용자 ID이며 실제 UID가 일치하는 프로세스 모두를 나타낸다.</dd>
+</dl>
+<p><code>ioprio_get()</code> 호출 시에 <code>which</code>가 <code>IOPRIO_WHO_PGRP</code>이나 <code>IOPRIO_WHO_USER</code>이고 <code>who</code>에 여러 프로세스가 걸리는 경우에는 걸리는 프로세스 전체에서 가장 높은 우선순위를 반환하게 된다. 어떤 우선순위가 더 높다는 것은 더 높은 우선순위 클래스에 속하거나 (<code>IOPRIO_CLASS_RT</code>가 가장 높은 우선순위 클래스이고 <code>IOPRIO_CLASS_IDLE</code>이 가장 낮음) 아니면 같은 우선순위 클래스에 속하면서 우선순위 단계가 더 높은 것이다 (낮은 우선순위 수가 높은 우선순위 단계를 뜻함).</p>
+<p><code>ioprio_set()</code>에 주는 <code>ioprio</code> 인자는 대상 프로세스(들)에 부여할 스케줄링 클래스와 우선순위 모두를 나타내는 비트 마스크이다. 다음 매크로를 사용해 <code>ioprio</code> 값을 합치거나 분해한다.</p>
+<dl>
+<dt><code>IOPRIO_PRIO_VALUE(class, data)</code></dt>
+<dd>이 매크로는 스케줄링 클래스(<code>class</code>)와 우선순위(<code>data</code>)를 받아서 두 값을 합친 <code>ioprio</code> 값을 만들어 매크로 결과로 반환한다.</dd>
+<dt><code>IOPRIO_PRIO_CLASS(mask)</code></dt>
+<dd>이 매크로는 <code>mask</code>(<code>ioprio</code> 값)를 받아서 I/O 클래스 요소를 반환한다. 즉 <code>IOPRIO_CLASS_RT</code>, <code>IOPRIO_CLASS_BE</code>, <code>IOPRIO_CLASS_IDLE</code> 중 하나를 반환한다.</dd>
+<dt><code>IOPRIO_PRIO_DATA(mask)</code></dt>
+<dd>이 매크로는 <code>mask</code>(<code>ioprio</code> 값)를 받아서 우선순위(<code>data</code>) 요소를 반환한다.</dd>
+</dl>
+<p>스케줄링 클래스와 우선순위에 대한 추가 정보와 <code>ioprio</code>를 0으로 지정했을 때의 의미에 대해선 NOTES 절을 참고하라.</p>
+<p>읽기와 동기적인 (<code>O_DIRECT</code>, <code>O_SYNC</code>) 쓰기에서 I/O 우선순위를 지원한다. 비동기 쓰기에는 I/O 우선순위를 지원하지 않는데, 메모리를 변경하는 프로그램의 맥락 밖에서 개시되므로 프로그램별 우선순위가 적용되지 않기 때문이다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>성공 시 <code>ioprio_get()</code>은 <code>which</code>와 <code>who</code>로 지정한 기준에 맞는 프로세스들 중 가장 높은 I/O 우선순위를 가진 프로세스의 <code>ioprio</code> 값을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
+<p>성공 시 <code>ioprio_set()</code>은 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
+<h2 id="errors">ERRORS</h2>
+<dl>
+<dt><code>EINVAL</code></dt>
+<dd><code>which</code>나 <code>ioprio</code>에 유효하지 않은 값. <code>ioprio</code>에 사용 가능한 스케줄러 클래스와 우선순위는 NOTES 절 참고.</dd>
+<dt><code>EPERM</code></dt>
+<dd>호출 프로세스에게 지정한 프로세스(들)에게 그 <code>ioprio</code>를 부여할 특권이 없다. <code>ioprio_set()</code>에 필요한 특권에 대한 자세한 내용은 NOTES 절 참고.</dd>
+<dt><code>ESRCH</code></dt>
+<dd><code>which</code>와 <code>who</code>의 지정 내용에 일치하는 프로세스를 찾을 수 없다.</dd>
+</dl>
+<h2 id="versions">VERSIONS</h2>
+<p>리눅스 커널 2.6.13부터 이 시스템 호출들이 사용 가능하다.</p>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>이 시스템 호출들은 리눅스 전용이다.</p>
+<h2 id="notes">NOTES</h2>
+<p>glibc에서 이 시스템 호출의 래퍼를 제공하지 않는다. <tt>[[syscall(2)]]</tt>을 이용해 호출해야 한다.</p>
+<p>둘 이상의 프로세스 내지 스레드가 I/O 문맥을 공유할 수 있다. <tt>[[clone(2)]]</tt>에 <code>CLONE_IO</code> 플래그를 써서 호출한 경우가 그렇다. 하지만 기본적으로는 프로세스의 스레드들이 같은 I/O 문맥을 공유하지 <em>않는다</em>. 따라서 프로세스의 모든 스레드의 I/O 우선순위를 바꾸고 싶다면 스레드 각각에 <code>ioprio_set()</code>을 호출해야 할 수도 있다. 그때 필요한 스레드 ID는 <tt>[[gettid(2)]]</tt>나 <tt>[[clone(2)]]</tt>이 반환한 값이다.</p>
+<p>I/O 우선순위를 지원하는 I/O 스케줄러를 사용할 때에만 이 시스템 호출들에 효력이 있다. 커널 2.6.17 현재 그런 유일한 스케줄러는 Completely Fair Queuing (CFQ) I/O 스케줄러이다.</p>
+<p>스레드에 어떤 I/O 스케줄러도 설정하지 않았으면 기본적으로 I/O 우선순위가 CPU 나이스 값(<tt>[[setpriority(2)]]</tt>)을 따른다. 리눅스 커널 버전 2.6.24 전에서는 <code>ioprio_set()</code>으로 I/O 우선순위를 한번 설정하고 나면 I/O 스케줄링 동작을 기본으로 되돌릴 방법이 없었다. 리눅스 2.6.24부터는 <code>ioprio</code>를 0으로 지정해서 기본 I/O 스케줄링 동작으로 되돌릴 수 있다.</p>
+<h3 id="io">I/O 스케줄러 선택</h3>
+<p>I/O 스케줄러는 특수 파일 <code>/sys/block/&lt;device&gt;/queue/scheduler</code>를 통해 장치별로 선택한다.</p>
+<p><code>/sys</code> 파일 시스템을 통해 현재 I/O 스케줄러를 볼 수 있다. 예를 들어 다음 명령은 현재 커널에 적재된 모든 스케줄러들의 목록을 보여 준다.</p>
+<pre><code class="text">$ cat /sys/block/sda/queue/scheduler
+noop anticipatory deadline [cfq]
+</code></pre>
+
+<p>꺽쇠괄호가 쳐진 게 그 장치(여기선 <code>sda</code>)에 실제 사용 중인 스케줄러이다. 다른 스케줄러를 선택하려면 이 파일에 새 스케줄러의 이름을 기록하면 된다. 예를 들어 다음 명령은 <code>sda</code> 장치의 스케줄러를 <code>cfq</code>로 설정한다.</p>
+<pre><code class="text">$ su
+Password:
+# echo cfq &gt; /sys/block/sda/queue/scheduler
+</code></pre>
+
+<h3 id="completely-fair-queuing-cfq-io">Completely Fair Queuing (CFQ) I/O 스케줄러</h3>
+<p>(CFQ Time Sliced라고도 하는) 버전 3부터 CFQ에서는 CPU 스케줄링과 비슷한 I/O 나이스 단계를 구현한다. 그 나이스 단계들을 세 가지 스케줄링 클래스로 묶으며, 각 클래스마다 한 개 이상의 우선순위 단계가 있다.</p>
+<dl>
+<dt><code>IOPRIO_CLASS_RT</code> (1)</dt>
+<dd>실시간 I/O 클래스이다. 이 스케줄링 클래스에는 다른 어떤 클래스보다 높은 우선순위를 준다. 즉 이 클래스의 프로세스들에 매번 최우선 디스크 접근권을 준다. 따라서 이 I/O 클래스는 조심해서 사용할 필요가 있다. I/O가 실시간인 프로세스 하나가 전체 시스템을 굶게 만들 수 있기 때문이다. 실시간 클래스 내에는 8단계의 클래스 데이터(우선순위)가 있어서 이 프로세스가 각 서비스마다 정확히 얼마나 오래 디스크를 필요로 하는지 결정한다. 가장 높은 실시간 우선순위 단계는 0이고 가장 낮은 단계는 7이다. 향후에는 원하는 데이터 속도를 전달해서 더 직접적으로 성능과 연결되도록 바뀔 수도 있다.</dd>
+<dt><code>IOPRIO_CLASS_BE</code> (2)</dt>
+<dd>최선 스케줄링 클래스이다. 특별히 I/O 우선순위를 설정하지 않은 프로세스들의 기본값이다. 클래스 데이터(우선순위)는 프로세스가 얼마나 많은 I/O 대역폭을 얻게 될지 결정한다. 최선 우선순위 단계들은 CPU 나이스 값과 유사하다. (<tt>[[getpriority(2)]]</tt> 참고.) 우선순위 단계는 최선 스케줄링 클래스 내의 다른 프로세스들에 대한 상대적 우선도를 결정한다. 우선순위 단계의 범위는 0(최고)에서 7(최저)까지이다.</dd>
+<dt><code>IOPRIO_CLASS_IDLE</code> (3)</dt>
+<dd>유휴 스케줄링 클래스이다. 이 단계에서 동작하는 프로세스는 디스크를 필요로 하는 다른 프로세스가 없을 때에만 I/O 시간을 얻는다. 유휴 클래스에는 클래스 데이터가 없다. 프로세스에 이 우선순위 클래스를 부여할 때는 주의할 필요가 있는데, 더 높은 우선도의 프로세스들이 계속해서 디스크에 접근하면 그 프로세스가 굶주리게 될 수 있기 때문이다.</dd>
+</dl>
+<p>CFQ I/O 스케줄러에 대한 추가 내용과 예시 프로그램은 커널 소스 파일 <code>Documentation/block/ioprio.txt</code>를 참고하라.</p>
+<h3 id="io_1">I/O 우선순위 설정에 필요한 권한</h3>
+<p>두 가지 기준에 따라 프로세스 우선순위 변경이 허가되거나 거부된다.</p>
+<dl>
+<dt>프로세스 소유권</dt>
+<dd>비특권 프로세스는 호출 프로세스의 실제 UID나 실효 UID와 일치하는 실제 UID를 가진 프로세스에 대해서만 I/O 우선순위를 설정할 수 있다. <code>CAP_SYS_NICE</code> 역능을 가진 프로세스는 모든 프로세스의 우선순위를 바꿀 수 있다.</dd>
+<dt>원하는 우선순위</dt>
+<dd>아주 높은 우선순위(<code>IOPRIO_CLASS_RT</code>)를 설정하려면 <code>CAP_SYS_ADMIN</code> 역능이 필요하다. 커널 버전 2.6.24까지에서는 아주 낮은 우선순위(<code>IOPRIO_CLASS_IDLE</code>)를 설정하는 데도 <code>CAP_SYS_ADMIN</code>이 필요했지만 리눅스 2.6.25부터는 필요하지 않다.</dd>
+</dl>
+<p><code>ioprio_set()</code> 호출 시 두 규칙 모두를 따라야 하며, 그렇지 않으면 호출이 <code>EPERM</code> 오류로 실패하게 된다.</p>
+<h2 id="bugs">BUGS</h2>
+<p>이 페이지에서 기술하는 함수 원형과 매크로를 정의하는 적절한 헤더 파일을 glibc에서 아직 제공하지 않는다. <code>linux/ioprio.h</code>에서 적절한 정의들을 찾을 수 있다.</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><code>ionice(1)</code>, <tt>[[getpriority(2)]]</tt>, <tt>[[open(2)]]</tt>, <tt>[[capabilities(7)]]</tt>, <tt>[[cgroups(7)]]</tt></p>
+<p>리눅스 커널 소스 트리의 <code>Documentation/block/ioprio.txt</code></p>
+<hr />
+<p>2019-03-06</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

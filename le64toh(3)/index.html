@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/le64toh(3)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Le64toh(3) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+            <li class="second-level"><a href="#_1">프로그램 소스</a></li>
+                
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>htobe16, htole16, be16toh, le16toh, htobe32, htole32, be32toh, le32toh, htobe64, htole64, be64toh, le64toh - 호스트 바이트 순서와 빅/리틀 엔디언 바이트 순서 간에 값 변환하기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;endian.h&gt;
+
+uint16_t htobe16(uint16_t host_16bits);
+uint16_t htole16(uint16_t host_16bits);
+uint16_t be16toh(uint16_t big_endian_16bits);
+uint16_t le16toh(uint16_t little_endian_16bits);
+
+uint32_t htobe32(uint32_t host_32bits);
+uint32_t htole32(uint32_t host_32bits);
+uint32_t be32toh(uint32_t big_endian_32bits);
+uint32_t le32toh(uint32_t little_endian_32bits);
+
+uint64_t htobe64(uint64_t host_64bits);
+uint64_t htole64(uint64_t host_64bits);
+uint64_t be64toh(uint64_t big_endian_64bits);
+uint64_t le64toh(uint64_t little_endian_64bits);
+</code></pre>
+
+<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<dl>
+<dt><code>htobe16()</code>, <code>htole16()</code>, <code>be16toh()</code>, <code>le16toh()</code>, <code>htobe32()</code>, <code>htole32()</code>, <code>be32toh()</code>, <code>le32toh()</code>, <code>htobe64()</code>, <code>htole64()</code>, <code>be64toh()</code>, <code>le64toh()</code>:</dt>
+<dd>
+<dl>
+<dt>glibc 2.19부터:</dt>
+<dd><code>_DEFAULT_SOURCE</code></dd>
+<dt>glibc 2.19까지:</dt>
+<dd><code>_BSD_SOURCE</code></dd>
+</dl>
+</dd>
+</dl>
+<h2 id="description">DESCRIPTION</h2>
+<p>이 함수들은 현재 CPU("호스트")에서 쓰는 바이트 순서와 리틀 엔디언 및 빅 엔디언 바이트 순서 사이에서 정수 값의 바이트 인코딩을 변환한다.</p>
+<p>함수 이름의 숫자 <em>nn</em>은 함수에서 다루는 정수의 크기를 나타내며, 16, 32, 64비트 중 하나이다.</p>
+<p>이름이 "htobe<em>nn</em>" 형태인 함수는 호스트 바이트 순서에서 빅 엔디언 순서로 변환한다.</p>
+<p>이름이 "htole<em>nn</em>" 형태인 함수는 호스트 바이트 순서에서 리틀 엔디언 순서로 변환한다.</p>
+<p>이름이 "be<em>nn</em>toh" 형태인 함수는 빅 엔디언 순서에서 호스트 바이트 순서로 변환한다.</p>
+<p>이름이 "le<em>nn</em>toh" 형태인 함수는 리틀 엔디언 순서에서 호스트 바이트 순서로 변환한다.</p>
+<h2 id="versions">VERSIONS</h2>
+<p>glibc 버전 2.9에서 이 함수들이 추가되었다.</p>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>이 함수들은 비표준이다. 비슷한 함수들이 BSD들에 존재하는데 거기서 필요한 헤더 파일은 <code>&lt;endian.h&gt;</code>가 아니라 <code>&lt;sys/endian.h&gt;</code>이다. 안타깝게도 NetBSD, FreeBSD, glibc에서는 <em>nn</em> 부분이 항상 함수 이름 끝에 오는 OpenBSD의 원래 명명 관행을 따르지 않는다. (그래서 예를 들어 OpenBSD "betoh32"의 등가물이 NetBSD, FreeBSD, glibc에서는 "be32toh"이다.)</p>
+<h2 id="notes">NOTES</h2>
+<p>이 함수들은 더 오래된 <tt>[[byteorder(3)]]</tt> 계열 함수들과 비슷하다. 예를 들어 <code>be32toh()</code>는 <code>ntohl()</code>과 같다.</p>
+<p><tt>[[byteorder(3)]]</tt> 함수들의 장점은 표준 함수라서 모든 유닉스 시스템에서 사용 가능하다는 점이다. 하지만 TCP/IP 맥락에서 쓰려고 설계한 것이기 때문에 이 페이지에 기술된 64비트 형태와 리틀 엔디언 형태가 빠져 있다.</p>
+<h2 id="example">EXAMPLE</h2>
+<p>아래 프로그램에서는 정수를 호스트 바이트 순서에서 리틀 엔디언 및 빅 엔디언 바이트 순서로 변환한 결과를 보여 준다. 호스트 바이트 순서가 리틀 엔디언 아니면 빅 엔디언이므로 변환 중 한쪽만 효과가 있게 된다. 이 프로그램을 x86-32 같은 리틀 엔디언 시스템에서 돌리면 다음을 보게 된다.</p>
+<pre><code class="text">$ ./a.out
+x.u32 = 0x44332211
+htole32(x.u32) = 0x44332211
+htobe32(x.u32) = 0x11223344
+</code></pre>
+
+<h3 id="_1">프로그램 소스</h3>
+<pre><code class="c">#include &lt;endian.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+int
+main(int argc, char *argv[])
+{
+    union {
+        uint32_t u32;
+        uint8_t arr[4];
+    } x;
+
+    x.arr[0] = 0x11;    /* 최하위 주소 바이트 */
+    x.arr[1] = 0x22;
+    x.arr[2] = 0x33;
+    x.arr[3] = 0x44;    /* 최상위 주소 바이트 */
+
+    printf(&quot;x.u32 = 0x%x\n&quot;, x.u32);
+    printf(&quot;htole32(x.u32) = 0x%x\n&quot;, htole32(x.u32));
+    printf(&quot;htobe32(x.u32) = 0x%x\n&quot;, htobe32(x.u32));
+
+    exit(EXIT_SUCCESS);
+}
+</code></pre>
+
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[bswap(3)]]</tt>, <tt>[[byteorder(3)]]</tt></p>
+<hr />
+<p>2019-03-06</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

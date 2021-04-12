@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/swapcontext(3)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Swapcontext(3) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
+        <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+            <li class="second-level"><a href="#_1">프로그램 소스</a></li>
+                
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>makecontext, swapcontext - 사용자 문맥 조작하기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;ucontext.h&gt;
+
+void makecontext(ucontext_t *ucp, void (*func)(), int argc, ...);
+
+int swapcontext(ucontext_t *oucp, const ucontext_t *ucp);
+</code></pre>
+
+<h2 id="description">DESCRIPTION</h2>
+<p>시스템 V 계열 환경에서는 <code>&lt;ucontext.h&gt;</code>에 <code>ucontext_t</code>라는 타입이 있으며 네 가지 함수 <tt>[[getcontext(3)]]</tt>, <tt>[[setcontext(3)]]</tt>, <code>makecontext()</code>, <code>swapcontext()</code>를 통해 한 프로세스 내의 여러 제어 스레드들 사이에서 사용자 수준 문맥 전환이 가능하다.</p>
+<p>그 타입과 앞쪽 두 함수에 대해선 <tt>[[getcontext(3)]]</tt>를 보라.</p>
+<p><code>makecontext()</code> 함수는 (<tt>[[getcontext(3)]]</tt> 호출에서 얻은) <code>ucp</code>가 가리키는 문맥을 변경한다. <code>makecontext()</code>를 호출하기 전에 호출자는 이 문맥을 위한 새 스택을 할당하여 그 주소를 <code>ucp-&gt;uc_stack</code>에 지정해야 하며 후속 문맥을 정의하여 그 주소를 <code>ucp-&gt;uc_link</code>에 지정해야 한다.</p>
+<p>이후에 (<tt>[[setcontext(3)]]</tt>나 <code>swapcontext()</code>를 이용해) 이 문맥을 활성화할 때 함수 <code>func</code>가 호출되면서 <code>argc</code> 다음에 오는 일련의 정수(<code>int</code>) 인자들이 전달된다. 호출자는 이 인자들의 개수를 <code>argc</code>에 지정해야 한다. 이 함수가 반환하고 나면 후속 문맥이 활성화된다. 후속 문맥 포인터가 NULL이면 스레드가 끝난다.</p>
+<p><code>swapcontext()</code> 함수는 <code>oucp</code>가 가리키는 구조체에 현재 문맥을 저장한 다음 <code>ucp</code>가 가리키는 문맥을 활성화한다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>성공 시 <code>swapcontext()</code>는 반환하지 않는다. (하지만 나중에 <code>oucp</code>가 활성화될 때 돌아올 수도 있으며, 그 경우 <code>swapcontext()</code>가 0을 반환하는 것처럼 보인다.) 오류 시 <code>swapcontext()</code>는 -1을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<h2 id="errors">ERRORS</h2>
+<dl>
+<dt><code>ENOMEM</code></dt>
+<dd>남은 스택 공간이 충분하지 않음.</dd>
+</dl>
+<h2 id="versions">VERSIONS</h2>
+<p>glibc에서 버전 2.1부터 <code>makecontext()</code> 및 <code>swapcontext()</code>를 제공한다.</p>
+<h2 id="attributes">ATTRIBUTES</h2>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<table>
+<thead>
+<tr>
+<th>인터페이스</th>
+<th>속성</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>makecontext()</code></td>
+<td>스레드 안전성</td>
+<td>MT-Safe race:ucp</td>
+</tr>
+<tr>
+<td><code>swapcontext()</code></td>
+<td>스레드 안전성</td>
+<td>MT-Safe race:oucp race:ucp</td>
+</tr>
+</tbody>
+</table>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>SUSv2, POSIX.1-2001, POSIX.1-2008에서 이식성 문제를 이유로 <code>makecontext()</code> 및 <code>swapcontext()</code> 명세를 제거하였으며 대신 POSIX 스레드를 사용하게 응용을 재작성하기를 권고하고 있다.</p>
+<h2 id="notes">NOTES</h2>
+<p><code>ucp-&gt;uc_stack</code>의 해석은 <tt>[[sigaltstack(2)]]</tt>에서와 마찬가지이다. 즉, 스택의 성장 방향과 무관하게 이 구조체에는 스택으로 사용할 메모리 영역의 시작점과 길이를 담는다. 따라서 사용자 프로그램이 그 방향에 대해 신경쓸 필요가 없다.</p>
+<p><code>int</code>와 포인터 타입이 같은 크기인 아키텍처에서는 (가령 x86-32에서는 두 타입 모두 32비트임) <code>makecontext()</code>에서 <code>argc</code> 다음에 오는 인자들로 포인터를 전달하는 것이 어찌어찌 가능할 수도 있다. 하지만 이식성이 보장되지 않고 표준에 따르면 규정되어 있지 않으며 포인터가 <code>int</code>보다 큰 아키텍처에서 동작하지 않게 된다. 그럼에도 불구하고 glibc에서 버전 2.8부터 <code>makecontext()</code>를 조금 변경해서 일부 64비트 아키텍처들(가령 x86-64)에서 그렇게 하는 것을 허용한다.</p>
+<h2 id="example">EXAMPLE</h2>
+<p>아래 예시 프로그램은 <tt>[[getcontext(3)]]</tt>, <code>makecontext()</code>, <code>swapcontext()</code> 사용 방식을 보여 준다. 프로그램을 실행하면 다음 결과가 나온다.</p>
+<pre><code class="text">$ ./a.out
+main: swapcontext(&amp;uctx_main, &amp;uctx_func2)
+func2: started
+func2: swapcontext(&amp;uctx_func2, &amp;uctx_func1)
+func1: started
+func1: swapcontext(&amp;uctx_func1, &amp;uctx_func2)
+func2: returning
+func1: returning
+main: exiting
+</code></pre>
+
+<h3 id="_1">프로그램 소스</h3>
+<pre><code class="c">#include &lt;ucontext.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+static ucontext_t uctx_main, uctx_func1, uctx_func2;
+
+#define handle_error(msg) \
+    do { perror(msg); exit(EXIT_FAILURE); } while (0)
+
+static void
+func1(void)
+{
+    printf(&quot;func1: started\n&quot;);
+    printf(&quot;func1: swapcontext(&amp;uctx_func1, &amp;uctx_func2)\n&quot;);
+    if (swapcontext(&amp;uctx_func1, &amp;uctx_func2) == -1)
+        handle_error(&quot;swapcontext&quot;);
+    printf(&quot;func1: returning\n&quot;);
+}
+
+static void
+func2(void)
+{
+    printf(&quot;func2: started\n&quot;);
+    printf(&quot;func2: swapcontext(&amp;uctx_func2, &amp;uctx_func1)\n&quot;);
+    if (swapcontext(&amp;uctx_func2, &amp;uctx_func1) == -1)
+        handle_error(&quot;swapcontext&quot;);
+    printf(&quot;func2: returning\n&quot;);
+}
+
+int
+main(int argc, char *argv[])
+{
+    char func1_stack[16384];
+    char func2_stack[16384];
+
+    if (getcontext(&amp;uctx_func1) == -1)
+        handle_error(&quot;getcontext&quot;);
+    uctx_func1.uc_stack.ss_sp = func1_stack;
+    uctx_func1.uc_stack.ss_size = sizeof(func1_stack);
+    uctx_func1.uc_link = &amp;uctx_main;
+    makecontext(&amp;uctx_func1, func1, 0);
+
+    if (getcontext(&amp;uctx_func2) == -1)
+        handle_error(&quot;getcontext&quot;);
+    uctx_func2.uc_stack.ss_sp = func2_stack;
+    uctx_func2.uc_stack.ss_size = sizeof(func2_stack);
+    /* argc &gt; 1 아니면 후속 문맥이 func1() */
+    uctx_func2.uc_link = (argc &gt; 1) ? NULL : &amp;uctx_func1);
+    makecontext(&amp;uctx_func2, func2, 0);
+
+    printf(&quot;main: swapcontext(&amp;uctx_main, &amp;uctx_func2)\n&quot;);
+    if (swapcontext(&amp;uctx_main, &amp;uctx_func2) == -1)
+        handle_error(&quot;swapcontext&quot;);
+
+    printf(&quot;main: exiting\n&quot;);
+    exit(EXIT_SUCCESS);
+}
+</code></pre>
+
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[sigaction(2)]]</tt>, <tt>[[sigaltstack(2)]]</tt>, <tt>[[sigprocmask(2)]]</tt>, <tt>[[getcontext(3)]]</tt>, <tt>[[sigsetjmp(3)]]</tt></p>
+<hr />
+<p>2019-03-06</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

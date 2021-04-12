@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/gettimeofday(2)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Gettimeofday(2) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+            <li class="second-level"><a href="#c">C 라이브러리/커널 차이</a></li>
+                
+            <li class="second-level"><a href="#tz_dsttime">tz_dsttime 필드</a></li>
+                
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>gettimeofday, settimeofday - 시간 얻기/설정하기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;sys/time.h&gt;
+
+int gettimeofday(struct timeval *tv, struct timezone *tz);
+
+int settimeofday(const struct timeval *tv, const struct timezone *tz);
+</code></pre>
+
+<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<dl>
+<dt><code>settimeofday()</code>:</dt>
+<dd>
+<dl>
+<dt>glibc 2.19부터:</dt>
+<dd><code>_DEFAULT_SOURCE</code></dd>
+<dt>glibc 2.19 및 이전:</dt>
+<dd><code>_BSD_SOURCE</code></dd>
+</dl>
+</dd>
+</dl>
+<h2 id="description">DESCRIPTION</h2>
+<p><code>gettimeofday()</code> 및 <code>settimeofday()</code> 함수는 시간에 더해서 시간대를 얻거나 설정할 수 있다. <code>tv</code> 인자는 (<code>&lt;sys/time.h&gt;</code>에 있는) <code>struct timeval</code>이며,</p>
+<pre><code class="c">struct timeval {
+    time_t      tv_sec;     /* 초 */
+    suseconds_t tv_usec;    /* 마이크로초 */
+};
+</code></pre>
+
+<p>에포크(<tt>[[time(2)]]</tt> 참고) 이후의 초 및 마이크로초 수를 나타낸다. <code>tz</code> 인자는 <code>struct timezone</code>이다.</p>
+<pre><code class="c">struct timezone {
+    int tz_minuteswest;     /* 그리니치 서쪽으로 몇 분 */
+    int tz_dsttime;         /* DST 수정 종류 */
+};
+</code></pre>
+
+<p><code>tv</code>나 <code>tz</code> 중 어느 쪽이라도 NULL이면 해당 구조체를 설정 내지 반환하지 않는다. (하지만 <code>tv</code>가 NULL이면 컴파일 경고가 나게 된다.)</p>
+<p><code>timezone</code> 구조체 사용은 구식화되었다. 보통은 <code>tz</code> 인자를 NULL로 지정하는 게 좋다. (아래 NOTES 참고.)</p>
+<p>리눅스에는 <code>settimeofday()</code> 시스템 호출과 관련해 좀 독특한 "클럭 왜곡" 동작 방식이 있다. (부팅 후) 최초 호출에서 <code>tz</code> 인자가 NULL이 아니고 <code>tz</code> 인자가 NULL이면서 <code>tz_minuteswest</code> 필드가 0이 아닐 때의 동작이다. (이때 <code>tz_dsttime</code>은 0으로 하는 게 좋다.) 이런 경우에는 CMOS 클럭이 지역 시간이고, 거기에 그만큼 시간을 더해야 UTC 시스템 시간을 얻을 수 있다고 친다. 이 기능을 쓰지 않는 게 좋다는 데는 두말할 나위가 없다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p><code>gettimeofday()</code>와 <code>settimeofday()</code>는 성공 시 0을 반환하고 실패 시 -1을 반환한다. (실패 시 <code>errno</code>을 적절히 설정한다.)</p>
+<h2 id="errors">ERRORS</h2>
+<dl>
+<dt><code>EFAULT</code></dt>
+<dd><code>tv</code>나 <code>tz</code> 중 하나가 접근 가능 주소 공간 밖을 가리킨다.</dd>
+<dt><code>EINVAL</code></dt>
+<dd>(<code>settimeofday()</code>): <code>timezone</code>이 유효하지 않다.</dd>
+<dt><code>EINVAL</code></dt>
+<dd>(<code>settimeofday()</code>): <code>tv.tv_sec</code>이 음수거나 <code>tv.tv_usec</code>이 [0..999,999] 범위 밖이다.</dd>
+<dt><code>EINVAL</code> (리눅스 4.3부터)</dt>
+<dd>(<code>settimeofday()</code>): 시간을 <code>CLOCK_MONOTONIC</code> 클럭의 현재 값보다 작은 값으로 설정하려 했다. (<tt>[[clock_gettime(2)]]</tt> 참고.)</dd>
+<dt><code>EPERM</code></dt>
+<dd>호출 프로세스에게 <code>settimeofday()</code> 호출을 위한 충분한 특권이 없다. 리눅스에서는 <code>CAP_SYS_TIME</code> 역능이 필요하다.</dd>
+</dl>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>SVr4, 4.3BSD. POSIX.1-2001에서는 <code>gettimeofday()</code>는 기술하지만 <code>settimeofday()</code>는 기술하고 있지 않다. POSIX.1-2008에서는 <code>gettimeofday()</code>를 구식으로 표시하고 있으며 대신 <tt>[[clock_gettime(2)]]</tt> 사용을 권장한다.</p>
+<h2 id="notes">NOTES</h2>
+<p><code>gettimeofday()</code>가 반환하는 시간은 (시스템 관리자가 시스템 시간을 수동으로 바꾸는 경우 같은) 불연속적 시스템 시간 도약의 영향을 받는다. 단조 증가하는 클럭이 필요하다면 <tt>[[clock_gettime(2)]]</tt>을 보라.</p>
+<p><code>timeval</code> 구조체를 다루기 위한 매크로들을 <tt>[[timeradd(3)]]</tt>에서 설명한다.</p>
+<p>전통적으로 <code>struct timeval</code>의 필드들은 <code>long</code> 타입이었다.</p>
+<h3 id="c">C 라이브러리/커널 차이</h3>
+<p>일부 아키텍처에서는 <tt>[[vdso(7)]]</tt>에서 <code>gettimeofday()</code> 구현을 제공한다.</p>
+<h3 id="tz_dsttime"><code>tz_dsttime</code> 필드</h3>
+<p>리눅스 아닌 커널 상에서 glibc를 쓰는 경우에는 현재 시간대에서 한 번이라도 일광 절약 규칙을 적용한 적이 있거나 적용할 예정이면 <code>gettimeofday()</code>에서 <code>struct timezone</code>의 <code>tz_dsttime</code> 필드를 0 아닌 값으로 설정하게 된다. 즉 현재 시간대에 대해 <tt>[[daylight(3)]]</tt>의 의미를 정확히 반영한다. 리눅스 상에서 glibc를 쓰는 경우에는 <code>settimeofday()</code>나 <code>gettimeofday()</code>에서 <code>struct timezone</code>의 <code>tz_dsttime</code> 필드 설정을 이용한 적이 한 번도 없다. 따라서 다음 내용은 순수하게 역사적 관심사일 뿐이다.</p>
+<p>오래된 시스템들에서 <code>tz_dsttime</code> 필드에는 그 해 어느 시기에 일광 절약 시간이 시행되는지 나타내는 심볼 상수(아래에 값들이 있음)가 담긴다. (참고: 이 값은 한해 내내 고정돼 있다. 즉 DST가 시행 중임을 나타내는 게 아니라 알고리즘을 선정할 뿐이다.) 다음 일광 절약 시간 알고리즘들이 정의돼 있다.</p>
+<pre><code class="c">DST_NONE     /* DST 비시행 */
+DST_USA      /* 미국 방식 DST */
+DST_AUST     /* 오스트레일리아 방식 DST */
+DST_WET      /* 서유럽 DST */
+DST_MET      /* 중유럽 DST */
+DST_EET      /* 동유럽 DST */
+DST_CAN      /* 캐나다 */
+DST_GB       /* 영국 */
+DST_RUM      /* 루마니아 */
+DST_TUR      /* 터키 */
+DST_AUSTALT  /* 오스트레일리아 1986년 변경 방식 */
+</code></pre>
+
+<p>당연하게도 일광 절약 시간 시행 시기를 나라마다 하나씩의 단순한 알고리즘으로 나타낼 수는 없다는 게 드러났다. 실제로 그 시기는 예측 불가능한 정치적 판단에 따라 정해진다. 그래서 이렇게 시간대를 나타내는 방식은 버려졌다.</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><code>date(1)</code>, <tt>[[adjtimex(2)]]</tt>, <tt>[[clock_gettime(2)]]</tt>, <tt>[[time(2)]]</tt>, <tt>[[ctime(3)]]</tt>, <tt>[[ftime(3)]]</tt>, <tt>[[timeradd(3)]]</tt>, <tt>[[capabilities(7)]]</tt>, <tt>[[time(7)]]</tt>, <tt>[[vdso(7)]]</tt>, <code>hwclock(8)</code></p>
+<hr />
+<p>2019-03-06</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

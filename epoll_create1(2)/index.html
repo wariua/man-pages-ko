@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/epoll_create1(2)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Epoll create1(2) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+            <li class="second-level"><a href="#epoll_create1">epoll_create1()</a></li>
+                
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>epoll_create, epoll_create1 - epoll 파일 디스크립터 열기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;sys/epoll.h&gt;
+
+int epoll_create(int size);
+int epoll_create1(int flags);
+</code></pre>
+
+<h2 id="description">DESCRIPTION</h2>
+<p><code>epoll_create()</code>는 새 <tt>[[epoll(7)]]</tt> 인스턴스를 만든다. 리눅스 2.6.8부터는 <code>size</code> 인자를 무시하되 0보다는 커야 한다. 아래 NOTES 참고.</p>
+<p><code>epoll_create()</code>는 새 epoll 인스턴스를 가리키는 파일 디스크립터를 반환한다. 이후의 <strong>epoll</strong> 인터페이스 호출 모두에 이 파일 디스크립터가 쓰인다. <code>epoll_create()</code>가 반환한 파일 디스크립터가 더 이상 필요치 않으면 <tt>[[close(2)]]</tt>로 닫아야 한다. epoll 인스턴스를 가리키는 모든 파일 디스크립터가 닫혔을 때 커널에서 그 인스턴스를 파기하고 관련 자원을 재사용할 수 있게 해제한다.</p>
+<h3 id="epoll_create1"><code>epoll_create1()</code></h3>
+<p><code>flags</code>가 0인 경우에는 구식 <code>size</code> 인자가 없어졌다는 점을 빼고 <code>epoll_create1()</code>이 <code>epoll_create()</code>와 동일하다. <code>flags</code>에 다음 값을 포함시켜서 다른 동작 방식을 얻을 수 있다.</p>
+<dl>
+<dt><code>EPOLL_CLOEXEC</code></dt>
+<dd>새 파일 디스크립터에 'exec에서 닫기'(<code>FD_CLOEXEC</code>) 플래그를 설정한다. 이게 유용할 수 있는 이유에 대해선 <tt>[[open(2)]]</tt>의 <code>O_CLOEXEC</code> 플래그 설명을 보라.</dd>
+</dl>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>성공 시 이 시스템 호출들은 음수 아닌 파일 디스크립터를 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
+<h2 id="errors">ERRORS</h2>
+<dl>
+<dt><code>EINVAL</code></dt>
+<dd><code>size</code>가 양수가 아니다.</dd>
+<dt><code>EINVAL</code></dt>
+<dd>(<code>epoll_create1()</code>) <code>flags</code>에 유효하지 않은 값을 지정했다.</dd>
+<dt><code>EMFILE</code></dt>
+<dd><code>/proc/sys/fs/epoll/max_user_instances</code>에 따른 epoll 인스턴스 개수에 대한 사용자별 제한에 걸렸다. 자세한 내용은 <tt>[[epoll(7)]]</tt> 참고.</dd>
+<dt><code>EMFILE</code></dt>
+<dd>열린 파일 디스크립터 개수에 대한 프로세스별 제한에 도달했다.</dd>
+<dt><code>ENFILE</code></dt>
+<dd>열린 파일 총개수에 대한 시스템 전역 제한에 도달했다.</dd>
+<dt><code>ENOMEM</code></dt>
+<dd>커널 객체를 생성하기에 메모리가 충분하지 않았다.</dd>
+</dl>
+<h2 id="versions">VERSIONS</h2>
+<p>커널 버전 2.6에서 <code>epoll_create()</code>이 추가되었다. glibc 버전 2.3.2부터 라이브러리 지원을 제공한다.</p>
+<p>커널 버전 2.6.27에서 <code>epoll_create1()</code>이 추가되었다. glibc 버전 2.9부터 라이브러리 지원을 제공한다.</p>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p><code>epoll_create()</code>은 리눅스 전용이다.</p>
+<h2 id="notes">NOTES</h2>
+<p>초기 <code>epoll_create()</code> 구현에서 <code>size</code> 인자는 호출자가 그 <strong>epoll</strong> 인스턴스에 추가하리라 예상하는 파일 디스크립터 수를 커널에게 알려주기 위한 것이었다. 커널에서는 내부의 이벤트 집합 자료 구조를 처음 할당할 때 크기에 대한 힌트로 그 정보를 사용했다. (호출자가 실제 사용에서 <code>size</code>로 준 힌트를 초과하면 커널에서 추가로 공간을 할당했다.) 요즘은 (힌트 없이도 커널에서 필요한 자료 구조 크기를 동적으로 조정하므로) 그 힌트가 더 이상 필요치 않다. 하지만 <code>size</code>가 여전히 0보다 커야 하는데, 새 <strong>epoll</strong> 응용이 이전 커널에서 돌 때 하위 호환성을 보장하기 위해서이다.</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[close(2)]]</tt>, <tt>[[epoll_ctl(2)]]</tt>, <tt>[[epoll_wait(2)]]</tt>, <tt>[[epoll(7)]]</tt></p>
+<hr />
+<p>2017-09-15</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

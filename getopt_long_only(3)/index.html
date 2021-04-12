@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/getopt_long_only(3)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Getopt long only(3) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+            <li class="second-level"><a href="#getopt_long-getopt_long_only">getopt_long() 및 getopt_long_only()</a></li>
+                
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#environment">ENVIRONMENT</a></li>
+        <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+            <li class="second-level"><a href="#getopt">getopt()</a></li>
+                
+            <li class="second-level"><a href="#getopt_long">getopt_long()</a></li>
+                
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>getopt, getopt_long, getopt_long_only, optarg, optind, opterr, optopt - 명령행 옵션 파싱</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;unistd.h&gt;
+
+int getopt(int argc, char * const argv[],
+           const char *optstring);
+
+extern char *optarg;
+extern int optind, opterr, optopt;
+
+#include &lt;getopt.h&gt;
+
+int getopt_long(int argc, char * const argv[],
+           const char *optstring,
+           const struct option *longopts, int *longindex);
+
+int getopt_long_only(int argc, char * const argv[],
+           const char *optstring,
+           const struct option *longopts, int *longindex);
+</code></pre>
+
+<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<dl>
+<dt><code>getopt()</code>:</dt>
+<dd><code>_POSIX_C_SOURCE &gt;= 2 || _XOPEN_SOURCE</code></dd>
+<dt><code>getopt_long()</code>, <code>getopt_long_only()</code>:</dt>
+<dd><code>_GNU_SOURCE</code></dd>
+</dl>
+<h2 id="description">DESCRIPTION</h2>
+<p><code>getopt()</code> 함수는 명령행 인자들을 파싱 한다. 인자 <code>argc</code>와 <code>argv</code>는 프로그램 호출 시 <code>main()</code> 함수로 전달된 인자 개수 및 배열이다. <code>argv</code>의 항목 중 '-'로 시작하는 (그러면서 "-"이나 "--"는 아닌) 게 옵션 항목이다. 그 항목의 (처음 '-'를 제외한) 문자들이 옵션 문자이다. <code>getopt()</code>를 반복해서 호출하면 옵션 항목 각각의 옵션 문자 각각을 차례로 반환한다.</p>
+<p>변수 <code>optind</code>는 <code>argv</code>에서 다음으로 처리할 항목의 인덱스이다. 시스템에서 이 값을 1로 초기화 한다. 호출자가 이 값을 1로 재설정해서 동일한 <code>argv</code>를 다시 훑거나 새로운 인자 벡터를 훑을 수 있다.</p>
+<p><code>getopt()</code>에서 옵션 문자를 또 찾으면 그 문자를 반환하고, 외부 변수 <code>optind</code>와 정적 변수 <code>nextchar</code>를 갱신해서 다음 <code>getopt()</code> 호출에서 그 다음 옵션 문자 내지 <code>argv</code> 항목을 계속 훑을 수 있도록 한다.</p>
+<p>옵션 문자가 더는 없으면 <code>getopt()</code>가 -1을 반환한다. 그때 <code>optind</code>는 옵션이 아닌 첫 번째 <code>argv</code> 항목의 <code>argv</code> 내 인덱스이다.</p>
+<p><code>optstring</code>은 유효한 옵션 문자들을 담은 문자열이다. 그 문자 뒤에 콜론이 있으면 옵션에 인자가 있어야 하며 <code>getopt()</code>에서는 같은 <code>argv</code> 항목 내의 다음 텍스트나 다음 <code>argv</code> 항목의 텍스트에 대한 포인터를 <code>optarg</code>에 집어넣는다. 콜론이 두 개면 그 옵션이 선택적 인자를 받는다는 뜻이다. 현재 <code>argv</code> 항목 내에 텍스트가 있으면 (즉 동일 단어에 옵션 이름과 함께 있으면, "-oarg"처럼) <code>optarg</code>로 반환되고 아니면 <code>optarg</code>가 0으로 설정된다. 이 방식은 GNU 확장이다. 그리고 <code>optstring</code>에 <code>W</code>가 있고 세미콜론이 따라오면 <code>-W foo</code>를 긴 옵션 <code>--foo</code>처럼 다룬다. (<code>-W</code> 옵션은 POSIX.2에서 구현 확장용으로 예약돼 있다.) 이 동작 방식은 GNU 확장이며 glibc 2 전의 라이브러리에서는 사용 불가능하다.</p>
+<p>기본적으로 <code>getopt()</code>에서는 <code>argv</code>의 내용물을 서로 바꿔서 최종적으로 옵션 아닌 것들이 뒤로 가게 한다. 그와 다른 동작 방식도 두 가지 구현돼 있다. <code>optstring</code>의 첫 문자가 '+'이거나 환경 변수 <code>POSIXLY_CORRECT</code>가 설정돼 있으면 옵션 아닌 인자를 만나자마자 처리를 멈춘다. 또 <code>optstring</code>의 첫 문자가 '-'이면 옵션 아닌 <code>argv</code> 항목 각각을 문자 코드가 1인 옵션의 인자인 것처럼 처리한다. (옵션과 다른 <code>argv</code> 항목들을 아무 순서로나 받을 수 있고 그 둘에서의 순서에 관심 있는 프로그램에서 이 방식을 쓴다.) 훑는 방식이 뭐든 간에 특수 인자 "--"는 옵션 탐색을 강제로 끝낸다.</p>
+<p>옵션 목록을 처리하는 동안 <code>getopt()</code>는 두 가지 오류를 탐지할 수 있다. (1) <code>optstring</code>에 지정하지 않은 옵션 문자가 있는 경우와 (2) 옵션 인자가 빠져 있는 경우(즉 명령행 마지막 옵션에 필수 인자가 없는 경우)이다. 그런 오류들을 다음과 같이 처리하고 보고한다.</p>
+<ul>
+<li>
+<p>기본적으로는 <code>getopt()</code>에서 오류 메시지를 표준 오류로 찍고, 문제의 옵션 문자를 <code>optopt</code>에 집어넣고, 함수 결과로 '?'를 반환한다.</p>
+</li>
+<li>
+<p>호출자가 전역 변수 <code>opterr</code>를 0으로 설정했으면 <code>getopt()</code>에서 오류 메시지를 찍지 않는다. 호출자는 함수 반환 값이 '?'인지 검사해서 오류가 있었는지 알아낼 수 있다. (기본적으로 <code>opterr</code>는 0 아닌 값을 가지고 있다.)</p>
+</li>
+<li>
+<p><code>optstring</code>의 (위에 설명한 선택적 '+' 내지 '-' 다음의) 첫 번째 문자가 콜론(':')이면 마찬가지로 <code>getopt()</code>가 오류 메시지를 찍지 않는다. 더불어 빠진 옵션 인자를 나타내는 데 '?' 대신 ':'를 반환한다. 그래서 호출자가 두 가지 오류를 구별할 수 있게 된다.</p>
+</li>
+</ul>
+<h3 id="getopt_long-getopt_long_only"><code>getopt_long()</code> 및 <code>getopt_long_only()</code></h3>
+<p><code>getopt_long()</code> 함수는 <code>getopt()</code>처럼 동작하되 대시 두 개로 시작하는 긴 옵션들도 받는다. (프로그램에서 긴 옵션만 받으려는 경우에는 <code>optstring</code>을 NULL아 아니라 빈 문자열("")로 지정해야 한다.) 짧게 줄인 옵션 문자가 유일하거나 이미 정의된 어떤 옵션과 일치하는 경우에는 긴 옵션 이름을 축약할 수도 있다. 긴 옵션에서는 <code>--arg=param</code>이나 <code>--arg param</code> 형태로 매개변수를 받을 수 있다.</p>
+<p><code>longopts</code>는 <code>&lt;getopt.h&gt;</code>에 다음처럼 선언된 <code>struct option</code>의 배열 첫 항목을 가리키는 포인터이다.</p>
+<pre><code class="c">struct option {
+    const char *name;
+    int         has_arg;
+    int        *flag;
+    int         val;
+};
+</code></pre>
+
+<p>각 필드의 의미는 다음과 같다.</p>
+<dl>
+<dt><code>name</code></dt>
+<dd>긴 옵션의 이름이다.</dd>
+<dt><code>has_arg</code></dt>
+<dd><code>no_argument</code>(0)이면 옵션에 인자를 받지 않고, <code>required_argument</code>(1)이면 옵션에 인자가 필수이고, <code>optional_argument</code>(2)이면 옵션에서 선택적 인자를 받는다.</dd>
+<dt><code>flag</code></dt>
+<dd>긴 옵션에 대한 결과를 어떻게 반환하는지 지정한다. <code>flag</code>가 NULL이면 <code>getopt_long()</code>이 <code>val</code>을 반환한다. (예를 들어 호출 프로그램에서는 <code>val</code>을 대응하는 짧은 옵션 문자로 설정할 수 있다.) 아니면 <code>getopt_long()</code>이 0을 반환하며, 옵션을 찾았으면 <code>flag</code>가 가리키는 변수를 <code>val</code>로 설정하고 찾지 못했으면 그대로 둔다.</dd>
+<dt><code>val</code></dt>
+<dd>반환되는 값, 또는 <code>flag</code>가 가리키는 변수에 넣을 값.</dd>
+</dl>
+<p>배열 마지막 항목이 0으로 채워져 있어야 한다.</p>
+<p><code>longindex</code>가 NULL이 아니면 가리키는 변수를 <code>longopts</code>에서의 긴 옵션 인덱스로 설정한다.</p>
+<p><code>getopt_long_only()</code>는 <code>getopt_long()</code>과 비슷하되 "--"뿐 아니라 '-'로도 긴 옵션을 나타낼 수 있다. '-'로 ("--" 아님) 시작하는 옵션과 일치하는 긴 옵션이 없고 짧은 옵션은 있는 경우에는 짧은 옵션으로 파싱 한다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>옵션을 성공적으로 찾은 경우 <code>getopt()</code>가 옵션 문자를 반환한다. 명령행 옵션들을 모두 파싱 했으면 <code>getopt()</code>가 -1을 반환한다. <code>optstring</code>에 없는 옵션 문자를 만났으면 <code>getopt()</code>가 '?'을 반환한다. 인자가 빠져 있는 옵션을 만났으면 <code>optstring</code>의 첫 문자에 따라 반환 값이 정해진다. 즉 첫 문자가 ':'이면 ':'을 반환하고 아니면 '?'를 반환한다.</p>
+<p><code>getopt_long()</code>과 <code>getopt_long_only()</code>도 짧은 옵션을 인식했을 때는 옵션 문자를 반환한다. 긴 옵션인 경우에는 <code>flag</code>가 NULL이면 <code>val</code>을 반환하고 아니면 0을 반환한다. 오류 및 -1 반환은 <code>getopt()</code>에서와 같으며, 추가로 여러 가지로 해석할 수 있는 경우나 불필요한 매개변수가 있는 경우에 '?'를 반환한다.</p>
+<h2 id="environment">ENVIRONMENT</h2>
+<dl>
+<dt><code>POSIXLY_CORRECT</code></dt>
+<dd>설정된 경우 옵션 아닌 인자를 만나자마자 옵션 처리를 멈춘다.</dd>
+<dt><code>_&lt;PID&gt;_GNU_nonoption_argv_flags_</code></dt>
+<dd><code>bash(1)</code> 2.0에서 이 변수를 사용했는데 어떤 인자가 와일드카드 확장의 결과이므로 옵션으로 다뤄선 안 된다는 걸 glibc에게 알려 주는 용도였다. <code>bash(1)</code> 버전 2.01에서 이 동작이 제거되었지만 glibc에는 지원이 남아 있다.</dd>
+</dl>
+<h2 id="attributes">ATTRIBUTES</h2>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<table>
+<thead>
+<tr>
+<th>인터페이스</th>
+<th>속성</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>getopt()</code>, <code>getopt_long()</code>,<br><code>getopt_long_only()</code></td>
+<td>스레드 안전성</td>
+<td>MT-Unsafe race:getopt env</td>
+</tr>
+</tbody>
+</table>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<dl>
+<dt><code>getopt()</code>:</dt>
+<dd>
+<p>환경 변수 <code>POSIXLY_CORRECT</code>가 설정돼 있다면 POSIX.1-2001, POSIX.1-2008, POSIX.2. 아니라면 <code>argv</code>의 항목들을 교환이 가능해야 하므로 진짜 <code>const</code>가 아니다. 다른 시스템과의 호환성을 위해 원형에서는 <code>const</code>인 것처럼 한다.</p>
+<p><code>optstring</code>에 '+' 및 '-'를 쓰는 것은 GNU 확장이다.</p>
+<p>일부 구식 구현들에서는 <code>getopt()</code>가 <code>&lt;stdin.h&gt;</code>에 선언돼 있었다. SUSv1에서는 선언이 <code>&lt;unistd.h&gt;</code>와 <code>&lt;stdio.h&gt;</code> 어느 쪽에서 나오든 허용했다. POSIX.1-1996에서 이 용도에 <code>&lt;stdio.h&gt;</code>를 쓰는 것을 LEGACY로 표시했다. POSIX.1-2001에서는 <code>&lt;stdio.h&gt;</code>에 선언이 나와야 한다고 요구하지 않는다.</p>
+</dd>
+<dt><code>getopt_long()</code> 및 <code>getopt_long_only()</code>:</dt>
+<dd>이 함수들은 GNU 확장이다.</dd>
+</dl>
+<h2 id="notes">NOTES</h2>
+<p>여러 인자 벡터를 훑거나 같은 벡터를 여러 번 다시 훑는 프로그램에서 <code>optstring</code> 선두의 '+'와 '-' 같은 GNU 확장을 쓰고 싶거나 탐색 사이에 <code>POSIXLY_CORRECT</code>의 값을 바꾸고 싶은 경우에는 <code>optind</code>를 (전통적 값인 1 대신) 0으로 재설정해서 <code>getopt()</code>를 재초기화 해야 한다. (0으로 재설정하면 내부 초기화 루틴이 호출돼서 <code>POSIXLY_CORRECT</code>를 재확인하고 <code>optstring</code>의 GNU 확장을 확인한다.)</p>
+<h2 id="example">EXAMPLE</h2>
+<h3 id="getopt"><code>getopt()</code></h3>
+<p>다음의 간단한 예시 프로그램에서는 <code>getopt()</code>를 사용해 두 가지 프로그램 옵션을 처리한다. 연계 값이 없는 <code>-n</code> 옵션, 그리고 연계된 값이 필요한 <code>-t val</code> 옵션이다.</p>
+<pre><code class="c">#include &lt;unistd.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdio.h&gt;
+
+int
+main(int argc, char *argv[])
+{
+    int flags, opt;
+    int nsecs, tfnd;
+
+    nsecs = 0;
+    tfnd = 0;
+    flags = 0;
+    while ((opt = getopt(argc, argv, &quot;nt:&quot;)) != -1) {
+        switch (opt) {
+        case 'n':
+            flags = 1;
+            break;
+        case 't':
+            nsecs = atoi(optarg);
+            tfnd = 1;
+            break;
+        default: /* '?' */
+            fprintf(stderr, &quot;Usage: %s [-t nsecs] [-n] name\n&quot;,
+                    argv[0]);
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    printf(&quot;flags=%d; tfnd=%d; nsecs=%d; optind=%d\n&quot;,
+            flags, tfnd, nsecs, optind);
+
+    if (optind &gt;= argc) {
+        fprintf(stderr, &quot;Expected argument after options\n&quot;);
+        exit(EXIT_FAILURE);
+    }
+
+    printf(&quot;name argument = %s\n&quot;, argv[optind]);
+
+    /* 나머지 코드 생략 */
+
+    exit(EXIT_SUCCESS);
+}
+</code></pre>
+
+<h3 id="getopt_long"><code>getopt_long()</code></h3>
+<p>다음 예시 프로그램에서는 <code>getopt_long()</code>의 여러 기능을 사용하는 걸 보여 준다.</p>
+<pre><code class="c">#include &lt;stdio.h&gt;     /* for printf */
+#include &lt;stdlib.h&gt;    /* for exit  */
+#include &lt;getopt.h&gt;
+
+int main(int argc, char **argv) {
+    int c;
+    int digit_optind = 0;
+
+    while (1) {
+        int this_option_optind = optind ? optind : 1;
+        int option_index = 0;
+        static struct option long_options[] = {
+            {&quot;add&quot;,     required_argument, 0,  0 },
+            {&quot;append&quot;,  no_argument,       0,  0 },
+            {&quot;delete&quot;,  required_argument, 0,  0 },
+            {&quot;verbose&quot;, no_argument,       0,  0 },
+            {&quot;create&quot;,  required_argument, 0, 'c'},
+            {&quot;file&quot;,    required_argument, 0,  0 },
+            {0,         0,                 0,  0 }
+        };
+
+        c = getopt_long(argc, argv, &quot;abc:d:012&quot;,
+                 long_options, &amp;option_index);
+        if (c == -1)
+            break;
+
+        switch (c) {
+        case 0:
+            printf(&quot;option %s&quot;, long_options[option_index].name);
+            if (optarg)
+                printf(&quot; with arg %s&quot;, optarg);
+            printf(&quot;\n&quot;);
+            break;
+
+        case '0':
+        case '1':
+        case '2':
+            if (digit_optind != 0 &amp;&amp; digit_optind != this_option_optind)
+              printf(&quot;digits occur in two different argv-elements.\n&quot;);
+            digit_optind = this_option_optind;
+            printf(&quot;option %c\n&quot;, c);
+            break;
+
+        case 'a':
+            printf(&quot;option a\n&quot;);
+            break;
+
+        case 'b':
+            printf(&quot;option b\n&quot;);
+            break;
+
+        case 'c':
+            printf(&quot;option c with value '%s'\n&quot;, optarg);
+            break;
+
+        case 'd':
+            printf(&quot;option d with value '%s'\n&quot;, optarg);
+            break;
+
+        case '?':
+            break;
+
+        default:
+            printf(&quot;?? getopt returned character code 0%o ??\n&quot;, c);
+        }
+    }
+
+    if (optind &lt; argc) {
+        printf(&quot;non-option ARGV-elements: &quot;);
+        while (optind &lt; argc)
+            printf(&quot;%s &quot;, argv[optind++]);
+        printf(&quot;\n&quot;);
+    }
+
+    exit(EXIT_SUCCESS);
+}
+</code></pre>
+
+<h2 id="see-also">SEE ALSO</h2>
+<p><code>getopt(1)</code>, <tt>[[getsubopt(3)]]</tt></p>
+<hr />
+<p>2019-03-06</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

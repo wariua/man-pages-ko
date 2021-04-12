@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/bzero(3)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Bzero(3) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
+        <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>bzero, explicit_bzero - 바이트 열을 0으로 채우기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;strings.h&gt;
+
+void bzero(void *s, size_t n);
+
+#include &lt;string.h&gt;
+
+void explicit_bzero(void *s, size_t n);
+</code></pre>
+
+<h2 id="description">DESCRIPTION</h2>
+<p><code>bzero()</code> 함수는 <code>s</code>가 가리키는 위치에서 시작하는 메모리 <code>n</code> 바이트에 0을 ('\0'을 담은 바이트들을) 기록해서 데이터를 지운다.</p>
+<p><code>explicit_bzero()</code> 함수는 <code>bzero()</code>와 같은 일을 수행한다. <code>bzero()</code>와 다른 점은 컴파일러에서 지우기 동작이 "불필요"하다고 추론한 경우에도 컴파일러 최적화가 그 동작을 제거하지 않도록 보장한다는 것이다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>없음.</p>
+<h2 id="versions">VERSIONS</h2>
+<p>glibc 2.25에서 <code>explicit_bzero()</code>가 처음 등장했다.</p>
+<h2 id="attributes">ATTRIBUTES</h2>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<table>
+<thead>
+<tr>
+<th>인터페이스</th>
+<th>속성</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bzero()</code>,<br><code>explicit_bzero()</code></td>
+<td>스레드 안전성</td>
+<td>MT-Safe</td>
+</tr>
+</tbody>
+</table>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p><code>bzero()</code> 함수는 제거 예정이다. (POSIX.1-2001에서 LEGACY로 표시됨.) 새 프로그램에서는 <code>memset(3)</code>을 사용하라. POSIX.1-2008에서 <code>bzero()</code> 명세를 제거하였다. 4.3BSD에서 <code>bzero()</code> 함수가 처음 등장했다.</p>
+<p><code>explicit_bzero()</code> 함수는 BSD 계열 일부에도 있는 비표준 확장이다. 몇몇 다른 구현에는 <code>memset_explicit()</code>이나 <code>memset_s()</code> 같은 비슷한 함수가 있다.</p>
+<h2 id="notes">NOTES</h2>
+<p><code>explicit_bzero()</code> 함수는 보안에 신경쓰는 응용에서 <code>bzero()</code> 사용 시 맞닥뜨릴 수 있는 문제를 해결하기 위한 것이다. 0으로 채운 위치를 <em>올바른</em> 프로그램에서 절대 다시 건드리지 않는다고 컴파일러에서 추론하면 <code>bzero()</code> 호출을 아예 없앨 수도 있다. 그런데 그 <code>bzero()</code> 호출의 의도가 민감한 데이터(가령 암호)를 지워서 잘못 동작하거나 탈취된 프로그램에 의해 데이터가 누출될 가능성을 막는 것이었다면 문제가 된다. <code>explicit_bzero()</code> 호출은 절대 컴파일러 최적화로 제거되지 않는다.</p>
+<p><code>explicit_bzero()</code> 함수가 민감한 데이터 지우기와 관련된 모든 문제를 해결해 주지는 않는다.</p>
+<ol>
+<li>
+<p><code>explicit_bzero()</code> 함수는 민감한 데이터가 메모리에서 완전히 지워졌음을 보장하지 <em>않는다</em>. (<code>bzero()</code>도 마찬가지다.) 예를 들어 레지스터나 "작업용" 스택 영역에 민감한 데이터의 사본이 있을 수 있다. <code>explicit_bzero()</code> 함수에서는 그런 사본들에 대해 알지 못하므로 지울 수가 없다.</p>
+</li>
+<li>
+<p>어떤 상황에서는 <code>explicit_bzero()</code>가 보안성을 <em>떨어뜨릴</em> 수 있다. (데이터가 충분히 작으며 <code>explicit_bzero()</code> 호출 말고는 변수 주소를 받는 동작이 없어서) 민감한 데이터를 담은 변수를 레지스터에 저장하게 최적화할 수 있다고 컴파일러가 판단한 경우에는 <code>explicit_bzero()</code> 호출 시 레지스터에서 RAM의 어떤 위치로 데이터를 복사하고서 그걸 즉시 지우게 된다. (레지스터의 사본은 영향을 받지 않는다.) 여기서 문제는 RAM의 데이터가 레지스터의 데이터보다 버그에 노출될 가능성이 높고, 그래서 <code>explicit_bzero()</code> 호출이 만드는 작은 시간 틈새 동안에 민감한 데이터가 데이터 지우기 시도를 하지 않았을 경우보다 취약해진다는 점이다.</p>
+</li>
+</ol>
+<p>참고로 민감한 변수를 <code>volatile</code> 한정자로 선언해도 위 문제가 제거되지 <em>않는다</em>. 사실은 더 악화되는데, 예를 들어 레지스터에 저장하게 최적화할 수도 있었을 변수를 전체 수명 동안 (더 취약한) RAM에 유지하도록 만들 수 있기 때문이다.</p>
+<p>위의 세부 내용들에도 불구하고 보안에 신경쓰는 응용에서는 일반적으로 <code>explicit_bzero()</code>를 쓰는 게 안 쓰는 것보다 낫다. <code>explicit_bzero()</code>의 개발자들은 미래의 컴파일러가 <code>explicit_bzero()</code> 호출을 인식해서 레지스터와 "작업용" 스택 영역의 사본을 포함해 민감한 데이터의 모든 사본들이 지워지도록 조치를 취할 것으로 기대한다.</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[bstring(3)]]</tt>, <code>memset(3)</code>, <tt>[[swab(3)]]</tt></p>
+<hr />
+<p>2019-03-06</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

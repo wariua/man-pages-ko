@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/bio(7)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Bio(7) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+        <li class="first-level "><a href="#copyright">COPYRIGHT</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>bio - 기본(Basic) I/O 추상화</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;openssl/bio.h&gt;
+</code></pre>
+
+<h2 id="description">DESCRIPTION</h2>
+<p>BIO는 I/O를 추상화한 것으로 기반 I/O의 여러 세부 사항들을 응용에게 감춰 준다. 응용에서 I/O에 BIO를 사용하면 SSL 연결, 비암호화 네트워크 연결, 파일 I/O를 투명하게 다룰 수 있다.</p>
+<p>BIO에는 두 종류가 있는데, 원천/싱크 BIO와 필터 BIO이다.</p>
+<p>이름에서 알 수 있듯 원천/싱크 BIO는 데이터의 원천 및/또는 싱크(sink)이다. 예로는 소켓 BIO와 파일 BIO가 있다.</p>
+<p>필터 BIO는 한 BIO에서 데이터를 받아서 다른 BIO나 응용으로 전달한다. 데이터가 변경되지 않을 수도 있고 (가령 메시지 다이제스트 BIO) 변환될 수도 있다 (가령 암호화 BIO). 수행하는 I/O 동작에 따라 필터 BIO의 효과가 달라질 수도 있다. 예를 들어 암호화 BIO는 쓰는 경우에는 데이터를 암호화하고 읽는 경우에는 데이터를 복호화 할 것이다.</p>
+<p>BIO를 연결해서 사슬로 만들 수 있다. (단일 BIO는 한 개짜리 사슬이다.) 사슬은 일반적으로 한 개의 원천/싱크 BIO와 한 개 이상의 필터 BIO로 이뤄진다. 첫 번째 BIO에서 읽거나 쓴 데이터가 사슬을 거쳐 끝(일반적으로 원천/싱크 BIO)까지 간다.</p>
+<p>(메모리 BIO 같은) 어떤 BIO들은 <code>BIO_new()</code> 호출 직후에 사용이 가능하다. (파일 BIO 같은) 다른 BIO들은 어떤 추가 초기화가 필요하며, 그런 BIO를 생성하고 초기화 하기 위한 보조 함수가 존재하는 경우가 많다.</p>
+<p>BIO 사슬에 <code>BIO_free()</code>를 호출하면 BIO 한 개만 해제하므로 메모리 누수가 발생한다.</p>
+<p>단일 BIO에 <code>BIO_free_all()</code>을 호출하는 것은 반환 값을 버린다는 점을 제외하면 <code>BIO_free()</code>를 호출하는 것과 효과가 같다.</p>
+<p>보통 <code>type</code> 인자는 BIO_METHOD 포인터를 반환하는 함수로 제공한다. 그런 함수들에는 명명 관행이 있는데, 보통 원천/싱크 BIO는 <code>BIO_s_*()</code>이고 필터 BIO는 <code>BIO_f_*()</code>이다.</p>
+<h2 id="example">EXAMPLE</h2>
+<p>메모리 BIO 만들기:</p>
+<pre><code class="c">BIO *mem = BIO_new(BIO_s_mem());
+</code></pre>
+
+<h2 id="see-also">SEE ALSO</h2>
+<p><code>BIO_ctrl(3)</code>, <code>BIO_f_base64(3)</code>, <code>BIO_f_buffer(3)</code>, <code>BIO_f_cipher(3)</code>, <code>BIO_f_md(3)</code>, <code>BIO_f_null(3)</code>, <code>BIO_f_ssl(3)</code>, <code>BIO_find_type(3)</code>, <code>BIO_new(3)</code>, <code>BIO_new_bio_pair(3)</code>, <code>BIO_push(3)</code>, <code>BIO_read_ex(3)</code>, <code>BIO_s_accept(3)</code>, <code>BIO_s_bio(3)</code>, <code>BIO_s_connect(3)</code>, <code>BIO_s_fd(3)</code>, <code>BIO_s_file(3)</code>, <code>BIO_s_mem(3)</code>, <code>BIO_s_null(3)</code>, <code>BIO_s_socket(3)</code>, <code>BIO_set_callback(3)</code>, <code>BIO_should_retry(3)</code></p>
+<h2 id="copyright">COPYRIGHT</h2>
+<p>Copyright 2000-2017 The OpenSSL Project Authors. All Rights Reserved.</p>
+<p>Licensed under the OpenSSL license (the "License").  You may not use this file except in compliance with the License.  You can obtain a copy in the file LICENSE in the source distribution or at <a href="https://www.openssl.org/source/license.html">https://www.openssl.org/source/license.html</a>.</p>
+<hr />
+<p>2017-12-31</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

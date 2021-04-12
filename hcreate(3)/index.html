@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/hcreate(3)/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>Hcreate(3) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#bugs">BUGS</a></li>
+        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>hcreate, hdestroy, hsearch, hcreate_r, hdestroy_r, hsearch_r - 해시 테이블 관리</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="c">#include &lt;search.h&gt;
+
+int hcreate(size_t nel);
+
+ENTRY *hsearch(ENTRY item, ACTION action);
+
+void hdestroy(void);
+
+#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
+#include &lt;search.h&gt;
+
+int hcreate_r(size_t nel, struct hsearch_data *htab);
+
+int hsearch_r(ENTRY item, ACTION action, ENTRY **retval,
+              struct hsearch_data *htab);
+
+void hdestroy_r(struct hsearch_data *htab);
+</code></pre>
+
+<h2 id="description">DESCRIPTION</h2>
+<p>세 함수 <code>hcreate()</code>, <code>hsearch()</code>, <code>hdestroy()</code>를 통해 호출자가 키(문자열)와 연계 데이터로 이뤄진 항목들을 담은 해시 탐색 테이블을 만들고 관리할 수 있다. 이 함수들을 쓰면 한번에 해시 테이블 한 개만 사용할 수 있다.</p>
+<p>세 함수 <code>hcreate_r()</code>, <code>hsearch_r()</code>, <code>hdestroy_r()</code>은 재진입 가능 버전이며 프로그램에서 한번에 여러 개의 해시 탐색 테이블을 쓸 수 있게 해 준다. 마지막 인자 <code>htab</code>가 가리키는 것이 함수가 동작하는 테이블을 기술하는 구조체이다. 프로그래머는 이 구조체를 불투명한 것으로 다뤄야 한다. (즉 이 구조체의 필드에 직접 접근하거나 변경하려 하지 않아야 한다.)</p>
+<p>먼저 <code>hcreate()</code>로 해시 테이블을 만들어야 한다. 인자 <code>nel</code>은 테이블 내의 항목 최대 개수를 지정한다. (이후에 이 최댓값을 바꿀 수 없으므로 잘 선택해야 한다.) 결과 해시 테이블의 성능을 개선하기 위해 구현에서 이 값을 위로 조정할 수도 있다.</p>
+<p><code>hcreate_r()</code> 함수는 <code>hcreate()</code>와 같은 일을 수행하되 구조체 <code>*htab</code>로 기술한 테이블에 대해 그렇게 한다. 처음에 <code>hcreate_r()</code>을 호출하기 전에 <code>htab</code>가 가리키는 구조체를 0으로 채워야 한다.</p>
+<p><code>hdestroy()</code> 함수는 <code>hcreate()</code>로 만든 해시 테이블이 차지하는 메모리를 해제한다. <code>hdestroy()</code> 호출 후에 <code>hcreate()</code>로 새 해시 테이블을 만들 수 있다. <code>hdestroy_r()</code>은 유사한 일을 수행하되 앞서 <code>hcreate_r()</code>로 생성한 <code>*htab</code>로 기술한 해시 테이블에 대해 그렇게 한다.</p>
+<p><code>hsearch()</code> 함수는 해시 테이블에서 <code>item</code>과 같은 키를 가진 항목을 탐색한다. ("같은" 키인지 <code>strcmp(3)</code>로 판단한다.) 성공하면 그 항목에 대한 포인터를 반환한다.</p>
+<p><code>item</code> 인자는 <code>ENTRY</code> 타입인데, <code>&lt;search.h&gt;</code>에 다음처럼 정의돼 있다.</p>
+<pre><code class="c">typedef struct entry {
+    char *key;
+    void *data;
+} ENTRY;
+</code></pre>
+
+<p><code>key</code> 필드가 가리키는 널 종료 문자열은 탐색 키이다. <code>data</code> 필드는 그 키에 연계된 데이터를 가리킨다.</p>
+<p><code>action</code> 인자는 탐색 실패 후에 <code>hsearch()</code>가 무엇을 할지 결정한다. 이 인자는 <code>item</code> 사본을 삽입하라는 뜻의 <code>ENTER</code> 값이거나 (이 경우 새 해시 테이블 항목에 대한 포인터를 함수 결과로 반환함) NULL을 반환해야 한다는 뜻의 <code>FIND</code> 값이어야 한다. (<code>action</code>이 <code>FIND</code>인 경우 <code>data</code>는 무시된다.)</p>
+<p><code>hsearch_r()</code> 함수는 <code>hsearch()</code>와 비슷하되 <code>*htab</code>로 기술한 테이블에 대해 동작한다. 그리고 <code>hsearch_r()</code> 함수는 발견 항목에 대한 포인터를 함수 결과가 아니라 <code>*retval</code>로 반환한다는 점에서 <code>hsearch()</code>와 다르다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p><code>hcreate()</code>와 <code>hcreate_r()</code>은 성공 시 0 아닌 값을 반환한다. 오류 시 0을 반환하며 오류 원인을 나타내도록 <code>errno</code>를 설정한다.</p>
+<p>성공 시 <code>hsearch()</code>는 해시 테이블 내 항목에 대한 포인터를 반환한다. <code>hsearch()</code>는 오류 시에, 즉 <code>action</code>이 <code>ENTER</code>인데 해시 테이블이 가득 찼거나 <code>action</code>이 <code>FIND</code>인데 해시 테이블에서 <code>item</code>을 찾을 수 없는 경우에 NULL을 반환한다. <code>hsearch_r()</code>은 성공 시 0 아닌 값을 반환하고 오류 시 0을 반환한다. 오류 시에 이 두 함수는 오류 원인을 나타내도록 <code>errno</code>를 설정한다.</p>
+<h2 id="errors">ERRORS</h2>
+<p><code>hcreate_r()</code>과 <code>hdestroy_r()</code>이 다음 이유로 실패할 수 있다.</p>
+<dl>
+<dt><code>EINVAL</code></dt>
+<dd><code>htab</code>이 NULL이다.</dd>
+</dl>
+<p><code>hsearch()</code>와 <code>hsearch_r()</code>이 다음 이유로 실패할 수 있다.</p>
+<dl>
+<dt><code>ENOMEM</code></dt>
+<dd><code>action</code>이 <code>ENTER</code>였는데 테이블에서 <code>key</code>를 찾지 못했고 테이블에 새 항목을 추가할 공간이 없다.</dd>
+<dt><code>ESRCH</code></dt>
+<dd><code>action</code>이 <code>FIND</code>였는데 테이블에서 <code>key</code>를 찾지 못했다.</dd>
+</dl>
+<p>POSIX.1에서는 <code>ENOMEM</code> 오류만 명세하고 있다.</p>
+<h2 id="attributes">ATTRIBUTES</h2>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<table>
+<thead>
+<tr>
+<th>인터페이스</th>
+<th>속성</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>hcreate()</code>, <code>hsearch()</code>,<br><code>hdestroy()</code></td>
+<td>스레드 안전성</td>
+<td>MT-Unsafe race:hsearch</td>
+</tr>
+<tr>
+<td><code>hcreate_r()</code>, <code>hsearch_r()</code><br><code>hdestroy_r()</code></td>
+<td>스레드 안전성</td>
+<td>MT-Safe race:htab</td>
+</tr>
+</tbody>
+</table>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p><code>hcreate()</code>, <code>hsearch()</code>, <code>hdestroy()</code> 함수는 SVr4에서 왔으며 POSIX.1-2001 및 POSIX.1-2008에 기술돼 있다.</p>
+<p><code>hcreate_r()</code>, <code>hsearch_r()</code>, <code>hdestroy_r()</code> 함수는 GNU 확장이다.</p>
+<h2 id="notes">NOTES</h2>
+<p>일반적으로 테이블에 충분한 여유 공간이 있어서 충돌이 최소화될 때 해시 테이블 구현이 더 효율적이다. 보통은 <code>nel</code> 값이 테이블에 저장할 거라 예상하는 항목 최대 개수보다 최소 25% 정도 큰 게 좋다는 뜻이다.</p>
+<p><code>hdestroy()</code>와 <code>hdestroy_r()</code> 함수에서 해시 테이블 항목들의 <code>key</code> 및 <code>data</code> 필드가 가리키는 버퍼들을 해제하지 않는다. (그 버퍼들이 동적으로 할당되었는지 여부를 알 수 없으므로 그럴 수가 없다.) 그 버퍼들을 해제해야 한다면 (가령 프로그램에서 실행 시간 내내 쓰는 해시 테이블 하나만 만드는 게 아니라 반복해서 테이블을 만들고 없앤다면) 프로그램에서 버퍼를 추적하는 자료 구조를 유지해야 한다.</p>
+<h2 id="bugs">BUGS</h2>
+<p>SVr4와 POSIX.1-2001에서는 탐색 실패 시에만 <code>action</code>이 의미가 있으며 그래서 탐색 성공 시에는 <code>ENTER</code>가 아무것도 하지 않아야 한다고 명세한다. libc 및 (버전 2.3 전의) glibc 구현에서는 그 명세를 위반해서 그 경우에 해당 <code>key</code>의 <code>data</code>를 갱신한다.</p>
+<p>개별 해시 테이블 항목들을 추가할 수 있지만 삭제할 수는 없다.</p>
+<h2 id="example">EXAMPLE</h2>
+<p>다음 프로그램에서는 해시 테이블에 24개 항목을 삽입하고서 그 중 일부를 찍는다.</p>
+<pre><code class="c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;search.h&gt;
+
+static char *data[] = { &quot;alpha&quot;, &quot;bravo&quot;, &quot;charlie&quot;, &quot;delta&quot;,
+     &quot;echo&quot;, &quot;foxtrot&quot;, &quot;golf&quot;, &quot;hotel&quot;, &quot;india&quot;, &quot;juliet&quot;,
+     &quot;kilo&quot;, &quot;lima&quot;, &quot;mike&quot;, &quot;movember&quot;, &quot;oscar&quot;, &quot;papa&quot;,
+     &quot;quebec&quot;, &quot;romeo&quot;, &quot;sierra&quot;, &quot;tango&quot;, &quot;uniform&quot;,
+     &quot;victor&quot;, &quot;whisky&quot;, &quot;x-ray&quot;, &quot;yankee&quot;, &quot;zulu&quot;
+};
+
+int
+main(void)
+{
+    ENTRY e, *ep;
+    int i;
+
+    hcreate(30);
+
+    for (i = 0; i &lt; 24; i++) {
+        e.key = data[i];
+        /* data는 뭔가에 대한 포인터가 아니라
+           그냥 정수임 */
+        e.data = (void *) i;
+        ep = hsearch(e, ENTER);
+        /* 실패하지 않아야 함 */
+        if (ep == NULL) {
+            fprintf(stderr, &quot;entry failed\n&quot;);
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    for (i = 22; i &lt; 26; i++) {
+        /* 테이블에 있는 항목 두 개를 찍고,
+           테이블에 없는 항목 두 개 보이기 */
+        e.key = data[i];
+        ep = hsearch(e, FIND);
+        printf(&quot;%9.9s -&gt; %9.9s:%d\n&quot;, e.key,
+               ep ? ep-&gt;key : &quot;NULL&quot;, ep ? (int)(ep-&gt;data) : 0);
+    }
+    hdestroy();
+    exit(EXIT_SUCCESS);
+}
+</code></pre>
+
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt>[[bsearch(3)]]</tt>, <tt>[[lsearch(3)]]</tt>, <tt>[[malloc(3)]]</tt>, <tt>[[tsearch(3)]]</tt></p>
+<hr />
+<p>2019-03-06</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>
