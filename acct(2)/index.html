@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/acct(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/acct%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Acct(2) - man-pages-ko</title>
+    <title>acct(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -150,12 +150,11 @@
 <h2 id="name">NAME</h2>
 <p>acct - 프로세스 통계 켜고 끄기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;unistd.h&gt;
+<pre><code class="language-c">#include &lt;unistd.h&gt;
 
 int acct(const char *filename);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>acct()</code>:</dt>
 <dd>
@@ -172,11 +171,11 @@ int acct(const char *filename);
 <h2 id="description">DESCRIPTION</h2>
 <p><code>acct()</code> 시스템 호출은 프로세스 통계 수집을 켜거나 끈다. 존재하는 파일의 이름을 인자로 해서 호출하면 통계 수집이 켜진다. 그러면 종료하는 프로세스 각각의 레코드가 종료 시점에 <code>filename</code>에 덧붙는다. NULL 인자는 통계 수집이 꺼지게 한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 0을 반환한다. 오류 시 -1을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<p>성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EACCES</code></dt>
-<dd>지정한 파일에 대해 쓰기 권한이 거부되었거나, <code>filename</code>의 경로 선두부의 한 디렉터리에 대해 탐색 권한이 거부되었거나 (<tt>[[path_resolution(7)]]</tt> 참고), <code>filename</code>이 정규 파일이 아니다.</dd>
+<dd>지정한 파일에 대해 쓰기 권한이 거부되었거나, <code>filename</code>의 경로 선두부의 한 디렉터리에 대해 탐색 권한이 거부되었거나 (<tt><a class="wikilink" href="/man-pages-ko/path_resolution(7)/">path_resolution(7)</a></tt> 참고), <code>filename</code>이 정규 파일이 아니다.</dd>
 <dt><code>EFAULT</code></dt>
 <dd><code>filename</code>이 접근 가능한 주소 공간 밖을 가리키고 있다.</dd>
 <dt><code>EIO</code></dt>
@@ -208,11 +207,11 @@ int acct(const char *filename);
 <p>SVr4, 4.3BSD (POSIX는 아님).</p>
 <h2 id="notes">NOTES</h2>
 <p>시스템 크래시 발생 시 동작 중인 프로그램들에 대해선 통계 정보가 생성되지 않는다. 특히 종료하지 않는 프로세스에 대한 통계는 절대 기록되지 않는다.</p>
-<p>통계 파일에 기록되는 레코드의 구조를 <tt>[[acct(5)]]</tt>에서 기술한다.</p>
+<p>통계 파일에 기록되는 레코드의 구조를 <tt><a class="wikilink" href="/man-pages-ko/acct(5)/">acct(5)</a></tt>에서 기술한다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[acct(5)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/acct(5)/">acct(5)</a></tt></p>
 <hr />
-<p>2016-03-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

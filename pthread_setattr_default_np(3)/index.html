@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_setattr_default_np(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_setattr_default_np%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Pthread setattr default np(3) - man-pages-ko</title>
+    <title>pthread_setattr_default_np(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -142,7 +142,7 @@
         <li class="first-level "><a href="#versions">VERSIONS</a></li>
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
             <li class="second-level"><a href="#_1">프로그램 소스</a></li>
                 
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
@@ -153,16 +153,15 @@
 <h2 id="name">NAME</h2>
 <p>pthread_getattr_default_np, pthread_setattr_default_np - 기본 스레드 생성 속성들을 얻거나 설정하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#define _GNU_SOURCE             /* feature_test_macros(7) 참고 */
+<pre><code class="language-c">#define _GNU_SOURCE             /* feature_test_macros(7) 참고 */
 #include &lt;pthread.h&gt;
 
 int pthread_getattr_default_np(pthread_attr_t *attr);
 int pthread_setattr_default_np(pthread_attr_t *attr);
 </code></pre>
-
 <p><code>-pthread</code>로 컴파일 및 링크.</p>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>pthread_setattr_default_np()</code> 함수는 새 스레드 생성에 쓰는 기본 속성들, 즉 두 번째 인자를 NULL로 해서 <tt>[[pthread_create(3)]]</tt>을 호출할 때 쓰는 속성들을 설정한다. <code>*attr</code>로 준 속성들을 이용해 기본 속성들을 설정하며, <code>*attr</code>은 미리 설정해 둔 스레드 속성 객체이다. 제공 속성 객체에 대해서 다음 사항들에 유의하다.</p>
+<p><code>pthread_setattr_default_np()</code> 함수는 새 스레드 생성에 쓰는 기본 속성들, 즉 두 번째 인자를 NULL로 해서 <tt><a class="wikilink" href="/man-pages-ko/pthread_create(3)/">pthread_create(3)</a></tt>을 호출할 때 쓰는 속성들을 설정한다. <code>*attr</code>로 준 속성들을 이용해 기본 속성들을 설정하며, <code>*attr</code>은 미리 설정해 둔 스레드 속성 객체이다. 제공 속성 객체에 대해서 다음 사항들에 유의하다.</p>
 <ul>
 <li>
 <p>객체의 속성 설정들이 유효해야 한다.</p>
@@ -185,7 +184,7 @@ int pthread_setattr_default_np(pthread_attr_t *attr);
 <h2 id="versions">VERSIONS</h2>
 <p>glibc 버전 2.18부터 이 함수들이 사용 가능하다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -204,9 +203,9 @@ int pthread_setattr_default_np(pthread_attr_t *attr);
 </table>
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>이 함수들은 비표준 GNU 확장이다. 그래서 이름 뒤에 "_np"(nonportable: 이식성 없음)가 붙어 있다.</p>
-<h2 id="example">EXAMPLE</h2>
+<h2 id="examples">EXAMPLES</h2>
 <p>아래 프로그램에서는 <code>pthread_getattr_default_np()</code>를 사용해 기본 스레드 생성 속성들을 가져온 다음 반환받은 스레드 속성 객체의 여러 설정들을 표시한다. 프로그램 실행 시 다음 출력을 보게 된다.</p>
-<pre><code class="text">$ ./a.out
+<pre><code class="language-text">$ ./a.out
 Stack size:         8388608
 Guard size:         4096
 Scheduling policy:  SCHED_OTHER
@@ -214,9 +213,8 @@ Schduling priority: 0
 Detach state:       JOINABLE
 Inherit scheduler:  INHERIT
 </code></pre>
-
 <h3 id="_1">프로그램 소스</h3>
-<pre><code class="c">#define _GNU_SOURCE
+<pre><code class="language-c">#define _GNU_SOURCE
 #include &lt;pthread.h&gt;
 #include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
@@ -292,11 +290,10 @@ main(int argc, char *argv[])
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[pthread_attr_getaffinity_np(3)]]</tt>, <tt>[[pthread_attr_getdetachstate(3)]]</tt>, <tt>[[pthread_attr_getguardsize(3)]]</tt>, <tt>[[pthread_attr_getinheritsched(3)]]</tt>, <tt>[[pthread_attr_getschedparam(3)]]</tt>, <tt>[[pthread_attr_getschedpolicy(3)]]</tt>, <tt>[[pthread_attr_getscope(3)]]</tt>, <tt>[[pthread_attr_getstack(3)]]</tt>, <tt>[[pthread_attr_getstackaddr(3)]]</tt>, <tt>[[pthread_attr_getstacksize(3)]]</tt>, <tt>[[pthread_attr_init(3)]]</tt>, <tt>[[pthread_create(3)]]</tt>, <tt>[[pthreads(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/pthread_attr_getaffinity_np(3)/">pthread_attr_getaffinity_np(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_getdetachstate(3)/">pthread_attr_getdetachstate(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_getguardsize(3)/">pthread_attr_getguardsize(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_getinheritsched(3)/">pthread_attr_getinheritsched(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_getschedparam(3)/">pthread_attr_getschedparam(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_getschedpolicy(3)/">pthread_attr_getschedpolicy(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_getscope(3)/">pthread_attr_getscope(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_getstack(3)/">pthread_attr_getstack(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_getstackaddr(3)/">pthread_attr_getstackaddr(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_getstacksize(3)/">pthread_attr_getstacksize(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_init(3)/">pthread_attr_init(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_create(3)/">pthread_create(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthreads(7)/">pthreads(7)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/strtoull(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/strtoull%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Strtoull(3) - man-pages-ko</title>
+    <title>strtoull(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -143,7 +143,7 @@
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
@@ -152,26 +152,25 @@
 <h2 id="name">NAME</h2>
 <p>strtoul, strtoull, strtouq - 문자열을 부호 없는 long 정수로 변환하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;stdlib.h&gt;
+<pre><code class="language-c">#include &lt;stdlib.h&gt;
 
-unsigned long int strtoul(const char *nptr, char **endptr, int base);
-
-unsigned long long int strtoull(const char *nptr, char **endptr,
-                                int base);
+unsigned long strtoul(const char *restrict nptr,
+                      char **restrict endptr, int base);
+unsigned long long strtoull(const char *restrict nptr,
+                      char **restrict endptr, int base);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>strtoull()</code>:</dt>
 <dd><code>_ISOC99_SOURCE</code><br>
-<code>|| /* glibc 버전 &lt;= 2.19: */ _SVID_SOURCE || _BSD_SOURCE</code></dd>
+<code>|| /* glibc &lt;= 2.19: */ _SVID_SOURCE || _BSD_SOURCE</code></dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>strtoul()</code> 함수는 <code>nptr</code>에 있는 문자열의 처음 부분을 지정한 <code>base</code>에 따라 <code>unsigned long int</code> 값으로 변환한다. 기수는 2와 36 사이이거나 특수한 값 0이어야 한다.</p>
+<p><code>strtoul()</code> 함수는 <code>nptr</code>에 있는 문자열의 처음 부분을 지정한 <code>base</code>에 따라 <code>unsigned long</code> 값으로 변환한다. 기수는 2와 36 사이이거나 특수한 값 0이어야 한다.</p>
 <p>문자열이 임의 개수의 공백(<code>isspace(3)</code>으로 판단)으로 시작할 수 있으며 그 다음에 선택적으로 '+' 내지 '-' 부호 한 개가 올 수 있다. <code>base</code>가 0이나 16이면 문자열에서 다음에 "0x" 접두부가 있을 수 있으며, 그러면 수를 16진수로 읽어 들인다. 그렇지 않고 다음 문자가 '0'이면 <code>base</code> 0을 8로 (8진수로) 받아들이며, 아니면 10으로 (10진수로) 받아들인다.</p>
-<p>문자열 나머지를 명백한 방식으로 <code>unsigned long int</code> 값으로 변환하며 해당 기수에서 유효 숫자가 아닌 첫 번째 문자에서 멈춘다. (기수가 10보다 큰 경우 대소문자 글자 'A'가 10을, 'B'가 11을 나타내며, 그런 식으로 'Z'가 35를 나타낸다.)</p>
+<p>문자열 나머지를 명백한 방식으로 <code>unsigned long</code> 값으로 변환하며 해당 기수에서 유효 숫자가 아닌 첫 번째 문자에서 멈춘다. (기수가 10보다 큰 경우 대소문자 글자 'A'가 10을, 'B'가 11을 나타내며, 그런 식으로 'Z'가 35를 나타낸다.)</p>
 <p><code>endptr</code>이 NULL이 아니면 <code>strtoul()</code>은 첫 번째 비유효 문자의 주소를 <code>*endptr</code>에 저장한다. 숫자가 전혀 없었으면 <code>strtoul()</code>은 <code>nptr</code>의 원래 값을 <code>*endptr</code>에 저장한다. (그리고 0을 반환한다.) 특히 <code>*nptr</code>이 '\0'이 아닌데 반환 시 <code>**endptr</code>이 '\0'이면 문자열 전체가 유효한 것이다.</p>
-<p><code>strtoull()</code> 함수는 <code>strtoul()</code> 함수처럼 동작하되 <code>unsigned long long int</code> 값을 반환한다.</p>
+<p><code>strtoull()</code> 함수는 <code>strtoul()</code> 함수처럼 동작하되 <code>unsigned long long</code> 값을 반환한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>원래 값이 오버플로우 되지 않으면 <code>strtoul()</code> 함수는 변환 결과를, 또는 앞에 음수 부호가 있었으면 부호 없는 값으로 표현한 변환 결과의 반수를 반환한다. 오버플로우가 일어나면 <code>strtoul()</code>은 <code>ULONG_MAX</code>를 반환하며 <code>errno</code>를 <code>ERANGE</code>로 설정한다. 같은 내용이 <code>strtoull()</code>에 (<code>ULONG_MAX</code> 대신 <code>ULLONG_MAX</code>로) 적용된다.</p>
 <h2 id="errors">ERRORS</h2>
@@ -183,7 +182,7 @@ unsigned long long int strtoull(const char *nptr, char **endptr,
 </dl>
 <p>구현에서 변환을 전혀 수행하지 않은 경우에 (숫자 없음, 0 반환) <code>errno</code>를 <code>EINVAL</code>로 설정할 수도 있다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -207,17 +206,16 @@ unsigned long long int strtoull(const char *nptr, char **endptr,
 <p><code>strtoul()</code>이 성공과 실패 어느 쪽에서도 적법하게 0이나 <code>ULONG_MAX</code>를 (<code>strtoull()</code>에선 <code>ULLONG_MAX</code>) 반환할 수 있으므로 호출 프로그램에서는 호출 전에 <code>errno</code>를 0으로 설정하고서 호출 후에 <code>errno</code>가 0 아닌 값인지 검사해서 오류가 발생했는지 확인해야 한다.</p>
 <p>"C" 외의 로캘에서 다른 숫자 문자열들을 받아들일 수도 있다. (예를 들어 현재 로캘의 천 단위 구분자를 지원할 수도 있다.)</p>
 <p>BSD에는 완전히 유사하게 정의된 다음 함수가 있다.</p>
-<pre><code class="c">u_quad_t strtouq(const char *nptr, char **endptr, int base);
+<pre><code class="language-c">u_quad_t strtouq(const char *nptr, char **endptr, int base);
 </code></pre>
-
 <p>현재 아키텍처의 워드 크기에 따라 <code>strtoull()</code>이나 <code>strtoul()</code>과 동등할 수 있다.</p>
-<p>음수 값을 유효한 것으로 보아 조용히 동등한 <code>unsigned long int</code> 값으로 변환한다.</p>
-<h2 id="example">EXAMPLE</h2>
-<p><tt>[[strtol(3)]]</tt> 매뉴얼 페이지의 예를 참고하라. 이 매뉴얼 페이지에서 기술하는 함수들과 사용 방식이 비슷하다.</p>
+<p>음수 값을 유효한 것으로 보아 조용히 동등한 <code>unsigned long</code> 값으로 변환한다.</p>
+<h2 id="examples">EXAMPLES</h2>
+<p><tt><a class="wikilink" href="/man-pages-ko/strtol(3)/">strtol(3)</a></tt> 매뉴얼 페이지의 예를 참고하라. 이 매뉴얼 페이지에서 기술하는 함수들과 사용 방식이 비슷하다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>a64l(3)</code>, <tt>[[atof(3)]]</tt>, <tt>[[atoi(3)]]</tt>, <tt>[[atol(3)]]</tt>, <tt>[[strtod(3)]]</tt>, <tt>[[strtol(3)]]</tt>, <tt>[[strtoumax(3)]]</tt></p>
+<p><code>a64l(3)</code>, <tt><a class="wikilink" href="/man-pages-ko/atof(3)/">atof(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/atoi(3)/">atoi(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/atol(3)/">atol(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/strtod(3)/">strtod(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/strtol(3)/">strtol(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/strtoumax(3)/">strtoumax(3)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

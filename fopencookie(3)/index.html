@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/fopencookie(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/fopencookie%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Fopencookie(3) - man-pages-ko</title>
+    <title>fopencookie(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -141,7 +141,7 @@
         <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
             <li class="second-level"><a href="#_1">프로그램 소스</a></li>
                 
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
@@ -152,15 +152,14 @@
 <h2 id="name">NAME</h2>
 <p>fopencookie - 맞춤형 스트림 열기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
+<pre><code class="language-c">#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
 #include &lt;stdio.h&gt;
 
-FILE *fopencookie(void *cookie, const char *mode,
+FILE *fopencookie(void *restrict cookie, const char *restrict mode,
                   cookie_io_functions_t io_funcs);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
-<p><code>fopencookie()</code> 함수를 통해 프로그래머가 표준 I/O 스트림의 맞춤형 구현을 만들 수 있다. 그 구현에서는 원하는 위치에 스트림의 데이터를 저장할 수 있다. 예를 들어 메모리 내 버퍼에 저장된 데이터에 대해 스트림 인터페이스를 제공하는 <tt>[[fmemopen(3)]]</tt>을 구현하는 데 <code>fopencookie()</code>가 쓰인다.</p>
+<p><code>fopencookie()</code> 함수를 통해 프로그래머가 표준 I/O 스트림의 맞춤형 구현을 만들 수 있다. 그 구현에서는 원하는 위치에 스트림의 데이터를 저장할 수 있다. 예를 들어 메모리 내 버퍼에 저장된 데이터에 대해 스트림 인터페이스를 제공하는 <tt><a class="wikilink" href="/man-pages-ko/fmemopen(3)/">fmemopen(3)</a></tt>을 구현하는 데 <code>fopencookie()</code>가 쓰인다.</p>
 <p>맞춤형 스트림을 만들려면 프로그래머가 다음을 해 주어야 한다.</p>
 <ul>
 <li>
@@ -173,18 +172,17 @@ FILE *fopencookie(void *cookie, const char *mode,
 <p><code>fopencookie()</code>를 호출해 새 스트림을 열고 스트림에 쿠키와 훅 함수를 연계한다.</p>
 </li>
 </ul>
-<p><code>fopencookie()</code> 함수는 <tt>[[fopen(3)]]</tt>과 비슷한 역할을 한다. 즉 새 스트림을 열고 그 스트림 조작 시 사용할 <code>FILE</code> 객체에 대한 포인터를 반환한다.</p>
+<p><code>fopencookie()</code> 함수는 <tt><a class="wikilink" href="/man-pages-ko/fopen(3)/">fopen(3)</a></tt>과 비슷한 역할을 한다. 즉 새 스트림을 열고 그 스트림 조작 시 사용할 <code>FILE</code> 객체에 대한 포인터를 반환한다.</p>
 <p><code>cookie</code> 인자는 호출자의 쿠키 자료 구조에 대한 포인터이며 새 스트림에 연계된다. 표준 I/O 라이브러리에서 아래 기술하는 훅 함수들을 호출할 때 이 포인터를 첫 번째 인자로 제공한다.</p>
-<p><code>mode</code> 인자는 <tt>[[fopen(3)]]</tt>에서와 같은 역할을 한다. 지원하는 모드는 <code>r</code>, <code>w</code>, <code>a</code>, <code>r+</code>, <code>w+</code>, <code>a+</code>이다. 자세한 내용은 <tt>[[fopen(3)]]</tt>을 보라.</p>
+<p><code>mode</code> 인자는 <tt><a class="wikilink" href="/man-pages-ko/fopen(3)/">fopen(3)</a></tt>에서와 같은 역할을 한다. 지원하는 모드는 <code>r</code>, <code>w</code>, <code>a</code>, <code>r+</code>, <code>w+</code>, <code>a+</code>이다. 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/fopen(3)/">fopen(3)</a></tt>을 보라.</p>
 <p><code>io_funcs</code> 인자는 스트림 구현을 위해 프로그래머가 정의한 훅 함수들을 가리키는 필드 네 개가 담긴 구조체이다. 이 구조체는 다음과 같이 정의돼 있다.</p>
-<pre><code class="c">typedef struct {
+<pre><code class="language-c">typedef struct {
     cookie_read_function_t  *read;
     cookie_write_function_t *write;
     cookie_seek_function_t  *seek;
     cookie_close_function_t *close;
 } cookie_io_functions_t;
 </code></pre>
-
 <p>네 필드는 다음과 같다.</p>
 <dl>
 <dt><code>cookie_read_function_t *read</code></dt>
@@ -233,7 +231,7 @@ FILE *fopencookie(void *cookie, const char *mode,
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 <code>fopencookie()</code>는 새 스트림에 대한 포인터를 반환한다. 오류 시 NULL을 반환한다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -252,18 +250,17 @@ FILE *fopencookie(void *cookie, const char *mode,
 </table>
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>이 함수는 비표준 GNU 확장이다.</p>
-<h2 id="example">EXAMPLE</h2>
-<p>아래 프로그램에서는 <tt>[[fmemopen(3)]]</tt>을 통해 사용 가능한 것과 기능이 비슷한 (하지만 동일하지는 않은) 맞춤형 스트림을 구현한다. 즉 메모리 버퍼에 데이터를 저장하는 스트림을 구현한다. 프로그램에서 명령행 인자들을 스트림으로 써넣은 다음 스트림을 탐색하며 다섯 글자마다 두 글자씩을 읽어서 표준 출력에 쓴다. 다음 셸 세션이 프로그램 사용 방식을 보여 준다.</p>
-<pre><code class="text">$ ./a.out 'hello world'
+<h2 id="examples">EXAMPLES</h2>
+<p>아래 프로그램에서는 <tt><a class="wikilink" href="/man-pages-ko/fmemopen(3)/">fmemopen(3)</a></tt>을 통해 사용 가능한 것과 기능이 비슷한 (하지만 동일하지는 않은) 맞춤형 스트림을 구현한다. 즉 메모리 버퍼에 데이터를 저장하는 스트림을 구현한다. 프로그램에서 명령행 인자들을 스트림으로 써넣은 다음 스트림을 탐색하며 다섯 글자마다 두 글자씩을 읽어서 표준 출력에 쓴다. 다음 셸 세션이 프로그램 사용 방식을 보여 준다.</p>
+<pre><code class="language-text">$ ./a.out 'hello world'
 /he/
 / w/
 /d/
 Reached end of file
 </code></pre>
-
 <p>참고로 아래 프로그램을 더 범용적으로 만들려면 다양한 오류 상황들(가령 스트림 여는 데 사용한 쿠키로 다른 스트림 열기, 이미 닫힌 스트림 닫기)을 견고하게 다루도록 개선할 수 있을 것이다.</p>
 <h3 id="_1">프로그램 소스</h3>
-<pre><code class="c">#define _GNU_SOURCE
+<pre><code class="language-c">#define _GNU_SOURCE
 #include &lt;sys/types.h&gt;
 #include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
@@ -285,7 +282,7 @@ memfile_write(void *c, const char *buf, size_t size)
     char *new_buff;
     struct memfile_cookie *cookie = c;
 
-    /* 버퍼 부족? 충분히 커질 때까지 두 배씩 키우기 */
+    /* 버퍼 부족? 충분히 커질 때까지 두 배씩 키우기. */
 
     while (size + cookie-&gt;offset &gt; cookie-&gt;allocated) {
         new_buff = realloc(cookie-&gt;buf, cookie-&gt;allocated * 2);
@@ -312,7 +309,7 @@ memfile_read(void *c, char *buf, size_t size)
     ssize_t xbytes;
     struct memfile_cookie *cookie = c;
 
-    /* 요청 바이트와 가용 바이트 중 작은 쪽 가져오기 */
+    /* 요청 바이트와 가용 바이트 중 작은 쪽 가져오기. */
 
     xbytes = size;
     if (cookie-&gt;offset + size &gt; cookie-&gt;endpos)
@@ -372,12 +369,10 @@ main(int argc, char *argv[])
     };
     FILE *stream;
     struct memfile_cookie mycookie;
-    ssize_t nread;
-    long p;
-    int j;
+    size_t nread;
     char buf[1000];
 
-    /* 쿠키 준비하고 fopencookie() 호출 */
+    /* 쿠키 준비하고 fopencookie() 호출하기. */
 
     mycookie.buf = malloc(INIT_BUF_SIZE);
     if (mycookie.buf == NULL) {
@@ -389,48 +384,47 @@ main(int argc, char *argv[])
     mycookie.offset = 0;
     mycookie.endpos = 0;
 
-    stream = fopencookie(&amp;mycookie,&quot;w+&quot;, memfile_func);
+    stream = fopencookie(&amp;mycookie, &quot;w+&quot;, memfile_func);
     if (stream == NULL) {
         perror(&quot;fopencookie&quot;);
         exit(EXIT_FAILURE);
     }
 
-    /* 명령행 인자를 우리 파일로 기록 */
+    /* 명령행 인자를 우리 파일로 기록하기. */
 
-    for (j = 1; j &lt; argc; j++)
+    for (int j = 1; j &lt; argc; j++)
         if (fputs(argv[j], stream) == EOF) {
             perror(&quot;fputs&quot;);
             exit(EXIT_FAILURE);
         }
 
-    /* EOF 전까지 다섯 바이트마다 두 바이트씩 읽기 */
+    /* EOF 전까지 다섯 바이트마다 두 바이트씩 읽기. */
 
-    for (p = 0; ; p += 5) {
+    for (long p = 0; ; p += 5) {
         if (fseek(stream, p, SEEK_SET) == -1) {
             perror(&quot;fseek&quot;);
             exit(EXIT_FAILURE);
         }
         nread = fread(buf, 1, 2, stream);
-        if (nread == -1) {
-            perror(&quot;fread&quot;);
-            exit(EXIT_FAILURE);
-        }
         if (nread == 0) {
+            if (ferror(stream) != 0) {
+                fprintf(stderr, &quot;fread failed\n&quot;);
+                exit(EXIT_FAILURE);
+            }
             printf(&quot;Reached end of file\n&quot;);
             break;
         }
 
-        printf(&quot;/%.*s/\n&quot;, nread, buf);
+        printf(&quot;/%.*s/\n&quot;, (int) nread, buf);
     }
 
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[fclose(3)]]</tt>, <tt>[[fmemopen(3)]]</tt>, <tt>[[fopen(3)]]</tt>, <code>fseek(3)</code></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/fclose(3)/">fclose(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fmemopen(3)/">fmemopen(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fopen(3)/">fopen(3)</a></tt>, <code>fseek(3)</code></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

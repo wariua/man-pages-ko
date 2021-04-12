@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/memmem(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/memmem%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Memmem(3) - man-pages-ko</title>
+    <title>memmem(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -150,19 +150,18 @@
 <h2 id="name">NAME</h2>
 <p>memmem - 부분열 위치 찾기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
+<pre><code class="language-c">#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
 #include &lt;string.h&gt;
 
 void *memmem(const void *haystack, size_t haystacklen,
              const void *needle, size_t needlelen);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>memmem()</code> 함수는 길이 <code>haystacklen</code>인 메모리 영역 <code>haystack</code>에서 처음 등장하는 길이 <code>needlelen</code>인 부분열 <code>needle</code>의 시작점을 찾는다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p><code>memmem()</code> 함수는 그 부분열 시작점에 대한 포인터를 반환한다. 부분열을 찾지 못하면 NULL을 반환한다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -184,9 +183,9 @@ void *memmem(const void *haystack, size_t haystacklen,
 <h2 id="bugs">BUGS</h2>
 <p>glibc 2.0에서는 <code>needle</code>이 비어 있으면 <code>memmem()</code>이 <code>haystack</code>의 마지막 바이트에 대한 포인터를 반환한다. glibc 2.1에서 고쳐졌다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[bstring(3)]]</tt>, <code>strstr(3)</code></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/bstring(3)/">bstring(3)</a></tt>, <code>strstr(3)</code></p>
 <hr />
-<p>2017-03-13</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

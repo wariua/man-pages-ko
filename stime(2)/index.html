@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/stime(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/stime%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Stime(2) - man-pages-ko</title>
+    <title>stime(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -141,6 +141,7 @@
         <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
         <li class="first-level "><a href="#errors">ERRORS</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
@@ -149,12 +150,11 @@
 <h2 id="name">NAME</h2>
 <p>stime - 시간 설정하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;time.h&gt;
+<pre><code class="language-c">#include &lt;time.h&gt;
 
 int stime(const time_t *t);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>stime()</code>:</dt>
 <dd>
@@ -167,9 +167,10 @@ int stime(const time_t *t);
 </dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
+<p><strong>주의</strong>: 이 함수는 제거 예정이다. 대신 <tt><a class="wikilink" href="/man-pages-ko/clock_settime(2)/">clock_settime(2)</a></tt>을 사용하라.</p>
 <p><code>stime()</code>은 시스템의 시간 및 날짜 개념을 설정한다. <code>t</code>가 가리키는 시간은 에포크 1970-01-01 00:00:00 +0000 (UTC) 이후의 초로 측정한다. 수퍼유저만 <code>stime()</code>을 실행할 수 있다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 0을 반환한다. 오류 시 -1을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<p>성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EFAULT</code></dt>
@@ -179,10 +180,12 @@ int stime(const time_t *t);
 </dl>
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>SVr4.</p>
+<h2 id="notes">NOTES</h2>
+<p>glibc 2.31부터 새로 링크하는 응용에서 이 함수를 더 이상 사용할 수 없으며 <code>&lt;time.h&gt;</code>에 더 이상 함수가 선언돼 있지 않다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>date(1)</code>, <tt>[[settimeofday(2)]]</tt>, <tt>[[capabilities(7)]]</tt></p>
+<p><code>date(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/settimeofday(2)/">settimeofday(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/capabilities(7)/">capabilities(7)</a></tt></p>
 <hr />
-<p>2016-03-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

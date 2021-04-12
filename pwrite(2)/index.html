@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pwrite(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pwrite%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Pwrite(2) - man-pages-ko</title>
+    <title>pwrite(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -154,14 +154,12 @@
 <h2 id="name">NAME</h2>
 <p>pread, pwrite - 파일 디스크립터의 지정한 오프셋에서 읽거나 쓰기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;unistd.h&gt;
+<pre><code class="language-c">#include &lt;unistd.h&gt;
 
 ssize_t pread(int fd, void *buf, size_t count, off_t offset);
-
 ssize_t pwrite(int fd, const void *buf, size_t count, off_t offset);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>pread()</code>, <code>pwrite()</code>:</dt>
 <dd><code>_XOPEN_SOURCE &gt;= 500</code><br>
@@ -174,24 +172,24 @@ ssize_t pwrite(int fd, const void *buf, size_t count, off_t offset);
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 <code>pread()</code>는 읽어 들인 바이트 수(0은 파일 끝 표시)를 반환하고 <code>pwrite()</code>는 기록한 바이트 수를 반환한다.</p>
 <p>성공한 호출에서 요청보다 적은 바이트를 이동한 것이 오류가 아니라는 점에 유의하라. (<code>read(2)</code> 및 <code>write(2)</code> 참고.)</p>
-<p>오류 시 -1을 반환하며 오류 원인을 나타내도록 <code>errno</code>를 설정한다.</p>
+<p>오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
-<p><code>pread()</code>는 <code>read(2)</code>나 <tt>[[lseek(2)]]</tt>에 명세된 오류로 실패하여 <code>errno</code>를 설정할 수 있다. <code>pwrite()</code>는 <code>write(2)</code>나 <tt>[[lseek(2)]]</tt>에 명세된 오류로 실패하여 <code>errno</code>를 설정할 수 있다.</p>
+<p><code>pread()</code>는 <code>read(2)</code>나 <tt><a class="wikilink" href="/man-pages-ko/lseek(2)/">lseek(2)</a></tt>에 명세된 오류로 실패하여 <code>errno</code>를 설정할 수 있다. <code>pwrite()</code>는 <code>write(2)</code>나 <tt><a class="wikilink" href="/man-pages-ko/lseek(2)/">lseek(2)</a></tt>에 명세된 오류로 실패하여 <code>errno</code>를 설정할 수 있다.</p>
 <h2 id="versions">VERSIONS</h2>
-<p>리눅스 버전 2.1.60에서 <code>pread()</code> 및 <code>pwrite()</code> 시스템 호출이 추가되었다. 그리고 2.1.69에서 i386 시스템 호출 테이블에 항목이 추가되었다. glibc 2.1에서 C 라이브러리 지원(시스템 호출이 없는 구식 커널에서 <tt>[[lseek(2)]]</tt>을 이용한 에뮬레이션 포함)이 추가되었다.</p>
+<p>리눅스 버전 2.1.60에서 <code>pread()</code> 및 <code>pwrite()</code> 시스템 호출이 추가되었다. 그리고 2.1.69에서 i386 시스템 호출 테이블에 항목이 추가되었다. glibc 2.1에서 C 라이브러리 지원(시스템 호출이 없는 구식 커널에서 <tt><a class="wikilink" href="/man-pages-ko/lseek(2)/">lseek(2)</a></tt>을 이용한 에뮬레이션 포함)이 추가되었다.</p>
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008.</p>
 <h2 id="notes">NOTES</h2>
 <p><code>pread()</code> 및 <code>pwrite()</code> 시스템 호출은 다중 스레드 응용에서 특히 유용하다. 이를 통해 다른 스레드가 파일 오프셋을 바꾸는 것에 영향을 받지 않으면서 여러 스레드가 같은 파일 디스크립터에서 I/O를 수행할 수 있다.</p>
 <h3 id="c">C 라이브러리/커널 차이</h3>
 <p>리눅스 커널 2.6에서 기반 시스템 호출의 이름이 바뀌었다. <code>pread()</code>가 <code>pread64()</code>가 되고 <code>pwrite()</code>가 <code>pwrite64()</code>가 되었다. 시스템 호출 번호는 동일하게 유지되었다. glibc의 <code>pread()</code> 및 <code>pwrite()</code> 래퍼 함수에서 이 변경 사항을 투명하게 처리해 준다.</p>
-<p><tt>[[syscall(2)]]</tt>에서 설명하는 이유들 때문에 일부 32비트 아키텍처에서는 이 시스템 호출들의 호출 시그너처가 다르다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/syscall(2)/">syscall(2)</a></tt>에서 설명하는 이유들 때문에 일부 32비트 아키텍처에서는 이 시스템 호출들의 호출 시그너처가 다르다.</p>
 <h2 id="bugs">BUGS</h2>
 <p>POSIX에서는 파일을 <code>O_APPEND</code> 플래그로 여는 것이 <code>pwrite()</code>에서 데이터를 기록하는 위치에 어떤 영향도 주지 않아야 한다고 요구한다. 하지만 리눅스에서는 파일을 <code>O_APPEND</code>로 열면 <code>offset</code> 값과 상관없이 <code>pwrite()</code>가 파일 끝에 데이터를 덧붙인다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[lseek(2)]]</tt>, <code>read(2)</code>, <tt>[[readv(2)]]</tt>, <code>write(2)</code></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/lseek(2)/">lseek(2)</a></tt>, <code>read(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/readv(2)/">readv(2)</a></tt>, <code>write(2)</code></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

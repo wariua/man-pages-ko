@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/aio_suspend(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/aio_suspend%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Aio suspend(3) - man-pages-ko</title>
+    <title>aio_suspend(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -153,12 +153,11 @@
 <h2 id="name">NAME</h2>
 <p>aio_suspend - 비동기 I/O 동작 또는 타임아웃 기다리기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;aio.h&gt;
+<pre><code class="language-c">#include &lt;aio.h&gt;
 
-int aio_suspend(const struct aiocb * const aiocb_list[],
-                int nitems, const struct timespec *timeout);
+int aio_suspend(const struct aiocb *const aiocb_list[], int nitems,
+                const struct timespec *restrict timeout);
 </code></pre>
-
 <p><code>-lrt</code>로 링크.</p>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>aio_suspend()</code> 함수는 다음 중 한 경우가 발생할 때까지 호출 스레드를 중지한다.</p>
@@ -170,11 +169,11 @@ int aio_suspend(const struct aiocb * const aiocb_list[],
 <p>시그널이 전달된다.</p>
 </li>
 <li>
-<p><code>timeout</code>이 NULL이 아니고 거기 지정한 시간이 지났다. (<code>timespec</code> 구조체에 대한 자세한 내용은 <tt>[[nanosleep(2)]]</tt> 참고.)</p>
+<p><code>timeout</code>이 NULL이 아니고 거기 지정한 시간이 지났다. (<code>timespec</code> 구조체에 대한 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/nanosleep(2)/">nanosleep(2)</a></tt> 참고.)</p>
 </li>
 </ul>
-<p><code>nitems</code> 인자는 <code>aiocb_list</code> 내 항목 개수를 나타낸다. <code>aiocb_list</code>가 가리키는 목록의 각 항목은 NULL이거나 (그러면 무시함) <tt>[[aio_read(3)]]</tt>, <tt>[[aio_write(3)]]</tt>, <tt>[[lio_listio(3)]]</tt>로 개시한 I/O의 제어 블록에 대한 포인터여야 한다. (<code>aiocb</code> 구조체에 대한 설명은 <tt>[[aio(7)]]</tt> 참고.)</p>
-<p><code>CLOCK_MONOTONIC</code>이 지원되면 그 클럭을 타임아웃 시간 측정에 사용한다. (<tt>[[clock_gettime(3)]]</tt> 참고.)</p>
+<p><code>nitems</code> 인자는 <code>aiocb_list</code> 내 항목 개수를 나타낸다. <code>aiocb_list</code>가 가리키는 목록의 각 항목은 NULL이거나 (그러면 무시함) <tt><a class="wikilink" href="/man-pages-ko/aio_read(3)/">aio_read(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/aio_write(3)/">aio_write(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/lio_listio(3)/">lio_listio(3)</a></tt>로 개시한 I/O의 제어 블록에 대한 포인터여야 한다. (<code>aiocb</code> 구조체에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/aio(7)/">aio(7)</a></tt> 참고.)</p>
+<p><code>CLOCK_MONOTONIC</code>이 지원되면 그 클럭을 타임아웃 시간 측정에 사용한다. (<tt><a class="wikilink" href="/man-pages-ko/clock_gettime(2)/">clock_gettime(2)</a></tt> 참고.)</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p><code>aiocb_list</code>에 지정한 I/O 요청들 중 하나가 완료된 후 이 함수가 반환하는 경우에는 0을 반환한다. 아니면 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
@@ -182,14 +181,14 @@ int aio_suspend(const struct aiocb * const aiocb_list[],
 <dt><code>EAGAIN</code></dt>
 <dd>지정한 동작 하나라도 완료되기 전에 호출이 타임아웃 되었다.</dd>
 <dt><code>EINTR</code></dt>
-<dd>시그널로 호출이 끝났다. (기다리던 동작들 중 하나의 완료 알림일 수도 있다.) <tt>[[signal(7)]]</tt> 참고.</dd>
+<dd>시그널로 호출이 끝났다. (기다리던 동작들 중 하나의 완료 알림일 수도 있다.) <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt> 참고.</dd>
 <dt><code>ENOSYS</code></dt>
 <dd><code>aio_suspend()</code>가 구현돼 있지 않다.</dd>
 </dl>
 <h2 id="versions">VERSIONS</h2>
 <p>glibc 2.1부터 <code>aio_suspend()</code> 함수가 사용 가능하다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -208,16 +207,17 @@ int aio_suspend(const struct aiocb * const aiocb_list[],
 </table>
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008.</p>
+<p>POSIX에서는 매개변수가 <code>restrict</code>여야 한다고 명세하고 있지 않다. glibc 한정이다.</p>
 <h2 id="notes">NOTES</h2>
 <p>NULL 아닌 <code>timeout</code>에 시간을 0으로 지정하면 폴링이 가능하다.</p>
 <p><code>aio_suspend()</code> 호출 시점에 <code>aiocb_list</code>에 지정한 비동기 I/O 동작이 하나 이상 이미 완료되어 있었던 경우에는 호출이 즉시 반환한다.</p>
-<p><code>aio_suspend()</code>가 성공적으로 반환한 다음에 어느 I/O 동작이 완료됐는지 알려면 <code>aiocb_list</code>가 가리키는 <code>aiocb</code> 구조체 목록을 <tt>[[aio_error(3)]]</tt>로 탐색하면 된다.</p>
+<p><code>aio_suspend()</code>가 성공적으로 반환한 다음에 어느 I/O 동작이 완료됐는지 알려면 <code>aiocb_list</code>가 가리키는 <code>aiocb</code> 구조체 목록을 <tt><a class="wikilink" href="/man-pages-ko/aio_error(3)/">aio_error(3)</a></tt>로 탐색하면 된다.</p>
 <h2 id="bugs">BUGS</h2>
 <p>glibc의 <code>aio_suspend()</code> 구현은 비동기 시그널 안전이 아니며, 이는 POSIX.1의 요구 사항 위반이다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[aio_cancel(3)]]</tt>, <tt>[[aio_error(3)]]</tt>, <tt>[[aio_fsync(3)]]</tt>, <tt>[[aio_read(3)]]</tt>, <tt>[[aio_return(3)]]</tt>, <tt>[[aio_write(3)]]</tt>, <tt>[[lio_listio(3)]]</tt>, <tt>[[aio(7)]]</tt>, <tt>[[time(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/aio_cancel(3)/">aio_cancel(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/aio_error(3)/">aio_error(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/aio_fsync(3)/">aio_fsync(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/aio_read(3)/">aio_read(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/aio_return(3)/">aio_return(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/aio_write(3)/">aio_write(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/lio_listio(3)/">lio_listio(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/aio(7)/">aio(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/time(7)/">time(7)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

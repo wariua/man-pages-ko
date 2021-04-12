@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/lsearch(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/lsearch%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Lsearch(3) - man-pages-ko</title>
+    <title>lsearch(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -150,22 +150,21 @@
 <h2 id="name">NAME</h2>
 <p>lfind, lsearch - 배열 순차 탐색</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;search.h&gt;
+<pre><code class="language-c">#include &lt;search.h&gt;
 
 void *lfind(const void *key, const void *base, size_t *nmemb,
-         size_t size, int*(compar)(const void *, const void *));
+            size_t size, int(*compar)(const void *, const void *));
 
 void *lsearch(const void *key, void *base, size_t *nmemb,
-         size_t size, int(*compar)(const void *, const void *));
+            size_t size, int(*compar)(const void *, const void *));
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>lfind()</code>와 <code>lsearch()</code>는 각 <code>size</code> 바이트인 <code>*nmemb</code> 개 항목의 배열 <code>base</code>에서 <code>key</code>에 대해 순차 탐색을 수행한다. <code>compar</code>가 가리키는 비교 함수에는 두 인자가 있어서 차례로 <code>key</code> 객체와 배열 항목을 가리키게 돼 있으며, <code>key</code> 객체가 배열 항목과 일치하면 0을 반환하고 아니면 0 아닌 값을 반환한다.</p>
 <p><code>lsearch()</code>에서 일치 항목을 찾지 못하면 테이블 끝에 <code>key</code> 객체를 삽입하고 <code>*nmemb</code>를 증가시킨다. 일치 항목이 확실히 존재하든지 아니면 여유 공간이 있든지 해야 한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p><code>lfind()</code>는 일치하는 배열 항목에 대한 포인터를 반환하며 일치 항목이 없으면 NULL을 반환한다. <code>lsearch()</code>는 일치하는 배열 항목에 대한 포인터를 반환하며 일치 항목이 없으면 새로 추가한 항목에 대한 포인터를 반환한다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -187,9 +186,9 @@ void *lsearch(const void *key, void *base, size_t *nmemb,
 <h2 id="bugs">BUGS</h2>
 <p>이름이 적절치 않다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[bsearch(3)]]</tt>, <tt>[[hsearch(3)]]</tt>, <tt>[[tsearch(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/bsearch(3)/">bsearch(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/hsearch(3)/">hsearch(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/tsearch(3)/">tsearch(3)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

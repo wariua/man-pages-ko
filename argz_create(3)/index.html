@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/argz_create(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/argz_create%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Argz create(3) - man-pages-ko</title>
+    <title>argz_create(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -150,43 +150,47 @@
 <h2 id="name">NAME</h2>
 <p>argz_add, argz_add_sep, argz_append, argz_count, argz_create, argz_create_sep, argz_delete, argz_extract, argz_insert, argz_next, argz_replace, argz_stringify - argz 목록을 다루는 함수들</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;argz.h&gt;
+<pre><code class="language-c">#include &lt;argz.h&gt;
 
-error_t argz_add(char **argz, size_t *argz_len, const char *str);
+error_t argz_add(char **restrict argz, size_t *restrict argz_len,
+                const char *restrict str);
 
-error_t argz_add_sep(char **argz, size_t *argz_len,
-                     const char *str, int delim);
+error_t argz_add_sep(char **restrict argz, size_t *restritc argz_len,
+                const char *restrict str, int delim);
 
-error_t argz_append(char **argz, size_t *argz_len,
-                    const char *buf, size_t buf_len);
+error_t argz_append(char **restrict argz, size_t *restrict argz_len,
+                const char *restrict buf, size_t buf_len);
 
 size_t argz_count(const char *argz, size_t argz_len);
 
-error_t argz_create(char * const argv[], char **argz,
-                    size_t *argz_len);
+error_t argz_create(char *const argv[], char **restrict argz,
+                size_t *restrict argz_len);
 
-error_t argz_create_sep(const char *str, int sep, char **argz,
-                        size_t *argz_len);
+error_t argz_create_sep(const char *restrit str, int sep,
+                char **restrict argz, size_t *restrict argz_len);
 
-void argz_delete(char **argz, size_t *argz_len, char *entry);
+void argz_delete(char **restrict argz, size_t *restrict argz_len,
+                char *restrict entry);
 
-void argz_extract(const char *argz, size_t argz_len, char **argv);
+void argz_extract(const char *restrict argz, size_t argz_len,
+                char **restrict argv);
 
-error_t argz_insert(char **argz, size_t *argz_len, char *before,
-                    const char *entry);
+error_t argz_insert(char **restrict argz, size_t *restrict argz_len,
+                char *restrict before, const char *restrict entry);
 
-char *argz_next(const char *argz, size_t argz_len, const char *entry);
+char *argz_next(const char *restrict argz, size_t argz_len,
+                const char *restrict entry);
 
-error_t argz_replace(char **argz, size_t *argz_len, const char *str,
-                     const char *with, unsigned int *replace_count);
+error_t argz_replace(char **restrict argz, size_t *restrict argz_len,
+                const char *restrict str, const char *restrict with,
+                unsigned int *restrict replace_count);
 
 void argz_stringify(char *argz, size_t len, int sep);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p>이 함수들은 glibc 전용이다.</p>
 <p>argz 벡터는 문자 버퍼에 대한 포인터에 길이가 함께 있는 것이다. 문자 버퍼는 문자열의 배열로 해석하게 되어 있으며 널 바이트(<code>'\0'</code>)로 그 문자열들을 구분한다. 길이가 0이 아닌 경우 버퍼의 마지막 바이트가 널 바이트여야 한다.</p>
-<p>이 함수들은 argz 벡터를 다루기 위한 것이다. (NULL,0) 쌍 역시 argz 벡터이며, 역으로 길이 0인 argz 벡터는 포인터가 널이어야 한다. 비어 있지 않은 argz 벡터를 할당하는 것은 <tt>[[malloc(3)]]</tt>으로 이뤄지며, 따라서 <tt>[[free(3)]]</tt>를 이용해 다시 없앨 수 있다.</p>
+<p>이 함수들은 argz 벡터를 다루기 위한 것이다. (NULL,0) 쌍 역시 argz 벡터이며, 역으로 길이 0인 argz 벡터는 포인터가 널이어야 한다. 비어 있지 않은 argz 벡터를 할당하는 것은 <tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt>으로 이뤄지며, 따라서 <tt><a class="wikilink" href="/man-pages-ko/free(3)/">free(3)</a></tt>를 이용해 다시 없앨 수 있다.</p>
 <p><code>argz_add()</code>는 배열 <code>*argz</code> 끝에 문자열 <code>str</code>을 추가하고 <code>*argz</code>와 <code>*argz_len</code>을 갱신한다.</p>
 <p><code>argz_add_sep()</code>도 비슷하되 문자열 <code>str</code>을 구분자 <code>delim</code>으로 나눠지는 하위 문자열들로 쪼갠다. 예를 들어 유닉스 검색 경로에 구분자 ':'로 이 함수를 쓸 수 있을 것이다.</p>
 <p><code>argz_append()</code>는 argz 벡터 (<code>*argz</code>, <code>*argz_len</code>) 뒤에 (<code>buf</code>, <code>buf_len</code>)을 덧붙이고 <code>*argz</code>와 <code>*argz_len</code>을 갱신한다. (그래서 <code>*argz_len</code>이 <code>buf_len</code>만큼 커지게 된다.)</p>
@@ -200,9 +204,9 @@ void argz_stringify(char *argz, size_t len, int sep);
 <p><code>argz_replace()</code>는 각 <code>str</code>을 <code>with</code>로 교체하며 필요한 대로 argz를 재할당한다. <code>replace_count</code>가 NULL이 아니면 교체 횟수만큼 <code>*replace_count</code>를 올린다.</p>
 <p><code>argz_stringify()</code>는 <code>argz_create_sep()</code>의 반대이다. 마지막을 뺀 모든 널 바이트(<code>'\0'</code>)를 <code>sep</code>으로 교체해서 argz 벡터를 보통 문자열로 변환한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>메모리 할당을 하는 argz 함수들은 모두 반환 타입이 <code>error_t</code>이며, 성공 시 0을 반환하고 할당 오류 발생 시 <code>ENOMEM</code>을 반환한다.</p>
+<p>메모리 할당을 하는 argz 함수들은 모두 반환 타입이 <code>error_t</code>(정수 타입)이며, 성공 시 0을 반환하고 할당 오류 발생 시 <code>ENOMEM</code>을 반환한다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -213,20 +217,20 @@ void argz_stringify(char *argz, size_t len, int sep);
 </thead>
 <tbody>
 <tr>
-<td><code>argz_add()</code>, <code>argz_add_sep()</code>,<br><code>argz_append()</code>, <code>argz_count()</code>,<br><code>argz_create()</code>, <code>argz_create_sep()</code>,<br><code>argz_delete()</code>, <code>argz_extract()</code>,<br><code>argz_insert()</code>, <code>argz_next()</code>,<br><code>argz_replace()</code>, <code>argz_stringify()</code></td>
+<td><code>argz_add()</code>, <code>argz_add_sep()</code>, <code>argz_append()</code>,<br><code>argz_count()</code>, <code>argz_create()</code>, <code>argz_create_sep()</code>,<br><code>argz_delete()</code>, <code>argz_extract()</code>, <code>argz_insert()</code>,<br><code>argz_next()</code>, <code>argz_replace()</code>, <code>argz_stringify()</code></td>
 <td>스레드 안전성</td>
 <td>MT-Safe</td>
 </tr>
 </tbody>
 </table>
 <h2 id="conforming-to">CONFORMING TO</h2>
-<p>이 함수들은 GNU 확장이다. 조심해서 써야 한다.</p>
+<p>이 함수들은 GNU 확장이다.</p>
 <h2 id="bugs">BUGS</h2>
 <p>종료용 널 바이트가 없는 argz 벡터가 세그멘테이션 폴트로 이어질 수 있다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[envz_add(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/envz_add(3)/">envz_add(3)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

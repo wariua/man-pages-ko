@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_attr_destroy(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_attr_destroy%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Pthread attr destroy(3) - man-pages-ko</title>
+    <title>pthread_attr_destroy(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -143,7 +143,7 @@
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
             <li class="second-level"><a href="#_1">프로그램 소스</a></li>
                 
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
@@ -154,15 +154,14 @@
 <h2 id="name">NAME</h2>
 <p>pthread_attr_init, pthread_attr_destroy - 스레드 속성 객체 초기화 및 파기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;pthread.h&gt;
+<pre><code class="language-c">#include &lt;pthread.h&gt;
 
 int pthread_attr_init(pthread_attr_t *attr);
 int pthread_attr_destroy(pthread_attr_t *attr);
 </code></pre>
-
 <p><code>-pthread</code>로 컴파일 및 링크.</p>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>pthread_attr_init()</code> 함수는 <code>attr</code>이 가리키는 스레드 속성 객체를 기본 속성 값들로 초기화 한다. 이 호출 다음에 (SEE ALSO에 나열된) 여러 관련 함수들을 써서 객체의 개별 속성을 설정할 수 있으며, 그러고 나서 그 객체를 스레드를 생성하는 <tt>[[pthread_create(3)]]</tt> 호출에 한 번 또는 그 이상 사용할 수 있다.</p>
+<p><code>pthread_attr_init()</code> 함수는 <code>attr</code>이 가리키는 스레드 속성 객체를 기본 속성 값들로 초기화 한다. 이 호출 다음에 (SEE ALSO에 나열된) 여러 관련 함수들을 써서 객체의 개별 속성을 설정할 수 있으며, 그러고 나서 그 객체를 스레드를 생성하는 <tt><a class="wikilink" href="/man-pages-ko/pthread_create(3)/">pthread_create(3)</a></tt> 호출에 한 번 또는 그 이상 사용할 수 있다.</p>
 <p>이미 초기화 된 스레드 속성 객체에 <code>pthread_attr_init()</code>을 호출하는 결과는 규정되어 있지 않다.</p>
 <p>스레드 속성 객체가 더는 필요치 않으면 <code>pthread_attr_destroy()</code> 함수를 이용해 파기해야 한다. 스레드 속성 객체 파기는 그 객체로 생성된 스레드에 어떤 영향도 주지 않는다.</p>
 <p>스레드 속성 객체를 파기하고 나면 <code>pthread_attr_init()</code>으로 다시 초기화 할 수 있다. 파기된 스레드 속성 객체를 그 외 어떤 방식으로든 쓰는 결과는 규정되어 있지 않다.</p>
@@ -171,7 +170,7 @@ int pthread_attr_destroy(pthread_attr_t *attr);
 <h2 id="errors">ERRORS</h2>
 <p>POSIX.1에서는 <code>pthread_attr_init()</code>에 <code>ENOMEM</code> 오류도 적고 있다. 리눅스에서는 이 함수들이 항상 성공한다. (그렇기는 하지만 이식 가능하고 미래를 대비하는 응용에서는 가능한 오류 반환을 처리해야 할 것이다.)</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -182,7 +181,7 @@ int pthread_attr_destroy(pthread_attr_t *attr);
 </thead>
 <tbody>
 <tr>
-<td><code>pthread_attr_init()</code>,<br><code>pthread_attr_destroy()</code></td>
+<td><code>pthread_attr_init()</code>, <code>pthread_attr_destroy()</code></td>
 <td>스레드 안전성</td>
 <td>MT-Safe</td>
 </tr>
@@ -192,10 +191,10 @@ int pthread_attr_destroy(pthread_attr_t *attr);
 <p>POSIX.1-2001, POSIX.1-2008.</p>
 <h2 id="notes">NOTES</h2>
 <p><code>pthread_attr_t</code> 타입을 불투명한 것으로 취급해야 한다. pthreads 함수를 통하지 않은 방식으로 객체에 접근하는 것은 이식성이 없으며 규정되지 않은 결과를 유발한다.</p>
-<h2 id="example">EXAMPLE</h2>
-<p>아래 프로그램에서는 선택적으로 <code>pthread_attr_init()</code>과 여러 관련 함수들을 이용해 스레드 속성 객체를 초기화하고 스레드 한 개를 생성한다. 생성된 스레드는 <tt>[[pthread_getattr_np(3)]]</tt> 함수(비표준 GNU 확장)로 스레드의 속성을 얻어 와서 그 속성들을 표시한다.</p>
-<p>명령행 인자 없이 프로그램을 실행하면 <tt>[[pthread_create(3)]]</tt>의 <code>attr</code> 인자로 NULL을 전달하며, 그래서 기본 속성으로 스레드를 생성한다. NPTL 스레딩 구현이 있는 리눅스/x86-32에서 프로그램을 돌리면 다음과 같이 나온다.</p>
-<pre><code class="text">$ ulimit -s       # 스택 제한 없음 ==&gt; 기본 스택 크기 2MB
+<h2 id="examples">EXAMPLES</h2>
+<p>아래 프로그램에서는 선택적으로 <code>pthread_attr_init()</code>과 여러 관련 함수들을 이용해 스레드 속성 객체를 초기화하고 스레드 한 개를 생성한다. 생성된 스레드는 <tt><a class="wikilink" href="/man-pages-ko/pthread_getattr_np(3)/">pthread_getattr_np(3)</a></tt> 함수(비표준 GNU 확장)로 스레드의 속성을 얻어 와서 그 속성들을 표시한다.</p>
+<p>명령행 인자 없이 프로그램을 실행하면 <tt><a class="wikilink" href="/man-pages-ko/pthread_create(3)/">pthread_create(3)</a></tt>의 <code>attr</code> 인자로 NULL을 전달하며, 그래서 기본 속성으로 스레드를 생성한다. NPTL 스레딩 구현이 있는 리눅스/x86-32에서 프로그램을 돌리면 다음과 같이 나온다.</p>
+<pre><code class="language-text">$ ulimit -s       # 스택 제한 없음 ==&gt; 기본 스택 크기 2MB
 unlimited
 $ ./a.out
 Thread attributes:
@@ -208,9 +207,8 @@ Thread attributes:
         Stack address       = 0x40196000
         Stack size          = 0x201000 bytes
 </code></pre>
-
-<p>명령행 인자로 스택 크기를 주면 프로그램에서 스레드 속성 객체를 초기화 하고, 그 객체의 여러 속성들을 설정하고, 그 객체에 대한 포인터를 <tt>[[pthread_create(3)]]</tt> 호출에 전달한다. NTPL 스레딩 구현이 있는 리눅스/x86-32에서 프로그램을 돌리면 다음과 같이 나온다.</p>
-<pre><code class="text">$ ./a.out 0x3000000
+<p>명령행 인자로 스택 크기를 주면 프로그램에서 스레드 속성 객체를 초기화 하고, 그 객체의 여러 속성들을 설정하고, 그 객체에 대한 포인터를 <tt><a class="wikilink" href="/man-pages-ko/pthread_create(3)/">pthread_create(3)</a></tt> 호출에 전달한다. NTPL 스레딩 구현이 있는 리눅스/x86-32에서 프로그램을 돌리면 다음과 같이 나온다.</p>
+<pre><code class="language-text">$ ./a.out 0x3000000
 posix_memalign() allocated at 0x40197000
 Thread attributes:
         Detach state        = PTHREAD_CREATE_DETACHED
@@ -222,9 +220,8 @@ Thread attributes:
         Stack address       = 0x40197000
         Stack size          = 0x3000000 bytes
 </code></pre>
-
 <h3 id="_1">프로그램 소스</h3>
-<pre><code class="c">#define _GNU_SOURCE     /* pthread_getattr_np() 선언을 위해 */
+<pre><code class="language-c">#define _GNU_SOURCE     /* pthread_getattr_np() 선언을 위해 */
 #include &lt;pthread.h&gt;
 #include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
@@ -289,7 +286,7 @@ display_pthread_attr(pthread_attr_t *attr, char *prefix)
     if (s != 0)
         handle_error_en(s, &quot;pthread_attr_getstack&quot;);
     printf(&quot;%sStack address       = %p\n&quot;, prefix, stkaddr);
-    printf(&quot;%sStack size          = 0x%zx bytes\n&quot;, prefix, v);
+    printf(&quot;%sStack size          = %#zx bytes\n&quot;, prefix, v);
 }
 
 static void *
@@ -299,7 +296,7 @@ thread_start(void *arg)
     pthread_attr_t gattr;
 
     /* pthread_getattr_np()는 비표준 GNU 확장이며
-       첫 번째 인자에 지정한 스레드의 속성들을 가져옴 */
+       첫 번째 인자에 지정한 스레드의 속성들을 가져온다. */
 
     s = pthread_getattr_np(pthread_self(), &amp;gattr);
     if (s != 0)
@@ -323,10 +320,10 @@ main(int argc, char *argv[])
 
     /* 명령행 인자가 있으면 그 값으로 스택 크기 속성을 설정하고
        다른 몇 가지 스레드 속성들을 설정한 다음 attrp가 그
-       스레드 속성 객체를 가리키도록 설정 */
+       스레드 속성 객체를 가리키도록 설정한다. */
 
     if (argc &gt; 1) {
-        int stack_size;
+        size_t stack_size;
         void *sp;
 
         attrp = &amp;attr;
@@ -369,11 +366,10 @@ main(int argc, char *argv[])
     pause();    /* 다른 스레드에서 exit() 호출할 때 종료 */
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[pthread_attr_setaffinity_np(3)]]</tt>, <tt>[[pthread_attr_setdetachstate(3)]]</tt>, <tt>[[pthread_attr_setguardsize(3)]]</tt>, <tt>[[pthread_attr_setinheritsched(3)]]</tt>, <tt>[[pthread_attr_setschedparam(3)]]</tt>, <tt>[[pthread_attr_setschedpolicy(3)]]</tt>, <tt>[[pthread_attr_setscope(3)]]</tt>, <tt>[[pthread_attr_setstack(3)]]</tt>, <tt>[[pthread_attr_setstackaddr(3)]]</tt>, <tt>[[pthread_attr_setstacksize(3)]]</tt>, <tt>[[pthread_create(3)]]</tt>, <tt>[[pthread_getattr_np(3)]]</tt>, <tt>[[pthread_setattr_default_np(3)]]</tt>, <tt>[[pthreads(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setaffinity_np(3)/">pthread_attr_setaffinity_np(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setdetachstate(3)/">pthread_attr_setdetachstate(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setguardsize(3)/">pthread_attr_setguardsize(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setinheritsched(3)/">pthread_attr_setinheritsched(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setschedparam(3)/">pthread_attr_setschedparam(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setschedpolicy(3)/">pthread_attr_setschedpolicy(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setscope(3)/">pthread_attr_setscope(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setsigmask_np(3)/">pthread_attr_setsigmask_np(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setstack(3)/">pthread_attr_setstack(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setstackaddr(3)/">pthread_attr_setstackaddr(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setstacksize(3)/">pthread_attr_setstacksize(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_create(3)/">pthread_create(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_getattr_np(3)/">pthread_getattr_np(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_setattr_default_np(3)/">pthread_setattr_default_np(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthreads(7)/">pthreads(7)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

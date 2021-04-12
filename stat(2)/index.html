@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/stat(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/stat%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Stat(2) - man-pages-ko</title>
+    <title>stat(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -151,7 +151,7 @@
                 
             <li class="second-level"><a href="#c">C 라이브러리/커널 차이</a></li>
                 
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
@@ -160,28 +160,28 @@
 <h2 id="name">NAME</h2>
 <p>stat, fstat, lstat, fstatat - 파일 상태 정보 얻기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;sys/types.h&gt;
+<pre><code class="language-c">#include &lt;sys/types.h&gt;
 #include &lt;sys/stat.h&gt;
-#include &lt;unistd.h&gt;
 
-int stat(const char *pathname, struct stat *statbuf);
+int stat(const char *restrict pathname,
+         struct stat *restrict statbuf);
 int fstat(int fd, struct stat *statbuf);
-int lstat(const char *pathname, struct stat *statbuf);
+int lstat(const char *restrict pathname,
+         struct stat *restrict statbuf);
 
 #include &lt;fcntl.h&gt;           /* AT_* 상수 정의 */
 #include &lt;sys/stat.h&gt;
 
-int fstatat(int dirfd, const char *pathname, struct stat *statbuf,
-            int flags);
+int fstatat(int dirfd, const char *restrict pathname,
+         struct stat *restrict statbuf, int flags);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>lstat()</code>:</dt>
-<dd><code>/* glibc 2.19 및 이전: */ _BSD_SOURCE</code><br>
-<code>|| /* glibc 2.20부터 */ _DEFAULT_SOURCE</code><br>
+<dd><code>/* glibc 2.20부터 */ _DEFAULT_SOURCE</code><br>
 <code>|| _XOPEN_SOURCE &gt;= 500</code><br>
-<code>|| /* glibc 2.10부터: */ _POSIX_C_SOURCE &gt;= 200112L</code></dd>
+<code>|| /* glibc 2.10부터: */ _POSIX_C_SOURCE &gt;= 200112L</code><br>
+<code>|| /* glibc 2.19 및 이전: */ _BSD_SOURCE</code></dd>
 <dt><code>fstatat()</code>:</dt>
 <dd>
 <dl>
@@ -195,11 +195,11 @@ int fstatat(int dirfd, const char *pathname, struct stat *statbuf,
 <h2 id="description">DESCRIPTION</h2>
 <p>이 함수들은 파일에 대한 정보를 <code>statbuf</code>가 가리키는 버퍼로 반환한다. 그 파일 자체에 대해선 어떤 권한도 필요치 않지만 (<code>stat()</code>, <code>fstatat()</code>, <code>lstat()</code>에서는) <code>pathname</code>에서 그 파일까지 이어지는 디렉터리 모두에 대해 실행(탐색) 권한이 필요하다.</p>
 <p><code>stat()</code>과 <code>fstatat()</code>은 <code>pathname</code>이 가리키는 파일에 대한 정보를 가져온다. <code>fstatat()</code>의 차이점을 아래에서 설명한다.</p>
-<p><code>lstat()</code>은 <code>stat()</code>과 동일하되 <code>pathname</code>이 심볼릭 링크인 경우에는 대상 파일이 아니라 링크 자체에 대한 정보를 반환한다.</p>
+<p><code>lstat()</code>은 <code>stat()</code>과 동일하되 <code>pathname</code>이 심볼릭 링크인 경우에는 링크가 가리키는 파일이 아니라 링크 자체에 대한 정보를 반환한다.</p>
 <p><code>fstat()</code>은 <code>stat()</code>과 동일하되 어떤 파일에 대한 정보를 가져올지를 파일 디스크립터 <code>fd</code>로 지정한다.</p>
 <h3 id="stat"><code>stat</code> 구조체</h3>
 <p>이 시스템 호출들은 모두 <code>stat</code> 구조체를 반환하는데, 이는 다음 필드들을 담고 있다.</p>
-<pre><code class="c">struct stat {
+<pre><code class="language-c">struct stat {
     dev_t     st_dev;         /* 파일을 담은 장치의 ID */
     ino_t     st_ino;         /* 아이노드 번호 */
     mode_t    st_mode;        /* 파일 종류 및 모드 */
@@ -224,17 +224,16 @@ int fstatat(int dirfd, const char *pathname, struct stat *statbuf,
 #define st_ctime st_ctim.tv_sec
 };
 </code></pre>
-
 <p><em>주의</em>: <code>stat</code> 구조체 내 필드 순서가 아키텍처에 따라 약간 다르다. 더불어 위 정의에는 여러 아키텍처에서 일부 필드들 사이에 있는 패딩 바이트가 나와 있지 않다. 자세한 내용을 알 필요가 있다면 glibc 및 커널 소스 코드를 확인해 보라.</p>
-<p><em>주의</em>: 성능과 단순성을 위해 <code>stat</code> 구조체의 필드들이 시스템 호출 실행 중의 상이한 시점의 상태 정보를 담을 수 있다. 예를 들어 다른 프로세스에서 <tt>[[chmod(2)]]</tt>나 <tt>[[chown(2)]]</tt>을 호출해서 <code>st_mode</code>나 <code>st_uid</code>를 바꾸는 경우에 <code>stat()</code>이 이전 <code>st_mode</code>와 새 <code>st_uid</code>를 반환할 수도 있고 이전 <code>st_uid</code>와 새 <code>st_mode</code>를 반환할 수도 있다.</p>
+<p><em>주의</em>: 성능과 단순성을 위해 <code>stat</code> 구조체의 필드들이 시스템 호출 실행 중의 상이한 시점의 상태 정보를 담을 수 있다. 예를 들어 다른 프로세스에서 <tt><a class="wikilink" href="/man-pages-ko/chmod(2)/">chmod(2)</a></tt>나 <tt><a class="wikilink" href="/man-pages-ko/chown(2)/">chown(2)</a></tt>을 호출해서 <code>st_mode</code>나 <code>st_uid</code>를 바꾸는 경우에 <code>stat()</code>이 이전 <code>st_mode</code>와 새 <code>st_uid</code>를 반환할 수도 있고 이전 <code>st_uid</code>와 새 <code>st_mode</code>를 반환할 수도 있다.</p>
 <p><code>stat</code> 구조체의 필드는 다음과 같다.</p>
 <dl>
 <dt><code>st_dev</code></dt>
-<dd>이 필드는 이 파일이 위치한 장치를 기술한다. (이 필드의 장치 ID를 분해하는 데 <tt>[[major(3)]]</tt> 및 <tt>[[minor(3)]]</tt> 매크로가 유용할 수 있다.)</dd>
+<dd>이 필드는 이 파일이 위치한 장치를 기술한다. (이 필드의 장치 ID를 분해하는 데 <tt><a class="wikilink" href="/man-pages-ko/major(3)/">major(3)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/minor(3)/">minor(3)</a></tt> 매크로가 유용할 수 있다.)</dd>
 <dt><code>st_ino</code></dt>
 <dd>이 필드는 파일의 아이노드 번호를 담는다.</dd>
 <dt><code>st_mode</code></dt>
-<dd>이 필드는 파일 종류와 모드를 담는다. 자세한 내용은 <tt>[[inode(7)]]</tt> 참고.</dd>
+<dd>이 필드는 파일 종류와 모드를 담는다. 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/inode(7)/">inode(7)</a></tt> 참고.</dd>
 <dt><code>st_nlink</code></dt>
 <dd>이 필드는 파일에 대한 하드 링크 수를 담는다.</dd>
 <dt><code>st_uid</code></dt>
@@ -250,13 +249,13 @@ int fstatat(int dirfd, const char *pathname, struct stat *statbuf,
 <dt><code>st_blocks</code></dt>
 <dd>이 필드는 파일에 할당된 512바이트 단위 블록 수를 나타낸다. (파일에 구멍이 있을 때는 <code>st_size</code>/512보다 작을 수도 있다.</dd>
 <dt><code>st_atime</code></dt>
-<dd>파일의 최근 접근 타임스탬프다.</dd>
+<dd>파일 데이터의 최근 접근 시간이다.</dd>
 <dt><code>st_mtime</code></dt>
-<dd>파일의 최근 수정 타임스탬프다.</dd>
+<dd>파일 데이터의 최근 수정 시간이다.</dd>
 <dt><code>st_ctime</code></dt>
-<dd>파일의 최근 상태 변경 타임스탬프다.</dd>
+<dd>파일의 최근 상태 변경 타임스탬프(아이노드 최근 변경 시간)이다.</dd>
 </dl>
-<p>위 필드들에 대한 더 자세한 내용은 <tt>[[inode(7)]]</tt>를 보라.</p>
+<p>위 필드들에 대한 더 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/inode(7)/">inode(7)</a></tt>를 보라.</p>
 <h3 id="fstatat"><code>fstatat()</code></h3>
 <p><code>fstatat()</code> 시스템 호출은 파일 정보에 접근하기 위한 범용적 인터페이스로 <code>stat()</code>, <code>lstat()</code>, <code>fstat()</code> 각각의 동작 방식까지 정확하게 제공할 수 있다.</p>
 <p><code>pathname</code>에 준 경로명이 상대 경로이면 (상대 경로명에 대해 <code>stat()</code> 및 <code>lstat()</code>에서 하듯 호출 프로세스의 현재 작업 디렉터리를 기준으로 하는 게 아니라) 파일 디스크립터 <code>dirfd</code>가 가리키는 디렉터리를 기준으로 경로명을 해석한다.</p>
@@ -265,19 +264,24 @@ int fstatat(int dirfd, const char *pathname, struct stat *statbuf,
 <p><code>flags</code>는 0일 수도 있고 다음 플래그를 1개 이상 OR 해서 담을 수도 있다.</p>
 <dl>
 <dt><code>AT_EMPTY_PATH</code> (리눅스 2.6.39부터)</dt>
-<dd><code>pathname</code>이 빈 문자열이면 (<tt>[[open(2)]]</tt> <code>O_PATH</code> 플래그로 얻은 것일 수도 있는) <code>dirfd</code>가 가리키는 파일에 대해 동작한다. 이 경우에 <code>dirfd</code>는 디렉터리만이 아니라 임의 종류의 파일을 가리킬 수 있으며 <code>fstatat()</code>의 동작 방식은 <code>fstat()</code>과 비슷하다. <code>dirfd</code>가 <code>AT_FDCWD</code>이면 현재 작업 디렉터리에 대해 호출이 동작한다. 이 플래그는 리눅스 전용이다. 이 정의를 얻으려면 <code>_GNU_SOURCE</code>를 정의해야 한다.</dd>
+<dd><code>pathname</code>이 빈 문자열이면 (<tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt> <code>O_PATH</code> 플래그로 얻은 것일 수도 있는) <code>dirfd</code>가 가리키는 파일에 대해 동작한다. 이 경우에 <code>dirfd</code>는 디렉터리만이 아니라 임의 종류의 파일을 가리킬 수 있으며 <code>fstatat()</code>의 동작 방식은 <code>fstat()</code>과 비슷하다. <code>dirfd</code>가 <code>AT_FDCWD</code>이면 현재 작업 디렉터리에 대해 호출이 동작한다. 이 플래그는 리눅스 전용이다. 이 정의를 얻으려면 <code>_GNU_SOURCE</code>를 정의해야 한다.</dd>
 <dt><code>AT_NO_AUTOMOUNT</code> (리눅스 2.6.38부터)</dt>
-<dd><code>pathname</code>의 마지막 요소("basename")가 자동 마운트 지점인 디렉터리인 경우에 자동 마운트를 하지 않는다. 이를 통해 (마운트 될 위치가 아니라) 자동 마운트 지점의 속성들을 호출자가 얻을 수 있다. 또한 리눅스 4.14부터는 automounter 간접 맵 등에 쓰이는 on-demand 디렉터리에 실재하지 않는 이름을 만들어 내지 않는다. 디렉터리들을 훑는 도구들에서 이 플래그를 사용해서 자동 마운트 지점인 디렉터리를 잔뜩 자동 마운트 하는 걸 방지할 수 있다. 마운트 지점에 이미 마운트가 됐으면 <code>AT_NO_AUTOMOUNT</code> 플래그에 아무 효력이 없다. 이 플래그는 리눅스 전용이다. 이 정의를 얻으려면 <code>_GNU_SOURCE</code>를 정의해야 한다. <code>stat()</code>과 <code>lstat()</code> 모두 <code>AT_NO_AUTOMOUNT</code>가 설정된 것처럼 동작한다.</dd>
+<dd>
+<p><code>pathname</code>의 마지막 요소("basename")가 자동 마운트 지점인 디렉터리인 경우에 자동 마운트를 하지 않는다. 이를 통해 (마운트 될 위치가 아니라) 자동 마운트 지점의 속성들을 호출자가 얻을 수 있다. 또한 리눅스 4.14부터는 automounter 간접 맵 등에 쓰이는 on-demand 디렉터리에 실재하지 않는 이름을 만들어 내지 않는다. 마운트 지점에 이미 마운트가 됐으면 이 플래그가 아무 효력이 없다.</p>
+<p><code>stat()</code>과 <code>lstat()</code> 모두 <code>AT_NO_AUTOMOUNT</code>가 설정된 것처럼 동작한다.</p>
+<p>디렉터리들을 훑는 도구들에서 <code>AT_NO_AUTOMOUNT</code> 플래그를 사용해서 자동 마운트 지점인 디렉터리를 잔뜩 자동 마운트 하는 걸 방지할 수 있다.</p>
+<p>이 플래그는 리눅스 전용이다. 그 정의를 얻으려면 <code>_GNU_SOURCE</code>를 정의해야 한다.</p>
+</dd>
 <dt><code>AT_SYMLINK_NOFOLLOW</code></dt>
 <dd><code>pathname</code>이 심볼릭 링크인 경우 역참조를 하지 않는다. 대신 <code>lstat()</code>처럼 링크 자체에 대한 정보를 반환한다. (기본적으로 <code>fstatat()</code>은 <code>stat()</code>처럼 심볼릭 링크를 역참조 한다.)</dd>
 </dl>
-<p><code>fstatat()</code>의 필요성에 대한 설명은 <tt>[[openat(2)]]</tt>을 보라.</p>
+<p><code>fstatat()</code>의 필요성에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/openat(2)/">openat(2)</a></tt>을 보라.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 0을 반환한다. 오류 시 -1을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<p>성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EACCES</code></dt>
-<dd><code>pathname</code>의 경로 선두부의 한 디렉터리에 대해 탐색 권한이 거부되었다. (<tt>[[path_resolution(7)]]</tt> 참고.)</dd>
+<dd><code>pathname</code>의 경로 선두부의 한 디렉터리에 대해 탐색 권한이 거부되었다. (<tt><a class="wikilink" href="/man-pages-ko/path_resolution(7)/">path_resolution(7)</a></tt> 참고.)</dd>
 <dt><code>EBADF</code></dt>
 <dd><code>fd</code>가 유효한 열린 파일 디스크립터가 아니다.</dd>
 <dt><code>EFAULT</code></dt>
@@ -331,10 +335,11 @@ int fstatat(int dirfd, const char *pathname, struct stat *statbuf,
 <p>glibc의 <code>stat()</code> 래퍼 함수에서 이런 세부 사항을 응용에게 감춰 주고 커널이 제공하는 가장 최신 버전의 시스템 호출을 부르며 구식 바이너리를 위해 필요한 경우 반환된 정보를 다시 포장해 준다.</p>
 <p>최신 64비트 시스템에서는 간단하다. <code>stat()</code> 시스템 호출이 하나만 있고 커널에서는 필드 크기가 충분히 큰 <code>stat</code> 구조체를 사용한다.</p>
 <p>glibc의 <code>fstatat()</code> 래퍼 함수에서 이용하는 기반 시스템 호출의 실제 이름이 <code>fstatat64()</code>이고 일부 아키텍처에서는 <code>newfstatat()</code>이다.</p>
-<h2 id="example">EXAMPLE</h2>
+<h2 id="examples">EXAMPLES</h2>
 <p>다음 프로그램에서는 <code>lstat()</code>을 호출해서 반환된 <code>stat</code> 구조체의 주요 필드들을 표시한다.</p>
-<pre><code class="c">#include &lt;sys/types.h&gt;
+<pre><code class="language-c">#include &lt;sys/types.h&gt;
 #include &lt;sys/stat.h&gt;
+#include &lt;stdint.h&gt;
 #include &lt;time.h&gt;
 #include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
@@ -355,8 +360,9 @@ main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    printf(&quot;ID of containing device:  [%lx,%lx]\n&quot;,
-         (long) major(sb.st_dev), (long) minor(sb.st_dev));
+    printf(&quot;ID of containing device:  [%jx,%jx]\n&quot;,
+            (uintmax_t) major(sb.st_dev),
+            (uintmax_t) minor(sb.st_dev));
 
     printf(&quot;File type:                &quot;);
 
@@ -371,21 +377,21 @@ main(int argc, char *argv[])
     default:       printf(&quot;unknown?\n&quot;);                break;
     }
 
-    printf(&quot;I-node number:            %ld\n&quot;, (long) sb.st_ino);
+    printf(&quot;I-node number:            %ju\n&quot;, (uintmax_t) sb.st_ino);
 
-    printf(&quot;Mode:                     %lo (octal)\n&quot;,
-            (unsigned long) sb.st_mode);
+    printf(&quot;Mode:                     %jo (octal)\n&quot;,
+            (uintmax_t) sb.st_mode);
 
-    printf(&quot;Link count:               %ld\n&quot;, (long) sb.st_nlink);
-    printf(&quot;Ownership:                UID=%ld   GID=%ld\n&quot;,
-            (long) sb.st_uid, (long) sb.st_gid);
+    printf(&quot;Link count:               %ju\n&quot;, (uintmax_t) sb.st_nlink);
+    printf(&quot;Ownership:                UID=%ju   GID=%ju\n&quot;,
+            (uintmax_t) sb.st_uid, (uintmax_t) sb.st_gid);
 
-    printf(&quot;Preferred I/O block size: %ld bytes\n&quot;,
-            (long) sb.st_blksize);
-    printf(&quot;File size:                %lld bytes\n&quot;,
-            (long long) sb.st_size);
-    printf(&quot;Blocks allocated:         %lld\n&quot;,
-            (long long) sb.st_blocks);
+    printf(&quot;Preferred I/O block size: %jd bytes\n&quot;,
+            (intmax_t) sb.st_blksize);
+    printf(&quot;File size:                %jd bytes\n&quot;,
+            (intmax_t) sb.st_size);
+    printf(&quot;Blocks allocated:         %jd\n&quot;,
+            (intmax_t) sb.st_blocks);
 
     printf(&quot;Last status change:       %s&quot;, ctime(&amp;sb.st_ctime));
     printf(&quot;Last file access:         %s&quot;, ctime(&amp;sb.st_atime));
@@ -394,11 +400,10 @@ main(int argc, char *argv[])
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>ls(1)</code>, <code>stat(1)</code>, <tt>[[access(2)]]</tt>, <tt>[[chmod(2)]]</tt>, <tt>[[chown(2)]]</tt>, <tt>[[readlink(2)]]</tt>, <tt>[[statx(2)]]</tt>, <tt>[[utime(2)]]</tt>, <tt>[[capabilities(7)]]</tt>, <tt>[[inode(7)]]</tt>, <tt>[[symlink(7)]]</tt></p>
+<p><code>ls(1)</code>, <code>stat(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/access(2)/">access(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/chmod(2)/">chmod(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/chown(2)/">chown(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/readlink(2)/">readlink(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/statx(2)/">statx(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/utime(2)/">utime(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/capabilities(7)/">capabilities(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/inode(7)/">inode(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/symlink(7)/">symlink(7)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

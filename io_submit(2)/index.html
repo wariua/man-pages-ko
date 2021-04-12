@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/io_submit(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/io_submit%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Io submit(2) - man-pages-ko</title>
+    <title>io_submit(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -151,16 +151,16 @@
 <h2 id="name">NAME</h2>
 <p>io_submit - 비동기 I/O 처리 요청 제출하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;linux/aio_abi.h&gt;          /* 필요한 타입 정의 */
+<pre><code class="language-c">#include &lt;linux/aio_abi.h&gt;          /* 필요한 타입 정의 */
 
 int io_submit(aio_context_t ctx_id, long nr, struct iocb **iocbpp);
 </code></pre>
-
 <p><em>주의</em>: 이 시스템 호출에 대한 glibc 래퍼가 없다. NOTES 참고.</p>
 <h2 id="description">DESCRIPTION</h2>
+<p><em>주의</em>: 이 페이지에선 리눅스 시스템 호출 인터페이스를 설명한다. <code>libaio</code>에서 제공하는 래퍼 함수에서는 <code>ctx_id</code> 인자에 다른 타입을 쓴다. NOTES 참고.</p>
 <p><code>io_submit()</code> 시스템 호출은 AIO 문맥 <code>ctx_id</code>에서 처리 큐에 <code>nr</code> 개 I/O 요청 블록을 넣는다. <code>iocbpp</code> 인자는 <code>nr</code> 개 AIO 제어 블록의 배열이어야 하며 이를 문맥 <code>ctx_id</code>로 제출하게 된다.</p>
 <p><code>linux/aio_abi.h</code>에 정의돼 있는 <code>iocb</code>(I/O 제어 블록) 구조체에 I/O 동작을 제어하는 매개변수들이 있다.</p>
-<pre><code class="c">#define &lt;linux/aio_abi.h&gt;
+<pre><code class="language-c">#define &lt;linux/aio_abi.h&gt;
 
 struct iocb {
     __u64   aio_data;
@@ -176,11 +176,10 @@ struct iocb {
     __u32   aio_resfd;
 };
 </code></pre>
-
 <p>이 구조체의 필드들은 다음과 같다.</p>
 <dl>
 <dt><code>aio_data</code></dt>
-<dd>I/O 완료 시 이 데이터가 <code>io_event</code> 구조체의 <code>data</code> 필드로 복사된다. (<tt>[[io_getevents(2)]]</tt> 참고.)</dd>
+<dd>I/O 완료 시 이 데이터가 <code>io_event</code> 구조체의 <code>data</code> 필드로 복사된다. (<tt><a class="wikilink" href="/man-pages-ko/io_getevents(2)/">io_getevents(2)</a></tt> 참고.)</dd>
 <dt><code>aio_key</code></dt>
 <dd>커널 내부용 필드이다. <code>io_submit()</code> 호출 후에 이 필드를 변경하지 말 것.</dd>
 <dt><code>aio_rw_flags</code></dt>
@@ -188,15 +187,15 @@ struct iocb {
 <p>구조체와 함께 전달하는 읽기/쓰기 플래그들이다. 유효한 값은 다음과 같다.</p>
 <dl>
 <dt><code>RWF_APPEND</code> (리눅스 4.16부터)</dt>
-<dd>파일 끝에 데이터를 덧붙임. <tt>[[pwritev2(2)]]</tt>에 있는 같은 이름의 플래그 설명과 <tt>[[open(2)]]</tt>의 <code>O_APPEND</code> 설명 참고.</dd>
-<dt><code>RWF_DSYNC</code> (리눅스 4.7부터)</dt>
-<dd>동기화 I/O 데이터 무결성 요건에 따라 쓰기 동작이 완료됨. <tt>[[pwritev2(2)]]</tt>에 있는 같은 이름의 플래그 설명과 <tt>[[open(2)]]</tt>의 <code>O_DSYNC</code> 설명 참고.</dd>
-<dt><code>RWF_HIPRI</code> (리눅스 4.6부터)</dt>
+<dd>파일 끝에 데이터를 덧붙임. <tt><a class="wikilink" href="/man-pages-ko/pwritev2(2)/">pwritev2(2)</a></tt>에 있는 같은 이름의 플래그 설명과 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>의 <code>O_APPEND</code> 설명 참고.</dd>
+<dt><code>RWF_DSYNC</code> (리눅스 4.13부터)</dt>
+<dd>동기화 I/O 데이터 무결성 요건에 따라 쓰기 동작이 완료됨. <tt><a class="wikilink" href="/man-pages-ko/pwritev2(2)/">pwritev2(2)</a></tt>에 있는 같은 이름의 플래그 설명과 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>의 <code>O_DSYNC</code> 설명 참고.</dd>
+<dt><code>RWF_HIPRI</code> (리눅스 4.13부터)</dt>
 <dd>높은 우선도 요청. 가능하면 폴링.</dd>
 <dt><code>RWF_NOWAIT</code> (리눅스 4.14부터)</dt>
-<dd>커널 내에서 파일 블록 할당이나 변경 페이지 플러싱, 뮤텍스 락 같은 동작이나 혼잡한 블록 장치 때문에 I/O가 블록 되려는 경우에 대기하지 않는다. 이 중 한 조건이라도 해당하면 <code>io_event</code> 구조체의 <code>res</code> 필드에 반환 값 <code>-EAGAIN</code>을 담아서 제어 블록을 즉시 반환한다. (<tt>[[io_getevents(2)]]</tt> 참고.)</dd>
-<dt><code>RWF_SYNC</code> (리눅스 4.7부터)</dt>
-<dd>동기화 I/O 파일 무결성 요건에 따라 쓰기 동작이 완료됨. <tt>[[pwritev2(2)]]</tt>에 있는 같은 이름의 플래그 설명과 <tt>[[open(2)]]</tt>의 <code>O_SYNC</code> 설명 참고.</dd>
+<dd>커널 내에서 파일 블록 할당이나 변경 페이지 플러싱, 뮤텍스 락 같은 동작이나 혼잡한 블록 장치 때문에 I/O가 블록 되려는 경우에 대기하지 않는다. 이 중 한 조건이라도 해당하면 <code>io_event</code> 구조체의 <code>res</code> 필드에 반환 값 <code>-EAGAIN</code>을 담아서 제어 블록을 즉시 반환한다. (<tt><a class="wikilink" href="/man-pages-ko/io_getevents(2)/">io_getevents(2)</a></tt> 참고.)</dd>
+<dt><code>RWF_SYNC</code> (리눅스 4.13부터)</dt>
+<dd>동기화 I/O 파일 무결성 요건에 따라 쓰기 동작이 완료됨. <tt><a class="wikilink" href="/man-pages-ko/pwritev2(2)/">pwritev2(2)</a></tt>에 있는 같은 이름의 플래그 설명과 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>의 <code>O_SYNC</code> 설명 참고.</dd>
 </dl>
 </dd>
 <dt><code>aio_opcode</code></dt>
@@ -205,6 +204,7 @@ struct iocb {
     IOCB_CMD_PWRITE = 1,
     IOCB_CMD_FSYNC = 2,
     IOCB_CMD_FDSYNC = 3,
+    IOCB_CMD_POLL = 5,
     IOCB_CMD_NOOP = 6,
     IOCB_CMD_PREADV = 7,
     IOCB_CMD_PWRITEV = 8,
@@ -256,12 +256,12 @@ struct iocb {
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p><code>io_submit()</code>은 리눅스 전용이므로 이식성이 있어야 하는 프로그램에서는 사용하지 말아야 한다.</p>
 <h2 id="notes">NOTES</h2>
-<p>glibc에서 이 시스템 호출의 래퍼를 제공하지 않는다. <tt>[[syscall(2)]]</tt>을 이용해 호출할 수도 있다. 하지만 아마 그보다는 <code>libaio</code>에서 제공하는 <code>io_submit()</code> 래퍼 함수를 쓰고 싶을 것이다.</p>
-<p>참고로 <code>libaio</code> 래퍼 함수에서는 <code>ctx_id</code> 인자에 다른 타입(<code>io_context_t</code>)을 쓴다. 또한 <code>libaio</code> 래퍼에서는 일반적인 C 라이브러리 오류 표시 관행을 따르지 않는다. 즉 오류 시에 음수 오류 번호를 (ERRORS에 나열된 값들 중 하나의 음수 값을) 반환한다. <tt>[[syscall(2)]]</tt>을 통해 시스템 호출을 부르는 경우에는 반환 값이 일반적인 오류 표시 관행을 따른다. 즉 -1이고 <code>errno</code>에 오류를 나타내는 (양수) 값이 설정된다.</p>
+<p>glibc에서 이 시스템 호출의 래퍼를 제공하지 않는다. <tt><a class="wikilink" href="/man-pages-ko/syscall(2)/">syscall(2)</a></tt>을 이용해 호출할 수도 있다. 하지만 아마 그보다는 <code>libaio</code>에서 제공하는 <code>io_submit()</code> 래퍼 함수를 쓰고 싶을 것이다.</p>
+<p>참고로 <code>libaio</code> 래퍼 함수에서는 <code>ctx_id</code> 인자에 다른 타입(<code>io_context_t</code>)을 쓴다. 또한 <code>libaio</code> 래퍼에서는 일반적인 C 라이브러리 오류 표시 관행을 따르지 않는다. 즉 오류 시에 음수 오류 번호를 (ERRORS에 나열된 값들 중 하나의 음수 값을) 반환한다. <tt><a class="wikilink" href="/man-pages-ko/syscall(2)/">syscall(2)</a></tt>을 통해 시스템 호출을 부르는 경우에는 반환 값이 일반적인 오류 표시 관행을 따른다. 즉 -1이고 <code>errno</code>에 오류를 나타내는 (양수) 값이 설정된다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[io_cancel(2)]]</tt>, <tt>[[io_destroy(2)]]</tt>, <tt>[[io_getevents(2)]]</tt>, <tt>[[io_setup(2)]]</tt>, <tt>[[aio(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/io_cancel(2)/">io_cancel(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/io_destroy(2)/">io_destroy(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/io_getevents(2)/">io_getevents(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/io_setup(2)/">io_setup(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/aio(7)/">aio(7)</a></tt></p>
 <hr />
-<p>2018-04-30</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

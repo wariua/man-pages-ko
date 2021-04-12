@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/strtok(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/strtok%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Strtok(3) - man-pages-ko</title>
+    <title>strtok(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -141,8 +141,9 @@
         <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
         <li class="first-level "><a href="#bugs">BUGS</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
             <li class="second-level"><a href="#_1">프로그램 소스</a></li>
                 
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
@@ -153,18 +154,17 @@
 <h2 id="name">NAME</h2>
 <p>strtok, strtok_r - 문자열에서 토큰 뽑아내기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;string.h&gt;
+<pre><code class="language-c">#include &lt;string.h&gt;
 
-char *strtok(char *str, const char *delim);
-
-char *strtok_r(char *str, const char *delim, char **saveptr);
+char *strtok(char *restrict str, const char *restrict delim);
+char *strtok_r(char *restrict str, const char *restrict delim,
+               char **restrict saveptr);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>strtok_r()</code>:</dt>
 <dd><code>_POSIX_C_SOURCE</code><br>
-<code>|| /* glibc 버전 &lt;= 2.19: */ _BSD_SOURCE || _SVID_SOURCE</code></dd>
+<code>|| /* glibc &lt;= 2.19: */ _BSD_SOURCE || _SVID_SOURCE</code></dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>strtok()</code> 함수는 문자열을 0개 이상의 비어 있지 않은 토큰들의 열로 나눈다. <code>strtok()</code>에 대한 첫 번째 호출에서 분해할 문자열을 <code>str</code>로 지정해야 한다. 같은 문자열을 분해하는 후속 호출 각각에서는 <code>str</code>이 NULL이어야 한다.</p>
@@ -174,12 +174,12 @@ char *strtok_r(char *str, const char *delim, char **saveptr);
 <p>다음 번 구분자 바이트를 찾거나 종료용 널 바이트(<code>'\0'</code>)를 만날 때까지 탐색하여 각 토큰의 끝을 찾는다. 구분자 바이트를 찾으면 널 바이트로 덮어 써서 현재 토큰의 끝을 만든다. 그리고 <code>strtok()</code>에서 그 다음 바이트에 대한 포인터를 저장한다. 다음 토큰을 검색할 때 그 포인터를 시작점으로 사용하게 된다. 이 경우에 <code>strtok()</code>은 발견한 토큰 시작점에 대한 포인터를 반환한다.</p>
 <p>위 설명 내용에 따라서 분해 문자열 내의 연속하는 두 개 이상의 구분자 바이트 열은 한 개의 구분자로 본다. 그리고 문자열 시작이나 끝에 있는 구분자 바이트들은 무시된다. 이를 달리 말하자면, <code>strtok()</code>이 반환하는 토큰은 항상 비어 있지 않은 문자열이다. 그래서 예를 들어 문자열 "<code>aaa::bbb,</code>"가 있을 때 구분자 문자열을 "<code>;,</code>"로 지정해서 <code>strtok()</code>을 연이어 호출하면 문자열 "<code>aaa</code>"와 "<code>bbb</code>", 그리고 널 포인터를 반환할 것이다.</p>
 <p><code>strtok_r()</code> 함수는 <code>strtok()</code>의 재진입 가능 버전이다. <code>saveptr</code> 인자는 <code>char *</code> 변수에 대한 포인터이다. 같은 문자열을 분해하는 연이은 호출들에서 문맥을 유지하기 위해 <code>strtok_r()</code> 내부에서 그 변수를 사용한다.</p>
-<p>첫 번째 <code>strtok_r()</code> 호출에서 <code>str</code>은 분해할 문자열을 가리켜야 하며 <code>saveptr</code>의 값은 무시된다. 후속 호출에서 <code>str</code>은 NULL이어야 하며 <code>saveptr</code>은 이전 호출 이후 바뀌지 않았어야 한다.</p>
+<p>첫 번째 <code>strtok_r()</code> 호출에서 <code>str</code>은 분해할 문자열을 가리켜야 하며 <code>*saveptr</code>의 값은 무시된다. (하지만 NOTES 참고.) 후속 호출에서 <code>str</code>은 NULL이어야 하며 <code>saveptr</code>은 (그리고 가리키는 버퍼는) 이전 호출 이후 바뀌지 않았어야 한다.</p>
 <p><code>saveptr</code> 인자를 다르게 지정한 <code>strtok_r()</code> 호출들을 이용해 여러 문자열을 동시에 분해할 수 있다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p><code>strtok()</code> 및 <code>strtok_r()</code> 함수는 다음 토큰에 대한 포인터를 반환한다. 토큰이 더 없으면 NULL을 반환한다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -208,6 +208,8 @@ char *strtok_r(char *str, const char *delim, char **saveptr);
 <dt><code>strtok_r()</code></dt>
 <dd>POSIX.1-2001, POSIX.1-2008.</dd>
 </dl>
+<h2 id="notes">NOTES</h2>
+<p>일부 구현체들에선 <code>str</code> 파싱을 위해 <code>strtok_r()</code>을 처음 호출할 때 <code>*saveptr</code>이 NULL이기를 요구한다.</p>
 <h2 id="bugs">BUGS</h2>
 <p>이 함수들을 사용할 때는 조심해야 한다. 꼭 사용하겠다면 다음에 유념해야 한다.</p>
 <ul>
@@ -224,10 +226,10 @@ char *strtok_r(char *str, const char *delim, char **saveptr);
 <p><code>strtok()</code> 함수는 분해하는 동안 정적 버퍼를 사용하며, 따라서 스레드 안전하지 않다. 이게 문제가 된다면 <code>strtok_r()</code>을 사용하라.</p>
 </li>
 </ul>
-<h2 id="example">EXAMPLE</h2>
+<h2 id="examples">EXAMPLES</h2>
 <p>아래 프로그램에서는 <code>strtok_r()</code>을 쓰는 중첩 루프를 이용해 문자열을 두 단계의 토큰들로 나눈다. 첫 번째 명령행 인자는 분해할 문자열을 나타낸다. 두 번째 인자는 문자열을 "큰" 토큰으로 분리하는 데 쓸 구분자 바이트(들)을 나타낸다. 세 번째 인자는 "큰" 토큰을 하위 토큰으로 분리하는 데 쓸 구분자 바이트(들)을 나타낸다.</p>
 <p>이 프로그램이 내놓는 출력의 예는 다음과 같다.</p>
-<pre><code class="text">$ ./a.out 'a/bbb///cc;xxx:yyy:' ':;' '/'
+<pre><code class="language-text">$ ./a.out 'a/bbb///cc;xxx:yyy:' ':;' '/'
 1: a/bbb///cc
          --&gt; a
          --&gt; bbb
@@ -237,9 +239,8 @@ char *strtok_r(char *str, const char *delim, char **saveptr);
 3: yyy
          --&gt; yyy
 </code></pre>
-
 <h3 id="_1">프로그램 소스</h3>
-<pre><code class="c">#include &lt;stdio.h&gt;
+<pre><code class="language-c">#include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
 #include &lt;string.h&gt;
 
@@ -248,7 +249,6 @@ main(int argc, char *argv[])
 {
     char *str1, *str2, *token, *subtoken;
     char *saveptr1, *saveptr2;
-    int j;
 
     if (argc != 4) {
         fprintf(stderr, &quot;Usage: %s string delim subdelim\n&quot;,
@@ -256,7 +256,7 @@ main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    for (j = 1, str1 = argv[1]; ; j++, str1 = NULL) {
+    for (int j = 1, str1 = argv[1]; ; j++, str1 = NULL) {
         token = strtok_r(str1, argv[2], &amp;saveptr1);
         if (token == NULL)
             break;
@@ -273,12 +273,11 @@ main(int argc, char *argv[])
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
-<p><code>strtok()</code>을 사용하는 또 다른 예시 프로그램을 <tt>[[getaddrinfo_a(3)]]</tt>에서 찾을 수 있다.</p>
+<p><code>strtok()</code>을 사용하는 또 다른 예시 프로그램을 <tt><a class="wikilink" href="/man-pages-ko/getaddrinfo_a(3)/">getaddrinfo_a(3)</a></tt>에서 찾을 수 있다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>index(3)</code>, <tt>[[memchr(3)]]</tt>, <code>rindex(3)</code>, <code>strchr(3)</code>, <tt>[[string(3)]]</tt>, <code>strpbrk(3)</code>, <tt>[[strsep(3)]]</tt>, <code>strspn(3)</code>, <code>strstr(3)</code>, <code>wcstok(3)</code></p>
+<p><code>index(3)</code>, <tt><a class="wikilink" href="/man-pages-ko/memchr(3)/">memchr(3)</a></tt>, <code>rindex(3)</code>, <code>strchr(3)</code>, <tt><a class="wikilink" href="/man-pages-ko/string(3)/">string(3)</a></tt>, <code>strpbrk(3)</code>, <tt><a class="wikilink" href="/man-pages-ko/strsep(3)/">strsep(3)</a></tt>, <code>strspn(3)</code>, <code>strstr(3)</code>, <code>wcstok(3)</code></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

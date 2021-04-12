@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/get_phys_pages(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/get_phys_pages%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Get phys pages(3) - man-pages-ko</title>
+    <title>get_phys_pages(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -142,7 +142,7 @@
         <li class="first-level "><a href="#errors">ERRORS</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
@@ -151,17 +151,16 @@
 <h2 id="name">NAME</h2>
 <p>get_phys_pages, get_avphys_pages - 물리적 페이지 총개수와 가용 개수 얻기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;sys/sysinfo.h&gt;
+<pre><code class="language-c">#include &lt;sys/sysinfo.h&gt;
 
-long int get_phys_pages(void);
-long int get_avphys_pages(void);
+long get_phys_pages(void);
+long get_avphys_pages(void);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>get_phys_pages()</code> 함수는 시스템에서 사용 가능한 물리적 메모리 페이지의 총개수를 반환한다.</p>
 <p><code>get_avphys_pages()</code> 함수는 시스템에서 현재 사용 가능한 물리적 메모리 페이지 개수를 반환한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 이 함수들은 DESCRIPTION의 설명처럼 음수 아닌 값을 반환한다. 실패 시 -1을 반환하며 오류 원인을 나타내도록 <code>errno</code>를 설정한다.</p>
+<p>성공 시 이 함수들은 DESCRIPTION의 설명처럼 음수 아닌 값을 반환한다. 실패 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>ENOSYS</code></dt>
@@ -170,15 +169,14 @@ long int get_avphys_pages(void);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>이 함수들은 GNU 확장이다.</p>
 <h2 id="notes">NOTES</h2>
-<p>이 함수들은 <code>/proc/meminfo</code>의 <code>MemTotal</code> 및 <code>MemFree</code> 필드를 읽어서 필요한 정보를 얻는다.</p>
-<p>다음 <tt>[[sysconf(3)]]</tt> 호출은 이 페이지에서 기술하는 함수들과 같은 정보를 얻을 수 있는 이식성 있는 방법이다.</p>
-<pre><code class="c">total_pages = sysconf(_SC_PHYS_PAGES);    /* 총 페이지 */
+<p>glibc 2.23 전에서 이 함수들은 <code>/proc/meminfo</code>의 <code>MemTotal</code> 및 <code>MemFree</code> 필드를 읽어서 필요한 정보를 얻었다. glibc 2.23부터 이 함수들은 <tt><a class="wikilink" href="/man-pages-ko/sysinfo(2)/">sysinfo(2)</a></tt>를 호출해서 필요한 정보를 얻는다.</p>
+<p>다음 <tt><a class="wikilink" href="/man-pages-ko/sysconf(3)/">sysconf(3)</a></tt> 호출은 이 페이지에서 기술하는 함수들과 같은 정보를 얻을 수 있는 이식성 있는 방법이다.</p>
+<pre><code class="language-c">total_pages = sysconf(_SC_PHYS_PAGES);    /* 총 페이지 */
 avl_pages = sysconf(_SC_AVPHYS_PAGES);    /* 가용 페이지 */
 </code></pre>
-
-<h2 id="example">EXAMPLE</h2>
+<h2 id="examples">EXAMPLES</h2>
 <p><code>get_phys_pages()</code>와 <code>get_avphys_pages()</code>를 어떻게 사용할 수 있는지 다음 예가 보여 준다.</p>
-<pre><code class="c">#include &lt;stdio.h&gt;
+<pre><code class="language-c">#include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
 #include &lt;sys/sysinfo.h&gt;
 
@@ -191,11 +189,10 @@ main(int argc, char *argv[])
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[sysconf(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/sysconf(3)/">sysconf(3)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

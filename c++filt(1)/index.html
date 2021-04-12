@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/c++filt(1)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/c%2B%2Bfilt%281%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>C++filt(1) - man-pages-ko</title>
+    <title>c++filt(1) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -163,25 +163,20 @@ c++filt [<strong>-_</strong>|<strong>--strip-underscore</strong>]
 <p>C++ 및 자바 언어에서는 함수 오버로딩이 가능한데, 같은 이름으로 함수를 여러 가지로 작성해서 각 함수가 다른 타입의 매개변수들을 받게 할 수 있다는 뜻이다. 이런 같은 이름의 함수들을 구별할 수 있도록 하기 위해 C++과 자바에서는 함수 이름을 각 버전을 유일하게 구별해 주는 저수준 어셈블러 이름으로 변환한다. 이 동작을 <em>맹글(mangle)</em>이라고 한다. <code>c++file</code> [1] 프로그램은 반대 동작을 한다. 즉 저수준 이름을 사용자 수준 이름으로 해독(<em>디맹글(demangle)</em>)해서 사용자가 읽을 수 있게 만들어 준다.</p>
 <p>입력에서 (문자, 숫자, 밑줄, 달러, 마침표로 이뤄진) 모든 단어가 맹글 된 이름 후보들이다. 이름이 C++ 이름으로 해독되면 그 C++ 이름이 출력에서 저수준 이름 대신 나오고, 아니면 원래 단어가 출력된다. 그래서 맹글 된 이름들을 담은 어셈블러 소스 파일 전체를 <code>c++filt</code>에 통과시키면 디맹글 된 이름을 담은 동일한 소스 파일을 볼 수 있다.</p>
 <p>명령행에서 심볼 이름을 <code>c++filt</code>에 줘서 개별 심볼을 해독할 수도 있다.</p>
-<pre><code class="text">c++filt &lt;symbol&gt;
+<pre><code class="language-text">c++filt &lt;symbol&gt;
 </code></pre>
-
 <p><code>symbol</code> 인자가 주어지지 않으면 <code>c++filt</code>는 표준 입력에서 심볼 이름을 읽어 들인다. 그리고 모든 결과를 표준 출력으로 찍는다. 명령행에서 이름을 읽는 것과 표준 입력에서 이름을 읽는 것의 차이는 명령행 인자가 딱 맹글 된 이름일 것이라고 기대하여 주변 텍스트와 구별하기 위한 검사를 수행하지 않는다는 점이다. 그래서 다음은 잘 동작해서 이름이 "f()"으로 디맹글 되는 반면,</p>
-<pre><code class="text">c++filt -n -Z1fv
+<pre><code class="language-text">c++filt -n -Z1fv
 </code></pre>
-
 <p>다음은 제대로 되지 않는다. (맹글 된 이름 끝에 추가로 붙어 있는 쉼표 때문에 유효하지 않은 이름이 된다.)</p>
-<pre><code class="text">c++filt -n -Z1fv,
+<pre><code class="language-text">c++filt -n -Z1fv,
 </code></pre>
-
 <p>하지만 다음 명령은 잘 동작하게 된다.</p>
-<pre><code class="text">echo _Z1fv, | c++filt -n
+<pre><code class="language-text">echo _Z1fv, | c++filt -n
 </code></pre>
-
 <p>"f(),"가 표시된다. 즉 디맹글 된 이름 다음에 마지막의 쉼표가 따라온다. 이런 동작 방식이 있는 이유는 표준 입력에서 이름을 읽을 때는 그 내용이 어셈블러 소스 파일의 일부일 수도 있다고 예상할 수 있으며, 그 경우 맹글 된 이름 뒤에 이름과 상관없는 문자가 추가로 있을 수도 있기 때문이다. 예:</p>
-<pre><code class="text">    .type   _Z1fv, @function
+<pre><code class="language-text">    .type   _Z1fv, @function
 </code></pre>
-
 <h2 id="options">OPTIONS</h2>
 <dl>
 <dt><code>-_</code><br><code>--strip-underscore</code></dt>

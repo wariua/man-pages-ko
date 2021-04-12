@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/sigwait(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/sigwait%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Sigwait(3) - man-pages-ko</title>
+    <title>sigwait(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -143,7 +143,7 @@
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
@@ -152,12 +152,11 @@
 <h2 id="name">NAME</h2>
 <p>sigwait - 시그널 기다리기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;signal.h&gt;
+<pre><code class="language-c">#include &lt;signal.h&gt;
 
-int sigwait(const sigset_t *set, int *sig);
+int sigwait(const sigset_t *restrict set, int *restrict sig);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>sigwait()</code>:</dt>
 <dd>
@@ -171,7 +170,7 @@ int sigwait(const sigset_t *set, int *sig);
 </dl>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>sigwait()</code> 함수는 시그널 집합 <code>set</code>에 지정한 시그널들 중 하나가 미처리 상태가 될 때까지 호출 스레드의 실행을 중지한다. 함수가 그 시그널을 받아들이고 (미처리 시그널 목록에서 그 시그널을 제거하고) <code>sig</code>에 시그널 번호를 반환한다.</p>
-<p><code>sigwait()</code>의 동작은 다음을 제외하면 <tt>[[sigwaitinfo(2)]]</tt>와 같다.</p>
+<p><code>sigwait()</code>의 동작은 다음을 제외하면 <tt><a class="wikilink" href="/man-pages-ko/sigwaitinfo(2)/">sigwaitinfo(2)</a></tt>와 같다.</p>
 <ul>
 <li>
 <p><code>sigwait()</code>은 시그널을 기술하는 <code>siginfo_t</code> 구조체가 아니라 시그널 번호만 반환한다.</p>
@@ -188,7 +187,7 @@ int sigwait(const sigset_t *set, int *sig);
 <dd><code>set</code>이 유효하지 않은 시그널 번호를 담고 있다.</dd>
 </dl>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -208,14 +207,14 @@ int sigwait(const sigset_t *set, int *sig);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008.</p>
 <h2 id="notes">NOTES</h2>
-<p><code>sigwait()</code>은 <tt>[[sigtimedwait(2)]]</tt>을 이용해 구현되어 있다.</p>
+<p><code>sigwait()</code>은 <tt><a class="wikilink" href="/man-pages-ko/sigtimedwait(2)/">sigtimedwait(2)</a></tt>을 이용해 구현되어 있다.</p>
 <p>glibc의 <code>sigwait()</code> 구현에서는 NPTL 스레딩 구현 내부에서 쓰는 두 가지 실시간 시그널을 기다리려는 시도를 조용히 무시한다.</p>
-<h2 id="example">EXAMPLE</h2>
-<p><tt>[[pthread_sigmask(3)]]</tt> 참고.</p>
+<h2 id="examples">EXAMPLES</h2>
+<p><tt><a class="wikilink" href="/man-pages-ko/pthread_sigmask(3)/">pthread_sigmask(3)</a></tt> 참고.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[sigaction(2)]]</tt>, <tt>[[signalfd(2)]]</tt>, <tt>[[sigpending(2)]]</tt>, <tt>[[sigsuspend(2)]]</tt>, <tt>[[sigwaitinfo(2)]]</tt>, <tt>[[sigsetops(3)]]</tt>, <tt>[[signal(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/sigaction(2)/">sigaction(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/signalfd(2)/">signalfd(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigpending(2)/">sigpending(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigsuspend(2)/">sigsuspend(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigwaitinfo(2)/">sigwaitinfo(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigsetops(3)/">sigsetops(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt></p>
 <hr />
-<p>2017-07-13</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/epoll_pwait2%282%29/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>epoll_pwait2(2) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+            <li class="second-level"><a href="#epoll_pwait">epoll_pwait()</a></li>
+                
+            <li class="second-level"><a href="#epoll_pwait2">epoll_pwait2()</a></li>
+                
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#bugs">BUGS</a></li>
+            <li class="second-level"><a href="#c">C 라이브러리/커널 차이</a></li>
+                
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>epoll_wait, epoll_pwait, epoll_pwait2 - epoll 파일 디스크립터에서 I/O 이벤트 기다리기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="language-c">#include &lt;sys/epoll.h&gt;
+
+int epoll_wait(int epfd, struct epoll_event *events,
+               int maxevents, int timeout);
+int epoll_pwait(int epfd, struct epoll_event *events,
+               int maxevents, int timeout,
+               const sigset_t *sigmask);
+int epoll_pwait2(int epfd, struct epoll_event *events,
+               int maxevents, const struct timespec *timeout,
+               const sigset_t *sigmask);
+</code></pre>
+<h2 id="description">DESCRIPTION</h2>
+<p><code>epoll_wait()</code> 시스템 호출은 파일 디스크립터 <code>epfd</code>가 가리키는 <tt><a class="wikilink" href="/man-pages-ko/epoll(7)/">epoll(7)</a></tt> 인스턴스에서 이벤트를 기다린다. <code>events</code>가 가리키는 버퍼를 이용해서 뭔가 이벤트가 있는 관심 목록 내 파일 디스크립터들에 대한 준비 목록 정보를 반환한다. 최대 <code>maxevents</code> 개 이벤트를 반환한다. <code>maxevents</code> 인자는 0보다 커야 한다.</p>
+<p><code>timeout</code> 인자는 <code>epoll_wait()</code>에서 블록 할 밀리초 수를 나타낸다. <code>CLOCK_MONOTONIC</code> 클럭으로 시간을 측정한다.</p>
+<p>다음 어느 경우든 해당할 때까지 <code>epoll_wait()</code> 호출이 블록 하게 된다.</p>
+<ul>
+<li>
+<p>파일 디스크립터가 이벤트를 내놓는다.</p>
+</li>
+<li>
+<p>호출이 시그널 핸들러에 의해 중단된다.</p>
+</li>
+<li>
+<p>타임아웃이 만료된다.</p>
+</li>
+</ul>
+<p>참고로 <code>timeout</code> 시간을 시스템 클럭 해상도에 따라 올림 하게 되며 커널 스케줄링 지연도 있기 때문에 그 블록 시간을 약간 넘길 수도 있다. <code>timeout</code>을 -1로 지정하면 <code>epoll_wait()</code>이 무한정 블록 하게 되며, <code>timeout</code>을 0으로 지정하면 가용 이벤트가 없더라도 <code>epoll_wait()</code>이 즉시 반환하게 된다.</p>
+<p><code>struct epoll_event</code>는 다음으로 정의돼 있다.</p>
+<pre><code class="language-c">typedef union epoll_data {
+    void        *ptr;
+    int          fd;
+    uint32_t     u32;
+    uint64_t     u64;
+} epoll_data_t;
+
+struct epoll_event {
+    uint32_t     events;      /* epoll 이벤트 */
+    epoll_data_t data;        /* 사용자 데이터 변수 */
+};
+</code></pre>
+<p>반환된 <code>epoll_event</code> 구조체 각각의 <code>data</code> 필드에는 해당 열린 파일 디스크립터에 대해 가장 최근 <tt><a class="wikilink" href="/man-pages-ko/epoll_ctl(2)/">epoll_ctl(2)</a></tt>(<code>EPOLL_CTL_ADD</code>, <code>EPOLL_CTL_MOD</code>)에서 지정한 것과 동일한 데이터가 담겨 있다.</p>
+<p><code>events</code> 필드는 해당 열린 파일 기술 항목에 발생한 이벤트들을 나타내는 비트 마스크다. 이 마스크에 등장할 수 있는 비트들의 목록은 <tt><a class="wikilink" href="/man-pages-ko/epoll_ctl(2)/">epoll_ctl(2)</a></tt>을 보라.</p>
+<h3 id="epoll_pwait"><code>epoll_pwait()</code></h3>
+<p><code>epoll_wait()</code>과 <code>epoll_pwait()</code>의 관계는 <tt><a class="wikilink" href="/man-pages-ko/select(2)/">select(2)</a></tt>와 <tt><a class="wikilink" href="/man-pages-ko/pselect(2)/">pselect(2)</a></tt>의 관계와 비슷하다. <tt><a class="wikilink" href="/man-pages-ko/pselect(2)/">pselect(2)</a></tt>처럼 응용에서 <code>epoll_pwait()</code>을 사용해 파일 디스크립터가 준비 상태가 되거나 시그널을 잡을 때까지 안전하게 대기할 수 있다.</p>
+<p>다음 <code>epoll_pwait()</code> 호출은</p>
+<pre><code class="language-c">ready = epoll_pwait(epfd, &amp;events, maxevents, timeout, &amp;sigmask);
+</code></pre>
+<p>다음 호출들을 <em>원자적으로</em> 실행하는 것과 동등하다.</p>
+<pre><code class="language-c">sigset_t origmask;
+
+pthread_sigmask(SIG_SETMASK, &amp;sigmask, &amp;origmask);
+ready = epoll_wait(epfd, &amp;events, maxevents, timeout);
+pthread_sigmask(SIG_SETMASK, &amp;origmask, NULL);
+</code></pre>
+<p><code>sigmask</code> 인자를 NULL로 지정할 수 있으며, 그 경우 <code>epoll_pwait()</code>은 <code>epoll_wait()</code>과 동등하다.</p>
+<h3 id="epoll_pwait2"><code>epoll_pwait2()</code></h3>
+<p><code>epoll_pwait2()</code>는 <code>timeout</code> 인자를 빼면 <code>epoll_pwait()</code>과 동등하다. <code>timespect</code> 타입으로 인자를 받으므로 나노초 해상도로 타임아웃을 지정할 수 있다. 이 인자는 <tt><a class="wikilink" href="/man-pages-ko/pselect(2)/">pselect(2)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/ppoll(2)/">ppoll(2)</a></tt>에서과 똑같이 동작한다. <code>timeout</code>이 NULL이면 <code>epoll_pwait2()</code>가 무한정 블록 할 수 있다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>성공 시 <code>epoll_wait()</code>은 요청 I/O에 준비된 파일 디스크립터 수를 반환하며, 지정한 <code>timeout</code> 밀리초 동안 준비 상태가 된 파일 디스크립터가 없으면 0을 반환한다. 오류 시 <code>epoll_wait()</code>은 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
+<h2 id="errors">ERRORS</h2>
+<dl>
+<dt><code>EBADF</code></dt>
+<dd><code>epfd</code>가 유요한 파일 디스크립터가 아니다.</dd>
+<dt><code>EFAULT</code></dt>
+<dd><code>events</code>가 가리키는 메모리 영역이 쓰기 권한으로 접근 가능하지 않다.</dd>
+<dt><code>EINTR</code></dt>
+<dd>(1) 요청한 한 이벤트가 발생하거나 (2) <code>timeout</code>이 만료하기 전에 호출이 시그널 핸들러에 의해 중단되었다. <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt> 참고.</dd>
+<dt><code>EINVAL</code></dt>
+<dd><code>epfd</code>가 <strong>epoll</strong> 파일 디스크립터가 아니거나, <code>maxevents</code>가 0보다 작거나 같다.</dd>
+</dl>
+<h2 id="versions">VERSIONS</h2>
+<p>커널 버전 2.6에서 <code>epoll_wait()</code>이 추가되었다. glibc 버전 2.3.2부터 라이브러리 지원을 제공한다.</p>
+<p>리눅스 커널 2.6.19에서 <code>epoll_pwait()</code>이 추가되었다. glibc 버전 2.6부터 라이브러리 지원을 제공한다.</p>
+<p>리눅스 커널 5.11에서 <code>epoll_pwait2()</code>가 추가되었다.</p>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p><code>epoll_wait()</code>, <code>epoll_pwait()</code>, <code>epoll_pwait2()</code>는 리눅스 전용이다.</p>
+<h2 id="notes">NOTES</h2>
+<p>한 스레드가 <code>epoll_wait()</code> 호출 내에서 블록 돼 있는 동안 다른 스레드에서 그 <strong>epoll</strong> 인스턴스에 파일 디스크립터를 추가하는 게 가능하다. 새 파일 디스크립터가 준비 상태가 되면 <code>epoll_wait()</code> 호출의 블록이 풀리게 된다.</p>
+<p><code>epoll_wait()</code> 호출 시 <code>maxevents</code> 개를 넘는 파일 디스크립터가 준비 상태이면 이어지는 <code>epoll_wait()</code> 호출에서 준비 상태 파일 디스크립터들을 라운드 로빈으로 처리하게 된다. 이 동작은 프로세스에서 준비 상태라고 알고 있는 파일 디스크립터들에 집중하느라 준비 상태인 파일 디스크립터가 더 있다는 걸 알아채지 못해서 발생하는 기아 상황을 피하는 데 도움이 된다.</p>
+<p>참고로 관심 목록이 현재 비어 있는 (또는 다른 스레드에서 파일 디스크립터를 닫거나 관심 목록에서 제거해서 관심 목록이 비게 되는) <strong>epoll</strong> 인스턴스에도 <code>epoll_wait()</code> 호출이 가능하다. 이후 (다른 스레드에서) 관심 목록에 어떤 파일 디스크립터를 추가하고 그 파일 디스크립터가 준비 상태가 될 때까지 호출이 블록 하게 된다.</p>
+<h2 id="bugs">BUGS</h2>
+<p>커널 2.6.37 전에서는 <code>timeout</code> 값이 약 <code>LONG_MAX / HZ</code> 밀리초보다 크면 -1으로 (즉 무한으로) 처리한다. 그래서 가령 <code>sizeof(long)</code>이 4이고 커널 <code>HZ</code> 값이 1000인 시스템이라면 35.79 분보다 큰 타임아웃을 무한으로 처리한다.</p>
+<h3 id="c">C 라이브러리/커널 차이</h3>
+<p>진짜 <code>epoll_pwait()</code> 및 <code>epoll_pwait2()</code> 시스템 호출에는 여섯 번째 인자 <code>size_t sigsetsize</code>가 있는데, 이는 <code>sigmask</code> 인자의 바이트 단위 크기를 나타낸다. glibc의 <code>epoll_pwait()</code> 래퍼 함수에서 이 인자를 고정된 값(<code>sizeof(sigset_t)</code>)으로 지정한다.</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt><a class="wikilink" href="/man-pages-ko/epoll_create(2)/">epoll_create(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/epoll_ctl(2)/">epoll_ctl(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/epoll(7)/">epoll(7)</a></tt></p>
+<hr />
+<p>2021-03-22</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

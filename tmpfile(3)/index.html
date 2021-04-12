@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/tmpfile(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/tmpfile%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Tmpfile(3) - man-pages-ko</title>
+    <title>tmpfile(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -151,11 +151,10 @@
 <h2 id="name">NAME</h2>
 <p>tmpfile - 임시 파일 만들기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;stdio.h&gt;
+<pre><code class="language-c">#include &lt;stdio.h&gt;
 
 FILE *tmpfile(void);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>tmpfile()</code> 함수는 유일한 임시 파일을 이진 읽기/쓰기 (w+b) 모드로 연다. 파일이 닫히거나 프로그램이 끝날 때 파일이 자동으로 삭제된다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
@@ -167,7 +166,7 @@ FILE *tmpfile(void);
 <dt><code>EEXIST</code></dt>
 <dd>유일한 파일명을 만들어 낼 수 없음.</dd>
 <dt><code>EINTR</code></dt>
-<dd>시그널에 의해 호출이 중단되었다. <tt>[[signal(7)]]</tt> 참고.</dd>
+<dd>시그널에 의해 호출이 중단되었다. <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt> 참고.</dd>
 <dt><code>EMFILE</code></dt>
 <dd>열린 파일 디스크립터 개수에 대한 프로세스별 제한에 도달했다.</dd>
 <dt><code>ENFILE</code></dt>
@@ -178,7 +177,7 @@ FILE *tmpfile(void);
 <dd>읽기 전용 파일 시스템.</dd>
 </dl>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -201,9 +200,9 @@ FILE *tmpfile(void);
 <p>POSIX.1-2001 명세: 스트림을 열 수 없는 경우 <code>stdout</code>으로 오류 메시지를 쓸 수도 있다.</p>
 <p>표준에서는 <code>tmpfile()</code>에서 사용할 디렉터리를 명세하고 있지 않다. glibc에서는 <code>&lt;stdio.h&gt;</code>에 정의된 경로 선두부 <code>P_tmpdir</code>로 시도하고, 실패 시 <code>/tmp</code> 디렉터리를 쓴다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[exit(3)]]</tt>, <tt>[[mkstemp(3)]]</tt>, <tt>[[mktemp(3)]]</tt>, <tt>[[tempnam(3)]]</tt>, <tt>[[tmpnam(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/exit(3)/">exit(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mkstemp(3)/">mkstemp(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mktemp(3)/">mktemp(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/tempnam(3)/">tempnam(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/tmpnam(3)/">tmpnam(3)</a></tt></p>
 <hr />
-<p>2016-03-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

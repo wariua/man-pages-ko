@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/tsearch(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/tsearch%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Tsearch(3) - man-pages-ko</title>
+    <title>tsearch(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -143,7 +143,7 @@
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
@@ -152,19 +152,16 @@
 <h2 id="name">NAME</h2>
 <p>tsearch, tfind, tdelete, twalk, tdestroy - 이진 탐색 트리 관리하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;search.h&gt;
+<pre><code class="language-c">#include &lt;search.h&gt;
 
 typedef enum { preorder, postorder, endorder, leaf } VISIT;
 
 void *tsearch(const void *key, void **rootp,
                 int (*compar)(const void *, const void *));
-
 void *tfind(const void *key, void *const *rootp,
                 int (*compar)(const void *, const void *));
-
-void *tdelete(const void *key, void **rootp,
+void *tdelete(const void *restrict key, void **restrict rootp,
                 int (*compar)(const void *, const void *));
-
 void twalk(const void *root,
                 void (*action)(const void *nodep, VISIT which,
                                int depth));
@@ -176,10 +173,8 @@ void twalk_r(const void *root,
                 void (*action)(const void *nodep, VISIT which,
                                void *closure),
                 void *closure);
-
 void tdestroy(void *root, void (*free_node)(void *nodep));
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>tsearch()</code>, <code>tfind()</code>, <code>twalk()</code>, <code>tdelete()</code>는 이진 탐색 트리를 관리한다. Knuth의 (6.2.2) 알고리듬 T를 일반화 한 것이다. 각 트리 노드의 첫 필드가 대응하는 데이터 항목에 대한 포인터이다. (실제 데이터는 호출 프로그램에서 저장해야 한다.) <code>compar</code>는 비교 루틴을 가리키며 두 항목에 대한 포인터를 받는다. 첫 번째 항목이 두 번째 항목보다 작거나 같거나 크면 음수이거나 0이거나 양수인 정수를 반환해야 한다.</p>
 <p><code>tsearch()</code>는 트리에서 항목을 탐색한다. <code>key</code>는 찾을 항목을 가리킨다. <code>rootp</code>는 트리 루트를 가리키는 변수를 가리킨다. 트리가 비어 있으면 <code>rootp</code>가 가리키는 변수가 NULL로 설정돼 있어야 한다. 트리에서 항목을 찾은 경우에 <code>tsearch()</code>는 대응하는 트리 노드에 대한 포인터를 반환한다. (달리 말해 데이터 항목에 대한 포인터에 대한 포인터를 반환한다.) 항목을 찾지 못하면 항목을 추가하고서 대응하는 트리 노드에 대한 포인터를 반환한다.</p>
@@ -196,7 +191,7 @@ void tdestroy(void *root, void (*free_node)(void *nodep));
 <h2 id="versions">VERSIONS</h2>
 <p>glibc 버전 2.30부터 <code>tralk_r()</code>이 사용 가능하다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -207,7 +202,7 @@ void tdestroy(void *root, void (*free_node)(void *nodep));
 </thead>
 <tbody>
 <tr>
-<td><code>tsearch()</code>, <code>tfind()</code>,<br><code>tdelete()</code></td>
+<td><code>tsearch()</code>, <code>tfind()</code>, <code>tdelete()</code></td>
 <td>스레드 안전성</td>
 <td>MT-Safe race:rootp</td>
 </tr>
@@ -234,10 +229,11 @@ void tdestroy(void *root, void (*free_node)(void *nodep));
 <p><code>twalk()</code>는 루트에 대한 포인터를 받는 반면 다른 함수들은 루트를 가지키는 변수에 대한 포인터를 받는다.</p>
 <p><code>tdelete()</code>는 트리에서 노드에 필요한 메모리를 해제한다. 대응하는 데이터를 위한 메모리를 해제하는 것은 사용자의 몫이다.</p>
 <p>아래 예시 프로그램에서는 <code>twalk()</code>에서 <code>endorder</code> 내지 <code>leaf</code> 인자로 사용자 함수를 호출한 후에 더는 그 노드를 참조하지 않는다는 점에 기댄다. GNU 라이브러리 구현에서는 동작하지만 시스템 V 문서에서는 그렇지 않다.</p>
-<h2 id="example">EXAMPLE</h2>
+<h2 id="examples">EXAMPLES</h2>
 <p>다음 프로그램에서는 중복을 없애며 이진 트리에 난수 열두 개를 삽입한 다음 그 수들을 차례로 찍는다.</p>
-<pre><code class="c">#define _GNU_SOURCE     /* tdestroy() 선언 드러내기 */
+<pre><code class="language-c">#define _GNU_SOURCE     /* tdestroy() 선언 드러내기 */
 #include &lt;search.h&gt;
+#include &lt;stddef.h&gt;
 #include &lt;stdlib.h&gt;
 #include &lt;stdio.h&gt;
 #include &lt;time.h&gt;
@@ -245,7 +241,7 @@ void tdestroy(void *root, void (*free_node)(void *nodep));
 static void *root = NULL;
 
 static void *
-xmalloc(unsigned n)
+xmalloc(size_t n)
 {
     void *p;
     p = malloc(n);
@@ -289,17 +285,16 @@ action(const void *nodep, VISIT which, int depth)
 int
 main(void)
 {
-    int i, *ptr;
-    void *val;
+    int **val;
 
     srand(time(NULL));
-    for (i = 0; i &lt; 12; i++) {
-        ptr = xmalloc(sizeof(int));
+    for (int i = 0; i &lt; 12; i++) {
+        int *ptr = xmalloc(sizeof(*ptr));
         *ptr = rand() &amp; 0xff;
-        val = tsearch((void *) ptr, &amp;root, compare);
+        val = tsearch(ptr, &amp;root, compare);
         if (val == NULL)
             exit(EXIT_FAILURE);
-        else if ((*(int **) val) != ptr)
+        else if (*val != ptr)
             free(ptr);
     }
     twalk(root, action);
@@ -307,11 +302,10 @@ main(void)
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[bsearch(3)]]</tt>, <tt>[[hsearch(3)]]</tt>, <tt>[[lsearch(3)]]</tt>, <code>qsort(3)</code></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/bsearch(3)/">bsearch(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/hsearch(3)/">hsearch(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/lsearch(3)/">lsearch(3)</a></tt>, <code>qsort(3)</code></p>
 <hr />
-<p>2019-05-09</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

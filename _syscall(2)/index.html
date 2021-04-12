@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/_syscall(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/_syscall%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title> syscall(2) - man-pages-ko</title>
+    <title>_syscall(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -141,7 +141,7 @@
         <li class="first-level "><a href="#files">FILES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
             <li class="second-level"><a href="#_1">출력 예시</a></li>
                 
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
@@ -152,18 +152,16 @@
 <h2 id="name">NAME</h2>
 <p>_syscall - 라이브러리 지원 없이 시스템 호출 부르기 (<strong>구식</strong>)</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;linux/unistd.h&gt;
+<pre><code class="language-c">#include &lt;linux/unistd.h&gt;
 
 _syscall 매크로
 
 원하는 시스템 호출
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p>시스템 호출에 대해 알아야 할 중요한 것이 그 원형이다. 인자가 몇 개고, 타입이 무엇이고, 함수 반환 타입은 뭔지 알아야 한다. 시스템으로의 실제 호출을 쉽게 만들어 주는 매크로가 일곱 가지 있는데, 다음과 같은 형태이다.</p>
-<pre><code class="text">_syscallX(type,name,type1,arg1,type2,arg2,...)
+<pre><code class="language-text">_syscallX(type,name,type1,arg1,type2,arg2,...)
 </code></pre>
-
 <p>여기서,</p>
 <ul>
 <li>
@@ -188,12 +186,12 @@ _syscall 매크로
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>이 매크로를 쓰는 방식은 리눅스 전용이며, 제거 예정이다.</p>
 <h2 id="notes">NOTES</h2>
-<p>커널 2.6.18 정도부터 사용자 공간에 제공되는 헤더 파일에서 _syscall 매크로가 제거되었다. 대신 <tt>[[syscall(2)]]</tt>을 사용하라. (일부 아키텍처들, 특히 ia64에서는 한번도 _syscall 매크로를 제공하지 않았다. 그런 아키텍처에서는 항상 <tt>[[syscall(2)]]</tt>이 필요했다.)</p>
+<p>커널 2.6.18 정도부터 사용자 공간에 제공되는 헤더 파일에서 _syscall 매크로가 제거되었다. 대신 <tt><a class="wikilink" href="/man-pages-ko/syscall(2)/">syscall(2)</a></tt>을 사용하라. (일부 아키텍처들, 특히 ia64에서는 한번도 _syscall 매크로를 제공하지 않았다. 그런 아키텍처에서는 항상 <tt><a class="wikilink" href="/man-pages-ko/syscall(2)/">syscall(2)</a></tt>이 필요했다.)</p>
 <p>_syscall() 매크로는 원형을 만들어 주지 <em>않는다</em>. 특히 C++ 사용자들을 위해서 직접 만들어 줘야 할 수도 있다.</p>
-<p>시스템 호출들이 반드시 양수이거나 음수인 오류 코드만 반환해야 하는 것이 아니다. 오류를 어떻게 반환하는지 확실히 알려면 소스를 읽어 보아야 한다. 일반적으로는 표준 오류 코드의 음수 값, 예를 들어 <code>-EPERM</code>이다. _syscall() 매크로들은 시스템 호출의 결과 <code>r</code>이 음수가 아닐 때는 <code>r</code>을 반환하고, <code>r</code>이 음수일 때는 -1을 반환하고 변수 <code>errno</code>를 -<code>r</code>로 설정하게 된다. 오류 코드들에 대해선 <tt>[[errno(3)]]</tt>를 보라.</p>
+<p>시스템 호출들이 반드시 양수이거나 음수인 오류 코드만 반환해야 하는 것이 아니다. 오류를 어떻게 반환하는지 확실히 알려면 소스를 읽어 보아야 한다. 일반적으로는 표준 오류 코드의 음수 값, 예를 들어 <code>-EPERM</code>이다. _syscall() 매크로들은 시스템 호출의 결과 <code>r</code>이 음수가 아닐 때는 <code>r</code>을 반환하고, <code>r</code>이 음수일 때는 -1을 반환하고 변수 <code>errno</code>를 -<code>r</code>로 설정하게 된다. 오류 코드들에 대해선 <tt><a class="wikilink" href="/man-pages-ko/errno(3)/">errno(3)</a></tt>를 보라.</p>
 <p>시스템 호출을 정의할 때 인자 타입들은 값 전달이나 (구조체 같은 집합 타입의 경우) 포인터 전달이어야 한다.</p>
-<h2 id="example">EXAMPLE</h2>
-<pre><code class="c">#include &lt;stdio.h&gt;
+<h2 id="examples">EXAMPLES</h2>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
 #include &lt;errno.h&gt;
 #include &lt;linux/unistd.h&gt;       /* _syscallX 매크로/관련 사항들 */
@@ -222,9 +220,8 @@ main(void)
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <h3 id="_1">출력 예시</h3>
-<pre><code class="text">code error = 0
+<pre><code class="language-text">code error = 0
 uptime = 502034s
 Load: 1 min 13376 / 5 min 5504 / 15 min 1152
 RAM: total 15343616 / free 827392 / shared 8237056
@@ -232,11 +229,10 @@ Memory in buffers = 5066752
 Swap: total 27881472 / free 24698880
 Number of processes = 40
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>intro(2)</code>, <tt>[[syscall(2)]]</tt>, <tt>[[errno(3)]]</tt></p>
+<p><code>intro(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/syscall(2)/">syscall(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/errno(3)/">errno(3)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/getrusage(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/getrusage%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Getrusage(2) - man-pages-ko</title>
+    <title>getrusage(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -151,12 +151,11 @@
 <h2 id="name">NAME</h2>
 <p>getrusage - 자원 사용량 얻기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;sys/time.h&gt;
+<pre><code class="language-c">#include &lt;sys/time.h&gt;
 #include &lt;sys/resource.h&gt;
 
 int getrusage(int who, struct rusage *usage);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>getrusage()</code>는 다음 중 하나일 수 있는 <code>who</code>에 대해 자원 사용량 측정치를 반환한다.</p>
 <dl>
@@ -168,7 +167,7 @@ int getrusage(int who, struct rusage *usage);
 <dd>호출 스레드의 자원 사용 통계를 반환한다. <code>&lt;sys/resource.h&gt;</code>에서 이 상수 정의를 얻으려면 (<em>어떤</em> 헤더도 포함시키기 전에) <code>_GNU_SOURCE</code> 기능 확인 매크로가 정의돼 있어야 한다.</dd>
 </dl>
 <p><code>usage</code>가 가리키는 구조체로 자원 사용량이 반환된다. 그 구조체는 다음 형태이다.</p>
-<pre><code class="c">struct rusage {
+<pre><code class="language-c">struct rusage {
     struct timeval ru_utime; /* 사용한 사용자 CPU 시간 */
     struct timeval ru_stime; /* 사용한 시스템 CPU 시간 */
     long   ru_maxrss;        /* 최대 상주 집합 크기 */
@@ -187,7 +186,6 @@ int getrusage(int who, struct rusage *usage);
     long   ru_nivcsw;        /* 비자발적 문맥 전환 횟수 */
 };
 </code></pre>
-
 <p>모든 필드들이 채워지진 않는다. 비지원 필드들은 커널에서 0으로 설정한다. (지원하지 않는데 필드들을 제공하는 건 다른 시스템들과의 호환성을 위해서이기도 하고 언젠가 리눅스에서 지원하게 될 수도 있기 때문이다.) 다음과 같이 필드들을 해석한다.</p>
 <dl>
 <dt><code>ru_utime</code></dt>
@@ -224,7 +222,7 @@ int getrusage(int who, struct rusage *usage);
 <dd>더 높은 우선순위의 프로세스가 실행 가능해지거나 현재 프로세스가 타임 슬라이스를 초과해서 발생한 문맥 전환 횟수.</dd>
 </dl>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 0을 반환한다. 오류 시 -1을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<p>성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EFAULT</code></dt>
@@ -233,7 +231,7 @@ int getrusage(int who, struct rusage *usage);
 <dd><code>who</code>가 유효하지 않다.</dd>
 </dl>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -254,16 +252,16 @@ int getrusage(int who, struct rusage *usage);
 <p>POSIX.1-2001, POSIX.1-2008, SVr4, 4.3BSD. POSIX.1에서 <code>getrusage()</code>를 명세하고는 있지만 <code>ru_utime</code> 및 <code>ru_stime</code> 필드만 명세한다.</p>
 <p><code>RUSAGE_THREAD</code>는 리눅스 전용이다.</p>
 <h2 id="notes">NOTES</h2>
-<p><tt>[[execve(2)]]</tt>를 거치면서 자원 사용량 수치들이 보존된다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>를 거치면서 자원 사용량 수치들이 보존된다.</p>
 <p><code>&lt;sys/time.h&gt;</code>를 포함시키는 게 요즘에는 필요치 않지만 이식성을 높여 준다. (사실 <code>struct timeval</code>이 <code>&lt;sys/time.h&gt;</code>에 정의돼 있다.)</p>
 <p>리눅스 커널 버전 2.6.9 전에서는 <code>SIGCHLD</code> 처리 방식이 <code>SIG_IGN</code>으로 설정돼 있는 경우에 자식 프로세스의 자원 사용량이 자동으로 <code>RUSAGE_CHILDREN</code> 반환 값에 포함된다. 하지만 POSIX.1-2001에서는 이를 명확히 금지한다. 리눅스 2.6.9 및 이후에서는 이 불일치가 시정돼 있다.</p>
 <p>이 페이지 앞에 나온 구조체 정의는 4.3BSD Reno에서 가져온 것이다.</p>
-<p>아주 옛날 시스템들에선 <code>getrusage()</code>와 용도가 비슷한 <code>vtimes()</code> 함수를 제공했다. 하위 호환성을 위해 glibc에서도 <code>vtimes()</code>를 제공한다. 새로 작성하는 응용은 모두 <code>getrusage()</code>를 쓰도록 작성해야 한다.</p>
-<p><tt>[[proc(5)]]</tt>의 <code>/proc/[pid]/stat</code> 설명도 참고.</p>
+<p>아주 옛날 시스템들에선 <code>getrusage()</code>와 용도가 비슷한 <code>vtimes()</code> 함수를 제공했다. 하위 호환성을 위해 glibc에서도 (버전 2.32까지) <code>vtimes()</code>를 제공한다. 새로 작성하는 응용은 모두 <code>getrusage()</code>를 쓰도록 작성해야 한다. (버전 2.33부터 glibc에서 <code>vtimes()</code> 구현체를 더 이상 제공하지 않는다.)</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/proc(5)/">proc(5)</a></tt>의 <code>/proc/[pid]/stat</code> 설명도 참고.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[clock_gettime(2)]]</tt>, <tt>[[getrlimit(2)]]</tt>, <tt>[[times(2)]]</tt>, <tt>[[wait(2)]]</tt>, <tt>[[wait4(2)]]</tt>, <tt>[[clock(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/clock_gettime(2)/">clock_gettime(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/getrlimit(2)/">getrlimit(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/times(2)/">times(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/wait(2)/">wait(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/wait4(2)/">wait4(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/clock(3)/">clock(3)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

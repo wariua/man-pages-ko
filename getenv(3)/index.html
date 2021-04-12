@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/getenv(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/getenv%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Getenv(3) - man-pages-ko</title>
+    <title>getenv(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -151,14 +151,12 @@
 <h2 id="name">NAME</h2>
 <p>getenv, secure_getenv - 환경 변수 얻기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;stdlib.h&gt;
+<pre><code class="language-c">#include &lt;stdlib.h&gt;
 
 char *getenv(const char *name);
-
 char *secure_getenv(const char *name);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>secure_getenv()</code>:</dt>
 <dd><code>_GNU_SOURCE</code></dd>
@@ -184,7 +182,7 @@ char *secure_getenv(const char *name);
 <h2 id="versions">VERSIONS</h2>
 <p>glibc 2.17에서 <code>secure_getenv()</code>가 처음 등장했다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -207,12 +205,12 @@ char *secure_getenv(const char *name);
 <h2 id="notes">NOTES</h2>
 <p>환경 목록 안의 문자열들은 <code>name=value</code> 형태이다.</p>
 <p>일반적인 구현 방식에서는 <code>getenv()</code>가 환경 목록 내의 문자열에 대한 포인터를 반환한다. 호출자가 그 문자열을 변경하지 않도록 주의해야 한다. 프로세스의 환경을 바꾸게 될 수 있기 때문이다.</p>
-<p><code>getenv()</code> 구현이 재진입 가능이 아닐 수도 있다. <code>getenv()</code>의 반환 값이 가리키는 문자열이 정적으로 할당돼 있을 수 있으며 그래서 이어지는 <code>getenv()</code>, <tt>[[putenv(3)]]</tt>, <tt>[[setenv(3)]]</tt>, <tt>[[unsetenv(3)]]</tt> 호출에 의해 바뀔 수 있다.</p>
+<p><code>getenv()</code> 구현이 재진입 가능이 아닐 수도 있다. <code>getenv()</code>의 반환 값이 가리키는 문자열이 정적으로 할당돼 있을 수 있으며 그래서 이어지는 <code>getenv()</code>, <tt><a class="wikilink" href="/man-pages-ko/putenv(3)/">putenv(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/setenv(3)/">setenv(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/unsetenv(3)/">unsetenv(3)</a></tt> 호출에 의해 바뀔 수 있다.</p>
 <p>커널에서 사용자 공간으로 전달되는 보조 벡터에 담긴 <code>AT_SECURE</code> 플래그가 <code>secure_getenv()</code>의 "안전 실행" 모드를 제어한다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[clearenv(3)]]</tt>, <tt>[[getauxval(3)]]</tt>, <tt>[[putenv(3)]]</tt>, <tt>[[setenv(3)]]</tt>, <tt>[[unsetenv(3)]]</tt>, <tt>[[capabilities(7)]]</tt>, <tt>[[environ(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/clearenv(3)/">clearenv(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/getauxval(3)/">getauxval(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/putenv(3)/">putenv(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/setenv(3)/">setenv(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/unsetenv(3)/">unsetenv(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/capabilities(7)/">capabilities(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/environ(7)/">environ(7)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

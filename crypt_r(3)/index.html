@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/crypt_r(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/crypt_r%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Crypt r(3) - man-pages-ko</title>
+    <title>crypt_r(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -155,19 +155,30 @@
 <h2 id="name">NAME</h2>
 <p>crypt, crypt_r - 패스워드 및 데이터 암호화</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#define _XOPEN_SOURCE       /* feature_test_macros(7) 참고 */
-#include &lt;unistd.h&gt;
+<pre><code class="language-c">#include &lt;unistd.h&gt;
 
 char *crypt(const char *key, const char *salt);
 
-#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
 #include &lt;crypt.h&gt;
 
 char *crypt_r(const char *key, const char *salt,
-              struct crypt_data *data);
+              struct crypt_data *restrict data);
 </code></pre>
-
 <p><code>-lcrypt</code>로 링크.</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
+<dl>
+<dt><code>crypt()</code>:</dt>
+<dd>
+<dl>
+<dt>glibc 2.28부터:</dt>
+<dd><code>_DEFAULT_SOURCE</code></dd>
+<dt>glibc 2.27 및 이전:</dt>
+<dd><code>_XOPEN_SOURCE</code></dd>
+</dl>
+</dd>
+<dt><code>crypt_r()</code>:</dt>
+<dd><code>_GNU_SOURCE</code></dd>
+</dl>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>crypt()</code>는 패스워드 암호화 함수이다. 데이터 암호화 표준(Data Encryption Standard) 알고리듬을 바탕으로 하드웨어 구현 키 탐색을 어렵게 하기 위한 변경 등을 가해서 사용한다.</p>
 <p><code>key</code>는 사용자가 입력한 패스워드이다.</p>
@@ -188,7 +199,7 @@ char *crypt_r(const char *key, const char *salt,
 <dd><code>/proc/sys/crypto/fips_enabled</code>에 0 아닌 값이 있는데 DES 같은 약한 방식 암호화를 사용하려는 시도가 이뤄졌다.</dd>
 </dl>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -215,13 +226,12 @@ char *crypt_r(const char *key, const char *salt,
 <p><code>crypt_r()</code>은 GNU 확장이다.</p>
 <h2 id="notes">NOTES</h2>
 <h3 id="glibc">glibc에서 사용 가능 여부</h3>
-<p><code>crypt()</code>, <tt>[[encrypt(3)]]</tt>, <tt>[[setkey(3)]]</tt> 함수는 POSIX.1-2008 XSI Options Group for Encryption의 일부이며 선택적이다. 이 인터페이스들이 사용 가능하지 않은 경우에는 심볼 상수 <code>_XOPEN_CRYPT</code>가 정의돼 있지 않거나 -1로 정의돼 있으며, 런타임에는 <tt>[[sysconf(3)]]</tt>로 사용 가능 여부를 확인할 수 있다. 배포판에서 glibc의 crypt를 <code>libxcrypt</code>로 전환한 경우가 여기 해당할 수 있다. 그런 배포판에서 응용을 다시 컴파일 할 때 프로그래머는 <code>_XOPEN_CRYPT</code>가 사용 가능하지 않은 걸 감지하면 함수 원형을 위해 <code>&lt;crypt.h&gt;</code>를 포함시켜야 한다. 사용 가능하지 않은 경우 <code>libxcrypt</code>가 ABI 호환인 대체물이 돼 준다.</p>
+<p><code>crypt()</code>, <tt><a class="wikilink" href="/man-pages-ko/encrypt(3)/">encrypt(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/setkey(3)/">setkey(3)</a></tt> 함수는 POSIX.1-2008 XSI Options Group for Encryption의 일부이며 선택적이다. 이 인터페이스들이 사용 가능하지 않은 경우에는 심볼 상수 <code>_XOPEN_CRYPT</code>가 정의돼 있지 않거나 -1로 정의돼 있으며, 런타임에는 <tt><a class="wikilink" href="/man-pages-ko/sysconf(3)/">sysconf(3)</a></tt>로 사용 가능 여부를 확인할 수 있다. 배포판에서 glibc의 crypt를 <code>libxcrypt</code>로 전환한 경우가 여기 해당할 수 있다. 그런 배포판에서 응용을 다시 컴파일 할 때 프로그래머는 <code>_XOPEN_CRYPT</code>가 사용 가능하지 않은 걸 감지하면 함수 원형을 위해 <code>&lt;crypt.h&gt;</code>를 포함시켜야 한다. 사용 가능하지 않은 경우 <code>libxcrypt</code>가 ABI 호환인 대체물이 돼 준다.</p>
 <h3 id="glibc_1">glibc에서의 기능들</h3>
 <p>이 함수의 glibc 버전에서는 다른 암호화 알고리듬들을 추가로 지원한다.</p>
 <p><code>salt</code>가 <code>$id$</code>로 시작해서 그 뒤에 선택적으로 "$"로 끝나는 문자열이 오는 경우에는 결과가 다음 형태가 된다.</p>
-<pre><code class="text">$id$salt$encrypted
+<pre><code class="language-text">$id$salt$encrypted
 </code></pre>
-
 <p><code>id</code>는 DES 대신 쓰는 암호화 방식을 나타내며 이 값이 패스워드 문자열 나머지를 어떻게 해석해야 하는지 결정한다. 다음 <code>id</code> 값을 지원한다.</p>
 <table>
 <thead>
@@ -275,14 +285,13 @@ char *crypt_r(const char *key, const char *salt,
 </table>
 <p>"<code>salt</code>" 및 "<code>encrypted</code>"의 문자들은 <code>[a-zA-Z0-9./]</code> 집합에서 고른다. MD5 및 SHA 구현에서는 (DES에서처럼 처음 8바이트가 아니라) <code>key</code> 전체를 계산에 쓴다.</p>
 <p>glibc 2.7부터 SHA-256 및 SHA-512 구현에서 해싱 라운드 수를 사용자가 지정할 수 있으며 기본은 5000번이다. 솔트의 "<code>$id$</code>" 다음에 "<code>rounds=xxx$</code>"가 오는 경우에는 (<code>xxx</code>는 정수) 결과가 다음 형태가 된다.</p>
-<pre><code class="text">$id$rounds=yyy$salt$encrypted
+<pre><code class="language-text">$id$rounds=yyy$salt$encrypted
 </code></pre>
-
 <p>여기서 <code>yyy</code>는 실제 적용된 해싱 라운드 수이다. 실제 적용된 라운드 수는 <code>xxx</code>가 1000보다 작은 경우에는 1000이고, <code>xxx</code>가 999999999보다 큰 경우에는 999999999이고, 그 외에는 <code>xxx</code>와 같다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>login(1)</code>, <code>passwd(1)</code>, <tt>[[encrypt(3)]]</tt>, <tt>[[getpass(3)]]</tt>, <code>passwd(5)</code></p>
+<p><code>login(1)</code>, <code>passwd(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/encrypt(3)/">encrypt(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/getpass(3)/">getpass(3)</a></tt>, <code>passwd(5)</code></p>
 <hr />
-<p>2018-04-30</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/aio_error(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/aio_error%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Aio error(3) - man-pages-ko</title>
+    <title>aio_error(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -143,7 +143,7 @@
         <li class="first-level "><a href="#versions">VERSIONS</a></li>
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
@@ -152,14 +152,13 @@
 <h2 id="name">NAME</h2>
 <p>aio_error - 비동기 I/O 동작의 오류 상태 얻기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;aio.h&gt;
+<pre><code class="language-c">#include &lt;aio.h&gt;
 
 int aio_error(const struct aiocb *aiocbp);
 </code></pre>
-
 <p><code>-lrt</code>로 링크.</p>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>aio_error()</code> 함수는 <code>aiocbp</code>가 가리키는 제어 블록의 비동기 I/O 요청에 대해 오류 상태를 반환한다. (<code>aiocb</code> 구조체에 대한 설명은 <tt>[[aio(7)]]</tt> 참고.)</p>
+<p><code>aio_error()</code> 함수는 <code>aiocbp</code>가 가리키는 제어 블록의 비동기 I/O 요청에 대해 오류 상태를 반환한다. (<code>aiocb</code> 구조체에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/aio(7)/">aio(7)</a></tt> 참고.)</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>이 함수는 다음 중 하나를 반환한다.</p>
 <ul>
@@ -179,14 +178,14 @@ int aio_error(const struct aiocb *aiocbp);
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EINVAL</code></dt>
-<dd><code>aiocbp</code>가 아직 반환 상태를 가져오지 않은 (<tt>[[aio_return(3)]]</tt> 참고) 비동기 I/O 요청의 제어 블록을 가리키고 있지 않다.</dd>
+<dd><code>aiocbp</code>가 아직 반환 상태를 가져오지 않은 (<tt><a class="wikilink" href="/man-pages-ko/aio_return(3)/">aio_return(3)</a></tt> 참고) 비동기 I/O 요청의 제어 블록을 가리키고 있지 않다.</dd>
 <dt><code>ENOSYS</code></dt>
 <dd><code>aio_error()</code>가 구현돼 있지 않다.</dd>
 </dl>
 <h2 id="versions">VERSIONS</h2>
 <p>glibc 2.1부터 <code>aio_error()</code> 함수가 사용 가능하다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -205,12 +204,12 @@ int aio_error(const struct aiocb *aiocbp);
 </table>
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008.</p>
-<h2 id="example">EXAMPLE</h2>
-<p><tt>[[aio(7)]] 참고.</p>
+<h2 id="examples">EXAMPLES</h2>
+<p><tt><a class="wikilink" href="/man-pages-ko/aio(7)/">aio(7)</a> 참고.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[aio_cancel(3)]]</tt>, <tt>[[aio_fsync(3)]]</tt>, <tt>[[aio_read(3)]]</tt>, <tt>[[aio_return(3)]]</tt>, <tt>[[aio_suspend(3)]]</tt>, <tt>[[aio_write(3)]]</tt>, <tt>[[lio_listio(3)]]</tt>, <tt>[[aio(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/aio_cancel(3)/">aio_cancel(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/aio_fsync(3)/">aio_fsync(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/aio_read(3)/">aio_read(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/aio_return(3)/">aio_return(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/aio_suspend(3)/">aio_suspend(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/aio_write(3)/">aio_write(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/lio_listio(3)/">lio_listio(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/aio(7)/">aio(7)</a></tt></p>
 <hr />
-<p>2015-03-02</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

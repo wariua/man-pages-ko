@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_join(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_join%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Pthread join(3) - man-pages-ko</title>
+    <title>pthread_join(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -143,7 +143,7 @@
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
@@ -152,15 +152,14 @@
 <h2 id="name">NAME</h2>
 <p>pthread_join - 종료한 스레드와 합류하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;pthread.h&gt;
+<pre><code class="language-c">#include &lt;pthread.h&gt;
 
 int pthread_join(pthread_t thread, void **retval);
 </code></pre>
-
 <p><code>-pthread</code>로 컴파일 및 링크.</p>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>pthread_join()</code> 함수는 <code>thread</code>로 지정한 스레드가 종료하기를 기다린다. 스레드가 이미 종료했으면 <code>pthread_join()</code>이 즉시 반환한다. <code>thread</code>로 지정한 스레드가 합류 가능해야 한다.</p>
-<p><code>retval</code>이 NULL이 아니면 <code>pthread_join()</code>은 대상 스레드의 종료 상태(즉 대상 스레드가 <tt>[[pthread_exit(3)]]</tt>에 준 값)를 <code>retval</code>이 가리키는 위치로 복사한다. 대상 스레드가 취소됐으면 <code>retval</code>이 가리키는 위치에 <code>PTHREAD_CANCELED</code>가 들어간다.</p>
+<p><code>retval</code>이 NULL이 아니면 <code>pthread_join()</code>은 대상 스레드의 종료 상태(즉 대상 스레드가 <tt><a class="wikilink" href="/man-pages-ko/pthread_exit(3)/">pthread_exit(3)</a></tt>에 준 값)를 <code>retval</code>이 가리키는 위치로 복사한다. 대상 스레드가 취소됐으면 <code>retval</code>이 가리키는 위치에 <code>PTHREAD_CANCELED</code>가 들어간다.</p>
 <p>여러 스레드가 동시에 동일 스레드와 합류하려고 하는 경우의 결과는 규정되어 있지 않다. <code>pthread_join()</code>을 호출 중인 스레드가 취소되는 경우에는 대상 스레드가 계속 합류 가능 상태로 남는다. (즉 분리되지 않는다.)</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 <code>pthread_join()</code>은 0을 반환한다. 오류 시 오류 번호를 반환한다.</p>
@@ -176,7 +175,7 @@ int pthread_join(pthread_t thread, void **retval);
 <dd>ID가 <code>thread</code>인 스레드를 찾을 수 없다.</dd>
 </dl>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -201,12 +200,12 @@ int pthread_join(pthread_t thread, void **retval);
 <p>합류 가능한 (즉 분리되지 않은) 스레드와 합류하지 않으면 "좀비 스레드"가 생긴다. 이를 피해야 한다. 각 좀비 스레드는 얼마간 시스템 자원을 소모하며, 좀비 스레드가 많이 쌓이면 새 스레드를 (또는 프로세스를) 생성하는 게 불가능해진다.</p>
 <p><code>waitpid(-1, &amp;status, 0)</code>의 pthreads 등가물, 즉 "종료한 아무 스레드와 합류하기"는 없다. 이런 기능이 필요하다고 생각한다면 아마 응용 설계를 다시 생각해 봐야 할 것이다.</p>
 <p>프로세스 내의 모든 스레드는 동료이다. 즉 어느 스레드든 프로세스 내 다른 모든 스레드와 합류할 수 있다.</p>
-<h2 id="example">EXAMPLE</h2>
-<p><tt>[[pthread_create(3)]]</tt> 참고.</p>
+<h2 id="examples">EXAMPLES</h2>
+<p><tt><a class="wikilink" href="/man-pages-ko/pthread_create(3)/">pthread_create(3)</a></tt> 참고.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[pthread_cancel(3)]]</tt>, <tt>[[pthread_create(3)]]</tt>, <tt>[[pthread_detach(3)]]</tt>, <tt>[[pthread_exit(3)]]</tt>, <tt>[[pthread_tryjoin_np(3)]]</tt>, <tt>[[pthreads(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/pthread_cancel(3)/">pthread_cancel(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_create(3)/">pthread_create(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_detach(3)/">pthread_detach(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_exit(3)/">pthread_exit(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_tryjoin_np(3)/">pthread_tryjoin_np(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthreads(7)/">pthreads(7)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

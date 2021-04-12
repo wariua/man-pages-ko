@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/sendmmsg(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/sendmmsg%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Sendmmsg(2) - man-pages-ko</title>
+    <title>sendmmsg(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -144,7 +144,7 @@
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
         <li class="first-level "><a href="#bugs">BUGS</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
@@ -153,33 +153,31 @@
 <h2 id="name">NAME</h2>
 <p>sendmmsg - 소켓으로 여러 메시지 보내기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
+<pre><code class="language-c">#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
 #include &lt;sys/socket.h&gt;
 
 int sendmmsg(int sockfd, struct mmsghdr *msgvec, unsigned int vlen,
              int flags);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
-<p><code>sendmmsg()</code> 시스템 호출은 <tt>[[sendmsg(2)]]</tt>를 확장한 것이다. 호출자가 시스템 호출 한 번으로 소켓에서 여러 메시지를 전송할 수 있게 해 준다. (일부 응용에서 성능상 이점이 있다.)</p>
+<p><code>sendmmsg()</code> 시스템 호출은 <tt><a class="wikilink" href="/man-pages-ko/sendmsg(2)/">sendmsg(2)</a></tt>를 확장한 것이다. 호출자가 시스템 호출 한 번으로 소켓에서 여러 메시지를 전송할 수 있게 해 준다. (일부 응용에서 성능상 이점이 있다.)</p>
 <p><code>sockfd</code> 인자는 데이터를 송신할 소켓의 파일 디스크립터이다.</p>
 <p><code>msgvec</code> 인자는 <code>mmsghdr</code> 구조체 배열에 대한 포인터이다. 이 배열의 크기를 <code>vlen</code>에 지정한다.</p>
 <p><code>mmsghdr</code> 구조체는 <code>&lt;sys/socket.h&gt;</code>에 다음처럼 정의돼 있다.</p>
-<pre><code class="c">struct mmsghdr {
+<pre><code class="language-c">struct mmsghdr {
     struct msghdr msg_hdr;  /* 메시지 헤더 */
     unsigned int  msg_len;  /* 전송한 바이트 수 */
 };
 </code></pre>
-
-<p><code>msg_hdr</code> 필드는 <tt>[[sendmsg(2)]]</tt>에서 기술하는 <code>msghdr</code> 구조체이다. <code>msg_len</code> 필드를 이용해 <code>msg_hdr</code>의 메시지에서 보낸 바이트 수를 반환한다. (즉 따로 <tt>[[sendmsg(2)]]</tt>를 호출했을 때의 반환 값과 같다.)</p>
-<p><code>flags</code> 인자는 OR 한 플래그들을 담는다. 플래그들은 <tt>[[sendmsg(2)]]</tt>에서와 같다.</p>
+<p><code>msg_hdr</code> 필드는 <tt><a class="wikilink" href="/man-pages-ko/sendmsg(2)/">sendmsg(2)</a></tt>에서 기술하는 <code>msghdr</code> 구조체이다. <code>msg_len</code> 필드를 이용해 <code>msg_hdr</code>의 메시지에서 보낸 바이트 수를 반환한다. (즉 따로 <tt><a class="wikilink" href="/man-pages-ko/sendmsg(2)/">sendmsg(2)</a></tt>를 호출했을 때의 반환 값과 같다.)</p>
+<p><code>flags</code> 인자는 OR 한 플래그들을 담는다. 플래그들은 <tt><a class="wikilink" href="/man-pages-ko/sendmsg(2)/">sendmsg(2)</a></tt>에서와 같다.</p>
 <p>블로킹 <code>sendmmsg()</code> 호출은 <code>vlen</code>개 메시지를 송신할 때까지 블록 한다. 논블로킹 호출은 가능한 많은 메시지를 (<code>vlen</code>으로 지정한 한계까지) 보내고서 즉시 반환한다.</p>
 <p><code>sendmmsg()</code>에서 반환 시 <code>msgvec</code>의 연속된 항목들의 <code>msg_len</code> 필드가 대응하는 <code>msg_hdr</code>에서의 전송 바이트 수를 담도록 갱신되어 있다. 호출의 반환 값은 갱신된 <code>msgvec</code> 항목 개수를 나타낸다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 <code>sendmmsg()</code>는 <code>msgvec</code>에서 보낸 메시지 개수를 반환한다. 그 값이 <code>vlen</code>보다 작은 경우 호출자가 <code>sendmmsg()</code>를 추가로 호출해서 나머지 메시지들을 보내려 할 수 있다.</p>
 <p>오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
-<p>오류들이 <tt>[[sendmsg(2)]]</tt>에서와 같다. 어떤 데이터그램도 보낼 수 없었던 경우에만 오류를 반환한다. BUGS도 참고.</p>
+<p>오류들이 <tt><a class="wikilink" href="/man-pages-ko/sendmsg(2)/">sendmsg(2)</a></tt>에서와 같다. 어떤 데이터그램도 보낼 수 없었던 경우에만 오류를 반환한다. BUGS도 참고.</p>
 <h2 id="versions">VERSIONS</h2>
 <p>리눅스 3.0에서 <code>sendmmsg()</code> 시스템 호출이 추가되었다. glibc 버전 2.14에서 지원이 추가되었다.</p>
 <h2 id="conforming-to">CONFORMING TO</h2>
@@ -188,9 +186,9 @@ int sendmmsg(int sockfd, struct mmsghdr *msgvec, unsigned int vlen,
 <p><code>vlen</code>에 지정할 수 있는 값의 한도가 <code>UIO_MAXIOV</code>(1024)이다.</p>
 <h2 id="bugs">BUGS</h2>
 <p>최소 한 개 메시지를 보낸 후에 오류가 발생하면 호출이 성공하고 보낸 메시지 수를 반환한다. 오류 코드는 유실된다. 호출자가 실패한 첫 번째 메시지부터 전송을 재시도할 수 있지만 그때 설령 오류가 발생한다고 해도 그게 이전 호출에서 유실된 것과 같은 오류라는 보장이 없다.</p>
-<h2 id="example">EXAMPLE</h2>
+<h2 id="examples">EXAMPLES</h2>
 <p>아래 예에서는 <code>sendmmsg()</code>를 사용해 시스템 호출 한 번으로 UDP 데이터그램 두 개에 <code>onetwo</code>와 <code>three</code>를 보낸다. 첫 번째 데이터그램의 내용은 두 버퍼에서 온 것이다.</p>
-<pre><code class="c">#define _GNU_SOURCE
+<pre><code class="language-c">#define _GNU_SOURCE
 #include &lt;netinet/ip.h&gt;
 #include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
@@ -247,11 +245,10 @@ main(void)
     exit(0);
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[recvmmsg(2)]]</tt>, <tt>[[sendmsg(2)]]</tt>, <tt>[[socket(2)]]</tt>, <tt>[[socket(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/recvmmsg(2)/">recvmmsg(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sendmsg(2)/">sendmsg(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/socket(2)/">socket(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/socket(7)/">socket(7)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2020-06-09</p></div>
         
         
     </div>

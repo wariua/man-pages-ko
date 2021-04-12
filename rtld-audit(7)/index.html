@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/rtld-audit(7)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/rtld-audit%287%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Rtld audit(7) - man-pages-ko</title>
+    <title>rtld-audit(7) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -159,7 +159,7 @@
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
         <li class="first-level "><a href="#bugs">BUGS</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
@@ -168,29 +168,27 @@
 <h2 id="name">NAME</h2>
 <p>rtld-audit - 동적 링커 감사 API</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#define _GNU_SOURCE             /* feature_test_macros(7) 참고 */
+<pre><code class="language-c">#define _GNU_SOURCE             /* feature_test_macros(7) 참고 */
 #include &lt;link.h&gt;
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p>GNU 동적 링커(런타임 링커)에서 감사 API를 제공하는데 이를 통해 다양한 동적 링크 이벤트 발생 시에 응용에서 알림을 받을 수 있다. 이 API는 솔라리스 런타임 링커에서 제공하는 감사 인터페이스와 매우 비슷하다. <code>&lt;link.h&gt;</code>를 포함시켜서 필요한 상수 및 원형들을 정의한다.</p>
 <p>이 인터페이스를 사용하려는 프로그래머는 표준 이름의 함수들을 구현한 공유 라이브러리를 만들게 된다. 모든 함수를 구현해야 하는 건 아니다. 대부분의 경우 특정 이벤트 감사 유형에 대해 프로그래머가 관심이 없으면 대응하는 감사 함수 구현을 제공할 필요가 없다.</p>
 <p>감사 인터페이스를 사용하려면 환경 변수 <code>LD_AUDIT</code>을 콤마로 구분된 공유 라이브러리 목록을 담도록 정의해야 한다. 그 라이브러리들 각각에서 감사 API(의 일부)를 구현할 수 있다. 감사 대상 이벤트가 발생하면 라이브러리 나열 순서 대로 각 라이브러리의 대응 함수가 호출된다.</p>
 <h3 id="la_version"><code>la_version()</code></h3>
-<pre><code class="c">unsigned int la_version(unsigned int version);
+<pre><code class="language-c">unsigned int la_version(unsigned int version);
 </code></pre>
-
-<p>감사 라이브러리에 <em>꼭 정의돼 있어야 하는</em> 유일한 함수이며 동적 링커와 감사 라이브러리 간의 첫인사를 수행한다. 동적 링커가 이 함수를 호출할 때 링커에서 지원하는 가장 높은 감사 인터페이스 버전을 <code>version</code>으로 전달한다. 필요 시 감사 라이브러리에서 자기 요건에 그 버전이 충분한지 확인할 수 있다.</p>
-<p>함수 결과로 이 함수는 이 감사 라이브러리에서 사용을 기대하는 감사 인터페이스 버전을 반환해야 한다. (<code>version</code>을 반환하는 것도 가능하다.) 반환 값이 0이거나 동적 링커가 지원하는 것보다 큰 버전이면 그 감사 라이브러리를 무시한다.</p>
+<p>감사 라이브러리에 <em>꼭 정의돼 있어야 하는</em> 유일한 함수이며 동적 링커와 감사 라이브러리 간의 첫인사를 수행한다. 동적 링커가 이 함수를 호출할 때 링커에서 지원하는 가장 높은 감사 인터페이스 버전을 <code>version</code>으로 전달한다.</p>
+<p>보통은 그냥 상수 <code>LAV_CURRENT</code>를 반환하게 구현하는데, 그 상수는 감사 모듈을 빌드하는 데 사용한 <code>&lt;link.h&gt;</code>의 버전을 나타낸다. 동적 링커가 이 감사 인터페이스 버전을 지원하지 않으면 감사 모듈을 활성화하지 않게 된다. 함수에서 0을 반환하는 경우에도 동적 링커가 이 감사 모듈을 활성화하지 않는다.</p>
+<p>오래된 동적 링커와의 하위 호환성을 위해서 감사 모듈에서 <code>version</code> 인자를 검사해서 <code>LAV_CURRENT</code>보다 앞선 버전을 반환할 수 있다. 물론 이전 감사 인터페이스 버전의 요구 사항에 맞게 구현 방식을 조정할 수 있어야 한다. <code>la_version</code> 함수에서 다른 검사 없이 <code>version</code> 값을 그대로 반환하지는 않는 게 좋다. 감사 모듈 빌드에 쓰인 <code>&lt;link.h&gt;</code> 정의들과 일치하지 않는 인터페이스에 대응하는 버전일 수 있기 때문이다.</p>
 <h3 id="la_objsearch"><code>la_objsearch()</code></h3>
-<pre><code class="c">char *la_objsearch(const char *name, uintptr_t *cookie,
+<pre><code class="language-c">char *la_objsearch(const char *name, uintptr_t *cookie,
                    unsigned int flag);
 </code></pre>
-
 <p>동적 링커에서 이 함수를 호출해서 공유 오브젝트 탐색을 하려 한다는 걸 감사 라이브러리에게 알린다. <code>name</code> 인자는 탐색할 파일명이나 경로명이다. <code>cookie</code>는 탐색을 유발한 공유 오브젝트를 식별할 수 있게 해 준다. <code>flag</code>는 다음 값들 중 하나로 설정돼 있다.</p>
 <dl>
 <dt><code>LA_SER_ORIG</code></dt>
-<dd><code>name</code>이 탐색하려는 원래 이름이다. 보통 ELF <code>DT_NEEDED</code> 항목에서 온 이름이거나 <tt>[[dlopen(3)]]</tt>의 <code>filename</code> 인자이다.</dd>
+<dd><code>name</code>이 탐색하려는 원래 이름이다. 보통 ELF <code>DT_NEEDED</code> 항목에서 온 이름이거나 <tt><a class="wikilink" href="/man-pages-ko/dlopen(3)/">dlopen(3)</a></tt>의 <code>filename</code> 인자이다.</dd>
 <dt><code>LA_SER_LIBPATH</code></dt>
 <dd><code>LD_LIBRARY_PATH</code>에 지정된 디렉터리를 이용해 <code>name</code>을 만들었다.</dd>
 <dt><code>LA_SER_RUNPATH</code></dt>
@@ -204,9 +202,8 @@
 </dl>
 <p>함수 결과로 <code>la_objsearch()</code>는 동적 링커가 이후 처리에 사용해야 할 경로명을 반환한다. NULL을 반환하면 이 경로명을 이후 처리에서 무시한다. 감사 라이브러리에서 탐색 경로를 감시만 하려는 거라면 <code>name</code>을 반환하면 된다.</p>
 <h3 id="la_activity"><code>la_activity()</code></h3>
-<pre><code class="c">void la_activity(uintptr_t *cookie, unsigned int flag);
+<pre><code class="language-c">void la_activity(uintptr_t *cookie, unsigned int flag);
 </code></pre>
-
 <p>동적 링커가 이 함수를 호출해서 링크 맵 동작이 있어나고 있다는 걸 감사 라이브러리에게 알린다. <code>cookie</code>는 링크 맵의 머리에 있는 오브젝트를 식별할 수 있게 해 준다. 동적 링커가 이 함수를 호출할 때 <code>flag</code>를 다음 값들 중 하나로 설정한다.</p>
 <dl>
 <dt><code>LA_ACT_ADD</code></dt>
@@ -217,16 +214,15 @@
 <dd>링크 맵 동작이 끝났다. 맵이 다시 모순 없는 상태이다.</dd>
 </dl>
 <h3 id="la_objopen"><code>la_objopen()</code></h3>
-<pre><code class="c">unsigned int la_objopen(struct link_map *map, Lmid_t lmid,
+<pre><code class="language-c">unsigned int la_objopen(struct link_map *map, Lmid_t lmid,
                         uintptr_t *cookie);
 </code></pre>
-
 <p>새 공유 오브젝트를 적재할 때 동적 링커가 이 함수를 호출한다. <code>map</code> 인자는 그 오브젝트를 기술하는 링크 맵 구조체에 대한 포인터이다. <code>lmid</code> 인자는 다음 값들 중 하나이다.</p>
 <dl>
 <dt><code>LM_ID_BASE</code></dt>
 <dd>링크 맵이 최초 네임스페이스에 속한다.</dd>
 <dt><code>LM_ID_NEWLM</code></dt>
-<dd>링크 맵이 <tt>[[dlmopen(3)]]</tt>을 통해 요청된 새 네임스페이스에 속한다.</dd>
+<dd>링크 맵이 <tt><a class="wikilink" href="/man-pages-ko/dlmopen(3)/">dlmopen(3)</a></tt>을 통해 요청된 새 네임스페이스에 속한다.</dd>
 </dl>
 <p><code>cookie</code>는 이 오브젝트의 식별자에 대한 포인터이다. 이후의 감사 라이브러리 함수 호출에 이 식별자가 제공되므로 이 오브젝트를 식별할 수 있다. 이 식별자는 오브젝트의 링크 맵을 가리키도록 초기화 돼 있지만 감사 라이브러리에서 오브젝트 식별에 쓰기 편한 다른 어떤 값으로 바꿀 수 있다.</p>
 <p>반환 값으로 <code>la_objopen()</code>은 다음 상수들을 0개 이상 OR 해서 만든 비트 마스크를 반환한다. 그래서 감사 라이브러리에서 <code>la_symbind*()</code>로 감시할 오브젝트를 선택할 수 있다.</p>
@@ -238,25 +234,22 @@
 </dl>
 <p><code>la_objopen()</code>의 반환 값 0은 이 오브젝트에 대해 어떤 심볼 바인딩도 감사하지 않을 것임을 나타낸다.</p>
 <h3 id="la_objclose"><code>la_objclose()</code></h3>
-<pre><code class="c">unsinged int la_objclose(uintptr_t *cookie);
+<pre><code class="language-c">unsinged int la_objclose(uintptr_t *cookie);
 </code></pre>
-
 <p>오브젝트에 마무리 코드가 있으면 실행한 후이면서 그 오브젝트를 내리기는 전에 동적 링커가 이 함수를 호출한다. <code>cookie</code> 인자는 앞선 <code>la_objopen()</code> 호출에서 얻은 식별자이다.</p>
 <p>현재 구현에서는 <code>la_objclose()</code>가 반환하는 값을 무시한다.</p>
 <h3 id="la_preinit"><code>la_preinit()</code></h3>
-<pre><code class="c">void la_preinit(uintptr_t *cookie);
+<pre><code class="language-c">void la_preinit(uintptr_t *cookie);
 </code></pre>
-
-<p>모든 공유 오브젝트들을 적재한 후이면서 응용으로 제어를 넘기기는 전에 (즉 <code>main()</code> 호출 전에) 동적 링커가 이 함수를 호출한다. 참고로 이후 <code>main()</code>에서도 <tt>[[dlopen(3)]]</tt>으로 오브젝트를 동적으로 적재할 수 있다.</p>
+<p>모든 공유 오브젝트들을 적재한 후이면서 응용으로 제어를 넘기기는 전에 (즉 <code>main()</code> 호출 전에) 동적 링커가 이 함수를 호출한다. 참고로 이후 <code>main()</code>에서도 <tt><a class="wikilink" href="/man-pages-ko/dlopen(3)/">dlopen(3)</a></tt>으로 오브젝트를 동적으로 적재할 수 있다.</p>
 <h3 id="la_symbind"><code>la_symbind*()</code></h3>
-<pre><code class="c">uintptr_t la_symbind32(Elf32_Sym *sym, unsigned int ndx,
+<pre><code class="language-c">uintptr_t la_symbind32(Elf32_Sym *sym, unsigned int ndx,
                        uintptr_t *refcook, uintptr_t *defcook,
                        unsigned int *flags, const char *symname);
 uintptr_t la_symbind64(Elf64_Sym *sym, unsigned int ndx,
                        uintptr_t *refcook, uintptr_t *defcook,
                        unsigned int *flags, const char *symname);
 </code></pre>
-
 <p><code>la_objopen()</code>에서 감사 알림을 받게 표시했던 두 공유 오브젝트 간에 심볼 바인딩이 이뤄질 때 동적 링커가 이 함수들 중 하나를 호출한다. <code>la_symbind32()</code> 함수는 32비트 플랫폼에서 쓰는 것이고 <code>la_symbind64()</code> 함수는 64비트 플랫폼에서 쓰는 것이다.</p>
 <p><code>sym</code> 인자는 바인드 하려는 심볼에 대한 정보를 제공하는 구조체에 대한 포인터이다. 구조체 정의는 <code>&lt;elf.h&gt;</code>에 있다. 이 구조체의 필드들 중에 <code>st_value</code>은 심볼이 바인드 되는 주소를 나타낸다.</p>
 <p><code>ndx</code> 인자는 바인드 대상 공유 오브젝트의 심볼 테이블에서 그 심볼의 인덱스이다.</p>
@@ -265,7 +258,7 @@ uintptr_t la_symbind64(Elf64_Sym *sym, unsigned int ndx,
 <p><code>flags</code> 인자는 심볼에 대한 정보를 제공하면서 동시에 이 PLT(Procedure Linkage Table) 항목의 이후 감사 방식을 변경하는 데 쓸 수 있는 비트 마스크이다. 동적 링커가 이 인자에 다음 비트 값들을 제공할 수 있다.</p>
 <dl>
 <dt><code>LA_SYMB_DLSYM</code></dt>
-<dd><tt>[[dlsym(3)]]</tt> 호출로 인해 바인딩이 발생했다.</dd>
+<dd><tt><a class="wikilink" href="/man-pages-ko/dlsym(3)/">dlsym(3)</a></tt> 호출로 인해 바인딩이 발생했다.</dd>
 <dt><code>LA_SYMB_ALTVALUE</code></dt>
 <dd>앞선 <code>la_symbind*()</code> 호출이 이 심볼에 대해 대체 값을 반환했다.</dd>
 </dl>
@@ -279,12 +272,11 @@ uintptr_t la_symbind64(Elf64_Sym *sym, unsigned int ndx,
 <p><code>la_symbind32()</code> 및 <code>la_symbind64()</code>의 반환 값은 함수 반환 후 제어가 넘어가야 할 주소이다. 감사 라이브러리에서 심볼 바인딩을 감시만 하려는 거라면 <code>sym-&gt;st_value</code>를 반환하면 된다. 라이브러리에서 제어를 다른 방향으로 바꾸고 싶다면 다른 값을 반환할 수 있다.</p>
 <h3 id="la_pltenter"><code>la_pltenter()</code></h3>
 <p>이 함수의 정확한 이름과 인자 타입은 하드웨어 플랫폼에 따라 다르다. (<code>&lt;link.h&gt;</code>에 절적한 정의가 있다.) 다음은 x86-32용 정의이다.</p>
-<pre><code class="c">Elf32_Addr la_i86_gnu_pltenter(Elf32_Sym *sym, unsigned int ndx,
+<pre><code class="language-c">Elf32_Addr la_i86_gnu_pltenter(Elf32_Sym *sym, unsigned int ndx,
                  uintptr_t *refcook, uintptr_t *defcook,
                  La_i86_regs *regs, unsigned int *flags,
-                 const char *symname, long int *framesizep);
+                 const char *symname, long *framesizep);
 </code></pre>
-
 <p>바인딩 알림을 받게 표시된 두 공유 오브젝트 간에서 PLT 항목이 호출되기 바로 전에 이 함수가 호출된다.</p>
 <p><code>sym</code>, <code>ndx</code>, <code>refcook</code>, <code>defcook</code>, <code>symname</code>은 <code>la_symbind*()</code>에서와 같다.</p>
 <p><code>regs</code> 인자는 이 PLT 항목 호출에 사용될 레지스터들의 값을 담은 구조체(<code>&lt;link.h&gt;</code>에 정의돼 있음)를 가리킨다.</p>
@@ -293,12 +285,11 @@ uintptr_t la_symbind64(Elf64_Sym *sym, unsigned int ndx,
 <p><code>la_pltenter()</code>의 반환 값은 <code>la_symbind*()</code>에서와 같다.</p>
 <h3 id="la_pltexit"><code>la_pltexit()</code></h3>
 <p>이 함수의 정확한 이름과 인자 타입은 하드웨어 플랫폼에 따라 다르다. (<code>&lt;link.h&gt;</code>에 절적한 정의가 있다.) 다음은 x86-32용 정의이다.</p>
-<pre><code class="c">unsigned int la_i86_gnu_pltexit(Elf32_Sym *sym, unsigned int ndx,
+<pre><code class="language-c">unsigned int la_i86_gnu_pltexit(Elf32_Sym *sym, unsigned int ndx,
                  uintptr_t *refcook, uintptr_t *defcook,
                  const La_i86_regs *inregs, La_i86_retval *outregs,
                  const char *symname);
 </code></pre>
-
 <p>바인딩 알림을 받게 표시된 두 공유 오브젝트 간에서 PLT 항목이 반환할 때 이 함수가 호출된다. PLT 항목 호출자에게 제어가 돌아가기 바로 전에 함수가 호출된다.</p>
 <p><code>sym</code>, <code>ndx</code>, <code>refcook</code>, <code>defcook</code>, <code>symname</code>은 <code>la_symbind*()</code>에서와 같다.</p>
 <p><code>inregs</code> 인자는 이 PLT 항목 호출에 사용된 레지스터들의 값을 담은 구조체(<code>&lt;link.h&gt;</code>에 정의돼 있음)를 가리킨다. <code>outregs</code> 인자는 이 PLT 항목 호출의 반환 값을 담은 구조체(<code>&lt;link.h&gt;</code>에 정의돼 있음)를 가리킨다. 이 값들을 호출자가 변경할 수 있으며 그 변경 내용이 PLT 항목 호출자에게 보이게 된다.</p>
@@ -320,16 +311,17 @@ uintptr_t la_symbind64(Elf64_Sym *sym, unsigned int ndx,
 </ul>
 <h2 id="bugs">BUGS</h2>
 <p>glibc 버전 2.9까지에서 <code>LD_AUDIT</code>에 감사 라이브러리를 여러 개 지정하면 런타임 크래시가 발생한다. glibc 2.10에서 고쳐졌다고 한다.</p>
-<h2 id="example">EXAMPLE</h2>
-<pre><code class="c">#include &lt;link.h&gt;
+<h2 id="examples">EXAMPLES</h2>
+<pre><code class="language-c">#include &lt;link.h&gt;
 #include &lt;stdio.h&gt;
 
 unsigned int
 la_version(unsigned int version)
 {
-    printf(&quot;la_version(): %d\n&quot;, version);
+    printf(&quot;la_version(): version = %d; LAV_CURRENT = %u\n&quot;,
+            version, LAV_CURRENT);
 
-    return version;
+    return LAV_CURRENT;
 }
 
 char *
@@ -391,7 +383,7 @@ la_symbind32(Elf32_Sym *sym, unsigned int ndx, uintptr_t *refcook,
 {
     printf(&quot;la_symbind32(): symname = %s; sym-&gt;st_value = %p\n&quot;,
             symname, sym-&gt;st_value);
-    printf(&quot;        ndx = %d; flags = 0x%x&quot;, ndx, *flags);
+    printf(&quot;        ndx = %u; flags = %#x&quot;, ndx, *flags);
     printf(&quot;; refcook = %p; defcook = %p\n&quot;, refcook, defcook);
 
     return sym-&gt;st_value;
@@ -403,7 +395,7 @@ la_symbind64(Elf64_Sym *sym, unsigned int ndx, uintptr_t *refcook,
 {
     printf(&quot;la_symbind64(): symname = %s; sym-&gt;st_value = %p\n&quot;,
             symname, sym-&gt;st_value);
-    printf(&quot;        ndx = %d; flags = 0x%x&quot;, ndx, *flags);
+    printf(&quot;        ndx = %u; flags = %#x&quot;, ndx, *flags);
     printf(&quot;; refcook = %p; defcook = %p\n&quot;, refcook, defcook);
 
     return sym-&gt;st_value;
@@ -412,18 +404,17 @@ la_symbind64(Elf64_Sym *sym, unsigned int ndx, uintptr_t *refcook,
 Elf32_Addr
 la_i86_gnu_pltenter(Elf32_Sym *sym, unsigned int ndx,
         uintptr_t *refcook, uintptr_t *defcook, La_i86_regs *regs,
-        unsigned int *flags, const char *symname, long int *framesizep)
+        unsigned int *flags, const char *symname, long *framesizep)
 {
     printf(&quot;la_i86_gnu_pltenter(): %s (%p)\n&quot;, symname, sym-&gt;st_value);
 
     return sym-&gt;st_value;
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>ldd(1)</code>, <tt>[[dlopen(3)]]</tt>, <tt>[[ld.so(8)]]</tt>, <code>ldconfig(8)</code></p>
+<p><code>ldd(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/dlopen(3)/">dlopen(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ld.so(8)/">ld.so(8)</a></tt>, <code>ldconfig(8)</code></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2020-11-01</p></div>
         
         
     </div>

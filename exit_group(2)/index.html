@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/exit_group(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/exit_group%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Exit group(2) - man-pages-ko</title>
+    <title>exit_group(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -150,13 +150,12 @@
 <h2 id="name">NAME</h2>
 <p>exit_group - 프로세스 내의 모든 스레드 끝내기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;linux/unistd.h&gt;
+<pre><code class="language-c">#include &lt;linux/unistd.h&gt;
 
 void exit_group(int status);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
-<p>이 시스템 호출은 호출 스레드뿐만 아니라 호출 프로세스의 스레드 그룹 내의 모든 스레드들을 종료시킨다는 점을 제외하면 <tt>[[_exit(2)]]</tt>와 동등하다.</p>
+<p>이 시스템 호출은 호출 스레드뿐만 아니라 호출 프로세스의 스레드 그룹 내의 모든 스레드들을 종료시킨다는 점을 제외하면 <tt><a class="wikilink" href="/man-pages-ko/_exit(2)/">_exit(2)</a></tt>와 동등하다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>이 시스템 호출은 반환하지 않는다.</p>
 <h2 id="versions">VERSIONS</h2>
@@ -164,9 +163,9 @@ void exit_group(int status);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>이 호출은 리눅스 전용이다.</p>
 <h2 id="notes">NOTES</h2>
-<p>glibc 2.3부터 <tt>[[_exit(2)]]</tt> 래퍼 함수 호출 시 이 시스템 호출을 부른다.</p>
+<p>glibc 2.3부터 <tt><a class="wikilink" href="/man-pages-ko/_exit(2)/">_exit(2)</a></tt> 래퍼 함수 호출 시 이 시스템 호출을 부른다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[_exit(2)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/_exit(2)/">_exit(2)</a></tt></p>
 <hr />
 <p>2008-11-27</p></div>
         

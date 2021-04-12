@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/time(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/time%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Time(2) - man-pages-ko</title>
+    <title>time(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -153,22 +153,21 @@
 <h2 id="name">NAME</h2>
 <p>time - 초 단위 시간 얻기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;time.h&gt;
+<pre><code class="language-c">#include &lt;time.h&gt;
 
 time_t time(time_t *tloc);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>time()</code>은 에포크(Epoch), 즉 1970-01-01 00:00:00 +0000 (UTC) 이후의 초 수로 시간을 반환한다.</p>
 <p><code>tloc</code>이 NULL이 아니면 반환 값을 <code>tloc</code>이 가리키는 메모리에도 저장한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 에포크 이후 초 단위 시간 값을 반환한다. 오류 시 <code>((time_t) -1)</code>을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<p>성공 시 에포크 이후 초 단위 시간 값을 반환한다. 오류 시 <code>((time_t) -1)</code>을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EFAULT</code></dt>
 <dd>
 <p><code>tloc</code>이 접근 가능한 주소 공간 밖을 가리킨다. (하지만 BUGS 참고.)</p>
-<p>C 라이브러리의 <code>time()</code> 래퍼 함수가 <tt>[[vdso(7)]]</tt>에서 제공하는 구현체를 호출하는 (그래서 커널 내 트랩이 발생하지 않는) 시스템에서는 유효하지 않은 주소 사용 시 <code>SIGSEGV</code> 시그널이 유발될 수 있다.</p>
+<p>C 라이브러리의 <code>time()</code> 래퍼 함수가 <tt><a class="wikilink" href="/man-pages-ko/vdso(7)/">vdso(7)</a></tt>에서 제공하는 구현체를 호출하는 (그래서 커널 내 트랩이 발생하지 않는) 시스템에서는 유효하지 않은 주소 사용 시 <code>SIGSEGV</code> 시그널이 유발될 수 있다.</p>
 </dd>
 </dl>
 <h2 id="conforming-to">CONFORMING TO</h2>
@@ -180,11 +179,11 @@ time_t time(time_t *tloc);
 <p>이 시스템 호출에서 오류를 반환하는 경우와 에포크에서 몇 초 <em>전</em> 시간에 성공 값을 알려 주는 경우를 구별할 수 없다. 따라서 C 라이브러리 래퍼 함수에서는 절대로 이 호출의 결과 값에 따라 <code>errno</code>를 설정하지 않는다.</p>
 <p><code>tloc</code> 인자는 구식이 됐으며 새로 작성하는 코드에서는 항상 NULL로 설정하는 게 좋다. <code>tloc</code>이 NULL일 때 이 호출은 실패할 수 없다.</p>
 <h3 id="c">C 라이브러리/커널 차이</h3>
-<p>일부 아키텍처에서는 <tt>[[vdso(7)]]</tt>에서 <code>time()</code> 구현을 제공한다.</p>
+<p>일부 아키텍처에서는 <tt><a class="wikilink" href="/man-pages-ko/vdso(7)/">vdso(7)</a></tt>에서 <code>time()</code> 구현을 제공한다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>date(1)</code>, <tt>[[gettimeofday(2)]]</tt>, <tt>[[ctime(3)]]</tt>, <tt>[[ftime(3)]]</tt>, <tt>[[time(7)]]</tt>, <tt>[[vdso(7)]]</tt></p>
+<p><code>date(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/gettimeofday(2)/">gettimeofday(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ctime(3)/">ctime(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ftime(3)/">ftime(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/time(7)/">time(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/vdso(7)/">vdso(7)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/offsetof(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/offsetof%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Offsetof(3) - man-pages-ko</title>
+    <title>offsetof(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -140,7 +140,7 @@
         <li class="first-level "><a href="#description">DESCRIPTION</a></li>
         <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
             <li class="second-level"><a href="#_1">프로그램 소스</a></li>
                 
     </ul>
@@ -150,11 +150,10 @@
 <h2 id="name">NAME</h2>
 <p>offsetof - 구조체 멤버의 내부 위치</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;stddef.h&gt;
+<pre><code class="language-c">#include &lt;stddef.h&gt;
 
 size_t offsetof(type, member);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p>매크로 <code>offsetof()</code>는 구조체 <code>type</code>의 시작점 기준 <code>member</code> 필드의 위치를 반환한다.</p>
 <p>이 매크로가 유용한 이유는 구조체를 이루는 필드들의 크기가 구현에 따라 다를 수 있으며 컴파일러가 필드들 사이에 패딩 바이트들을 다르게 삽입할 수도 있기 때문이다. 그렇기 때문에 한 요소의 오프셋이 반드시 앞쪽 요소들의 크기의 합으로 정해지지 않는다.</p>
@@ -163,15 +162,14 @@ size_t offsetof(type, member);
 <p><code>offsetof()</code>는 주어진 <code>type</code> 내에서 주어진 <code>member</code>의 바이트 단위 오프셋을 반환한다.</p>
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008, C89, C99.</p>
-<h2 id="example">EXAMPLE</h2>
+<h2 id="examples">EXAMPLES</h2>
 <p>리눅스/i386 시스템에서 <code>gcc(1)</code> 기본 옵션으로 컴파일 할 때 아래 프로그램이 다음 출력을 내놓는다.</p>
-<pre><code class="text">$ ./a.out
+<pre><code class="language-text">$ ./a.out
 offsets: i=0; c=4; d=8 a=16
 sizeof(struct s)=16
 </code></pre>
-
 <h3 id="_1">프로그램 소스</h3>
-<pre><code class="c">#include &lt;stddef.h&gt;
+<pre><code class="language-c">#include &lt;stddef.h&gt;
 #include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
 
@@ -187,17 +185,16 @@ main(void)
 
     /* 컴파일러에 따라 출력이 다름 */
 
-    printf(&quot;offsets: i=%zd; c=%zd; d=%zd a=%zd\n&quot;,
+    printf(&quot;offsets: i=%zu; c=%zu; d=%zu a=%zu\n&quot;,
             offsetof(struct s, i), offsetof(struct s, c),
             offsetof(struct s, d), offsetof(struct s, a));
-    printf(&quot;sizeof(struct s)=%zd\n&quot;, sizeof(struct s));
+    printf(&quot;sizeof(struct s)=%zu\n&quot;, sizeof(struct s));
 
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <hr />
-<p>2019-03-06</p></div>
+<p>2020-11-01</p></div>
         
         
     </div>

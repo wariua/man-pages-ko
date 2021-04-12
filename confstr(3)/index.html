@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/confstr(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/confstr%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Confstr(3) - man-pages-ko</title>
+    <title>confstr(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -142,7 +142,7 @@
         <li class="first-level "><a href="#errors">ERRORS</a></li>
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
@@ -151,12 +151,11 @@
 <h2 id="name">NAME</h2>
 <p>confstr - 구성에 따라 달라지는 문자열 변수 얻기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;unistd.h&gt;
+<pre><code class="language-c">#include &lt;unistd.h&gt;
 
 size_t confstr(int name, char *buf, size_t len);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>confstr()</code>:</dt>
 <dd><code>_POSIX_C_SOURCE &gt;= 2 || _XOPEN_SOURCE</code></dd>
@@ -183,7 +182,7 @@ size_t confstr(int name, char *buf, size_t len);
 <dd><code>name</code>의 값이 유효하지 않다.</dd>
 </dl>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -202,9 +201,9 @@ size_t confstr(int name, char *buf, size_t len);
 </table>
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008.</p>
-<h2 id="example">EXAMPLE</h2>
+<h2 id="examples">EXAMPLES</h2>
 <p>다음 코드 조각은 POSIX.2 시스템 유틸리티들을 찾을 경로를 알아낸다.</p>
-<pre><code class="c">char *pathbuf;
+<pre><code class="language-c">char *pathbuf;
 size_t n;
 
 n = confstr(_CS_PATH, NULL, (size_t) 0);
@@ -213,11 +212,10 @@ if (pathbuf == NULL)
     abort();
 confstr(_CS_PATH, pathbuf, n);
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>getconf(1)</code>, <code>sh(1)</code>, <tt>[[exec(3)]]</tt>, <tt>[[fpathconf(3)]]</tt>, <tt>[[pathconf(3)]]</tt>, <tt>[[sysconf(3)]]</tt>, <tt>[[system(3)]]</tt></p>
+<p><code>getconf(1)</code>, <code>sh(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/exec(3)/">exec(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fpathconf(3)/">fpathconf(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pathconf(3)/">pathconf(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sysconf(3)/">sysconf(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/system(3)/">system(3)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

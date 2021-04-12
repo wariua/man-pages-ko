@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/sigsetjmp(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/sigsetjmp%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Sigsetjmp(3) - man-pages-ko</title>
+    <title>sigsetjmp(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -156,16 +156,15 @@
 <h2 id="name">NAME</h2>
 <p>setjmp, sigsetjmp, longjmp, siglongjmp - 비지역적 goto 수행하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;setjmp.h&gt;
+<pre><code class="language-c">#include &lt;setjmp.h&gt;
 
 int setjmp(jmp_buf env);
 int sigsetjmp(sigjmp_buf env, int savesigs);
 
-void longjmp(jmp_buf env, int val);
-void siglongjmp(sigjmp_buf env, int val);
+noreturn void longjmp(jmp_buf env, int val);
+noreturn void siglongjmp(sigjmp_buf env, int val);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>setjmp()</code>:</dt>
 <dd>NOTES 참고.</dd>
@@ -184,7 +183,7 @@ void siglongjmp(sigjmp_buf env, int val);
 <p><code>setjmp()</code>와 <code>sigsetjmp()</code>는 직접 호출 시 0을 반환한다. <code>longjmp()</code>나 <code>siglongjmp()</code> 후에 일어나는 "가짜" 반환에서는 <code>val</code>로 지정한 0 아닌 값을 반환한다.</p>
 <p><code>longjmp()</code> 내지 <code>siglongjmp()</code> 함수는 반환하지 않는다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -232,7 +231,7 @@ void siglongjmp(sigjmp_buf env, int val);
 <h3 id="_1">경고</h3>
 <p><code>setjmp()</code>를 호출했던 함수가 <code>longjmp()</code> 호출 전에 반환하는 경우의 동작 방식은 규정되어 있지 않다. 어떤 미묘하거나 미묘하지 않은 혼란이 분명히 발생한다.</p>
 <p>다중 스레드 프로그램에서 다른 스레드에서의 <code>setjmp()</code> 호출로 초기화 했던 <code>env</code> 버퍼를 <code>longjmp()</code> 호출에서 사용하는 경우 그 동작 방식은 규정되어 있지 않다.</p>
-<p>POSIX.1-2008 기술 정오표 2에서 <code>longjmp()</code>와 <code>siglongjmp()</code>를 비동기 시그널 안전 함수 목록에 추가하였다. 하지만 그 표준에서는 시그널 핸들러에서 이 함수들의 사용을 피하기를 권하고 있으며 계속해서 지적하기를, 비동기 시그널 안전 아닌 함수에 대한 호출을 중단시켰던 시그널 핸들러에서 (또는 <code>main()</code>에 대한 최초 호출에서 반환 시 일어나는 <tt>[[exit(3)]]</tt>에 해당하는 단계들처럼 동등한 무언가에서) 이 함수들을 호출한다면 프로그램에서 이후 비동기 시그널 안전 아닌 함수를 호출하는 경우 그 동작 방식이 규정되어 있지 않다. 정의 안 된 동작을 피할 유일한 방법은 다음 중 하나를 보장하는 것이다.</p>
+<p>POSIX.1-2008 기술 정오표 2에서 <code>longjmp()</code>와 <code>siglongjmp()</code>를 비동기 시그널 안전 함수 목록에 추가하였다. 하지만 그 표준에서는 시그널 핸들러에서 이 함수들의 사용을 피하기를 권하고 있으며 계속해서 지적하기를, 비동기 시그널 안전 아닌 함수에 대한 호출을 중단시켰던 시그널 핸들러에서 (또는 <code>main()</code>에 대한 최초 호출에서 반환 시 일어나는 <tt><a class="wikilink" href="/man-pages-ko/exit(3)/">exit(3)</a></tt>에 해당하는 단계들처럼 동등한 무언가에서) 이 함수들을 호출한다면 프로그램에서 이후 비동기 시그널 안전 아닌 함수를 호출하는 경우 그 동작 방식이 규정되어 있지 않다. 정의 안 된 동작을 피할 유일한 방법은 다음 중 하나를 보장하는 것이다.</p>
 <ul>
 <li>
 <p>시그널 핸들러로부터 긴 점프를 한 후에는 프로그램에서 어떤 비동기 시그널 안전 아닌 함수도 호출하지 않고 <code>main()</code>에 대한 최초 호출로부터 반환하지 않는다.</p>
@@ -242,9 +241,9 @@ void siglongjmp(sigjmp_buf env, int val);
 </li>
 </ul>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[signal(7)]]</tt>, <tt>[[signal-safety(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/signal-safety(7)/">signal-safety(7)</a></tt></p>
 <hr />
-<p>2017-03-13</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

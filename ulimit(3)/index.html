@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/ulimit(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/ulimit%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Ulimit(3) - man-pages-ko</title>
+    <title>ulimit(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -150,13 +150,12 @@
 <h2 id="name">NAME</h2>
 <p>ulimit - 사용자 제한을 얻고 설정하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;ulimit.h&gt;
+<pre><code class="language-c">#include &lt;ulimit.h&gt;
 
 long ulimit(int cmd, long newlimit);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
-<p>경고: 이 루틴은 구식이다. 대신 <tt>[[getrlimit(2)]]</tt>, <tt>[[setrlimit(2)]]</tt>, <tt>[[sysconf(3)]]</tt>를 사용하라. 셸 명령 <code>ulimit</code>에 대해선 <code>bash(1)</code>를 보라.</p>
+<p>경고: 이 루틴은 구식이다. 대신 <tt><a class="wikilink" href="/man-pages-ko/getrlimit(2)/">getrlimit(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/setrlimit(2)/">setrlimit(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sysconf(3)/">sysconf(3)</a></tt>를 사용하라. 셸 명령 <code>ulimit</code>에 대해선 <code>bash(1)</code>를 보라.</p>
 <p><code>ulimit()</code> 호출은 호출 프로세스에 대한 어떤 제한값을 얻거나 설정한다. <code>cmd</code> 인자는 다음 값들 중 하나일 수 있다.</p>
 <dl>
 <dt><code>UL_GETFSIZE</code></dt>
@@ -169,14 +168,14 @@ long ulimit(int cmd, long newlimit);
 <dd>(구현돼 있지만 심볼 상수 제공하지 않음.) 호출 프로세스가 최대로 열 수 있는 파일 개수를 반환한다.</dd>
 </dl>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 <code>ulimit()</code>는 음수 아닌 값을 반환한다. 오류 시 -1을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<p>성공 시 <code>ulimit()</code>는 음수 아닌 값을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EPERM</code></dt>
 <dd>비특권 프로세스가 제한값을 올리려고 했다.</dd>
 </dl>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -196,9 +195,9 @@ long ulimit(int cmd, long newlimit);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>SVr4, POSIX.1-2001. POSIX.1-2008에서 <code>ulimit()</code>를 구식으로 표시하였다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>bash(1)</code>, <tt>[[getrlimit(2)]]</tt>, <tt>[[setrlimit(2)]]</tt>, <tt>[[sysconf(3)]]</tt></p>
+<p><code>bash(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/getrlimit(2)/">getrlimit(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/setrlimit(2)/">setrlimit(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sysconf(3)/">sysconf(3)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/feature_test_macros(7)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/feature_test_macros%287%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Feature test macros(7) - man-pages-ko</title>
+    <title>feature_test_macros(7) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -139,20 +139,16 @@
         <li class="first-level "><a href="#description">DESCRIPTION</a></li>
             <li class="second-level"><a href="#_1">매뉴얼 페이지 내의 기능 확인 매크로 요구 조건 명세</a></li>
                 
-        <li class="first-level "><a href="#include">include </a></li>
             <li class="second-level"><a href="#glibc">glibc에서 이해하는 기능 확인 매크로</a></li>
                 
             <li class="second-level"><a href="#_2">기본 정의, 암묵적 정의, 결합 정의</a></li>
                 
-            <li class="second-level"><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
+            <li class="second-level"><a href="#_3">프로그램 소스</a></li>
                 
-            <li class="second-level"><a href="#notes">NOTES</a></li>
-                
-            <li class="second-level"><a href="#example">EXAMPLE</a></li>
-                
-                <li class="third-level"><a href="#_3">프로그램 소스</a></li>
-            <li class="second-level"><a href="#see-also">SEE ALSO</a></li>
-                
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
         <div class="col-md-9" role="main">
@@ -162,44 +158,40 @@
 <h2 id="description">DESCRIPTION</h2>
 <p>기능 확인 매크로를 이용하면 프로그램 컴파일 시 시스템 헤더 파일에 노출되는 정의들을 프로그래머가 제어할 수 있다.</p>
 <p><strong>주의</strong>: 기능 확인 매크로가 효과가 있으려면 <em>헤더 파일 포함 전에 정의해야 한다</em>. 컴파일 명령(<code>cc -DMACRO=value</code>)으로 정의하거나 소스 코드에서 헤더 파일을 포함시키기 전에 정의하면 된다. ....</p>
-<pre><code class="c">#include &lt;abc.h&gt;
+<pre><code class="language-c">#include &lt;abc.h&gt;
 #define _GNU_SOURCE
 #include &lt;xyz.h&gt;
 </code></pre>
-
 <p>....</p>
 <p>....</p>
 <h3 id="_1">매뉴얼 페이지 내의 기능 확인 매크로 요구 조건 명세</h3>
 <p>....</p>
 <blockquote>
-<p>```c</p>
-<h1 id="include">include <unistd.h></h1>
-<p>int acct(const char *filename);
-```</p>
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<pre><code>#include &lt;unistd.h&gt;
+
+int acct(const char *filename);
+</code></pre>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>acct()</code></dt>
 <dd><code>_BSD_SOURCE || (_XOPEN_SOURCE &amp;&amp; _XOPEN_SOURCE &lt; 500)</code></dd>
 </dl>
 </blockquote>
 <p>....</p>
-<pre><code class="c">#define _BSD_SOURCE
+<pre><code class="language-c">#define _BSD_SOURCE
 #define _XOPEN_SOURCE        /* 또는 &lt; 500 인 아무 값 */
 </code></pre>
-
 <p>....</p>
-<pre><code class="sh">cc -D_BSD_SOURCE
+<pre><code class="language-sh">cc -D_BSD_SOURCE
 cc -D_XOPEN_SOURCE           # 또는 &lt; 500 인 아무 값
 </code></pre>
-
 <p>....</p>
 <p>....</p>
-<pre><code class="c">#define _GNU_SOURCE
+<pre><code class="language-c">#define _GNU_SOURCE
 #include &lt;fcntl.h&gt;
 
 ssize_t readahead(int fd, off64_t *offset, size_t count);
 </code></pre>
-
 <p>....</p>
 <h3 id="glibc">glibc에서 이해하는 기능 확인 매크로</h3>
 <p>....</p>
@@ -213,21 +205,21 @@ ssize_t readahead(int fd, off64_t *offset, size_t count);
 </li>
 <li>
 <p>....</p>
-<p>_POSIX_C_SOURCE &gt;= 200112L</p>
-</li>
-</ul>
-<p>....</p>
-<pre><code>  _XOPEN_SOURCE &gt;= 600
+<pre><code>_POSIX_C_SOURCE &gt;= 200112L
 </code></pre>
-<ul>
+<p>....</p>
+<pre><code>_XOPEN_SOURCE &gt;= 600
+</code></pre>
+</li>
 <li>
 <p>....</p>
-<p>_POSIX_C_SOURCE &gt;= 200809L</p>
+<pre><code>_POSIX_C_SOURCE &gt;= 200809L
+</code></pre>
+<p>....</p>
+<pre><code>_XOPEN_SOURCE &gt;= 700
+</code></pre>
 </li>
 </ul>
-<p>....</p>
-<pre><code>  _XOPEN_SOURCE &gt;= 700
-</code></pre>
 <p>....</p>
 <p>....</p>
 <dl>
@@ -262,8 +254,8 @@ ssize_t readahead(int fd, off64_t *offset, size_t count);
 <p>....</p>
 <ul>
 <li>....</li>
-<li>....</li>
-</ul>
+<li>
+<p>....</p>
 <dl>
 <dt><code>_XOPEN_SOURCE &lt; 500</code></dt>
 <dd>....</dd>
@@ -274,6 +266,8 @@ ssize_t readahead(int fd, off64_t *offset, size_t count);
 <dt><code>700 &lt;= _XOPEN_SOURCE</code> (glibc 2.10부터)</dt>
 <dd>....</dd>
 </dl>
+</li>
+</ul>
 <p>....</p>
 </dd>
 <dt><code>_XOPEN_SOURCE_EXTENDED</code></dt>
@@ -382,9 +376,9 @@ ssize_t readahead(int fd, off64_t *offset, size_t count);
 <h2 id="notes">NOTES</h2>
 <p>....</p>
 <p>....</p>
-<h2 id="example">EXAMPLE</h2>
+<h2 id="examples">EXAMPLES</h2>
 <p>....</p>
-<pre><code class="text">$ cc ftm.c
+<pre><code class="language-text">$ cc ftm.c
 $ ./a.out
 _POSIX_SOURCE defined
 _POSIX_C_SOURCE defined: 200809L
@@ -409,10 +403,10 @@ _SVID_SOURCE defined
 _ATFILE_SOURCE defined
 _GNU_SOURCE defined
 </code></pre>
-
 <h3 id="_3">프로그램 소스</h3>
-<pre><code class="c">/* ftm.c */
+<pre><code class="language-c">/* ftm.c */
 
+#include &lt;stdint.h&gt;
 #include &lt;stdio.h&gt;
 #include &lt;unistd.h&gt;
 #include &lt;stdlib.h&gt;
@@ -425,7 +419,8 @@ main(int argc, char *argv[])
 #endif
 
 #ifdef _POSIX_C_SOURCE
-    printf(&quot;_POSIX_C_SOURCE defined: %ldL\n&quot;, (long) _POSIX_C_SOURCE);
+    printf(&quot;_POSIX_C_SOURCE defined: %jdL\n&quot;,
+            (intmax_t) _POSIX_C_SOURCE);
 #endif
 
 #ifdef _ISOC99_SOURCE
@@ -487,13 +482,12 @@ main(int argc, char *argv[])
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[libc(7)]]</tt>, <tt>[[standards(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/libc(7)/">libc(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/standards(7)/">standards(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/system_data_types(7)/">system_data_types(7)</a></tt></p>
 <p><code>info libc</code>의 "Feature Test Macros" 절.</p>
 <p><code>/usr/include/features.h</code></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/fcloseall(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/fcloseall%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Fcloseall(3) - man-pages-ko</title>
+    <title>fcloseall(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -149,19 +149,18 @@
 <h2 id="name">NAME</h2>
 <p>fcloseall - 열린 스트림 모두 닫기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
+<pre><code class="language-c">#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
 #include &lt;stdio.h&gt;
 
 int fcloseall(void);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
-<p><code>fcloseall()</code> 함수는 호출 프로세스의 열린 스트림들을 모두 닫는다. 각 스트림의 버퍼에 있는 출력을 (<tt>[[fflush(3)]]</tt>처럼) 기록한 다음 스트림을 닫는다. 버퍼에 있는 입력은 버린다.</p>
+<p><code>fcloseall()</code> 함수는 호출 프로세스의 열린 스트림들을 모두 닫는다. 각 스트림의 버퍼에 있는 출력을 (<tt><a class="wikilink" href="/man-pages-ko/fflush(3)/">fflush(3)</a></tt>처럼) 기록한 다음 스트림을 닫는다. 버퍼에 있는 입력은 버린다.</p>
 <p>표준 스트림 <code>stdin</code>, <code>stdout</code>, <code>stderr</code>도 닫는다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>모든 파일이 성공적으로 닫혔으면 0을 반환한다. 오류 시 <code>EOF</code>를 반환한다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -182,9 +181,9 @@ int fcloseall(void);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>이 함수는 GNU 확장이다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[close(2)]]</tt>, <tt>[[fclose(3)]]</tt>, <tt>[[fflush(3)]]</tt>, <tt>[[fopen(3)]]</tt>, <tt>[[setbuf(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/close(2)/">close(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fclose(3)/">fclose(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fflush(3)/">fflush(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fopen(3)/">fopen(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/setbuf(3)/">setbuf(3)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

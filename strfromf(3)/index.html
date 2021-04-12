@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/strfromf(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/strfromf%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Strfromf(3) - man-pages-ko</title>
+    <title>strfromf(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -154,7 +154,7 @@
 <h2 id="name">NAME</h2>
 <p>strfromd, strfromf, strfroml - 부동소수점 값을 문자열로 변환하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;stdlib.h&gt;
+<pre><code class="language-c">#include &lt;stdlib.h&gt;
 
 int strfromd(char *restrict str, size_t n,
              const char *restrict format, double fp);
@@ -163,22 +163,20 @@ int strfromf(char *restrict str, size_t n,
 int strfroml(char *restrict str, size_t n,
              const char *restrict format, long double fp);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>strfromd()</code>, <code>strfromf()</code>, <code>strfroml()</code>:</dt>
 <dd><code>__STDC_WANT_IEC_60559_BFP_EXT__</code></dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
 <p>이 함수들은 설정 가능한 <code>format</code>에 따라 부동소수점 값 <code>fp</code>를 문자열 <code>str</code>으로 변환한다. <code>str</code>에 최대 <code>n</code> 개 문자를 저장한다.</p>
-<p><code>n</code>이 충분히 큰 경우에만 종료용 널 문자(<code>'\0'</code>)를 써 넣는다. 그렇지 않으면 <code>n</code> 개 문자에서 잘린 문자열을 써 넣는다.</p>
+<p><code>n</code>이 충분히 큰 경우에만 종료용 널 바이트(<code>'\0'</code>)를 써 넣는다. 그렇지 않으면 <code>n</code> 개 문자에서 잘린 문자열을 써 넣는다.</p>
 <p><code>strfromd()</code>, <code>strfromf()</code>, <code>strfroml()</code> 함수는 <code>format</code> 문자열을 빼면 다음과 동등하다.</p>
-<pre><code class="c">snprintf(str, n, format, fp);
+<pre><code class="language-c">snprintf(str, n, format, fp);
 </code></pre>
-
 <h3 id="_1">서식 문자열의 형식</h3>
 <p><code>format</code> 문자열은 문자 '%'로 시작해야 한다. 그 다음에 선택적으로 정밀도가 오는데, 마침표 문자(.)로 시작하고 선택적으로 10진법 정수가 따라온다. 마침표 다음에 정수를 지정하지 않으면 정밀도를 0으로 한다. 마지막으로 서식 문자열에는 변환 지정자 <code>a</code>, <code>A</code>, <code>e</code>, <code>E</code>, <code>f</code>, <code>F</code>, <code>g</code>, <code>G</code> 중 하나가 있어야 한다.</p>
-<p>함수 뒷부분이 나타내는 부동소수점 종류에 따라 변환 지정자를 적용한다. 따라서 <code>snprintf()</code>와는 달리 서식 문자열에 길이 수식자 문자가 없다. 변환 지정자들에 대한 자세한 설명은 <tt>[[snprintf(3)]]</tt>를 보라.</p>
+<p>함수 뒷부분이 나타내는 부동소수점 종류에 따라 변환 지정자를 적용한다. 따라서 <code>snprintf()</code>와는 달리 서식 문자열에 길이 수식자 문자가 없다. 변환 지정자들에 대한 자세한 설명은 <tt><a class="wikilink" href="/man-pages-ko/snprintf(3)/">snprintf(3)</a></tt>를 보라.</p>
 <p>NaN 및 무한대 값의 변환에서 C99 표준을 준수한다.</p>
 <blockquote>
 <p><code>fp</code>가 NaN, +NaN, -NaN이고 변환 지정자가 <code>f</code>(또는 <code>a</code>, <code>e</code>, <code>g</code>)이면 변환 결과는 각각 "nan", "nan", "-nan"이다. 변환 지정자가 <code>F</code>(또는 <code>A</code>, <code>E</code>, <code>G</code>)이면 변환 결과는 "NAN"이나 "-NAN"이다.</p>
@@ -186,11 +184,11 @@ int strfroml(char *restrict str, size_t n,
 </blockquote>
 <p>잘못된 형식의 <code>format</code> 문자열로 인한 동작 방식은 규정되어 있지 않다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p><code>strfromd()</code>, <code>strfromf()</code>, <code>strfroml()</code> 함수는 <code>n</code>이 충분히 클 때 <code>str</code>에 써 넣게 되는 문자 개수를 반환한다. 종료용 널 문자는 세지 않는다. 따라서 반환 값이 <code>n</code> 이상이면 출력이 잘렸다는 뜻이다.</p>
+<p><code>strfromd()</code>, <code>strfromf()</code>, <code>strfroml()</code> 함수는 <code>n</code>이 충분히 클 때 <code>str</code>에 써 넣게 되는 문자 개수를 반환한다. 종료용 널 바이트는 세지 않는다. 따라서 반환 값이 <code>n</code> 이상이면 출력이 잘렸다는 뜻이다.</p>
 <h2 id="versions">VERSIONS</h2>
 <p>glibc 버전 2.25부터 <code>strfromd()</code>, <code>strfromf()</code>, <code>strfroml()</code> 함수가 사용 가능하다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>와 GNU C 라이브러리 매뉴얼 <strong>POSIX Safety Concepts</strong> 절을 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>와 GNU C 라이브러리 매뉴얼 <strong>POSIX Safety Concepts</strong> 절을 보라.</p>
 <table>
 <thead>
 <tr>
@@ -224,33 +222,30 @@ int strfroml(char *restrict str, size_t n,
 <p><code>strfromd()</code>, <code>strfromf()</code>, <code>strfroml()</code> 함수에서는 현재 로캘의 <code>LC_NUMERIC</code> 범주를 따진다.</p>
 <h2 id="example">EXAMPLE</h2>
 <p><code>float</code> 타입 값 12.1을 10진법 문자열로 변환하면 "12.100000"가 나온다.</p>
-<pre><code class="c">#define __STDC_WANT_IEC_60559_BFP_EXT__
+<pre><code class="language-c">#define __STDC_WANT_IEC_60559_BFP_EXT__
 #include &lt;stdlib.h&gt;
 int ssize = 10;
 char s[ssize];
 strfromf(s, ssize, &quot;%f&quot;, 12.1);
 </code></pre>
-
 <p><code>float</code> 타입 값 12.3456을 정밀도 2자리인 10진법 문자열로 변환하면 "12.35"가 나온다.</p>
-<pre><code class="c">#define __STDC_WANT_IEC_60559_BFP_EXT__
+<pre><code class="language-c">#define __STDC_WANT_IEC_60559_BFP_EXT__
 #include &lt;stdlib.h&gt;
 int ssize = 10;
 char s[ssize];
 strfromf(s, ssize, &quot;%.2f&quot;, 12.3456);
 </code></pre>
-
 <p><code>double</code> 타입 값 12.345e19를 정밀도 0자리인 과학적 기수법 문자열로 변환하면 "1E+20"이 나온다.</p>
-<pre><code class="c">#define __STDC_WANT_IEC_60559_BFP_EXT__
+<pre><code class="language-c">#define __STDC_WANT_IEC_60559_BFP_EXT__
 #include &lt;stdlib.h&gt;
 int ssize = 10;
 char s[ssize];
 strfromd(s, ssize, &quot;%.E&quot;, 12.345e19);
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[atof(3)]]</tt>, <tt>[[snprintf(3)]]</tt>, <tt>[[strtod(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/atof(3)/">atof(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/snprintf(3)/">snprintf(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/strtod(3)/">strtod(3)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

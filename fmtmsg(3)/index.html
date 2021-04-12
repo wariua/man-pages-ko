@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/fmtmsg(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/fmtmsg%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Fmtmsg(3) - man-pages-ko</title>
+    <title>fmtmsg(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -150,7 +150,7 @@
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
@@ -159,13 +159,12 @@
 <h2 id="name">NAME</h2>
 <p>fmtmsg - 형식 있는 오류 메시지 출력하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;fmtmsg.h&gt;
+<pre><code class="language-c">#include &lt;fmtmsg.h&gt;
 
 int fmtmsg(long classification, const char *label,
            int severity, const char *text,
            const char *action, const char *tag);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p>이 함수는 그 인자들이 기술하는 메시지를 <code>classification</code> 인자로 나타낸 장치(들)에 표시한다. <code>stderr</code>로 찍는 메시지는 <code>MSGVERB</code> 환경 변수에 따라 형식이 달라진다.</p>
 <p><code>label</code> 인자는 메시지의 원천을 식별해 준다. 문자열은 콜론으로 구분된 두 부분으로 되어 있어야 한다. 첫 번째 부분은 10글자를 넘을 수 없고 두 번째 부분은 14글자를 넘을 수 없다.</p>
@@ -224,7 +223,7 @@ int fmtmsg(long classification, const char *label,
 <dt><code>MM_INFO</code></dt>
 <dd>이 값은 <code>INFO</code>라고 찍음.</dd>
 </dl>
-<p>숫자 값으로는 0에서 4까지이다. <tt>[[addseverity(3)]]</tt>나 환경 변수 <code>SEV_LEVEL</code>을 사용하면 수준과 찍을 문자열을 더 추가할 수 있다.</p>
+<p>숫자 값으로는 0에서 4까지이다. <tt><a class="wikilink" href="/man-pages-ko/addseverity(3)/">addseverity(3)</a></tt>나 환경 변수 <code>SEV_LEVEL</code>을 사용하면 수준과 찍을 문자열을 더 추가할 수 있다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>함수가 4가지 값을 반환할 수 있다.</p>
 <dl>
@@ -240,18 +239,16 @@ int fmtmsg(long classification, const char *label,
 <h2 id="environment">ENVIRONMENT</h2>
 <p>환경 변수 <code>MSGVERB</code>("message verbosity")를 이용해 <code>stderr</code>로의 출력 일부를 숨길 수 있다. (콘솔로의 출력에는 영향을 주지 않는다.) 이 변수가 정의되어 있고, NULL이 아니고, 유효한 키워드들의 콜론 구분 목록이면 메시지에서 그 키워드들에 대응하는 부분들만 찍힌다. 유효한 키워드는 "<code>label</code>", "<code>severity</code>", "<code>text</code>", "<code>action</code>", "<code>tag</code>"이다.</p>
 <p>환경 변수 <code>SEV_LEVEL</code>을 이용해 새로운 심각도 수준을 도입할 수 있다. 기본적으로는 위에서 기술한 다섯 가지 심각도 수준만 사용할 수 있다. 다른 숫자 값을 사용하면 <code>fmtmsg()</code>가 아무 것도 찍지 않을 것이다. 하지만 사용자가 첫 번째 <code>fmtmsg()</code> 호출 전에 프로세스의 환경에 다음과 같은 형식으로 <code>SEV_LEVEL</code>을 넣어 주면 <code>fmtmsg()</code>가 (표준 수준 0~4에 더해서) 지정한 값들도 받아들이게 되어 그 수준의 오류 발생 시 지정한 출력 문자열을 사용하게 된다.</p>
-<pre><code class="text">SEV_LEVEL=[description[:description[:...]]]
+<pre><code class="language-text">SEV_LEVEL=[description[:description[:...]]]
 </code></pre>
-
 <p><code>description</code> 각각은 다음 형식이다.</p>
-<pre><code class="text">severity-keyword,level,printstring
+<pre><code class="language-text">severity-keyword,level,printstring
 </code></pre>
-
 <p><code>severity-keyword</code> 부분은 <code>fmtmsg()</code>에서 사용하지 않지만 그래도 있어야 한다. <code>level</code> 부분은 숫자를 문자열로 표현한 것이다. 그 숫자 값은 4보다 커야 한다. 이 수준을 선택하려면 <code>fmtmsg()</code>의 <code>severity</code> 인자로 이 값을 사용해야 한다. 이미 정의된 수준들을 덮어쓰는 것은 불가능하다. <code>printstring</code>은 <code>fmtmsg()</code>에서 이 수준의 메시지를 처리할 때 찍히는 문자열이다.</p>
 <h2 id="versions">VERSIONS</h2>
 <p>glibc 버전 2.1부터 <code>fmtmsg()</code>를 제공한다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -271,12 +268,12 @@ int fmtmsg(long classification, const char *label,
 <p>glibc 2.16 전에서 <code>fmtmsg()</code> 함수는 보호가 되지 않는 정적 변수를 사용하며, 그래서 스레드 안전하지 않다.</p>
 <p>glibc 2.16부터 <code>fmtmsg()</code> 함수는 락을 사용해 그 정적 변수를 보호하며, 그래서 스레드 안전하다.</p>
 <h2 id="conforming-to">CONFORMING TO</h2>
-<p>함수 <code>fmtmsg()</code> 및 <tt>[[addseverity(3)]]</tt>, 그리고 환경 변수 <code>MSGVERB</code> 및 <code>SEV_LEVEL</code>은 시스템 V에서 온 것이다.</p>
+<p>함수 <code>fmtmsg()</code> 및 <tt><a class="wikilink" href="/man-pages-ko/addseverity(3)/">addseverity(3)</a></tt>, 그리고 환경 변수 <code>MSGVERB</code> 및 <code>SEV_LEVEL</code>은 시스템 V에서 온 것이다.</p>
 <p>함수 <code>fmtmsg()</code>와 환경 변수 <code>MSGVERB</code>를 POSIX.1-2001 및 POSIX.1-2008에서 기술하고 있다.</p>
 <h2 id="notes">NOTES</h2>
 <p>시스템 V 및 UnixWare 맨 페이지에서는 이 함수들이 "<code>pfmt</code> 및 <code>addsev()</code>" 내지 "<code>pfmt()</code>, <code>vpfmt()</code>, <code>lfmt()</code>, <code>vlfmt()</code>"으로 대체되었으며 나중에 제거될 것이라고 얘기한다.</p>
-<h2 id="example">EXAMPLE</h2>
-<pre><code class="c">#include &lt;stdio.h&gt;
+<h2 id="examples">EXAMPLES</h2>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
 #include &lt;fmtmsg.h&gt;
 
@@ -307,25 +304,21 @@ main(void)
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <p>출력이 다음과 같을 것이다:</p>
-<pre><code class="text">util-linux:mount: ERROR: unknown mount option
+<pre><code class="language-text">util-linux:mount: ERROR: unknown mount option
 TO FIX: See mount(8).  util-linux:mount:017
 </code></pre>
-
 <p>다음과 같이 한 후에는:</p>
-<pre><code class="sh">MSGVERB=text:action; export MSGVERB
+<pre><code class="language-sh">MSGVERB=text:action; export MSGVERB
 </code></pre>
-
 <p>출력이 다음과 같이 된다:</p>
-<pre><code class="text">unknown mount option
+<pre><code class="language-text">unknown mount option
 TO FIX: See mount(8).
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[addseverity(3)]]</tt>, <tt>[[perror(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/addseverity(3)/">addseverity(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/perror(3)/">perror(3)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

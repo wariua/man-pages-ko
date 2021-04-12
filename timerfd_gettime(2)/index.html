@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/timerfd_gettime(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/timerfd_gettime%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Timerfd gettime(2) - man-pages-ko</title>
+    <title>timerfd_gettime(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -146,16 +146,17 @@
                 
             <li class="second-level"><a href="#_1">타이머 파일 디스크립터 조작</a></li>
                 
-            <li class="second-level"><a href="#fork2">[[fork(2)]] 동작 방식</a></li>
+            <li class="second-level"><a href="#fork2">fork(2) 동작 방식</a></li>
                 
-            <li class="second-level"><a href="#execve2">[[execve(2)]] 동작 방식</a></li>
+            <li class="second-level"><a href="#execve2">execve(2) 동작 방식</a></li>
                 
         <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
         <li class="first-level "><a href="#errors">ERRORS</a></li>
         <li class="first-level "><a href="#versions">VERSIONS</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
         <li class="first-level "><a href="#bugs">BUGS</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
             <li class="second-level"><a href="#_2">프로그램 소스</a></li>
                 
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
@@ -166,20 +167,18 @@
 <h2 id="name">NAME</h2>
 <p>timerfd_create, timerfd_settime, timerfd_gettime - 파일 디스크립터를 통해 알려 주는 타이머</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;sys/timerfd.h&gt;
+<pre><code class="language-c">#include &lt;sys/timerfd.h&gt;
 
 int timerfd_create(int clockid, int flags);
 
 int timerfd_settime(int fd, int flags,
                     const struct itimerspec *new_value,
                     struct itimerspec *old_value);
-
 int timerfd_gettime(int fd, struct itimerspec *curr_value);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
-<p>이 시스템 호출들은 파일 디스크립터를 통해 타이머 만료 알림을 전달하는 타이머를 생성하고 조작한다. <tt>[[setitimer(2)]]</tt>나 <tt>[[timer_create(2)]]</tt>의 대안이 되어 주는데 <tt>[[select(2)]]</tt>, <tt>[[poll(2)]]</tt>, <tt>[[epoll(7)]]</tt>로 그 파일 디스크립터를 감시할 수 있다는 장점이 있다.</p>
-<p>이 세 가지 시스템 호출 사용법은 <tt>[[timer_create(2)]]</tt>, <tt>[[timer_settime(2)]]</tt>, <tt>[[timer_gettime(2)]]</tt>과 비슷하다. (<tt>[[timer_getoverrun(2)]]</tt>에 대응하는 것은 없다. 아래에서 설명하듯 <code>read(2)</code>로 그 기능성을 제공하기 때문이다.)</p>
+<p>이 시스템 호출들은 파일 디스크립터를 통해 타이머 만료 알림을 전달하는 타이머를 생성하고 조작한다. <tt><a class="wikilink" href="/man-pages-ko/setitimer(2)/">setitimer(2)</a></tt>나 <tt><a class="wikilink" href="/man-pages-ko/timer_create(2)/">timer_create(2)</a></tt>의 대안이 되어 주는데 <tt><a class="wikilink" href="/man-pages-ko/select(2)/">select(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/poll(2)/">poll(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/epoll(7)/">epoll(7)</a></tt>로 그 파일 디스크립터를 감시할 수 있다는 장점이 있다.</p>
+<p>이 세 가지 시스템 호출 사용법은 <tt><a class="wikilink" href="/man-pages-ko/timer_create(2)/">timer_create(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/timer_settime(2)/">timer_settime(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/timer_gettime(2)/">timer_gettime(2)</a></tt>과 비슷하다. (<tt><a class="wikilink" href="/man-pages-ko/timer_getoverrun(2)/">timer_getoverrun(2)</a></tt>에 대응하는 것은 없다. 아래에서 설명하듯 <code>read(2)</code>로 그 기능성을 제공하기 때문이다.)</p>
 <h3 id="timerfd_create"><code>timerfd_create()</code></h3>
 <p><code>timerfd_create()</code>는 새 타이머 객체를 생성하고 그 타이머를 가리키는 파일 디스크립터를 반환한다. <code>clockid</code> 인자는 타이머 진행을 특징 짓는 클럭을 나타내며 다음 중 한 가지여야 한다.</p>
 <dl>
@@ -194,19 +193,20 @@ int timerfd_gettime(int fd, struct itimerspec *curr_value);
 <dt><code>CLOCK_BOOTTIME_ALARM</code> (리눅스 3.11부터)</dt>
 <dd>이 클럭은 <code>CLOCK_BOOTTIME</code>과 비슷하되 시스템이 절전 대기 상태이면 깨우게 된다. 이 클럭에 대해 타이머를 설정하기 위해선 호출자가 <code>CAP_WAKE_ALARM</code> 역능을 가지고 있어야 한다.</dd>
 </dl>
-<p>이 클럭들 각각의 현재 값은 <tt>[[clock_gettime(2)]]</tt>을 이용해 얻어 올 수 있다.</p>
+<p>위 클럭들에 대한 좀 더 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/clock_getres(2)/">clock_getres(2)</a></tt>를 보라.</p>
+<p>이 클럭들 각각의 현재 값은 <tt><a class="wikilink" href="/man-pages-ko/clock_gettime(2)/">clock_gettime(2)</a></tt>을 이용해 얻어 올 수 있다.</p>
 <p>리눅스 2.6.27부터 <code>flags</code>에 다음 값들을 비트 OR 해서 <code>timerfd_create()</code>의 동작 방식을 바꿀 수 있다.</p>
 <dl>
 <dt><code>TFD_NONBLOCK</code></dt>
-<dd>새 파일 디스크립터가 가리키는 열린 파일 기술 항목(<tt>[[open(2)]]</tt> 참고)에 <code>O_NONBLOCK</code> 파일 상태 플래그를 설정한다. 이 플래그를 사용하면 같은 결과를 얻기 위해 <tt>[[fcntl(2)]]</tt>을 추가로 호출하지 않아도 된다.</dd>
+<dd>새 파일 디스크립터가 가리키는 열린 파일 기술 항목(<tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt> 참고)에 <code>O_NONBLOCK</code> 파일 상태 플래그를 설정한다. 이 플래그를 사용하면 같은 결과를 얻기 위해 <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt>을 추가로 호출하지 않아도 된다.</dd>
 <dt><code>TFD_CLOEXEC</code></dt>
-<dd>새 파일 디스크립터에 'exec에서 닫기'(<code>FD_CLOEXEC</code>) 플래그를 설정한다. 이게 유용할 수 있는 이유에 대해선 <tt>[[open(2)]]</tt>의 <code>O_CLOEXEC</code> 플래그 설명을 보라.</dd>
+<dd>새 파일 디스크립터에 'exec에서 닫기'(<code>FD_CLOEXEC</code>) 플래그를 설정한다. 이게 유용할 수 있는 이유에 대해선 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>의 <code>O_CLOEXEC</code> 플래그 설명을 보라.</dd>
 </dl>
 <p>리눅스 버전 2.6.26까지에서는 <code>flags</code>를 0으로 지정해야 한다.</p>
 <h3 id="timerfd_settime"><code>timerfd_settime()</code></h3>
 <p><code>timerfd_settime()</code>은 파일 디스크립터 <code>fd</code>가 가리키는 타이머를 장전(시작)하거나 해제(정지)한다.</p>
 <p><code>new_value</code> 인자는 타이머의 최초 만료 시간과 간격을 지정한다. 이 인자에 쓰는 <code>itimerspec</code> 구조체에는 두 필드가 있고 각각이 다시 <code>timespec</code> 타입 구조체이다.</p>
-<pre><code class="c">struct timespec {
+<pre><code class="language-c">struct timespec {
     time_t tv_sec;                /* 초 */
     long   tv_nsec;               /* 나노초 */
 };
@@ -216,7 +216,6 @@ struct itimerspec {
     struct timespec it_value;     /* 최초 만료 */
 };
 </code></pre>
-
 <p><code>new_value.it_value</code>는 타이머의 최초 만료 시간을 초와 나노초로 지정한다. <code>new_value.it_value</code>의 한 필드라도 0 아닌 값으로 설정하면 타이머가 장전된다. <code>new_value.it_value</code>의 두 필드를 모두 0으로 설정하면 타이머를 해제한다.</p>
 <p><code>new_value.it_interval</code>의 필드 한 개나 두 개를 0 아닌 값으로 설정하면 최초 만료 후 타이머의 반복 만료 주기를 초와 나노초로 지정한다. <code>new_value.it_interval</code>의 두 필드가 모두 0이면 <code>new_value.it_value</code>로 지정한 시간에 한 번만 타이머가 만료된다.</p>
 <p>기본적으로 <code>new_value</code>로 지정하는 최초 만료 시간은 호출 시점에 타이머 클럭의 현재 시간을 기준으로 상대적으로 해석한다. (즉, <code>new_value.it_value</code>가 지정하는 것이 <code>clockid</code>로 지정한 클럭의 현재 값에 대한 상대적 시간이다.) <code>flags</code> 인자를 통해 절대 시간 타임아웃을 선택할 수 있다.</p>
@@ -225,7 +224,7 @@ struct itimerspec {
 <dt><code>TFD_TIMER_ABSTIME</code></dt>
 <dd><code>new_value.it_value</code>를 타이머 클럭에서의 절댓값으로 해석한다. 타이머의 클럭이 <code>new_value.it_value</code>로 지정한 값에 도달할 때 타이머가 만료된다.</dd>
 <dt><code>TFD_TIMER_CANCEL_ON_SET</code></dt>
-<dd><code>TFD_TIMER_ABSTIME</code>과 함께 이 플래그를 지정하고 이 타이머의 클럭이 <code>CLOCK_REALTIME</code>이나 <code>CLOCK_REALTIME_ALARM</code>이면 실제 시간 클럭이 불연속적 변경(<tt>[[settimeofday(2)]]</tt>나 <tt>[[clock_settime(2)]]</tt> 같은 것)을 겪을 때 이 타이머를 취소할 수 있다고 표시한다. 그런 변경이 일어날 때 파일 디스크립터에 대한 현재나 미래의 <code>read(2)</code>가 <code>ECANCELED</code> 오류로 실패하게 된다.</dd>
+<dd><code>TFD_TIMER_ABSTIME</code>과 함께 이 플래그를 지정하고 이 타이머의 클럭이 <code>CLOCK_REALTIME</code>이나 <code>CLOCK_REALTIME_ALARM</code>이면 실제 시간 클럭이 불연속적 변경(<tt><a class="wikilink" href="/man-pages-ko/settimeofday(2)/">settimeofday(2)</a></tt>나 <tt><a class="wikilink" href="/man-pages-ko/clock_settime(2)/">clock_settime(2)</a></tt> 같은 것)을 겪을 때 이 타이머를 취소할 수 있다고 표시한다. 그런 변경이 일어날 때 파일 디스크립터에 대한 현재나 미래의 <code>read(2)</code>가 <code>ECANCELED</code> 오류로 실패하게 된다.</dd>
 </dl>
 <p><code>old_value</code> 인자가 NULL이 아니면 가리키는 <code>itimerspec</code> 구조체를 이용해 호출 시점에 적용 중이던 타이머 설정을 반환한다. 이어지는 <code>timerfd_gettime()</code> 설명을 참고하라.</p>
 <h3 id="timerfd_gettime"><code>timerfd_gettime()</code></h3>
@@ -233,19 +232,20 @@ struct itimerspec {
 <p><code>it_value</code> 필드는 타이머가 다음 만료될 때까지 남은 시간을 반환한다. 이 구조체의 두 필드가 모두 0이라면 타이머가 현재 해제되어 있는 것이다. 타이머를 설정할 때 <code>TFD_TIMER_ABSTIME</code> 플래그를 지정했는지와 무관하게 이 필드는 항상 상댓값을 담고 있다.</p>
 <p><code>it_interval</code> 필드는 타이머의 간격을 반환한다. 이 구조체의 두 필드가 모두 0이라면 <code>curr_value.it_value</code>로 지정한 시간에 한 번만 만료되도록 타이머가 설정되어 있는 것이다.</p>
 <h3 id="_1">타이머 파일 디스크립터 조작</h3>
-<p><code>timerfd_create()</code>가 반환하는 파일 디스크립터는 다음 작업을 지원한다.</p>
+<p><code>timerfd_create()</code>가 반환하는 파일 디스크립터는 다음 추가 작업을 지원한다.</p>
 <dl>
 <dt><code>read(2)</code></dt>
 <dd>
 <p><code>timerfd_settime()</code>을 이용해 마지막으로 설정을 변경한 이후로, 또는 마지막 <code>read(2)</code> 성공 이후로 타이머가 한 번 이상 만료되었으면 발생한 만료 횟수를 담은 부호 없는 8바이트 정수(<code>uint64_t</code>)를 <code>read(2)</code>에 준 버퍼로 반환한다. (반환되는 값은 호스트 바이트 순서, 즉 호스트 머신 자체의 정수 바이트 순서로 되어 있다.)</p>
-<p><code>read(2)</code> 시점까지 타이머 만료가 발생하지 않았으면 다음 타이머 만료까지 호출이 블록 한다. 또는 (<tt>[[fcntl(2)]]</tt> <code>F_SETFL</code> 동작으로 <code>O_NONBLOCK</code> 플래그를 설정해서) 파일 디스크립터를 비블로킹으로 만들었다면 <code>EAGAIN</code> 오류로 실패한다.</p>
+<p><code>read(2)</code> 시점까지 타이머 만료가 발생하지 않았으면 다음 타이머 만료까지 호출이 블록 한다. 또는 (<tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt> <code>F_SETFL</code> 동작으로 <code>O_NONBLOCK</code> 플래그를 설정해서) 파일 디스크립터를 비블로킹으로 만들었다면 <code>EAGAIN</code> 오류로 실패한다.</p>
 <p>제공한 버퍼의 크기가 8바이트보다 작으면 <code>read(2)</code>가 <code>EINVAL</code> 오류로 실패한다.</p>
 <p>연계된 클럭이 <code>CLOCK_REALTIME</code>이나 <code>CLOCK_REALTIME_ALARM</code>이고, 타이머가 절대이고 (<code>TFD_TIMER_ABSTIME</code>), <code>timerfd_settime()</code> 호출 때 <code>TFD_TIMER_CANCEL_ON_SET</code> 플래그를 지정했다면 실제 시간 클럭이 불연속적 변경을 거치는 경우 <code>read(2)</code>가 <code>ECANCELED</code> 오류로 실패한다. (이를 통해 읽기를 하는 응용에서 클럭에 불연속적 변경이 일어났음을 알아챌 수 있다.)</p>
+<p>연계된 클럭이 <code>CLOCK_REALTIME</code>이나 <code>CLOCK_REALTIME_ALARM</code>이고, 타이머가 절대이고 (<code>TFD_TIMER_ABSTIME</code>), <code>timerfd_settime()</code> 호출 때 <code>TFD_TIMER_CANCEL_ON_SET</code> 플래그를 지정하지 <em>않았다면</em> 시간 만료 후 파일 디스크립터에 대한 <code>read(2)</code> 전에 클럭에 (가령 <tt><a class="wikilink" href="/man-pages-ko/clock_settime(2)/">clock_settime(2)</a></tt>으로) 불연속적 역방향 변경이 일어나면 <code>read(2)</code>가 블록 하지 않고 0값을 반환할 (즉 읽은 바이트가 없을) 수도 있다.</p>
 </dd>
-<dt><tt>[[poll(2)]]</tt>, <tt>[[select(2)]]</tt> (기타 유사 함수)</dt>
+<dt><tt><a class="wikilink" href="/man-pages-ko/poll(2)/">poll(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/select(2)/">select(2)</a></tt> (기타 유사 함수)</dt>
 <dd>
-<p>타이머 만료가 한 번 이상 일어났을 때 파일 디스크립터가 읽기 가능하다. (<tt>[[select(2)]]</tt> <code>readfds</code> 인자, <tt>[[poll(2)]]</tt> <code>POLLIN</code> 플래그.)</p>
-<p>파일 디스크립터가 <tt>[[pselect(2)]]</tt>, <tt>[[ppoll(2)]]</tt>, <tt>[[epoll(7)]]</tt> 같은 다른 파일 디스크립터 다중화 API도 지원한다.</p>
+<p>타이머 만료가 한 번 이상 일어났을 때 파일 디스크립터가 읽기 가능하다. (<tt><a class="wikilink" href="/man-pages-ko/select(2)/">select(2)</a></tt> <code>readfds</code> 인자, <tt><a class="wikilink" href="/man-pages-ko/poll(2)/">poll(2)</a></tt> <code>POLLIN</code> 플래그.)</p>
+<p>파일 디스크립터가 <tt><a class="wikilink" href="/man-pages-ko/pselect(2)/">pselect(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ppoll(2)/">ppoll(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/epoll(7)/">epoll(7)</a></tt> 같은 다른 파일 디스크립터 다중화 API도 지원한다.</p>
 </dd>
 <dt><code>ioctl(2)</code></dt>
 <dd>
@@ -255,13 +255,13 @@ struct itimerspec {
 <dd>발생한 타이머 만료 횟수를 조정한다. 인자는 새 만료 횟수를 담은 0 아닌 8바이트 정수에 대한 포인터(<code>uint64_t*</code>)이다. 횟수를 설정하고 나서 그 타이머에 대기 중인 프로세스가 있으면 모두 깨운다. 이 명령의 유일한 용도는 체크포인트/복원 목적으로 만료 횟수를 복원하는 것이다. 커널을 <code>CONFIG_CHECKPOINT_RESTORE</code> 옵션으로 구성한 경우에만 이 동작이 사용 가능하다.</dd>
 </dl>
 </dd>
-<dt><tt>[[close(2)]]</tt></dt>
+<dt><tt><a class="wikilink" href="/man-pages-ko/close(2)/">close(2)</a></tt></dt>
 <dd>파일 디스크립터가 더 이상 필요하지 않으면 닫아야 한다. 동일 타이머 객체에 연계된 모든 파일 디스크립터가 닫혔을 때 커널이 타이머를 해제하고 그 자원을 해제한다.</dd>
 </dl>
-<h3 id="fork2"><tt>[[fork(2)]]</tt> 동작 방식</h3>
-<p><code>timerfd_create()</code>으로 생성한 파일 디스크립터의 사본을 <tt>[[fork(2)]]</tt> 후에 자식이 물려받는다. 그 파일 디스크립터는 부모에서의 대응하는 파일 디스크립터와 같은 기반 타이머 객체를 가리키며, 자식에서 <code>read(2)</code> 하면 그 타이머의 만료에 대한 정보를 반환하게 된다.</p>
-<h3 id="execve2"><tt>[[execve(2)]]</tt> 동작 방식</h3>
-<p><code>timerfd_create()</code>으로 생성한 파일 디스크립터가 <tt>[[execve(2)]]</tt>를 거치면서 보존되며, 타이머가 장전되어 있었다면 계속 타이머 만료가 발생한다.</p>
+<h3 id="fork2"><tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt> 동작 방식</h3>
+<p><code>timerfd_create()</code>으로 생성한 파일 디스크립터의 사본을 <tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt> 후에 자식이 물려받는다. 그 파일 디스크립터는 부모에서의 대응하는 파일 디스크립터와 같은 기반 타이머 객체를 가리키며, 자식에서 <code>read(2)</code> 하면 그 타이머의 만료에 대한 정보를 반환하게 된다.</p>
+<h3 id="execve2"><tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt> 동작 방식</h3>
+<p><code>timerfd_create()</code>으로 생성한 파일 디스크립터가 <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>를 거치면서 보존되며, 타이머가 장전되어 있었다면 계속 타이머 만료가 발생한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 <code>timerfd_create()</code>은 새 파일 디스크립터를 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <p><code>timerfd_settime()</code>과 <code>timerfd_gettime()</code>은 성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
@@ -269,7 +269,7 @@ struct itimerspec {
 <p><code>timerfd_create()</code>이 다음 오류로 실패할 수 있다.</p>
 <dl>
 <dt><code>EINVAL</code></dt>
-<dd><code>clockid</code> 인자가 <code>CLOCK_MONOTONIC</code>이나 <code>CLOCK_REALTIME</code>이 아니다.</dd>
+<dd><code>clockid</code>가 유효하지 않다.</dd>
 <dt><code>EINVAL</code></dt>
 <dd><code>flags</code>가 유효하지 않다. 또는 리눅스 2.6.26 또는 이전에서 <code>flags</code>가 0이 아니다.</dd>
 <dt><code>EMFILE</code></dt>
@@ -280,6 +280,8 @@ struct itimerspec {
 <dd>(내부적으로 쓰는) 익명 아이노드 장치를 마운트 할 수 없었다.</dd>
 <dt><code>ENOMEM</code></dt>
 <dd>타이머를 생성하기에 커널 메모리가 충분하지 않았다.</dd>
+<dt><code>EPERM</code></dt>
+<dd><code>clockid</code>가 <code>CLOCK_REALTIME_ALARM</code> 또는 <code>CLOCK_BOOTTIME_ALARM</code>이었지만 호출자가 <code>CAP_WAKE_ALARM</code> 역능을 가지고 있지 않다.</dd>
 </dl>
 <p><code>timerfd_settime()</code>과 <code>timerfd_gettime()</code>이 다음 오류로 실패할 수 있다.</p>
 <dl>
@@ -292,6 +294,8 @@ struct itimerspec {
 </dl>
 <p><code>timerfd_settime()</code>이 다음 오류로 실패할 수도 있다.</p>
 <dl>
+<dt><code>ECANCELED</code></dt>
+<dd>NOTES 절을 보라.</dd>
 <dt><code>EINVAL</code></dt>
 <dd><code>new_value</code>가 올바로 초기화 되어 있지 않다. (한 <code>tv_nsec</code> 필드가 0에서 999,999,999까지 범위 밖에 있다.)</dd>
 <dt><code>EINVAL</code></dt>
@@ -301,11 +305,25 @@ struct itimerspec {
 <p>리눅스 커널 2.6.25부터 이 시스템 호출들이 사용 가능하다. glibc 버전 2.8부터 라이브러리 지원을 제공한다.</p>
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>이 시스템 호출들은 리눅스 전용이다.</p>
+<h2 id="notes">NOTES</h2>
+<p><code>timerfd_create()</code>로 생성한 <code>CLOCK_REALTIME</code> 내지 <code>CLOCK_REALTIME_ALARM</code> 타이머에 대한 다음 시나리오를 생각해 보자.</p>
+<p>(a) <code>TFD_TIMER_ABSTIME</code> 및 <code>TFD_TIMER_CANCEL_ON_SET</code> 플래그를 써서 타이머가 시작(<code>timerfd_settime()</code>)되었다.</p>
+<p>(b) 그 후에 <code>CLOCK_REALTIME</code> 클럭에 불연속적 변경(가령 <tt><a class="wikilink" href="/man-pages-ko/settimeofday(2)/">settimeofday(2)</a></tt>)이 일어난다.</p>
+<p>(c) 호출자가 (파일 디스크립터를 먼저 <code>read(2)</code> 하지 않고) 한 번 더 <code>timerfd_settime()</code>을 호출해서 타이머를 재장전한다.</p>
+<p>이 경우에 다음처럼 된다.</p>
+<ul>
+<li>
+<p><code>timerfd_settime()</code>이 <code>errno</code>를 <code>ECANCELED</code>로 해서 -1을 반환한다. (이를 통해 호출자는 앞선 타이머가 클럭의 불연속적 변경에 영향을 받았음을 알게 된다.)</p>
+</li>
+<li>
+<p>두 번째 <code>timerfd_settime()</code> 호출에서 준 설정대로 타이머가 <em>성공적으로 재장전된다</em>. (이는 아마 우발적인 구현이었을 것이다. 하지만 이 동작 방식에 의존하는 응용들이 있을 수 있으므로 현재 수정 계획이 없다.)</p>
+</li>
+</ul>
 <h2 id="bugs">BUGS</h2>
-<p>현재 <code>timerfd_create()</code>가 지원하는 클럭 ID 종류가 <tt>[[timer_create(2)]]</tt>보다 적다.</p>
-<h2 id="example">EXAMPLE</h2>
+<p>현재 <code>timerfd_create()</code>가 지원하는 클럭 ID 종류가 <tt><a class="wikilink" href="/man-pages-ko/timer_create(2)/">timer_create(2)</a></tt>보다 적다.</p>
+<h2 id="examples">EXAMPLES</h2>
 <p>다음 프로그램은 타이머를 생성하고서 그 진행을 지켜본다. 프로그램은 세 개까지의 명령행 인자를 받는다. 첫 번째 인자는 타이머의 최초 만료까지의 초 수를 나타낸다. 두 번째 인자는 타이머의 초 단위 간격을 나타낸다. 세 번째 인자는 종료 전까지 프로그램에서 허용해야 하는 타이머 만료 횟수를 나타낸다. 두 번째와 세 번째 명령행 인자는 선택적이다.</p>
-<pre><code class="text">$ a.out 3 1 100
+<pre><code class="language-text">$ a.out 3 1 100
 0.000: timer started
 3.000: read: 1; total=1
 4.000: read: 1; total=2
@@ -318,11 +336,11 @@ a.out 3 1 100
 11.000: read: 1; total=9
 ^C                  # control+C 입력해서 프로그램 중단
 </code></pre>
-
 <h3 id="_2">프로그램 소스</h3>
-<pre><code class="c">#include &lt;sys/timerfd.h&gt;
+<pre><code class="language-c">#include &lt;sys/timerfd.h&gt;
 #include &lt;time.h&gt;
 #include &lt;unistd.h&gt;
+#include &lt;inttypes.h&gt;      /* PRIu64 정의 */
 #include &lt;stdlib.h&gt;
 #include &lt;stdio.h&gt;
 #include &lt;stdint.h&gt;        /* uint64_t 정의 */
@@ -375,7 +393,7 @@ main(int argc, char *argv[])
         handle_error(&quot;clock_gettime&quot;);
 
     /* 명령행에서 지정한 최초 만료 시간와 간격으로
-       CLOCK_REALTIME 절대 시간 타이머 생성 */
+       CLOCK_REALTIME 절대 시간 타이머 생성하기. */
 
     new_value.it_value.tv_sec = now.tv_sec + atoi(argv[1]);
     new_value.it_value.tv_nsec = now.tv_nsec;
@@ -405,19 +423,16 @@ main(int argc, char *argv[])
 
         tot_exp += exp;
         print_elapsed_time();
-        printf(&quot;read: %llu; total=%llu\n&quot;,
-                (unsigned long long) exp,
-                (unsigned long long) tot_exp);
+        printf(&quot;read: %&quot; PRIu64 &quot;; total=%&quot; PRIu64 &quot;\n&quot;, exp, tot_exp);
     }
 
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[eventfd(2)]]</tt>, <tt>[[poll(2)]]</tt>, <code>read(2)</code>, <tt>[[select(2)]]</tt>, <tt>[[setitimer(2)]]</tt>, <tt>[[signalfd(2)]]</tt>, <tt>[[timer_create(2)]]</tt>, <tt>[[timer_gettime(2)]]</tt>, <tt>[[timer_settime(2)]]</tt>, <tt>[[epoll(7)]]</tt>, <tt>[[time(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/eventfd(2)/">eventfd(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/poll(2)/">poll(2)</a></tt>, <code>read(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/select(2)/">select(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/setitimer(2)/">setitimer(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/signalfd(2)/">signalfd(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/timer_create(2)/">timer_create(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/timer_gettime(2)/">timer_gettime(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/timer_settime(2)/">timer_settime(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/epoll(7)/">epoll(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/time(7)/">time(7)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

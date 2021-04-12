@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/utimes(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/utimes%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Utimes(2) - man-pages-ko</title>
+    <title>utimes(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -150,7 +150,7 @@
 <h2 id="name">NAME</h2>
 <p>utime, utimes - 파일 최근 접근 시간 및 수정 시간 바꾸기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;sys/types.h&gt;
+<pre><code class="language-c">#include &lt;sys/types.h&gt;
 #include &lt;utime.h&gt;
 
 int utime(const char *filename, const struct utimbuf *times);
@@ -159,34 +159,31 @@ int utime(const char *filename, const struct utimbuf *times);
 
 int utimes(const char *filename, const struct timeval times[2]);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
-<p><strong>참고</strong>: 최신 응용이라면 <tt>[[utimensat(2)]]</tt>에서 기술하는 인터페이스 사용을 선호할 것이다.</p>
+<p><strong>참고</strong>: 최신 응용이라면 <tt><a class="wikilink" href="/man-pages-ko/utimensat(2)/">utimensat(2)</a></tt>에서 기술하는 인터페이스 사용을 선호할 것이다.</p>
 <p><code>utime()</code> 시스템 호출은 <code>filename</code>이 나타내는 아이노드의 접근 시간(access time)과 수정 시간(modification time)을 각각 <code>times</code>의 <code>actime</code> 필드와 <code>modtime</code> 필드로 바꾼다.</p>
 <p><code>times</code>가 NULL이면 파일의 접근 시간과 수정 시간을 현재 시간으로 설정한다.</p>
 <p>타임스탬프 변경이 허용되는 때는 프로세스에게 적절한 특권이 있거나, 실효 사용자 ID가 파일의 사용자 ID와 같거나, <code>times</code>가 NULL이고 프로세스에게 파일에 대한 쓰기 권한이 있을 때이다.</p>
 <p><code>utimbuf</code> 구조체는 다음과 같다.</p>
-<pre><code class="c">struct utimbuf {
+<pre><code class="language-c">struct utimbuf {
     time_t actime;       /* 접근 시간 */
     time_t modtime;      /* 수정 시간 */
 };
 </code></pre>
-
 <p><code>utime()</code> 시스템 호출에서는 1초 해상도로 타임스탬프를 지정할 수 있다.</p>
 <p><code>utimes()</code> 시스템 호출도 비숫하지만 <code>times</code> 인자가 구조체가 아닌 배열을 가리킨다. 이 배열의 항목들은 <code>timeval</code> 구조체이며, 그래서 1마이크로초 정밀도로 타임스탬프를 지정할 수 있다. <code>timeval</code> 구조체는 다음과 같다.</p>
-<pre><code class="c">struct timeval {
+<pre><code class="language-c">struct timeval {
     long tv_sec;        /* 초 */
     long tv_usec;       /* 마이크로초 */
 };
 </code></pre>
-
 <p><code>times[0]</code>이 새 접근 시간을 나타내고 <code>times[1]</code>이 새 수정 시간을 나타낸다. <code>times</code>가 NULL이면 <code>utime()</code>에서와 마찬가지로 파일의 접근 시간과 수정 시간을 현재 시간으로 설정한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 0을 반환한다. 오류 시 -1을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<p>성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EACCES</code></dt>
-<dd><code>path</code>의 경로 선두부의 한 디렉터리에 대해 탐색 권한이 거부되었다. (<tt>[[path_resolution(7)]]</tt> 참고.)</dd>
+<dd><code>path</code>의 경로 선두부의 한 디렉터리에 대해 탐색 권한이 거부되었다. (<tt><a class="wikilink" href="/man-pages-ko/path_resolution(7)/">path_resolution(7)</a></tt> 참고.)</dd>
 <dt><code>EACCES</code></dt>
 <dd><code>times</code>가 NULL이고, 호출자의 실효 사용자 ID가 파일의 소유자와 일치하지 않고, 호출자가 파일에 쓰기 접근권을 가지고 있지 않고, 호출자에게 특권이 없다 (리눅스: <code>CAP_DAC_OVERRIDE</code> 역능과 <code>CAP_FOWNER</code> 역능 어느 쪽도 없다).</dd>
 <dt><code>ENOENT</code></dt>
@@ -202,9 +199,9 @@ int utimes(const char *filename, const struct timeval times[2]);
 <h2 id="notes">NOTES</h2>
 <p>리눅스에서는 불변(immutable) 파일의 타임스탬프를 바꾸는 것이나 덧붙임 전용(append-only) 파일의 타임스탬프를 현재 시간 아닌 값으로 설정하는 것을 허용하지 않는다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[chattr(1)]]</tt>, <code>touch(1)</code>, <tt>[[futimesat(2)]]</tt>, <tt>[[stat(2)]]</tt>, <tt>[[utimensat(2)]]</tt>, <tt>[[futimens(3)]]</tt>, <tt>[[futimes(3)]]</tt>, <tt>[[inode(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/chattr(1)/">chattr(1)</a></tt>, <code>touch(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/futimesat(2)/">futimesat(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/stat(2)/">stat(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/utimensat(2)/">utimensat(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/futimens(3)/">futimens(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/futimes(3)/">futimes(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/inode(7)/">inode(7)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/numa_maps(5)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/queue%287%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Numa maps(5) - man-pages-ko</title>
+    <title>queue(7) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -137,69 +137,152 @@
     <ul class="nav bs-sidenav">
         <li class="first-level active"><a href="#name">NAME</a></li>
         <li class="first-level "><a href="#description">DESCRIPTION</a></li>
-            <li class="second-level"><a href="#numa">NUMA 시스템 호출</a></li>
+            <li class="second-level"><a href="#slist">단일 연결 리스트 (SLIST)</a></li>
                 
-            <li class="second-level"><a href="#procnumbernuma_maps-2614">/proc/[number]/numa_maps (리눅스 2.6.14부터)</a></li>
+            <li class="second-level"><a href="#stailq">단일 연결 꼬리 큐 (STAILQ)</a></li>
+                
+            <li class="second-level"><a href="#_1">이중 연결 자료 구조들</a></li>
+                
+            <li class="second-level"><a href="#list">이중 연결 리스트 (LIST)</a></li>
+                
+            <li class="second-level"><a href="#tailq">이중 연결 꼬리 큐 (TAILQ)</a></li>
+                
+            <li class="second-level"><a href="#circleq">이중 연결 원형 큐 (CIRCLEQ)</a></li>
                 
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-            <li class="second-level"><a href="#_1">라이브러리 지원</a></li>
-                
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
         <div class="col-md-9" role="main">
 
 <h2 id="name">NAME</h2>
-<p>numa - 불균일 기억 장치 접근 개요</p>
+<p>queue - 연결 리스트 및 큐 구현</p>
 <h2 id="description">DESCRIPTION</h2>
-<p>불균일 기억 장치 접근(Non-Uniform Memory Access; NUMA)은 메모리가 여러 메모리 노드들로 나눠져 있는 다중 프로세서 시스템을 가리킨다. 메모리 노드의 접근 시간이 접근하려는 CPU와 접근 대상 노드의 상대적 위치에 따라 달라진다. (이는 메모리 전체에 대한 접근 시간이 모든 CPU에게 동일한 대칭형 다중 프로세서 시스템과 대비된다.) 보통 NUMA 시스템의 각 CPU에는 로컬 메모리 노드가 있어서 다른 CPU에 로컬인 노드의 메모리나 모든 CPU가 공유하는 버스 상의 메모리보다 빠르게 그 내용물에 접근할 수 있다.</p>
-<h3 id="numa">NUMA 시스템 호출</h3>
-<p>리눅스 커널에서 다음의 NUMA 관련 시스템 호출을 구현하고 있다: <tt>[[get_mempolicy(2)]]</tt>, <tt>[[mbind(2)]]</tt>, <tt>[[migrate_pages(2)]]</tt>, <tt>[[move_pages(2)]]</tt>, <tt>[[set_mempolicy(2)]]</tt>. 하지만 응용에서는 보통 <code>libnuma</code>가 제공하는 인터페이스를 사용하는 게 좋다. 아래의 "라이브러리 지원"을 보라.</p>
-<h3 id="procnumbernuma_maps-2614"><code>/proc/[number]/numa_maps</code> (리눅스 2.6.14부터)</h3>
-<p>이 파일은 프로세스의 NUMA 메모리 정책과 할당에 대한 정보를 표시한다.</p>
-<p>각 행은 프로세스가 사용하는 메모리 범위에 대한 정보를 담고 있다. 여러 정보들에 더해서 그 메모리 범위에 대한 실효 메모리 정책, 그리고 그 페이지들이 어느 노드 상에서 할당되었는지를 보여 준다.</p>
-<p><code>numa_maps</code>는 읽기 전용 파일이다. <code>/proc/&lt;pid&gt;/numa_maps</code>를 읽을 때 커널이 그 프로세스의 가상 주소 공간을 훑어서 메모리가 어떻게 쓰이고 있는지 알려 주게 된다. 프로세스의 고유한 메모리 범위마다 한 줄씩 표시된다.</p>
-<p>각 행의 첫 번째 필드는 메모리 범위의 시작 주소이다. 이 필드를 범위의 끝 주소와 접근 권한 및 공유 같은 여타 정보를 담고 있는 <code>/proc/&lt;pid&gt;/maps</code> 파일의 내용과 연관시킬 수 있다.</p>
-<p>두 번째 필드는 현재 그 메모리 범위에 효력이 있는 메모리 정책을 보여 준다. 참고로 그 실효 정책이 반드시 프로세스가 그 메모리 범위에 대해 설치했던 정책인 것은 아니다. 구체적으로 프로세스가 그 범위에 "default" 정책을 설치했다면 그 범위의 실효 정책은 프로세스 정책이 되는데, 이는 "default"일 수도 있고 아닐 수도 있다.</p>
-<p>행의 나머지 부분에는 메모리 범위 내에서 할당된 페이지들에 대한 다음과 같은 정보가 들어있다.</p>
-<dl>
-<dt><code>N&lt;node&gt;=&lt;nr_pages&gt;</code></dt>
-<dd><code>&lt;node&gt;</code>에 할당된 페이지 개수. <code>&lt;nr_pages&gt;</code>는 현재 프로세스가 매핑 한 페이지들만 포함한다. 페이지 이전과 메모리 회수 때문에 이 메모리 범위에 연계된 페이지들이 일시적으로 매핑이 해제되었을 수도 있다. 그런 페이지들은 프로세스에서 그 페이지들에 접근하려 시도한 후에만 나타날 수도 있다. 메모리 범위가 공유 메모리 영역이나 파일 매핑을 나타내는 경우에는 다른 프로세스들이 동시에 해당 메모리 범위 내에 추가 페이지들을 매핑 하고 있을 수도 있다.</dd>
-<dt><code>file=&lt;filename&gt;</code></dt>
-<dd>메모리 범위의 기반이 되는 파일. 파일이 private으로 매핑 되어 있다면 쓰기 접근이 이 메모리 범위에서 COW (Copy-On-Write) 페이지들이 생성했을 수도 있다. 그런 페이지들은 익명 페이지로 표시된다.</dd>
-<dt><code>heap</code></dt>
-<dd>메모리 범위가 힙에 쓰인다.</dd>
-<dt><code>stack</code></dt>
-<dd>메모리 범위가 스택에 쓰인다.</dd>
-<dt><code>huge</code></dt>
-<dd>거대 메모리 범위. 표시된 페이지 개수는 거대 페이지들과 비정규 크기 페이지들이다.</dd>
-<dt><code>anon=&lt;pages&gt;</code></dt>
-<dd>범위 내의 익명 페이지 개수.</dd>
-<dt><code>dirty=&lt;pages&gt;</code></dt>
-<dd>더러워진 페이지 개수.</dd>
-<dt><code>mapped=&lt;pages&gt;</code></dt>
-<dd>매핑 된 페이지 총개수. <code>dirty</code> 및 <code>anon</code> 페이지들과 다른 경우.</dd>
-<dt><code>mapmax=&lt;count&gt;</code></dt>
-<dd>훑는 동안 만난 최대 mapcount (한 페이지를 매핑 하고 있는 프로세스들의 수). 해당 메모리 범위 내에서 이뤄지고 있는 공유의 정도를 나타내는 지표로 사용할 수 있다.</dd>
-<dt><code>swapcache=&lt;count&gt;</code></dt>
-<dd>스왑 장치에 연계 항목이 있는 페이지들의 개수.</dd>
-<dt><code>active=&lt;pages&gt;</code></dt>
-<dd>활동 목록의 페이지 개수. 이 범위의 페이지 개수와 다른 경우에만 이 필드가 보인다. 조만간 스와퍼에 의해 메모리에서 제거될 수도 있는 비활동 페이지들이 메모리 범위 내에 좀 존재한다는 뜻이다.</dd>
-<dt><code>writeback=&lt;pages&gt;</code></dt>
-<dd>현재 디스크로 기록 중인 페이지들의 개수.</dd>
-</dl>
+<p><code>&lt;sys/queue.h&gt;</code> 헤더 파일에서 다음 자료 구조들을 정의하고 조작하는 매크로 세트를 제공한다.</p>
+<ul>
+<li>
+<p>단일 연결 리스트 (SLIST)</p>
+</li>
+<li>
+<p>이중 연결 리스트 (LIST)</p>
+</li>
+<li>
+<p>단일 연결 꼬리 큐 (STAILQ)</p>
+</li>
+<li>
+<p>이중 연결 꼬리 큐 (TAILQ)</p>
+</li>
+<li>
+<p>이중 연결 원형 큐 (CIRCLEQ)</p>
+</li>
+</ul>
+<p>모든 자료 구조에서 다음 기능성을 지원한다.</p>
+<ul>
+<li>
+<p>리스트 머리에 새 항목 삽입하기.</p>
+</li>
+<li>
+<p>리스트 내 임의 항목 뒤에 새 항목 삽입하기.</p>
+</li>
+<li>
+<p>리스트 머리에서 O(1)으로 항목 제거하기.</p>
+</li>
+<li>
+<p>순방향으로 리스트 순회하기.</p>
+</li>
+</ul>
+<p>사용 자료 구조의 복잡도에 따라 코드 크기와 실행 시간이 달라지므로 프로그래머들은 적절한 자료 구조를 선정하도록 신경써야 한다.</p>
+<h3 id="slist">단일 연결 리스트 (SLIST)</h3>
+<p>단일 연결 리스트는 가장 단순하며 위의 기능들만 지원한다. 단일 연결 리스트는 데이터 양이 많고 제거가 드물거나 없는 응용에, 또는 LIFO 큐 구현에 잘 맞는다. 단일 연결 리스트에는 추가로 다음 기능성이 있다.</p>
+<ul>
+<li>리스트 내 임의 항목을 O(n)으로 제거하기.</li>
+</ul>
+<h3 id="stailq">단일 연결 꼬리 큐 (STAILQ)</h3>
+<p>단일 연결 꼬리 큐에는 추가로 다음 기능성이 있다.</p>
+<ul>
+<li>
+<p>리스트 끝에 항목을 추가할 수 있다.</p>
+</li>
+<li>
+<p>리스트 내 임의 항목을 O(n)으로 제거하기.</p>
+</li>
+<li>
+<p>두 리스트를 이어 붙일 수 있다.</p>
+</li>
+</ul>
+<p>하지만</p>
+<ul>
+<li>
+<p>리스트 삽입 시 리스트 머리를 지정해야 한다.</p>
+</li>
+<li>
+<p>각 머리 항목에 포인터가 한 개가 아니라 두 개 필요하다.</p>
+</li>
+</ul>
+<p>단일 연결 꼬리 큐는 데이터 양이 많고 제거가 드물거나 없는 응용에, 또는 FIFO 큐 구현에 잘 맞는다.</p>
+<h3 id="_1">이중 연결 자료 구조들</h3>
+<p>이중 연결 방식 자료 구조 모두(리스트와 꼬리 큐)에서는 추가로 다음이 가능하다.</p>
+<ul>
+<li>
+<p>리스트 내 임의 항목 앞에 새 항목 삽입하기.</p>
+</li>
+<li>
+<p>리스트 내 임의 항목을 O(1)으로 제거하기.</p>
+</li>
+</ul>
+<p>하지만</p>
+<ul>
+<li>각 항목에 포인터가 한 개가 아니라 두 개 필요하다.</li>
+</ul>
+<h3 id="list">이중 연결 리스트 (LIST)</h3>
+<p>연결 리스트는 가장 단순한 이중 연결 자료 구조이다. 위에 더해서 다음 기능성이 있다.</p>
+<ul>
+<li>역방향으로 순회할 수 있다.</li>
+</ul>
+<p>하지만</p>
+<ul>
+<li>역방향으로 순회하려면 순회를 시작할 항목과 그 항목을 담은 리스트를 지정해야 한다.</li>
+</ul>
+<h3 id="tailq">이중 연결 꼬리 큐 (TAILQ)</h3>
+<p>꼬리 큐에는 추가로 다음 기능성이 있다.</p>
+<ul>
+<li>
+<p>리스트 끝에 항목을 추가할 수 있다.</p>
+</li>
+<li>
+<p>꼬리에서 머리로 역방향 순회를 할 수 있다.</p>
+</li>
+<li>
+<p>두 리스트를 이어 붙일 수 있다.</p>
+</li>
+</ul>
+<p>하지만</p>
+<ul>
+<li>
+<p>리스트 삽입 및 제거 시 리스트 머리를 지정해야 한다.</p>
+</li>
+<li>
+<p>각 머리 항목에 포인터가 한 개가 아니라 두 개 필요하다.</p>
+</li>
+</ul>
+<h3 id="circleq">이중 연결 원형 큐 (CIRCLEQ)</h3>
+<p>원형 큐에는 위에 더해서 다음 기능성이 있다.</p>
+<ul>
+<li>첫 번째 항목과 마지막 항목이 연결되어 있다.</li>
+</ul>
+<p>하지만</p>
+<ul>
+<li>순회 종료 조건이 더 복잡하다.</li>
+</ul>
 <h2 id="conforming-to">CONFORMING TO</h2>
-<p>NUMA 인터페이스를 관할하는 표준이 없다.</p>
+<p>POSIX.1, POSIX.1-2001, POSIX.1-2008에 없다. BSD들에 있다. (4.4BSD에서 매크로들이 처음 등장했다.)</p>
 <h2 id="notes">NOTES</h2>
-<p>리눅스의 NUMA 시스템 호출들과 <code>/proc</code> 인터페이스는 커널을 <code>CONFIG_NUMA</code> 옵션으로 구성하여 빌드 한 경우에만 사용 가능하다.</p>
-<h3 id="_1">라이브러리 지원</h3>
-<p>시스템 호출 정의들이 필요하면 <code>-lnuma</code>로 링크 하라. <code>libnuma</code>와 필수적인 <code>&lt;numaif.h&gt;</code> 헤더를 <code>numactl</code> 패키지에서 얻을 수 있다.</p>
-<p>하지만 응용에서 이 시스템 호출들을 직접 사용하지 않는 게 좋다. 그보다는 <code>numactl</code> 패키지의 <tt>[[numa(3)]]</tt> 함수들이 제공하는 고수준 인터페이스를 권장한다. <code>numactl</code> 패키지를 (<a href="ftp://oss.sgi.com/www/projects/libnuma/download/">ftp://oss.sgi.com/www/projects/libnuma/download/</a>)에서 얻을 수 있다. 또한 일부 리눅스 배포판에도 이 패키지가 포함되어 있다. 일부 배포판에서는 별도의 <code>numactl-devel</code> 패키지에 개발용 라이브러리와 헤더가 있다.</p>
+<p>일부 BSD들에선 STAILQ 대신 SIMPLEQ를 제공한다. 둘은 동일하지만 역사적 이유 때문에 다른 이름이 붙었다. STAILQ는 FreeBSD에서 유래했고 SIMPLEQ는 NetBSD에서 유래했다. 호환성을 위해 어떤 시스템에선 두 매크로 세트를 모두 제공한다. glibc에서는 STAILQ와 SIMPLEQ를 모두 제공하는데, <code>STAILQ_CONCAT()</code>에 대응하는 SIMPLEQ 매크로가 없다는 점을 빼고 서로 동일하다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[get_mempolicy(2)]]</tt>, <tt>[[mbind(2)]]</tt>, <tt>[[move_pages(2)]]</tt>, <tt>[[set_mempolicy(2)]]</tt>, <tt>[[numa(3)]]</tt>, <tt>[[cpuset(7)]]</tt>, <code>numactl(8)</code></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/circleq(3)/">circleq(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/insque(3)/">insque(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/list(3)/">list(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/slist(3)/">slist(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/stailq(3)/">stailq(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/tailq(3)/">tailq(3)</a></tt></p>
 <hr />
-<p>2012-08-05</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

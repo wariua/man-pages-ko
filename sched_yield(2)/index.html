@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/sched_yield(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/sched_yield%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Sched yield(2) - man-pages-ko</title>
+    <title>sched_yield(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -150,15 +150,14 @@
 <h2 id="name">NAME</h2>
 <p>sched_yield - 프로세서 양보하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;sched.h&gt;
+<pre><code class="language-c">#include &lt;sched.h&gt;
 
 int sched_yield(void);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>sched_yield()</code>는 호출 스레드가 CPU를 포기하게 한다. 스레드가 자기 고정 우선순위에 대한 큐의 끝으로 이동하며 새 스레드가 돌게 된다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 <code>sched_yield()</code>는 0을 반환한다. 오류 시 -1을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<p>성공 시 <code>sched_yield()</code>는 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <p>리눅스 구현에서는 <code>sched_yield()</code>가 항상 성공한다.</p>
 <h2 id="conforming-to">CONFORMING TO</h2>
@@ -169,9 +168,9 @@ int sched_yield(void);
 <p>경쟁이 (많이) 있는 자원(가령 뮤텍스)을 호출자가 놓았을 때 다른 스레드 내지 프로세스에게 실행 기회를 주는 전략적 <code>sched_yield()</code> 호출로 성능을 향상시킬 수 있다. 불필요하게나 부적절하게 (가령 스케줄링 가능한 다른 스레드에게 필요한 자원을 호출자가 아직 잡고 있을 때) <code>sched_yield()</code>를 호출하는 것을 피해야 한다. 불필요한 문맥 전환이 발생하여 시스템 성능이 저하된다.</p>
 <p><code>sched_yield()</code>는 실시간 스케줄링 정책(즉 <code>SCHED_FIFO</code>나 <code>SCHED_RR</code>)에 사용하기 위한 것이다. <code>SCHED_OTHER</code> 같은 비결정적 스케줄링 정책에 <code>sched_yield()</code>를 사용하는 것은 명세되어 있지 않으며 응용 설계에 문제가 있다는 뜻일 가능성이 높다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[sched(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/sched(7)/">sched(7)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

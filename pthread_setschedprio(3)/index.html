@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_setschedprio(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_setschedprio%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Pthread setschedprio(3) - man-pages-ko</title>
+    <title>pthread_setschedprio(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -152,14 +152,13 @@
 <h2 id="name">NAME</h2>
 <p>pthread_setschedprio - 스레드의 스케줄링 우선순위 설정하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;pthread.h&gt;
+<pre><code class="language-c">#include &lt;pthread.h&gt;
 
 int pthread_setschedprio(pthread_t thread, int prio);
 </code></pre>
-
 <p><code>-pthread</code>로 컴파일 및 링크.</p>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>pthread_setschedprio()</code> 함수는 스레드 <code>thread</code>의 스케줄링 우선순위를 <code>prio</code>에 지정한 값으로 설정한다. (반면 <tt>[[pthread_setschedparam(3)]]</tt>은 스레드의 스케줄링 정책과 우선순위 모두를 바꾼다.)</p>
+<p><code>pthread_setschedprio()</code> 함수는 스레드 <code>thread</code>의 스케줄링 우선순위를 <code>prio</code>에 지정한 값으로 설정한다. (반면 <tt><a class="wikilink" href="/man-pages-ko/pthread_setschedparam(3)/">pthread_setschedparam(3)</a></tt>은 스레드의 스케줄링 정책과 우선순위 모두를 바꾼다.)</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 이 함수는 0을 반환한다. 오류 시 0 아닌 오류 번호를 반환한다. <code>pthread_setschedprio()</code>가 실패한 경우 <code>thread</code>의 스케줄링 우선순위가 바뀌지 않는다.</p>
 <h2 id="errors">ERRORS</h2>
@@ -175,7 +174,7 @@ int pthread_setschedprio(pthread_t thread, int prio);
 <h2 id="versions">VERSIONS</h2>
 <p>glibc 버전 2.3.4부터 이 함수가 사용 가능하다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -195,11 +194,11 @@ int pthread_setschedprio(pthread_t thread, int prio);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008.</p>
 <h2 id="notes">NOTES</h2>
-<p>스레드의 스케줄링 우선순위를 바꾸는 데 필요한 권한과 그 효과, 각 스케줄링 정책에서 허용하는 우선순위 범위에 대한 설명은 <tt>[[sched(7)]]</tt>를 보라.</p>
+<p>스레드의 스케줄링 우선순위를 바꾸는 데 필요한 권한과 그 효과, 각 스케줄링 정책에서 허용하는 우선순위 범위에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/sched(7)/">sched(7)</a></tt>를 보라.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[getrlimit(2)]]</tt>, <tt>[[sched_get_priority_min(2)]]</tt>, <tt>[[pthread_attr_init(3)]]</tt>, <tt>[[pthread_attr_setinheritsched(3)]]</tt>, <tt>[[pthread_attr_setschedparam(3)]]</tt>, <tt>[[pthread_attr_setschedpolicy(3)]]</tt>, <tt>[[pthread_create(3)]]</tt>, <tt>[[pthread_self(3)]]</tt>, <tt>[[pthread_setschedparam(3)]]</tt>, <tt>[[pthreads(7)]]</tt>, <tt>[[sched(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/getrlimit(2)/">getrlimit(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sched_get_priority_min(2)/">sched_get_priority_min(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_init(3)/">pthread_attr_init(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setinheritsched(3)/">pthread_attr_setinheritsched(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setschedparam(3)/">pthread_attr_setschedparam(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setschedpolicy(3)/">pthread_attr_setschedpolicy(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_create(3)/">pthread_create(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_self(3)/">pthread_self(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_setschedparam(3)/">pthread_setschedparam(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthreads(7)/">pthreads(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sched(7)/">sched(7)</a></tt></p>
 <hr />
-<p>2015-08-08</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

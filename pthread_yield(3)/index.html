@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_yield(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_yield%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Pthread yield(3) - man-pages-ko</title>
+    <title>pthread_yield(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -151,21 +151,20 @@
 <h2 id="name">NAME</h2>
 <p>pthread_yield - 프로세서 양보하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#define _GNU_SOURCE             /* feature_test_macros(7) 참고 */
+<pre><code class="language-c">#define _GNU_SOURCE             /* feature_test_macros(7) 참고 */
 #include &lt;pthread.h&gt;
 
 int pthread_yield(void);
 </code></pre>
-
 <p><code>-pthread</code>로 컴파일 및 링크.</p>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>pthread_yield()</code>는 호출 스레드가 CPU를 포기하게 한다. 스레드가 자기 고정 우선순위에 대한 큐의 끝으로 가고 다른 스레드가 스케줄 된다. 더 자세한 내용은 <tt>[[sched_yield(2)]]</tt>를 보라.</p>
+<p><code>pthread_yield()</code>는 호출 스레드가 CPU를 포기하게 한다. 스레드가 자기 고정 우선순위에 대한 큐의 끝으로 가고 다른 스레드가 스케줄 된다. 더 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/sched_yield(2)/">sched_yield(2)</a></tt>를 보라.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 <code>pthread_yield()</code>는 0을 반환한다. 오류 시 오류 번호를 반환한다.</p>
 <h2 id="errors">ERRORS</h2>
 <p>리눅스에서 이 호출은 항상 성공한다. (그렇기는 하지만 이식 가능하고 미래를 대비하는 응용에서는 가능한 오류 반환을 처리해야 할 것이다.)</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -183,14 +182,14 @@ int pthread_yield(void);
 </tbody>
 </table>
 <h2 id="conforming-to">CONFORMING TO</h2>
-<p>이 호출은 비표준이지만 여러 다른 시스템에 존재한다. 표준화된 <tt>[[sched_yield(2)]]</tt>를 대신 사용하라.</p>
+<p>이 호출은 비표준이지만 여러 다른 시스템에 존재한다. 표준화된 <tt><a class="wikilink" href="/man-pages-ko/sched_yield(2)/">sched_yield(2)</a></tt>를 대신 사용하라.</p>
 <h2 id="notes">NOTES</h2>
-<p>리눅스에서 이 함수는 <tt>[[sched_yield(2)]]</tt> 호출로 구현되어 있다.</p>
+<p>리눅스에서 이 함수는 <tt><a class="wikilink" href="/man-pages-ko/sched_yield(2)/">sched_yield(2)</a></tt> 호출로 구현되어 있다.</p>
 <p><code>pthread_yield()</code>는 실시간 스케줄링 정책(즉 <code>SCHED_FIFO</code>나 <code>SCHED_RR</code>)에 사용하기 위한 것이다. <code>SCHED_OTHER</code> 같은 비결정적 스케줄링 정책에 <code>pthread_yield()</code>를 사용하는 것은 명세되어 있지 않으며 응용 설계에 문제가 있다는 뜻일 가능성이 높다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[sched_yield(2)]]</tt>, <tt>[[pthread(7)]]</tt>, <tt>[[sched(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/sched_yield(2)/">sched_yield(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread(7)/">pthread(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sched(7)/">sched(7)</a></tt></p>
 <hr />
-<p>2017-11-26</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

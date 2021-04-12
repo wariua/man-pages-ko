@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/memfrob(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/memfrob%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Memfrob(3) - man-pages-ko</title>
+    <title>memfrob(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -149,19 +149,18 @@
 <h2 id="name">NAME</h2>
 <p>memfrob - 메모리 영역 뒤섞기 (암호화하기)</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#define _GNU_SOURCE             /* feature_test_macros(7) 참고 */
+<pre><code class="language-c">#define _GNU_SOURCE             /* feature_test_macros(7) 참고 */
 #include &lt;string.h&gt;
 
 void *memfrob(void *s, size_t n);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>memfrob()</code> 함수는 각 문자를 숫자 42와 XOR 하여 메모리 영역 <code>s</code>의 처음 <code>n</code>바이트를 암호화한다. 암호화된 메모리 영역에 <code>memfrob()</code>을 사용해서 그 효과를 되돌릴 수 있다.</p>
 <p>참고로 이 함수는 XOR 상수가 고정되어 있으므로 올바른 암호화 루틴이 아니며 문자열을 감추는 정도에만 적합하다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p><code>memfrob()</code> 함수는 암호화된 그 메모리 영역에 대한 포인터를 반환한다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -181,9 +180,9 @@ void *memfrob(void *s, size_t n);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p><code>memfrob()</code>는 GNU C 라이브러리에 고유한 함수이다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[bstring(3)]]</tt>, <tt>[[strfry(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/bstring(3)/">bstring(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/strfry(3)/">strfry(3)</a></tt></p>
 <hr />
-<p>2017-03-13</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

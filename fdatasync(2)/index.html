@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/fdatasync(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/fdatasync%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Fdatasync(2) - man-pages-ko</title>
+    <title>fdatasync(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -141,7 +141,6 @@
         <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
         <li class="first-level "><a href="#errors">ERRORS</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
-        <li class="first-level "><a href="#availability">AVAILABILITY</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
@@ -151,14 +150,13 @@
 <h2 id="name">NAME</h2>
 <p>fsync, fdatasync - 파일의 코어 내 상태를 저장 장치와 동기화하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;unistd.h&gt;
+<pre><code class="language-c">#include &lt;unistd.h&gt;
 
 int fsync(int fd);
 
 int fdatasync(int fd);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>fsync()</code>:</dt>
 <dd>
@@ -175,12 +173,12 @@ int fdatasync(int fd);
 </dl>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>fsync()</code>는 파일 디스크립터 <code>fd</code>가 가리키는 파일의 변경된 코어 내 데이터 (즉 변경된 버퍼 캐시 페이지) 모두를 디스크 장치로 (또는 다른 영속 저장 장치로) 이동("플러시")한다. 그래서 시스템이 죽거나 재부팅 되는 경우에도 바뀐 정보를 모두 얻을 수 있도록 한다. 디스크 캐시가 존재하는 경우 그 캐시를 통과해 기록하거나 플러시 하는 것까지 포함한다. 이동이 완료됐다고 장치가 알릴 때까지 호출이 블록 한다.</p>
-<p><code>fsync()</code>는 파일 데이터를 플러시 할 뿐 아니라 파일에 연계된 메타데이터 정보(<tt>[[inode(7)]]</tt> 참고)도 플러시 한다.</p>
+<p><code>fsync()</code>는 파일 데이터를 플러시 할 뿐 아니라 파일에 연계된 메타데이터 정보(<tt><a class="wikilink" href="/man-pages-ko/inode(7)/">inode(7)</a></tt> 참고)도 플러시 한다.</p>
 <p><code>fsync()</code>를 호출해도 그 파일을 담은 디렉터리 내 항목까지 디스크에 도달했다고 보장되지는 않는다. 디렉터리에 대한 파일 디스크립터에도 따로 <code>fsync()</code>가 필요하다.</p>
-<p><code>fdatasync()</code>는 <code>fsync()</code>와 비슷하되 후속 데이터 조회를 올바로 처리하는 데 필요한 게 아니라면 변경된 메타데이터를 플러시 하지 않는다. 예를 들어 <code>st_atime</code>이나 <code>st_mtime</code>(각각 최근 접근 시간과 최근 수정 시간. <tt>[[inode(7)]]</tt> 참고) 변경은 후속 데이터 읽기를 올바로 처리하는 데 필요하지 않으므로 플러시 할 필요가 없다. 반면 (가령 <tt>[[ftruncate(2)]]</tt>를 통한) 파일 크기(<code>st_size</code>) 변경은 메타데이터 플러시가 필요할 것이다.</p>
+<p><code>fdatasync()</code>는 <code>fsync()</code>와 비슷하되 후속 데이터 조회를 올바로 처리하는 데 필요한 게 아니라면 변경된 메타데이터를 플러시 하지 않는다. 예를 들어 <code>st_atime</code>이나 <code>st_mtime</code>(각각 최근 접근 시간과 최근 수정 시간. <tt><a class="wikilink" href="/man-pages-ko/inode(7)/">inode(7)</a></tt> 참고) 변경은 후속 데이터 읽기를 올바로 처리하는 데 필요하지 않으므로 플러시 할 필요가 없다. 반면 (가령 <tt><a class="wikilink" href="/man-pages-ko/ftruncate(2)/">ftruncate(2)</a></tt>를 통한) 파일 크기(<code>st_size</code>) 변경은 메타데이터 플러시가 필요할 것이다.</p>
 <p><code>fdatasync()</code>의 목적은 모든 메타데이터가 디스크에 동기화돼야 하는 건 아닌 응용에서 디스크 활동을 줄이는 것이다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 이 시스템 호출들은 0을 반환한다. 오류 시 -1을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<p>성공 시 이 시스템 호출들은 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EBADF</code></dt>
@@ -196,16 +194,15 @@ int fdatasync(int fd);
 </dl>
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008, 4.3BSD.</p>
-<h2 id="availability">AVAILABILITY</h2>
-<p><code>fdatasync()</code>가 사용 가능한 POSIX 시스템에는 <code>&lt;unistd.h&gt;</code>에 <code>_POSIX_SYNCHRONIZED_IO</code>가 0보다 큰 값으로 정의되어 있다. (<tt>[[sysconf(3)]]</tt>도 참고.)</p>
+<p><code>fdatasync()</code>가 사용 가능한 POSIX 시스템에는 <code>&lt;unistd.h&gt;</code>에 <code>_POSIX_SYNCHRONIZED_IO</code>가 0보다 큰 값으로 정의되어 있다. (<tt><a class="wikilink" href="/man-pages-ko/sysconf(3)/">sysconf(3)</a></tt>도 참고.)</p>
 <h2 id="notes">NOTES</h2>
 <p>어떤 유닉스 시스템에서는 (리눅스는 아님) <code>fd</code>가 <em>쓰기 가능한</em> 파일 디스크립터여야 한다.</p>
 <p>리눅스 2.2 및 이전에서는 <code>fdatasync()</code>가 <code>fsync()</code>와 동등하며, 그래서 성능에서 유리한 점이 없다.</p>
 <p>오래된 커널과 잘 안 쓰는 파일 시스템의 <code>fsync()</code> 구현에서는 디스크 캐시를 플러시 할 줄 모른다. 이 경우 안전한 동작을 보장하려면 <code>hdparm(8)</code>이나 <code>sdparm(8)</code>을 이용해 디스크 캐시를 비활성화해야 한다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>sync(1)</code>, <tt>[[bdflush(2)]]</tt>, <tt>[[open(2)]]</tt>, <tt>[[posix_fadvise(2)]]</tt>, <tt>[[pwritev(2)]]</tt>, <tt>[[sync(2)]]</tt>, <tt>[[sync_file_range(2)]]</tt>, <tt>[[fflush(3)]]</tt>, <tt>[[fileno(3)]]</tt>, <code>hdparm(8)</code>, <tt>[[mount(8)]]</tt></p>
+<p><code>sync(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/bdflush(2)/">bdflush(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/posix_fadvise(2)/">posix_fadvise(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pwritev(2)/">pwritev(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sync(2)/">sync(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sync_file_range(2)/">sync_file_range(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fflush(3)/">fflush(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fileno(3)/">fileno(3)</a></tt>, <code>hdparm(8)</code>, <tt><a class="wikilink" href="/man-pages-ko/mount(8)/">mount(8)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

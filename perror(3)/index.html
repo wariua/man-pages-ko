@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/perror(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/perror%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Perror(3) - man-pages-ko</title>
+    <title>perror(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -138,6 +138,7 @@
         <li class="first-level active"><a href="#name">NAME</a></li>
         <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
         <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
@@ -149,7 +150,7 @@
 <h2 id="name">NAME</h2>
 <p>perror - 시스템 오류 메시지 찍기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;stdio.h&gt;
+<pre><code class="language-c">#include &lt;stdio.h&gt;
 
 void perror(const char *s);
 
@@ -159,13 +160,12 @@ const char * const sys_errlist[];
 int sys_nerr;
 int errno;       /* 실제 이렇게 선언돼 있지 않음. errno(3) 참고 */
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>sys_errlist</code>, <code>sys_nerr</code>:</dt>
 <dd>
 <dl>
-<dt>glibc 2.19부터:</dt>
+<dt>glibc 2.19부터 2.31까지:</dt>
 <dd><code>_DEFAULT_SOURCE</code></dd>
 <dt>glibc 2.19 및 이전:</dt>
 <dd><code>_BSD_SOURCE</code></dd>
@@ -176,10 +176,12 @@ int errno;       /* 실제 이렇게 선언돼 있지 않음. errno(3) 참고 */
 <p><code>perror()</code> 함수는 시스템 내지 라이브러리 함수 호출 중 만난 최종 오류를 설명하는 메시지를 표준 오류로 내놓는다.</p>
 <p>먼저 (<code>s</code>가 NULL이 아니고 <code>*s</code>가 널 바이트('\0')가 아니면) 인자 문자열 <code>s</code>를 찍고 이어서 콜론과 공백을 찍는다. 다음으로 현재 <code>errno</code> 값에 해당하는 오류 메시지와 개행이 온다.</p>
 <p>제대로 쓰려면 인자 문자열에 오류가 발생한 함수의 이름을 포함시키는 게 좋다.</p>
-<p>전역 오류 목록 <code>sys_errlist[]</code>는 <code>errno</code>를 인덱스로 사용해서 개행 없는 오류 메시지를 얻을 수 있다. 이 테이블에서 제공하는 가장 높은 메시지 번호는 <code>sys_nerr-1</code>이다. 새 오류 값이 <code>sys_errlist[]</code>에 추가되지 않았을 수도 있으므로 이 목록에 직접 접근할 때는 조심해야 한다. 요즘은 <code>sys_errlist[]</code>를 쓰지 않는 게 좋다. 대신 <tt>[[strerror(3)]]</tt>를 쓰면 된다.</p>
+<p>전역 오류 목록 <code>sys_errlist[]</code>는 <code>errno</code>를 인덱스로 사용해서 개행 없는 오류 메시지를 얻을 수 있다. 이 테이블에서 제공하는 가장 높은 메시지 번호는 <code>sys_nerr-1</code>이다. 새 오류 값이 <code>sys_errlist[]</code>에 추가되지 않았을 수도 있으므로 이 목록에 직접 접근할 때는 조심해야 한다. 요즘은 <code>sys_errlist[]</code>를 쓰지 않는 게 좋다. 대신 <tt><a class="wikilink" href="/man-pages-ko/strerror(3)/">strerror(3)</a></tt>를 사용하라.</p>
 <p>시스템 호출이 실패하면 보통 -1을 반환하면서 <code>errno</code>에다가 뭐가 잘못됐는지 설명하는 값을 설정한다. (이 값들을 <code>&lt;errno.h&gt;</code>에서 볼 수 있다.) 여러 라이브러리 함수들도 비슷하다. <code>perror()</code> 함수는 그 오류 코드를 사람이 읽을 수 있는 형태로 바꿔 주는 역할을 한다. 참고로 시스템 호출이나 라이브러리 함수 호출이 성공한 후의 <code>errno</code>는 규정돼 있지 않다. 성공하는 경우에도 호출에서 그 변수를 바꿀 수 있는데, 예를 들어 내부적으로 이용한 어떤 다른 라이브러리 함수가 실패해서일 수 있다. 따라서 실패한 호출 바로 다음에서 <code>perror()</code>를 호출하는 게 아닌 경우에는 <code>errno</code> 값을 저장해 두는 게 좋다.</p>
+<h2 id="versions">VERSIONS</h2>
+<p>glibc 버전 2.32부터 <code>&lt;stdio.h&gt;</code>에서 더 이상 <code>sys_errlist</code>와 <code>sys_nerr</code> 선언을 드러내지 않는다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -202,9 +204,9 @@ int errno;       /* 실제 이렇게 선언돼 있지 않음. errno(3) 참고 */
 <h2 id="notes">NOTES</h2>
 <p>glibc에 외부 변수 <code>sys_nerr</code> 및 <code>sys_errlist</code>가 정의돼 있기는 한데 <code>&lt;stdio.h&gt;</code>에 있다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[err(3)]]</tt>, <tt>[[errno(3)]]</tt>, <tt>[[error(3)]]</tt>, <tt>[[strerror(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/err(3)/">err(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/errno(3)/">errno(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/error(3)/">error(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/strerror(3)/">strerror(3)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

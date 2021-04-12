@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_spin_init(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_spin_init%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Pthread spin init(3) - man-pages-ko</title>
+    <title>pthread_spin_init(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -151,14 +151,13 @@
 <h2 id="name">NAME</h2>
 <p>pthread_spin_init, pthread_spin_destroy - 스핀락 초기화 및 파기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;pthread.h&gt;
+<pre><code class="language-c">#include &lt;pthread.h&gt;
 
 int pthread_spin_init(pthread_spinlock_t *lock, int pshared);
 int pthread_spin_destroy(pthread_spinlock_t *lock);
 </code></pre>
-
 <p><code>-pthread</code>로 컴파일 및 링크.</p>
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>pthread_spin_init()</code>, <code>pthread_spin_destroy()</code>:</dt>
 <dd><code>_POSIX_C_SOURCE &gt;= 200112L</code></dd>
@@ -175,7 +174,7 @@ int pthread_spin_destroy(pthread_spinlock_t *lock);
 <p>이미 초기화 된 스핀락에 <code>pthread_spin_init()</code>을 호출하는 결과는 규정되어 있지 않다.</p>
 <p><code>pthread_spin_destroy()</code> 함수는 앞서 초기화 한 스핀락을 파기하고 그 락을 위해 할당했던 자원을 해제한다. 앞서 초기화 하지 않은 스핀락을 파기하거나 다른 스레드가 락을 잡고 있는 동안 스핀락을 파기하는 결과는 규정되어 있지 않다.</p>
 <p>스핀락을 파기하고 나서 <code>pthread_spin_init()</code>으로 다시 초기화 하는 것 외에 락에 어떤 작업이든 수행하는 결과는 규정되어 있지 않다.</p>
-<p><code>lock</code>이 가리키는 객체의 <em>사본</em>에 <tt>[[pthread_spin_lock(3)]]</tt>, <tt>[[pthread_spin_unlock(3)]]</tt>, <code>pthread_spin_destroy()</code> 같은 작업을 수행하는 결과는 규정되어 있지 않다.</p>
+<p><code>lock</code>이 가리키는 객체의 <em>사본</em>에 <tt><a class="wikilink" href="/man-pages-ko/pthread_spin_lock(3)/">pthread_spin_lock(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_spin_unlock(3)/">pthread_spin_unlock(3)</a></tt>, <code>pthread_spin_destroy()</code> 같은 작업을 수행하는 결과는 규정되어 있지 않다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 이 함수들은 0을 반환한다. 실패 시 오류 번호를 반환한다. <code>pthread_spin_init()</code>이 실패하는 경우 락이 초기화 되어 있지 않다.</p>
 <h2 id="errors">ERRORS</h2>
@@ -196,9 +195,9 @@ int pthread_spin_destroy(pthread_spinlock_t *lock);
 <p>스핀락을 사용하는 동안 스레드들이 교착 상황을 만들면 그 스레드들이 영원히 맴돌며 CPU 시간을 소모하게 된다.</p>
 <p>사용자 공간 스핀락은 범용 락킹 해법으로 적용 가능하지 <em>않다</em>. 그 정의상 우선순위 역전과 제한 없는 맴돌기 시간을 유발하기 쉽다. 스핀락을 쓰려는 프로그래머는 코드뿐만 아니라 시스템 구성, 스레드 배치, 우선순위 부여 측면에서도 특별히 주의를 기울여야 한다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[pthread_mutex_init(3)]]</tt>, <tt>[[pthread_mutex_lock(3)]]</tt>, <tt>[[pthread_spin_lock(3)]]</tt>, <tt>[[pthread_spin_unlock(3)]]</tt>, <tt>[[pthreads(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/pthread_mutex_init(3)/">pthread_mutex_init(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_mutex_lock(3)/">pthread_mutex_lock(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_spin_lock(3)/">pthread_spin_lock(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_spin_unlock(3)/">pthread_spin_unlock(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthreads(7)/">pthreads(7)</a></tt></p>
 <hr />
-<p>2017-09-30</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

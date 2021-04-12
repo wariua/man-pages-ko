@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/on_exit(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/on_exit%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>On exit(3) - man-pages-ko</title>
+    <title>on_exit(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -150,12 +150,11 @@
 <h2 id="name">NAME</h2>
 <p>on_exit - 정상적 프로세스 종료 때 호출되는 함수 등록하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;stdlib.h&gt;
+<pre><code class="language-c">#include &lt;stdlib.h&gt;
 
 int on_exit(void (*function)(int, void *), void *arg);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>on_exit()</code>:</dt>
 <dd>
@@ -168,13 +167,13 @@ int on_exit(void (*function)(int, void *), void *arg);
 </dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>on_exit()</code> 함수는 <tt>[[exit(3)]]</tt>나 프로그램 <code>main()</code> 반환을 통한 정상적 프로세스 종료 때 호출하도록 주어진 함수 <code>function</code>을 등록한다. 마지막 <tt>[[exit(3)]]</tt>이 받은 <code>status</code> 인자와 <code>on_exit()</code>의 <code>arg</code> 인자가 <code>function</code>에게 전달된다.</p>
+<p><code>on_exit()</code> 함수는 <tt><a class="wikilink" href="/man-pages-ko/exit(3)/">exit(3)</a></tt>나 프로그램 <code>main()</code> 반환을 통한 정상적 프로세스 종료 때 호출하도록 주어진 함수 <code>function</code>을 등록한다. 마지막 <tt><a class="wikilink" href="/man-pages-ko/exit(3)/">exit(3)</a></tt>이 받은 <code>status</code> 인자와 <code>on_exit()</code>의 <code>arg</code> 인자가 <code>function</code>에게 전달된다.</p>
 <p>같은 함수를 여러 번 등록할 수도 있다. 각 등록마다 한 번씩 호출된다.</p>
-<p><tt>[[fork(2)]]</tt>를 통해 자식 프로세스를 생성하면 부모의 등록 내용 사본을 물려받는다. <tt>[[exec(3)]]</tt> 함수들 중 하나를 성공 호출 시 모든 등록 내용이 없어진다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt>를 통해 자식 프로세스를 생성하면 부모의 등록 내용 사본을 물려받는다. <tt><a class="wikilink" href="/man-pages-ko/exec(3)/">exec(3)</a></tt> 함수들 중 하나를 성공 호출 시 모든 등록 내용이 없어진다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p><code>on_exit()</code> 함수는 성공 시 0 값을 반환한다. 그 외의 경우 0 아닌 값을 반환한다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -192,13 +191,13 @@ int on_exit(void (*function)(int, void *), void *arg);
 </tbody>
 </table>
 <h2 id="conforming-to">CONFORMING TO</h2>
-<p>이 함수는 SunOS 4에서 생긴 것이지만 glibc에도 있다. 솔라리스(SunOS 5)에는 더 이상 존재하지 않는다. 이식 가능한 응용에서는 이 함수를 피하고 대신 표준인 <tt>[[atexit(3)]]</tt>를 사용해야 한다.</p>
+<p>이 함수는 SunOS 4에서 생긴 것이지만 glibc에도 있다. 솔라리스(SunOS 5)에는 더 이상 존재하지 않는다. 이식 가능한 응용에서는 이 함수를 피하고 대신 표준인 <tt><a class="wikilink" href="/man-pages-ko/atexit(3)/">atexit(3)</a></tt>를 사용해야 한다.</p>
 <h2 id="notes">NOTES</h2>
 <p><code>function</code>이 실행될 때 스택(<em>자동</em>) 변수들이 이미 스코프를 벗어났을 수 있다. 따라서 <code>arg</code>가 스택 변수에 대한 포인터여선 안 된다. 대신 힙 변수나 전역 변수에 대한 포인터일 수 있다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[_exit(2)]]</tt>, <tt>[[atexit(3)]]</tt>, <tt>[[exit(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/_exit(2)/">_exit(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/atexit(3)/">atexit(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/exit(3)/">exit(3)</a></tt></p>
 <hr />
-<p>2019-08-02</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

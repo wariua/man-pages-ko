@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/setenv(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/setenv%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Setenv(3) - man-pages-ko</title>
+    <title>setenv(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -152,25 +152,22 @@
 <h2 id="name">NAME</h2>
 <p>setenv - 환경 변수 바꾸거나 추가하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;stdlib.h&gt;
+<pre><code class="language-c">#include &lt;stdlib.h&gt;
 
 int setenv(const char *name, const char *value, int overwrite);
-
 int unsetenv(const char *name);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>setenv()</code>, <code>unsetenv()</code></dt>
 <dd><code>_POSIX_C_SOURCE &gt;= 200112L</code><br>
-<code>|| /* glibc 버전 &lt;= 2.19: */ _BSD_SOURCE</code></dd>
+<code>|| /* glibc &lt;= 2.19: */ _BSD_SOURCE</code></dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>setenv()</code> 함수는 환경에 <code>name</code>이 존재하지 않으면 변수 <code>name</code>을 <code>value</code> 값으로 추가한다. 환경에 <code>name</code>이 이미 존재하는 경우에는 <code>overwrite</code>가 0이 아니면 그 값을 <code>value</code>로 바꾼다. <code>overwrite</code>가 0이면 <code>name</code>의 값을 바꾸지 않는다. (그리고 <code>setenv()</code>가 성공 상태를 반환한다.) 이 함수는 <code>name</code>과 <code>value</code>가 가리키는 문자열들의 복사본을 쓴다. (<tt>[[putenv(3)]]</tt>와 반대다.)</p>
+<p><code>setenv()</code> 함수는 환경에 <code>name</code>이 존재하지 않으면 변수 <code>name</code>을 <code>value</code> 값으로 추가한다. 환경에 <code>name</code>이 이미 존재하는 경우에는 <code>overwrite</code>가 0이 아니면 그 값을 <code>value</code>로 바꾼다. <code>overwrite</code>가 0이면 <code>name</code>의 값을 바꾸지 않는다. (그리고 <code>setenv()</code>가 성공 상태를 반환한다.) 이 함수는 <code>name</code>과 <code>value</code>가 가리키는 문자열들의 복사본을 쓴다. (<tt><a class="wikilink" href="/man-pages-ko/putenv(3)/">putenv(3)</a></tt>와 반대다.)</p>
 <p><code>unsetenv()</code> 함수는 환경에서 변수 <code>name</code>을 삭제한다. 환경에 <code>name</code>이 존재하지 않는 경우에는 함수가 성공하고 환경이 안 바뀐다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p><code>setenv()</code> 함수는 성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류 원인을 나타내도록 <code>errno</code>를 설정한다.</p>
-<p><code>unsetenv()</code> 함수는 성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류 원인을 나타내도록 <code>errno</code>를 설정한다.</p>
+<p><code>setenv()</code> 및 <code>unsetenv()</code> 함수는 성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EINVAL</code></dt>
@@ -179,7 +176,7 @@ int unsetenv(const char *name);
 <dd>환경에 새 변수를 추가하기 위한 메모리가 충분치 않음.</dd>
 </dl>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -204,9 +201,9 @@ int unsetenv(const char *name);
 <h2 id="bugs">BUGS</h2>
 <p>POSIX.1에서는 <code>name</code>에 '=' 문자가 있으면 <code>setenv()</code>가 <code>EINVAL</code> 오류로 실패해야 한다고 명세한다. 하지만 glibc 버전 2.3.4 전에선 <code>name</code>에 '=' 부호를 허용했다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[clearenv(3)]]</tt>, <tt>[[getenv(3)]]</tt>, <tt>[[putenv(3)]]</tt>, <tt>[[environ(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/clearenv(3)/">clearenv(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/getenv(3)/">getenv(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/putenv(3)/">putenv(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/environ(7)/">environ(7)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

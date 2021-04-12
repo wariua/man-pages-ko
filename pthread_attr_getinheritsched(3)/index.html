@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_attr_getinheritsched(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_attr_getinheritsched%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Pthread attr getinheritsched(3) - man-pages-ko</title>
+    <title>pthread_attr_getinheritsched(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -143,7 +143,7 @@
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#bugs">BUGS</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
@@ -152,18 +152,17 @@
 <h2 id="name">NAME</h2>
 <p>pthread_attr_setinheritsched, pthread_attr_getinheritsched - 스레드 속성 객체의 스케줄러 상속 속성 설정하기/얻기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;pthread.h&gt;
+<pre><code class="language-c">#include &lt;pthread.h&gt;
 
 int pthread_attr_setinheritsched(pthread_attr_t *attr,
                                  int inheritsched);
 int pthread_attr_getinheritsched(const pthread_attr_t *attr,
                                  int *inheritsched);
 </code></pre>
-
 <p><code>-pthread</code>로 컴파일 및 링크.</p>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>pthread_attr_setinheritsched()</code> 함수는 <code>attr</code>이 가리키는 스레드 속성 객체의 스케줄러 상속 속성을 <code>inheritsched</code>에 지정한 값으로 설정한다. 스케줄러 상속 속성은 스레드 속성 객체 <code>attr</code>을 이용해 생성하는 스레드가 스케줄링 속성들을 호출 스레드로부터 물려받을지 아니면 <code>attr</code>에서 가져올지를 결정한다.</p>
-<p>다음 속성들이 스케줄러 상속 속성의 영향을 받는다: 스케줄링 정책(<tt>[[pthread_attr_setschedpolicy(3)]]</tt>), 스케줄링 우선순위(<tt>[[pthread_attr_setschedparam(3)]]</tt>), 경합 범위(<tt>[[pthread_attr_setscope(3)]]</tt>).</p>
+<p>다음 속성들이 스케줄러 상속 속성의 영향을 받는다: 스케줄링 정책(<tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setschedpolicy(3)/">pthread_attr_setschedpolicy(3)</a></tt>), 스케줄링 우선순위(<tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setschedparam(3)/">pthread_attr_setschedparam(3)</a></tt>), 경합 범위(<tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setscope(3)/">pthread_attr_setscope(3)</a></tt>).</p>
 <p><code>inheritsched</code>에 다음 값들을 지정할 수 있다.</p>
 <dl>
 <dt><code>PTHREAD_INHERIT_SCHED</code></dt>
@@ -183,7 +182,7 @@ int pthread_attr_getinheritsched(const pthread_attr_t *attr,
 </dl>
 <p>POSIX.1에서는 <code>pthread_attr_setinheritsched()</code>에서 선택적인 <code>ENOTSUP</code> 오류("속성을 지원하지 않는 값으로 설정하려고 시도했음")도 적고 있다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -203,13 +202,13 @@ int pthread_attr_getinheritsched(const pthread_attr_t *attr,
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008.</p>
 <h2 id="bugs">BUGS</h2>
-<p>glibc 2.8 기준으로 <tt>[[pthread_attr_init(3)]]</tt>으로 스케줄링 속성 객체를 초기화 하면 속성 객체의 스케줄링 정책이 <code>SCHED_OTHER</code>로 설정되고 스케줄링 우선순위가 0으로 설정된다. 그런데 그 상태에서 스케줄러 상속 속성을 <code>PTHREAD_EXPLICIT_SCHED</code>로 설정하면 그 속성 객체로 생성된 스레드가 생성을 하는 스레드로부터 스케줄링 속성들을 물려받는다. <tt>[[pthread_create(3)]]</tt> 호출 전에 명시적으로 스레드 속성의 스케줄링 정책이나 스케줄링 우선순위를 설정하면 이 버그가 발생하지 않는다.</p>
-<h2 id="example">EXAMPLE</h2>
-<p><tt>[[pthread_setschedparam(3)]]</tt> 참고.</p>
+<p>glibc 2.8 기준으로 <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_init(3)/">pthread_attr_init(3)</a></tt>으로 스케줄링 속성 객체를 초기화 하면 속성 객체의 스케줄링 정책이 <code>SCHED_OTHER</code>로 설정되고 스케줄링 우선순위가 0으로 설정된다. 그런데 그 상태에서 스케줄러 상속 속성을 <code>PTHREAD_EXPLICIT_SCHED</code>로 설정하면 그 속성 객체로 생성된 스레드가 생성을 하는 스레드로부터 스케줄링 속성들을 물려받는다. <tt><a class="wikilink" href="/man-pages-ko/pthread_create(3)/">pthread_create(3)</a></tt> 호출 전에 명시적으로 스레드 속성의 스케줄링 정책이나 스케줄링 우선순위를 설정하면 이 버그가 발생하지 않는다.</p>
+<h2 id="examples">EXAMPLES</h2>
+<p><tt><a class="wikilink" href="/man-pages-ko/pthread_setschedparam(3)/">pthread_setschedparam(3)</a></tt> 참고.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[pthread_attr_init(3)]]</tt>, <tt>[[pthread_attr_setschedparam(3)]]</tt>, <tt>[[pthread_attr_setschedpolicy(3)]]</tt>, <tt>[[pthread_attr_setscope(3)]]</tt>, <tt>[[pthread_create(3)]]</tt>, <tt>[[pthread_setschedparam(3)]]</tt>, <tt>[[pthread_setschedprio(3)]]</tt>, <tt>[[pthreads(7)]]</tt>, <tt>[[sched(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/pthread_attr_init(3)/">pthread_attr_init(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setschedparam(3)/">pthread_attr_setschedparam(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setschedpolicy(3)/">pthread_attr_setschedpolicy(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setscope(3)/">pthread_attr_setscope(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_create(3)/">pthread_create(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_setschedparam(3)/">pthread_setschedparam(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_setschedprio(3)/">pthread_setschedprio(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthreads(7)/">pthreads(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sched(7)/">sched(7)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

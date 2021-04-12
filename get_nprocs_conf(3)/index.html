@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/get_nprocs_conf(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/get_nprocs_conf%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Get nprocs conf(3) - man-pages-ko</title>
+    <title>get_nprocs_conf(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -142,7 +142,7 @@
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
@@ -151,19 +151,18 @@
 <h2 id="name">NAME</h2>
 <p>get_nprocs, get_nprocs_conf - 프로세서 개수 얻기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;sys/sysinfo.h&gt;
+<pre><code class="language-c">#include &lt;sys/sysinfo.h&gt;
 
 int get_nprocs(void);
 int get_nprocs_conf(void);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>get_nprocs_conf()</code> 함수는 운영 체제가 구성한 프로세서들의 수를 반환한다.</p>
-<p><code>get_nprocs()</code> 함수는 현재 시스템에서 사용 가능한 프로세서들의 수를 반환한다. <code>get_nprocs_conf()</code>가 반환하는 수보다 작을 수도 있는데, (가령 핫플러그 가능 시스템에서) 프로세서가 오프라인일 수도 있기 때문이다.</p>
+<p><code>get_nprocs()</code> 함수는 현재 시스템에서 사용 가능한 프로세서들의 수를 반환한다. <code>get_nprocs_conf()</code>가 반환하는 수보다 작을 수도 있는데, (가령 핫플러그 시스템에서) 프로세서가 오프라인일 수도 있기 때문이다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>DESCRIPTION의 내용 대로.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -174,7 +173,7 @@ int get_nprocs_conf(void);
 </thead>
 <tbody>
 <tr>
-<td><code>get_nprocs()</code>,<br><code>get_nprocs_conf()</code></td>
+<td><code>get_nprocs()</code>, <code>get_nprocs_conf()</code></td>
 <td>스레드 안전성</td>
 <td>MT-Safe</td>
 </tr>
@@ -184,14 +183,13 @@ int get_nprocs_conf(void);
 <p>이 함수들은 GNU 확장이다.</p>
 <h2 id="notes">NOTES</h2>
 <p>이 함수들의 현재 구현은 동작 비용이 꽤 크다. 호출 때마다 <code>/sys</code> 파일 시스템의 파일을 열어서 파싱 하기 때문이다.</p>
-<p>다음 <tt>[[sysconf(3)]]</tt> 호출은 이 페이지에 적힌 함수들을 이용해서 동일 정보를 반환한다.</p>
-<pre><code class="c">np = sysconf(_SC_NPROCESSORS_CONF);     /* 구성된 프로세서들 */
+<p>다음 <tt><a class="wikilink" href="/man-pages-ko/sysconf(3)/">sysconf(3)</a></tt> 호출은 이 페이지에 적힌 함수들을 이용해서 동일 정보를 반환한다.</p>
+<pre><code class="language-c">np = sysconf(_SC_NPROCESSORS_CONF);     /* 구성된 프로세서들 */
 np = sysconf(_SC_NPROCESSORS_ONLN);     /* 사용 가능 프로세서들 */
 </code></pre>
-
-<h2 id="example">EXAMPLE</h2>
+<h2 id="examples">EXAMPLES</h2>
 <p>다음 예는 <code>get_nprocs()</code> 및 <code>get_nprocs_conf()</code> 사용 방식을 보여 준다.</p>
-<pre><code class="c">#include &lt;stdlib.h&gt;
+<pre><code class="language-c">#include &lt;stdlib.h&gt;
 #include &lt;stdio.h&gt;
 #include &lt;sys/sysinfo.h&gt;
 
@@ -204,11 +202,10 @@ main(int argc, char *argv[])
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
 <p><code>nproc(1)</code></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

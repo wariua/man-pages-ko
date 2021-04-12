@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/memccpy(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/memccpy%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Memccpy(3) - man-pages-ko</title>
+    <title>memccpy(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -149,18 +149,18 @@
 <h2 id="name">NAME</h2>
 <p>memccpy - 메모리 영역 복사하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;string.h&gt;
+<pre><code class="language-c">#include &lt;string.h&gt;
 
-void *memccpy(void *dest, const void *src, int c, size_t n);
+void *memccpy(void *restrict dest, const void *restrict src,
+              int c, size_t n);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>memccpy()</code> 함수는 메모리 영역 <code>src</code>에서 메모리 영역 <code>dest</code>로 최대 <code>n</code> 개 바이트를 복사하되, 문자 <code>c</code>를 발견하면 중단한다.</p>
 <p>두 메모리 영역이 겹치는 경우 결과는 규정되어 있지 않다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p><code>memccpy()</code> 함수는 <code>dest</code>에서 <code>c</code> 다음의 문자에 대한 포인터를 반환한다. <code>src</code>의 처음 <code>n</code> 개 바이트에서 <code>c</code>를 찾지 못한 경우에는 NULL을 반환한다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -180,9 +180,9 @@ void *memccpy(void *dest, const void *src, int c, size_t n);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008, SVr4, 4.3BSD.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>bcopy(3)</code>, <tt>[[bstring(3)]]</tt>, <code>memcpy(3)</code>, <code>memmove(3)</code>, <code>strcpy(3)</code>, <code>strncpy(3)</code></p>
+<p><code>bcopy(3)</code>, <tt><a class="wikilink" href="/man-pages-ko/bstring(3)/">bstring(3)</a></tt>, <code>memcpy(3)</code>, <code>memmove(3)</code>, <code>strcpy(3)</code>, <code>strncpy(3)</code></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

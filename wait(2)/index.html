@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/wait(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/wait%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Wait(2) - man-pages-ko</title>
+    <title>wait(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -151,7 +151,7 @@
             <li class="second-level"><a href="#c">C 라이브러리/커널 차이</a></li>
                 
         <li class="first-level "><a href="#bugs">BUGS</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
             <li class="second-level"><a href="#_2">프로그램 소스</a></li>
                 
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
@@ -162,41 +162,37 @@
 <h2 id="name">NAME</h2>
 <p>wait, waitpid, waitid - 프로세스 상태 변경 기다리기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;sys/types.h&gt;
+<pre><code class="language-c">#include &lt;sys/types.h&gt;
 #include &lt;sys/wait.h&gt;
 
 pid_t wait(int *wstatus);
-
 pid_t waitpid(pid_t pid, int *wstatus, int options);
 
 int waitid(idtype_t idtype, id_t id, siginfo_t *infop, int options);
                 /* glibc 및 POSIX의 인터페이스. 기반 시스템
                    호출에 대한 정보는 NOTES 참고. */
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>waitid()</code>:</dt>
 <dd>
 <dl>
 <dt>glibc 2.26부터:</dt>
-<dd><code>_XOPEN_SOURCE &gt;= 500 ||</code><br>
-<code>_POSIX_C_SOURCE &gt;= 200809L</code></dd>
+<dd><code>_XOPEN_SOURCE &gt;= 500 || _POSIX_C_SOURCE &gt;= 200809L</code></dd>
 <dt>glibc 2.25 및 이전:</dt>
 <dd><code>_XOPEN_SOURCE</code><br>
 <code>|| /* glibc 2.12부터: */ _POSIX_C_SOURCE &gt;= 200809L</code><br>
-<code>|| /* glibc 버전 &lt;= 2.19: */ _BSD_SOURCE</code></dd>
+<code>|| /* glibc &lt;= 2.19: */ _BSD_SOURCE</code></dd>
 </dl>
 </dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
 <p>이 시스템 호출들은 모두 호출 프로세스의 자식에서의 상태 변경을 기다리고 상태가 바뀐 자식에 대한 정보를 얻는 데 사용하는 것이다. 자식이 종료하는 것, 자식이 시그널에 의해 중지되는 것, 자식이 시그널에 의해 재개되는 것을 상태 변경으로 본다. 자식이 종료하는 경우에 wait을 수행하면 시스템이 자식과 연관된 자원들을 해제할 수 있게 된다. wait을 수행하지 않으면 종료한 자식이 "좀비" 상태로 남는다. (아래 NOTES 참고.)</p>
-<p>자식이 이미 상태를 바꾸었으면 이 호출들이 즉시 반환한다. 그렇지 않으면 자식이 상태를 바꾸거나 시그널 핸들러가 호출을 중단시킬 때까지 (<tt>[[sigaction(2)]]</tt>의 <code>SA_RESTART</code> 플래그로 시스템 호출을 자동 재시작하지 않는다고 가정) 블록 한다. 이 페이지 나머지에서는 상태가 바뀌었지만 아직 이 시스템 호출들 중 하나로 기다리지 않은 자식을 <em>기다릴 수 있다(waitable)</em>고 표현한다.</p>
+<p>자식이 이미 상태를 바꾸었으면 이 호출들이 즉시 반환한다. 그렇지 않으면 자식이 상태를 바꾸거나 시그널 핸들러가 호출을 중단시킬 때까지 (<tt><a class="wikilink" href="/man-pages-ko/sigaction(2)/">sigaction(2)</a></tt>의 <code>SA_RESTART</code> 플래그로 시스템 호출을 자동 재시작하지 않는다고 가정) 블록 한다. 이 페이지 나머지에서는 상태가 바뀌었지만 아직 이 시스템 호출들 중 하나로 기다리지 않은 자식을 <em>기다릴 수 있다(waitable)</em>고 표현한다.</p>
 <h3 id="wait-waitpid"><code>wait()</code>과 <code>waitpid()</code></h3>
 <p><code>wait()</code> 시스템 호출은 자식들 중 하나가 종료할 때까지 호출 스레드의 실행을 중지한다. <code>wait(&amp;wstatus)</code> 호출은 다음과 동등하다.</p>
-<pre><code class="c">waitpid(-1, &amp;wstatus, 0);
+<pre><code class="language-c">waitpid(-1, &amp;wstatus, 0);
 </code></pre>
-
 <p><code>waitpid()</code> 시스템 호출은 <code>pid</code> 인자로 지정한 자식이 상태를 바꿀 때까지 호출 스레드의 실행을 중지한다. 기본적으로 <code>waitpid()</code>는 자식 종료만 기다리지만 아래에서 설명하듯 <code>options</code> 인자를 통해 동작 방식을 변경할 수 있다.</p>
 <p><code>pid</code>의 값은 다음일 수 있다.</p>
 <dl>
@@ -205,7 +201,7 @@ int waitid(idtype_t idtype, id_t id, siginfo_t *infop, int options);
 <dt><code>-1</code></dt>
 <dd>아무 자식 프로세스나 기다리기</dd>
 <dt><code>0</code></dt>
-<dd>프로세스 그룹 ID가 호출 프로세스의 프로세스 그룹 ID와 같은 아무 자식 프로세스나 기다리기</dd>
+<dd><code>waitpid()</code> 호출 시점에 프로세스 그룹 ID가 호출 프로세스의 프로세스 그룹 ID와 같은 아무 자식 프로세스나 기다리기</dd>
 <dt><code>&gt; 0</code></dt>
 <dd>프로세스 ID가 <code>pid</code> 값과 같은 자식 기다리기</dd>
 </dl>
@@ -214,7 +210,7 @@ int waitid(idtype_t idtype, id_t id, siginfo_t *infop, int options);
 <dt><code>WNOHANG</code></dt>
 <dd>종료한 자식이 없으면 즉시 반환한다.</dd>
 <dt><code>WUNTRACED</code></dt>
-<dd>자식이 정지한 (하지만 <tt>[[ptrace(2)]]</tt> 추적 대상은 아닌) 경우에도 반환한다. 정지했으면서 <em>추적 대상인</em> 자식의 상태는 이 옵션을 지정하지 않아도 제공된다.</dd>
+<dd>자식이 정지한 (하지만 <tt><a class="wikilink" href="/man-pages-ko/ptrace(2)/">ptrace(2)</a></tt> 추적 대상은 아닌) 경우에도 반환한다. 정지했으면서 <em>추적 대상인</em> 자식의 상태는 이 옵션을 지정하지 않아도 제공된다.</dd>
 <dt><code>WCONTINUED</code> (리눅스 2.6.10부터)</dt>
 <dd>정지했던 자식이 <code>SIGCONT</code> 전달로 재개된 경우에도 반환한다.</dd>
 </dl>
@@ -222,20 +218,20 @@ int waitid(idtype_t idtype, id_t id, siginfo_t *infop, int options);
 <p><code>wstatus</code>가 NULL이 아니면 <code>wait()</code>과 <code>waitpid()</code>가 그 <code>int</code>에 상태 정보를 저장해 준다. 다음 매크로들로 그 정수를 조사할 수 있다. (<code>wait()</code>과 <code>waitpid()</code>에서처럼 정수 포인터를 받는 게 아니라 정수 자체를 인자로 받는다!)</p>
 <dl>
 <dt><code>WIFEXITED(wstatus)</code></dt>
-<dd>자식이 정상적으로, 즉 <tt>[[exit(3)]]</tt>나 <tt>[[_exit(2)]]</tt>를 호출하거나 <code>main()</code>에서 반환하여 종료했으면 참을 반환한다.</dd>
+<dd>자식이 정상적으로, 즉 <tt><a class="wikilink" href="/man-pages-ko/exit(3)/">exit(3)</a></tt>나 <tt><a class="wikilink" href="/man-pages-ko/_exit(2)/">_exit(2)</a></tt>를 호출하거나 <code>main()</code>에서 반환하여 종료했으면 참을 반환한다.</dd>
 <dt><code>WEXITSTATUS(wstatus)</code></dt>
-<dd>자식의 종료 상태를 반환한다. 이 값은 자식이 <tt>[[exit(3)]]</tt>나 <tt>[[_exit(2)]]</tt> 호출에 지정한 <code>status</code> 인자나 <code>main()</code>의 return 문에 지정한 인자의 하위 8비트이다. 이 매크로는 <code>WIFEXITED</code>가 참을 반환했을 때만 써야 한다.</dd>
+<dd>자식의 종료 상태를 반환한다. 이 값은 자식이 <tt><a class="wikilink" href="/man-pages-ko/exit(3)/">exit(3)</a></tt>나 <tt><a class="wikilink" href="/man-pages-ko/_exit(2)/">_exit(2)</a></tt> 호출에 지정한 <code>status</code> 인자나 <code>main()</code>의 return 문에 지정한 인자의 하위 8비트이다. 이 매크로는 <code>WIFEXITED</code>가 참을 반환했을 때만 써야 한다.</dd>
 <dt><code>WIFSIGNALED(wstatus)</code></dt>
 <dd>자식 프로세스가 시그널로 종료되었으면 참을 반환한다.</dd>
 <dt><code>WTERMSIG(wstatus)</code></dt>
 <dd>자식 프로세스를 종료시킨 시그널의 번호를 반환한다. 이 매크로는 <code>WIFSIGNALED</code>가 참을 반환했을 때만 써야 한다.</dd>
 <dt><code>WCOREDUMP(wstatus)</code></dt>
 <dd>
-<p>자식이 코어 덤프를 만들었으면 참을 반환한다. (<tt>[[core(5)]]</tt> 참고.) 이 매크로는 <code>WIFSIGNALED</code>가 참을 반환했을 때만 써야 한다.</p>
+<p>자식이 코어 덤프를 만들었으면 참을 반환한다. (<tt><a class="wikilink" href="/man-pages-ko/core(5)/">core(5)</a></tt> 참고.) 이 매크로는 <code>WIFSIGNALED</code>가 참을 반환했을 때만 써야 한다.</p>
 <p>이 매크로는 POSIX.1-2001에 명세되어 있지 않으며 어떤 유닉스 구현(가령 AIX, SunOS)에서는 사용 가능하지 않다. 그러니 <code>#ifdef WCOREDUMP ... #endif</code>로 감싸서 사용하라.</p>
 </dd>
 <dt><code>WIFSTOPPED(wstatus)</code></dt>
-<dd>자식 프로세스가 시그널 전달로 인해 정지되었으면 참을 반환한다. <code>WUNTRACED</code>를 써서 호출했거나 자식을 추적 중인 경우(<tt>[[ptrace(2)]]</tt> 참고)에만 가능하다.</dd>
+<dd>자식 프로세스가 시그널 전달로 인해 정지되었으면 참을 반환한다. <code>WUNTRACED</code>를 써서 호출했거나 자식을 추적 중인 경우(<tt><a class="wikilink" href="/man-pages-ko/ptrace(2)/">ptrace(2)</a></tt> 참고)에만 가능하다.</dd>
 <dt><code>WSTOPSIG(wstatus)</code></dt>
 <dd>자식이 정지하게 만든 시그널의 번호를 반환한다. 이 매크로는 <code>WIFSTOPPED</code>가 참을 반환했을 때만 써야 한다.</dd>
 <dt><code>WIFCONTINUED(wstatus)</code></dt>
@@ -247,8 +243,10 @@ int waitid(idtype_t idtype, id_t id, siginfo_t *infop, int options);
 <dl>
 <dt><code>idtype == P_PID</code></dt>
 <dd>프로세스 ID가 <code>id</code>와 일치하는 자식 기다리기.</dd>
+<dt><code>idtype == P_PIDFD</code> (리눅스 5.4부터)</dt>
+<dd><code>id</code>로 지정한 PID 파일 디스크립터가 나타내는 자식을 기다리기. (PID 파일 디스크립터에 대한 추가 설명은 <tt><a class="wikilink" href="/man-pages-ko/pidfd_open(2)/">pidfd_open(2)</a></tt>을 보라.)</dd>
 <dt><code>idtype == P_PGID</code></dt>
-<dd>프로세스 그룹 ID가 <code>id</code>와 일치하는 아무 자식이나 기다리기.</dd>
+<dd>프로세스 그룹 ID가 <code>id</code>와 일치하는 아무 자식이나 기다리기. 리눅스 5.4부터, <code>id</code>가 0이면 호출 시점에 호출자의 프로세스 그룹과 같은 프로세스 그룹에 있는 아무 자식이나 기다린다.</dd>
 <dt><code>idtype == P_ALL</code></dt>
 <dd>아무 자식이나 기다리기. <code>id</code>는 무시.</dd>
 </dl>
@@ -277,17 +275,17 @@ int waitid(idtype_t idtype, id_t id, siginfo_t *infop, int options);
 <dt><code>si_signo</code></dt>
 <dd>항상 <code>SIGCHLD</code>로 설정.</dd>
 <dt><code>si_status</code></dt>
-<dd>자식이 <tt>[[_exit(2)]]</tt>에 (또는 <tt>[[exit(3)]]</tt>에) 준 종료 상태, 또는 자식을 종료시키거나 정지하거나 재개한 시그널. 이 필드를 어떻게 해석해야 하는지를 <code>si_code</code> 필드로 판단할 수 있다.</dd>
+<dd>자식이 <tt><a class="wikilink" href="/man-pages-ko/_exit(2)/">_exit(2)</a></tt>에 (또는 <tt><a class="wikilink" href="/man-pages-ko/exit(3)/">exit(3)</a></tt>에) 준 종료 상태, 또는 자식을 종료시키거나 정지하거나 재개한 시그널. 이 필드를 어떻게 해석해야 하는지를 <code>si_code</code> 필드로 판단할 수 있다.</dd>
 <dt><code>si_code</code></dt>
-<dd>다음 중 하나로 설정: <code>CLD_EXITED</code> (자식이 <tt>[[_exit(2)]]</tt>를 호출했음), <code>CLD_KILLED</code> (자식이 시그널로 죽었음), <code>CLD_DUMPED</code> (자식이 시그널로 죽었고 코어를 덤프 했음), <code>CLD_STOPPED</code> (자식이 시그널로 중지됐음), <code>CLD_TRAPPED</code> (추적하는 자식이 트랩에 걸렸음), <code>CLD_CONTINUED</code> (자식이 <code>SIGCONT</code>로 재개됐음).</dd>
+<dd>다음 중 하나로 설정: <code>CLD_EXITED</code> (자식이 <tt><a class="wikilink" href="/man-pages-ko/_exit(2)/">_exit(2)</a></tt>를 호출했음), <code>CLD_KILLED</code> (자식이 시그널로 죽었음), <code>CLD_DUMPED</code> (자식이 시그널로 죽었고 코어를 덤프 했음), <code>CLD_STOPPED</code> (자식이 시그널로 중지됐음), <code>CLD_TRAPPED</code> (추적하는 자식이 트랩에 걸렸음), <code>CLD_CONTINUED</code> (자식이 <code>SIGCONT</code>로 재개됐음).</dd>
 </dl>
 <p><code>options</code>에 <code>WNOHANG</code>을 지정했고 기다릴 수 있는 상태인 자식이 없으면 <code>waitid()</code>가 즉시 0을 반환하며 <code>infop</code>가 가리키는 <code>siginfo_t</code> 구조체의 상태는 구현에 따라 다르다. 이 경우를 자식이 기다릴 수 있는 상태였던 경우와 (이식성 있는 방식으로) 구별하려면 호출 전에 <code>si_pid</code> 필드를 0으로 만들고서 호출 반환 후에 이 필드에 0 아닌 값이 있는지 확인하면 된다.</p>
 <p>POSIX.1-2008 기술 정오표 1(2013년)에서는 <code>options</code>에 <code>WNOHANG</code>을 지정했고 기다릴 수 있는 상태인 자식이 없으면 <code>waitid()</code>가 그 구조체의 <code>si_pid</code> 및 <code>si_signo</code> 필드를 0으로 채워야 한다는 요구 사항을 추가한다. 이 요구 사항을 준수하는 리눅스 및 여타 구현들에서는 <code>waitid()</code> 호출 전에 <code>si_pid</code> 필드를 0으로 만들 필요가 없다. 하지만 모든 구현들이 이 점에서 POSIX.1 명세를 따르지는 않는다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p><code>wait()</code>: 성공 시 종료한 자식의 프로세스 ID를 반환한다. 오류 시 -1을 반환한다.</p>
-<p><code>waitpid()</code>: 성공 시 상태가 바뀐 자식의 프로세스 ID를 반환한다. <code>WNOHANG</code>을 지정했고 <code>pid</code>로 지정한 자식이 하나 이상 존재하지만 그 자식(들)이 아직 상태를 바꾸지 않았으면 0을 반환한다. 오류 시 -1을 반환한다.</p>
-<p><code>waitid()</code>: 성공 시, 또는 <code>WNOHANG</code>을 지정했고 <code>id</code>로 지정한 어느 자식도 아직 상태를 바꾸지 않았으면 0을 반환한다. 오류 시 -1을 반환한다.</p>
-<p>이 호출들 각각은 오류 시에 <code>errno</code>를 적절한 값으로 설정한다.</p>
+<p><code>wait()</code>: 성공 시 종료한 자식의 프로세스 ID를 반환한다. 실패 시 -1을 반환한다.</p>
+<p><code>waitpid()</code>: 성공 시 상태가 바뀐 자식의 프로세스 ID를 반환한다. <code>WNOHANG</code>을 지정했고 <code>pid</code>로 지정한 자식이 하나 이상 존재하지만 그 자식(들)이 아직 상태를 바꾸지 않았으면 0을 반환한다. 실패 시 -1을 반환한다.</p>
+<p><code>waitid()</code>: 성공 시, 또는 <code>WNOHANG</code>을 지정했고 <code>id</code>로 지정한 어느 자식도 아직 상태를 바꾸지 않았으면 0을 반환한다. 실패 시 -1을 반환한다.</p>
+<p>실패 시 이 호출들 각각은 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>ECHILD</code></dt>
@@ -295,19 +293,19 @@ int waitid(idtype_t idtype, id_t id, siginfo_t *infop, int options);
 <dt><code>ECHILD</code></dt>
 <dd>(<code>waitpid()</code>나 <code>waitid()</code>에서) <code>pid</code>나(<code>waitpid()</code>) <code>idtype</code> 및 <code>id</code>로(<code>waitid()</code>) 지정한 프로세스가 존재하지 않거나 호출 프로세스의 자식이 아니다. (<code>SIGCHLD</code>에 대한 동작이 <code>SIG_IGN</code>으로 설정돼 있으면 자기 자식에 대해서도 이렇게 될 수 있다. 스레드에 대한 <em>리눅스 참고 사항</em> 절도 참고.)</dd>
 <dt><code>EINTR</code></dt>
-<dd><code>WNOHANG</code>을 설정하지 않았으며 차단 안 된 시그널이나 <code>SIGCHLD</code>를 잡았다. <tt>[[signal(7)]]</tt> 참고.</dd>
+<dd><code>WNOHANG</code>을 설정하지 않았으며 차단 안 된 시그널이나 <code>SIGCHLD</code>를 잡았다. <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt> 참고.</dd>
 <dt><code>EINVAL</code></dt>
 <dd><code>options</code> 인자가 유효하지 않다.</dd>
 </dl>
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>SVr4, 4.3BSD, POSIX.1-2001.</p>
 <h2 id="notes">NOTES</h2>
-<p>종료되었는데 기다려 주지 않은 자식은 "좀비"가 된다. 커널에서는 좀비 프로세스에 대한 최소한의 정보(PID, 종료 상태, 자원 사용 정보)를 유지하여 이후 부모가 wait을 수행해서 자식에 대한 정보를 얻을 수 있도록 한다. wait을 통해 시스템에서 제거하지 않는 한 좀비는 커널 프로세스 테이블에서 자리를 차지하고 있는다. 그리고 이 테이블이 가득 차면 프로세스를 새로 만드는 게 불가능해진다. 부모 프로세스가 종료되면 "좀비" 자식들이 (있다면) <code>init(1)</code>에게 (또는 <tt>[[prctl(2)]]</tt> <code>PR_SET_CHILD_SUBREAPER</code> 동작을 통해 지정한 가장 가까운 "서브리퍼" 프로세스에게) 입양된다. 그러면 <code>init(1)</code>이 자동으로 wait을 수행하여 좀비를 제거한다.</p>
-<p>POSIX.1-2001에서는 <code>SIGCHLD</code> 처리 방식을 <code>SIG_IGN</code>로 설정하거나 <code>SIGCHLD</code>에 <code>SA_NOCLDWAIT</code> 플래그를 설정한 경우에 (<tt>[[sigaction(2)]]</tt> 참고) 종료한 자식이 좀비가 되지 않으며 <code>wait()</code>이나 <code>waitpid()</code> 호출이 모든 자식이 종료할 때까지 블록 되었다가 <code>errno</code>를 <code>ECHILD</code>로 해서 실패하게 된다고 명세한다. (원래 POSIX 표준에서는 <code>SIGCHLD</code>를 <code>SIG_IGN</code>으로 설정했을 때의 동작 방식을 명세하지 않고 남겨두었다. 참고로 <code>SIGCHLD</code>의 기본 처리 방식이 "무시"이지만 처리 방식을 명시적으로 <code>SIG_IGN</code>으로 설정하면 좀비 프로세스 자식 처리 방식이 달라지는 것이다.)</p>
+<p>종료되었는데 기다려 주지 않은 자식은 "좀비"가 된다. 커널에서는 좀비 프로세스에 대한 최소한의 정보(PID, 종료 상태, 자원 사용 정보)를 유지하여 이후 부모가 wait을 수행해서 자식에 대한 정보를 얻을 수 있도록 한다. wait을 통해 시스템에서 제거하지 않는 한 좀비는 커널 프로세스 테이블에서 자리를 차지하고 있는다. 그리고 이 테이블이 가득 차면 프로세스를 새로 만드는 게 불가능해진다. 부모 프로세스가 종료되면 "좀비" 자식들이 (있다면) <code>init(1)</code>에게 (또는 <tt><a class="wikilink" href="/man-pages-ko/prctl(2)/">prctl(2)</a></tt> <code>PR_SET_CHILD_SUBREAPER</code> 동작을 통해 지정한 가장 가까운 "서브리퍼" 프로세스에게) 입양된다. 그러면 <code>init(1)</code>이 자동으로 wait을 수행하여 좀비를 제거한다.</p>
+<p>POSIX.1-2001에서는 <code>SIGCHLD</code> 처리 방식을 <code>SIG_IGN</code>로 설정하거나 <code>SIGCHLD</code>에 <code>SA_NOCLDWAIT</code> 플래그를 설정한 경우에 (<tt><a class="wikilink" href="/man-pages-ko/sigaction(2)/">sigaction(2)</a></tt> 참고) 종료한 자식이 좀비가 되지 않으며 <code>wait()</code>이나 <code>waitpid()</code> 호출이 모든 자식이 종료할 때까지 블록 되었다가 <code>errno</code>를 <code>ECHILD</code>로 해서 실패하게 된다고 명세한다. (원래 POSIX 표준에서는 <code>SIGCHLD</code>를 <code>SIG_IGN</code>으로 설정했을 때의 동작 방식을 명세하지 않고 남겨두었다. 참고로 <code>SIGCHLD</code>의 기본 처리 방식이 "무시"이지만 처리 방식을 명시적으로 <code>SIG_IGN</code>으로 설정하면 좀비 프로세스 자식 처리 방식이 달라지는 것이다.)</p>
 <p>리눅스 2.6은 POSIX 요구를 준수한다. 하지만 리눅스 2.4(및 이전)에서는 그렇지 않아서 <code>SIGCHLD</code>가 무시되는 동안 <code>wait()</code>이나 <code>waitpid()</code> 호출을 하면 <code>SIGCHLD</code>가 무시되고 있지 않은 것처럼 동작한다. 즉, 다음 자식 종료 때까지 호출이 블록 되어 있다가 그 자식의 프로세스 ID와 상태를 반환한다.</p>
 <h3 id="_1">리눅스 참고 사항</h3>
-<p>리눅스 커널에서 커널 스케줄 스레드는 프로세스와 뚜렷하게 구별되는 요소가 아니다. 스레드는 그저 리눅스 고유의 <tt>[[clone(2)]]</tt> 시스템 호출로 만들어진 프로세스일 뿐이다. 그리고 이식성 있는 <tt>[[pthread_create(3)]]</tt> 같은 다른 루틴들이 <tt>[[clone(2)]]</tt>으로 구현되어 있다. 리눅스 2.4 전에서 스레드는 프로세스의 특수한 경우일 뿐이었고, 그래서 같은 스레드 그룹에 속할 때에도 한 스레드가 다른 스레드의 자식을 기다릴 수 없었다. 하지만 POSIX에서 그 기능을 규정하면서 리눅스 2.4부터는 스레드가 같은 스레드 그룹 내의 다른 스레드의 자식을 기다릴 수 있으며, 또 기본적으로 그렇게 한다.</p>
-<p>다음 리눅스 전용 <code>options</code> 값들은 <tt>[[clone(2)]]</tt>으로 만든 자식들에 쓰기 위한 것이다. 리눅스 4.7부터 <code>waitid()</code>에도 쓸 수 있다.</p>
+<p>리눅스 커널에서 커널 스케줄 스레드는 프로세스와 뚜렷하게 구별되는 요소가 아니다. 스레드는 그저 리눅스 고유의 <tt><a class="wikilink" href="/man-pages-ko/clone(2)/">clone(2)</a></tt> 시스템 호출로 만들어진 프로세스일 뿐이다. 그리고 이식성 있는 <tt><a class="wikilink" href="/man-pages-ko/pthread_create(3)/">pthread_create(3)</a></tt> 같은 다른 루틴들이 <tt><a class="wikilink" href="/man-pages-ko/clone(2)/">clone(2)</a></tt>으로 구현되어 있다. 리눅스 2.4 전에서 스레드는 프로세스의 특수한 경우일 뿐이었고, 그래서 같은 스레드 그룹에 속할 때에도 한 스레드가 다른 스레드의 자식을 기다릴 수 없었다. 하지만 POSIX에서 그 기능을 규정하면서 리눅스 2.4부터는 스레드가 같은 스레드 그룹 내의 다른 스레드의 자식을 기다릴 수 있으며, 또 기본적으로 그렇게 한다.</p>
+<p>다음 리눅스 전용 <code>options</code> 값들은 <tt><a class="wikilink" href="/man-pages-ko/clone(2)/">clone(2)</a></tt>으로 만든 자식들에 쓰기 위한 것이다. 리눅스 4.7부터 <code>waitid()</code>에도 쓸 수 있다.</p>
 <dl>
 <dt><code>__WCLONE</code></dt>
 <dd>"클론" 자식만 기다린다. 없으면 "비클론" 자식만 기다린다. ("클론" 자식은 종료 시 자기 부모에게 시그널을 전달하지 않거나 <code>SIGCHLD</code> 아닌 시그널을 전달하는 자식이다.) <code>__WALL</code>도 지정한 경우 이 옵션은 무시한다.</dd>
@@ -318,15 +316,15 @@ int waitid(idtype_t idtype, id_t id, siginfo_t *infop, int options);
 </dl>
 <p>리눅스 4.7부터는 자식을 ptrace 하고 있으면 자동으로 <code>__WALL</code> 플래그를 함의한다.</p>
 <h3 id="c">C 라이브러리/커널 차이</h3>
-<p><code>wait()</code>이 실제로는 (glibc에서) <tt>[[wait4(2)]]</tt> 호출로 구현된 라이브러리 함수이다.</p>
-<p>어떤 아키텍처에는 <code>waitpid()</code> 시스템 호출이 없다. 대신 <tt>[[wait4(2)]]</tt>를 호출하는 C 라이브러리 래퍼 함수를 통해 이 인터페이스를 구현한다.</p>
-<p>진짜 <code>waitid()</code> 시스템 호출은 <code>struct rusage *</code> 타입의 다섯 번째 인자를 받는다. 이 인자가 NULL이 아니면 <tt>[[wait4(2)]]</tt>와 같은 식으로 이를 이용해 자식에 대한 자원 사용 정보를 반환한다. 자세한 내용은 <tt>[[getrusage(2)]]</tt>를 보라.</p>
+<p><code>wait()</code>이 실제로는 (glibc에서) <tt><a class="wikilink" href="/man-pages-ko/wait4(2)/">wait4(2)</a></tt> 호출로 구현된 라이브러리 함수이다.</p>
+<p>어떤 아키텍처에는 <code>waitpid()</code> 시스템 호출이 없다. 대신 <tt><a class="wikilink" href="/man-pages-ko/wait4(2)/">wait4(2)</a></tt>를 호출하는 C 라이브러리 래퍼 함수를 통해 이 인터페이스를 구현한다.</p>
+<p>진짜 <code>waitid()</code> 시스템 호출은 <code>struct rusage *</code> 타입의 다섯 번째 인자를 받는다. 이 인자가 NULL이 아니면 <tt><a class="wikilink" href="/man-pages-ko/wait4(2)/">wait4(2)</a></tt>와 같은 식으로 이를 이용해 자식에 대한 자원 사용 정보를 반환한다. 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/getrusage(2)/">getrusage(2)</a></tt>를 보라.</p>
 <h2 id="bugs">BUGS</h2>
 <p>POSIX.1-2008에 따르면 <code>waitid()</code>를 호출하는 응용에서 <code>infop</code>가 <code>siginfo_t</code> 구조체를 가리키도록 (즉 널 포인터가 아니도록) 보장해야 한다. 리눅스에서는 <code>infop</code>가 NULL이어도 <code>waitid()</code>가 성공하여 기다린 자식의 프로세스 ID를 반환한다. 응용에서는 일관성 없고 비표준이며 불필요한 이 동작 방식에 의지하는 것을 피해야 한다.</p>
-<h2 id="example">EXAMPLE</h2>
-<p>다음 프로그램은 <tt>[[fork(2)]]</tt>와 <code>waitpid()</code> 사용 방식을 보여 준다. 프로그램에서 자식 프로세스를 만든다. 프로그램에 명령행 인자를 주지 않으면 자식이 <tt>[[pause(2)]]</tt>를 이용해 실행을 멈추는데, 그때 사용자가 자식에게 시그널을 보낼 수 있다. 명령행 인자가 있으면 명령행에서 준 정수를 종료 상태로 사용해서 자식이 즉시 종료한다. 부모 프로세스는 루프를 돌면서 <code>waitpid()</code>로 자식을 감시하며, 위에서 설명한 <code>W*()</code> 매크로들을 이용해 종료 상태 값을 분석한다.</p>
+<h2 id="examples">EXAMPLES</h2>
+<p>다음 프로그램은 <tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt>와 <code>waitpid()</code> 사용 방식을 보여 준다. 프로그램에서 자식 프로세스를 만든다. 프로그램에 명령행 인자를 주지 않으면 자식이 <tt><a class="wikilink" href="/man-pages-ko/pause(2)/">pause(2)</a></tt>를 이용해 실행을 멈추는데, 그때 사용자가 자식에게 시그널을 보낼 수 있다. 명령행 인자가 있으면 명령행에서 준 정수를 종료 상태로 사용해서 자식이 즉시 종료한다. 부모 프로세스는 루프를 돌면서 <code>waitpid()</code>로 자식을 감시하며, 위에서 설명한 <code>W*()</code> 매크로들을 이용해 종료 상태 값을 분석한다.</p>
 <p>다음 셸 세션이 프로그램 사용 방식을 보여 준다.</p>
-<pre><code class="text">$ ./a.out &amp;
+<pre><code class="language-text">$ ./a.out &amp;
 Child PID is 32360
 [1] 32359
 $ kill -STOP 32360
@@ -338,9 +336,9 @@ killed by signal 15
 [1]+  Done                    ./a.out
 $
 </code></pre>
-
 <h3 id="_2">프로그램 소스</h3>
-<pre><code class="c">#include &lt;sys/wait.h&gt;
+<pre><code class="language-c">#include &lt;sys/wait.h&gt;
+#include &lt;stdint.h&gt;
 #include &lt;stdlib.h&gt;
 #include &lt;unistd.h&gt;
 #include &lt;stdio.h&gt;
@@ -358,7 +356,7 @@ main(int argc, char *argv[])
     }
 
     if (cpid == 0) {            /* 자식이 실행하는 코드 */
-        printf(&quot;Child PID is %ld\n&quot;, (long) getpid());
+        printf(&quot;Child PID is %jd\n&quot;, (intmax_t) getpid());
         if (argc == 1)
             pause();                    /* 시그널 기다리기 */
         _exit(atoi(argv[1]));
@@ -385,11 +383,10 @@ main(int argc, char *argv[])
     }
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[_exit(2)]]</tt>, <tt>[[clone(2)]]</tt>, <tt>[[fork(2)]]</tt>, <tt>[[ptrace(2)]]</tt>, <tt>[[sigaction(2)]]</tt>, <tt>[[signal(2)]]</tt>, <tt>[[wait4(2)]]</tt>, <tt>[[pthread_create(3)]]</tt>, <tt>[[credentials(7)]]</tt>, <tt>[[signal(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/_exit(2)/">_exit(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/clone(2)/">clone(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ptrace(2)/">ptrace(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigaction(2)/">sigaction(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/signal(2)/">signal(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/wait4(2)/">wait4(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_create(3)/">pthread_create(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/credentials(7)/">credentials(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt></p>
 <hr />
-<p>2018-04-30</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

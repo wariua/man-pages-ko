@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_cond_init(3p)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_cond_init%283p%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Pthread cond init(3p) - man-pages-ko</title>
+    <title>pthread_cond_init(3p) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -156,14 +156,13 @@
 <h2 id="name">NAME</h2>
 <p>pthread_cond_destroy, pthread_cond_init - 조건 변수 파기 및 초기화</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;pthread.h&gt;
+<pre><code class="language-c">#include &lt;pthread.h&gt;
 
 int pthread_cond_destroy(pthread_cond_t *cond);
 int pthread_cond_init(pthread_cond_t *restrict cond,
     const pthread_condattr_t *restrict attr);
 pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>pthread_cond_destroy()</code> 함수는 <code>cond</code>가 나타내는 조건 변수를 파기한다. 그 객체를 초기화 안 된 상태로 만드는 효과가 있다. 구현 시 <code>pthread_cond_destroy()</code>에서 <code>cond</code>가 가리키는 객체를 비유효 값으로 설정하도록 할 수도 있다. 파기된 조건 변수 객체를 <code>pthread_cond_init()</code>으로 다시 초기화 할 수 있다. 파기된 객체를 그 외 방식으로 참조하는 결과는 규정되어 있지 않다.</p>
 <p>현재 어떤 스레드도 블록 되어 있지 않은 초기화 된 조건 변수를 파기하는 것은 안전하다. 현재 다른 스레드가 블록 되어 있는 조건 변수를 파기하려는 시도의 결과는 규정되어 있지 않다.</p>
@@ -187,7 +186,7 @@ pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
 <p><em>이하는 규범적이지 않은 내용이다.</em></p>
 <h2 id="examples">EXAMPLES</h2>
 <p>조건 변수에 블록 되어 있는 스레드가 모두 깨어난 직후에 조건 변수를 파기할 수 있다. 예를 들어 다음 코드를 보자.</p>
-<pre><code class="c">struct list {
+<pre><code class="language-c">struct list {
     pthread_mutex_t lm;
     ...
 }
@@ -226,7 +225,6 @@ delete_elt(struct list *lp, struct elt *ep)
     free(ep);
 }
 </code></pre>
-
 <p>이 예에서, (A 행) 조건 변수에 대기 중인 스레드를 모두 깨운 직후에 (B 행) 조건 변수와 그 리스트 항목을 해제할 수 있다. 뮤텍스와 코드 때문에 삭제할 항목을 다른 스레드가 건드릴 수 없기 때문이다.</p>
 <h2 id="application-usage">APPLICATION USAGE</h2>
 <p>없음.</p>
@@ -238,7 +236,7 @@ delete_elt(struct list *lp, struct elt *ep)
 <h2 id="future-directions">FUTURE DIRECTIONS</h2>
 <p>없음.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p>[[pthread_cond_broadcast()]], [[pthread_cond_timedwait()]], [[pthread_mutex_destroy()]]</p>
+<p><a class="wikilink" href="/man-pages-ko/pthread_cond_broadcast()/">pthread_cond_broadcast()</a>, <a class="wikilink" href="/man-pages-ko/pthread_cond_timedwait()/">pthread_cond_timedwait()</a>, <a class="wikilink" href="/man-pages-ko/pthread_mutex_destroy()/">pthread_mutex_destroy()</a></p>
 <p>POSIX.1-2008 Base Definitions 권, <code>&lt;pthread.h&gt;</code></p>
 <h2 id="copyright">COPYRIGHT</h2>
 <p>Portions of this text are reprinted and reproduced in electronic form from IEEE Std 1003.1, 2013 Edition, Standard for Information Technology -- Portable Operating System Interface (POSIX), The Open Group Base Specifications Issue 7, Copyright (C) 2013 by the Institute of Electrical and Electronics Engineers, Inc and The Open Group. (This is POSIX.1-2008 with the 2013 Technical Corrigendum 1 applied.) In the event of any discrepancy between this version and the original IEEE and The Open Group Standard, the original IEEE and The Open Group Standard is the referee document. The original Standard can be obtained online at <a href="http://www.unix.org/online.html">http://www.unix.org/online.html</a>.</p>

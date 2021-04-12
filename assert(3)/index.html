@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/assert(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/assert%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Assert(3) - man-pages-ko</title>
+    <title>assert(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -150,22 +150,20 @@
 <h2 id="name">NAME</h2>
 <p>assert - 단언이 거짓이면 프로그램 중단하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;assert.h&gt;
+<pre><code class="language-c">#include &lt;assert.h&gt;
 
 void assert(scalar expression);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p>이 매크로는 제한된 디버깅 출력을 내놓는 크래시를 통해 프로그래머가 자기 프로그램의 버그를 찾거나 예외적 경우를 다루는 데 도움을 준다.</p>
-<p><code>expression</code>이 거짓이면 (즉 0과 비교해서 같으면) <code>assert()</code>가 표준 오류로 오류 메시지를 찍고 <tt>[[abort(3)]]</tt> 호출로 프로그램을 종료시킨다. 오류 메시지에는 <code>assert()</code> 호출을 담고 있는 파일과 함수의 이름, 호출의 소스 코드 행 번호, 인자 텍스트가 포함된다. 다음과 같은 식이다.</p>
-<pre><code class="text">prog: some_file.c:16: some_func: Assertion `val == 0' failed.
+<p><code>expression</code>이 거짓이면 (즉 0과 비교해서 같으면) <code>assert()</code>가 표준 오류로 오류 메시지를 찍고 <tt><a class="wikilink" href="/man-pages-ko/abort(3)/">abort(3)</a></tt> 호출로 프로그램을 종료시킨다. 오류 메시지에는 <code>assert()</code> 호출을 담고 있는 파일과 함수의 이름, 호출의 소스 코드 행 번호, 인자 텍스트가 포함된다. 다음과 같은 식이다.</p>
+<pre><code class="language-text">prog: some_file.c:16: some_func: Assertion `val == 0' failed.
 </code></pre>
-
 <p><code>&lt;assert.h&gt;</code>를 마지막으로 포함하는 시점에 매크로 <code>NDEBUG</code>가 정의되어 있으면 <code>assert()</code> 매크로가 아무 코드도 만들지 않고, 그래서 아무것도 하지 않는다. 오류 조건 탐지에 <code>assert()</code>를 사용하는 경우 <code>NDEBUG</code>를 정의하지 않기를 권한다. 소프트웨어가 비결정적으로 동작할 수 있기 때문이다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>아무 값도 반환하지 않는다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -187,9 +185,9 @@ void assert(scalar expression);
 <h2 id="bugs">BUGS</h2>
 <p><code>assert()</code>는 매크로로 구현되어 있다. 검사하는 식에 부대 효과가 있으면 <code>NDEBUG</code>가 정의되어 있는지 여부에 따라 프로그램 동작이 달라질 수도 있다. 이 때문에 디버깅을 켜면 사라져 버리는 하이젠버그가 생길 수 있다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[abort(3)]]</tt>, <tt>[[assert_perror(3)]]</tt>, <tt>[[exit(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/abort(3)/">abort(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/assert_perror(3)/">assert_perror(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/exit(3)/">exit(3)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

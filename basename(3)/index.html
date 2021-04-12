@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/basename(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/basename%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Basename(3) - man-pages-ko</title>
+    <title>basename(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -143,7 +143,7 @@
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
         <li class="first-level "><a href="#bugs">BUGS</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
@@ -152,13 +152,11 @@
 <h2 id="name">NAME</h2>
 <p>basename, dirname - 경로명 요소 파싱 하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;libgen.h&gt;
+<pre><code class="language-c">#include &lt;libgen.h&gt;
 
 char *dirname(char *path);
-
 char *basename(char *path);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p>주의: 두 가지 다른 <code>basename()</code> 함수가 있다. 아래 참고.</p>
 <p><code>dirname()</code> 및 <code>basename()</code> 함수는 널로 끝나는 경로명 문자열을 디렉터리 부분과 파일명 부분으로 나눈다. 보통 경우에 <code>dirname()</code>은 마지막 '/' 전까지의 문자열을 반환하고 <code>basename()</code>은 그 마지막 '/' 다음 부분을 반환한다. 끝에 붙은 '/' 문자는 경로명에 포함시키지 않는다.</p>
@@ -209,9 +207,9 @@ char *basename(char *path);
 </tbody>
 </table>
 <h2 id="return-value">RETURN VALUE</h2>
-<p><code>dirname()</code>과 <code>basename()</code> 모두 널 종료 문자열에 대한 포인터를 반환한다. (이 포인터를 <tt>[[free(3)]]</tt>로 전달해선 안 된다.)</p>
+<p><code>dirname()</code>과 <code>basename()</code> 모두 널 종료 문자열에 대한 포인터를 반환한다. (이 포인터를 <tt><a class="wikilink" href="/man-pages-ko/free(3)/">free(3)</a></tt>로 전달해선 안 된다.)</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -232,18 +230,17 @@ char *basename(char *path);
 <p>POSIX.1-2001, POSIX.1-2008.</p>
 <h2 id="notes">NOTES</h2>
 <p>두 가지 서로 다른 <code>basename()</code> 버전이 있다. 위에서 기술한 POSIX 버전, 그리고 다음과 같이 얻는 GNU 버전이다.</p>
-<pre><code class="c">#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
+<pre><code class="language-c">#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
 #include &lt;string.h&gt;
 </code></pre>
-
 <p>GNU 버전에서는 절대 인자를 변경하지 않으며 <code>path</code> 끝에 슬래시가 있을 때, 특히 <code>path</code>가 "/"일 때에도 빈 문자열을 반환한다. <code>dirname()</code>의 GNU 버전은 없다.</p>
 <p>glibc에서는 <code>&lt;libgen.h&gt;</code>를 포함하면 POSIX 버전 <code>basename()</code>을 얻고 아니면 GNU 버전을 얻는다.</p>
 <h2 id="bugs">BUGS</h2>
 <p>glibc 구현에서 이 함수들의 POSIX 버전이 <code>path</code> 인자를 변경하며, "/usr/" 같은 정적 문자열로 호출 시 세그멘테이션 폴트가 발생한다.</p>
 <p>glibc 2.2.1 전에서 <code>dirname()</code>의 glibc 버전이 끝에 '/' 문자가 있는 경로명을 올바로 처리하지 못했으며 NULL 인자를 주면 세그멘테이션 폴트가 발생했다.</p>
-<h2 id="example">EXAMPLE</h2>
+<h2 id="examples">EXAMPLES</h2>
 <p>다음 코드 조각은 <code>basename()</code> 및 <code>dirname()</code> 사용 방식을 보여 준다.</p>
-<pre><code class="c">char *dirc, *basec, *bname, *dname;
+<pre><code class="language-c">char *dirc, *basec, *bname, *dname;
 char *path = &quot;/etc/passwd&quot;;
 
 dirc = strdup(path);
@@ -252,11 +249,10 @@ dname = dirname(dirc);
 bname = basename(basec);
 printf(&quot;dirname=%s, basename=%s\n&quot;, dname, bname);
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
 <p><code>basename(1)</code>, <code>dirname(1)</code></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

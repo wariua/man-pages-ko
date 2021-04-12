@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/sigaltstack(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/sigaltstack%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Sigaltstack(2) - man-pages-ko</title>
+    <title>sigaltstack(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -145,8 +145,8 @@
         <li class="first-level "><a href="#notes">NOTES</a></li>
             <li class="second-level"><a href="#_1">역사</a></li>
                 
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
         <li class="first-level "><a href="#bugs">BUGS</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
@@ -155,46 +155,43 @@
 <h2 id="name">NAME</h2>
 <p>sigaltstack - 시그널 스택 문맥 설정하고 얻기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;signal.h&gt;
+<pre><code class="language-c">#include &lt;signal.h&gt;
 
-int sigaltstack(const stack_t *ss, stack_t *old_ss);
+int sigaltstack(const stack_t *restrict ss, stack_t *restrict old_ss);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>sigaltstack()</code></dt>
 <dd><code>_XOPEN_SOURCE &gt;= 500</code><br>
 <code>|| /* glibc 2.12부터: */ _POSIX_C_SOURCE &gt;= 200809L</code><br>
-<code>|| /* glibc 버전 &lt;= 2.19: */ _BSD_SOURCE</code></dd>
+<code>|| /* glibc &lt;= 2.19: */ _BSD_SOURCE</code></dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>sigaltstack()</code>을 통해 프로세스에서 새 대체 시그널 스택을 지정하고 기존 대체 시그널 스택의 상태를 얻어 올 수 있다. 시그널 핸들러 설정에서 요청하면 시그널 핸들러 실행 동안 대체 시그널 스택을 사용한다.</p>
+<p><code>sigaltstack()</code>을 통해 스레드에서 새 대체 시그널 스택을 지정하고 기존 대체 시그널 스택의 상태를 얻어 올 수 있다. 시그널 핸들러 설정에서 요청하면 시그널 핸들러 실행 동안 대체 시그널 스택을 사용한다.</p>
 <p>대체 시그널 스택 사용을 위한 일반적인 절차는 다음과 같다.</p>
 <ol>
 <li>대체 시그널 스택에 사용할 메모리 영역을 할당한다.</li>
 <li><code>sigaltstack()</code>을 사용해 대체 시그널 스택의 존재와 위치를 시스템에게 알린다.</li>
-<li><tt>[[sigaction(2)]]</tt>으로 시그널 핸들러를 설정할 때 <code>SA_ONSTACK</code> 플래그를 지정해서 시그널 핸들러를 대체 시그널 스택 상에서 실행해야 함을 시스템에게 알린다.</li>
+<li><tt><a class="wikilink" href="/man-pages-ko/sigaction(2)/">sigaction(2)</a></tt>으로 시그널 핸들러를 설정할 때 <code>SA_ONSTACK</code> 플래그를 지정해서 시그널 핸들러를 대체 시그널 스택 상에서 실행해야 함을 시스템에게 알린다.</li>
 </ol>
 <p><code>ss</code> 인자는 새 대체 시그널 스택을 지정하는데 사용하며 <code>old_ss</code> 인자는 현재 설정된 시그널 스택에 대한 정보를 얻는 데 사용한다. 이 중 한 가지 작업만 수행하고 싶다면 다른 인자를 NULL로 지정할 수 있다.</p>
 <p>이 함수 인자들의 타입인 <code>stack_t</code> 타입은 다음과 같이 정의되어 있다.</p>
-<pre><code class="c">typedef struct {
+<pre><code class="language-c">typedef struct {
     void  *ss_sp;     /* 스택의 기준 주소 */
     int    ss_flags;  /* 플래그 */
     size_t ss_size;   /* 스택의 바이트 수 */
 } stack_t;
 </code></pre>
-
 <p>새 대체 시그널 스택을 설정하려면 이 구조체의 필드를 다음과 같이 설정한다.</p>
 <dl>
 <dt><code>ss.ss_flags</code></dt>
 <dd>
 <p>이 필드는 0 또는 다음 플래그를 담는다.</p>
 <dl>
-<dt><dl></dt>
 <dt><code>SS_AUTODISARM</code> (리눅스 4.7부터)</dt>
 <dd>
-<p>시그널 핸들러 진입 시 대체 시그널 스택 설정을 비운다. 시그널 핸들러가 반환할 때 이전 대체 시그널 스택 설정을 복원한다.</p>
-<p><tt>[[swapcontext(3)]]</tt>로 시그널 핸들러에서 다른 문맥으로 전환하는 것을 안전하게 만들기 위해 이 플래그가 추가되었다. 이 플래그가 없으면 이후의 시그널 처리가 전환 전 시그널 핸들러의 상태를 오염시키게 된다. 이 플래그를 지원하지 않는 커널에서 이 플래그를 주면 <code>sigaltstack()</code>이 <code>EINVAL</code> 오류로 실패한다.</p>
+<p>시그널 핸들러 진입 시 대체 시그널 스택 설정을 비운다. 시그널 핸들러 반환 시 이전 대체 시그널 스택 설정을 복원한다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/swapcontext(3)/">swapcontext(3)</a></tt>로 시그널 핸들러에서 다른 문맥으로 전환하는 것을 안전하게 만들기 위해 이 플래그가 추가되었다. 이 플래그가 없으면 이후의 시그널 처리가 원래 시그널 핸들러의 상태를 오염시키게 된다. 이 플래그를 지원하지 않는 커널에서 이 플래그를 주면 <code>sigaltstack()</code>이 <code>EINVAL</code> 오류로 실패한다.</p>
 </dd>
 </dl>
 </dd>
@@ -207,11 +204,11 @@ int sigaltstack(const stack_t *ss, stack_t *old_ss);
 <p><code>old_ss</code>가 NULL이 아니면 이를 이용해 <code>sigaltstack()</code> 호출 전에 적용되어 있던 대체 시그널 스택에 대한 정보를 반환한다. <code>old_ss.ss_sp</code> 필드와 <code>old_ss.ss_size</code> 필드가 그 스택의 시작 주소와 크기를 돌려준다. <code>old_ss.ss_flags</code> 필드가 다음 값들 중 하나를 돌려줄 수 있다.</p>
 <dl>
 <dt><code>SS_ONSTACK</code></dt>
-<dd>프로세스가 현재 대체 시그널 스택 상에서 실행 중이다. (참고로 프로세스가 대체 시그널 스택 위에서 실행 중이면 그 스택을 바꾸는 것이 불가능하다.)</dd>
+<dd>스레드가 현재 대체 시그널 스택 상에서 실행 중이다. (참고로 스레드가 대체 시그널 스택 위에서 실행 중이면 그 스택을 바꾸는 것이 불가능하다.)</dd>
 <dt><code>SS_DISABLE</code></dt>
 <dd>
 <p>대체 시그널 스택이 현재 비활성화되어 있다.</p>
-<p>또는 프로세스가 현재 <code>SS_AUTODISARM</code> 플래그로 설정한 대체 시그널 스택에서 실행 중이어도 이 값을 반환한다. 이 경우 <tt>[[swapcontext(3)]]</tt>로 시그널 핸들러에서 다른 문맥으로 전환하는 것이 안전하다. 또 <code>sigaltstack()</code>을 다시 호출해서 또 다른 대체 시그널 스택을 설정하는 것도 가능하다.</p>
+<p>또는 스레드가 현재 <code>SS_AUTODISARM</code> 플래그로 설정한 대체 시그널 스택에서 실행 중이어도 이 값을 반환한다. 이 경우 <tt><a class="wikilink" href="/man-pages-ko/swapcontext(3)/">swapcontext(3)</a></tt>로 시그널 핸들러에서 다른 문맥으로 전환하는 것이 안전하다. 또 <code>sigaltstack()</code>을 다시 호출해서 또 다른 대체 시그널 스택을 설정하는 것도 가능하다.</p>
 </dd>
 <dt><code>SS_AUTODISARM</code></dt>
 <dd>대체 시그널 스택이 위에서 기술한 것처럼 자동 해제하도록 표시되어 있다.</dd>
@@ -228,10 +225,10 @@ int sigaltstack(const stack_t *ss, stack_t *old_ss);
 <dt><code>ENOMEM</code></dt>
 <dd>새 대체 시그널 스택에 지정한 크기 <code>ss.ss_size</code>가 <code>MINSIGSTKSZ</code>보다 작다.</dd>
 <dt><code>EPERM</code></dt>
-<dd>사용 중인 동안 (즉 프로세스가 이미 현행 대체 시그널 스택 위에서 실행 중인 동안) 대체 시그널 스택 변경 시도가 이뤄졌다.</dd>
+<dd>사용 중인 동안 (즉 스레드가 이미 현행 대체 시그널 스택 위에서 실행 중인 동안) 대체 시그널 스택 변경 시도가 이뤄졌다.</dd>
 </dl>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -252,17 +249,19 @@ int sigaltstack(const stack_t *ss, stack_t *old_ss);
 <p>POSIX.1-2001, POSIX.1-2008, SUSv2, SVr4</p>
 <p><code>SS_AUTODISARM</code> 플래그는 리눅스 확장이다.</p>
 <h2 id="notes">NOTES</h2>
-<p>대체 시그널 스택을 가장 흔히 쓰는 곳은 정상적인 프로세스 스택에 사용 가능 공간이 고갈된 경우 발생하는 <code>SIGSEGV</code> 시그널을 다룰 때이다. 프로세스 스택 상에서 <code>SIGSEGV</code>에 대한 시그널 핸들러를 호출할 수 없는 이런 경우를 다루려면 대체 시그널 스택을 사용해야 한다.</p>
-<p>프로세스가 표준 스택을 고갈시킬 수도 있다고 예상된다면 대체 시그널 스택을 설정하는 것이 유용하다. 예를 들면 위로 자라는 힙과 마주칠 정도로 스택이 크게 자라거나 <code>setrlimit(RLIMIT_STACK, &amp;rlim)</code> 호출로 설정한 제한에 도달하여 그런 상황이 발생할 수 있다. 표준 스택이 고갈되면 커널이 프로세스에게 <code>SIGSEGV</code> 시그널을 보낸다. 이런 상황에서 그 시그널을 잡을 유일한 방법이 대체 시그널 스택이다.</p>
+<p>대체 시그널 스택을 가장 흔히 쓰는 곳은 표준 스택에 사용 가능 공간이 고갈된 경우 발생하는 <code>SIGSEGV</code> 시그널을 다룰 때이다. 표준 스택 상에서 <code>SIGSEGV</code>에 대한 시그널 핸들러를 호출할 수 없는 이런 경우를 다루려면 대체 시그널 스택을 사용해야 한다.</p>
+<p>스레드가 표준 스택을 고갈시킬 수도 있다고 예상된다면 대체 시그널 스택을 설정하는 것이 유용하다. 예를 들면 위로 자라는 힙과 마주칠 정도로 스택이 크게 자라거나 <code>setrlimit(RLIMIT_STACK, &amp;rlim)</code> 호출로 설정한 제한에 도달하여 그런 상황이 발생할 수 있다. 표준 스택이 고갈되면 커널이 스레드에게 <code>SIGSEGV</code> 시그널을 보낸다. 이런 상황에서 그 시그널을 잡을 유일한 방법이 대체 시그널 스택이다.</p>
 <p>리눅스가 지원하는 하드웨어 아키텍처들 대부분에서는 스택이 아래로 자란다. <code>sigaltstack()</code>에서는 스택 성장 방향을 자동으로 고려해 준다.</p>
-<p>대체 시그널 스택에서 실행 중인 시그널 핸들러에서 호출하는 함수들 역시 그 대체 시그널 스택을 사용하게 된다. (프로세스가 대체 시그널 스택에서 실행 중인 동안 다른 시그널에 대한 핸들러가 호출되는 경우도 마찬가지이다.) 표준 스택과 달리 시스템에서 대체 시그널 스택을 자동으로 늘여 주지 않는다. 대체 시그널 스택에 할당된 크기를 넘어서면 예상 불가능한 결과를 유발하게 된다.</p>
-<p><tt>[[execve(2)]]</tt> 호출 성공 시 기존 대체 시그널 스택이 있으면 제거한다. <tt>[[fork(2)]]</tt>로 생성한 자식 프로세스는 부모의 대체 시그널 스택 설정 복사본을 물려받는다.</p>
+<p>대체 시그널 스택에서 실행 중인 시그널 핸들러에서 호출하는 함수들 역시 그 대체 시그널 스택을 사용하게 된다. (스레드가 대체 시그널 스택에서 실행 중인 동안 다른 시그널에 대한 핸들러가 호출되는 경우도 마찬가지이다.) 표준 스택과 달리 시스템에서 대체 시그널 스택을 자동으로 늘여 주지 않는다. 대체 시그널 스택에 할당된 크기를 넘어서면 예상 불가능한 결과를 유발하게 된다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt> 호출 성공 시 기존 대체 시그널 스택이 있으면 제거한다. <tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt>로 생성한 자식 프로세스는 부모의 대체 시그널 스택 설정 복사본을 물려받는다. <tt><a class="wikilink" href="/man-pages-ko/clone(2)/">clone(2)</a></tt>으로 생성한 자식 프로세스에 대해서도 마찬가지이되, 복제 플래그에 <code>CLONE_VM</code>이 포함돼 있고 <code>CLONE_VFORK</code>는 포함돼 있지 않은 경우에는 부모에서 설정한 대체 시그널 스택이 있더라도 자식 프로세스에서 비활성화된다.</p>
 <p><code>sigaltstack()</code>은 이전의 <code>sigstack()</code> 호출을 대신한다. 하위 호환성을 위해 glibc에서는 <code>sigstack()</code>도 제공한다. 새로운 응용들은 모두 <code>sigaltstack()</code>을 이용해 작성하는 게 좋다.</p>
 <h3 id="_1">역사</h3>
 <p>4.2BSD에 <code>sigstack()</code> 시스템 호출이 있었다. 살짝 다른 구조체를 사용했는데 호출자가 스택 성장 방향을 알고 있어야 한다는 심각한 단점이 있었다.</p>
-<h2 id="example">EXAMPLE</h2>
-<p>다음 코드 조각은 <code>sigaltstack()</code>을 (그리고 <tt>[[sigaction(2)]]</tt>을) 이용해 <code>SIGSEGV</code> 시그널 핸들러가 사용할 대체 시그널 스택을 설치하는 것을 보여 준다.</p>
-<pre><code class="c">stack_t ss;
+<h2 id="bugs">BUGS</h2>
+<p>리눅스 2.2 이전에서 <code>ss.sa_flags</code>에 지정할 수 있는 유일한 플래그는 <code>SS_DISABLE</code>이었다. 리눅스 2.4 커널 릴리스까지 과정에서 누군가 내용을 혼동하여 커널이 <code>ss.ss_flags</code>에서 <code>SS_ONSTACK</code>을 받아들이도록 했다. 이렇게 했을 때의 동작 방식은 <code>ss_flags</code>가 0일 때와 같다. 다른 구현들에서, 그리고 POSIX.1에 따르면 <code>SS_ONSTACK</code>은 <code>old_ss.ss_flags</code>에서 알려주는 플래그로만 등장한다. <code>ss.ss_flags</code>에서 이 플래그를 지정할 필요가 전혀 없다. (그리고 사실 그렇게 하면 이식성이 떨어진다. 어떤 구현들에서는 <code>ss.ss_flags</code>에 <code>SS_ONSTACK</code>을 지정하면 오류를 뱉기 때문이다.)</p>
+<h2 id="examples">EXAMPLES</h2>
+<p>다음 코드 조각은 <code>sigaltstack()</code>을 (그리고 <tt><a class="wikilink" href="/man-pages-ko/sigaction(2)/">sigaction(2)</a></tt>을) 이용해 <code>SIGSEGV</code> 시그널 핸들러가 사용할 대체 시그널 스택을 설치하는 것을 보여 준다.</p>
+<pre><code class="language-c">stack_t ss;
 
 ss.ss_sp = malloc(SIGSTKSZ);
 if (ss.ss_sp == NULL) {
@@ -285,13 +284,10 @@ if (sigaction(SIGSEGV, &amp;sa, NULL) == -1) {
     exit(EXIT_FAILURE);
 }
 </code></pre>
-
-<h2 id="bugs">BUGS</h2>
-<p>리눅스 2.2 이전에서 <code>ss.sa_flags</code>에 지정할 수 있는 유일한 플래그는 <code>SS_DISABLE</code>이었다. 리눅스 2.4 커널 릴리스까지 과정에서 누군가 내용을 혼동하여 커널이 <code>ss.ss_flags</code>에서 <code>SS_ONSTACK</code>을 받아들이도록 했다. 이렇게 했을 때의 동작 방식은 <code>ss_flags</code>가 0일 때와 같다. 다른 구현들에서, 그리고 POSIX.1에 따르면 <code>SS_ONSTACK</code>은 <code>old_ss.ss_flags</code>에서 알려주는 플래그로만 등장한다. <code>ss.ss_flags</code>에서 이 플래그를 지정할 필요가 전혀 없다. (그리고 사실 그렇게 하면 이식성이 떨어진다. 어떤 구현들에서는 <code>ss.ss_flags</code>에 <code>SS_ONSTACK</code>을 지정하면 오류를 뱉기 때문이다.)</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[execve(2)]]</tt>, <tt>[[setrlimit(2)]]</tt>, <tt>[[sigaction(2)]]</tt>, <tt>[[siglongjmp(3)]]</tt>, <tt>[[sigsetjmp(3)]]</tt>, <tt>[[signal(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/setrlimit(2)/">setrlimit(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigaction(2)/">sigaction(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/siglongjmp(3)/">siglongjmp(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigsetjmp(3)/">sigsetjmp(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt></p>
 <hr />
-<p>2017-11-08</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

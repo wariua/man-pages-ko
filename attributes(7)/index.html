@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/attributes(7)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/attributes%287%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Attributes(7) - man-pages-ko</title>
+    <title>attributes(7) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -183,7 +183,7 @@
 <p>호출 동안에 그 시그널을 다른 곳에서 쓰지 않도록 하여 이 안전성 문제를 피할 수 있다. 같은 임시 시그널을 쓰는 모든 함수들의 호출 동안 비재귀 뮤텍스를 잡고, 호출 전에 그 시그널을 막았다가 이후에 핸들러를 재설정하기를 권장한다.</p>
 </dd>
 <dt><em>term</em></dt>
-<dd>MT 안전성과 관련해 <em>term</em> 표시가 된 함수들에서는 표준 방식에 따라 터미널 설정을 바꿀 수 있다. 즉 <tt>[[tcgetattr(3)]]</tt>을 호출하고 어떤 플래그를 변경한 다음 <tt>[[tcsetattr(3)]]</tt>을 호출할 수 있는데, 그러면 다른 스레드에 의한 변경 사항이 유실될 수 있는 가능성이 생긴다. 따라서 <em>term</em>으로 표시된 함수들은 MT-Unsafe이다.</dd>
+<dd>MT 안전성과 관련해 <em>term</em> 표시가 된 함수들에서는 표준 방식에 따라 터미널 설정을 바꿀 수 있다. 즉 <tt><a class="wikilink" href="/man-pages-ko/tcgetattr(3)/">tcgetattr(3)</a></tt>을 호출하고 어떤 플래그를 변경한 다음 <tt><a class="wikilink" href="/man-pages-ko/tcsetattr(3)/">tcsetattr(3)</a></tt>을 호출할 수 있는데, 그러면 다른 스레드에 의한 변경 사항이 유실될 수 있는 가능성이 생긴다. 따라서 <em>term</em>으로 표시된 함수들은 MT-Unsafe이다.</dd>
 <dd>그러므로 터미널을 쓰는 응용에서는 동시적이고 재진입 가능하게 터미널과 상호작용 하는 걸 피하는 게 바람직하다. 시그널 핸들러에서 그 함수들을 쓰지 않거나 쓸 수도 있을 시그널을 막고, 그 함수들을 호출하는 동안과 터미널과 상호작용 하는 동안에 락을 잡고 있으면 된다. 그 락을 <em>race:tcattr(fd)</em> 표시가 된 함수와의 상호 배제에도 쓰는 게 좋은데, 여기서 <em>fd</em>는 터미널 제어를 위한 파일 디스크립터이다. 단순함을 위해 호출자가 뮤텍스 한 개를 쓸 수도 있고 (여러 파일 디스크립터가 참조하더라도) 터미널별로 뮤텍스 한 개씩을 쓸 수도 있다.</dd>
 </dl>
 <h3 id="_2">기타 안전성 표시</h3>
@@ -196,11 +196,11 @@
 </dd>
 <dt><em>env</em></dt>
 <dd>
-<p>MT 안전성과 관련해 <em>env</em> 표시가 된 함수들은 동시 변경 시 안전성을 보장하기 위한 어떤 안전 장치도 없이 <tt>[[getenv(3)]]</tt> 내지 유사 함수로 환경에 접근한다.</p>
+<p>MT 안전성과 관련해 <em>env</em> 표시가 된 함수들은 동시 변경 시 안전성을 보장하기 위한 어떤 안전 장치도 없이 <tt><a class="wikilink" href="/man-pages-ko/getenv(3)/">getenv(3)</a></tt> 내지 유사 함수로 환경에 접근한다.</p>
 <p>하지만 이 함수들을 MT-Unsafe라고 표시하지는 않는다. 환경을 변경하는 함수들에 모두 <em>const:env</em> 표시를 하고 안전하지 않은 것으로 여기기 때문이다. 안전하지 않은 그 함수들은 여러 스레드가 돌거나 비동기 시그널이 활성화돼 있을 때 호출되지 않을 것이고, 따라서 그 맥락에서는 환경이 실질적으로 상수라고 볼 수 있으며, 그래서 이 함수들이 안전해진다.</p>
 </dd>
 <dt><em>hostid</em></dt>
-<dd>MT 안전성과 관련해 <em>hostid</em> 표시가 된 함수들은 머신의 "호스트 ID"를 담은 시스템 전역 자료 구조들을 읽는다. 이 자료 구조들은 일반적으로 원자적으로 변경할 수 없다. 보통은 "호스트 ID"가 바뀌지 않을 것이므로 그걸 읽는 함수(<tt>[[gethostid(3)]]</tt>)는 안전한 것으로 여기고 변경하는 함수(<tt>[[sethostid(3)]]</tt>)에 <em>const:hostid</em> 표시를 해서 호출 시 특별한 주의가 필요하다고 표시한다. 그 특별한 경우에서 특별한 주의는 (프로세스 내부 정도가 아니라) 시스템 전체에서의 조율을 뜻한다.</dd>
+<dd>MT 안전성과 관련해 <em>hostid</em> 표시가 된 함수들은 머신의 "호스트 ID"를 담은 시스템 전역 자료 구조들을 읽는다. 이 자료 구조들은 일반적으로 원자적으로 변경할 수 없다. 보통은 "호스트 ID"가 바뀌지 않을 것이므로 그걸 읽는 함수(<tt><a class="wikilink" href="/man-pages-ko/gethostid(3)/">gethostid(3)</a></tt>)는 안전한 것으로 여기고 변경하는 함수(<tt><a class="wikilink" href="/man-pages-ko/sethostid(3)/">sethostid(3)</a></tt>)에 <em>const:hostid</em> 표시를 해서 호출 시 특별한 주의가 필요하다고 표시한다. 그 특별한 경우에서 특별한 주의는 (프로세스 내부 정도가 아니라) 시스템 전체에서의 조율을 뜻한다.</dd>
 <dt><em>sigintr</em></dt>
 <dd>
 <p>MT 안전성과 관련해 <em>sigintr</em> 표시가 된 함수들은 동시 변경 시 안전성을 보장하기 위한 어떤 안전 장치도 없이 GNU C 라이브러리의 <code>_sigintr</code>라는 내부 자료 구조에 접근한다.</p>
@@ -209,7 +209,7 @@
 <dt><em>cwd</em></dt>
 <dd>
 <p>MT 안전성과 관련해 <em>cwd</em> 표시가 된 함수들은 실행 중에 일시적으로 현재 작업 디렉터리를 바꿀 수 있으며, 그래서 다른 스레드나 비동기 시그널 핸들러 내지 취소 핸들러에서 상대 경로명이 예상치 못한 방식으로 해석될 수 있다.</p>
-<p>그 때문에 그런 함수들에 MT-Unsafe 표시를 붙일 필요까지는 없겠지만, 이 동작 방식이 선택적일 때는 (가령 <tt>[[nftw(3)]]</tt>를 <code>FTW_CHDIR</code>로 사용) 그 선택지를 피하는 게 전체 경로명이나 파일 디스크립터 기준 시스템 호출(가령 <tt>[[openat(2)]]</tt>)을 쓰는 것보다 좋은 대안일 수 있다.</p>
+<p>그 때문에 그런 함수들에 MT-Unsafe 표시를 붙일 필요까지는 없겠지만, 이 동작 방식이 선택적일 때는 (가령 <tt><a class="wikilink" href="/man-pages-ko/nftw(3)/">nftw(3)</a></tt>를 <code>FTW_CHDIR</code>로 사용) 그 선택지를 피하는 게 전체 경로명이나 파일 디스크립터 기준 시스템 호출(가령 <tt><a class="wikilink" href="/man-pages-ko/openat(2)/">openat(2)</a></tt>)을 쓰는 것보다 좋은 대안일 수 있다.</p>
 </dd>
 <dt><em>:식별자</em></dt>
 <dd>
@@ -224,9 +224,9 @@
 </dd>
 </dl>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[pthreads(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/pthreads(7)/">pthreads(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/signal-safety(7)/">signal-safety(7)</a></tt></p>
 <hr />
-<p>2015-03-02</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

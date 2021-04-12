@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/errno(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/errno%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Errno(3) - man-pages-ko</title>
+    <title>errno(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -153,21 +153,20 @@
 <h2 id="name">NAME</h2>
 <p>errno - 마지막 오류의 번호</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;errno.h&gt;
+<pre><code class="language-c">#include &lt;errno.h&gt;
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>&lt;errno.h&gt;</code> 헤더 파일에서 정수 변수 <code>errno</code>를 정의한다. 시스템 호출과 일부 라이브러리 함수에서 오류 발생 시 무엇이 잘못됐는지 나타내기 위해 그 변수를 설정한다.</p>
 <h3 id="errno"><code>errno</code></h3>
 <p>호출의 반환 값이 오류를 나타낸 (즉 대부분 시스템 호출에서 -1, 대부분 라이브러리 함수에서 -1 내지 NULL인) 때에만 <code>errno</code>의 값이 의미가 있다. 즉 성공하는 함수에서 <code>errno</code>를 바꾸는 것이 <em>허용된다</em>. 어떤 시스템 호출이나 라이브러리 호출에서도 절대 <code>errno</code> 값을 0으로 설정하지는 않는다.</p>
-<p>어떤 시스템 호출과 라이브러리 함수(가령 <tt>[[getpriority(2)]]</tt>)에서는 -1이 성공 시의 유효한 반환 값이다. 그런 경우에는 호출 전에 <code>errno</code>를 0으로 설정해서 성공 반환과 오류 반환을 구별할 수 있다. 오류가 발생했을 수도 있음을 나타내는 상태를 호출에서 반환하면 <code>errno</code>가 0 아닌 값인지 확인하면 된다.</p>
+<p>어떤 시스템 호출과 라이브러리 함수(가령 <tt><a class="wikilink" href="/man-pages-ko/getpriority(2)/">getpriority(2)</a></tt>)에서는 -1이 성공 시의 유효한 반환 값이다. 그런 경우에는 호출 전에 <code>errno</code>를 0으로 설정해서 성공 반환과 오류 반환을 구별할 수 있다. 오류가 발생했을 수도 있음을 나타내는 상태를 호출에서 반환하면 <code>errno</code>가 0 아닌 값인지 확인하면 된다.</p>
 <p><code>errno</code>는 ISO C에서 <code>int</code> 타입의 변경 가능한 lvalue라고 규정돼 있으며 명시적으로 선언해서는 안 된다. 즉 <code>errno</code>가 매크로일 수도 있다. <code>errno</code>는 스레드 로컬이다. 그래서 한 스레드에서 그 값을 설정해도 다른 스레드의 값에 영향을 주지 않는다.</p>
 <h3 id="_1">오류 번호와 이름</h3>
 <p>유효한 오류 번호들은 모두 양수 번호이다. <code>errno</code>에 등장할 수 있는 오류 번호 각각의 심볼 이름이 <code>&lt;errno.h&gt;</code> 헤더 파일에 정의돼 있다.</p>
-<p>POSIX.1에서 명세하는 오류 이름들은 모두 서로 다른 값을 가져야 한다. 단 예외로 <code>EAGAIN</code>과 <code>EWOULDBLOCK</code>은 같을 수도 있다.</p>
-<p>각 심볼 이름에 대응하는 오류 번호는 유닉스 시스템 종류에 따라 다르며 심지어 리눅스에서 아키텍처에 따라 다르기도 하다. 그래서 아래의 오류 이름 목록에는 번호 값이 포함돼 있지 않다. <tt>[[perror(3)]]</tt> 및 <tt>[[strerror(3)]]</tt> 함수를 사용하면 그 이름을 대응하는 텍스트 오류 메시지로 변환할 수 있다.</p>
+<p>POSIX.1에서 명세하는 오류 이름들은 모두 서로 다른 값을 가져야 한다. 단 예외로 <code>EAGAIN</code>과 <code>EWOULDBLOCK</code>은 같을 수도 있다. 리눅스에서 이 둘은 모든 아키텍처에서 값이 같다.</p>
+<p>각 심볼 이름에 대응하는 오류 번호는 유닉스 시스템 종류에 따라 다르며 심지어 리눅스에서 아키텍처에 따라 다르기도 하다. 그래서 아래의 오류 이름 목록에는 번호 값이 포함돼 있지 않다. <tt><a class="wikilink" href="/man-pages-ko/perror(3)/">perror(3)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/strerror(3)/">strerror(3)</a></tt> 함수를 사용하면 그 이름을 대응하는 텍스트 오류 메시지로 변환할 수 있다.</p>
 <p>어떤 리눅스 시스템 상에서든 (<code>moreutils</code> 패키지에 포함된) <code>errno(1)</code> 명령을 쓰면 모든 오류 심볼 이름과 대응하는 오류 번호들의 목록을 얻을 수 있다.</p>
-<pre><code class="text">$ errno -l
+<pre><code class="language-text">$ errno -l
 EPERM 1 Operation not permitted
 ENOENT 2 No such file or directory
 ESRCH 3 No such process
@@ -175,16 +174,14 @@ EINTR 4 Interrupted system call
 EIO 5 Input/output error
 ...
 </code></pre>
-
 <p>또한 <code>errno(1)</code> 명령을 사용해 다음과 같이 개별 오류 번호와 이름을 찾아보고 오류 서술에서 얻은 문자열로 오류를 검색할 수 있다.</p>
-<pre><code class="text">$ errno 2
+<pre><code class="language-text">$ errno 2
 ENOENT 2 No such file or directory
 $ errno ESRCH
 ESRCH 3 No such process
 $ errno -s permission
 EACCES 13 Permission denied
 </code></pre>
-
 <h3 id="_2">오류 이름 목록</h3>
 <p>아래의 오류 심볼 이름 목록에서 여러 이름들에 다음과 같은 표시가 되어 있다.</p>
 <ul>
@@ -299,6 +296,10 @@ EACCES 13 Permission denied
 <td>자원 교착 회피했음. (POSIX.1-2001)</td>
 </tr>
 <tr>
+<td><code>EDEADLOCK</code></td>
+<td>대부분 시스템에서 <code>EDEADLK</code>의 동의어. 일부 시스템(가령 리눅스의 MIPS, PowerPC, SPARC)에선 별도의 오류 코드 "File locking deadlock error"이다.</td>
+</tr>
+<tr>
 <td><code>EDESTADDRREQ</code></td>
 <td>목적 주소 필요함. (POSIX.1-2001)</td>
 </tr>
@@ -348,7 +349,7 @@ EACCES 13 Permission denied
 </tr>
 <tr>
 <td><code>EINTR</code></td>
-<td>함수 호출이 중단됐음. (POSIX.1-2001) <tt>[[signal(7)]]</tt> 참고.</td>
+<td>함수 호출이 중단됐음. (POSIX.1-2001) <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt> 참고.</td>
 </tr>
 <tr>
 <td><code>EINVAL</code></td>
@@ -432,7 +433,7 @@ EACCES 13 Permission denied
 </tr>
 <tr>
 <td><code>EMFILE</code></td>
-<td>열린 파일 너무 많음. (POSIX.1-2001) 보통 <tt>[[getrlimit(2)]]</tt>에 설명된 <code>RLIMIT_NOFILE</code> 자원 제한 초과 때문.</td>
+<td>열린 파일 너무 많음. (POSIX.1-2001) 보통 <tt><a class="wikilink" href="/man-pages-ko/getrlimit(2)/">getrlimit(2)</a></tt>에 설명된 <code>RLIMIT_NOFILE</code> 자원 제한 초과 때문이다. <code>/proc/sys/fs/nr_open</code>에 지정된 제한 초과 때문일 수도 있다.</td>
 </tr>
 <tr>
 <td><code>EMLINK</code></td>
@@ -464,7 +465,7 @@ EACCES 13 Permission denied
 </tr>
 <tr>
 <td><code>ENFILE</code></td>
-<td>시스템에 열린 파일 너무 많음. (POSIX.1-2001) 리눅스에서는 아마 <code>/proc/sys/fs/file-max</code> 제한(<tt>[[proc(5)]]</tt> 참고)에 걸려서일 것.</td>
+<td>시스템에 열린 파일 너무 많음. (POSIX.1-2001) 리눅스에서는 아마 <code>/proc/sys/fs/file-max</code> 제한(<tt><a class="wikilink" href="/man-pages-ko/proc(5)/">proc(5)</a></tt> 참고)에 걸려서일 것.</td>
 </tr>
 <tr>
 <td><code>ENOANO</code></td>
@@ -714,25 +715,24 @@ EACCES 13 Permission denied
 </table>
 <h2 id="notes">NOTES</h2>
 <p>많이 하는 실수로 다음과 같은 게 있다.</p>
-<pre><code class="c">if (somecall() == -1) {
+<pre><code class="language-c">if (somecall() == -1) {
     printf(&quot;somecall() failed\n&quot;);
     if (errno == ...) { ... }
 }
 </code></pre>
-
-<p>여기서 <code>errno</code>가 꼭 <code>somecall()</code> 함수 반환 시의 값을 가지고 있는 게 아니다. (즉 <tt>[[printf(3)]]</tt>에 의해 바뀌었을 수도 있다.) 라이브러리 호출을 거치면서 <code>errno</code> 값이 보존돼야 한다면 저장을 해야 한다.</p>
-<pre><code class="c">if (somecall() == -1) {
+<p>여기서 <code>errno</code>가 꼭 <code>somecall()</code> 함수 반환 시의 값을 가지고 있는 게 아니다. (즉 <tt><a class="wikilink" href="/man-pages-ko/printf(3)/">printf(3)</a></tt>에 의해 바뀌었을 수도 있다.) 라이브러리 호출을 거치면서 <code>errno</code> 값이 보존돼야 한다면 저장을 해야 한다.</p>
+<pre><code class="language-c">if (somecall() == -1) {
     int errsv = errno;
     printf(&quot;somecall() failed\n&quot;);
     if (errsv == ...) { ... }
 }
 </code></pre>
-
+<p>POSIX 스레드 API에서는 오류 시 <code>errno</code>를 설정하지 <em>않는다는</em> 점에 유의하라. 실패 시 함수 결과로 오류 번호를 반환한다. 그 오류 번호는 다른 API에서 <code>errno</code>로 반환하는 오류 번호와 의미가 같다.</p>
 <p>일부 아주 오래된 시스템에서는 <code>&lt;errno.h&gt;</code>가 존재하지 않거나 <code>errno</code>를 선언해 주지 않았으며, 그래서 <code>errno</code>를 직접 선언(<code>extern int errno</code>)해야 했다. 지금은 <strong>그렇게 해선 안 된다.</strong> 오래 전부터 그럴 필요가 없게 됐으며 최근의 C 라이브러리 버전들에서 문제를 일으키게 된다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>errno(1)</code>, <tt>[[err(3)]]</tt>, <tt>[[error(3)]]</tt>, <tt>[[perror(3)]]</tt>, <tt>[[strerror(3)]]</tt></p>
+<p><code>errno(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/err(3)/">err(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/error(3)/">error(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/perror(3)/">perror(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/strerror(3)/">strerror(3)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

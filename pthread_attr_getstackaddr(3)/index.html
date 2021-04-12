@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_attr_getstackaddr(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_attr_getstackaddr%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Pthread attr getstackaddr(3) - man-pages-ko</title>
+    <title>pthread_attr_getstackaddr(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -152,15 +152,15 @@
 <h2 id="name">NAME</h2>
 <p>pthread_attr_setstackaddr, pthread_attr_getstackaddr - 스레드 속성 객체의 스택 주소 속성 설정하기/얻기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;pthread.h&gt;
+<pre><code class="language-c">#include &lt;pthread.h&gt;
 
 int pthread_attr_setstackaddr(pthread_attr_t *attr, void *stackaddr);
-int pthread_attr_getstackaddr(const pthread_attr_t *attr, void **stackaddr);
+int pthread_attr_getstackaddr(const pthread_attr_t *restrict attr,
+                              void **restrict stackaddr);
 </code></pre>
-
 <p><code>-pthread</code>로 컴파일 및 링크.</p>
 <h2 id="description">DESCRIPTION</h2>
-<p>이 함수들은 구식이다. <strong>쓰지 마라.</strong> 대신 <tt>[[pthread_attr_setstack(3)]]</tt> 및 <tt>[[pthread_attr_getstack(3)]]</tt>을 사용하라.</p>
+<p>이 함수들은 구식이다. <strong>쓰지 마라.</strong> 대신 <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setstack(3)/">pthread_attr_setstack(3)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_getstack(3)/">pthread_attr_getstack(3)</a></tt>을 사용하라.</p>
 <p><code>pthread_attr_setstackaddr()</code> 함수는 <code>attr</code>이 가리키는 스레드 속성 객체의 스택 주소 속성을 <code>stackaddr</code>에 지정한 값으로 설정한다. 이 속성은 스레드 속성 객체 <code>attr</code>을 이용해 생성하는 스레드에서 사용할 스택의 위치를 나타낸다.</p>
 <p><code>stackaddr</code>은 호출자가 할당한 최소 <code>PTHREAD_STACK_MIN</code> 바이트짜리 버퍼를 가리켜야 한다. 할당한 버퍼의 페이지들은 읽기와 쓰기가 모두 가능해야 한다.</p>
 <p><code>pthread_attr_getstackaddr()</code> 함수는 <code>attr</code>이 가리키는 스레드 속성 객체의 스택 주소 속성을 <code>stackaddr</code>이 가리키는 버퍼로 반환한다.</p>
@@ -171,7 +171,7 @@ int pthread_attr_getstackaddr(const pthread_attr_t *attr, void **stackaddr);
 <h2 id="versions">VERSIONS</h2>
 <p>glibc 버전 2.1부터 이 함수들을 제공한다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -191,11 +191,11 @@ int pthread_attr_getstackaddr(const pthread_attr_t *attr, void **stackaddr);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001에서 이 함수들을 명세하되 구식으로 표시하였다. POSIX.1-2008에서 이 함수들의 명세를 제거하였다.</p>
 <h2 id="notes">NOTES</h2>
-<p><em>이 함수들을 쓰지 마라!</em> 스택 성장 방향이나 범위를 지정할 방법이 없기 때문에 이식성 있게 사용할 수 없다. 예를 들어 스택이 아래로 자라는 아키텍처에서 <code>stackaddr</code>은 할당한 스택 영역의 <em>최상위</em> 주소 다음 주소를 나타낸다. 하지만 스택이 위로 자라는 아키텍처에서 <code>stackaddr</code>은 할당한 스택 영역의 <em>최하위</em> 주소를 나타낸다. 반면 <tt>[[pthread_attr_setstack(3)]]</tt> 및 <tt>[[pthread_attr_getstack(3)]]</tt>에서 쓰는 <code>stackaddr</code>은 항상 할당한 스택 영역의 최하위 주소에 대한 포인터이다. (그리고 <code>stacksize</code> 인자가 스택의 범위를 지정한다.)</p>
+<p><em>이 함수들을 쓰지 마라!</em> 스택 성장 방향이나 범위를 지정할 방법이 없기 때문에 이식성 있게 사용할 수 없다. 예를 들어 스택이 아래로 자라는 아키텍처에서 <code>stackaddr</code>은 할당한 스택 영역의 <em>최상위</em> 주소 다음 주소를 나타낸다. 하지만 스택이 위로 자라는 아키텍처에서 <code>stackaddr</code>은 할당한 스택 영역의 <em>최하위</em> 주소를 나타낸다. 반면 <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setstack(3)/">pthread_attr_setstack(3)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_getstack(3)/">pthread_attr_getstack(3)</a></tt>에서 쓰는 <code>stackaddr</code>은 항상 할당한 스택 영역의 최하위 주소에 대한 포인터이다. (그리고 <code>stacksize</code> 인자가 스택의 범위를 지정한다.)</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[pthread_attr_init(3)]]</tt>, <tt>[[pthread_attr_setstack(3)]]</tt>, <tt>[[pthread_attr_setstacksize(3)]]</tt>, <tt>[[pthread_create(3)]]</tt>, <tt>[[pthreads(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/pthread_attr_init(3)/">pthread_attr_init(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setstack(3)/">pthread_attr_setstack(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setstacksize(3)/">pthread_attr_setstacksize(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_create(3)/">pthread_create(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthreads(7)/">pthreads(7)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

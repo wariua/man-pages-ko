@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/strsep(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/strsep%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Strsep(3) - man-pages-ko</title>
+    <title>strsep(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -151,12 +151,11 @@
 <h2 id="name">NAME</h2>
 <p>strsep - 문자열에서 토큰 추출하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;string.h&gt;
+<pre><code class="language-c">#include &lt;string.h&gt;
 
-char *strsep(char **stringp, const char *delim);
+char *strsep(char **restrict stringp, const char *restrict delim);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>strsep()</code>:</dt>
 <dd>
@@ -173,7 +172,7 @@ char *strsep(char **stringp, const char *delim);
 <h2 id="return-value">RETURN VALUE</h2>
 <p><code>strsep()</code> 함수는 토큰에 대한 포인터를 반환한다. 즉, <code>*stringp</code>의 원래 값을 반환한다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -193,7 +192,7 @@ char *strsep(char **stringp, const char *delim);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>4.4BSD.</p>
 <h2 id="notes">NOTES</h2>
-<p><code>strsep()</code> 함수는 빈 필드를 다루지 못하는 <tt>[[strtok(3)]]</tt>을 대체하기 위해 도입되었다. 하지만 <tt>[[strtok(3)]]</tt>은 C89/C99를 준수하기 때문에 이식성이 더 좋다.</p>
+<p><code>strsep()</code> 함수는 빈 필드를 다루지 못하는 <tt><a class="wikilink" href="/man-pages-ko/strtok(3)/">strtok(3)</a></tt>을 대체하기 위해 도입되었다. 하지만 <tt><a class="wikilink" href="/man-pages-ko/strtok(3)/">strtok(3)</a></tt>은 C89/C99를 준수하기 때문에 이식성이 더 좋다.</p>
 <h2 id="bugs">BUGS</h2>
 <p>이 함수를 사용할 때는 조심해야 한다. 꼭 사용하겠다면 다음에 유념해야 한다.</p>
 <ul>
@@ -208,9 +207,9 @@ char *strsep(char **stringp, const char *delim);
 </li>
 </ul>
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>index(3)</code>, <tt>[[memchr(3)]]</tt>, <code>rindex(3)</code>, <code>strchr(3)</code>, <tt>[[string(3)]]</tt>, <code>strpbrk(3)</code>, <code>strspn(3)</code>, <code>strstr(3)</code>, <tt>[[strtok(3)]]</tt></p>
+<p><code>index(3)</code>, <tt><a class="wikilink" href="/man-pages-ko/memchr(3)/">memchr(3)</a></tt>, <code>rindex(3)</code>, <code>strchr(3)</code>, <tt><a class="wikilink" href="/man-pages-ko/string(3)/">string(3)</a></tt>, <code>strpbrk(3)</code>, <code>strspn(3)</code>, <code>strstr(3)</code>, <tt><a class="wikilink" href="/man-pages-ko/strtok(3)/">strtok(3)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

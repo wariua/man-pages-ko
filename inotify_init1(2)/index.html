@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/inotify_init1(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/inotify_init1%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Inotify init1(2) - man-pages-ko</title>
+    <title>inotify_init1(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -150,21 +150,20 @@
 <h2 id="name">NAME</h2>
 <p>inotify_init, inotify_init1 - inotify 인스턴스 초기화 하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;sys/inotify.h&gt;
+<pre><code class="language-c">#include &lt;sys/inotify.h&gt;
 
 int inotify_init(void);
 int inotify_init1(int flags);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
-<p>inotify API에 대한 소개는 <tt>[[inotify(7)]]</tt>를 보라.</p>
+<p>inotify API에 대한 소개는 <tt><a class="wikilink" href="/man-pages-ko/inotify(7)/">inotify(7)</a></tt>를 보라.</p>
 <p><code>inotify_init()</code>은 새 inotify 인스턴스를 초기화 하고 그 새 inotify 이벤트 큐에 연계된 파일 디스크립터를 반환한다.</p>
 <p><code>inotify_init1()</code>은 <code>flags</code>가 0이면 <code>inotify_init()</code>과 동일하다. <code>flags</code>에 다음 값들을 비트 OR 해서 다른 동작 방식을 얻을 수 있다.</p>
 <dl>
 <dt><code>IN_NONBLOCK</code></dt>
-<dd>새 파일 디스크립터가 가리키는 열린 파일 기술 항목(<tt>[[open(2)]]</tt> 참고)에 <code>O_NONBLOCK</code> 파일 상태 플래그를 설정한다. 이 플래그를 사용하면 같은 결과를 얻기 위해 <tt>[[fcntl(2)]]</tt>을 추가로 호출하지 않아도 된다.</dd>
+<dd>새 파일 디스크립터가 가리키는 열린 파일 기술 항목(<tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt> 참고)에 <code>O_NONBLOCK</code> 파일 상태 플래그를 설정한다. 이 플래그를 사용하면 같은 결과를 얻기 위해 <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt>을 추가로 호출하지 않아도 된다.</dd>
 <dt><code>IN_CLOEXEC</code></dt>
-<dd>새 파일 디스크립터에 'exec에서 닫기'(<code>FD_CLOEXEC</code>) 플래그를 설정한다. 이게 유용할 수 있는 이유에 대해선 <tt>[[open(2)]]</tt>의 <code>O_CLOEXEC</code> 플래그 설명을 보라.</dd>
+<dd>새 파일 디스크립터에 'exec에서 닫기'(<code>FD_CLOEXEC</code>) 플래그를 설정한다. 이게 유용할 수 있는 이유에 대해선 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>의 <code>O_CLOEXEC</code> 플래그 설명을 보라.</dd>
 </dl>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 이 시스템 호출들은 새 파일 디스크립터를 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
@@ -186,9 +185,9 @@ int inotify_init1(int flags);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>이 시스템 호출들은 리눅스 전용이다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[inotify_add_watch(2)]]</tt>, <tt>[[inotify_rm_watch(2)]]</tt>, <tt>[[inotify(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/inotify_add_watch(2)/">inotify_add_watch(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/inotify_rm_watch(2)/">inotify_rm_watch(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/inotify(7)/">inotify(7)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2020-04-11</p></div>
         
         
     </div>

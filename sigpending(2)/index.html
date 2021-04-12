@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/sigpending(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/sigpending%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Sigpending(2) - man-pages-ko</title>
+    <title>sigpending(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -152,12 +152,11 @@
 <h2 id="name">NAME</h2>
 <p>sigpending, rt_sigpending - 미처리 시그널 조사하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;signal.h&gt;
+<pre><code class="language-c">#include &lt;signal.h&gt;
 
 int sigpending(sigset_t *set);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>sigpending()</code>:</dt>
 <dd><code>_POSIX_C_SOURCE</code></dd>
@@ -165,22 +164,22 @@ int sigpending(sigset_t *set);
 <h2 id="description">DESCRIPTION</h2>
 <p><code>sigpending()</code>은 호출 스레드로 전달되기를 기다리고 있는 시그널들(즉 차단 상태에서 발생한 시그널들)의 집합을 반환한다. 그 미처리 시그널들의 마스크를 <code>set</code>으로 반환한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p><code>sigpending()</code>은 성공 시 0을 반환하고 오류 시 -1을 반환한다. 오류 때는 원인을 나타내도록 <code>errno</code>를 설정한다.</p>
+<p><code>sigpending()</code>은 성공 시 0을 반환한다. 실패 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008.</p>
 <h2 id="notes">NOTES</h2>
-<p>시그널 집합 조작에 대한 자세한 내용은 <tt>[[sigsetops(3)]]</tt>를 보라.</p>
+<p>시그널 집합 조작에 대한 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/sigsetops(3)/">sigsetops(3)</a></tt>를 보라.</p>
 <p>시그널이 블록 되어 있으면서 처리 방식이 "무시"이면 생성 시 미처리 시그널 마스크에 추가되지 <em>않는다</em>.</p>
-<p>어떤 스레드에 미처리 상태인 시그널들의 집합은 특별히 그 스레드에게 미처리인 시그널들과 프로세스 전체에게 미처리인 시그널들의 합집합이다. <tt>[[signal(7)]]</tt> 참고.</p>
-<p><tt>[[fork(2)]]</tt>를 통해 생성된 자식은 처음에 빈 미처리 시그널 집합을 가지고 있다. <tt>[[execve(2)]]</tt>를 거치면서 미처리 시그널 집합이 보존된다.</p>
+<p>어떤 스레드에 미처리 상태인 시그널들의 집합은 특별히 그 스레드에게 미처리인 시그널들과 프로세스 전체에게 미처리인 시그널들의 합집합이다. <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt> 참고.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt>를 통해 생성된 자식은 처음에 빈 미처리 시그널 집합을 가지고 있다. <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>를 거치면서 미처리 시그널 집합이 보존된다.</p>
 <h3 id="c">C 라이브러리/커널 차이</h3>
 <p>원래 리눅스 시스템 호출의 이름은 <code>sigpending()</code>이었다. 하지만 리눅스 2.2에 실시간 시그널이 추가되면서 그 시스템 호출이 지원하던 고정 크기 32비트 <code>sigset_t</code> 타입이 더는 용도에 맞지 않게 되었다. 그에 따라 확장된 <code>sigset_t</code> 타입을 지원하기 위해 새로운 시스템 호출 <code>rt_sigpending()</code>이 추가되었다. 새 시스템 호출에서 두 번째 인자로 <code>size_t sigsetsize</code>를 받는데, 이는 <code>set</code>의 시그널 집합의 바이트 단위 크기를 나타낸다. glibc의 <code>sigpending()</code> 래퍼 함수에서 이런 세부 사항을 감추고 커널이 제공할 때 투명하게 <code>rt_sigpending()</code>을 호출한다.</p>
 <h2 id="bugs">BUGS</h2>
 <p>glibc 2.2.1까지 버전에서는 <code>sigpending()</code> 래퍼 함수에 버그가 있는데, 미처리 실시간 시그널에 대한 정보가 올바로 반환되지 않는다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[kill(2)]]</tt>, <tt>[[sigaction(2)]]</tt>, <tt>[[signal(2)]]</tt>, <tt>[[sigprocmask(2)]]</tt>, <tt>[[sigsuspend(2)]]</tt>, <tt>[[sigsetops(3)]]</tt>, <tt>[[signal(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/kill(2)/">kill(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigaction(2)/">sigaction(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/signal(2)/">signal(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigprocmask(2)/">sigprocmask(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigsuspend(2)/">sigsuspend(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigsetops(3)/">sigsetops(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

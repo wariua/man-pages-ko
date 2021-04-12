@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/timer_create(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/timer_create%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Timer create(2) - man-pages-ko</title>
+    <title>timer_create(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -145,7 +145,7 @@
         <li class="first-level "><a href="#notes">NOTES</a></li>
             <li class="second-level"><a href="#c">C 라이브러리/커널 차이</a></li>
                 
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
             <li class="second-level"><a href="#_1">프로그램 소스</a></li>
                 
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
@@ -156,15 +156,14 @@
 <h2 id="name">NAME</h2>
 <p>timer_create - POSIX 프로세스별 타이머 만들기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;signal.h&gt;
+<pre><code class="language-c">#include &lt;signal.h&gt;
 #include &lt;time.h&gt;
 
-int timer_create(clockid_t clockid, struct sigevent *sevp,
-                 timer_t *timerid);
+int timer_create(clockid_t clockid, struct sigevent *restrict sevp,
+                 timer_t *restrict timerid);
 </code></pre>
-
 <p><code>-lrt</code>로 링크.</p>
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>timer_create()</code>:</dt>
 <dd><code>_POSIX_C_SOURCE &gt;= 199309L</code></dd>
@@ -187,19 +186,22 @@ int timer_create(clockid_t clockid, struct sigevent *sevp,
 <dd>이 클럭은 <code>CLOCK_REALTIME</code>과 비슷하되 시스템이 절전 대기 상태이면 깨우게 된다. 이 클럭에 대해 타이머를 설정하기 위해선 호출자가 <code>CAP_WAKE_ALARM</code> 역능을 가지고 있어야 한다.</dd>
 <dt><code>CLOCK_BOOTTIME_ALARM</code> (리눅스 3.0부터)</dt>
 <dd>이 클럭은 <code>CLOCK_BOOTTIME</code>과 비슷하되 시스템이 절전 대기 상태이면 깨우게 된다. 이 클럭에 대해 타이머를 설정하기 위해선 호출자가 <code>CAP_WAKE_ALARM</code> 역능을 가지고 있어야 한다.</dd>
+<dt><code>CLOCK_TAI</code> (리눅스 3.10부터)</dt>
+<dd>벽시계 시간에서 파생되었고 윤초를 무시하는 시스템 전역 클럭.</dd>
 </dl>
-<p>위 값들뿐만 아니라 <tt>[[clock_getcpuclockid(3)]]</tt> 내지 <tt>[[pthread_getcpuclockid(3)]]</tt> 호출이 반환한 <code>clockid</code>로도 <code>clockid</code>를 지정할 수 있다.</p>
-<p><code>sevp</code> 인자는 타이머가 만료될 때 호출자가 알림 받는 방법을 나타내는 <code>sigevent</code> 구조체를 가리킨다. 이 구조체의 정의와 일반적 세부 내용은 <tt>[[sigevent(7)]]</tt>를 보라.</p>
+<p>위 클럭들에 대한 좀 더 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/clock_getres(2)/">clock_getres(2)</a></tt>를 보라.</p>
+<p>위 값들뿐만 아니라 <tt><a class="wikilink" href="/man-pages-ko/clock_getcpuclockid(3)/">clock_getcpuclockid(3)</a></tt> 내지 <tt><a class="wikilink" href="/man-pages-ko/pthread_getcpuclockid(3)/">pthread_getcpuclockid(3)</a></tt> 호출이 반환한 <code>clockid</code>로도 <code>clockid</code>를 지정할 수 있다.</p>
+<p><code>sevp</code> 인자는 타이머가 만료될 때 호출자가 알림 받는 방법을 나타내는 <code>sigevent</code> 구조체를 가리킨다. 이 구조체의 정의와 일반적 세부 내용은 <tt><a class="wikilink" href="/man-pages-ko/sigevent(7)/">sigevent(7)</a></tt>를 보라.</p>
 <p><code>sevp.sigev_notify</code> 필드가 다음 값을 가질 수 있다.</p>
 <dl>
 <dt><code>SIGEV_NONE</code></dt>
-<dd>타이머가 만료될 때 비동기적으로 알리지 않는다. <tt>[[timer_gettime(2)]]</tt>을 이용해 타이머의 진행을 확인한다.</dd>
+<dd>타이머가 만료될 때 비동기적으로 알리지 않는다. <tt><a class="wikilink" href="/man-pages-ko/timer_gettime(2)/">timer_gettime(2)</a></tt>을 이용해 타이머의 진행을 확인한다.</dd>
 <dt><code>SIGEV_SIGNAL</code></dt>
-<dd>타이머 만료 시 프로세스에게 시그널 <code>sigev_signo</code>를 생성한다. 일반적 세부 내용은 <tt>[[sigevent(7)]]</tt>를 보라. <code>siginfo_t</code> 구조체의 <code>si_code</code> 필드가 <code>SI_TIMER</code>로 설정된다. 어느 시점이든 어떤 타이머에 대해 프로세스로의 큐에 최대 한 개 시그널이 들어간다. 더 자세한 내용은 <tt>[[timer_getoverrun(2)]]</tt>을 보라.</dd>
+<dd>타이머 만료 시 프로세스에게 시그널 <code>sigev_signo</code>를 생성한다. 일반적 세부 내용은 <tt><a class="wikilink" href="/man-pages-ko/sigevent(7)/">sigevent(7)</a></tt>를 보라. <code>siginfo_t</code> 구조체의 <code>si_code</code> 필드가 <code>SI_TIMER</code>로 설정된다. 어느 시점이든 어떤 타이머에 대해 프로세스로의 큐에 최대 한 개 시그널이 들어간다. 더 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/timer_getoverrun(2)/">timer_getoverrun(2)</a></tt>을 보라.</dd>
 <dt><code>SIGEV_THREAD</code></dt>
-<dd>타이머 만료 시 새 스레드의 시작 함수인 것처럼 <code>sigev_notify_function</code>을 호출한다. 자세한 내용은 <tt>[[sigevent(7)]]</tt>를 보라.</dd>
+<dd>타이머 만료 시 새 스레드의 시작 함수인 것처럼 <code>sigev_notify_function</code>을 호출한다. 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/sigevent(7)/">sigevent(7)</a></tt>를 보라.</dd>
 <dt><code>SIGEV_THREAD_ID</code> (리눅스 한정)</dt>
-<dd><code>SIGEV_SIGNAL</code>과 같되 <code>sigev_notify_thread_id</code>로 준 ID를 가진 스레드가 시그널의 대상이다. 호출자와 같은 프로세스 내의 스레드여야 한다. <code>sigev_notify_thread_id</code> 필드에서는 커널 스레드 ID를, 즉 <tt>[[clone(2)]]</tt>이나 <tt>[[gettid(2)]]</tt>가 반환한 값을 지정한다. 이 플래그는 스레드 라이브러리에서의 사용만을 위한 것이다.</dd>
+<dd><code>SIGEV_SIGNAL</code>과 같되 <code>sigev_notify_thread_id</code>로 준 ID를 가진 스레드가 시그널의 대상이다. 호출자와 같은 프로세스 내의 스레드여야 한다. <code>sigev_notify_thread_id</code> 필드에서는 커널 스레드 ID를, 즉 <tt><a class="wikilink" href="/man-pages-ko/clone(2)/">clone(2)</a></tt>이나 <tt><a class="wikilink" href="/man-pages-ko/gettid(2)/">gettid(2)</a></tt>가 반환한 값을 지정한다. 이 플래그는 스레드 라이브러리에서의 사용만을 위한 것이다.</dd>
 </dl>
 <p><code>sevp</code>를 NULL로 지정하는 것은 <code>sigev_notify</code>가 <code>SIGEV_SIGNAL</code>이고 <code>sigev_signo</code>가 <code>SIGALRM</code>, <code>sigev_value.sival_int</code>가 타이머 ID인 <code>sigevent</code> 구조체에 대한 포인터를 지정하는 것과 동등하다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
@@ -212,6 +214,10 @@ int timer_create(clockid_t clockid, struct sigevent *sevp,
 <dd>클럭 ID나 <code>sigev_notify</code>, <code>sigev_signo</code>, <code>sigev_notify_thread_id</code>가 유효하지 않다.</dd>
 <dt><code>ENOMEM</code></dt>
 <dd>메모리를 할당할 수 없다.</dd>
+<dt><code>ENOTSUP</code></dt>
+<dd>커널에서 이 <code>clockid</code>에 대한 타이머 만들기를 지원하지 않는다.</dd>
+<dt><code>EPERM</code></dt>
+<dd><code>clockid</code>가 <code>CLOCK_REALTIME_ALARM</code> 또는 <code>CLOCK_BOOTTIME_ALARM</code>이었지만 호출자가 <code>CAP_WAKE_ALARM</code> 역능을 가지고 있지 않다.</dd>
 </dl>
 <h2 id="versions">VERSIONS</h2>
 <p>리눅스 2.6부터 이 시스템 호출이 사용 가능하다.</p>
@@ -219,33 +225,33 @@ int timer_create(clockid_t clockid, struct sigevent *sevp,
 <p>POSIX.1-2001, POSIX.1-2008.</p>
 <h2 id="notes">NOTES</h2>
 <p>프로그램에서 <code>timer_create()</code>를 이용해 여러 개의 간격 타이머를 만들 수 있다.</p>
-<p><tt>[[fork(2)]]</tt>의 자식이 타이머를 물려받지 않으며 <tt>[[execve(2)]]</tt> 중에 타이머가 해제 및 삭제된다.</p>
-<p><code>timer_create()</code>를 이용해 만든 각 타이머마다 커널이 "큐에 들어간 실시간 시그널"을 미리 할당한다. 따라서 <code>RLIMIT_SIGPENDING</code> 자원 제한에 의해 타이머 개수가 제한된다 (<tt>[[setrlimit(2)]]</tt> 참고).</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt>의 자식이 타이머를 물려받지 않으며 <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt> 중에 타이머가 해제 및 삭제된다.</p>
+<p><code>timer_create()</code>를 이용해 만든 각 타이머마다 커널이 "큐에 들어간 실시간 시그널"을 미리 할당한다. 따라서 <code>RLIMIT_SIGPENDING</code> 자원 제한에 의해 타이머 개수가 제한된다 (<tt><a class="wikilink" href="/man-pages-ko/setrlimit(2)/">setrlimit(2)</a></tt> 참고).</p>
 <p><code>timer_create()</code>로 만든 타이머를 보통 "POSIX (간격) 타이머"라고 한다. POSIX 타이머 API는 다음 인터페이스들로 이뤄져 있다.</p>
 <ul>
 <li>
 <p><code>timer_create()</code>: 타이머 만들기.</p>
 </li>
 <li>
-<p><tt>[[timer_settime(2)]]</tt>: 타이머를 장전(시작)하거나 해제(정지)하기.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/timer_settime(2)/">timer_settime(2)</a></tt>: 타이머를 장전(시작)하거나 해제(정지)하기.</p>
 </li>
 <li>
-<p><tt>[[timer_gettime(2)]]</tt>: 타이머 다음 만료까지 남은 시간과 타이머 간격 설정 가져오기.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/timer_gettime(2)/">timer_gettime(2)</a></tt>: 타이머 다음 만료까지 남은 시간과 타이머 간격 설정 가져오기.</p>
 </li>
 <li>
-<p><tt>[[timer_getoverrun(2)]]</tt>: 최근 타이머 만료에 대해 초과 횟수 반환하기.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/timer_getoverrun(2)/">timer_getoverrun(2)</a></tt>: 최근 타이머 만료에 대해 초과 횟수 반환하기.</p>
 </li>
 <li>
-<p><tt>[[timer_delete(2)]]</tt>: 타이머를 해제하고 삭제하기.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/timer_delete(2)/">timer_delete(2)</a></tt>: 타이머를 해제하고 삭제하기.</p>
 </li>
 </ul>
-<p>리눅스 3.10부터는 <code>/proc/[pid]/timers</code> 파일을 이용해 PID가 <code>pid</code>인 프로세스의 POSIX 타이머들을 나열할 수 있다. 더 많은 정보는 <tt>[[proc(5)]]</tt>을 보라.</p>
+<p>리눅스 3.10부터는 <code>/proc/[pid]/timers</code> 파일을 이용해 PID가 <code>pid</code>인 프로세스의 POSIX 타이머들을 나열할 수 있다. 더 많은 정보는 <tt><a class="wikilink" href="/man-pages-ko/proc(5)/">proc(5)</a></tt>을 보라.</p>
 <p>리눅스 4.10부터는 POSIX 타이머 지원이 구성 가능 옵션이며 기본적으로 켜져 있다. <code>CONFIG_POSIX_TIMERS</code> 옵션을 통해 커널 지원을 끌 수 있다.</p>
 <h3 id="c">C 라이브러리/커널 차이</h3>
 <p>POSIX 타이머 API의 구현 일부를 glibc에서 제공한다. 구체적으로 다음과 같다.</p>
 <ul>
 <li>
-<p><code>SIGEV_THREAD</code>의 기능성 상당 부분이 커널이 아니라 glibc에 구현되어 있다. (알림을 다루는 데 관련된 스레드가 C 라이브러리의 POSIX 스레드 구현에서 관리해야 하는 스레드이므로 그럴 수밖에 없다.) 프로세스로 알림이 전달되는 것은 스레드를 통해서이지만 내부적으로 NPTL 구현에서는 <code>sigev_notify</code> 값을 <code>SIGEV_THREAD_ID</code>로 하고 구현에서 예약해 둔 실시간 시그널을 이용한다 (<tt>[[nptl(7)]]</tt> 참고).</p>
+<p><code>SIGEV_THREAD</code>의 기능성 상당 부분이 커널이 아니라 glibc에 구현되어 있다. (알림을 다루는 데 관련된 스레드가 C 라이브러리의 POSIX 스레드 구현에서 관리해야 하는 스레드이므로 그럴 수밖에 없다.) 프로세스로 알림이 전달되는 것은 스레드를 통해서이지만 내부적으로 NPTL 구현에서는 <code>sigev_notify</code> 값을 <code>SIGEV_THREAD_ID</code>로 하고 구현에서 예약해 둔 실시간 시그널을 이용한다 (<tt><a class="wikilink" href="/man-pages-ko/nptl(7)/">nptl(7)</a></tt> 참고).</p>
 </li>
 <li>
 <p><code>evp</code>가 NULL인 기본 경우 구현을 glibc 내에서 다룬다. 적절히 채운 <code>sigevent</code> 구조체로 기반 시스템 호출을 부른다.</p>
@@ -255,10 +261,10 @@ int timer_create(clockid_t clockid, struct sigevent *sevp,
 </li>
 </ul>
 <p>리눅스 2.6에서 POSIX 타이머 시스템 호출이 처음 등장했다. 그 전에 glibc에서 POSIX 스레드를 이용해 불완전한 사용자 공간 구현을 (<code>CLOCK_REALTIME</code> 타이머만) 제공하였으며 glibc 버전 2.17 전의 구현에서는 2.6 전 리눅스 커널을 돌리는 시스템에서 이 기법에 의지한다.</p>
-<h2 id="example">EXAMPLE</h2>
+<h2 id="examples">EXAMPLES</h2>
 <p>아래 프로그램은 두 가지 인자를 받는다. 초 단위의 sleep 주기와 나노초 단위의 타이머 빈도이다. 프로그램이 타이머에 사용하는 시그널의 핸들러를 설정하고, 그 시그널을 차단하고, 주어진 빈도로 만료되는 타이머를 만들어서 장전하고, 지정한 초 동안 잠들고, 마지막으로 타이머 시그널 차단을 푼다. 프로그램이 잠들었던 동안 타이머가 최소 한 번은 만료되었다고 하면 시그널 핸들러가 호출될 것이고 핸들러에서 타이머 알림에 대한 몇 가지 정보를 표시한다. 시그널 핸들러가 한 번 호출된 후에는 프로그램이 종료된다.</p>
 <p>다음 실행 예에서 프로그램은 100나노초 빈도로 타이머를 만든 다음 1초 동안 잠든다. 시그널 차단이 풀려서 전달되는 시점까지 천만 번 정도의 초과가 있었다.</p>
-<pre><code class="text">$ ./a.out 1 100
+<pre><code class="language-text">$ ./a.out 1 100
 Establishing handler for signal 34
 Blocking signal 34
 timer ID is 0x804c008
@@ -268,9 +274,9 @@ Caught signal 34
     sival_ptr = 0xbfb174f4;     *sival_ptr = 0x804c008
     overrun count = 10004886
 </code></pre>
-
 <h3 id="_1">프로그램 소스</h3>
-<pre><code class="c">#include &lt;stdlib.h&gt;
+<pre><code class="language-c">#include &lt;stdint.h&gt;
+#include &lt;stdlib.h&gt;
 #include &lt;unistd.h&gt;
 #include &lt;stdio.h&gt;
 #include &lt;signal.h&gt;
@@ -291,7 +297,7 @@ print_siginfo(siginfo_t *si)
     tidp = si-&gt;si_value.sival_ptr;
 
     printf(&quot;    sival_ptr = %p; &quot;, si-&gt;si_value.sival_ptr);
-    printf(&quot;    *sival_ptr = 0x%lx\n&quot;, (long) *tidp);
+    printf(&quot;    *sival_ptr = %#jx\n&quot;, (uintmax_t) *tidp);
 
     or = timer_getoverrun(*tidp);
     if (or == -1)
@@ -330,7 +336,7 @@ main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    /* 타이머 시그널 핸들러 설정 */
+    /* 타이머 시그널 핸들러 설정하기. */
 
     printf(&quot;Establishing handler for signal %d\n&quot;, SIG);
     sa.sa_flags = SA_SIGINFO;
@@ -339,7 +345,7 @@ main(int argc, char *argv[])
     if (sigaction(SIG, &amp;sa, NULL) == -1)
         errExit(&quot;sigaction&quot;);
 
-    /* 잠시 타이머 시그널 차단 */
+    /* 잠시 타이머 시그널 차단하기. */
 
     printf(&quot;Blocking signal %d\n&quot;, SIG);
     sigemptyset(&amp;mask);
@@ -347,7 +353,7 @@ main(int argc, char *argv[])
     if (sigprocmask(SIG_SETMASK, &amp;mask, NULL) == -1)
         errExit(&quot;sigprocmask&quot;);
 
-    /* 타이머 생성 */
+    /* 타이머 생성하기. */
 
     sev.sigev_notify = SIGEV_SIGNAL;
     sev.sigev_signo = SIG;
@@ -355,9 +361,9 @@ main(int argc, char *argv[])
     if (timer_create(CLOCKID, &amp;sev, &amp;timerid) == -1)
         errExit(&quot;timer_create&quot;);
 
-    printf(&quot;timer ID is 0x%lx\n&quot;, (long) timerid);
+    printf(&quot;timer ID is %#jx\n&quot;, (uintmax_t) timerid);
 
-    /* 타이머 시작 */
+    /* 타이머 시작하기. */
 
     freq_nanosecs = atoll(argv[2]);
     its.it_value.tv_sec = freq_nanosecs / 1000000000;
@@ -369,13 +375,13 @@ main(int argc, char *argv[])
          errExit(&quot;timer_settime&quot;);
 
     /* 잠깐 눈 붙이기. 그 동안 타이머가 여러 번
-       만료될 수 있음 */
+       만료될 수 있다. */
 
     printf(&quot;Sleeping for %d seconds\n&quot;, atoi(argv[1]));
     sleep(atoi(argv[1]));
 
     /* 타이머 시그널 차단을 풀어서 타이머 알림이
-       전달될 수 있게 함 */
+       전달될 수 있게 하기. */
 
     printf(&quot;Unblocking signal %d\n&quot;, SIG);
     if (sigprocmask(SIG_UNBLOCK, &amp;mask, NULL) == -1)
@@ -384,11 +390,10 @@ main(int argc, char *argv[])
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[clock_gettime(2)]]</tt>, <tt>[[setitimer(2)]]</tt>, <tt>[[timer_delete(2)]]</tt>, <tt>[[timer_getoverrun(2)]]</tt>, <tt>[[timer_settime(2)]]</tt>, <tt>[[timerfd_create(2)]]</tt>, <tt>[[clock_getcpuclockid(3)]]</tt>, <tt>[[pthread_getcpuclockid(3)]]</tt>, <tt>[[pthreads(7)]]</tt>, <tt>[[sigevent(7)]]</tt>, <tt>[[signal(7)]]</tt>, <tt>[[time(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/clock_gettime(2)/">clock_gettime(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/setitimer(2)/">setitimer(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/timer_delete(2)/">timer_delete(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/timer_getoverrun(2)/">timer_getoverrun(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/timer_settime(2)/">timer_settime(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/timerfd_create(2)/">timerfd_create(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/clock_getcpuclockid(3)/">clock_getcpuclockid(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_getcpuclockid(3)/">pthread_getcpuclockid(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthreads(7)/">pthreads(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigevent(7)/">sigevent(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/time(7)/">time(7)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

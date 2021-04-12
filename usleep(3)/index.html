@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/usleep(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/usleep%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Usleep(3) - man-pages-ko</title>
+    <title>usleep(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -151,12 +151,11 @@
 <h2 id="name">NAME</h2>
 <p>usleep - 마이크로초 단위 시간 동안 실행을 멈추기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;unistd.h&gt;
+<pre><code class="language-c">#include &lt;unistd.h&gt;
 
 int usleep(useconds_t usec);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>usleep()</code></dt>
 <dd>
@@ -164,7 +163,7 @@ int usleep(useconds_t usec);
 <dt>glibc 2.12부터:</dt>
 <dd><code>(_XOPEN_SOURCE &gt;= 500) &amp;&amp; ! (_POSIX_C_SOURCE &gt;= 200809L)</code><br>
 <code>|| /* glibc 2.19부터: */ _DEFAULT_SOURCE</code><br>
-<code>|| /* glibc 버전 &lt;= 2.19: */ _BSD_SOURCE</code></dd>
+<code>|| /* glibc &lt;= 2.19: */ _BSD_SOURCE</code></dd>
 <dt>glibc 2.12 전:</dt>
 <dd><code>_BSD_SOURCE || _XOPEN_SOURCE &gt;= 500</code></dd>
 </dl>
@@ -173,16 +172,16 @@ int usleep(useconds_t usec);
 <h2 id="description">DESCRIPTION</h2>
 <p><code>usleep()</code> 함수는 (적어도) <code>usec</code> 마이크로초 동안 호출 스레드의 실행을 멈춘다. 어떤 시스템 활동이나 호출 처리에 소모된 시간에 의해, 또는 시스템 타이머 정밀도에 따라 잠드는 시간이 살짝 길어질 수도 있다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p><code>usleep()</code> 함수는 성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류 원인을 나타내도록 <code>errno</code>를 설정한다.</p>
+<p><code>usleep()</code> 함수는 성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EINTR</code></dt>
-<dd>시그널에 의해 중단됨. <tt>[[signal(7)]]</tt> 참고.</dd>
+<dd>시그널에 의해 중단됨. <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt> 참고.</dd>
 <dt><code>EINVAL</code></dt>
 <dd><code>usec</code>이 1000000 이상이다. (그게 오류라고 보는 시스템에서.)</dd>
 </dl>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -200,23 +199,22 @@ int usleep(useconds_t usec);
 </tbody>
 </table>
 <h2 id="conforming-to">CONFORMING TO</h2>
-<p>4.3BSD, POSIX.1-2001. POSIX.1-2001에서 이 함수를 구식으로 선언했다. 대신 <tt>[[nanosleep(2)]]</tt>을 쓰면 된다. POSIX.1-2008에서 <code>usleep()</code> 명세를 제거했다.</p>
+<p>4.3BSD, POSIX.1-2001. POSIX.1-2001에서 이 함수를 구식으로 선언했다. 대신 <tt><a class="wikilink" href="/man-pages-ko/nanosleep(2)/">nanosleep(2)</a></tt>을 사용하라. POSIX.1-2008에서 <code>usleep()</code> 명세를 제거했다.</p>
 <p>원래 BSD 구현에서, 그리고 glibc 버전 2.2.2 전에서는 이 함수의 반환 타입이 <code>void</code>이다. POSIX 버전은 <code>int</code>를 반환하는데 glibc 2.2.2부터 쓰는 원형이기도 하다.</p>
 <p>SUSv2 및 POSIX.1-2001에서는 <code>EINVAL</code> 오류만 기록돼 있다.</p>
 <h2 id="notes">NOTES</h2>
 <p><code>useconds_t</code> 타입은 [0,1000000] 범위의 정수를 담을 수 있는 부호 없는 정수 타입이다. 프로그램에서 이 타입을 명시적으로 쓰지 않는 쪽이 이식성이 나을 것이다. 즉 다음과 같이 쓰면 된다.</p>
-<pre><code class="c">#include &lt;unistd.h&gt;
+<pre><code class="language-c">#include &lt;unistd.h&gt;
 ...
     unsigned int usecs;
 ...
     usleep(usecs);
 </code></pre>
-
-<p>이 함수와 <code>SIGALARM</code> 시그널과의 상호작용, 그리고 <tt>[[alarm(2)]]</tt>, <tt>[[sleep(3)]]</tt>, <tt>[[nanosleep(2)]]</tt>, <tt>[[setitimer(2)]]</tt>, <tt>[[timer_create(2)]]</tt>, <tt>[[timer_delete(2)]]</tt>, <tt>[[timer_getoverrun(2)]]</tt>, <tt>[[timer_gettime(2)]]</tt>, <tt>[[timer_settime(2)]]</tt>, <tt>[[ualarm(3)]]</tt> 같은 여타 타이머 함수와의 상호작용은 명세돼 있지 않다.</p>
+<p>이 함수와 <code>SIGALARM</code> 시그널과의 상호작용, 그리고 <tt><a class="wikilink" href="/man-pages-ko/alarm(2)/">alarm(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sleep(3)/">sleep(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/nanosleep(2)/">nanosleep(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/setitimer(2)/">setitimer(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/timer_create(2)/">timer_create(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/timer_delete(2)/">timer_delete(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/timer_getoverrun(2)/">timer_getoverrun(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/timer_gettime(2)/">timer_gettime(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/timer_settime(2)/">timer_settime(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ualarm(3)/">ualarm(3)</a></tt> 같은 여타 타이머 함수와의 상호작용은 명세돼 있지 않다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[alarm(2)]]</tt>, <tt>[[getitimer(2)]]</tt>, <tt>[[nanosleep(2)]]</tt>, <tt>[[select(2)]]</tt>, <tt>[[setitimer(2)]]</tt>, <tt>[[sleep(3)]]</tt>, <tt>[[ualarm(3)]]</tt>, <tt>[[time(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/alarm(2)/">alarm(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/getitimer(2)/">getitimer(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/nanosleep(2)/">nanosleep(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/select(2)/">select(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/setitimer(2)/">setitimer(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sleep(3)/">sleep(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ualarm(3)/">ualarm(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/time(7)/">time(7)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

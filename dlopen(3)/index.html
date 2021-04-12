@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/dlopen(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/dlopen%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Dlopen(3) - man-pages-ko</title>
+    <title>dlopen(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -156,7 +156,7 @@
             <li class="second-level"><a href="#_2">역사</a></li>
                 
         <li class="first-level "><a href="#bugs">BUGS</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
             <li class="second-level"><a href="#_3">프로그램 소스</a></li>
                 
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
@@ -167,7 +167,7 @@
 <h2 id="name">NAME</h2>
 <p>dlclose, dlopen, dlmopen - 공유 오브젝트 열고 닫기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;dlfcn.h&gt;
+<pre><code class="language-c">#include &lt;dlfcn.h&gt;
 
 void *dlopen(const char *filename, int flags);
 
@@ -176,23 +176,22 @@ int dlclose(void *handle);
 #define _GNU_SOURCE
 #include &lt;dlfcn.h&gt;
 
-void *dlmopen (Lmid_t lmid, const char *filename, int flags);
+void *dlmopen(Lmid_t lmid, const char *filename, int flags);
 </code></pre>
-
 <p><code>-ldl</code>로 링크.</p>
 <h2 id="description">DESCRIPTION</h2>
 <h3 id="dlopen"><code>dlopen()</code></h3>
-<p><code>dlopen()</code> 함수는 널 종료 문자열 <code>filename</code>이 가리키는 동적 공유 오브젝트(공유 라이브러리)를 적재하고 적재된 오브젝트에 대한 불투명한 "핸들"을 반환한다. 그 핸들을 dlopen API의 <tt>[[dlsym(3)]]</tt>, <tt>[[dladdr(3)]]</tt>, <tt>[[dlinfo(3)]]</tt>, <code>dlclose()</code> 같은 다른 함수들에 쓴다.</p>
-<p><code>filename</code>이 NULL이면 주 프로그램에 대한 핸들을 반환한다. <code>filename</code>에 슬래시("/")가 있으면 (상대 또는 절대) 경로명으로 해석한다. 아니면 동적 링커가 다음처럼 오브젝트를 탐색한다. (더 자세한 내용은 <tt>[[ld.so(8)]]</tt> 참고.)</p>
+<p><code>dlopen()</code> 함수는 널 종료 문자열 <code>filename</code>이 가리키는 동적 공유 오브젝트(공유 라이브러리)를 적재하고 적재된 오브젝트에 대한 불투명한 "핸들"을 반환한다. 그 핸들을 dlopen API의 <tt><a class="wikilink" href="/man-pages-ko/dlsym(3)/">dlsym(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/dladdr(3)/">dladdr(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/dlinfo(3)/">dlinfo(3)</a></tt>, <code>dlclose()</code> 같은 다른 함수들에 쓴다.</p>
+<p><code>filename</code>이 NULL이면 주 프로그램에 대한 핸들을 반환한다. <code>filename</code>에 슬래시("/")가 있으면 (상대 또는 절대) 경로명으로 해석한다. 아니면 동적 링커가 다음처럼 오브젝트를 탐색한다. (더 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/ld.so(8)/">ld.so(8)</a></tt> 참고.)</p>
 <ul>
 <li>
-<p>(ELF 한정) 호출하는 프로그램의 실행 파일에 DT_RPATH 태그가 있으면서 DT_RUNPATH 태그는 없으면 그 DT_RPATH 태그에 나열된 디렉터리들을 탐색한다.</p>
+<p>(ELF 한정) 호출 오브젝트(즉 <code>dlopen()</code>을 호출한 공유 라이브러리 또는 실행 파일)에 DT_RPATH 태그가 있으면서 DT_RUNPATH 태그는 없으면 그 DT_RPATH 태그에 나열된 디렉터리들을 탐색한다.</p>
 </li>
 <li>
 <p>프로그램 시작 시점에 콤마 구분 디렉터리 목록을 담은 환경 변수 <code>LD_LIBRARY_PATH</code>가 정의돼 있었으면 그 디렉터리들을 탐색한다. (보안을 위해 set-user-ID 및 set-group-ID 프로그램에 대해선 이 변수를 무시한다.)</p>
 </li>
 <li>
-<p>(ELF 한정) 호출하는 프로그램의 실행 파일에 DT_RUNPATH가 있으면 그 태그에 나열된 디렉터리들을 탐색한다.</p>
+<p>(ELF 한정) 호출 오브젝트에 DT_RUNPATH가 있으면 그 태그에 나열된 디렉터리들을 탐색한다.</p>
 </li>
 <li>
 <p>(<code>ldconfig(8)</code>로 관리하는) 캐시 파일 <code>/etc/ld.so.cache</code>를 확인해서 <code>filename</code>에 대한 항목이 있는지 본다.</p>
@@ -222,7 +221,7 @@ void *dlmopen (Lmid_t lmid, const char *filename, int flags);
 <dt><code>RTLD_DEEPBIND</code> (glibc 2.3.4부터)</dt>
 <dd>이 공유 오브젝트 내 심볼들에 대한 탐색 기회를 전역보다 우선시한다. 즉 오브젝트 자체에 심볼 정의가 있다면 이미 적재된 다른 오브젝트에 담긴 같은 이름의 전역 심볼 대신 자기 심볼을 쓰게 된다는 것이다.</dd>
 </dl>
-<p><code>filename</code>이 NULL이면 주 프로그램에 대한 핸들을 반환한다. 그 핸들을 <tt>[[dlsym(3)]]</tt>에 주면 먼저 메인 프로그램에서 심볼을 찾아보고, 다음은 프로그램 시작 때 적재한 공유 오브젝트들 전체에서, 그리고 다음으로 <code>RTLD_GLOBAL</code> 플래그를 써서 <code>dlopen()</code>으로 적재한 공유 오브젝트들 전체에서 탐색한다.</p>
+<p><code>filename</code>이 NULL이면 주 프로그램에 대한 핸들을 반환한다. 그 핸들을 <tt><a class="wikilink" href="/man-pages-ko/dlsym(3)/">dlsym(3)</a></tt>에 주면 먼저 메인 프로그램에서 심볼을 찾아보고, 다음은 프로그램 시작 때 적재한 공유 오브젝트들 전체에서, 그리고 다음으로 <code>RTLD_GLOBAL</code> 플래그를 써서 <code>dlopen()</code>으로 적재한 공유 오브젝트들 전체에서 탐색한다.</p>
 <p>공유 오브젝트 내 심볼 참조 결정은 메인 프로그램 및 의존 대상들을 위해 적재한 오브젝트들의 링크 맵에 있는 심볼, 앞서 <code>RTLD_GLOBAL</code>을 쓴 <code>dlopen()</code>으로 연 공유 오브젝트(와 의존 대상들)의 심볼, 공유 오브젝트 자체(와 그 오브젝트를 위해 적재된 의존 대상들) 내의 정의를 차례로 이용해 이뤄진다.</p>
 <p>실행 파일의 전역 심볼 중에 <code>ld(1)</code>에서 동적 심볼 테이블에 집어넣은 게 있으면 마찬가지로 동적 적재 공유 오브젝트의 참조 결정에 이용될 수 있다. 심볼이 동적 심볼 테이블에 들어가는 건 실행 파일을 "-rdynamic" (또는 같은 의미의 "--export-dynamic") 플래그로 링크해서일 수도 있고 (그 경우 실행 파일의 전역 심볼 모두가 동적 심볼 테이블에 들어간다.) <code>ld(1)</code>가 정적 링크 중에 다른 오브젝트에 있는 심볼에 대한 의존성에 주목해서일 수도 있다.</p>
 <p><code>dlopen()</code>으로 같은 공유 오브젝트를 다시 열면 같은 오브젝트 핸들이 반환된다. 동적 링커에서 오브젝트 핸들별로 참조 카운트를 관리해서 성공적으로 <code>dlopen()</code> 한 횟수만큼 <code>dlclose()</code>를 호출할 때까지는 동적 적재 공유 오브젝트가 해제되지 않도록 한다. 생성자(아래 참고)도 오브젝트가 실제 메모리로 적재될 때만 (즉 참조 카운트가 1로 증가할 때만) 호출된다.</p>
@@ -231,7 +230,7 @@ void *dlmopen (Lmid_t lmid, const char *filename, int flags);
 <h3 id="dlmopen"><code>dlmopen()</code></h3>
 <p>이 함수는 아래에 적은 차이점들을 제외하면 <code>dlopen()</code>과 같은 작업을 수행하며 <code>filename</code>과 <code>flags</code> 인자뿐 아니라 반환 값이 동일하다.</p>
 <p><code>dlmopen()</code> 함수가 <code>dlopen()</code>과 다른 점은 추가 인자 <code>lmid</code>가 있어서 공유 오브젝트를 적재해야 할 링크 맵 리스트(<em>네임스페이스</em>라고도 부름)를 지정한다는 것이다. (반면 <code>dlopen()</code>에서는 동적으로 적재한 공유 오브젝트를 <code>dlopen()</code> 호출을 한 공유 오브젝트와 같은 네임스페이스에 추가한다.) <code>Lmid_t</code> 타입은 네임스페이스를 가리키는 불투명한 핸들이다.</p>
-<p><code>lmid</code> 인자는 기존 네임스페이스의 ID(<tt>[[dlinfo(3)]]</tt> <code>RTLD_DI_DMID</code> 요청으로 얻을 수 있음)이거나 다음 특수 값들 중 하나이다.</p>
+<p><code>lmid</code> 인자는 기존 네임스페이스의 ID(<tt><a class="wikilink" href="/man-pages-ko/dlinfo(3)/">dlinfo(3)</a></tt> <code>RTLD_DI_DMID</code> 요청으로 얻을 수 있음)이거나 다음 특수 값들 중 하나이다.</p>
 <dl>
 <dt><code>LM_ID_BASE</code></dt>
 <dd>최초 네임스페이스에 (즉 응용의 네임스페이스에) 공유 오브젝트를 적재한다.</dd>
@@ -247,11 +246,11 @@ void *dlmopen (Lmid_t lmid, const char *filename, int flags);
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 <code>dlopen()</code>과 <code>dlmopen()</code>은 적재된 오브젝트에 대한 NULL 아닌 핸들을 반환한다. 오류 시 (파일을 찾을 수 없거나, 읽을 수 없거나, 형식이 틀리거나, 적재 중 오류가 생겼으면) 이 함수들은 NULL을 반환한다.</p>
 <p>성공 시 <code>dlclose()</code>는 0을 반환한다. 오류 시 0 아닌 값을 반환한다.</p>
-<p>이 함수들이 반환한 오류를 <tt>[[dlerror(3)]]</tt>로 진단할 수 있다.</p>
+<p>이 함수들이 반환한 오류를 <tt><a class="wikilink" href="/man-pages-ko/dlerror(3)/">dlerror(3)</a></tt>로 진단할 수 있다.</p>
 <h2 id="versions">VERSIONS</h2>
 <p>glibc 2.0 및 이후에 <code>dlopen()</code>과 <code>dlclose()</code>가 있다. glibc 2.3.4에서 <code>dlmopen()</code>이 처음 등장했다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -282,20 +281,19 @@ void *dlmopen (Lmid_t lmid, const char *filename, int flags);
 <p>공유 오브젝트에서 함수 속성 <code>__attribute__((constructor))</code>와 <code>__attribute__((destructor))</code>를 써서 함수를 내보일 수 있다. 생성자 함수는 <code>dlopen()</code> 반환 전에 실행되고 소멸자 함수는 <code>dlclose()</code> 반환 전에 실행된다. 한 공유 오브젝트에서 생성자와 소멸자를 여러 개 내보일 수 있으며 각 함수에 우선순위를 연계해서 실행 순서를 정할 수도 있다. 더 자세한 내용은 <code>gcc</code> 인포 페이지("Function attributes")를 보라.</p>
 <p>같은 결과를 (불완전하게) 얻는 구식 방법은 링커에서 인식하는 특수 심볼 <code>_init</code>과 <code>_fini</code>를 쓰는 것이었다. 동적 적재 공유 오브젝트에서 이름이 <code>_init()</code>인 루틴을 내보이면 공유 오브젝트 적재 후 <code>dlopen()</code> 반환 전에 그 코드가 실행된다. 또 공유 오브젝트에서 이름이 <code>_fini()</code>인 루틴을 내보이면 오브젝트를 내리기 바로 전에 그 루틴이 호출된다. 이 경우에 이 함수들의 기본 버전을 담고 있는 시스템 개시 파일들을 링크하지 않도록 해야 한다. <code>gcc(1)</code>의 명령행 옵션 <code>-nostartfiles</code>를 쓰면 된다.</p>
 <p><code>_init</code>과 <code>_fini</code>를 사용하는 방식은 현재 폐기 예정 상태이며 대신 앞서 언급한 생성자와 소멸자를 써야 한다. 여러 장점이 있으며 무엇보다 초기화 및 마무리 함수를 여러 개 정의할 수 있다.</p>
-<p>glibc 2.2.3부터 <tt>[[atexit(3)]]</tt>를 이용해 공유 오브젝트가 내려갈 때 자동으로 호출되는 종료 핸들러를 등록할 수 있다.</p>
+<p>glibc 2.2.3부터 <tt><a class="wikilink" href="/man-pages-ko/atexit(3)/">atexit(3)</a></tt>를 이용해 공유 오브젝트가 내려갈 때 자동으로 호출되는 종료 핸들러를 등록할 수 있다.</p>
 <h3 id="_2">역사</h3>
 <p>이 함수들이 포함된 dlopen API는 SunOS에서 유래한 것이다.</p>
 <h2 id="bugs">BUGS</h2>
 <p>glibc 2.24 현재 <code>dlmopen()</code> 호출 시 <code>RTLD_GLOBAL</code> 플래그를 지정하면 오류가 발생한다. 또한 최초 네임스페이스 아닌 네임스페이스에 적재된 오브젝트에서 <code>dlopen()</code>을 호출하면서 <code>RTLD_GLOBAL</code>을 지정하면 프로그램 크래시(<code>SIGSEGV</code>)가 발생한다.</p>
-<h2 id="example">EXAMPLE</h2>
+<h2 id="examples">EXAMPLES</h2>
 <p>아래 프로그램은 (glibc) 수학 라이브러리를 적재한 다음 <code>cos(3)</code> 함수 주소를 알아내서 코사인 2.0을 찍는다. 다음은 프로그램 빌드 및 실행 예이다.</p>
-<pre><code class="text">$ cc dlopen_demo.c -ldl
+<pre><code class="language-text">$ cc dlopen_demo.c -ldl
 $ ./a.out
 -0.416147
 </code></pre>
-
 <h3 id="_3">프로그램 소스</h3>
-<pre><code class="c">#include &lt;stdio.h&gt;
+<pre><code class="language-c">#include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
 #include &lt;dlfcn.h&gt;
 #include &lt;gnu/lib-names.h&gt;  /* LIBM_SO 정의 (&quot;libm.so.6&quot; 같은 문자열) */
@@ -326,11 +324,11 @@ main(void)
        이 (어색한) 캐스팅은 ISO C 표준을 준수하는 것이면서
        컴파일러 경고가 나오지 않게 해 준다.
 
-       POSIX.1-2008의 2013년판 기술 정오표(소위 POSIX.1-2013)에서는
-       준수 구현체가 'void *'와 함수 포인터 사이 캐스팅을 지원해야
-       한다고 요구하는 것으로 상황을 개선했다. 그럼에도 불구하고
-       일부 컴파일러들은 (가령 gcc에 '-pedantic' 옵션을 쓰면)
-       이 프로그램에서 쓴 캐스팅에 대해 뭐라 뭐라 할 수도 있다. */
+       POSIX.1-2008의 2013년판 기술 정오표 1에서는 준수 구현체가
+       'void *'와 함수 포인터 사이 캐스팅을 지원해야 한다고
+       요구하는 것으로 상황을 개선했다. 그럼에도 불구하고 일부
+       컴파일러들은 (가령 gcc에 '-pedantic' 옵션을 쓰면) 이
+       프로그램에서 쓴 캐스팅에 대해 뭐라 뭐라 할 수도 있다. */
 
     error = dlerror();
     if (error != NULL) {
@@ -343,12 +341,11 @@ main(void)
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>ld(1)</code>, <code>ldd(1)</code>, <code>pldd(1)</code>, <tt>[[dl_iterate_phdr(3)]]</tt>, <tt>[[dladdr(3)]]</tt>, <tt>[[dlerror(3)]]</tt>, <tt>[[dlinfo(3)]]</tt>, <tt>[[dlsym(3)]]</tt>, <tt>[[rtld-audit(7)]]</tt>, <tt>[[ld.so(8)]]</tt>, <code>ldconfig(8)</code></p>
+<p><code>ld(1)</code>, <code>ldd(1)</code>, <code>pldd(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/dl_iterate_phdr(3)/">dl_iterate_phdr(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/dladdr(3)/">dladdr(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/dlerror(3)/">dlerror(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/dlinfo(3)/">dlinfo(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/dlsym(3)/">dlsym(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/rtld-audit(7)/">rtld-audit(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ld.so(8)/">ld.so(8)</a></tt>, <code>ldconfig(8)</code></p>
 <p>gcc info 페이지, ld info 페이지</p>
 <hr />
-<p>2019-08-02</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

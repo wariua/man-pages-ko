@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_sigmask(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_sigmask%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Pthread sigmask(3) - man-pages-ko</title>
+    <title>pthread_sigmask(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -143,7 +143,7 @@
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
             <li class="second-level"><a href="#_1">프로그램 소스</a></li>
                 
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
@@ -154,26 +154,25 @@
 <h2 id="name">NAME</h2>
 <p>pthread_sigmask - 블록 된 시그널 마스크 조사하고 바꾸기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;signal.h&gt;
+<pre><code class="language-c">#include &lt;signal.h&gt;
 
 int pthread_sigmask(int how, const sigset_t *set, sigset_t *oldset);
 </code></pre>
-
 <p><code>-pthread</code>로 컴파일 및 링크.</p>
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>pthread_sigmask()</code>:</dt>
 <dd><code>_POSIX_C_SOURCE &gt;= 199506L || _XOPEN_SOURCE &gt;= 500</code></dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>pthread_sigmask()</code> 함수는 <tt>[[sigprocmask(2)]]</tt>와 비슷하되 다중 스레드 프로그램에서의 사용을 POSIX.1에서 명시적으로 명세하고 있다는 차이가 있다. 다른 차이점들을 이 페이지에서 언급한다.</p>
-<p>이 함수의 인자와 동작에 대한 설명은 <tt>[[sigprocmask(2)]]</tt>를 보라.</p>
+<p><code>pthread_sigmask()</code> 함수는 <tt><a class="wikilink" href="/man-pages-ko/sigprocmask(2)/">sigprocmask(2)</a></tt>와 비슷하되 다중 스레드 프로그램에서의 사용을 POSIX.1에서 명시적으로 명세하고 있다는 차이가 있다. 다른 차이점들을 이 페이지에서 언급한다.</p>
+<p>이 함수의 인자와 동작에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/sigprocmask(2)/">sigprocmask(2)</a></tt>를 보라.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 <code>pthread_sigmask()</code>는 0을 반환한다. 오류 시 오류 번호를 반환한다.</p>
 <h2 id="errors">ERRORS</h2>
-<p><tt>[[sigprocmask(2)]]</tt> 참고.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/sigprocmask(2)/">sigprocmask(2)</a></tt> 참고.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -194,10 +193,10 @@ int pthread_sigmask(int how, const sigset_t *set, sigset_t *oldset);
 <p>POSIX.1-2001, POSIX.1-2008.</p>
 <h2 id="notes">NOTES</h2>
 <p>새 스레드는 생성자의 시그널 마스크 사본을 물려받는다.</p>
-<p>glibc의 <code>pthread_sigmask()</code> 함수에서는 NPTL 스레딩 구현 내부에서 쓰는 두 가지 실시간 시그널을 막으려는 시도를 조용히 무시한다. 자세한 내용은 <tt>[[nptl(7)]]</tt>을 보라.</p>
-<h2 id="example">EXAMPLE</h2>
-<p>아래 프로그램에서는 주 스레드에서 몇 가지 시그널들을 막고 나서 <tt>[[sigwait(3)]]</tt>을 통해 그 시그널들을 가져오는 전용 스레드를 만든다. 다음 셸 세션이 사용 방식을 보여 준다.</p>
-<pre><code class="text">$ ./a.out &amp;
+<p>glibc의 <code>pthread_sigmask()</code> 함수에서는 NPTL 스레딩 구현 내부에서 쓰는 두 가지 실시간 시그널을 막으려는 시도를 조용히 무시한다. 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/nptl(7)/">nptl(7)</a></tt>을 보라.</p>
+<h2 id="examples">EXAMPLES</h2>
+<p>아래 프로그램에서는 주 스레드에서 몇 가지 시그널들을 막고 나서 <tt><a class="wikilink" href="/man-pages-ko/sigwait(3)/">sigwait(3)</a></tt>을 통해 그 시그널들을 가져오는 전용 스레드를 만든다. 다음 셸 세션이 사용 방식을 보여 준다.</p>
+<pre><code class="language-text">$ ./a.out &amp;
 [1] 5423
 $ kill -QUIT %1
 Signal handling thread got signal 3
@@ -206,9 +205,8 @@ Signal handling thread got signal 10
 $ kill -TERM %1
 [1]+  Terminated              ./a.out
 </code></pre>
-
 <h3 id="_1">프로그램 소스</h3>
-<pre><code class="c">#include &lt;pthread.h&gt;
+<pre><code class="language-c">#include &lt;pthread.h&gt;
 #include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
 #include &lt;unistd.h&gt;
@@ -251,21 +249,20 @@ main(int argc, char *argv[])
     if (s != 0)
         handle_error_en(s, &quot;pthread_sigmask&quot;);
 
-    s = pthread_create(&amp;thread, NULL, &amp;sig_thread, (void *) &amp;set);
+    s = pthread_create(&amp;thread, NULL, &amp;sig_thread, &amp;set);
     if (s != 0)
         handle_error_en(s, &quot;pthread_create&quot;);
 
     /* 주 스레드에서 계속해서 다른 스레드들을 만들거나 다른
-       작업 수행 */
+       작업 수행. */
 
     pause();            /* 프로그램 테스트를 위한 중지 */
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[sigaction(2)]]</tt>, <tt>[[sigpending(2)]]</tt>, <tt>[[sigprocmask(2)]]</tt>, <tt>[[pthread_create(3)]]</tt>, <tt>[[pthread_kill(3)]]</tt>, <tt>[[sigsetops(3)]]</tt>, <tt>[[pthreads(7)]]</tt>, <tt>[[signal(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/sigaction(2)/">sigaction(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigpending(2)/">sigpending(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigprocmask(2)/">sigprocmask(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setsigmask_np(3)/">pthread_attr_setsigmask_np(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_create(3)/">pthread_create(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_kill(3)/">pthread_kill(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigsetops(3)/">sigsetops(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthreads(7)/">pthreads(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

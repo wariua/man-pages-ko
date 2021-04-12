@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/free(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/free%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Free(3) - man-pages-ko</title>
+    <title>free(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -140,18 +140,21 @@
         <li class="first-level "><a href="#description">DESCRIPTION</a></li>
         <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
         <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
+            <li class="second-level"><a href="#_1">이식성 없는 동작</a></li>
+                
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
         <div class="col-md-9" role="main">
 
 <h2 id="name">NAME</h2>
-<p>malloc, free, calloc, realloc - 동적 메모리 할당하고 해제하기</p>
+<p>malloc, free, calloc, realloc, reallocarray - 동적 메모리 할당하고 해제하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;stdlib.h&gt;
+<pre><code class="language-c">#include &lt;stdlib.h&gt;
 
 void *malloc(size_t size);
 void free(void *ptr);
@@ -159,8 +162,7 @@ void *calloc(size_t nmemb, size_t size);
 void *realloc(void *ptr, size_t size);
 void *reallocarray(void *ptr, size_t nmemb, size_t size);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>reallocarray()</code>:</dt>
 <dd>
@@ -176,28 +178,28 @@ void *reallocarray(void *ptr, size_t nmemb, size_t size);
 <p><code>malloc()</code> 함수는 <code>size</code> 바이트를 할당하여 할당한 메모리에 대한 포인터를 반환한다. <em>그 메모리는 초기화 되어 있지 않다.</em> <code>size</code>가 0이면 <code>malloc()</code>은 NULL을 반환하거나, 이후 <code>free()</code>에 무사히 전달할 수 있는 고유한 포인터 값을 반환한다.</p>
 <p><code>free()</code> 함수는 <code>ptr</code>이 가리키는 메모리 공간을 해제하는데 <code>ptr</code>은 이전의 <code>malloc()</code>, <code>calloc()</code>, <code>realloc()</code> 호출이 반환한 것이어야 한다. 그렇지 않으면, 또는 이미 <code>free(ptr)</code>을 호출했으면 규정되어 있지 않은 동작이 일어난다. <code>ptr</code>이 NULL이면 어떤 동작도 수행하지 않는다.</p>
 <p><code>calloc()</code> 함수는 각 <code>size</code> 바이트인 원소 <code>nmemb</code> 개의 배열을 위한 배열을 할당하여 할당한 메모리에 대한 포인터를 반환한다. 그 메모리는 0으로 채워져 있다. <code>nmemb</code>나 <code>size</code>가 0이면 <code>calloc()</code>은 NULL을 반환하거나, 이후 <code>free()</code>에 무사히 전달할 수 있는 고유한 포인터 값을 반환한다. <code>nmemb</code>와 <code>size</code>의 곱이 정수 오버플로우를 일으킬 경우 <code>calloc()</code>은 오류를 반환한다. 반면 다음 <code>malloc()</code> 호출은 정수 오버플로우를 탐지하지 않으며, 그래서 잘못된 크기의 블록이 할당되는 결과를 낳을 수 있다.</p>
-<pre><code class="c">malloc(nmemb * size);
+<pre><code class="language-c">malloc(nmemb * size);
 </code></pre>
-
-<p><code>realloc()</code> 함수는 <code>ptr</code>이 가리키는 메모리 블록의 크기를 <code>size</code> 바이트로 바꾼다. 시작점부터 이전 크기와 새 크기 중 작은 값까지의 범위에서는 내용물이 바뀌지 않는다. 새 크기가 이전 크기보다 큰 경우 추가되는 메모리가 초기화 되지 <em>않는다</em>. <code>ptr</code>이 NULL이면 그 호출은 모든 <code>size</code> 값에 대해 <code>malloc(size)</code>와 동등하다. <code>size</code>가 0이고 <code>ptr</code>이 NULL이 아니면 그 호출은 <code>free(ptr)</code>과 동등하다. <code>ptr</code>이 NULL이 아니라면 그 값은 이전의 <code>malloc()</code>, <code>calloc()</code>, <code>realloc()</code> 호출이 반환한 것이어야 한다. 가리키는 영역이 옮겨지는 경우 <code>free(ptr)</code>를 한다.</p>
+<p><code>realloc()</code> 함수는 <code>ptr</code>이 가리키는 메모리 블록의 크기를 <code>size</code> 바이트로 바꾼다. 시작점부터 이전 크기와 새 크기 중 작은 값까지의 범위에서는 내용물이 바뀌지 않는다. 새 크기가 이전 크기보다 큰 경우 추가되는 메모리가 초기화 되지 <em>않는다</em>. <code>ptr</code>이 NULL이면 그 호출은 모든 <code>size</code> 값에 대해 <code>malloc(size)</code>와 동등하다. <code>size</code>가 0이고 <code>ptr</code>이 NULL이 아니면 그 호출은 <code>free(ptr)</code>과 동등하다. (이 동작은 이식성이 없다. NOTES 참고.) <code>ptr</code>이 NULL이 아니라면 그 값은 이전의 <code>malloc()</code>, <code>calloc()</code>, <code>realloc()</code> 호출이 반환한 것이어야 한다. 가리키는 영역이 옮겨지는 경우 <code>free(ptr)</code>를 한다.</p>
 <p><code>reallocarray()</code> 함수는 <code>ptr</code>이 가리키는 메모리 블록의 크기를 각 <code>size</code> 바이트인 원소 <code>nmemb</code> 개의 배열에 충분하도록 바꾼다. 다음 호출과 동등하다.</p>
-<pre><code class="c">realloc(ptr, nmemb * size);
+<pre><code class="language-c">realloc(ptr, nmemb * size);
 </code></pre>
-
 <p>하지만 <code>realloc()</code> 호출과 달리 <code>reallocarray()</code>는 곱셈이 넘치게 될 경우에 안전하게 실패한다. 그런 오버플로우가 일어나는 경우 <code>reallocarray()</code>는 NULL을 반환하고 <code>errno</code>를 <code>ENOMEM</code>으로 설정하며, 원래 메모리 블록을 그대로 남겨둔다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p><code>malloc()</code> 및 <code>calloc()</code> 함수는 할당한 메모리에 대한 포인터를 반환한다. 그 메모리는 어떤 내장 타입에도 적합하도록 정렬되어 있다. 오류 시 이 함수들은 NULL을 반환한다. <code>size</code>가 0인 <code>malloc()</code> 성공 호출이, 또는 <code>nmemb</code>나 <code>size</code>가 0인 <code>calloc()</code> 성공 호출이 NULL을 반환할 수도 있다.</p>
 <p><code>free()</code> 함수는 아무 값도 반환하지 않는다.</p>
-<p><code>realloc()</code> 함수는 새로 할당한 메모리에 대한 포인터를 반환한다. 그 메모리는 어떤 내장 타입에도 적합하도록 정렬되어 있으며 <code>ptr</code>과 다를 수도 있다. 그리고 요청이 실패한 경우 NULL을 반환한다. <code>size</code>가 0이면 NULL이나 <code>free()</code>에 전달하기 적합한 포인터를 반환한다. <code>realloc()</code>이 실패한 경우 원래 블록은 바뀌지 않고 그대로이다. 즉, 해제되거나 이동하지 않는다.</p>
+<p><code>realloc()</code> 함수는 새로 할당한 메모리에 대한 포인터를 반환하는데, 어떤 내장 타입에도 적합하도록 정렬되어 있다. 요청이 실패한 경우 NULL을 반환한다. 할당이 이동하지 않았다면 (가령 할당을 제자리에서 확장할 공간이 있었다면) 반환되는 포인터가 <code>ptr</code>과 같을 수도 있고, 할당이 다른 주소로 이동했다면 <code>ptr</code>과 다를 수도 있다. <code>size</code>가 0이면 NULL이나 <code>free()</code>에 전달하기 적합한 포인터를 반환한다. <code>realloc()</code>이 실패한 경우 원래 블록은 바뀌지 않고 그대로이다. 즉, 해제되거나 이동하지 않는다.</p>
 <p>성공 시 <code>reallocarray()</code> 함수는 새로 할당한 메모리에 대한 포인터를 반환한다. 실패 시 NULL을 반환하며 원래 메모리 블록은 바뀌지 않는다.</p>
 <h2 id="errors">ERRORS</h2>
 <p><code>calloc()</code>, <code>malloc()</code>, <code>realloc()</code>, <code>reallocarray()</code>가 다음 오류로 실패할 수 있다.</p>
 <dl>
 <dt><code>ENOMEM</code></dt>
-<dd>메모리 부족. 아마 응용이 <tt>[[getrlimit(2)]]</tt>에 기술된 <code>RLIMIT_AS</code>나 <code>RLIMIT_DATA</code> 제한에 걸렸을 것이다.</dd>
+<dd>메모리 부족. 아마 응용이 <tt><a class="wikilink" href="/man-pages-ko/getrlimit(2)/">getrlimit(2)</a></tt>에 기술된 <code>RLIMIT_AS</code>나 <code>RLIMIT_DATA</code> 제한에 걸렸을 것이다.</dd>
 </dl>
+<h2 id="versions">VERSIONS</h2>
+<p>glibc 버전 2.26에서 <code>reallocarray()</code>가 처음 등장했다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -208,7 +210,7 @@ void *reallocarray(void *ptr, size_t nmemb, size_t size);
 </thead>
 <tbody>
 <tr>
-<td><code>malloc()</code>, <code>free()</code>,<br><code>calloc()</code>, <code>realloc()</code></td>
+<td><code>malloc()</code>, <code>free()</code>, <code>calloc()</code>, <code>realloc()</code></td>
 <td>스레드 안전성</td>
 <td>MT-Safe</td>
 </tr>
@@ -218,17 +220,19 @@ void *reallocarray(void *ptr, size_t nmemb, size_t size);
 <p><code>malloc()</code>, <code>free()</code>, <code>calloc()</code>, <code>realloc()</code>: POSIX.1-2001, POSIX.1-2008, C89, C99.</p>
 <p><code>reallocarray()</code>는 비표준 확장이며 OpenBSD 5.6과 FreeBSD 11.0에서 처음 등장했다.</p>
 <h2 id="notes">NOTES</h2>
-<p>기본적으로 리눅스는 낙천적 메모리 할당 전략을 따른다. 이는 <code>malloc()</code>이 NULL 아닌 결과를 반환할 때 그 메모리가 정말 사용 가능하다는 보장이 없다는 뜻이다. 시스템에 메모리가 부족하다고 판명되는 경우 OOM 킬러에 의해 한 개 이상의 프로세스가 죽게 된다. 더 많은 정보는 <tt>[[proc(5)]]</tt>의 <code>/proc/sys/vm/overcommit_memory</code> 및 <code>/proc/sys/vm/oom_adj</code> 설명과 리눅스 커널 소스 파일의 <code>Documentation/vm/overcommit-accounting.rst</code>를 보라.</p>
-<p>보통은 <code>malloc()</code>이 힙에서 메모리를 할당하며 <tt>[[sbrk(2)]]</tt>를 이용해 필요한 만큼 힙의 크기를 조정한다. <code>MMAP_THRESHOLD</code>보다 큰 메모리 블록을 할당할 때 glibc의 <code>malloc()</code> 구현은 <tt>[[mmap(2)]]</tt>을 이용해 비공유 익명 매핑으로 메모리를 할당한다. <code>MMAP_THRESHOLD</code>는 기본적으로 128kB이고 <tt>[[mallopt(3)]]</tt>로 조정 가능하다. 리눅스 4.7 전에서는 <tt>[[mmap(2)]]</tt>으로 수행하는 할당이 <code>RLIMIT_DATA</code> 자원 제한의 영향을 받지 않았다. 리눅스 4.7부터는 <tt>[[mmap(2)]]</tt>으로 수행하는 할당에도 이 제한이 적용된다.</p>
-<p>다중 스레드 응용에서의 오염을 막기 위해 내부적으로 뮤텍스를 사용해서 이 함수들이 이용하는 메모리 관리 자료 구조들을 보호한다. 여러 스레드가 동시에 메모리를 할당 및 해제하는 다중 스레드 응용에서는 이 뮤텍스들에 대한 경쟁이 있을 수 있을 것이다. 다중 스레드 응용에서의 메모리 할당을 확장성 있게 처리하기 위해 glibc에서는 뮤텍스 경쟁을 탐지하는 경우 <em>메모리 할당 아레나(arena)</em>를 추가로 만든다. 각 아레나는 시스템이 내부적으로 (<tt>[[brk(2)]]</tt>나 <tt>[[mmap(2)]]</tt>으로) 할당해서 별도의 뮤텍스로 관리하는 커다란 메모리 영역이다.</p>
+<p>기본적으로 리눅스는 낙천적 메모리 할당 전략을 따른다. 이는 <code>malloc()</code>이 NULL 아닌 결과를 반환할 때 그 메모리가 정말 사용 가능하다는 보장이 없다는 뜻이다. 시스템에 메모리가 부족하다고 판명되는 경우 OOM 킬러에 의해 한 개 이상의 프로세스가 죽게 된다. 더 많은 정보는 <tt><a class="wikilink" href="/man-pages-ko/proc(5)/">proc(5)</a></tt>의 <code>/proc/sys/vm/overcommit_memory</code> 및 <code>/proc/sys/vm/oom_adj</code> 설명과 리눅스 커널 소스 파일의 <code>Documentation/vm/overcommit-accounting.rst</code>를 보라.</p>
+<p>보통은 <code>malloc()</code>이 힙에서 메모리를 할당하며 <tt><a class="wikilink" href="/man-pages-ko/sbrk(2)/">sbrk(2)</a></tt>를 이용해 필요한 만큼 힙의 크기를 조정한다. <code>MMAP_THRESHOLD</code>보다 큰 메모리 블록을 할당할 때 glibc의 <code>malloc()</code> 구현은 <tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt>을 이용해 비공유 익명 매핑으로 메모리를 할당한다. <code>MMAP_THRESHOLD</code>는 기본적으로 128kB이고 <tt><a class="wikilink" href="/man-pages-ko/mallopt(3)/">mallopt(3)</a></tt>로 조정 가능하다. 리눅스 4.7 전에서는 <tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt>으로 수행하는 할당이 <code>RLIMIT_DATA</code> 자원 제한의 영향을 받지 않았다. 리눅스 4.7부터는 <tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt>으로 수행하는 할당에도 이 제한이 적용된다.</p>
+<p>다중 스레드 응용에서의 오염을 막기 위해 내부적으로 뮤텍스를 사용해서 이 함수들이 이용하는 메모리 관리 자료 구조들을 보호한다. 여러 스레드가 동시에 메모리를 할당 및 해제하는 다중 스레드 응용에서는 이 뮤텍스들에 대한 경쟁이 있을 수 있을 것이다. 다중 스레드 응용에서의 메모리 할당을 확장성 있게 처리하기 위해 glibc에서는 뮤텍스 경쟁을 탐지하는 경우 <em>메모리 할당 아레나(arena)</em>를 추가로 만든다. 각 아레나는 시스템이 내부적으로 (<tt><a class="wikilink" href="/man-pages-ko/brk(2)/">brk(2)</a></tt>나 <tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt>으로) 할당해서 별도의 뮤텍스로 관리하는 커다란 메모리 영역이다.</p>
 <p>SUSv2에서는 <code>malloc()</code>, <code>calloc()</code>, <code>realloc()</code>이 실패 시에 <code>errno</code>를 <code>ENOMEM</code>으로 설정하기를 요구한다. glibc에서는 이를 가정한다. (그리고 이 루틴들의 glibc 버전은 그렇게 동작한다.) <code>errno</code>를 설정하지 않는 자체 malloc 구현을 사용하는 경우에 특정 라이브러리 루틴들이 실패하면서 <code>errno</code>에 이유를 주지 않을 수도 있다.</p>
 <p><code>malloc()</code>, <code>calloc()</code>, <code>realloc()</code>, <code>free()</code> 안에서 죽는 것은 거의 언제나 할당 영역을 넘겨 접근하거나 같은 포인터를 두 번 해제하는 것 같은 힙 오염과 관련돼 있다.</p>
-<p>환경 변수를 통해 <code>malloc()</code> 구현을 튜닝 할 수 있다. 자세한 내용은 <tt>[[mallopt(3)]]</tt>를 보라.</p>
+<p>환경 변수를 통해 <code>malloc()</code> 구현을 튜닝 할 수 있다. 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/mallopt(3)/">mallopt(3)</a></tt>를 보라.</p>
+<h3 id="_1">이식성 없는 동작</h3>
+<p><code>size</code>가 0과 같고 <code>ptr</code>이 NULL이 아닐 때 <code>realloc()</code>의 동작 방식은 glibc 한정이다. 다른 구현체에서는 NULL을 반환하고 <code>errno</code>를 설정할 수 있다. 이식 가능한 POSIX 프로그램에서는 이를 피해야 한다. <code>realloc(3p)</code> 참고.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[valgrind(1)]]</tt>, <tt>[[brk(2)]]</tt>, <tt>[[mmap(2)]]</tt>, <tt>[[alloca(3)]]</tt>, <tt>[[malloc_get_state(3)]]</tt>, <tt>[[malloc_info(3)]]</tt>, <tt>[[malloc_trim(3)]]</tt>, <tt>[[malloc_usable_size(3)]]</tt>, <tt>[[mallopt(3)]]</tt>, <tt>[[mcheck(3)]]</tt>, <tt>[[mtrace(3)]]</tt>, <tt>[[posix_memalign(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/valgrind(1)/">valgrind(1)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/brk(2)/">brk(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/alloca(3)/">alloca(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/malloc_get_state(3)/">malloc_get_state(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/malloc_info(3)/">malloc_info(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/malloc_trim(3)/">malloc_trim(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/malloc_usable_size(3)/">malloc_usable_size(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mallopt(3)/">mallopt(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mcheck(3)/">mcheck(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mtrace(3)/">mtrace(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/posix_memalign(3)/">posix_memalign(3)</a></tt></p>
 <p>GNU C 라이브러리 구현에 대한 자세한 내용은 <a href="https://sourceware.org/glibc/wiki/MallocInternals">https://sourceware.org/glibc/wiki/MallocInternals</a> 참고.</p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

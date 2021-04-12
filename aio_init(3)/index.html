@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/aio_init(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/aio_init%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Aio init(3) - man-pages-ko</title>
+    <title>aio_init(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -148,17 +148,16 @@
 <h2 id="name">NAME</h2>
 <p>aio_init - 비동기 I/O 초기화</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
+<pre><code class="language-c">#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
 #include &lt;aio.h&gt;
 
 void aio_init(const struct aioinit *init);
 </code></pre>
-
 <p><code>-lrt</code>로 링크.</p>
 <h2 id="description">DESCRIPTION</h2>
 <p>GNU 전용인 <code>aio_init()</code> 함수를 이용해 호출자가 glibc POSIX AIO 구현에 튜닝 힌트를 줄 수 있다. 이 함수 사용은 선택적이며, 효력이 있으려면 POSIX AIO API의 다른 함수 사용 전에 호출해야 한다.</p>
 <p><code>init</code> 인자가 가리키는 버퍼로 튜닝 정보를 제공한다. 그 버퍼는 다음 형태의 구조체이다.</p>
-<pre><code class="c">struct aioinit {
+<pre><code class="language-c">struct aioinit {
     int aio_threads;    /* 스레드 최대 개수 */
     int aio_num;        /* 예상 동시 요청 개수 */
     int aio_locks;      /* 사용 안 함 */
@@ -170,7 +169,6 @@ void aio_init(const struct aioinit *init);
     int aio_reserved;
 };
 </code></pre>
-
 <p><code>aioinit</code> 구조체에서 다음 필드들이 쓰인다.</p>
 <dl>
 <dt><code>aio_threads</code></dt>
@@ -185,9 +183,9 @@ void aio_init(const struct aioinit *init);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>이 함수는 GNU 확장이다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[aio(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/aio(7)/">aio(7)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2020-08-13</p></div>
         
         
     </div>

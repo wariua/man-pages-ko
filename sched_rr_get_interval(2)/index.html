@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/sched_rr_get_interval(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/sched_rr_get_interval%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Sched rr get interval(2) - man-pages-ko</title>
+    <title>sched_rr_get_interval(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -152,23 +152,21 @@
 <h2 id="name">NAME</h2>
 <p>sched_rr_get_interval - 지정한 프로세스의 <code>SCHED_RR</code> 시간 얻기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;sched.h&gt;
+<pre><code class="language-c">#include &lt;sched.h&gt;
 
 int sched_rr_get_interval(pid_t pid, struct timespec *tp);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>sched_rr_get_interval()</code>은 <code>tp</code>가 가리키는 <code>timespec</code> 구조체에 <code>pid</code>가 나타내는 프로세스의 라운드 로빈 단위 시간(quantum)을 써넣는다. 지정한 프로세스가 <code>SCHED_RR</code> 스케줄링 정책 하에서 돌고 있어야 한다.</p>
 <p><code>timespec</code> 구조체는 다음과 같은 형태이다.</p>
-<pre><code class="c">struct timespec {
+<pre><code class="language-c">struct timespec {
     time_t tv_sec;    /* 초 */
     long   tv_nsec;   /* 나노초 */
 };
 </code></pre>
-
 <p><code>pid</code>가 0이면 호출 프로세스의 단위 시간을 <code>*tp</code>에 써넣는다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 <code>sched_rr_get_interval()</code>은 0을 반환한다. 오류 시 -1을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<p>성공 시 <code>sched_rr_get_interval()</code>은 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EFAULT</code></dt>
@@ -185,12 +183,12 @@ int sched_rr_get_interval(pid_t pid, struct timespec *tp);
 <h2 id="notes">NOTES</h2>
 <p><code>sched_rr_get_interval()</code>을 사용할 수 있는 POSIX 시스템에는 <code>&lt;unistd.h&gt;</code>에 <code>_POSIX_PRIORITY_SCHEDULING</code>이 정의되어 있다.</p>
 <h3 id="_1">리눅스 참고 사항</h3>
-<p>POSIX에서는 라운드 로빈 단위 시간의 크기를 제어하기 위한 어떤 메커니즘도 명세하고 있지 않다. 오래된 리눅스 커널에서는 이를 위한 (이식성 없는) 방법을 제공한다. 프로세스의 나이스 값(<tt>[[setpriority(2)]]</tt>) 참고)을 조정하여 단위 시간을 조정할 수 있다. 음수인 (즉 우선순위 높은) 나이스 값을 부여하면 시간이 길어지고 양수인 (즉 우선순위 낮은) 나이스 값을 부여하면 시간이 짧아진다. 기본 단위 시간은 0.1초이며 나이스 값 변경으로 단위 시간에 영향을 줄 수 있는 정도는 커널 버전에 따라 좀 다르다. 단위 시간 조정을 위한 이 방법은 리눅스 2.6.24부터 제거되었다.</p>
+<p>POSIX에서는 라운드 로빈 단위 시간의 크기를 제어하기 위한 어떤 메커니즘도 명세하고 있지 않다. 오래된 리눅스 커널에서는 이를 위한 (이식성 없는) 방법을 제공한다. 프로세스의 나이스 값(<tt><a class="wikilink" href="/man-pages-ko/setpriority(2)/">setpriority(2)</a></tt>) 참고)을 조정하여 단위 시간을 조정할 수 있다. 음수인 (즉 우선순위 높은) 나이스 값을 부여하면 시간이 길어지고 양수인 (즉 우선순위 낮은) 나이스 값을 부여하면 시간이 짧아진다. 기본 단위 시간은 0.1초이며 나이스 값 변경으로 단위 시간에 영향을 줄 수 있는 정도는 커널 버전에 따라 좀 다르다. 단위 시간 조정을 위한 이 방법은 리눅스 2.6.24부터 제거되었다.</p>
 <p>리눅스 3.9에서 <code>SCHED_RR</code> 단위 시간 조정을 (그리고 조회를) 위한 새로운 메커니즘이 추가되었다. <code>/proc/sys/kernel/sched_rr_timeslice_ms</code> 파일이 밀리초 단위로 단위 시간을 노출하며 그 기본값은 100이다. 이 파일에 0을 써넣으면 단위 시간을 기본값으로 초기화 한다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[sched(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/sched(7)/">sched(7)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

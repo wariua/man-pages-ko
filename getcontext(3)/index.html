@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/getcontext(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/getcontext%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Getcontext(3) - man-pages-ko</title>
+    <title>getcontext(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -151,16 +151,15 @@
 <h2 id="name">NAME</h2>
 <p>getcontext, setcontext - 사용자 문맥 얻거나 설정하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;ucontext.h&gt;
+<pre><code class="language-c">#include &lt;ucontext.h&gt;
 
 int getcontext(ucontext_t *ucp);
 int setcontext(const ucontext_t *ucp);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
-<p>시스템 V 계열 환경에서는 <code>&lt;ucontext.h&gt;</code>에 <code>mcontext_t</code>와 <code>ucontext_t</code>라는 두 가지 타입이 있으며 네 가지 함수 <code>getcontext()</code>, <code>setcontext()</code>, <tt>[[makecontext(3)]]</tt>, <tt>[[swapcontext(3)]]</tt>를 통해 한 프로세스 내의 여러 제어 스레드들 사이에서 사용자 수준 문맥 전환이 가능하다.</p>
+<p>시스템 V 계열 환경에서는 <code>&lt;ucontext.h&gt;</code>에 <code>mcontext_t</code>와 <code>ucontext_t</code>라는 두 가지 타입이 있으며 네 가지 함수 <code>getcontext()</code>, <code>setcontext()</code>, <tt><a class="wikilink" href="/man-pages-ko/makecontext(3)/">makecontext(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/swapcontext(3)/">swapcontext(3)</a></tt>를 통해 한 프로세스 내의 여러 제어 스레드들 사이에서 사용자 수준 문맥 전환이 가능하다.</p>
 <p><code>mcontext_t</code> 타입은 장치 의존적이며 내용이 감춰져 있다. <code>ucontext_t</code> 타입은 최소한 다음 필드들을 가지고 있는 구조체이다.</p>
-<pre><code class="c">typedef struct ucontext_t {
+<pre><code class="language-c">typedef struct ucontext_t {
     struct ucontext_t *uc_link;
     sigset_t          uc_sigmask;
     stack_t           uc_stack;
@@ -168,19 +167,18 @@ int setcontext(const ucontext_t *ucp);
     ...
 } ucontext_t;
 </code></pre>
-
-<p><code>sigset_t</code>와 <code>stack_t</code>는 <code>&lt;signal.h&gt;</code>에 정의되어 있다. 여기서 <code>uc_link</code>는 현재 문맥이 종료되었을 때 재개될 문맥을 가리키며 (현재 문맥을 <tt>[[makecontext(3)]]</tt>으로 만든 경우), <code>uc_sigmask</code>는 이 문맥에서 차단된 시그널들의 집합이고 (<tt>[[sigprocmask(2)]]</tt> 참고), <code>uc_stack</code>은 이 문맥에서 사용하는 스택이고 (<tt>[[sigaltstack(2)]]</tt> 참고), <code>uc_context</code>는 저장된 문맥의 장치별 표현으로 호출 스레드의 장치 레지스터들이 포함된다.</p>
+<p><code>sigset_t</code>와 <code>stack_t</code>는 <code>&lt;signal.h&gt;</code>에 정의되어 있다. 여기서 <code>uc_link</code>는 현재 문맥이 종료되었을 때 재개될 문맥을 가리키며 (현재 문맥을 <tt><a class="wikilink" href="/man-pages-ko/makecontext(3)/">makecontext(3)</a></tt>으로 만든 경우), <code>uc_sigmask</code>는 이 문맥에서 차단된 시그널들의 집합이고 (<tt><a class="wikilink" href="/man-pages-ko/sigprocmask(2)/">sigprocmask(2)</a></tt> 참고), <code>uc_stack</code>은 이 문맥에서 사용하는 스택이고 (<tt><a class="wikilink" href="/man-pages-ko/sigaltstack(2)/">sigaltstack(2)</a></tt> 참고), <code>uc_context</code>는 저장된 문맥의 장치별 표현으로 호출 스레드의 장치 레지스터들이 포함된다.</p>
 <p><code>getcontext()</code> 함수는 <code>ucp</code>가 가리키는 구조체를 현재의 활성 문맥으로 초기화 한다.</p>
-<p><code>setcontext()</code> 함수는 <code>ucp</code>가 가리키는 사용자 문맥을 복원한다. 호출 성공 시 반환하지 않는다. 그 문맥은 <code>getcontext()</code>나 <tt>[[makecontext(3)]]</tt> 호출로 얻은 것이거나 시그널 핸들러에 세 번째 인자로 전달된 것이어야 한다.</p>
+<p><code>setcontext()</code> 함수는 <code>ucp</code>가 가리키는 사용자 문맥을 복원한다. 호출 성공 시 반환하지 않는다. 그 문맥은 <code>getcontext()</code>나 <tt><a class="wikilink" href="/man-pages-ko/makecontext(3)/">makecontext(3)</a></tt> 호출로 얻은 것이거나 시그널 핸들러에서 세 번째 인자로 받은 것이어야 한다. (<tt><a class="wikilink" href="/man-pages-ko/sigaction(2)/">sigaction(2)</a></tt>의 <code>SA_SIGINFO</code> 플래그 설명 참고.)</p>
 <p><code>getcontext()</code> 호출로 얻은 문맥인 경우 그 호출이 방금 반환한 것처럼 프로그램 실행이 이어진다.</p>
-<p><tt>[[makecontext(3)]]</tt> 호출로 얻은 문맥인 경우 <tt>[[makecontext(3)]]</tt> 호출 두 번째 인자로 지정했던 함수 <code>func</code> 호출로 프로그램 실행이 이어진다. <code>func</code> 함수가 반환하면 <tt>[[makecontext(3)]]</tt> 호출 첫 번째 인자로 지정했던 <code>ucp</code> 구조체의 <code>uc_link</code> 멤버로 계속 진행한다. 그 멤버가 NULL이면 스레드가 끝난다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/makecontext(3)/">makecontext(3)</a></tt> 호출로 얻은 문맥인 경우 <tt><a class="wikilink" href="/man-pages-ko/makecontext(3)/">makecontext(3)</a></tt> 호출 두 번째 인자로 지정했던 함수 <code>func</code> 호출로 프로그램 실행이 이어진다. <code>func</code> 함수가 반환하면 <tt><a class="wikilink" href="/man-pages-ko/makecontext(3)/">makecontext(3)</a></tt> 호출 첫 번째 인자로 지정했던 <code>ucp</code> 구조체의 <code>uc_link</code> 멤버로 계속 진행한다. 그 멤버가 NULL이면 스레드가 끝난다.</p>
 <p>시그널 핸들러 호출로 얻은 문맥인 경우에 이전 표준 문서에서는 "시그널로 중단된 인스트럭션 다음의 프로그램 인스트럭션으로 프로그램 실행이 이어진다"고 되어 있었다. 하지만 SUSv2에서 이 문장이 제거되었고 현재 판정은 "그 결과가 명세되어 있지 않음"이다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 <code>getcontext()</code>는 0을 반환하며 <code>setcontext()</code>는 반환하지 않는다. 오류 시 둘 모두 -1을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<p>성공 시 <code>getcontext()</code>는 0을 반환하며 <code>setcontext()</code>는 반환하지 않는다. 오류 시 둘 모두 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <p>정의되어 있지 않음.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -200,12 +198,12 @@ int setcontext(const ucontext_t *ucp);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>SUSv2, POSIX.1-2001, POSIX.1-2008에서 이식성 문제를 이유로 <code>getcontext()</code> 명세를 제거하였으며 대신 POSIX 스레드를 사용하게 응용을 재작성하기를 권고하고 있다.</p>
 <h2 id="notes">NOTES</h2>
-<p>이 메커니즘이 가장 먼저 구체화된 것은 <tt>[[setjmp(3)]]</tt>/<tt>[[longjmp(3)]]</tt> 메커니즘이었다. 그 메커니즘에서는 시그널 문맥 처리를 규정하지 않았고, 그래서 다음 단계가 <tt>[[sigsetjmp(3)]]</tt>/<tt>[[siglongjmp(3)]]</tt> 쌍이었다. 그리고 현재 메커니즘에서는 훨씬 더 유연한 제어가 가능하다. 한편으로 <code>getcontext()</code>에서 반환된 것이 처음 호출에서 돌아온 것인지 <code>setcontext()</code> 호출을 통한 것인지 알아낼 손쉬운 방법이 없다. 사용자가 따로 확인 방식을 고안해야 하는데, 레지스터들이 복원되므로 레지스터 변수는 사용할 수 없다.</p>
-<p>시그널이 발생했을 때 커널이 현재 사용자 문맥을 저장하고 시그널 핸들러를 위한 새 문맥을 만든다. 핸들러에서 <tt>[[longjmp(3)]]</tt>을 사용하도록 놔둬선 안 된다. 문맥과 관련해 어떻게 될지 규정되어 있지 않다. 대신 <tt>[[siglongjmp(3)]]</tt>나 <code>setcontext()</code>를 사용하라.</p>
+<p>이 메커니즘이 가장 먼저 구체화된 것은 <tt><a class="wikilink" href="/man-pages-ko/setjmp(3)/">setjmp(3)</a></tt>/<tt><a class="wikilink" href="/man-pages-ko/longjmp(3)/">longjmp(3)</a></tt> 메커니즘이었다. 그 메커니즘에서는 시그널 문맥 처리를 규정하지 않았고, 그래서 다음 단계가 <tt><a class="wikilink" href="/man-pages-ko/sigsetjmp(3)/">sigsetjmp(3)</a></tt>/<tt><a class="wikilink" href="/man-pages-ko/siglongjmp(3)/">siglongjmp(3)</a></tt> 쌍이었다. 그리고 현재 메커니즘에서는 훨씬 더 유연한 제어가 가능하다. 한편으로 <code>getcontext()</code>에서 반환된 것이 처음 호출에서 돌아온 것인지 <code>setcontext()</code> 호출을 통한 것인지 알아낼 손쉬운 방법이 없다. 사용자가 따로 확인 방식을 고안해야 하는데, 레지스터들이 복원되므로 레지스터 변수는 사용할 수 없다.</p>
+<p>시그널이 발생했을 때 커널이 현재 사용자 문맥을 저장하고 시그널 핸들러를 위한 새 문맥을 만든다. 핸들러에서 <tt><a class="wikilink" href="/man-pages-ko/longjmp(3)/">longjmp(3)</a></tt>을 사용하도록 놔둬선 안 된다. 문맥과 관련해 어떻게 될지 규정되어 있지 않다. 대신 <tt><a class="wikilink" href="/man-pages-ko/siglongjmp(3)/">siglongjmp(3)</a></tt>나 <code>setcontext()</code>를 사용하라.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[sigaction(2)]]</tt>, <tt>[[sigaltstack(2)]]</tt>, <tt>[[sigprocmask(2)]]</tt>, <tt>[[longjmp(3)]]</tt>, <tt>[[makecontext(3)]]</tt>, <tt>[[sigsetjmp(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/sigaction(2)/">sigaction(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigaltstack(2)/">sigaltstack(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigprocmask(2)/">sigprocmask(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/longjmp(3)/">longjmp(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/makecontext(3)/">makecontext(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigsetjmp(3)/">sigsetjmp(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

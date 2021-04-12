@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/dlerror(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/dlerror%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Dlerror(3) - man-pages-ko</title>
+    <title>dlerror(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -144,7 +144,7 @@
         <li class="first-level "><a href="#notes">NOTES</a></li>
             <li class="second-level"><a href="#_1">역사</a></li>
                 
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
@@ -153,11 +153,10 @@
 <h2 id="name">NAME</h2>
 <p>dlerror - dlopen API의 함수들에 대한 오류 진단 얻기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;dlfcn.h&gt;
+<pre><code class="language-c">#include &lt;dlfcn.h&gt;
 
 char *dlerror(void);
 </code></pre>
-
 <p><code>-ldl</code>로 링크.</p>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>dlerror()</code> 함수는 사람이 읽을 수 있는 널 종료 문자열을 반환하는데, 그 문자열에는 가장 최근 <code>dlerror()</code> 호출 이후로 dlopen API의 함수 호출에서 발생한 가장 최근의 오류가 기술돼 있다. 반환되는 문자열 끝에 개행이 포함돼 있지 <em>않다</em>.</p>
@@ -165,7 +164,7 @@ char *dlerror(void);
 <h2 id="versions">VERSIONS</h2>
 <p>glibc 2.0 및 이후에 <code>dlerror()</code>가 있다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -188,12 +187,12 @@ char *dlerror(void);
 <p><code>dlerror()</code>에서 반환하는 메시지가 정적 할당 버퍼에 있어서 다음 <code>dlerror()</code> 호출에 의해 덮어 써질 수도 있다.</p>
 <h3 id="_1">역사</h3>
 <p>이 함수가 포함된 dlopen API는 SunOS에서 유래한 것이다.</p>
-<h2 id="example">EXAMPLE</h2>
-<p><tt>[[dlopen(3)]]</tt> 참고.</p>
+<h2 id="examples">EXAMPLES</h2>
+<p><tt><a class="wikilink" href="/man-pages-ko/dlopen(3)/">dlopen(3)</a></tt> 참고.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[dladdr(3)]]</tt>, <tt>[[dlinfo(3)]]</tt>, <tt>[[dlopen(3)]]</tt>, <tt>[[dlsym(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/dladdr(3)/">dladdr(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/dlinfo(3)/">dlinfo(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/dlopen(3)/">dlopen(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/dlsym(3)/">dlsym(3)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

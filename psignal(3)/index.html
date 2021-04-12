@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/psignal(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/psignal%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Psignal(3) - man-pages-ko</title>
+    <title>psignal(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -149,17 +149,14 @@
         <div class="col-md-9" role="main">
 
 <h2 id="name">NAME</h2>
-<p>psignal, psiginfo - 시그널 메시지 찍기</p>
+<p>psignal, psiginfo - 시그널 설명 찍기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;signal.h&gt;
+<pre><code class="language-c">#include &lt;signal.h&gt;
 
 void psignal(int sig, const char *s);
 void psiginfo(const siginfo_t *pinfo, const char *s);
-
-extern const char *const sys_siglist[];
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>psignal()</code>:</dt>
 <dd>
@@ -172,26 +169,16 @@ extern const char *const sys_siglist[];
 </dd>
 <dt><code>psiginfo()</code>:</dt>
 <dd><code>_POSIX_C_SOURCE &gt;= 200809L</code></dd>
-<dt><code>sys_siglist</code>:</dt>
-<dd>
-<dl>
-<dt>glibc 2.19부터:</dt>
-<dd><code>_DEFAULT_SOURCE</code></dd>
-<dt>glibc 2.19 및 이전:</dt>
-<dd><code>_BSD_SOURCE</code></dd>
-</dl>
-</dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>psignal()</code> 함수는 문자열 <code>s</code>, 콜론, 공백, 시그널 번호 <code>sig</code>를 설명하는 문자열, 마지막 개행으로 이뤄진 메시지를 <code>stderr</code>에 표시한다. 문자열 <code>s</code>가 NULL이거나 비어 있으면 콜론과 공백을 생략한다. <code>sig</code>가 유효하지 않으면 모르는 시그널이라는 메시지가 표시된다.</p>
-<p><code>psiginfo()</code> 함수는 <code>psignal()</code>과 비슷하되 <code>pinfo</code>가 기술하는 시그널에 대한 정보를 표시한다. <code>pinfo</code>는 유효한 <code>siginfo_t</code> 구조체를 가리켜야 한다. 시그널 설명에 더해서 <code>psiginfo()</code>는 시그널이 어디서 온 것인지에 대한 정보와 기타 시그널 관련 정보(가령 하드웨어 생성 시그널에서 관련 메모리 주소, <code>SIGCHLD</code>에서 자식 프로세스 ID, <tt>[[kill(2)]]</tt>이나 <tt>[[sigqueue(3)]]</tt>로 보낸 시그널에서 송신자의 사용자 ID와 프로세스 ID)를 표시한다.</p>
-<p>배열 <code>sys_siglist</code>는 시그널 설명 문자열들을 담고 있으며 시그널 번호가 인덱스다.</p>
+<p><code>psiginfo()</code> 함수는 <code>psignal()</code>과 비슷하되 <code>pinfo</code>가 기술하는 시그널에 대한 정보를 표시한다. <code>pinfo</code>는 유효한 <code>siginfo_t</code> 구조체를 가리켜야 한다. 시그널 설명에 더해서 <code>psiginfo()</code>는 시그널이 어디서 온 것인지에 대한 정보와 기타 시그널 관련 정보(가령 하드웨어 생성 시그널에서 관련 메모리 주소, <code>SIGCHLD</code>에서 자식 프로세스 ID, <tt><a class="wikilink" href="/man-pages-ko/kill(2)/">kill(2)</a></tt>이나 <tt><a class="wikilink" href="/man-pages-ko/sigqueue(3)/">sigqueue(3)</a></tt>로 보낸 시그널에서 송신자의 사용자 ID와 프로세스 ID)를 표시한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p><code>psignal()</code> 및 <code>psiginfo()</code> 함수는 아무 값도 반환하지 않는다.</p>
 <h2 id="versions">VERSIONS</h2>
 <p>glibc 버전 2.10에서 <code>psiginfo()</code> 함수가 추가되었다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -221,9 +208,9 @@ extern const char *const sys_siglist[];
 </li>
 </ul>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[sigaction(2)]]</tt>, <tt>[[perror(3)]]</tt>, <tt>[[strsignal(3)]]</tt>, <tt>[[signal(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/sigaction(2)/">sigaction(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/perror(3)/">perror(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/strsignal(3)/">strsignal(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

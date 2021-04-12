@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/timegm(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/timegm%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Timegm(3) - man-pages-ko</title>
+    <title>timegm(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -151,14 +151,12 @@
 <h2 id="name">NAME</h2>
 <p>timegm, timelocal - gmtime 및 localtime의 반대 동작</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;time.h&gt;
+<pre><code class="language-c">#include &lt;time.h&gt;
 
 time_t timelocal(struct tm *tm);
-
 time_t timegm(struct tm *tm);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>timelocal()</code>, <code>timegm()</code>:</dt>
 <dd>
@@ -171,16 +169,16 @@ time_t timegm(struct tm *tm);
 </dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>timelocal()</code> 및 <code>timegm()</code> 함수는 <tt>[[localtime(3)]]</tt> 및 <tt>[[gmtime(3)]]</tt>의 반대이다. 두 함수 모두 분할 시간을 받아서 달력 시간(에포크 1970-01-01 00:00:00 +0000 UTC 이후 초)으로 변환한다. 두 함수의 차이는 <code>timelocal()</code>에서는 변환을 할 때 지역 시간대를 계산에 넣는 반면 <code>timegm()</code>에서는 입력 값을 협정 세계시(UTC)로 받아들인다는 점이다.</p>
+<p><code>timelocal()</code> 및 <code>timegm()</code> 함수는 <tt><a class="wikilink" href="/man-pages-ko/localtime(3)/">localtime(3)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/gmtime(3)/">gmtime(3)</a></tt>의 반대이다. 두 함수 모두 분할 시간을 받아서 달력 시간(에포크 1970-01-01 00:00:00 +0000 UTC 이후 초)으로 변환한다. 두 함수의 차이는 <code>timelocal()</code>에서는 변환을 할 때 지역 시간대를 계산에 넣는 반면 <code>timegm()</code>에서는 입력 값을 협정 세계시(UTC)로 받아들인다는 점이다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 이 함수들은 <code>time_t</code> 타입 값으로 표현한 달력 시간(에포크 이후 초)을 반환한다. 오류 시 <code>(time_t) -1</code> 값을 반환하며 오류 원인을 나타내도록 <code>errno</code>를 설정한다.</p>
+<p>성공 시 이 함수들은 <code>time_t</code> 타입 값으로 표현한 달력 시간(에포크 이후 초)을 반환한다. 오류 시 <code>(time_t) -1</code> 값을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EOVERFLOW</code></dt>
 <dd>결과를 표현할 수 없다.</dd>
 </dl>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -200,11 +198,11 @@ time_t timegm(struct tm *tm);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>이 함수들은 비표준 GNU 확장이며 BSD 계열에도 있다. 사용을 피해야 한다.</p>
 <h2 id="notes">NOTES</h2>
-<p><code>timelocal()</code> 함수는 POSIX 표준 함수인 <tt>[[mktime(3)]]</tt>과 동등하다. 따라서 쓸 이유가 전혀 없다.</p>
+<p><code>timelocal()</code> 함수는 POSIX 표준 함수인 <tt><a class="wikilink" href="/man-pages-ko/mktime(3)/">mktime(3)</a></tt>과 동등하다. 따라서 쓸 이유가 전혀 없다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[gmtime(3)]]</tt>, <tt>[[localtime(3)]]</tt>, <tt>[[mktime(3)]]</tt>, <tt>[[tzset(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/gmtime(3)/">gmtime(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/localtime(3)/">localtime(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mktime(3)/">mktime(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/tzset(3)/">tzset(3)</a></tt></p>
 <hr />
-<p>2016-12-12</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

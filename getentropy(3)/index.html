@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/getentropy(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/getentropy%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Getentropy(3) - man-pages-ko</title>
+    <title>getentropy(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -151,12 +151,11 @@
 <h2 id="name">NAME</h2>
 <p>getentropy - 버퍼를 난수 바이트로 채우기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;unistd.h&gt;
+<pre><code class="language-c">#include &lt;unistd.h&gt;
 
 int getentropy(void *buffer, size_t length);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>getentropy()</code>:</dt>
 <dd><code>_DEFAULT_SOURCE</code></dd>
@@ -165,7 +164,7 @@ int getentropy(void *buffer, size_t length);
 <p><code>getentropy()</code> 함수는 <code>buffer</code>가 가리키는 위치에서 시작하는 버퍼에 <code>length</code> 개 바이트의 고품질 난수 데이터를 써넣는다. <code>length</code>에 허용되는 가장 큰 값은 256이다.</p>
 <p>성공적인 <code>getentropy()</code> 호출은 항상 요청한 바이트 수만큼의 엔트로피를 제공한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 이 함수는 0을 반환한다. 오류 시 -1을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<p>성공 시 이 함수는 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EFAULT</code></dt>
@@ -175,21 +174,21 @@ int getentropy(void *buffer, size_t length);
 <dt><code>EIO</code></dt>
 <dd><code>buffer</code>를 난수 데이터로 덮어쓰려는 동안 명세되어 있지 않은 오류가 발생했다.</dd>
 <dt><code>ENOSYS</code></dt>
-<dd>이 함수 구현에 필요한 <tt>[[getrandom(2)]]</tt> 시스템 호출을 이 커널 버전에서 구현하고 있지 않다.</dd>
+<dd>이 함수 구현에 필요한 <tt><a class="wikilink" href="/man-pages-ko/getrandom(2)/">getrandom(2)</a></tt> 시스템 호출을 이 커널 버전에서 구현하고 있지 않다.</dd>
 </dl>
 <h2 id="versions">VERSIONS</h2>
 <p>glibc 2.25에서 <code>getentropy()</code> 함수가 처음 등장했다.</p>
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>이 함수는 비표준이다. OpenBSD에도 이 함수가 있다.</p>
 <h2 id="notes">NOTES</h2>
-<p><code>getentropy()</code> 함수는 <tt>[[getrandom(2)]]</tt>을 이용해 구현되어 있다.</p>
-<p>glibc 래퍼가 <tt>[[getrandom(2)]]</tt>를 취소점으로 만들지만 <code>getentropy()</code>는 취소점이 아니다.</p>
+<p><code>getentropy()</code> 함수는 <tt><a class="wikilink" href="/man-pages-ko/getrandom(2)/">getrandom(2)</a></tt>을 이용해 구현되어 있다.</p>
+<p>glibc 래퍼가 <tt><a class="wikilink" href="/man-pages-ko/getrandom(2)/">getrandom(2)</a></tt>를 취소점으로 만들지만 <code>getentropy()</code>는 취소점이 아니다.</p>
 <p><code>getentropy()</code>는 <code>&lt;sys/random.h&gt;</code>에도 선언되어 있다. (이 헤더 파일에서 선언을 얻는 데에는 어떤 기능 확인 매크로도 정의되어 있을 필요가 없다.)</p>
 <p>시스템이 방금 부팅하여 커널이 엔트로피 풀을 초기화 할 난수성을 아직 충분히 수집하지 못했다면 <code>getentropy()</code> 호출이 블록 할 수도 있다. 이 경우에는 시그널을 처리하여도 계속 블록 하게 되며 엔트로피 풀이 초기화 되고 나서야 반환하게 된다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[getrandom(2)]]</tt>, <tt>[[urandom(4)]]</tt>, <tt>[[random(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/getrandom(2)/">getrandom(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/urandom(4)/">urandom(4)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/random(7)/">random(7)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

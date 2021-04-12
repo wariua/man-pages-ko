@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/userfaultfd(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/userfaultfd%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Userfaultfd(2) - man-pages-ko</title>
+    <title>userfaultfd(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -150,7 +150,7 @@
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
         <li class="first-level "><a href="#bugs">BUGS</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
             <li class="second-level"><a href="#_2">프로그램 소스</a></li>
                 
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
@@ -161,26 +161,25 @@
 <h2 id="name">NAME</h2>
 <p>userfaultfd - 사용자 공간에서 페이지 폴트를 처리하기 위한 파일 디스크립터 만들기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;sys/types.h&gt;
+<pre><code class="language-c">#include &lt;sys/types.h&gt;
 #include &lt;linux/userfaultfd.h&gt;
 
 int userfaultfd(int flags);
 </code></pre>
-
 <p><em>주의</em>: 이 시스템 호출들에 대한 glibc 래퍼가 없다. NOTES 참고.</p>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>userfaultfd()</code>는 페이지 폴트 처리를 사용자 공간 응용에게 위임하는 데 쓸 수 있는 userfaultfd 객체를 새로 생성하고 그 새 객체를 가리키는 파일 디스크립터를 반환한다. <code>ioctl(2)</code>을 이용해 새 userfaultfd 객체를 설정한다.</p>
-<p>userfaultfd를 설정하고 나면 응용에서 <code>read(2)</code>를 사용해 userfaultfd 알림을 수신할 수 있다. userfaultfd 읽기는 userfaultfd 생성이나 이어진 <tt>[[fcntl(2)]]</tt> 호출에 사용한 <code>flags</code> 값에 따라 블로킹일 수도 있고 논블로킹일 수도 있다.</p>
+<p>userfaultfd를 설정하고 나면 응용에서 <code>read(2)</code>를 사용해 userfaultfd 알림을 수신할 수 있다. userfaultfd 읽기는 userfaultfd 생성이나 이어진 <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt> 호출에 사용한 <code>flags</code> 값에 따라 블로킹일 수도 있고 논블로킹일 수도 있다.</p>
 <p><code>flags</code>에 다음 값들을 비트 OR 해서 <code>userfaultfd()</code>의 동작 방식을 바꿀 수 있다.</p>
 <dl>
 <dt><code>O_CLOEXEC</code></dt>
-<dd>새 userfaultfd 파일 디스크립터에 'exec에서 닫기' 플래그를 켠다. <tt>[[open(2)]]</tt>의 <code>O_CLOEXEC</code> 플래그 설명을 보라.</dd>
+<dd>새 userfaultfd 파일 디스크립터에 'exec에서 닫기' 플래그를 켠다. <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>의 <code>O_CLOEXEC</code> 플래그 설명을 보라.</dd>
 <dt><code>O_NONBLOCK</code></dt>
-<dd>userfaultfd 객체에 논블로킹 동작을 켠다. <tt>[[open(2)]]</tt>의 <code>O_NONBLOCK</code> 플래그 설명을 보라.</dd>
+<dd>userfaultfd 객체에 논블로킹 동작을 켠다. <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>의 <code>O_NONBLOCK</code> 플래그 설명을 보라.</dd>
 </dl>
 <p>userfaultfd 객체를 가리키는 마지막 파일 디스크립터가 닫힐 때 그 객체에 등록되어 있던 모든 메모리 범위들을 해제하고 읽지 않은 이벤트들을 버린다.</p>
 <h3 id="_1">사용법</h3>
-<p>userfaultfd 메커니즘은 다중 스레드 프로그램에서 한 스레드가 프로세스 내 다른 스레드들을 위해 사용자 공간 페이징을 수행할 수 있도록 설계되었다. userfaultfd 객체에 등록된 영역들 중 하나에 페이지 폴트가 일어나면 폴트를 일으킨 스레드가 잠재워지고 userfaultfd 파일 디스크립터를 통해 읽을 수 있는 이벤트가 생성된다. 폴트 처리 스레드가 이 파일 디스크립터에서 이벤트를 읽어들여서 <tt>[[ioctl_userfaultfd(2)]]</tt>에서 기술하는 작업들을 이용해 처리한다. 페이지 폴트 이벤트를 처리할 때 폴트 처리 스레드가 잠든 스레드의 기상을 촉발시킬 수 있다.</p>
+<p>userfaultfd 메커니즘은 다중 스레드 프로그램에서 한 스레드가 프로세스 내 다른 스레드들을 위해 사용자 공간 페이징을 수행할 수 있도록 설계되었다. userfaultfd 객체에 등록된 영역들 중 하나에 페이지 폴트가 일어나면 폴트를 일으킨 스레드가 잠재워지고 userfaultfd 파일 디스크립터를 통해 읽을 수 있는 이벤트가 생성된다. 폴트 처리 스레드가 이 파일 디스크립터에서 이벤트를 읽어들여서 <tt><a class="wikilink" href="/man-pages-ko/ioctl_userfaultfd(2)/">ioctl_userfaultfd(2)</a></tt>에서 기술하는 작업들을 이용해 처리한다. 페이지 폴트 이벤트를 처리할 때 폴트 처리 스레드가 잠든 스레드의 기상을 촉발시킬 수 있다.</p>
 <p>...</p>
 <p>...</p>
 <p>...</p>
@@ -193,7 +192,7 @@ int userfaultfd(int flags);
 <p>...</p>
 <h3 id="userfaultfd_1">userfaultfd 구조체 읽어들이기</h3>
 <p>...</p>
-<pre><code class="c">struct uffd_msg {
+<pre><code class="language-c">struct uffd_msg {
     __u8  event;            /* 이벤트 종류 */
     ...
     union {
@@ -223,7 +222,6 @@ int userfaultfd(int flags);
     /* 패딩 필드 생략 */
 } __packed;
 </code></pre>
-
 <p>...</p>
 <p>...</p>
 <dl>
@@ -274,7 +272,7 @@ int userfaultfd(int flags);
 </dl>
 <p>...</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 <code>userfaultfd()</code>는 userfaultfd 객체를 가리키는 새 파일 디스크립터를 반환한다. 오류 시 -1을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<p>성공 시 <code>userfaultfd()</code>는 userfaultfd 객체를 가리키는 새 파일 디스크립터를 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EINVAL</code></dt>
@@ -284,6 +282,8 @@ int userfaultfd(int flags);
 <dt><code>ENFILE</code></dt>
 <dd>...</dd>
 <dt><code>ENOMEM</code></dt>
+<dd>...</dd>
+<dt><code>EPERM</code> (리눅스 5.2부터)</dt>
 <dd>...</dd>
 </dl>
 <h2 id="versions">VERSIONS</h2>
@@ -296,13 +296,13 @@ int userfaultfd(int flags);
 <p>...</p>
 <h2 id="bugs">BUGS</h2>
 <p>...</p>
-<h2 id="example">EXAMPLE</h2>
+<h2 id="examples">EXAMPLES</h2>
 <p>...</p>
 <p>...</p>
 <p>...</p>
 <p>...</p>
 <p>...</p>
-<pre><code class="text">$ ./userfaultfd_demo 3
+<pre><code class="language-text">$ ./userfaultfd_demo 3
 Address returned by mmap() = 0x7fd30106c000
 
 fault_handler_thread():
@@ -332,13 +332,13 @@ Read address 0x7fd30106e40f in main(): C
 Read address 0x7fd30106e80f in main(): C
 Read address 0x7fd30106ec0f in main(): C
 </code></pre>
-
 <h3 id="_2">프로그램 소스</h3>
-<pre><code class="c">/* userfaultfd_demo.c
+<pre><code class="language-c">/* userfaultfd_demo.c
 
    Licensed under the GNU General Public License version 2 or later.
 */
 #define _GNU_SOURCE
+#include &lt;inttypes.h&gt;
 #include &lt;sys/types.h&gt;
 #include &lt;stdio.h&gt;
 #include &lt;linux/userfaultfd.h&gt;
@@ -372,7 +372,7 @@ fault_handler_thread(void *arg)
 
     uffd = (long) arg;
 
-    /* 폴트 발생 영역으로 복사할 페이지 만들기 */
+    /* 폴트 발생 영역으로 복사할 페이지 만들기. */
 
     if (page == NULL) {
         page = mmap(NULL, page_size, PROT_READ | PROT_WRITE,
@@ -382,11 +382,11 @@ fault_handler_thread(void *arg)
     }
 
     /* 루프, userfaultfd 파일 디스크립터로 들어온 이벤트
-       처리하기 */
+       처리하기. */
 
     for (;;) {
 
-        /* userfaultfd에 대해 poll()이 뭐라는지 보자 */
+        /* userfaultfd에 대해 poll()이 뭐라는지 보자. */
 
         struct pollfd pollfd;
         int nready;
@@ -402,7 +402,7 @@ fault_handler_thread(void *arg)
                 (pollfd.revents &amp; POLLIN) != 0,
                 (pollfd.revents &amp; POLLERR) != 0);
 
-        /* userfaultfd에서 이벤트 읽기 */
+        /* userfaultfd에서 이벤트 읽기. */
 
         nread = read(uffd, &amp;msg, sizeof(msg));
         if (nread == 0) {
@@ -413,18 +413,18 @@ fault_handler_thread(void *arg)
         if (nread == -1)
             errExit(&quot;read&quot;);
 
-        /* 한 가지 이벤트만 예상. 가정이 맞는지 확인 */
+        /* 한 가지 이벤트만 있을 것이다. 가정이 맞는지 확인해 보자. */
 
         if (msg.event != UFFD_EVENT_PAGEFAULT) {
             fprintf(stderr, &quot;Unexpected event on userfaultfd\n&quot;);
             exit(EXIT_FAILURE);
         }
 
-        /* 페이지 폴트 이벤트에 대한 정보 표시 */
+        /* 페이지 폴트 이벤트에 대한 정보 표시하기. */
 
         printf(&quot;    UFFD_EVENT_PAGEFAULT event: &quot;);
-        printf(&quot;flags = %llx; &quot;, msg.arg.pagefault.flags);
-        printf(&quot;address = %llx\n&quot;, msg.arg.pagefault.address);
+        printf(&quot;flags = %&quot;PRIx64&quot;; &quot;, msg.arg.pagefault.flags);
+        printf(&quot;address = %&quot;PRIx64&quot;\n&quot;, msg.arg.pagefault.address);
 
         /* 'page'가 가리키는 페이지를 폴트 발생 영역으로 복사.
            복사해 넣는 내용물을 다르게 해서 각 폴트를 따로 처리하는
@@ -436,7 +436,7 @@ fault_handler_thread(void *arg)
         uffdio_copy.src = (unsigned long) page;
 
         /* 페이지 단위로(!) 페이지 폴트를 처리해야 함. 따라서
-           폴트 발생 주소를 페이지 경계로 내림. */
+           폴트 발생 주소를 페이지 경계로 내림 한다. */
 
         uffdio_copy.dst = (unsigned long) msg.arg.pagefault.address &amp;
                                            ~(page_size - 1);
@@ -446,7 +446,7 @@ fault_handler_thread(void *arg)
         if (ioctl(uffd, UFFDIO_COPY, &amp;uffdio_copy) == -1)
             errExit(&quot;ioctl-UFFDIO_COPY&quot;);
 
-        printf(&quot;        (uffdio_copy.copy returned %lld)\n&quot;,
+        printf(&quot;        (uffdio_copy.copy returned %&quot;PRId64&quot;)\n&quot;,
                 uffdio_copy.copy);
     }
 }
@@ -456,7 +456,7 @@ main(int argc, char *argv[])
 {
     long uffd;          /* userfaultfd 파일 디스크립터 */
     char *addr;         /* userfaultfd로 처리하는 영역의 시작 */
-    unsigned long len;  /* userfaultfd로 처리하는 영역의 길이 */
+    uint64_t len;       /* userfaultfd로 처리하는 영역의 길이 */
     pthread_t thr;      /* 페이지 폴트를 처리하는 스레드의 ID */
     struct uffdio_api uffdio_api;
     struct uffdio_register uffdio_register;
@@ -468,9 +468,9 @@ main(int argc, char *argv[])
     }
 
     page_size = sysconf(_SC_PAGE_SIZE);
-    len = strtoul(argv[1], NULL, 0) * page_size;
+    len = strtoull(argv[1], NULL, 0) * page_size;
 
-    /* userfaultfd 객체를 만들고 활성화 */
+    /* userfaultfd 객체를 만들고 활성화하기. */
 
     uffd = syscall(__NR_userfaultfd, O_CLOEXEC | O_NONBLOCK);
     if (uffd == -1)
@@ -504,7 +504,7 @@ main(int argc, char *argv[])
     if (ioctl(uffd, UFFDIO_REGISTER, &amp;uffdio_register) == -1)
         errExit(&quot;ioctl-UFFDIO_REGISTER&quot;);
 
-    /* userfaultfd 이벤트를 처리할 스레드 만들기 */
+    /* userfaultfd 이벤트를 처리할 스레드 만들기. */
 
     s = pthread_create(&amp;thr, NULL, fault_handler_thread, (void *) uffd);
     if (s != 0) {
@@ -519,7 +519,7 @@ main(int argc, char *argv[])
     int l;
     l = 0xf;    /* Ensure that faulting address is not on a page
                    boundary, in order to test that we correctly
-                   handle that case in fault_handling_thread() */
+                   handle that case in fault_handling_thread(). */
     while (l &lt; len) {
         char c = addr[l];
         printf(&quot;Read address %p in main(): &quot;, addr + l);
@@ -531,12 +531,11 @@ main(int argc, char *argv[])
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[fcntl(2)]]</tt>, <code>ioctl(2)</code>, <tt>[[ioctl_userfaultfd(2)]]</tt>, <tt>[[madvise(2)]]</tt>, <tt>[[mmap(2)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt>, <code>ioctl(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/ioctl_userfaultfd(2)/">ioctl_userfaultfd(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/madvise(2)/">madvise(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt></p>
 <p>리눅스 커널 소스 트리의 <code>Documentation/admin-guide/mm/userfaultfd.rst</code></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

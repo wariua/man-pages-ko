@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/ntp_adjtime(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/ntp_adjtime%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Ntp adjtime(3) - man-pages-ko</title>
+    <title>ntp_adjtime(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -138,6 +138,8 @@
         <li class="first-level active"><a href="#name">NAME</a></li>
         <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
         <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+            <li class="second-level"><a href="#clock_adjtime">clock_adjtime()</a></li>
+                
             <li class="second-level"><a href="#ntp_adjtime">ntp_adjtime()</a></li>
                 
         <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
@@ -151,18 +153,19 @@
         <div class="col-md-9" role="main">
 
 <h2 id="name">NAME</h2>
-<p>adjtimex, ntp_adjtime - 커널 클럭 조정</p>
+<p>adjtimex, clock_adjtime, ntp_adjtime - 커널 클럭 조정</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;sys/timex.h&gt;
+<pre><code class="language-c">#include &lt;sys/timex.h&gt;
 
 int adjtimex(struct timex *buf);
 
+int clock_adjtime(clockid_t clk_id, struct timex *buf);
+
 int ntp_adjtime(struct timex *buf);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p>리눅스에서는 David L. Mills의 클럭 조정 알고리즘(RFC 5905)을 사용한다. 시스템 호출 <code>adjtimex()</code>는 이 알고리즘의 조정 매개변수들을 읽고 설정한다. <code>timex</code> 구조체 포인터를 받아서 (선택된) 필드 값들로 커널 매개변수를 갱신하고, 그 구조체를 현행 커널 값들로 갱신해서 반환한다. 구조체는 다음과 같이 선언돼 있다.</p>
-<pre><code class="c">struct timex {
+<pre><code class="language-c">struct timex {
     int  modes;      /* 동작 선택 */
     long offset;     /* 시간 오프셋. 상태 플래그 STA_NANO가
                         설정돼 있으면 나노초, 아니면
@@ -203,7 +206,6 @@ int ntp_adjtime(struct timex *buf);
     /* 향후 확장을 위한 추가 패딩 바이트 */
 };
 </code></pre>
-
 <p><code>modes</code> 필드가 설정할 매개변수를 결정한다. (잠시 후 설명하겠지만 <code>ntp_adjtime()</code>에는 동등하지만 이름이 다른 상수들을 쓴다.) 그 필드는 다음 비트들을 0개 이상 비트 <em>or</em> 조합해서 담은 비트 마스크이다.</p>
 <dl>
 <dt><code>ADJ_OFFSET</code></dt>
@@ -219,7 +221,15 @@ int ntp_adjtime(struct timex *buf);
 <dt><code>ADJ_TIMECONST</code></dt>
 <dd><code>buf.constant</code>로 PLL 시간 상수 설정. <code>STA_NANO</code> 상태 플래그(아래 참고)가 해제돼 있으면 커널에서 이 값에 4를 더한다.</dd>
 <dt><code>ADJ_SETOFFSET</code> (리눅스 2.6.39부터)</dt>
-<dd>현재 시간에 <code>buf.time</code> 더하기. <code>buf.status</code>에 <code>ADJ_NANO</code> 플래그가 포함돼 있으면 <code>buf.time.tv_usec</code>을 나노초 값으로 해석한다. 아니면 마이크로초로 해석한다.</dd>
+<dd>
+<p>현재 시간에 <code>buf.time</code> 더하기. <code>buf.status</code>에 <code>ADJ_NANO</code> 플래그가 포함돼 있으면 <code>buf.time.tv_usec</code>을 나노초 값으로 해석한다. 아니면 마이크로초로 해석한다.</p>
+<p><code>buf.time</code>의 값은 그 두 필드의 합이되, <code>buf.time.tv_usec</code> 필드가 음수가 아니어야 한다. 다음은 나노초 해상도로 <code>timeval</code>을 정규화 하는 방법을 보여 주는 예시다.</p>
+<pre><code>while (buf.time.tv_usec &lt; 0) {
+    buf.time.tv_sec  -= 1;
+    buf.time.tv_usec += 1000000000;
+}
+</code></pre>
+</dd>
 <dt><code>ADJ_MICRO</code> (리눅스 2.6.26부터)</dt>
 <dd>마이크로초 정밀도 선택.</dd>
 <dt><code>ADJ_NANO</code> (리눅스 2.6.26부터)</dt>
@@ -236,7 +246,7 @@ int ntp_adjtime(struct timex *buf);
 <p>또는 <code>modes</code>에 다음 (여러 비트로 된 마스크) 값들 중 하나를 지정할 수도 있으며, 그 경우 <code>modes</code>에 다른 비트들은 지정하지 말아야 한다.</p>
 <dl>
 <dt><code>ADJ_OFFSET_SINGLESHOT</code></dt>
-<dd>구식 <code>adjtime()</code> 방식: <code>buf.offset</code>에 마이크로초 단위로 지정된 조정 값에 따라 시간을 (점진적으로) 조정한다.</dd>
+<dd>구식 <tt><a class="wikilink" href="/man-pages-ko/adjtime(3)/">adjtime(3)</a></tt> 방식: <code>buf.offset</code>에 마이크로초 단위로 지정된 조정 값에 따라 시간을 (점진적으로) 조정한다.</dd>
 <dt><code>ADJ_OFFSET_SS_READ</code> (리눅스 2.6.28부터 동작)</dt>
 <dd>앞선 <code>ADJ_OFFSET_SINGLESHOT</code> 동작 후에 남은 조정 시간 양을 (<code>buf.offset</code>으로) 반환한다. 이 기능은 리눅스 2.6.24에서 추가되었는데 리눅스 2.6.28까지는 올바로 동작하지 않았다.</dd>
 </dl>
@@ -280,8 +290,10 @@ int ntp_adjtime(struct timex *buf);
 <dd>클럭 원천 (0 = A, 1 = B). 현재 쓰지 않음.</dd>
 </dl>
 <p>읽기 전용인 <code>status</code> 비트를 설정하려고 시도하면 조용히 무시한다.</p>
+<h3 id="clock_adjtime"><code>clock_adjtime()</code></h3>
+<p>(리눅스 2.6.39에서 추가된) <code>clock_adjtime()</code> 시스템 호출은 <code>adjtimex()</code>처럼 동작하되, 동작을 수행할 클럭을 지정하는 <code>clk_id</code> 인자를 추가로 받는다.</p>
 <h3 id="ntp_adjtime"><code>ntp_adjtime()</code></h3>
-<p>(NTP "Kernel Application Program API", 즉 KAPI에 기술돼 있는) <code>ntp_adjtime()</code> 라이브러리 함수는 <code>adjtimex()</code>와 같은 일을 수행할 수 있는 더 이식성 좋은 인터페이스이다. 다음 사항들을 제외하면 <code>adjtime()</code>과 동일하다.</p>
+<p>(NTP "Kernel Application Program API", 즉 KAPI에 기술돼 있는) <code>ntp_adjtime()</code> 라이브러리 함수는 <code>adjtimex()</code>와 같은 일을 수행할 수 있는 더 이식성 좋은 인터페이스이다. 다음 사항들을 제외하면 <code>adjtimex()</code>와 동일하다.</p>
 <ul>
 <li>
 <p><code>modes</code>에 쓰는 상수들이 "ADJ_" 대신 "MOD_"로 시작하고 뒷부분이 같다. (즉 <code>MOD_OFFSET</code>, <code>MOD_FREQUENCY</code> 등이다.) 단 아래 항목들은 예외이다.</p>
@@ -330,7 +342,7 @@ int ntp_adjtime(struct timex *buf);
 </dd>
 </dl>
 <p>참고로 리눅스 3.4부터는 호출이 비동기적으로 동작하므로 일반적으로 반환 값이 그 호출 자체로 인한 상태 변화를 반영하지 않게 된다.</p>
-<p>실패 시 이 호출들은 -1을 반환하고 <code>errno</code>를 설정한다.</p>
+<p>실패 시 이 호출들은 -1을 반환하고 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EFAULT</code></dt>
@@ -342,12 +354,18 @@ int ntp_adjtime(struct timex *buf);
 <dt><code>EINVAL</code></dt>
 <dd><code>buf.status</code>를 위에 나열된 것 외의 값으로 설정하려 했다.</dd>
 <dt><code>EINVAL</code></dt>
+<dd><code>clock_adjtime()</code>에 준 <code>clk_id</code>가 유효하지 않다. 시스템 V 방식의 하드코딩 된 양수 클럭 ID가 범위를 벗어났거나, 동적인 <code>clk_id</code>가 유효한 클럭 객체 인스턴스를 가리키고 있지 않다. 동적 클럭에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/clock_gettime(2)/">clock_gettime(2)</a></tt>을 보라.</dd>
+<dt><code>EINVAL</code></dt>
 <dd><code>buf.tick</code>을 <code>900000/HZ</code>에서 <code>1100000/HZ</code>까지 범위 밖의 값으로 설정하려 했다. 여기서 <code>HZ</code>는 시스템 타이머 인터럽트 빈도이다.</dd>
+<dt><code>ENODEV</code></dt>
+<dd>동적 <code>clk_id</code>가 나타내는 (예컨대 USB 같은) 핫플러그 장치가 문자 장치가 열린 후에 사라졌다. 동적 클럭에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/clock_gettime(2)/">clock_gettime(2)</a></tt>을 보라.</dd>
+<dt><code>EOPNOTSUPP</code></dt>
+<dd>지정한 <code>clk_id</code>가 조정을 지원하지 않는다.</dd>
 <dt><code>EPERM</code></dt>
 <dd><code>buf.modes</code>가 0이나 <code>ADJ_OFFSET_SS_READ</code>가 아니며 호출자에게 충분한 특권이 없다. 리눅스에서는 <code>CAP_SYS_TIME</code> 역능이 필요하다.</dd>
 </dl>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -366,16 +384,16 @@ int ntp_adjtime(struct timex *buf);
 </table>
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>이 인터페이스들 중 어느 것도 POSIX.1에 기술돼 있지 않다.</p>
-<p><code>adjtimex()</code>는 리눅스 전용이므로 이식성이 있어야 하는 프로그램에서는 사용하지 말아야 한다.</p>
+<p><code>adjtimex()</code>와 <code>clock_adjtime()</code>은 리눅스 전용이므로 이식성이 있어야 하는 프로그램에서는 사용하지 말아야 한다.</p>
 <p>NTP 데몬에게 적당한 API는 <code>ntp_adjtime()</code>이다.</p>
 <h2 id="notes">NOTES</h2>
 <p><code>timex</code> 구조체에서 <code>freq</code>, <code>ppsfreq</code>, <code>stabil</code>은 백만분율(ppm)이고 16비트는 소수부이다. 즉 그 필드들에서 값 1은 2^-16 ppm을 뜻하고 2^16=65536이 1 ppm이다. 입력 값(<code>freq</code>)과 출력 값 모두에서 그렇다.</p>
 <p><code>STA_INS</code> 및 <code>STA_DEL</code>로 인한 윤초 처리는 커널 타이머 문맥에서 이뤄진다. 따라서 윤초를 추가 내지 삭제하려면 초당 한 틱이 걸리게 된다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[settimeofday(2)]]</tt>, <tt>[[adjtime(3)]]</tt>, <tt>[[ntp_gettime(3)]]</tt>, <tt>[[capabilities(7)]]</tt>, <tt>[[time(7)]]</tt>, <code>adjtimex(8)</code>, <code>hwclock(8)</code></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/clock_gettime(2)/">clock_gettime(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/clock_settime(2)/">clock_settime(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/settimeofday(2)/">settimeofday(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/adjtime(3)/">adjtime(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ntp_gettime(3)/">ntp_gettime(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/capabilities(7)/">capabilities(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/time(7)/">time(7)</a></tt>, <code>adjtimex(8)</code>, <code>hwclock(8)</code></p>
 <p>NTP "Kernel Application Program Interface" (<a href="http://www.slac.stanford.edu/comp/unix/package/rtems/src/ssrlApps/ntpNanoclock/api.htm">http://www.slac.stanford.edu/comp/unix/package/rtems/src/ssrlApps/ntpNanoclock/api.htm</a>)</p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/CIRCLEQ_REMOVE%283%29/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>CIRCLEQ_REMOVE(3) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+            <li class="second-level"><a href="#_1">생성</a></li>
+                
+            <li class="second-level"><a href="#_2">삽입</a></li>
+                
+            <li class="second-level"><a href="#_3">순회</a></li>
+                
+            <li class="second-level"><a href="#_4">제거</a></li>
+                
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#bugs">BUGS</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>CIRCLEQ_EMPTY, CIRCLEQ_ENTRY, CIRCLEQ_FIRST, CIRCLEQ_FOREACH, CIRCLEQ_FOREACH_REVERSE, CIRCLEQ_HEAD, CIRCLEQ_HEAD_INITIALIZER, CIRCLEQ_INIT, CIRCLEQ_INSERT_AFTER, CIRCLEQ_INSERT_BEFORE, CIRCLEQ_INSERT_HEAD, CIRCLEQ_INSERT_TAIL, CIRCLEQ_LAST, CIRCLEQ_LOOP_NEXT, CIRCLEQ_LOOP_PREV, CIRCLEQ_NEXT, CIRCLEQ_PREV, CIRCLEQ_REMOVE - 이중 연결 원형 큐 구현</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="language-c">#include &lt;sys/queue.h&gt;
+
+CIRCLEQ_ENTRY(TYPE);
+
+CIRCLEQ_HEAD(HEADNAME, TYPE);
+CIRCLEQ_HEAD CIRCLEQ_HEAD_INITIALIZER(CIRCLEQ_HEAD head);
+void CIRCLEQ_INIT(CIRCLEQ_HEAD *head);
+
+int CIRCLEQ_EMPTY(CIRCLEQ_HEAD *head);
+
+void CIRCLEQ_INSERT_HEAD(CIRCLEQ_HEAD *head,
+                           struct TYPE *elm, CIRCLEQ_ENTRY NAME);
+void CIRCLEQ_INSERT_TAIL(CIRCLEQ_HEAD *head,
+                           struct TYPE *elm, CIRCLEQ_ENTRY NAME);
+void CIRCLEQ_INSERT_BEFORE(CIRCLEQ_HEAD *head, struct TYPE *listelm,
+                           struct TYPE *elm, CIRCLEQ_ENTRY NAME);
+void CIRCLEQ_INSERT_AFTER(CIRCLEQ_HEAD *head, struct TYPE *listelm,
+                           struct TYPE *elm, CIRCLEQ_ENTRY NAME);
+
+struct TYPE *CIRCLEQ_FIRST(CIRCLEQ_HEAD *head);
+struct TYPE *CIRCLEQ_LAST(CIRCLEQ_HEAD *head);
+struct TYPE *CIRCLEQ_PREV(struct TYPE *elm, CIRCLEQ_ENTRY NAME);
+struct TYPE *CIRCLEQ_NEXT(struct TYPE *elm, CIRCLEQ_ENTRY NAME);
+struct TYPE *CIRCLEQ_LOOP_PREV(CIRCLEQ_HEAD *head,
+                           struct TYPE *elm, CIRCLEQ_ENTRY NAME);
+struct TYPE *CIRCLEQ_LOOP_NEXT(CIRCLEQ_HEAD *head,
+                           struct TYPE *elm, CIRCLEQ_ENTRY NAME);
+
+CIRCLEQ_FOREACH(struct TYPE *var, CIRCLEQ_HEAD *head,
+                           CIRCLEQ_ENTRY NAME);
+CIRCLEQ_FOREACH_REVERSE(struct TYPE *var, CIRCLEQ_HEAD *head,
+                           CIRCLEQ_ENTRY NAME);
+
+void CIRCLEQ_REMOVE(CIRCLEQ_HEAD *head, struct TYPE *elm,
+                           CIRCLEQ_ENTRY NAME);
+</code></pre>
+<h2 id="description">DESCRIPTION</h2>
+<p>이 매크로들은 이중 연결 원형 큐를 정의하고 조작한다.</p>
+<p>매크로 정의에서 <code>TYPE</code>은 사용자 정의 구조체의 이름이며, 그 구조체에는 타입이 <code>CIRCLEQ_ENTRY</code>이고 이름이 <code>NAME</code>인 필드가 있어야 한다. <code>HEADNAME</code> 인자는 <code>CIRCLEQ_HEAD()</code> 매크로를 써서 선언해야 하는 사용자 정의 구조체의 이름이다.</p>
+<h3 id="_1">생성</h3>
+<p>원형 큐의 머리는 <code>CIRCLEQ_HEAD()</code> 매크로로 정의한 구조체이다. 이 구조체에는 포인터 한 쌍이 있는데, 하나는 큐의 첫 번째 항목을 가리키고 다른 하나는 큐의 마지막 항목을 가리킨다. 항목들이 이중으로 연결되어 있으므로 큐 순회 없이 임의 항목을 제거할 수 있다. 기존 항목 뒤나 기존 항목 앞에, 큐 머리나 큐 끝에 새 항목을 추가할 수 있다. <code>CIRCLEQ_HEAD</code> 구조체를 다음처럼 선언한다.</p>
+<pre><code class="language-c">CIRCLEQ_HEAD(HEADNAME, TYPE) head;
+</code></pre>
+<p><code>struct HEADNAME</code>이 정의하려는 구조체의 이름이고 <code>struct TYPE</code>이 큐로 연결할 항목들의 타입이다. 이후 다음처럼 큐 머리에 대한 포인터를 선언할 수 있다.</p>
+<pre><code class="language-c">struct HEADNAME *headp;
+</code></pre>
+<p>(이름 <code>head</code>와 <code>headp</code>는 사용자가 정할 수 있다.)</p>
+<p><code>CIRCLEQ_ENTRY()</code>는 큐에서 항목들을 연결하는 구조체를 선언한다.</p>
+<p><code>CIRCLEQ_HEAD_INITIALIZER()</code>는 큐 <code>head</code>를 위한 초기화 값으로 평가된다.</p>
+<p><code>CIRCLEQ_INIT()</code>은 <code>head</code>가 가리키는 큐를 초기화 한다.</p>
+<p><code>CIRCLEQ_EMPTY()</code>는 큐에 아무 항목도 없으면 참으로 평가된다.</p>
+<h3 id="_2">삽입</h3>
+<p><code>CIRCLEQ_INSERT_HEAD()</code>는 새 항목 <code>elm</code>을 큐의 머리에 삽입한다.</p>
+<p><code>CIRCLEQ_INSERT_TAIL()</code>는 새 항목 <code>elm</code>을 큐의 끝에 삽입한다.</p>
+<p><code>CIRCLEQ_INSERT_BEFORE()</code>는 새 항목 <code>elm</code>을 항목 <code>listelm</code> 앞에 삽입한다.</p>
+<p><code>CIRCLEQ_INSERT_AFTER()</code>는 새 항목 <code>elm</code>을 항목 <code>listelm</code> 뒤에 삽입한다.</p>
+<h3 id="_3">순회</h3>
+<p><code>CIRCLEQ_FIRST()</code>는 큐의 첫 번째 항목을 반환한다.</p>
+<p><code>CIRCLEQ_LAST()</code>는 큐의 마지막 항목을 반환한다.</p>
+<p><code>CIRCLEQ_PREV()</code>는 큐 내의 이전 항목을 반환하며, 현 항목이 첫 번째이면 <code>&amp;head</code>를 반환한다.</p>
+<p><code>CIRCLEQ_NEXT()</code>는 큐 내의 다음 항목을 반환하며, 현 항목이 마지막이면 <code>&amp;head</code>를 반환한다.</p>
+<p><code>CIRCLEQ_LOOP_PREV()</code>는 큐 내의 이전 항목을 반환한다. <code>elm</code>이 큐의 첫 번째 항목이면 마지막 항목을 반환한다.</p>
+<p><code>CIRCLEQ_LOOP_NEXT()</code>는 큐 내의 다음 항목을 반환한다. <code>elm</code>이 큐의 마지막 항목이면 첫 번째 항목을 반환한다.</p>
+<p><code>CIRCLEQ_FOREACH()</code>는 <code>head</code>가 가리키는 큐를 순방향으로 순회하면서 각 항목을 차례로 <code>var</code>에 할당한다. 루프가 정상적으로 끝나거나 항목이 없는 경우에 <code>var</code>를 <code>&amp;head</code>로 설정한다.</p>
+<p><code>CIRCLEQ_FOREACH_REVERSE()</code>는 <code>head</code>가 가리키는 큐를 역방향으로 순회하면서 각 항목을 차례로 <code>var</code>에 할당한다.</p>
+<h3 id="_4">제거</h3>
+<p><code>CIRCLEQ_REMOVE()</code>는 항목 <code>elm</code>을 큐에서 제거한다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p><code>CIRCLEQ_EMPTY()</code>는 큐가 비어 있으면 0 아닌 값을 반환하고, 큐에 한 항목이라도 있으면 0을 반환한다.</p>
+<p><code>CIRCLEQ_FIRST()</code>, <code>CIRCLEQ_LAST()</code>, <code>CIRCLEQ_LOOP_PREV()</code>, <code>CIRCLEQ_LOOP_NEXT()</code>는 각각 처음, 마지막, 이전, 다음 <code>TYPE</code> 구조체에 대한 포인터를 반환한다.</p>
+<p><code>CIRCLEQ_PREV()</code>와 <code>CIRCLEQ_NEXT()</code>는 <code>CIRCLEQ_LOOP_*()</code> 짝과 비슷하되, 인자가 각각 첫 번째 또는 마지막 항목이면 <code>&amp;head</code>를 반환한다.</p>
+<p><code>CIRCLEQ_HEAD_INITIALIZER()</code>는 큐 <code>head</code>에 할당할 수 있는 초기화 값을 반환한다.</p>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>POSIX.1, POSIX.1-2001, POSIX.1-2008에 없다. BSD들에 있다. (4.4BSD에서 CIRCLEQ 매크로들이 처음 등장했다.)</p>
+<h2 id="bugs">BUGS</h2>
+<p><code>CIRCLEQ_FOREACH()</code> 및 <code>CIRCLEQ_FOREACH_REVERSE()</code>에서 <code>var</code>를 루프 안에서 제거하거나 해제하는 것이 허용되지 않는다. 순회를 방해하게 되기 때문이다. BSD들에 있지만 glibc에는 없는 <code>CIRCLEQ_FOREACH_SAFE()</code> 및 <code>CIRCLEQ_FOREACH_REVERSE_SAFE()</code>에서 이 제약을 수정해서, 순회를 방해하지 않고 루프 안에서 <code>var</code>를 안전하게 리스트에서 제거하고 해제하는 것이 허용된다.</p>
+<h2 id="examples">EXAMPLES</h2>
+<pre><code class="language-c">#include &lt;stddef.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;sys/queue.h&gt;
+
+struct entry {
+    int data;
+    CIRCLEQ_ENTRY(entry) entries;           /* 큐 */
+};
+
+CIRCLEQ_HEAD(circlehead, entry);
+
+int
+main(void)
+{
+    struct entry *n1, *n2, *n3, *np;
+    struct circlehead head;                 /* 큐 머리 */
+    int i;
+
+    CIRCLEQ_INIT(&amp;head);                    /* 큐 초기화 */
+
+    n1 = malloc(sizeof(struct entry));      /* 머리에 삽입 */
+    CIRCLEQ_INSERT_HEAD(&amp;head, n1, entries);
+
+    n1 = malloc(sizeof(struct entry));      /* 꼬리에 삽입 */
+    CIRCLEQ_INSERT_TAIL(&amp;head, n1, entries);
+
+    n2 = malloc(sizeof(struct entry));      /* 바로 뒤에 삽입 */
+    CIRCLEQ_INSERT_AFTER(&amp;head, n1, n2, entries);
+
+    n3 = malloc(sizeof(struct entry));      /* 바로 앞에 삽입 */
+    CIRCLEQ_INSERT_BEFORE(&amp;head, n2, n3, entries);
+
+    CIRCLEQ_REMOVE(&amp;head, n2, entries);     /* 삭제 */
+    free(n2);
+                                            /* 순방향 순회 */
+    i = 0;
+    CIRCLEQ_FOREACH(np, &amp;head, entries)
+        np-&gt;data = i++;
+                                            /* 역방향 순회 */
+    CIRCLEQ_FOREACH_REVERSE(np, &amp;head, entries)
+        printf(&quot;%i\n&quot;, np-&gt;data);
+                                            /* 큐 삭제 */
+    n1 = CIRCLEQ_FIRST(&amp;head);
+    while (n1 != (void *)&amp;head) {
+        n2 = CIRCLEQ_NEXT(n1, entries);
+        free(n1);
+        n1 = n2;
+    }
+    CIRCLEQ_INIT(&amp;head);
+
+    exit(EXIT_SUCCESS);
+}
+</code></pre>
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt><a class="wikilink" href="/man-pages-ko/insque(3)/">insque(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/queue(7)/">queue(7)</a></tt></p>
+<hr />
+<p>2021-03-22</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

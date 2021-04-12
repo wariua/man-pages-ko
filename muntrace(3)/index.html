@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/muntrace(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/muntrace%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Muntrace(3) - man-pages-ko</title>
+    <title>muntrace(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -142,7 +142,7 @@
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
         <li class="first-level "><a href="#bugs">BUGS</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
@@ -151,20 +151,18 @@
 <h2 id="name">NAME</h2>
 <p>mtrace, muntrace - malloc 추적</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;mcheck.h&gt;
+<pre><code class="language-c">#include &lt;mcheck.h&gt;
 
 void mtrace(void);
-
 void muntrace(void);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
-<p><code>mtrace()</code> 함수는 메모리 할당 함수들(<tt>[[malloc(3)]]</tt>, <tt>[[realloc(3)]]</tt>, <tt>[[memalign(3)]]</tt>, <tt>[[free(3)]]</tt>)에 훅 함수를 설치한다. 그 훅 함수들에서는 메모리 할당과 해제에 대한 추적 정보를 기록한다. 그 추적 정보를 이용해 프로그램 내의 메모리 누수와 비할당 메모리 해제 시도를 찾아낼 수 있다.</p>
+<p><code>mtrace()</code> 함수는 메모리 할당 함수들(<tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/realloc(3)/">realloc(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/memalign(3)/">memalign(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/free(3)/">free(3)</a></tt>)에 훅 함수를 설치한다. 그 훅 함수들에서는 메모리 할당과 해제에 대한 추적 정보를 기록한다. 그 추적 정보를 이용해 프로그램 내의 메모리 누수와 비할당 메모리 해제 시도를 찾아낼 수 있다.</p>
 <p><code>muntrace()</code> 함수는 <code>mtrace()</code>로 설치한 훅 함수들을 비활성화해서 메모리 할당 함수들에 대한 추적 정보를 더 이상 기록하지 않게 한다. <code>mtrace()</code>로 설치했던 훅 함수가 없으면 <code>muntrace()</code>는 아무것도 하지 않는다.</p>
 <p><code>mtrace()</code>를 호출하면 환경 변수 <code>MALLOC_TRACE</code>의 값을 확인하는데, 추적 정보를 기록할 파일의 경로명을 담고 있어야 한다. 그 경로명이 성공적으로 열리면 파일을 길이 0으로 잘라낸다.</p>
 <p><code>MALLOC_TRACE</code>가 설정돼 있지 않거나, 지정한 경로명이 유효하지 않거나 쓰기 가능하지 않으면 훅 함수를 설치하지 않으며 <code>mtrace()</code>가 아무것도 하지 않는다. set-user-ID 및 set-group-ID 프로그램에서는 <code>MALLOC_TRACE</code>를 무시하며 <code>mtrace()</code>가 아무것도 하지 않는다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -189,9 +187,9 @@ void muntrace(void);
 <p><code>mtrace()</code>로 수행하는 추적은 (<code>MALLOC_TRACE</code>가 유효하고 쓰기 가능한 경로명을 가리킨다면) 성능 저하를 유발한다.</p>
 <h2 id="bugs">BUGS</h2>
 <p><code>mtrace(1)</code>가 내놓는 행 번호 정보가 항상 정확하지는 않다. 행 번호가 소스 코드에서 앞이나 뒤의 (비어 있지 않은) 행을 가리킬 수도 있다.</p>
-<h2 id="example">EXAMPLE</h2>
+<h2 id="examples">EXAMPLES</h2>
 <p>아래의 셸 세션은 두 군데에 메모리 누수가 있는 프로그램으로 <code>mtrace()</code> 함수와 <code>mtrace(1)</code> 명령 사용 방식을 보여 준다. 다음 프로그램을 사용한다.</p>
-<pre><code class="text">$ cat t_mtrace.c
+<pre><code class="language-text">$ cat t_mtrace.c
 #include &lt;mcheck.h&gt;
 #include &lt;stdlib.h&gt;
 #include &lt;stdio.h&gt;
@@ -199,20 +197,17 @@ void muntrace(void);
 int
 main(int argc, char *argv[])
 {
-    int j;
-
     mtrace();
 
-    for (j = 0; j &lt; 2; j++)
+    for (int j = 0; j &lt; 2; j++)
         malloc(100);            /* free 안 함 - 메모리 누수 */
 
     calloc(16, 16);             /* free 안 함 - 메모리 누수 */
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <p>다음과 같이 프로그램을 돌리면 <code>mtrace()</code>가 프로그램 내의 두 곳에서 메모리 누수를 진단하는 것을 볼 수 있다.</p>
-<pre><code class="text">$ cc -g t_mtrace.c -o t_mtrace
+<pre><code class="language-text">$ cc -g t_mtrace.c -o t_mtrace
 $ export MALLOC_TRACE=/tmp/t
 $ ./t_mtrace
 $ mtrace ./t_mtrace $MALLOC_TRACE
@@ -223,12 +218,11 @@ Memory not freed:
 0x084c93e0     0x64  at /home/cecilia/t_mtrace.c:12
 0x084c9448    0x100  at /home/cecilia/t_mtrace.c:16
 </code></pre>
-
-<p>처음 두 메시지는 <code>for</code> 루프 안의 <tt>[[malloc(3)]]</tt> 호출 두 번에 해당하는 해제 안 된 메모리에 대한 것이다. 마지막 메시지는 <tt>[[calloc(3)]]</tt> 호출(내부에서 다시 <tt>[[malloc(3)]]</tt> 호출함)에 해당한다.</p>
+<p>처음 두 메시지는 <code>for</code> 루프 안의 <tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt> 호출 두 번에 해당하는 해제 안 된 메모리에 대한 것이다. 마지막 메시지는 <tt><a class="wikilink" href="/man-pages-ko/calloc(3)/">calloc(3)</a></tt> 호출(내부에서 다시 <tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt> 호출함)에 해당한다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>mtrace(1)</code>, <tt>[[malloc(3)]]</tt>, <tt>[[malloc_hook(3)]]</tt>, <tt>[[mcheck(3)]]</tt></p>
+<p><code>mtrace(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/malloc_hook(3)/">malloc_hook(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mcheck(3)/">mcheck(3)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

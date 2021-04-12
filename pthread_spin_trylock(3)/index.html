@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_spin_trylock(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_spin_trylock%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Pthread spin trylock(3) - man-pages-ko</title>
+    <title>pthread_spin_trylock(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -151,22 +151,21 @@
 <h2 id="name">NAME</h2>
 <p>pthread_spin_lock, pthread_spin_trylock, pthread_spin_unlock - 스핀락 잠그기 및 풀기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;pthread.h&gt;
+<pre><code class="language-c">#include &lt;pthread.h&gt;
 
 int pthread_spin_lock(pthread_spinlock_t *lock);
 int pthread_spin_trylock(pthread_spinlock_t *lock);
 int pthread_spin_unlock(pthread_spinlock_t *lock);
 </code></pre>
-
 <p><code>-pthread</code>로 컴파일 및 링크.</p>
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>pthread_spin_lock()</code>, <code>pthread_spin_trylock()</code>:</dt>
 <dd><code>_POSIX_C_SOURCE &gt;= 200112L</code></dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>pthread_spin_lock()</code> 함수는 <code>lock</code>이 가리키는 스핀락을 잠근다. 스핀락이 현재 잠겨 있지 않으면 호출 스레드가 즉시 락을 획득한다. 스핀락이 현재 다른 스레드에 의해 잠겨 있으면 호출 스레드가 맴돌면서 락을 검사하며, 락이 사용 가능해지는 시점에 호출 스레드가 락을 획득한다.</p>
-<p>호출자가 이미 잡고 있는 락이나 <tt>[[pthread_spin_init(3)]]</tt>으로 초기화 하지 않은 락에 <code>pthread_spin_lock()</code>을 호출하는 결과는 규정되어 있지 않다.</p>
+<p>호출자가 이미 잡고 있는 락이나 <tt><a class="wikilink" href="/man-pages-ko/pthread_spin_init(3)/">pthread_spin_init(3)</a></tt>으로 초기화 하지 않은 락에 <code>pthread_spin_lock()</code>을 호출하는 결과는 규정되어 있지 않다.</p>
 <p><code>pthread_spin_trylock()</code> 함수는 <code>pthread_spin_lock()</code>과 비슷하되 <code>lock</code>이 가리키는 스핀락이 현재 잠겨 있으면 맴돌기를 하지 않고 호출이 즉시 <code>EBUSY</code> 오류로 반환한다.</p>
 <p><code>pthread_spin_unlock()</code> 함수는 <code>lock</code>이 가리키는 스핀락을 푼다. 그 락에 맴돌고 있는 스레드가 있으면 그 중 한 스레드가 락을 획득하게 된다.</p>
 <p>호출자가 잡고 있지 않은 락에 <code>pthread_spin_unlock()</code>을 호출하는 결과는 규정되어 있지 않다.</p>
@@ -189,11 +188,11 @@ int pthread_spin_unlock(pthread_spinlock_t *lock);
 <p>POSIX.1-2001.</p>
 <h2 id="notes">NOTES</h2>
 <p>이 페이지에서 기술하는 함수들을 초기화 되어 있지 않은 락에 적용하는 결과는 규정되어 있지 않다.</p>
-<p><tt>[[pthread_spin_init(3)]]</tt>의 NOTES를 주의 깊게 읽어 보라.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/pthread_spin_init(3)/">pthread_spin_init(3)</a></tt>의 NOTES를 주의 깊게 읽어 보라.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[pthread_spin_destroy(3)]]</tt>, <tt>[[pthread_spin_init(3)]]</tt>, <tt>[[pthreads(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/pthread_spin_destroy(3)/">pthread_spin_destroy(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_spin_init(3)/">pthread_spin_init(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthreads(7)/">pthreads(7)</a></tt></p>
 <hr />
-<p>2017-09-30</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

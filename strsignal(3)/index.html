@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/strsignal(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/strsignal%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Strsignal(3) - man-pages-ko</title>
+    <title>strsignal(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -141,40 +141,56 @@
         <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
         <div class="col-md-9" role="main">
 
 <h2 id="name">NAME</h2>
-<p>strsignal - 시그널을 설명하는 문자열 반환</p>
+<p>strsignal, sigdescr_np, sigabbrev_np, sys_siglist - 시그널을 설명하는 문자열 반환</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;string.h&gt;
+<pre><code class="language-c">#include &lt;string.h&gt;
 
 char *strsignal(int sig);
+char *sigdescr_np(int sig);
+char *sigabbrev_np(int sig);
 
 extern const char * const sys_siglist[];
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
+<dt><code>sigabbrev_np()</code>, <code>sigdescr_np()</code>:</dt>
+<dd><code>_GNU_SOURCE</code></dd>
 <dt><code>strsignal()</code>:</dt>
 <dd>
 <dl>
-<dt>glibc 2.10부터:</dt>
+<dt>glibc 2.10부터 2.31까지:</dt>
 <dd><code>_POSIX_C_SOURCE &gt;= 200809L</code></dd>
 <dt>glibc 2.10 전:</dt>
 <dd><code>_GNU_SOURCE</code></dd>
 </dl>
 </dd>
+<dt><code>sys_siglist</code>:</dt>
+<dd>
+<dl>
+<dt>glibc 2.19부터:</dt>
+<dd><code>_DEFAULT_SOURCE</code></dd>
+<dt>glibc 2.19 및 이전:</dt>
+<dd><code>_BSD_SOURCE</code></dd>
+</dl>
+</dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>strsignal()</code> 함수는 <code>sig</code> 인자로 준 시그널 번호를 설명하는 문자열을 반환한다. 그 문자열은 다음 <code>strsignal()</code> 호출 전까지만 사용할 수 있다.</p>
-<p>배열 <code>sys_siglist</code>는 시그널 설명 문자열들을 담고 있으며 시그널 번호가 인덱스다. 가능하면 이 배열 대신 <code>strsignal()</code> 함수를 쓰는 게 좋다.</p>
+<p><code>strsignal()</code> 함수는 <code>sig</code> 인자로 준 시그널 번호를 설명하는 문자열을 반환한다. 그 문자열은 다음 <code>strsignal()</code> 호출 전까지만 사용할 수 있다. <code>strsignal()</code>이 반환하는 문자열은 현재 로캘의 <code>LC_MESSAGES</code> 카테고리에 따라 지역화되어 있다.</p>
+<p><code>sigdescr_np()</code> 함수는 <code>sig</code> 인자로 준 시그널 번호를 설명하는 문자열을 반환한다. <code>strsignal()</code>과 달리 이 문자열은 현재 로캘의 영향을 받지 않는다.</p>
+<p><code>sigabbrev_np()</code> 함수는 시그널 <code>sig</code>의 축약 이름을 반환한다. 예를 들어 <code>SIGINT</code> 값을 받아서 문자열 "INT"를 반환한다.</p>
+<p>(제거 예정인) 배열 <code>sys_siglist</code>는 시그널 설명 문자열들을 담고 있으며 시그널 번호가 인덱스다. 이 배열 대신 <code>strsignal()</code>이나 <code>sigdescr_np()</code> 함수를 쓰는 게 좋다. VERSIONS도 확인해 보라.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p><code>strsignal()</code> 함수는 적절한 설명 문자열을 반환한다. 시그널 번호가 유효하지 않으면 알 수 없는 시그널이라는 메시지를 반환한다. 일부 시스템(리눅스는 아님)에서는 유효하지 않은 시그널 번호에 대해 NULL을 반환할 수도 있다.</p>
+<p><code>sigdescr_np()</code> 및 <code>sigabbrev_np()</code> 함수는 적절한 설명 문자열을 반환한다. 반환된 문자열은 정적으로 할당되어 있어서 프로그램 수명 내내 유효하다. 유효하지 않은 시그널 번호에 대해 NULL을 반환한다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -189,14 +205,23 @@ extern const char * const sys_siglist[];
 <td>스레드 안전성</td>
 <td>MT-Unsafe race:strsignal locale</td>
 </tr>
+<tr>
+<td><code>sigdescr_np()</code>, <code>sigabbrev_np()</code></td>
+<td>스레드 안전성</td>
+<td>MT-Safe</td>
+</tr>
 </tbody>
 </table>
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2008. 솔라리스 및 BSD 계열에 있음.</p>
+<p><code>sigdescr_np()</code>와 <code>sigabbrev_np()</code>는 GNU 확장이다.</p>
+<p><code>sys_siglist</code>는 비표준이지만 다른 여러 시스템에 존재한다.</p>
+<h2 id="notes">NOTES</h2>
+<p><code>sigdescr_np()</code>와 <code>sigabbrev_np()</code>는 스레드 안전이고 비동기 시그널 안전이다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[psignal(3)]]</tt>, <tt>[[strerror(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/psignal(3)/">psignal(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/strerror(3)/">strerror(3)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

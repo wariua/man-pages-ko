@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/htons(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/htons%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Htons(3) - man-pages-ko</title>
+    <title>htons(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -148,17 +148,14 @@
 <h2 id="name">NAME</h2>
 <p>htonl, htons, ntohl, ntohs - 호스트 바이트 순서와 네트워크 바이트 순서 간에 값 변환하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;arpa/inet.h&gt;
+<pre><code class="language-c">#include &lt;arpa/inet.h&gt;
 
 uint32_t htonl(uint32_t hostlong);
-
 uint16_t htons(uint16_t hostshort);
 
 uint32_t ntohl(uint32_t netlong);
-
 uint16_t ntohs(uint16_t netshort);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>htonl()</code> 함수는 부호 없는 정수 <code>hostlong</code>을 호스트 바이트 순서에서 네트워크 바이트 순서로 변환한다.</p>
 <p><code>htons()</code> 함수는 부호 없는 단정수 <code>hostshort</code>을 호스트 바이트 순서에서 네트워크 바이트 순서로 변환한다.</p>
@@ -166,7 +163,7 @@ uint16_t ntohs(uint16_t netshort);
 <p><code>ntohs()</code> 함수는 부호 없는 단정수 <code>netshort</code>을 네트워크 바이트 순서에서 호스트 바이트 순서로 변환한다.</p>
 <p>i386의 호스트 바이트 순서는 하위 바이트 우선이다. 반면 인터넷에서 쓰는 네트워크 바이트 순서는 상위 바이트 우선이다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -187,9 +184,9 @@ uint16_t ntohs(uint16_t netshort);
 <p>POSIX.1-2001, POSIX.1-2008.</p>
 <p>일부 시스템에서는 <code>&lt;arpa/inet.h&gt;</code> 대신 <code>&lt;netinet/in.h&gt;</code>을 포함해야 한다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[bswap(3)]]</tt>, <tt>[[endian(3)]]</tt>, <tt>[[gethostbyname(3)]]</tt>, <tt>[[getservent(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/bswap(3)/">bswap(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/endian(3)/">endian(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/gethostbyname(3)/">gethostbyname(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/getservent(3)/">getservent(3)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

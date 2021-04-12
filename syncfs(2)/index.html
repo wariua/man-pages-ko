@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/syncfs(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/syncfs%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Syncfs(2) - man-pages-ko</title>
+    <title>syncfs(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -152,19 +152,18 @@
 <h2 id="name">NAME</h2>
 <p>sync, syncfs - 파일 시스템 캐시를 디스크로 보내기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;unistd.h&gt;
+<pre><code class="language-c">#include &lt;unistd.h&gt;
 
 void sync(void);
 
 int syncfs(int fd);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>sync()</code>:</dt>
 <dd><code>_XOPEN_SOURCE &gt;= 500</code><br>
 <code>|| /* glibc 2.19부터: */ _DEFAULT_SOURCE</code><br>
-<code>|| /* glibc 버전 &lt;= 2.19: */ _BSD_SOURCE</code></dd>
+<code>|| /* glibc &lt;= 2.19: */ _BSD_SOURCE</code></dd>
 <dt><code>syncfs()</code>:</dt>
 <dd><code>_GNU_SOURCE</code></dd>
 </dl>
@@ -179,6 +178,12 @@ int syncfs(int fd);
 <dl>
 <dt><code>EBADF</code></dt>
 <dd><code>fd</code>가 유효한 파일 디스크립터가 아니다.</dd>
+<dt><code>EIO</code></dt>
+<dd>동기화 중에 오류가 발생했다. 파일 시스템 상의 파일에 쓴 데이터에 관련된 오류일 수도 있고 파일 시스템 자체에 대한 메타데이터에 대한 것일 수도 있다.</dd>
+<dt><code>ENOSPC</code></dt>
+<dd>동기화 중에 디스크 공간이 고갈되었다.</dd>
+<dt><code>ENOSPC</code>, <code>EDQUOT</code></dt>
+<dd><code>write(2)</code> 시스템 호출 시점에 공간을 할당하지 않는 NFS나 다른 파일 시스템에 데이터를 써넣었으며 이전의 어떤 쓰기 동작이 저장 공간 불충분 때문에 실패했다.</dd>
 </dl>
 <h2 id="versions">VERSIONS</h2>
 <p>리눅스 2.6.39에서 <code>syncfs()</code>가 처음 등장했다. glibc 버전 2.14에서 라이브러리 지원이 추가되었다.</p>
@@ -187,13 +192,14 @@ int syncfs(int fd);
 <p><code>syncfs()</code>는 리눅스 전용이다.</p>
 <h2 id="notes">NOTES</h2>
 <p>glibc 2.2.2부터 여러 표준을 따라서 리눅스의 <code>sync()</code> 원형이 위와 같다. glibc 2.2.1 및 이전에서는 "<code>int sync(void)</code>"였으며 <code>sync()</code>가 항상 0을 반환했다.</p>
-<p>표준 명세(가령 POSIX.1-2001)에 따르면 <code>sync()</code>가 쓰기를 예약하되 실제 쓰기가 끝나기 전에 반환할 수도 있다. 하지만 리눅스에서는 I/O 완료를 기다리며, 그래서 <code>sync()</code>와 <code>syncfs()</code>가 시스템 내지 파일 시스템의 모든 파일에 대해 <tt>[[fsync(2)]]</tt>를 호출하는 것과 같은 보장을 해 준다.</p>
+<p>표준 명세(가령 POSIX.1-2001)에 따르면 <code>sync()</code>가 쓰기를 예약하되 실제 쓰기가 끝나기 전에 반환할 수도 있다. 하지만 리눅스에서는 I/O 완료를 기다리며, 그래서 <code>sync()</code>와 <code>syncfs()</code>가 시스템 내지 파일 시스템의 모든 파일에 대해 <code>fsync()</code>를 호출하는 것과 같은 보장을 해 준다.</p>
+<p>5.8 전의 커널 주 버전에서는 잘못된 파일 디스크립터를 줄 때만 <code>syncfs()</code>가 실패(<code>EBADF</code>)한다. 5.8부터는 최근 <code>syncfs()</code> 호출 이후로 하나 이상의 아이노드 기록에 실패한 경우에도 오류를 보고한다.</p>
 <h2 id="bugs">BUGS</h2>
 <p>리눅스 버전 1.3.20 전에서는 반환 전에 I/O가 완료되기를 기다리지 않았다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>sync(1)</code>, <tt>[[fdatasync(2)]]</tt>, <tt>[[fsync(2)]]</tt></p>
+<p><code>sync(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/fdatasync(2)/">fdatasync(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fsync(2)/">fsync(2)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

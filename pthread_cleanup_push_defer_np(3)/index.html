@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_cleanup_push_defer_np(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_cleanup_push_defer_np%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Pthread cleanup push defer np(3) - man-pages-ko</title>
+    <title>pthread_cleanup_push_defer_np(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -147,26 +147,28 @@
 <h2 id="name">NAME</h2>
 <p>pthread_cleanup_push_defer_np, pthread_cleanup_pop_restore_np - 스레드 취소 정리 핸들러 집어넣고 꺼내면서 취소 가능성 유형도 저장하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;pthread.h&gt;
+<pre><code class="language-c">#include &lt;pthread.h&gt;
 
-void pthread_cleanup_push_defer_np(void (*routine)(void *),
-                                   void *arg);
+void pthread_cleanup_push_defer_np(void (*routine)(void *), void *arg);
 void pthread_cleanup_pop_restore_np(int execute);
 </code></pre>
-
 <p><code>-pthread</code>로 링크.</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
+<dl>
+<dt><code>pthread_cleanup_push_defer_np()</code>, <code>pthread_cleanup_pop_defer_np()</code>:</dt>
+<dd><code>_GNU_SOURCE</code></dd>
+</dl>
 <h2 id="description">DESCRIPTION</h2>
-<p>이 함수들은 이 페이지에서 언급하는 차이들을 제외하면 <tt>[[pthread_cleanup_push(3)]]</tt> 및 <tt>[[pthread_cleanup_pop(3)]]</tt>과 같다.</p>
-<p><code>pthread_cleanup_push_defer_np()</code>는 <tt>[[pthread_cleanup_push(3)]]</tt>처럼 스레드의 취소 정리 핸들러 스택에 <code>routine</code>을 집어넣는다. 그에 더해서 스레드의 현재 취소 가능성 유형을 저장하고 취소 가능성 유형을 "연기"로 설정한다. (<tt>[[pthread_setcanceltype(3)]]</tt> 참고.) 이렇게 하면 호출 전에 스레드의 취소 가능성 유형이 "비동기"였던 경우에도 취소 정리가 일어나게 된다.</p>
-<p><code>pthread_cleanup_pop_restore_np()</code>는 <tt>[[pthread_cleanup_pop(3)]]</tt>처럼 스레드의 취소 정리 핸들러 스택에서 최상단의 정리 핸들러를 꺼낸다. 그에 더해서 스레드의 취소 가능성 유형을 대응하는 <code>pthread_cleanup_push_defer_np()</code> 호출 시점의 값으로 복원한다.</p>
-<p>이 함수들의 호출이 같은 함수 안에 있도록, 그리고 같은 문법적 내포 단계에 있도록 해야 한다. <tt>[[pthread_cleanup_push(3)]]</tt>에서 기술하는 다른 제약들이 마찬가지로 적용된다.</p>
+<p>이 함수들은 이 페이지에서 언급하는 차이들을 제외하면 <tt><a class="wikilink" href="/man-pages-ko/pthread_cleanup_push(3)/">pthread_cleanup_push(3)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/pthread_cleanup_pop(3)/">pthread_cleanup_pop(3)</a></tt>과 같다.</p>
+<p><code>pthread_cleanup_push_defer_np()</code>는 <tt><a class="wikilink" href="/man-pages-ko/pthread_cleanup_push(3)/">pthread_cleanup_push(3)</a></tt>처럼 스레드의 취소 정리 핸들러 스택에 <code>routine</code>을 집어넣는다. 그에 더해서 스레드의 현재 취소 가능성 유형을 저장하고 취소 가능성 유형을 "연기"로 설정한다. (<tt><a class="wikilink" href="/man-pages-ko/pthread_setcanceltype(3)/">pthread_setcanceltype(3)</a></tt> 참고.) 이렇게 하면 호출 전에 스레드의 취소 가능성 유형이 "비동기"였던 경우에도 취소 정리가 일어나게 된다.</p>
+<p><code>pthread_cleanup_pop_restore_np()</code>는 <tt><a class="wikilink" href="/man-pages-ko/pthread_cleanup_pop(3)/">pthread_cleanup_pop(3)</a></tt>처럼 스레드의 취소 정리 핸들러 스택에서 최상단의 정리 핸들러를 꺼낸다. 그에 더해서 스레드의 취소 가능성 유형을 대응하는 <code>pthread_cleanup_push_defer_np()</code> 호출 시점의 값으로 복원한다.</p>
+<p>이 함수들의 호출이 같은 함수 안에 있도록, 그리고 같은 문법적 내포 단계에 있도록 해야 한다. <tt><a class="wikilink" href="/man-pages-ko/pthread_cleanup_push(3)/">pthread_cleanup_push(3)</a></tt>에서 기술하는 다른 제약들이 마찬가지로 적용된다.</p>
 <p>다음 호출 열이</p>
-<pre><code class="c">pthread_cleanup_push_defer_np(routine, arg);
+<pre><code class="language-c">pthread_cleanup_push_defer_np(routine, arg);
 pthread_cleanup_pop_restore_np(execute);
 </code></pre>
-
 <p>다음과 동등하다. (하지만 더 짧고 효율적이다.)</p>
-<pre><code class="c">int oldtype;
+<pre><code class="language-c">int oldtype;
 
 pthread_cleanup_push(routine, arg);
 pthread_setcanceltype(PTHREAD_CANCEL_DEFERRED, &amp;oldtype);
@@ -174,13 +176,12 @@ pthread_setcanceltype(PTHREAD_CANCEL_DEFERRED, &amp;oldtype);
 pthread_setcanceltype(oldtype, NULL);
 pthread_cleanup_pop(execute);
 </code></pre>
-
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>이 함수들은 비표준 GNU 확장이다. 그래서 이름 뒤에 "_np"(nonportable: 이식성 없음)가 붙어 있다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[pthread_cancel(3)]]</tt>, <tt>[[pthread_cleanup_push(3)]]</tt>, <tt>[[pthread_setcancelstate(3)]]</tt>, <tt>[[pthread_testcancel(3)]]</tt>, <tt>[[pthreads(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/pthread_cancel(3)/">pthread_cancel(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_cleanup_push(3)/">pthread_cleanup_push(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_setcancelstate(3)/">pthread_setcancelstate(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_testcancel(3)/">pthread_testcancel(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthreads(7)/">pthreads(7)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

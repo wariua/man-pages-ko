@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_getattr_np(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_getattr_np%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Pthread getattr np(3) - man-pages-ko</title>
+    <title>pthread_getattr_np(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -143,7 +143,7 @@
         <li class="first-level "><a href="#versions">VERSIONS</a></li>
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
             <li class="second-level"><a href="#_1">프로그램 소스</a></li>
                 
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
@@ -154,16 +154,15 @@
 <h2 id="name">NAME</h2>
 <p>pthread_getattr_np - 생성된 스레드의 속성 얻기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#define _GNU_SOURCE             /* feature_test_macros(7) 참고 */
+<pre><code class="language-c">#define _GNU_SOURCE             /* feature_test_macros(7) 참고 */
 #include &lt;pthread.h&gt;
 
 int pthread_getattr_np(pthread_t thread, pthread_attr_t *attr);
 </code></pre>
-
 <p><code>-pthread</code>로 컴파일 및 링크.</p>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>pthread_getattr_np()</code> 함수는 <code>attr</code>이 가리키는 스레드 속성 객체를 동작 중인 스레드 <code>thread</code>를 기술하는 실제 속성 값들을 담도록 설정한다.</p>
-<p>반환되는 속성 값이 <tt>[[pthread_create(3)]]</tt>으로 스레드를 생성할 때 썼던 <code>attr</code> 객체로 전달한 대응 속성 값과 다를 수도 있다. 특히 다음 속성들이 다를 수 있다.</p>
+<p>반환되는 속성 값이 <tt><a class="wikilink" href="/man-pages-ko/pthread_create(3)/">pthread_create(3)</a></tt>으로 스레드를 생성할 때 썼던 <code>attr</code> 객체로 전달한 대응 속성 값과 다를 수도 있다. 특히 다음 속성들이 다를 수 있다.</p>
 <ul>
 <li>
 <p>분리 상태. 생성 후 합류 가능 스레드가 스스로를 분리했을 수 있다.</p>
@@ -176,7 +175,7 @@ int pthread_getattr_np(pthread_t thread, pthread_attr_t *attr);
 </li>
 </ul>
 <p>여기에 더해서, 스레드 생성에 쓰인 스레드 속성 객체에 스택 주소 속성이 설정돼 있지 않았다면 구현에서 그 스레드에 골라 준 실제 스택 주소를 반환되는 스레드 속성 객체가 알려 주게 된다.</p>
-<p><code>pthread_getattr_np()</code>가 반환한 스레드 속성 객체가 더 이상 필요하지 않으면 <tt>[[pthread_attr_destroy(3)]]</tt>로 파기하는 게 좋다.</p>
+<p><code>pthread_getattr_np()</code>가 반환한 스레드 속성 객체가 더 이상 필요하지 않으면 <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_destroy(3)/">pthread_attr_destroy(3)</a></tt>로 파기하는 게 좋다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 이 함수들은 0을 반환한다. 오류 시 0 아닌 오류 번호를 반환한다.</p>
 <h2 id="errors">ERRORS</h2>
@@ -184,11 +183,11 @@ int pthread_getattr_np(pthread_t thread, pthread_attr_t *attr);
 <dt><code>ENOMEM</code></dt>
 <dd>메모리 부족.</dd>
 </dl>
-<p>더불어 <code>thread</code>가 메인 스레드를 가리키는 경우에는 여러 기반 호출들의 오류 때문에 <code>pthread_getattr_np()</code>가 실패할 수 있다. 가령 <tt>[[fopen(3)]]</tt>이 <code>/proc/self/maps</code>를 열 수 없거나 <tt>[[getrlimit(2)]]</tt>가 <code>RLIMIT_STACK</code> 자원 제한을 지원하지 않는 경우이다.</p>
+<p>더불어 <code>thread</code>가 메인 스레드를 가리키는 경우에는 여러 기반 호출들의 오류 때문에 <code>pthread_getattr_np()</code>가 실패할 수 있다. 가령 <tt><a class="wikilink" href="/man-pages-ko/fopen(3)/">fopen(3)</a></tt>이 <code>/proc/self/maps</code>를 열 수 없거나 <tt><a class="wikilink" href="/man-pages-ko/getrlimit(2)/">getrlimit(2)</a></tt>가 <code>RLIMIT_STACK</code> 자원 제한을 지원하지 않는 경우이다.</p>
 <h2 id="versions">VERSIONS</h2>
 <p>glibc 버전 2.2.3부터 이 함수가 사용 가능하다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -207,10 +206,10 @@ int pthread_getattr_np(pthread_t thread, pthread_attr_t *attr);
 </table>
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>이 함수들은 비표준 GNU 확장이다. 그래서 이름 뒤에 "_np"(nonportable: 이식성 없음)가 붙어 있다.</p>
-<h2 id="example">EXAMPLE</h2>
+<h2 id="examples">EXAMPLES</h2>
 <p>아래 프로그램은 <code>pthread_getattr_np()</code> 사용 방식을 보여 준다. 프로그램에서 스레드를 생성한 다음 <code>pthread_getattr_np()</code>를 이용해 방호 구역 크기, 스택 주소, 스택 크기 속성을 가져와 표시한다. 명령행 인자를 이용해 스레드 생성 시 기본과 다른 값으로 이 속성들을 설정할 수 있다. 아래 셸 세션은 프로그램 사용 방식을 보여 준다.</p>
 <p>x86-32 시스템 상의 첫 번째 실행에서는 기본 속성들로 스레드를 만든다.</p>
-<pre><code class="text">$ ulimit -s       # 스택 제한 없음 ==&gt; 기본 스택 크기 2MB
+<pre><code class="language-text">$ ulimit -s       # 스택 제한 없음 ==&gt; 기본 스택 크기 2MB
 unlimited
 $ ./a.out
 Attributes of created thread:
@@ -218,9 +217,8 @@ Attributes of created thread:
         Stack address       = 0x40196000 (EOS = 0x40397000)
         Stack size          = 0x201000 (2101248) bytes
 </code></pre>
-
 <p>다음 실행에서는 방호 구역 크기를 지정하면 시스템 페이지 크기(x86-32에서 4096바이트)의 다음 번 배수로 올림 되는 것을 볼 수 있다.</p>
-<pre><code class="text">$ ./a.out -g 4097
+<pre><code class="language-text">$ ./a.out -g 4097
 Thread attributes object after initializations:
         Guard size          = 4097 bytes
         Stack address       = (nil)
@@ -231,9 +229,8 @@ Attributes of created thread:
         Stack address       = 0x40196000 (EOS = 0x40397000)
         Stack size          = 0x201000 (2101248) bytes
 </code></pre>
-
 <p>마지막 실행에서는 스레드를 위한 스택을 프로그램에서 직접 할당한다. 이 경우 방호 구역 크기 속성이 무시된다.</p>
-<pre><code class="text">$ ./a.out -g 4096 -s 0x8000 -a
+<pre><code class="language-text">$ ./a.out -g 4096 -s 0x8000 -a
 Allocated thread stack at 0x804d000
 
 Thread attributes object after initializations:
@@ -246,9 +243,8 @@ Attributes of created thread:
         Stack address       = 0x804d000 (EOS = 0x8055000)
         Stack size          = 0x8000 (32768) bytes
 </code></pre>
-
 <h3 id="_1">프로그램 소스</h3>
-<pre><code class="c">#define _GNU_SOURCE     /* pthread_getattr_np() 선언을 위해 */
+<pre><code class="language-c">#define _GNU_SOURCE     /* pthread_getattr_np() 선언을 위해 */
 #include &lt;pthread.h&gt;
 #include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
@@ -268,7 +264,7 @@ display_stack_related_attributes(pthread_attr_t *attr, char *prefix)
     s = pthread_attr_getguardsize(attr, &amp;guard_size);
     if (s != 0)
         handle_error_en(s, &quot;pthread_attr_getguardsize&quot;);
-    printf(&quot;%sGuard size          = %d bytes\n&quot;, prefix, guard_size);
+    printf(&quot;%sGuard size          = %zu bytes\n&quot;, prefix, guard_size);
 
     s = pthread_attr_getstack(attr, &amp;stack_addr, &amp;stack_size);
     if (s != 0)
@@ -277,7 +273,7 @@ display_stack_related_attributes(pthread_attr_t *attr, char *prefix)
     if (stack_size &gt; 0)
         printf(&quot; (EOS = %p)&quot;, (char *) stack_addr + stack_size);
     printf(&quot;\n&quot;);
-    printf(&quot;%sStack size          = 0x%x (%d) bytes\n&quot;,
+    printf(&quot;%sStack size          = %#zx (%zu) bytes\n&quot;,
             prefix, stack_size, stack_size);
 }
 
@@ -323,7 +319,7 @@ get_thread_attributes_from_cl(int argc, char *argv[],
                               pthread_attr_t *attrp)
 {
     int s, opt, allocate_stack;
-    long stack_size, guard_size;
+    size_t stack_size, guard_size;
     void *stack_addr;
     pthread_attr_t *ret_attr_p = NULL;   /* 스레드 속성 객체를 초기화
                                             하는 경우 attrp로 설정 */
@@ -411,11 +407,10 @@ main(int argc, char *argv[])
     pause();    /* 다른 스레드에서 exit() 호출할 때 종료 */
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[pthread_attr_getaffinity_np(3)]]</tt>, <tt>[[pthread_attr_getdetachstate(3)]]</tt>, <tt>[[pthread_attr_getguardsize(3)]]</tt>, <tt>[[pthread_attr_getinheritsched(3)]]</tt>, <tt>[[pthread_attr_getschedparam(3)]]</tt>, <tt>[[pthread_attr_getschedpolicy(3)]]</tt>, <tt>[[pthread_attr_getscope(3)]]</tt>, <tt>[[pthread_attr_getstack(3)]]</tt>, <tt>[[pthread_attr_getstackaddr(3)]]</tt>, <tt>[[pthread_attr_getstacksize(3)]]</tt>, <tt>[[pthread_attr_init(3)]]</tt>, <tt>[[pthread_create(3)]]</tt>, <tt>[[pthreads(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/pthread_attr_getaffinity_np(3)/">pthread_attr_getaffinity_np(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_getdetachstate(3)/">pthread_attr_getdetachstate(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_getguardsize(3)/">pthread_attr_getguardsize(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_getinheritsched(3)/">pthread_attr_getinheritsched(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_getschedparam(3)/">pthread_attr_getschedparam(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_getschedpolicy(3)/">pthread_attr_getschedpolicy(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_getscope(3)/">pthread_attr_getscope(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_getstack(3)/">pthread_attr_getstack(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_getstackaddr(3)/">pthread_attr_getstackaddr(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_getstacksize(3)/">pthread_attr_getstacksize(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_init(3)/">pthread_attr_init(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_create(3)/">pthread_create(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthreads(7)/">pthreads(7)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

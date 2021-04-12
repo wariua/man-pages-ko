@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/opterr(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/opterr%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Opterr(3) - man-pages-ko</title>
+    <title>opterr(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -145,7 +145,7 @@
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
             <li class="second-level"><a href="#getopt">getopt()</a></li>
                 
             <li class="second-level"><a href="#getopt_long">getopt_long()</a></li>
@@ -158,9 +158,9 @@
 <h2 id="name">NAME</h2>
 <p>getopt, getopt_long, getopt_long_only, optarg, optind, opterr, optopt - 명령행 옵션 파싱</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;unistd.h&gt;
+<pre><code class="language-c">#include &lt;unistd.h&gt;
 
-int getopt(int argc, char * const argv[],
+int getopt(int argc, char *const argv[],
            const char *optstring);
 
 extern char *optarg;
@@ -168,16 +168,15 @@ extern int optind, opterr, optopt;
 
 #include &lt;getopt.h&gt;
 
-int getopt_long(int argc, char * const argv[],
+int getopt_long(int argc, char *const argv[],
            const char *optstring,
            const struct option *longopts, int *longindex);
 
-int getopt_long_only(int argc, char * const argv[],
+int getopt_long_only(int argc, char *const argv[],
            const char *optstring,
            const struct option *longopts, int *longindex);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>getopt()</code>:</dt>
 <dd><code>_POSIX_C_SOURCE &gt;= 2 || _XOPEN_SOURCE</code></dd>
@@ -206,14 +205,13 @@ int getopt_long_only(int argc, char * const argv[],
 <h3 id="getopt_long-getopt_long_only"><code>getopt_long()</code> 및 <code>getopt_long_only()</code></h3>
 <p><code>getopt_long()</code> 함수는 <code>getopt()</code>처럼 동작하되 대시 두 개로 시작하는 긴 옵션들도 받는다. (프로그램에서 긴 옵션만 받으려는 경우에는 <code>optstring</code>을 NULL아 아니라 빈 문자열("")로 지정해야 한다.) 짧게 줄인 옵션 문자가 유일하거나 이미 정의된 어떤 옵션과 일치하는 경우에는 긴 옵션 이름을 축약할 수도 있다. 긴 옵션에서는 <code>--arg=param</code>이나 <code>--arg param</code> 형태로 매개변수를 받을 수 있다.</p>
 <p><code>longopts</code>는 <code>&lt;getopt.h&gt;</code>에 다음처럼 선언된 <code>struct option</code>의 배열 첫 항목을 가리키는 포인터이다.</p>
-<pre><code class="c">struct option {
+<pre><code class="language-c">struct option {
     const char *name;
     int         has_arg;
     int        *flag;
     int         val;
 };
 </code></pre>
-
 <p>각 필드의 의미는 다음과 같다.</p>
 <dl>
 <dt><code>name</code></dt>
@@ -239,7 +237,7 @@ int getopt_long_only(int argc, char * const argv[],
 <dd><code>bash(1)</code> 2.0에서 이 변수를 사용했는데 어떤 인자가 와일드카드 확장의 결과이므로 옵션으로 다뤄선 안 된다는 걸 glibc에게 알려 주는 용도였다. <code>bash(1)</code> 버전 2.01에서 이 동작이 제거되었지만 glibc에는 지원이 남아 있다.</dd>
 </dl>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -260,7 +258,7 @@ int getopt_long_only(int argc, char * const argv[],
 <dl>
 <dt><code>getopt()</code>:</dt>
 <dd>
-<p>환경 변수 <code>POSIXLY_CORRECT</code>가 설정돼 있다면 POSIX.1-2001, POSIX.1-2008, POSIX.2. 아니라면 <code>argv</code>의 항목들을 교환이 가능해야 하므로 진짜 <code>const</code>가 아니다. 다른 시스템과의 호환성을 위해 원형에서는 <code>const</code>인 것처럼 한다.</p>
+<p>환경 변수 <code>POSIXLY_CORRECT</code>가 설정돼 있다면 POSIX.1-2001, POSIX.1-2008, POSIX.2. 아니라면 이 함수들에서 <code>argv</code>의 항목들을 교환하므로 사실 <code>const</code>가 아니다. 그렇지만 다른 시스템과의 호환성을 위해 원형에 <code>const</code>를 쓴다.</p>
 <p><code>optstring</code>에 '+' 및 '-'를 쓰는 것은 GNU 확장이다.</p>
 <p>일부 구식 구현들에서는 <code>getopt()</code>가 <code>&lt;stdin.h&gt;</code>에 선언돼 있었다. SUSv1에서는 선언이 <code>&lt;unistd.h&gt;</code>와 <code>&lt;stdio.h&gt;</code> 어느 쪽에서 나오든 허용했다. POSIX.1-1996에서 이 용도에 <code>&lt;stdio.h&gt;</code>를 쓰는 것을 LEGACY로 표시했다. POSIX.1-2001에서는 <code>&lt;stdio.h&gt;</code>에 선언이 나와야 한다고 요구하지 않는다.</p>
 </dd>
@@ -269,10 +267,10 @@ int getopt_long_only(int argc, char * const argv[],
 </dl>
 <h2 id="notes">NOTES</h2>
 <p>여러 인자 벡터를 훑거나 같은 벡터를 여러 번 다시 훑는 프로그램에서 <code>optstring</code> 선두의 '+'와 '-' 같은 GNU 확장을 쓰고 싶거나 탐색 사이에 <code>POSIXLY_CORRECT</code>의 값을 바꾸고 싶은 경우에는 <code>optind</code>를 (전통적 값인 1 대신) 0으로 재설정해서 <code>getopt()</code>를 재초기화 해야 한다. (0으로 재설정하면 내부 초기화 루틴이 호출돼서 <code>POSIXLY_CORRECT</code>를 재확인하고 <code>optstring</code>의 GNU 확장을 확인한다.)</p>
-<h2 id="example">EXAMPLE</h2>
+<h2 id="examples">EXAMPLES</h2>
 <h3 id="getopt"><code>getopt()</code></h3>
 <p>다음의 간단한 예시 프로그램에서는 <code>getopt()</code>를 사용해 두 가지 프로그램 옵션을 처리한다. 연계 값이 없는 <code>-n</code> 옵션, 그리고 연계된 값이 필요한 <code>-t val</code> 옵션이다.</p>
-<pre><code class="c">#include &lt;unistd.h&gt;
+<pre><code class="language-c">#include &lt;unistd.h&gt;
 #include &lt;stdlib.h&gt;
 #include &lt;stdio.h&gt;
 
@@ -316,10 +314,9 @@ main(int argc, char *argv[])
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <h3 id="getopt_long"><code>getopt_long()</code></h3>
 <p>다음 예시 프로그램에서는 <code>getopt_long()</code>의 여러 기능을 사용하는 걸 보여 준다.</p>
-<pre><code class="c">#include &lt;stdio.h&gt;     /* for printf */
+<pre><code class="language-c">#include &lt;stdio.h&gt;     /* for printf */
 #include &lt;stdlib.h&gt;    /* for exit  */
 #include &lt;getopt.h&gt;
 
@@ -396,11 +393,10 @@ int main(int argc, char **argv) {
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>getopt(1)</code>, <tt>[[getsubopt(3)]]</tt></p>
+<p><code>getopt(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/getsubopt(3)/">getsubopt(3)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

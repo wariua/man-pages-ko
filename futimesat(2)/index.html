@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/futimesat(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/futimesat%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Futimesat(2) - man-pages-ko</title>
+    <title>futimesat(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -153,28 +153,27 @@
 <h2 id="name">NAME</h2>
 <p>futimesat - 디렉터리 파일 디스크립터 기준으로 파일의 타임스탬프 바꾸기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;fcntl.h&gt; /* AT_* 상수 정의 */
+<pre><code class="language-c">#include &lt;fcntl.h&gt; /* AT_* 상수 정의 */
 #include &lt;sys/time.h&gt;
 
 int futimesat(int dirfd, const char *pathname,
               const struct timeval times[2]);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>futimesat()</code>:</dt>
 <dd><code>_GNU_SOURCE</code></dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
-<p>이 시스템 호출은 구식이다. 대신 <tt>[[utimensat(2)]]</tt>을 사용하라.</p>
-<p><code>futimesat()</code> 시스템 호출은 이 매뉴얼 페이지에서 기술하는 차이점들을 제외하면 <tt>[[utimes(2)]]</tt>와 정확히 동일하게 동작한다.</p>
-<p><code>pathname</code>으로 준 경로명이 상대적인 경우에는 (<tt>[[utimes(2)]]</tt>에서 상대 경로명에 대해 하듯 호출 프로세스의 현재 작업 디렉터리 기준이 아니라) 파일 디스크립터 <code>dirfd</code>가 가리키는 디렉터리를 기준으로 해석한다.</p>
-<p><code>pathname</code>이 상대적이고 <code>dirfd</code>가 특수한 값 <code>AT_FDCWD</code>인 경우에는 (<tt>[[utimes(2)]]</tt>처럼) 호출 프로세스의 현재 작업 디렉터리를 기준으로 <code>pathname</code>을 해석한다.</p>
+<p>이 시스템 호출은 구식이다. 대신 <tt><a class="wikilink" href="/man-pages-ko/utimensat(2)/">utimensat(2)</a></tt>을 사용하라.</p>
+<p><code>futimesat()</code> 시스템 호출은 이 매뉴얼 페이지에서 기술하는 차이점들을 제외하면 <tt><a class="wikilink" href="/man-pages-ko/utimes(2)/">utimes(2)</a></tt>와 정확히 동일하게 동작한다.</p>
+<p><code>pathname</code>으로 준 경로명이 상대적인 경우에는 (<tt><a class="wikilink" href="/man-pages-ko/utimes(2)/">utimes(2)</a></tt>에서 상대 경로명에 대해 하듯 호출 프로세스의 현재 작업 디렉터리 기준이 아니라) 파일 디스크립터 <code>dirfd</code>가 가리키는 디렉터리를 기준으로 해석한다.</p>
+<p><code>pathname</code>이 상대적이고 <code>dirfd</code>가 특수한 값 <code>AT_FDCWD</code>인 경우에는 (<tt><a class="wikilink" href="/man-pages-ko/utimes(2)/">utimes(2)</a></tt>처럼) 호출 프로세스의 현재 작업 디렉터리를 기준으로 <code>pathname</code>을 해석한다.</p>
 <p><code>pathname</code>이 절대적인 경우에는 <code>dirfd</code>를 무시한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 <code>futimesat()</code>은 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
-<p><tt>[[utimes(2)]]</tt>에 발생할 수 있는 것과 같은 오류들이 <code>futimesat()</code>에도 발생할 수 있다. 그리고 <code>futimesat()</code>에는 다음 오류들이 추가로 발생할 수 있다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/utimes(2)/">utimes(2)</a></tt>에 발생할 수 있는 것과 같은 오류들이 <code>futimesat()</code>에도 발생할 수 있다. 그리고 <code>futimesat()</code>에는 다음 오류들이 추가로 발생할 수 있다.</p>
 <dl>
 <dt><code>EBADF</code></dt>
 <dd><code>dirfd</code>가 유효한 파일 디스크립터가 아니다.</dd>
@@ -184,13 +183,13 @@ int futimesat(int dirfd, const char *pathname,
 <h2 id="versions">VERSIONS</h2>
 <p>리눅스 커널 2.6.16에 <code>futimeat()</code>이 추가되었다. glibc 버전 2.6에서 라이브러리 지원이 추가되었다.</p>
 <h2 id="conforming-to">CONFORMING TO</h2>
-<p>이 시스템 호출은 비표준이다. POSIX.1에 제안되었던 명세에 따라 구현이 이뤄졌는데 그 명세가 <tt>[[utimensat(2)]]</tt> 명세로 교체되었다.</p>
+<p>이 시스템 호출은 비표준이다. POSIX.1에 제안되었던 명세에 따라 구현이 이뤄졌는데 그 명세가 <tt><a class="wikilink" href="/man-pages-ko/utimensat(2)/">utimensat(2)</a></tt> 명세로 교체되었다.</p>
 <p>솔라리스에 비슷한 시스템 호출이 있다.</p>
 <h2 id="notes">NOTES</h2>
 <h3 id="glibc">glibc 참고 사항</h3>
 <p><code>pathname</code>이 NULL인 경우에 glibc의 <code>futimesat()</code> 래퍼 함수는 <code>dirfd</code>가 가리키는 파일의 시간들을 갱신한다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[stat(2)]]</tt>, <tt>[[utimensat(2)]]</tt>, <tt>[[utimes(2)]]</tt>, <tt>[[futimes(3)]]</tt>, <tt>[[path_resolution(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/stat(2)/">stat(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/utimensat(2)/">utimensat(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/utimes(2)/">utimes(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/futimes(3)/">futimes(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/path_resolution(7)/">path_resolution(7)</a></tt></p>
 <hr />
 <p>2017-09-15</p></div>
         

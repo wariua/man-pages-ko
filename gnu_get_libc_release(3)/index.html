@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/gnu_get_libc_release(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/gnu_get_libc_release%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Gnu get libc release(3) - man-pages-ko</title>
+    <title>gnu_get_libc_release(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -141,7 +141,7 @@
         <li class="first-level "><a href="#versions">VERSIONS</a></li>
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
             <li class="second-level"><a href="#_1">프로그램 소스</a></li>
                 
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
@@ -152,19 +152,18 @@
 <h2 id="name">NAME</h2>
 <p>gnu_get_libc_version, gnu_get_libc_release - glibc 버전과 릴리스 얻기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;gnu/libc-version.h&gt;
+<pre><code class="language-c">#include &lt;gnu/libc-version.h&gt;
 
 const char *gnu_get_libc_version(void);
 const char *gnu_get_libc_release(void);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>gnu_get_libc_version()</code> 함수는 시스템에서 사용 가능한 glibc 버전을 나타내는 문자열을 반환한다.</p>
 <p><code>gnu_get_libc_release()</code> 함수는 시스템에서 사용 가능한 glibc 버전의 릴리스 상태를 나타내는 문자열을 반환한다. <code>stable</code> 같은 문자열이다.</p>
 <h2 id="versions">VERSIONS</h2>
 <p>glibc 버전 2.1에서 이 함수들이 처음 등장했다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -183,15 +182,14 @@ const char *gnu_get_libc_release(void);
 </table>
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>이 함수들은 glibc 전용이다.</p>
-<h2 id="example">EXAMPLE</h2>
+<h2 id="examples">EXAMPLES</h2>
 <p>실행 시 아래 프로그램은 다음과 같은 출력을 내놓게 된다.</p>
-<pre><code class="text">$ ./a.out
+<pre><code class="language-text">$ ./a.out
 GNU libc version: 2.8
 GNU libc release: stable
 </code></pre>
-
 <h3 id="_1">프로그램 소스</h3>
-<pre><code class="c">#include &lt;gnu/libc-version.h&gt;
+<pre><code class="language-c">#include &lt;gnu/libc-version.h&gt;
 #include &lt;stdlib.h&gt;
 #include &lt;stdio.h&gt;
 
@@ -203,11 +201,10 @@ main(int argc, char *argv[])
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[confstr(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/confstr(3)/">confstr(3)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

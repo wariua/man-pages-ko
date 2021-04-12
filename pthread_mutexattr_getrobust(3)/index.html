@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_mutexattr_getrobust(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_mutexattr_getrobust%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Pthread mutexattr getrobust(3) - man-pages-ko</title>
+    <title>pthread_mutexattr_getrobust(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -143,7 +143,7 @@
         <li class="first-level "><a href="#versions">VERSIONS</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
             <li class="second-level"><a href="#_1">프로그램 소스</a></li>
                 
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
@@ -154,16 +154,15 @@
 <h2 id="name">NAME</h2>
 <p>pthread_mutexattr_getrobust, pthread_mutexattr_setrobust - 뮤텍스 속성 객체의 견고성 속성 얻기 및 설정하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;pthread.h&gt;
+<pre><code class="language-c">#include &lt;pthread.h&gt;
 
 int pthread_mutexattr_getrobust(const pthread_mutexattr_t *attr,
                                 int *robustness);
 int pthread_mutexattr_setrobust(pthread_mutexattr_t *attr,
                                 int robustness);
 </code></pre>
-
 <p><code>-pthread</code>로 컴파일 및 링크.</p>
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>pthread_mutexattr_getrobust()</code>, <code>pthread_mutexattr_setrobust()</code>:</dt>
 <dd><code>_POSIX_C_SOURCE &gt;= 200809L</code></dd>
@@ -173,15 +172,15 @@ int pthread_mutexattr_setrobust(pthread_mutexattr_t *attr,
 <p>견고성 속성은 소유자 스레드가 뮤텍스를 풀지 않고 죽었을 때 뮤텍스의 동작 방식을 지정한다. <code>robustness</code>에 다음 값들이 유효하다.</p>
 <dl>
 <dt><code>PTHREAD_MUTEX_STALLED</code></dt>
-<dd>뮤텍스 속성 객체의 기본값이다. 뮤텍스를 <code>PTHREAD_MUTEX_STALLED</code> 속성으로 초기화 하고 소유자가 풀지 않고 죽으면 뮤텍스가 계속 잠긴 상태로 있으며 향후 그 뮤텍스에 대한 <tt>[[pthread_mutex_lock(3)]]</tt> 호출 시도가 영원히 블록 하게 된다.</dd>
+<dd>뮤텍스 속성 객체의 기본값이다. 뮤텍스를 <code>PTHREAD_MUTEX_STALLED</code> 속성으로 초기화 하고 소유자가 풀지 않고 죽으면 뮤텍스가 계속 잠긴 상태로 있으며 향후 그 뮤텍스에 대한 <tt><a class="wikilink" href="/man-pages-ko/pthread_mutex_lock(3)/">pthread_mutex_lock(3)</a></tt> 호출 시도가 영원히 블록 하게 된다.</dd>
 <dt><code>PTHREAD_MUTEX_ROBUST</code></dt>
 <dd>
-<p>뮤텍스를 <code>PTHREAD_MUTEX_ROBUST</code> 속성으로 초기화 하고 소유자가 풀지 않고 죽으면 향후 그 뮤텍스에 대한 <tt>[[pthread_mutex_lock(3)]]</tt> 호출 시도가 성공하고 <code>EOWNERDEAD</code>를 반환하는데, 이는 원래 소유자가 더는 존재하지 않고 뮤텍스가 비일관 상태임을 나타낸다. 일반적으로 <code>EOWNERDEAD</code> 반환 후에 다음 소유자가 획득한 뮤텍스에 <tt>[[pthread_mutex_consistent(3)]]</tt>를 호출해서 더 이용하기 전에 뮤텍스를 다시 정상으로 만들어야 한다.</p>
-<p>다음 소유자가 뮤텍스를 정상으로 만들기 전에 <tt>[[pthread_mutex_unlock(3)]]</tt>으로 풀면 뮤텍스가 영구히 사용 불가능해지고 이후 <tt>[[pthread_mutex_lock(3)]]</tt>으로 잠그려는 시도가 <code>ENOTRECOVERABLE</code> 오류로 실패하게 된다. 그런 뮤텍스에서 유일하게 가능한 동작은 <tt>[[pthread_mutex_destroy(3)]]</tt>이다.</p>
-<p>다음 소유자가 <tt>[[pthread_mutex_consistent(3)]]</tt> 호출 전에 종료하면 그 뮤텍스에 대한 <tt>[[pthread_mutex_lock(3)]]</tt> 동작이 다시 <code>EOWNERDEAD</code>를 반환하게 된다.</p>
+<p>뮤텍스를 <code>PTHREAD_MUTEX_ROBUST</code> 속성으로 초기화 하고 소유자가 풀지 않고 죽으면 향후 그 뮤텍스에 대한 <tt><a class="wikilink" href="/man-pages-ko/pthread_mutex_lock(3)/">pthread_mutex_lock(3)</a></tt> 호출 시도가 성공하고 <code>EOWNERDEAD</code>를 반환하는데, 이는 원래 소유자가 더는 존재하지 않고 뮤텍스가 비일관 상태임을 나타낸다. 일반적으로 <code>EOWNERDEAD</code> 반환 후에 다음 소유자가 획득한 뮤텍스에 <tt><a class="wikilink" href="/man-pages-ko/pthread_mutex_consistent(3)/">pthread_mutex_consistent(3)</a></tt>를 호출해서 더 이용하기 전에 뮤텍스를 다시 정상으로 만들어야 한다.</p>
+<p>다음 소유자가 뮤텍스를 정상으로 만들기 전에 <tt><a class="wikilink" href="/man-pages-ko/pthread_mutex_unlock(3)/">pthread_mutex_unlock(3)</a></tt>으로 풀면 뮤텍스가 영구히 사용 불가능해지고 이후 <tt><a class="wikilink" href="/man-pages-ko/pthread_mutex_lock(3)/">pthread_mutex_lock(3)</a></tt>으로 잠그려는 시도가 <code>ENOTRECOVERABLE</code> 오류로 실패하게 된다. 그런 뮤텍스에서 유일하게 가능한 동작은 <tt><a class="wikilink" href="/man-pages-ko/pthread_mutex_destroy(3)/">pthread_mutex_destroy(3)</a></tt>이다.</p>
+<p>다음 소유자가 <tt><a class="wikilink" href="/man-pages-ko/pthread_mutex_consistent(3)/">pthread_mutex_consistent(3)</a></tt> 호출 전에 종료하면 그 뮤텍스에 대한 <tt><a class="wikilink" href="/man-pages-ko/pthread_mutex_lock(3)/">pthread_mutex_lock(3)</a></tt> 동작이 다시 <code>EOWNERDEAD</code>를 반환하게 된다.</p>
 </dd>
 </dl>
-<p><code>pthread_mutexattr_getrobust()</code> 및 <code>pthread_mutexattr_setrobust()</code>의 <code>attr</code> 인자는 <tt>[[pthread_mutexattr_init(3)]]</tt>으로 초기화 한 뮤텍스 속성 객체를 가리켜야 하며, 아니면 동작 방식이 규정되어 있지 않다.</p>
+<p><code>pthread_mutexattr_getrobust()</code> 및 <code>pthread_mutexattr_setrobust()</code>의 <code>attr</code> 인자는 <tt><a class="wikilink" href="/man-pages-ko/pthread_mutexattr_init(3)/">pthread_mutexattr_init(3)</a></tt>으로 초기화 한 뮤텍스 속성 객체를 가리켜야 하며, 아니면 동작 방식이 규정되어 있지 않다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 이 함수들은 0을 반환한다. 오류 시 양수 오류 번호를 반환한다.</p>
 <p>glibc 구현에서 <code>pthread_mutexattr_getrobust()</code>는 항상 0을 반환한다.</p>
@@ -195,37 +194,35 @@ int pthread_mutexattr_setrobust(pthread_mutexattr_t *attr,
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2008.</p>
 <h2 id="notes">NOTES</h2>
-<p>리눅스 구현에서 프로세스 공유 견고 뮤텍스를 사용할 때 견고 뮤텍스 소유자가 뮤텍스를 풀지 않고 <tt>[[execve(2)]]</tt>를 수행할 때도 대기 중인 스레드가 <code>EOWNERDEAD</code> 알림을 받는다. POSIX.1에서는 이 사항을 명세하고 있지 않지만 적어도 몇몇 다른 구현에서도 같은 동작이 일어난다.</p>
+<p>리눅스 구현에서 프로세스 공유 견고 뮤텍스를 사용할 때 견고 뮤텍스 소유자가 뮤텍스를 풀지 않고 <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>를 수행할 때도 대기 중인 스레드가 <code>EOWNERDEAD</code> 알림을 받는다. POSIX.1에서는 이 사항을 명세하고 있지 않지만 적어도 몇몇 다른 구현에서도 같은 동작이 일어난다.</p>
 <p>POSIX에 <code>pthread_mutexattr_getrobust()</code> 및 <code>pthread_mutexattr_setrobust()</code>가 추가되기 전에 glibc에서는 <code>_GNU_SOURCE</code>가 정의된 경우 동등한 비표준 함수를 정의하였다.</p>
-<pre><code class="c">int pthread_mutexattr_getrobust_np(const pthread_mutexattr_t *attr,
+<pre><code class="language-c">int pthread_mutexattr_getrobust_np(const pthread_mutexattr_t *attr,
                                    int *robustness);
 int pthread_mutexattr_setrobust_np(pthread_mutexattr_t *attr,
                                    int robustness);
 </code></pre>
-
 <p>이에 맞게 상수 <code>PTHREAD_MUTEX_STALLED_NP</code>와 <code>PTHREAD_MUTEX_ROBUST_NP</code>도 정의하였다.</p>
 <p>이 GNU 전용 API는 glibc 2.4에서 처음 등장했으며, 현재는 구식이 되었으므로 새 프로그램에서 쓰지 말아야 한다.</p>
-<h2 id="example">EXAMPLE</h2>
+<h2 id="examples">EXAMPLES</h2>
 <p>아래 프로그램은 뮤텍스 속성 객체의 견고성 속성 사용 방식을 보여 준다. 이 프로그램에서는 뮤텍스를 잡은 스레드가 뮤텍스를 풀지 않고 일찍 죽는다. 이후 메인 스레드가 뮤텍스를 성공적으로 획득하고 <code>EOWNERDEAD</code> 오류를 얻으며, 다음으로 뮤텍스를 정상 상태로 만든다.</p>
 <p>다음 셸 세션은 프로그램 실행 시 뭐가 찍히는지 보여 준다.</p>
-<pre><code class="text">$ ./a.out
+<pre><code class="language-text">$ ./a.out
 [original owner] Setting lock...
 [original owner] Locked. Now exiting without unlocking.
-[main thread] Attempting to lock the robust mutex.
-[main thread] pthread_mutex_lock() returned EOWNERDEAD
-[main thread] Now make the mutex consistent
-[main thread] Mutex is now consistent; unlocking
+[main] Attempting to lock the robust mutex.
+[main] pthread_mutex_lock() returned EOWNERDEAD
+[main] Now make the mutex consistent
+[main] Mutex is now consistent; unlocking
 </code></pre>
-
 <h3 id="_1">프로그램 소스</h3>
-<pre><code class="c">#include &lt;stdlib.h&gt;
+<pre><code class="language-c">#include &lt;stdlib.h&gt;
 #include &lt;stdio.h&gt;
 #include &lt;unistd.h&gt;
 #include &lt;pthread.h&gt;
 #include &lt;errno.h&gt;
 
 #define handle_error_en(en, msg) \
-               do { errno = en; perror(msg); exit(EXIT_FAILURE); } while (0)
+        do { errno = en; perror(msg); exit(EXIT_FAILURE); } while (0)
 
 static pthread_mutex_t mtx;
 
@@ -245,46 +242,45 @@ main(int argc, char *argv[])
     pthread_mutexattr_t attr;
     int s;
 
-    pthread_mutexattr_init(&amp;attr);  /* 속성 객체 초기화 */
-    pthread_mutexattr_setrobust(&amp;attr, PTHREAD_MUTEX_ROBUST);
-                                    /* 견고성 설정 */
+    pthread_mutexattr_init(&amp;attr);
 
-    pthread_mutex_init(&amp;mtx, &amp;attr);    /* 뮤텍스 초기화 */
+    pthread_mutexattr_setrobust(&amp;attr, PTHREAD_MUTEX_ROBUST);
+
+    pthread_mutex_init(&amp;mtx, &amp;attr);
 
     pthread_create(&amp;thr, NULL, original_owner_thread, NULL);
 
     sleep(2);
 
-    /* 지금쯤 &quot;original_owner_thread&quot;는 끝났을 것임 */
+    /* 지금쯤 &quot;original_owner_thread&quot;는 끝났을 것이다. */
 
-    printf(&quot;[main thread] Attempting to lock the robust mutex.\n&quot;);
+    printf(&quot;[main] Attempting to lock the robust mutex.\n&quot;);
     s = pthread_mutex_lock(&amp;mtx);
     if (s == EOWNERDEAD) {
-        printf(&quot;[main thread] pthread_mutex_lock() returned EOWNERDEAD\n&quot;);
-        printf(&quot;[main thread] Now make the mutex consistent\n&quot;);
+        printf(&quot;[main] pthread_mutex_lock() returned EOWNERDEAD\n&quot;);
+        printf(&quot;[main] Now make the mutex consistent\n&quot;);
         s = pthread_mutex_consistent(&amp;mtx);
         if (s != 0)
             handle_error_en(s, &quot;pthread_mutex_consistent&quot;);
-        printf(&quot;[main thread] Mutex is now consistent; unlocking\n&quot;);
+        printf(&quot;[main] Mutex is now consistent; unlocking\n&quot;);
         s = pthread_mutex_unlock(&amp;mtx);
         if (s != 0)
             handle_error_en(s, &quot;pthread_mutex_unlock&quot;);
 
         exit(EXIT_SUCCESS);
     } else if (s == 0) {
-        printf(&quot;[main thread] pthread_mutex_lock() unexpectedly succeeded\n&quot;);
+        printf(&quot;[main] pthread_mutex_lock() unexpectedly succeeded\n&quot;);
         exit(EXIT_FAILURE);
     } else {
-        printf(&quot;[main thread] pthread_mutex_lock() unexpectedly failed\n&quot;);
+        printf(&quot;[main] pthread_mutex_lock() unexpectedly failed\n&quot;);
         handle_error_en(s, &quot;pthread_mutex_lock&quot;);
     }
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[get_robust_list(2)]]</tt>, <tt>[[set_robust_list(2)]]</tt>, <tt>[[pthread_mutex_init(3)]]</tt>, <tt>[[pthread_mutex_consistent(3)]]</tt>, <tt>[[pthread_mutex_lock(3)]]</tt>, <tt>[[pthreads(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/get_robust_list(2)/">get_robust_list(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/set_robust_list(2)/">set_robust_list(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_mutex_consistent(3)/">pthread_mutex_consistent(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_mutex_init(3)/">pthread_mutex_init(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_mutex_lock(3)/">pthread_mutex_lock(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthreads(7)/">pthreads(7)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

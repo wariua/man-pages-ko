@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/recvmmsg(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/recvmmsg%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Recvmmsg(2) - man-pages-ko</title>
+    <title>recvmmsg(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -143,7 +143,7 @@
         <li class="first-level "><a href="#versions">VERSIONS</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#bugs">BUGS</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
             <li class="second-level"><a href="#_1">프로그램 소스</a></li>
                 
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
@@ -154,37 +154,35 @@
 <h2 id="name">NAME</h2>
 <p>recvmmsg - 소켓에서 여러 메시지 받기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
+<pre><code class="language-c">#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
 #include &lt;sys/socket.h&gt;
 
 int recvmmsg(int sockfd, struct mmsghdr *msgvec, unsigned int vlen,
              int flags, struct timespec *timeout);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
-<p><code>recvmmsg()</code> 시스템 호출은 <tt>[[recvmsg(2)]]</tt>를 확장한 것이다. 호출자가 시스템 호출 한 번으로 소켓에서 여러 메시지를 수신할 수 있게 해 준다. (일부 응용에서 성능상 이점이 있다.) 또 <tt>[[recvmsg(2)]]</tt>를 확장해서 수신 동작의 타임아웃을 지원한다.</p>
+<p><code>recvmmsg()</code> 시스템 호출은 <tt><a class="wikilink" href="/man-pages-ko/recvmsg(2)/">recvmsg(2)</a></tt>를 확장한 것이다. 호출자가 시스템 호출 한 번으로 소켓에서 여러 메시지를 수신할 수 있게 해 준다. (일부 응용에서 성능상 이점이 있다.) 또 <tt><a class="wikilink" href="/man-pages-ko/recvmsg(2)/">recvmsg(2)</a></tt>를 확장해서 수신 동작의 타임아웃을 지원한다.</p>
 <p><code>sockfd</code> 인자는 데이터를 수신할 소켓의 파일 디스크립터이다.</p>
 <p><code>msgvec</code> 인자는 <code>mmsghdr</code> 구조체 배열에 대한 포인터이다. 이 배열의 크기를 <code>vlen</code>에 지정한다.</p>
 <p><code>mmsghdr</code> 구조체는 <code>&lt;sys/socket.h&gt;</code>에 다음처럼 정의돼 있다.</p>
-<pre><code class="c">struct mmsghdr {
+<pre><code class="language-c">struct mmsghdr {
     struct msghdr msg_hdr;  /* 메시지 헤더 */
     unsigned int  msg_len;  /* 수신한 바이트 수 */
 };
 </code></pre>
-
-<p><code>msg_hdr</code> 필드는 <tt>[[recvmsg(2)]]</tt>에서 기술하는 <code>msghdr</code> 구조체이다. <code>msg_len</code> 필드는 그 항목의 메시지의 반환 바이트 수이다. 이 필드의 값은 그 헤더에 대해 따로 <tt>[[recvmsg(2)]]</tt>를 호출했을 때의 반환 값과 같다.</p>
-<p><code>flags</code> 인자는 OR 한 플래그들을 담는다. <tt>[[recvmsg(2)]]</tt>에 기록된 것들에 더해 다음 플래그가 있다.</p>
+<p><code>msg_hdr</code> 필드는 <tt><a class="wikilink" href="/man-pages-ko/recvmsg(2)/">recvmsg(2)</a></tt>에서 기술하는 <code>msghdr</code> 구조체이다. <code>msg_len</code> 필드는 그 항목의 메시지의 반환 바이트 수이다. 이 필드의 값은 그 헤더에 대해 따로 <tt><a class="wikilink" href="/man-pages-ko/recvmsg(2)/">recvmsg(2)</a></tt>를 호출했을 때의 반환 값과 같다.</p>
+<p><code>flags</code> 인자는 OR 한 플래그들을 담는다. <tt><a class="wikilink" href="/man-pages-ko/recvmsg(2)/">recvmsg(2)</a></tt>에 기록된 것들에 더해 다음 플래그가 있다.</p>
 <dl>
 <dt><code>MSG_WAITFORONE</code> (리눅스 2.6.34부터)</dt>
 <dd>첫 번째 메시지를 수신한 후에 <code>MSG_DONTWAIT</code>을 켠다.</dd>
 </dl>
-<p><code>timeout</code> 인자는 <code>struct timespec</code>(<tt>[[clock_gettime(2)]]</tt> 참고)을 가리키며 수신 동작의 타임아웃(초 더하기 나노초)을 지정한다. (하지만 BUGS 참고.) (이 시간을 시스템 클럭 해상도에 따라 올림 하게 되며 커널 스케줄링 지연도 있기 때문에 그 블록 시간을 약간 넘길 수도 있다.) <code>timeout</code>이 NULL이면 동작이 영원히 블록 한다.</p>
+<p><code>timeout</code> 인자는 <code>struct timespec</code>(<tt><a class="wikilink" href="/man-pages-ko/clock_gettime(2)/">clock_gettime(2)</a></tt> 참고)을 가리키며 수신 동작의 타임아웃(초 더하기 나노초)을 지정한다. (하지만 BUGS 참고.) (이 시간을 시스템 클럭 해상도에 따라 올림 하게 되며 커널 스케줄링 지연도 있기 때문에 그 블록 시간을 약간 넘길 수도 있다.) <code>timeout</code>이 NULL이면 동작이 영원히 블록 한다.</p>
 <p>블로킹 <code>recvmmsg()</code> 호출은 <code>vlen</code> 개 메시지를 수신하거나 타임아웃이 만료될 때까지 블록 한다. 논블로킹 호출은 가능한 많은 메시지를 (<code>vlen</code>으로 지정한 한계까지) 읽어 들이고서 즉시 반환한다.</p>
-<p><code>recvmmsg()</code>에서 반환 시 <code>msgvec</code>의 연속된 항목들이 각 수신 메시지에 대한 정보를 담도록 갱신되어 있다. <code>msg_len</code>은 수신 메시지의 크기를 담는다. 그리고 <code>msg_hdr</code>의 하위 필드들이 <tt>[[recvmsg(2)]]</tt>에서 기술하는 대로 갱신되어 있다. 호출의 반환 값은 갱신된 <code>msgvec</code> 항목 개수를 나타낸다.</p>
+<p><code>recvmmsg()</code>에서 반환 시 <code>msgvec</code>의 연속된 항목들이 각 수신 메시지에 대한 정보를 담도록 갱신되어 있다. <code>msg_len</code>은 수신 메시지의 크기를 담는다. 그리고 <code>msg_hdr</code>의 하위 필드들이 <tt><a class="wikilink" href="/man-pages-ko/recvmsg(2)/">recvmsg(2)</a></tt>에서 기술하는 대로 갱신되어 있다. 호출의 반환 값은 갱신된 <code>msgvec</code> 항목 개수를 나타낸다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 <code>recvmmsg()</code>는 <code>msgvec</code>에 받은 메시지 개수를 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
-<p>오류들이 <tt>[[recvmsg(2)]]</tt>에서와 같다. 추가로 다음 오류가 발생할 수 있다.</p>
+<p>오류들이 <tt><a class="wikilink" href="/man-pages-ko/recvmsg(2)/">recvmsg(2)</a></tt>에서와 같다. 추가로 다음 오류가 발생할 수 있다.</p>
 <dl>
 <dt><code>EINVAL</code></dt>
 <dd><code>timeout</code>이 유효하지 않다.</dd>
@@ -197,15 +195,14 @@ int recvmmsg(int sockfd, struct mmsghdr *msgvec, unsigned int vlen,
 <h2 id="bugs">BUGS</h2>
 <p><code>timeout</code> 인자가 의도 대로 동작하지 않는다. 각 데이터그램 수신 후에만 타임아웃을 확인하며, 따라서 타임아웃 만료 전에 <code>vlen-1</code> 개까지 데이터그램을 수신하고서 이후 더는 데이터그램을 수신하지 않으면 호출이 영원히 블록 하게 된다.</p>
 <p>최소 한 개 메시지를 받은 후에 오류가 발생하면 호출이 성공하고 받은 메시지 수를 반환한다. 오류 코드는 이어지는 <code>recvmmsg()</code>에서 반환되도록 돼 있다. 하지만 현재 구현에서는 소켓에서의 관련 없는 네트워크 이벤트(가령 ICMP 패킷 입력) 때문에 그 사이에 오류 코드가 덮어 써질 수 있다.</p>
-<h2 id="example">EXAMPLE</h2>
+<h2 id="examples">EXAMPLES</h2>
 <p>다음 프로그램에서는 <code>recvmmsg()</code>를 사용해 소켓에서 여러 메시지를 받아서 여러 버퍼에 저장한다. 모든 버퍼가 차거나 지정한 타임아웃이 만료된 경우에 호출이 반환한다.</p>
 <p>다음 명령은 난수를 담은 UDP 데이터그램을 주기적으로 생성한다.</p>
-<pre><code class="text">$ while true; do echo $RANDOM &gt; /dev/udp/127.0.0.1/1234;
+<pre><code class="language-text">$ while true; do echo $RANDOM &gt; /dev/udp/127.0.0.1/1234;
       sleep 0.25; done
 </code></pre>
-
 <p>그 데이터그램들을 예시 응용이 읽어 들여서 다음과 같이 출력한다.</p>
-<pre><code class="text">$ ./a.out
+<pre><code class="language-text">$ ./a.out
 5 messages received
 1 11782
 2 11345
@@ -213,9 +210,8 @@ int recvmmsg(int sockfd, struct mmsghdr *msgvec, unsigned int vlen,
 4 13514
 5 28421
 </code></pre>
-
 <h3 id="_1">프로그램 소스</h3>
-<pre><code class="c">#define _GNU_SOURCE
+<pre><code class="language-c">#define _GNU_SOURCE
 #include &lt;netinet/ip.h&gt;
 #include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
@@ -228,7 +224,7 @@ main(void)
 #define VLEN 10
 #define BUFSIZE 200
 #define TIMEOUT 1
-    int sockfd, retval, i;
+    int sockfd, retval;
     struct sockaddr_in addr;
     struct mmsghdr msgs[VLEN];
     struct iovec iovecs[VLEN];
@@ -250,7 +246,7 @@ main(void)
     }
 
     memset(msgs, 0, sizeof(msgs));
-    for (i = 0; i &lt; VLEN; i++) {
+    for (int i = 0; i &lt; VLEN; i++) {
         iovecs[i].iov_base         = bufs[i];
         iovecs[i].iov_len          = BUFSIZE;
         msgs[i].msg_hdr.msg_iov    = &amp;iovecs[i];
@@ -267,18 +263,17 @@ main(void)
     }
 
     printf(&quot;%d messages received\n&quot;, retval);
-    for (i = 0; i &lt; retval; i++) {
+    for (int i = 0; i &lt; retval; i++) {
         bufs[i][msgs[i].msg_len] = 0;
         printf(&quot;%d %s&quot;, i+1, bufs[i]);
     }
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[clock_gettime(2)]]</tt>, <tt>[[recvmsg(2)]]</tt>, <tt>[[sendmmsg(2)]]</tt>, <tt>[[sendmsg(2)]]</tt>, <tt>[[socket(2)]]</tt>, <tt>[[socket(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/clock_gettime(2)/">clock_gettime(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/recvmsg(2)/">recvmsg(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sendmmsg(2)/">sendmmsg(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sendmsg(2)/">sendmsg(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/socket(2)/">socket(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/socket(7)/">socket(7)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2020-11-01</p></div>
         
         
     </div>

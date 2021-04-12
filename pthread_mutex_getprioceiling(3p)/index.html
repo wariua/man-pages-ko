@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_mutex_getprioceiling(3p)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_mutex_getprioceiling%283p%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Pthread mutex getprioceiling(3p) - man-pages-ko</title>
+    <title>pthread_mutex_getprioceiling(3p) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -156,14 +156,13 @@
 <h2 id="name">NAME</h2>
 <p>pthread_mutex_getprioceiling, pthread_mutex_setprioceiling - 뮤텍스의 우선순위 상한 얻기 및 설정하기 (<strong>실시간 스레드</strong>)</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;pthread.h&gt;
+<pre><code class="language-c">#include &lt;pthread.h&gt;
 
 int pthread_mutex_getprioceiling(const pthread_mutex_t *restrict mutex,
     int *restrict prioceiling);
 int pthread_mutex_setprioceiling(pthread_mutex_t *restrict mutex,
     int prioceiling, int *restrict old_ceiling);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>pthread_mutex_getprioceiling()</code> 함수는 뮤텍스의 현재 우선순위 상한을 반환한다.</p>
 <p><code>pthread_mutex_setprioceiling()</code> 함수는 <code>pthread_mutex_lock()</code> 호출에 의한 것처럼 뮤텍스를 잠그려고 하되 뮤텍스를 잠그는 과정에서 우선순위 보호 프로토콜을 준수할 필요가 없다. 뮤텍스를 획득하고 나면 뮤텍스의 우선순위 상한을 바꾸고서 <code>pthread_mutex_unlock()</code> 호출에 의한 것처럼 뮤텍스를 놓는다. 변경에 성공한 경우 이전 우선순위 상한 값을 <code>old_ceiling</code>으로 반환한다.</p>
@@ -211,7 +210,7 @@ int pthread_mutex_setprioceiling(pthread_mutex_t *restrict mutex,
 <h2 id="future-directions">FUTURE DIRECTIONS</h2>
 <p>없음.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[pthread_mutex_destroy()]]</tt>, <tt>[[pthread_mutex_lock()]]</tt>, <tt>[[pthread_mutex_timedlock()]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/pthread_mutex_destroy()/">pthread_mutex_destroy()</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_mutex_lock()/">pthread_mutex_lock()</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_mutex_timedlock()/">pthread_mutex_timedlock()</a></tt></p>
 <p>POSIX.1-2008 Base Definitions 권, <code>&lt;pthread.h&gt;</code></p>
 <h2 id="copyright">COPYRIGHT</h2>
 <p>Portions of this text are reprinted and reproduced in electronic form from IEEE Std 1003.1, 2013 Edition, Standard for Information Technology -- Portable Operating System Interface (POSIX), The Open Group Base Specifications Issue 7, Copyright (C) 2013 by the Institute of Electrical and Electronics Engineers, Inc and The Open Group. (This is POSIX.1-2008 with the 2013 Technical Corrigendum 1 applied.) In the event of any discrepancy between this version and the original IEEE and The Open Group Standard, the original IEEE and The Open Group Standard is the referee document. The original Standard can be obtained online at <a href="http://www.unix.org/online.html">http://www.unix.org/online.html</a>.</p>

@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/regex(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/regex%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Regex(3) - man-pages-ko</title>
+    <title>regex(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -152,6 +152,7 @@
         <li class="first-level "><a href="#errors">ERRORS</a></li>
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
@@ -160,26 +161,23 @@
 <h2 id="name">NAME</h2>
 <p>regcomp, regexec, regerror, regfree - POSIX 정규 표현식 함수</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;sys/types.h&gt;
-#include &lt;regex.h&gt;
+<pre><code class="language-c">#include &lt;regex.h&gt;
 
-int regcomp(regex_t *preg, const char *regex, int cflags);
+int regcomp(regex_t *restrict preg, const char *restrict regex,
+            int cflags);
+int regexec(const regex_t *restrict preg, const char *restrict string,
+            size_t nmatch, regmatch_t pmatch[restrict], int eflags);
 
-int regexec(const regex_t *preg, const char *string, size_t nmatch,
-            regmatch_t pmatch[], int eflags);
-
-size_t regerror(int errcode, const regex_t *preg, char *errbuf,
-                size_t errbuf_size);
-
+size_t regerror(int errcode, const regex_t *restrict preg,
+            char *restrict errbuf, size_t errbuf_size);
 void regfree(regex_t *preg);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <h3 id="posix">POSIX 정규 표현식 컴파일</h3>
 <p><code>regcomp()</code>를 사용해 이어지는 <code>regexec()</code> 검색에 적합한 형태로 정규 표현식을 컴파일 한다.</p>
 <p><code>regcomp()</code>에 주는 <code>preg</code>는 패턴 버퍼 저장 공간에 대한 포인터이고, <code>regex</code>는 널 종료 문자열에 대한 포인터, <code>cflags</code>는 컴파일 방식을 결정하는 플래그들이다.</p>
 <p>모든 정규 표현식 검색은 컴파일 된 패턴 버퍼를 통해 이뤄져야 한다. 따라서 <code>regexec()</code>에는 항상 <code>regcomp()</code>로 초기화 한 패턴 버퍼의 주소를 줘야 한다.</p>
-<p><code>cflags</code>에는 다음을 0개 이상 비트 OR 할 수 있다.</p>
+<p><code>cflags</code>는 다음을 0개 이상 비트 OR 한 것이다.</p>
 <dl>
 <dt><code>REG_EXTENDED</code></dt>
 <dd><code>regex</code>를 해석할 때 <strong>POSIX</strong> 확장 정규 표현식 문법을 쓴다. 설정돼 있지 않으면 <strong>POSIX</strong> 기본 정규 표현식 문법을 쓴다.</dd>
@@ -196,22 +194,23 @@ void regfree(regex_t *preg);
 </dd>
 </dl>
 <h3 id="posix_1">POSIX 정규 표현식 일치 검사</h3>
-<p><code>regexec()</code>를 사용해 미리 컴파일 한 패턴 버퍼 <code>preg</code>에 널 종료 문자열을 맞춰 본다. <code>nmatch</code>와 <code>pmatch</code>를 통해 일치 위치들에 대한 정보를 제공한다. <code>eflags</code>에는 <code>REG_NOTBOL</code>과 <code>REG_NOTEOL</code>을 비트 OR 할 수 있는데 일치 방식이 아래 설명처럼 바뀐다.</p>
+<p><code>regexec()</code>를 사용해 미리 컴파일 한 패턴 버퍼 <code>preg</code>에 널 종료 문자열을 맞춰 본다. <code>nmatch</code>와 <code>pmatch</code>를 통해 일치 위치들에 대한 정보를 제공한다. <code>eflags</code>는 다음 플래그를 0개 이상 비트 OR 한 것이다.</p>
 <dl>
 <dt><code>REG_NOTBOL</code></dt>
 <dd>행 시작 일치 연산자가 항상 일치에 실패한다. (하지만 위의 컴파일 플래그 <code>REG_NEWLINE</code> 참고.) 문자열을 부분 부분씩 <code>regexec()</code>로 전달하기 때문에 문자열 시작을 행의 시작으로 해석하지 말아야 할 때 이 플래그를 쓸 수 있다.</dd>
 <dt><code>REG_NOTEOL</code></dt>
 <dd>행 종료 일치 연산자가 항상 일치에 실패한다. (하지만 위의 컴파일 플래그 <code>REG_NEWLINE</code> 참고.)</dd>
+<dt><code>REG_STARTEND</code></dt>
+<dd>입력 문자열에서 <code>pmatch[0]</code>에 해당하는 부분, 즉 <code>pmatch[0].rm_so</code> 번째 바이트부터 <code>pmatch[0].rm_eo</code> 번째 바이트 전까지를 사용한다. 이를 이용하면 문자열에 내장된 널 바이트를 맞춰 볼 수 있으며 긴 문자열에 대한 <code>strlen(3)</code>을 피하게 된다. <code>nmatch</code>를 입력으로 쓰지 않으며, <code>REG_NOTBOL</code>이나 <code>REG_NEWLINE</code> 처리 방식을 바꾸지 않는다. 이 플래그는 BSD 확장이며 POSIX에는 없다.</dd>
 </dl>
 <h3 id="_1">바이트 위치</h3>
 <p>패턴 버퍼를 컴파일 할 때 <code>REG_NOSUB</code>를 설정한 경우가 아니면 일치 위치 정보를 얻는 게 가능하다. <code>pmatch</code>는 최소 <code>nmatch</code> 개 항목이 들어가는 크기여야 한다. <code>regexec()</code>에서 <code>pmatch</code>에 부분열 일치 위치를 채운다. <code>i</code> 번째 열린 괄호에서 시작하는 부분식의 위치가 <code>pmatch[i]</code>에 저장된다. 그리고 전체 정규 표현식의 일치 위치가 <code>pmatch[0]</code>에 저장된다. (하위식 일치 위치 <code>N</code> 개를 받으려면 <code>nmatch</code>가 최소 <code>N+1</code>이어야 한다.) 안 쓰인 구조체 항목에는 -1 값이 담기게 된다.</p>
 <p><code>pmatch</code>의 타입인 <code>regmatch_t</code> 구조체는 <code>&lt;regex.h&gt;</code>에 정의돼 있다.</p>
-<pre><code class="c">typedef struct {
+<pre><code class="language-c">typedef struct {
     regoff_t rm_so;
     regoff_t rm_eo;
 } regmatch_t;
 </code></pre>
-
 <p>-1 아닌 <code>rm_so</code> 항목은 문자열 내에서 가장 큰 다음 일치 부분열의 시작 위치를 나타낸다. <code>rm_eo</code> 항목은 일치 부분 끝을 상대적으로 나타내는데, 일치 텍스트 다음 첫 문자의 위치이다.</p>
 <h3 id="posix_2">POSIX 오류 보고</h3>
 <p><code>regerror()</code>를 이용해 <code>regcomp()</code> 및 <code>regexec()</code>가 반환하는 오류 코드를 오류 메시지 문자열로 바꾼다.</p>
@@ -254,7 +253,7 @@ void regfree(regex_t *preg);
 <dd>잘못된 하위식 역참조.</dd>
 </dl>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -283,11 +282,53 @@ void regfree(regex_t *preg);
 </table>
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008.</p>
+<h2 id="examples">EXAMPLES</h2>
+<pre><code class="language-c">#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;regex.h&gt;
+
+#define ARRAY_SIZE(arr) (sizeof((arr)) / sizeof((arr)[0]))
+
+static const char *const str =
+        &quot;1) John Driverhacker;\n2) John Doe;\n3) John Foo;\n&quot;;
+static const char *const re = &quot;John.*o&quot;;
+
+int main(void)
+{
+    static const char *s = str;
+    regex_t     regex;
+    regmatch_t  pmatch[1];
+    regoff_t    off, len;
+
+    if (regcomp(&amp;regex, re, REG_NEWLINE))
+        exit(EXIT_FAILURE);
+
+    printf(&quot;String = \&quot;%s\&quot;\n&quot;, str);
+    printf(&quot;Matches:\n&quot;);
+
+    for (int i = 0; ; i++) {
+        if (regexec(&amp;regex, s, ARRAY_SIZE(pmatch), pmatch, 0))
+            break;
+
+        off = pmatch[0].rm_so + (s - str);
+        len = pmatch[0].rm_eo - pmatch[0].rm_so;
+        printf(&quot;#%d:\n&quot;, i);
+        printf(&quot;offset = %jd; length = %jd\n&quot;, (intmax_t) off,
+                (intmax_t) len);
+        printf(&quot;substring = \&quot;%.*s\&quot;\n&quot;, len, s + pmatch[0].rm_so);
+
+        s += pmatch[0].rm_eo;
+    }
+
+    exit(EXIT_SUCCESS);
+}
+</code></pre>
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>grep(1)</code>, <tt>[[regex(7)]]</tt></p>
+<p><code>grep(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/regex(7)/">regex(7)</a></tt></p>
 <p>glibc 매뉴얼 <em>Regular Expressions</em> 절</p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

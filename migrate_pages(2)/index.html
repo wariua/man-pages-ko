@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/migrate_pages(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/migrate_pages%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Migrate pages(2) - man-pages-ko</title>
+    <title>migrate_pages(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -151,17 +151,17 @@
 <h2 id="name">NAME</h2>
 <p>migrate_pages - 프로세스의 모든 페이지들을 다른 노드들로 옮기기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;numaif.h&gt;
+<pre><code class="language-c">#include &lt;numaif.h&gt;
 
 long migrate_pages(int pid, unsigned long maxnode,
                    const unsigned long *old_nodes,
                    const unsigned long *new_nodes);
 </code></pre>
-
+<p><em>주의</em>: 이 시스템 호출에 대한 glibc 래퍼가 없다. NOTES 참고.</p>
 <p><code>-lnuma</code>로 링크.</p>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>migrate_pages()</code>는 프로세스 <code>pid</code>의 페이지들 중 메모리 노드 <code>old_nodes</code>에 있는 것들을 모두 메모리 노드 <code>new_nodes</code>로 옮기려고 시도한다. <code>old_nodes</code>의 어느 노드에도 위치해 있지 않은 페이지는 이동하지 않는다. 커널에서는 <code>new_nodes</code>로 이동시키는 동안 <code>old_nodes</code> 내의 상대적 위상 관계를 가급적 유지한다.</p>
-<p><code>old_nodes</code> 및 <code>new_nodes</code> 인자는 노드 번호들의 비트 마스크에 대한 포인터이며, 각 마스크에 최대 <code>maxnode</code> 개 비트가 있다. 그 마스크들은 부호 없는 <code>long</code> 정수들의 배열 형태로 유지한다. (마지막 <code>long</code> 정수에서 <code>maxnode</code>로 지정한 것 너머의 비트들은 무시한다.) <code>maxnode</code> 인자는 비트 마스크 내의 가장 큰 노드 번호에 1을 더한 것이다. (<tt>[[mbind(2)]]</tt>와는 같지만 <tt>[[select(2)]]</tt>와는 다르다.)</p>
+<p><code>old_nodes</code> 및 <code>new_nodes</code> 인자는 노드 번호들의 비트 마스크에 대한 포인터이며, 각 마스크에 최대 <code>maxnode</code> 개 비트가 있다. 그 마스크들은 부호 없는 <code>long</code> 정수들의 배열 형태로 유지한다. (마지막 <code>long</code> 정수에서 <code>maxnode</code>로 지정한 것 너머의 비트들은 무시한다.) <code>maxnode</code> 인자는 비트 마스크 내의 가장 큰 노드 번호에 1을 더한 것이다. (<tt><a class="wikilink" href="/man-pages-ko/mbind(2)/">mbind(2)</a></tt>와는 같지만 <tt><a class="wikilink" href="/man-pages-ko/select(2)/">select(2)</a></tt>와는 다르다.)</p>
 <p><code>pid</code> 인자는 이동할 페이지들을 소유한 프로세스의 ID이다. 다른 프로세스의 페이지들을 옮기려면 호출자에게 특권(<code>CAP_SYS_NICE</code>)이 있거나 호출 프로세스의 실제 내지 실효 사용자 ID가 대상 프로세스의 실제 내지 saved-set 사용자 ID와 일치해야 한다. <code>pid</code>가 0이면 <code>migrate_pages()</code>는 호출 프로세스의 페이지를 옮긴다.</p>
 <p>다른 프로세스와 공유하는 페이지들은 개시 프로세스에게 <code>CAP_SYS_NICE</code> 특권이 있는 경우에만 옮긴다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
@@ -182,15 +182,15 @@ long migrate_pages(int pid, unsigned long maxnode,
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>이 시스템 호출은 리눅스 전용이다.</p>
 <h2 id="notes">NOTES</h2>
-<p>라이브러리 지원에 대한 정보는 <tt>[[numa(7)]]</tt>를 보라.</p>
-<p><tt>[[get_mempolicy(2)]]</tt>를 <code>MPOL_F_MEMS_ALLOWED</code> 플래그로 사용하면 호출 프로세스의 cpuset에서 허용하는 노드들의 집합을 얻을 수 있다. 참고로 그 정보는 수동 내지 자동으로 이뤄지는 cpuset 재구성으로 인해 언제든 바뀔 수 있다.</p>
-<p><code>migrate_pages()</code>를 사용하면 페이지들의 위치(노드)가 지정 주소(<tt>[[mbind(2)]]</tt>) 및/또는 지정 프로세스(<tt>[[set_mempolicy(2)]]</tt>)에 대해 설정한 메모리 정책과 어긋나게 될 수도 있다. 다시 말해 메모리 정책이 <code>migrate_pages()</code>에서 쓰는 목적지 노드를 제약하지 않는다.</p>
+<p>glibc에서 이 시스템 호출의 래퍼를 제공하지 않는다. 라이브러리 지원에 대한 정보는 <tt><a class="wikilink" href="/man-pages-ko/numa(7)/">numa(7)</a></tt>를 보라.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/get_mempolicy(2)/">get_mempolicy(2)</a></tt>를 <code>MPOL_F_MEMS_ALLOWED</code> 플래그로 사용하면 호출 프로세스의 cpuset에서 허용하는 노드들의 집합을 얻을 수 있다. 참고로 그 정보는 수동 내지 자동으로 이뤄지는 cpuset 재구성으로 인해 언제든 바뀔 수 있다.</p>
+<p><code>migrate_pages()</code>를 사용하면 페이지들의 위치(노드)가 지정 주소(<tt><a class="wikilink" href="/man-pages-ko/mbind(2)/">mbind(2)</a></tt>) 및/또는 지정 프로세스(<tt><a class="wikilink" href="/man-pages-ko/set_mempolicy(2)/">set_mempolicy(2)</a></tt>)에 대해 설정한 메모리 정책과 어긋나게 될 수도 있다. 다시 말해 메모리 정책이 <code>migrate_pages()</code>에서 쓰는 목적지 노드를 제약하지 않는다.</p>
 <p><code>&lt;numaif.h&gt;</code> 헤더는 glibc에 포함되어 있지 않으며 <code>libnuma-devel</code> 내지 그와 비슷한 패키지를 설치해야 한다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[get_mempolicy(2)]]</tt>, <tt>[[mbind(2)]]</tt>, <tt>[[set_mempolicy(2)]]</tt>, <tt>[[numa(3)]]</tt>, <tt>[[numa_maps(5)]]</tt>, <tt>[[cpuset(7)]]</tt>, <tt>[[numa(7)]]</tt>, <code>migratepages(8)</code>, <code>numastat(8)</code></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/get_mempolicy(2)/">get_mempolicy(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mbind(2)/">mbind(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/set_mempolicy(2)/">set_mempolicy(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/numa(3)/">numa(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/numa_maps(5)/">numa_maps(5)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/cpuset(7)/">cpuset(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/numa(7)/">numa(7)</a></tt>, <code>migratepages(8)</code>, <code>numastat(8)</code></p>
 <p>리눅스 커널 소스 트리의 <code>Documentation/vm/page_migration.rst</code></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

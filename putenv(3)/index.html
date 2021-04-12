@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/putenv(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/putenv%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Putenv(3) - man-pages-ko</title>
+    <title>putenv(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -151,29 +151,28 @@
 <h2 id="name">NAME</h2>
 <p>putenv - 환경 변수 바꾸거나 추가하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;stdlib.h&gt;
+<pre><code class="language-c">#include &lt;stdlib.h&gt;
 
 int putenv(char *string);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>putenv()</code></dt>
 <dd><code>_XOPEN_SOURCE</code><br>
 <code>|| /* glibc 2.19부터: */ _DEFAULT_SOURCE</code><br>
-<code>|| /* glibc 버전 &lt;= 2.19: */ _SVID_SOURCE</code></dd>
+<code>|| /* glibc &lt;= 2.19: */ _SVID_SOURCE</code></dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>putenv()</code> 함수는 환경 변수 값을 추가하거나 바꾼다. 인자 <code>string</code>은 <code>name=value</code> 형태이다. <code>name</code>이 환경 내에 존재하지 않으면 <code>string</code>을 환경에 추가한다. <code>name</code>이 이미 존재하는 경우에는 환경 안의 <code>name</code>의 값을 <code>value</code>로 바꾼다. <code>string</code>이 가리키는 문자열이 환경의 일부가 되며, 따라서 그 문자열을 변경하면 환경이 바뀐다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p><code>putenv()</code> 함수는 성공 시 0을 반환하고 오류 발생 시 0 아닌 값을 반환한다. 오류 발생 시 원인을 나타내도록 <code>errno</code>를 설정한다.</p>
+<p><code>putenv()</code> 함수는 성공 시 0을 반환한다. 실패 시 0 아닌 값을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>ENOMEM</code></dt>
 <dd>새 환경을 할당할 공간이 충분치 않음.</dd>
 </dl>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -198,13 +197,12 @@ int putenv(char *string);
 <p>4.4BSD 버전은 glibc 2.0처럼 복사본을 쓴다.</p>
 <p>SUSv2에서 원형의 <code>const</code>를 없앴고 glibc 2.1.3에서 그렇게 됐다.</p>
 <p>GNU C 라이브러리 구현에서는 비표준 확장을 제공한다. 다음처럼 <code>string</code>에 등호가 포함돼 있지 않으면 지정한 변수를 호출자의 환경에서 제거한다.</p>
-<pre><code class="c">putenv(&quot;NAME&quot;);
+<pre><code class="language-c">putenv(&quot;NAME&quot;);
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[clearenv(3)]]</tt>, <tt>[[getenv(3)]]</tt>, <tt>[[setenv(3)]]</tt>, <tt>[[unsetenv(3)]]</tt>, <tt>[[environ(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/clearenv(3)/">clearenv(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/getenv(3)/">getenv(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/setenv(3)/">setenv(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/unsetenv(3)/">unsetenv(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/environ(7)/">environ(7)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_kill(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_kill%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Pthread kill(3) - man-pages-ko</title>
+    <title>pthread_kill(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -151,13 +151,12 @@
 <h2 id="name">NAME</h2>
 <p>pthread_kill - 스레드에게 시그널 보내기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;signal.h&gt;
+<pre><code class="language-c">#include &lt;signal.h&gt;
 
 int pthread_kill(pthread_t thread, int sig);
 </code></pre>
-
 <p><code>-pthread</code>로 컴파일 및 링크.</p>
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>pthread_kill()</code>:</dt>
 <dd><code>_POSIX_C_SOURCE &gt;= 199506L || _XOPEN_SOURCE &gt;= 500</code></dd>
@@ -173,7 +172,7 @@ int pthread_kill(pthread_t thread, int sig);
 <dd>유효하지 않은 시그널을 지정하였다.</dd>
 </dl>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -194,12 +193,12 @@ int pthread_kill(pthread_t thread, int sig);
 <p>POSIX.1-2001, POSIX.1-2008.</p>
 <h2 id="notes">NOTES</h2>
 <p>시그널 처리 방식은 프로세스 범위이다. 즉, 시그널 핸들러가 설치되어 있으면 스레드 <code>thread</code>에서 핸들러가 호출되지만 시그널 처리 방식이 "정지"나 "재개", "종료"이면 이 동작이 프로세스 전체에 영향을 끼치게 된다.</p>
-<p>glibc의 <code>pthread_kill()</code> 구현은 NPTL 스레딩 구현 내부에서 쓰는 실시간 시그널들 중 하나를 보내려고 시도하면 오류(<code>EINVAL</code>)를 내놓는다. 자세한 내용은 <tt>[[nptl(7)]]</tt>을 보라.</p>
+<p>glibc의 <code>pthread_kill()</code> 구현은 NPTL 스레딩 구현 내부에서 쓰는 실시간 시그널들 중 하나를 보내려고 시도하면 오류(<code>EINVAL</code>)를 내놓는다. 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/nptl(7)/">nptl(7)</a></tt>을 보라.</p>
 <p>POSIX.1-2008에서는 스레드 ID가 수명이 다한 후에 쓰이는 것을 구현체에서 탐지한 경우 <code>pthread_kill()</code>이 오류 <code>ESRCH</code>를 반환하기를 권장한다. glibc 구현에서는 유효하지 않은 스레드 ID를 탐지할 수 있는 경우에 이 오류를 반환한다. 하지만 POSIX에서는 또한 수명이 다한 스레드 ID를 사용하려는 시도가 규정되지 않은 동작을 만들어 내며 <code>pthread_kill()</code> 호출에 유효하지 않은 ID를 사용하려는 시도가 가령 세그멘테이션 오류를 일으킬 수 있다고 한다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[kill(2)]]</tt>, <tt>[[sigaction(2)]]</tt>, <tt>[[sigpending(2)]]</tt>, <tt>[[pthread_self(3)]]</tt>, <tt>[[pthread_sigmask(3)]]</tt>, <tt>[[raise(3)]]</tt>, <tt>[[pthreads(7)]]</tt>, <tt>[[signal(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/kill(2)/">kill(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigaction(2)/">sigaction(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigpending(2)/">sigpending(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_self(3)/">pthread_self(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_sigmask(3)/">pthread_sigmask(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/raise(3)/">raise(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthreads(7)/">pthreads(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

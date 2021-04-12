@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/regex(7)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/regex%287%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Regex(7) - man-pages-ko</title>
+    <title>regex(7) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -158,12 +158,11 @@
 <p>대괄호 식 내에서 조합 항목(문자, 한 문자인 것처럼 조합되는 다문자 열, 또는 앞의 둘 중 하나를 가리키는 조합열 이름)을 "<code>[.</code>" 및 "<code>.]</code>"로 감싼 것은 그 조합 항목의 문자 열을 나타낸다. 그 열은 대괄호 식 목록에서 단일 항목이다. 따라서 다문자 조합 항목을 담은 대괄호 식이 여러 문자에 일치할 수 있다. 예를 들어 조합 열에 "ch"라는 조합 항목이 포함돼 있다면 RE "<code>[[.ch.]]*c</code>"가 "chchcc"의 처음 다섯 문자에 일치한다.</p>
 <p>대괄호 식 내에서 "<code>[=</code>" 및 "<code>=]</code>"로 감싼 조합 항목은 동치류(equivalence class)로서 그 항목과 동등한 모든 조합 항목들(그 항목 자체도 포함)의 문자 열들을 나타낸다. (동등한 다른 조합 항목이 없으면 "<code>[.</code>" 및 "<code>.]</code>"로 감싼 것처럼 취급한다.) 예를 들어 o와 ^가 같은 동치류에 속하다면 "<code>[[=o=]]</code>", "<code>[[=^=]]</code>", "<code>[o^]</code>"가 모두 같은 걸 뜻한다. 동치류는 범위의 끝점이 될 수 없다(!).</p>
 <p>대괄호 식 내에서 "<code>[:</code>" 및 "<code>:]</code>"로 감싼 <em>문자 유형(character class)</em> 이름은 그 유형에 속한 모든 문자들의 목록을 나타낸다. 표준 문자 유형 이름은 다음과 같다.</p>
-<pre><code class="text">alnum   digit   punct
+<pre><code class="language-text">alnum   digit   punct
 alpha   graph   space
 black   lower   upper
 cntrl   print   xdigit
 </code></pre>
-
 <p>이는 <code>wctype(3)</code>에 정의돼 있는 문자 유형들이다. 로캘에서 다른 유형들도 제공할 수 있다. 문자 유형은 범위의 끝점으로 쓸 수 없다.</p>
 <p>한 RE 식이 어떤 문자열의 여러 부분열에 일치할 수 있는 경우에는 문자열에서 가장 일찍 시작하는 부분열에 일치하게 된다. 그 지점에서 시작하는 여러 부분열에 일치할 수 있으면 가장 긴 것에 일치하게 된다. 하위식 역시도 가장 긴 부분열에 일치하되 전체 일치 길이가 가능한 한 길어야 한다는 제약 내에서이며, RE 내에서 일찍 시작하는 하위식이 이후 하위식보다 높은 우선순위를 가진다. 더 상위의 하위식이 그 부분을 이루는 하위식보다 높은 우선순위를 가진다는 점에 유의하라.</p>
 <p>일치 길이는 조합 항목이 아니라 문자 단위로 센다. 널 문자열은 일치하지 않는 것보다는 긴 것으로 본다. 예를 들어 "<code>bb*</code>"는 "abbbc"의 가운데 세 문자에 일치하고, "<code>(wee|week)(knights|nights)</code>"는 "weeknights"의 10개 문자 모두에 일치하며, "<code>(.*).*</code>"를 "abc"에 맞춰 볼 때 괄호 친 하위식이 세 문자 모두에 일치하고, "<code>(a*)*</code>"를 "bc"에 맞춰 볼 때 RE 식 전체와 괄호 친 하위식 모두가 널 문자열에 일치한다.</p>
@@ -179,10 +178,10 @@ cntrl   print   xdigit
 <h2 id="author">AUTHOR</h2>
 <p>이 페이지는 Henry Spencer의 regex 패키지에서 가져온 것이다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>grep(1)</code>, <tt>[[regex(3)]]</tt></p>
+<p><code>grep(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/regex(3)/">regex(3)</a></tt></p>
 <p>POSIX.2 2.8절 (Regular Expression Notation)</p>
 <hr />
-<p>2009-01-12</p></div>
+<p>2020-08-13</p></div>
         
         
     </div>

@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_rwlock_unlock()/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_rwlock_unlock%28%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Pthread rwlock unlock() - man-pages-ko</title>
+    <title>pthread_rwlock_unlock() - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -156,11 +156,10 @@
 <h2 id="name">NAME</h2>
 <p>pthread_rwlock_unlock - 읽기-쓰기 락 객체 풀기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;pthread.h&gt;
+<pre><code class="language-c">#include &lt;pthread.h&gt;
 
 int pthread_rwlock_unlock(pthread_rwlock_t *rwlock);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>pthread_rwlock_unlock()</code> 함수는 <code>rwlock</code>이 가리키는 읽기-쓰기 락 객체에 잡은 락을 놓는다. 읽기-쓰기 락 <code>rwlock</code>을 호출 스레드가 잡고 있지 않은 경우의 결과는 규정되어 있지 않다.</p>
 <p>읽기-쓰기 락에서 읽기 락을 놓기 위해 이 함수를 호출하는 것이고 현재 그 읽기-쓰기 락 객체에 누군가 잡고 있는 다른 읽기 락이 있는 경우에는 읽기-쓰기 락 객체가 계속 읽기 잠김 상태로 남는다. 이 함수가 그 읽기-쓰기 락 객체의 마지막 읽기 락을 놓는 경우에는 읽기-쓰기 락 객체가 소유자 없이 풀린 상태가 된다.</p>
@@ -182,7 +181,7 @@ int pthread_rwlock_unlock(pthread_rwlock_t *rwlock);
 <h2 id="future-directions">FUTURE DIRECTIONS</h2>
 <p>없음.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[pthread_rwlock_destroy()]]</tt>, <tt>[[pthread_rwlock_rdlock()]]</tt>, <tt>[[pthread_rwlock_timedrdlock()]]</tt>, <tt>[[pthread_rwlock_timedwrlock()]]</tt>, <tt>[[pthread_rwlock_trywrlock()]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/pthread_rwlock_destroy()/">pthread_rwlock_destroy()</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_rwlock_rdlock()/">pthread_rwlock_rdlock()</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_rwlock_timedrdlock()/">pthread_rwlock_timedrdlock()</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_rwlock_timedwrlock()/">pthread_rwlock_timedwrlock()</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_rwlock_trywrlock()/">pthread_rwlock_trywrlock()</a></tt></p>
 <p>POSIX.1-2008 Base Definitions 권, <em>4.11절 Memory Synchronization</em>, <code>&lt;pthread.h&gt;</code></p>
 <h2 id="copyright">COPYRIGHT</h2>
 <p>Portions of this text are reprinted and reproduced in electronic form from IEEE Std 1003.1, 2013 Edition, Standard for Information Technology -- Portable Operating System Interface (POSIX), The Open Group Base Specifications Issue 7, Copyright (C) 2013 by the Institute of Electrical and Electronics Engineers, Inc and The Open Group. (This is POSIX.1-2008 with the 2013 Technical Corrigendum 1 applied.) In the event of any discrepancy between this version and the original IEEE and The Open Group Standard, the original IEEE and The Open Group Standard is the referee document. The original Standard can be obtained online at <a href="http://www.unix.org/online.html">http://www.unix.org/online.html</a>.</p>

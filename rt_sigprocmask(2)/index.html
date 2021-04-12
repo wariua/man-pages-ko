@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/rt_sigprocmask(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/rt_sigprocmask%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Rt sigprocmask(2) - man-pages-ko</title>
+    <title>rt_sigprocmask(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -152,27 +152,27 @@
 <h2 id="name">NAME</h2>
 <p>sigprocmask, rt_sigprocmask - 블록 된 시그널 조사하고 바꾸기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;signal.h&gt;
+<pre><code class="language-c">#include &lt;signal.h&gt;
 
 /* glibc 래퍼 함수 원형 */
-int sigprocmask(int how, const sigset_t *set, sigset_t *oldset);
+int sigprocmask(int how, const sigset_t *restrict set,
+                sigset_t *restrict oldset);
 
 /* 기반 시스템 호출 원형 */
 int rt_sigprocmask(int how, const kernel_sigset_t *set,
-                   kernel_sigset_t *oldset, size_t sigsetsize);
+                kernel_sigset_t *oldset, size_t sigsetsize);
 
 /* 구식 시스템 호출 원형 (제거 예정) */
 int sigprocmask(int how, const old_kernel_sigset_t *set,
                 old_kernel_sigset_t *oldset);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>sigprocmask()</code>:</dt>
 <dd><code>_POSIX_C_SOURCE</code></dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>sigprocmask()</code>를 사용해 호출 스레드의 시그널 마스크를 가져오고 바꾼다. 시그널 마스크는 현재 호출자에게 전달이 차단된 시그널들의 집합이다. (더 자세한 내용은 <tt>[[signal(7)]]</tt>도 참고.)</p>
+<p><code>sigprocmask()</code>를 사용해 호출 스레드의 시그널 마스크를 가져오고 바꾼다. 시그널 마스크는 현재 호출자에게 전달이 차단된 시그널들의 집합이다. (더 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt>도 참고.)</p>
 <p>다음과 같이 <code>how</code> 값에 따라 호출의 동작 방식이 달라진다.</p>
 <dl>
 <dt><code>SIG_BLOCK</code></dt>
@@ -184,10 +184,10 @@ int sigprocmask(int how, const old_kernel_sigset_t *set,
 </dl>
 <p><code>oldset</code>이 NULL이 아니면 이전 시그널 마스크 값을 <code>oldset</code>에 저장한다.</p>
 <p><code>set</code>이 NULL이면 시그널 마스크가 바뀌지 않는다. (즉, <code>how</code>를 무시한다.) 그렇다고 해도 현재 시그널 마스크 값을 <code>oldset</code>으로 (NULL이 아니라면) 반환한다.</p>
-<p><code>sigset_t</code>("시그널 집합") 타입 변수를 변경하고 검사하는 함수들을 <tt>[[sigsetops(3)]]</tt>에서 설명한다.</p>
-<p>다중 스레드 프로세스에서의 <code>sigprocmask()</code> 사용은 명세되어 있지 않다. <tt>[[pthread_sigmask(3)]]</tt>를 보라.</p>
+<p><code>sigset_t</code>("시그널 집합") 타입 변수를 변경하고 검사하는 함수들을 <tt><a class="wikilink" href="/man-pages-ko/sigsetops(3)/">sigsetops(3)</a></tt>에서 설명한다.</p>
+<p>다중 스레드 프로세스에서의 <code>sigprocmask()</code> 사용은 명세되어 있지 않다. <tt><a class="wikilink" href="/man-pages-ko/pthread_sigmask(3)/">pthread_sigmask(3)</a></tt>를 보라.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p><code>sigprocmask()</code>는 성공 시 0을 반환하고 오류 시 -1을 반환한다. 오류 때는 원인을 나타내도록 <code>errno</code>를 설정한다.</p>
+<p><code>sigprocmask()</code>는 성공 시 0을 반환한다. 실패 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EFAULT</code></dt>
@@ -200,19 +200,19 @@ int sigprocmask(int how, const old_kernel_sigset_t *set,
 <h2 id="notes">NOTES</h2>
 <p><code>SIGKILL</code>이나 <code>SIGSTOP</code>을 막는 것은 불가능하다. 그렇게 하려는 시도는 조용히 무시된다.</p>
 <p>프로세스의 각 스레드가 각자의 시그널 마스크를 가지고 있다.</p>
-<p><tt>[[fork(2)]]</tt>를 통해 생성된 자식은 부모의 시그널 마스크 사본을 물려받는다. <tt>[[execve(2)]]</tt>를 거치면서 시그널 마스크가 보존된다.</p>
-<p><code>SIGBUG</code>, <code>SIGFPE</code>, <code>SIGILL</code>, <code>SIGSEGV</code>가 블록 된 상태에서 생성되는 경우 <tt>[[kill(2)]]</tt>이나 <tt>[[sigqueue(3)]]</tt>, <tt>[[raise(3)]]</tt>로 시그널이 생성된 게 아니면 결과가 규정되어 있지 않다.</p>
-<p>시그널 집합 조작에 대한 자세한 내용은 <tt>[[sigsetops(3)]]</tt>를 보라.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt>를 통해 생성된 자식은 부모의 시그널 마스크 사본을 물려받는다. <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>를 거치면서 시그널 마스크가 보존된다.</p>
+<p><code>SIGBUG</code>, <code>SIGFPE</code>, <code>SIGILL</code>, <code>SIGSEGV</code>가 블록 된 상태에서 생성되는 경우 <tt><a class="wikilink" href="/man-pages-ko/kill(2)/">kill(2)</a></tt>이나 <tt><a class="wikilink" href="/man-pages-ko/sigqueue(3)/">sigqueue(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/raise(3)/">raise(3)</a></tt>로 시그널이 생성된 게 아니면 결과가 규정되어 있지 않다.</p>
+<p>시그널 집합 조작에 대한 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/sigsetops(3)/">sigsetops(3)</a></tt>를 보라.</p>
 <p>참고로 <code>set</code>과 <code>oldset</code>을 모두 NULL로 지정하는 것도 (아주 유용하지는 않지만) 허용된다.</p>
 <h3 id="c">C 라이브러리/커널 차이</h3>
 <p>커널의 <code>sigset_t</code> 정의는 C 라이브러리에서 쓰는 것과 크기가 다르다. 이 매뉴얼 페이지에서는 전자를 <code>kernel_sigset_t</code>라고 부른다. (그렇지만 커널 소스에서의 이름은 <code>sigset_t</code>이다.)</p>
-<p>glibc의 <code>sigprocmask()</code> 래퍼 함수에서는 NPTL 스레딩 구현 내부에서 쓰는 두 가지 실시간 시그널을 막으려는 시도를 조용히 무시한다. 자세한 내용은 <tt>[[nptl(7)]]</tt>을 보라.</p>
+<p>glibc의 <code>sigprocmask()</code> 래퍼 함수에서는 NPTL 스레딩 구현 내부에서 쓰는 두 가지 실시간 시그널을 막으려는 시도를 조용히 무시한다. 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/nptl(7)/">nptl(7)</a></tt>을 보라.</p>
 <p>원래 리눅스 시스템 호출의 이름은 <code>sigprocmask()</code>였다. 하지만 리눅스 2.2에 실시간 시그널이 추가되면서 그 시스템 호출이 지원하던 고정 크기 32비트 <code>sigset_t</code> 타입(이 매뉴얼 페이지에서 <code>old_kernel_sigset_t</code>)이 더는 용도에 맞지 않게 되었다. 그에 따라 확장된 <code>sigset_t</code> 타입(이 매뉴얼 페이지에서 <code>kernel_sigset_t</code>)을 지원하기 위해 새로운 시스템 호출 <code>rt_sigprocmask()</code>가 추가되었다. 새 시스템 호출에서 네 번째 인자로 <code>size_t sigsetsize</code>를 받는데, 이는 <code>set</code>과 <code>oldset</code>의 시그널 집합의 바이트 단위 크기를 나타낸다. 현재는 이 인자가 고정된 아키텍처별 값(<code>sizeof(kernel_sigset_t)</code>)을 가져야 한다.</p>
 <p>glibc의 <code>sigprocmask()</code> 래퍼 함수에서 이런 세부 사항을 감추고 커널이 제공할 때 투명하게 <code>rt_sigprocmask()</code>를 호출한다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[kill(2)]]</tt>, <tt>[[pause(2)]]</tt>, <tt>[[sigaction(2)]]</tt>, <tt>[[signal(2)]]</tt>, <tt>[[sigpending(2)]]</tt>, <tt>[[sigsuspend(2)]]</tt>, <tt>[[pthread_sigmask(3)]]</tt>, <tt>[[sigqueue(3)]]</tt>, <tt>[[sigsetops(3)]]</tt>, <tt>[[signal(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/kill(2)/">kill(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pause(2)/">pause(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigaction(2)/">sigaction(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/signal(2)/">signal(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigpending(2)/">sigpending(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigsuspend(2)/">sigsuspend(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_sigmask(3)/">pthread_sigmask(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigqueue(3)/">sigqueue(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigsetops(3)/">sigsetops(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

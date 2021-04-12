@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_detach(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_detach%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Pthread detach(3) - man-pages-ko</title>
+    <title>pthread_detach(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -143,7 +143,7 @@
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
@@ -152,11 +152,10 @@
 <h2 id="name">NAME</h2>
 <p>pthread_detach - 스레드 분리하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;pthread.h&gt;
+<pre><code class="language-c">#include &lt;pthread.h&gt;
 
 int pthread_detach(pthread_t thread);
 </code></pre>
-
 <p><code>-pthread</code>로 컴파일 및 링크.</p>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>pthread_detach()</code> 함수는 <code>thread</code>가 나타내는 스레드를 분리된 것으로 표시한다. 분리된 스레드가 종료하면 자원이 자동으로 시스템으로 해제된다. 즉 다른 스레드가 그 종료 스레드와 합류할 필요가 없다.</p>
@@ -171,7 +170,7 @@ int pthread_detach(pthread_t thread);
 <dd>ID가 <code>thread</code>인 스레드를 찾을 수 없다.</dd>
 </dl>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -191,19 +190,18 @@ int pthread_detach(pthread_t thread);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008.</p>
 <h2 id="notes">NOTES</h2>
-<p>스레드가 일단 분리되고 나면 <tt>[[pthread_join(3)]]</tt>으로 합류하거나 다시 합류 가능하게 만들 수 없다.</p>
-<p><tt>[[pthread_attr_setdetachstate(3)]]</tt>를 이용해 <tt>[[pthread_create(3)]]</tt>의 <code>attr</code> 인자의 분리 속성을 설정하면 새 스레드를 분리 상태로 생성할 수 있다.</p>
-<p>분리 속성은 스레드가 종료할 때 시스템을 동작 방식을 결정할 뿐이다. 프로세스가 <tt>[[exit(3)]]</tt>으로 종료하는 경우에 (또는 그와 동등하게 메인 스레드가 반환하는 경우) 스레드가 종료되지 않게 해 주지 않는다.</p>
-<p>응용에서 생성하는 각 스레드에 <tt>[[pthread_join(3)]]</tt>과 <code>pthread_detach()</code> 중 하나를 호출해서 그 스레드의 시스템 자원이 해제될 수 있게 해야 한다. (하지만 둘 중 한 동작을 하지 않은 스레드가 있더라도 프로세스가 종료할 때 그 자원이 해제된다.)</p>
-<h2 id="example">EXAMPLE</h2>
+<p>스레드가 일단 분리되고 나면 <tt><a class="wikilink" href="/man-pages-ko/pthread_join(3)/">pthread_join(3)</a></tt>으로 합류하거나 다시 합류 가능하게 만들 수 없다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setdetachstate(3)/">pthread_attr_setdetachstate(3)</a></tt>를 이용해 <tt><a class="wikilink" href="/man-pages-ko/pthread_create(3)/">pthread_create(3)</a></tt>의 <code>attr</code> 인자의 분리 속성을 설정하면 새 스레드를 분리 상태로 생성할 수 있다.</p>
+<p>분리 속성은 스레드가 종료할 때 시스템을 동작 방식을 결정할 뿐이다. 프로세스가 <tt><a class="wikilink" href="/man-pages-ko/exit(3)/">exit(3)</a></tt>으로 종료하는 경우에 (또는 그와 동등하게 메인 스레드가 반환하는 경우) 스레드가 종료되지 않게 해 주지 않는다.</p>
+<p>응용에서 생성하는 각 스레드에 <tt><a class="wikilink" href="/man-pages-ko/pthread_join(3)/">pthread_join(3)</a></tt>과 <code>pthread_detach()</code> 중 하나를 호출해서 그 스레드의 시스템 자원이 해제될 수 있게 해야 한다. (하지만 둘 중 한 동작을 하지 않은 스레드가 있더라도 프로세스가 종료할 때 그 자원이 해제된다.)</p>
+<h2 id="examples">EXAMPLES</h2>
 <p>다음 문은 호출 스레드를 분리한다.</p>
-<pre><code class="c">pthread_detach(pthread_self());
+<pre><code class="language-c">pthread_detach(pthread_self());
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[pthread_attr_setdetachstate(3)]]</tt>, <tt>[[pthread_cancel(3)]]</tt>, <tt>[[pthread_create(3)]]</tt>, <tt>[[pthread_exit(3)]]</tt>, <tt>[[pthread_join(3)]]</tt>, <tt>[[pthreads(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setdetachstate(3)/">pthread_attr_setdetachstate(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_cancel(3)/">pthread_cancel(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_create(3)/">pthread_create(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_exit(3)/">pthread_exit(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_join(3)/">pthread_join(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthreads(7)/">pthreads(7)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

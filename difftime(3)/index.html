@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/difftime(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/difftime%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Difftime(3) - man-pages-ko</title>
+    <title>difftime(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -149,15 +149,14 @@
 <h2 id="name">NAME</h2>
 <p>difftime - 시간 차이 계산하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;time.h&gt;
+<pre><code class="language-c">#include &lt;time.h&gt;
 
 double difftime(time_t time1, time_t time0);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>difftime()</code> 함수는 시간 <code>time0</code>과 시간 <code>time1</code> 간의 경과 초 수를 <code>double</code>로 나타내서 반환한다. 각 시간을 달력 시간으로 지정한다. 즉 그 값은 1970-01-01 00:00:00 +0000 (UTC) 에포크를 기준으로 한 (초 단위) 측정치이다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -178,13 +177,12 @@ double difftime(time_t time1, time_t time0);
 <p>POSIX.1-2001, POSIX.1-2008, C89, C99, SVr4, 4.3BSD.</p>
 <h2 id="notes">NOTES</h2>
 <p>POSIX 시스템에서 <code>time_t</code>는 산술 타입이고, 그래서 뺄셈 오버플로우를 신경쓰지 않아도 되는 경우에는 그냥 다음처럼 정의할 수도 있다.</p>
-<pre><code class="c">#define difftime(t1,t0) (double)(t1 - t0)
+<pre><code class="language-c">#define difftime(t1,t0) (double)(t1 - t0)
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>date(1)</code>, <tt>[[gettimeofday(2)]]</tt>, <tt>[[time(2)]]</tt>, <tt>[[ctime(3)]]</tt>, <tt>[[gmtime(3)]]</tt>, <tt>[[localtime(3)]]</tt></p>
+<p><code>date(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/gettimeofday(2)/">gettimeofday(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/time(2)/">time(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ctime(3)/">ctime(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/gmtime(3)/">gmtime(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/localtime(3)/">localtime(3)</a></tt></p>
 <hr />
-<p>2015-08-08</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

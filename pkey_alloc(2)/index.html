@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pkey_alloc(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pkey_alloc%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Pkey alloc(2) - man-pages-ko</title>
+    <title>pkey_alloc(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -143,7 +143,7 @@
         <li class="first-level "><a href="#versions">VERSIONS</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
@@ -152,15 +152,14 @@
 <h2 id="name">NAME</h2>
 <p>pkey_alloc, pkey_free - 보호 키 할당하고 해제하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#define _GNU_SOURCE             /* feature_test_macros(7) */
+<pre><code class="language-c">#define _GNU_SOURCE             /* feature_test_macros(7) */
 #include &lt;sys/mman.h&gt;
 
 int pkey_alloc(unsigned int flags, unsigned int access_rights);
 int pkey_free(int pkey);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
-<p><code>pkey_alloc()</code>은 보호 키(pkey)를 할당한다. 그 키를 <tt>[[pkey_mprotect(2)]]</tt>에 전달할 수 있다.</p>
+<p><code>pkey_alloc()</code>은 보호 키(pkey)를 할당한다. 그 키를 <tt><a class="wikilink" href="/man-pages-ko/pkey_mprotect(2)/">pkey_mprotect(2)</a></tt>에 전달할 수 있다.</p>
 <p><code>pkey_alloc()</code>의 <code>flags</code>는 향후 용도를 위해 예약되어 있으며 현재는 항상 0으로 지정해야 한다.</p>
 <p><code>pkey_alloc()</code>의 <code>access_rights</code> 인자에는 0개 이상의 비활성화 동작을 담을 수 있다.</p>
 <dl>
@@ -170,9 +169,9 @@ int pkey_free(int pkey);
 <dd>반환된 보호 키의 대상 메모리에 쓰기 접근을 못 하게 한다.</dd>
 </dl>
 <p><code>pkey_free()</code>는 보호 키를 해제하고 이후 할당에 쓸 수 있게 만든다. 보호 키를 해제한 후에는 어떤 보호 키 관련 작업에도 더는 사용할 수 없다.</p>
-<p><tt>[[pkey_mprotect(2)]]</tt>에 의해 어느 주소 범위로 할당되어서 아직 사용 중인 보호 키에 대해 응용에서 <code>pkey_free()</code>를 호출하지 말아야 한다. 이 경우의 동작은 규정되어 있지 않으며 오류를 유발할 수도 있다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/pkey_mprotect(2)/">pkey_mprotect(2)</a></tt>에 의해 어느 주소 범위로 할당되어서 아직 사용 중인 보호 키에 대해 응용에서 <code>pkey_free()</code>를 호출하지 말아야 한다. 이 경우의 동작은 규정되어 있지 않으며 오류를 유발할 수도 있다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 <code>pkey_alloc()</code>은 양수 보호 키 값을 반환한다. 성공 시 <code>pkey_free()</code>는 0을 반환한다. 오류 시 -1을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<p>성공 시 <code>pkey_alloc()</code>은 양수 보호 키 값을 반환한다. 성공 시 <code>pkey_free()</code>는 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EINVAL</code></dt>
@@ -190,12 +189,12 @@ int pkey_free(int pkey);
 <h2 id="notes">NOTES</h2>
 <p>운영 체제가 보호 키를 지원하는지 여부와 상관없이 언제나 <code>pkey_alloc()</code>은 호출해도 안전하다. 이를 pkey 지원 탐지를 위한 다른 메커니즘 대신 사용할 수 있으며, 운영 체제에 pkey 지원이 없으면 그냥 <code>ENOSPC</code> 오류로 실패하게 된다.</p>
 <p>커널에서는 할당된 보호 키들에 대해서만 하드웨어 권한 레지스터(PKRU)의 내용물이 보존된다고 보장한다. 키가 할당되어 있지 않을 때는 (<code>pkey_alloc()</code> 호출이 키를 반환하기 전이나 <code>pkey_free()</code>를 통해 키를 해제한 후에는) 언제든 그 키의 접근권에 영향을 주는 권한 레지스터의 내용을 커널이 임의로 바꿀 수도 있다.</p>
-<h2 id="example">EXAMPLE</h2>
-<p><tt>[[pkey(7)]]</tt> 참고.</p>
+<h2 id="examples">EXAMPLES</h2>
+<p><tt><a class="wikilink" href="/man-pages-ko/pkey(7)/">pkey(7)</a></tt> 참고.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[pkey_mprotect(2)]]</tt>, <tt>[[pkeys(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/pkey_mprotect(2)/">pkey_mprotect(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pkeys(7)/">pkeys(7)</a></tt></p>
 <hr />
-<p>2019-08-02</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

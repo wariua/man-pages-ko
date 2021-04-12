@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_setschedparam(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_setschedparam%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Pthread setschedparam(3) - man-pages-ko</title>
+    <title>pthread_setschedparam(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -143,7 +143,7 @@
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
             <li class="second-level"><a href="#_1">프로그램 소스</a></li>
                 
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
@@ -154,26 +154,24 @@
 <h2 id="name">NAME</h2>
 <p>pthread_setschedparam, pthread_getschedparam - 스레드의 스케줄링 정책 및 매개변수 설정하기/얻기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;pthread.h&gt;
+<pre><code class="language-c">#include &lt;pthread.h&gt;
 
 int pthread_setschedparam(pthread_t thread, int policy,
                           const struct sched_param *param);
-int pthread_getschedparam(pthread_t thread, int *policy,
-                          struct sched_param *param);
+int pthread_getschedparam(pthread_t thread, int *restrict policy,
+                          struct sched_param *restrict param);
 </code></pre>
-
 <p><code>-pthread</code>로 컴파일 및 링크.</p>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>pthread_setschedparam()</code> 함수는 스레드 <code>thread</code>의 스케줄링 정책과 매개변수를 설정한다.</p>
-<p><code>policy</code>가 <code>thread</code>를 위한 새 스케줄링 정책을 나타낸다. <code>policy</code>의 지원 값들과 그 의미는 <tt>[[sched(7)]]</tt>에서 기술한다.</p>
+<p><code>policy</code>가 <code>thread</code>를 위한 새 스케줄링 정책을 나타낸다. <code>policy</code>의 지원 값들과 그 의미는 <tt><a class="wikilink" href="/man-pages-ko/sched(7)/">sched(7)</a></tt>에서 기술한다.</p>
 <p><code>param</code>이 가리키는 구조체가 <code>thread</code>를 위한 새 스케줄링 매개변수를 나타낸다. 다음 구조체에 스케줄링 매개변수를 담는다.</p>
-<pre><code class="c">struct sched_param {
+<pre><code class="language-c">struct sched_param {
     int sched_priority;     /* 스케줄링 우선순위 */
 };
 </code></pre>
-
-<p>보다시피 한 가지 스케줄링 매개변수만 지원한다. 각 스케줄링 정책에서 허용하는 스케줄링 우선순위 범위에 대한 세부 내용은 <tt>[[sched(7)]]</tt>를 보라.</p>
-<p><code>pthread_getschedparam()</code> 함수는 스레드 <code>thread</code>의 스케줄링 정책과 매개변수를 각각 <code>policy</code> 및 <code>param</code>이 가리키는 버퍼로 반환한다. 반환되는 우선순위 값은 <code>thread</code>에 영향을 준 가장 최근의 <code>pthread_setschedparam()</code>이나 <tt>[[pthread_setschedprio(3)]]</tt>, <tt>[[pthread_create(3)]]</tt> 호출에서 설정한 값이다. 반환되는 우선순위는 우선순위 상속 내지 우선순위 상한 지정 함수 호출로 인한 일시적 우선순위 조정을 반영하지 않는다. (예로 <tt>[[pthread_mutexattr_setprioceiling(3)]]</tt> 및 <tt>[[pthread_mutexattr_setprotocol(3)]]</tt> 참고.)</p>
+<p>보다시피 한 가지 스케줄링 매개변수만 지원한다. 각 스케줄링 정책에서 허용하는 스케줄링 우선순위 범위에 대한 세부 내용은 <tt><a class="wikilink" href="/man-pages-ko/sched(7)/">sched(7)</a></tt>를 보라.</p>
+<p><code>pthread_getschedparam()</code> 함수는 스레드 <code>thread</code>의 스케줄링 정책과 매개변수를 각각 <code>policy</code> 및 <code>param</code>이 가리키는 버퍼로 반환한다. 반환되는 우선순위 값은 <code>thread</code>에 영향을 준 가장 최근의 <code>pthread_setschedparam()</code>이나 <tt><a class="wikilink" href="/man-pages-ko/pthread_setschedprio(3)/">pthread_setschedprio(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_create(3)/">pthread_create(3)</a></tt> 호출에서 설정한 값이다. 반환되는 우선순위는 우선순위 상속 내지 우선순위 상한 지정 함수 호출로 인한 일시적 우선순위 조정을 반영하지 않는다. (예로 <tt><a class="wikilink" href="/man-pages-ko/pthread_mutexattr_setprioceiling(3)/">pthread_mutexattr_setprioceiling(3)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/pthread_mutexattr_setprotocol(3)/">pthread_mutexattr_setprotocol(3)</a></tt> 참고.)</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 이 함수들은 0을 반환한다. 오류 시 0 아닌 오류 번호를 반환한다. <code>pthread_setschedparam()</code>가 실패한 경우 <code>thread</code>의 스케줄링 정책 및 매개변수가 바뀌지 않는다.</p>
 <h2 id="errors">ERRORS</h2>
@@ -191,7 +189,7 @@ int pthread_getschedparam(pthread_t thread, int *policy,
 </dl>
 <p>POSIX.1에서는 <code>pthread_setschedparam()</code>에서 <code>ENOTSUP</code> 오류("스케줄링 정책 및 매개변수를 지원하지 않는 값으로 설정하려고 시도했음")도 적고 있다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -211,11 +209,11 @@ int pthread_getschedparam(pthread_t thread, int *policy,
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008.</p>
 <h2 id="notes">NOTES</h2>
-<p>스레드의 스케줄링 우선순위를 바꾸는 데 필요한 권한과 그 효과, 각 스케줄링 정책에서 허용하는 우선순위 범위에 대한 설명은 <tt>[[sched(7)]]</tt>를 보라.</p>
-<h2 id="example">EXAMPLE</h2>
+<p>스레드의 스케줄링 우선순위를 바꾸는 데 필요한 권한과 그 효과, 각 스케줄링 정책에서 허용하는 우선순위 범위에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/sched(7)/">sched(7)</a></tt>를 보라.</p>
+<h2 id="examples">EXAMPLES</h2>
 <p>아래 프로그램은 <code>pthread_setschedparam()</code>과 <code>pthread_getschedparam()</code>의 사용 방식뿐 아니라 여러 다른 스케줄링 관련 pthreads 함수들의 사용 방식도 보여 준다.</p>
-<p>아래 실행에서 주 스레드는 자기 스케줄링 정책을 우선순위 10인 <code>SCHED_FIFO</code>로 설정하고, 스레드 속성 객체를 스케줄링 정책 속성 <code>SCHED_RR</code>과 스케줄링 우선순위 속성 20으로 초기화 한다. 그러고서 프로그램은 (<tt>[[pthread_attr_setinheritsched(3)]]</tt>을 이용해) 스레드 속성 객체의 스케줄러 상속 속성을 <code>PTHREAD_EXPLICIT_SCHED</code>로 설정하는데, 이는 이 속성 객체를 사용해 생성한 스레드들이 스레드 속성 객체로부터 자기 스케줄링 속성들을 가져와야 한다는 의미이다. 그러고서 프로그램이 그 스레드 속성 객체를 이용해 스레드를 만들고, 그 스레드가 자기 스케줄링 정책과 우선순위를 표시한다.</p>
-<pre><code class="text">$ su      # 실시간 스케줄링 정책 설정을 위해 특권 필요
+<p>아래 실행에서 주 스레드는 자기 스케줄링 정책을 우선순위 10인 <code>SCHED_FIFO</code>로 설정하고, 스레드 속성 객체를 스케줄링 정책 속성 <code>SCHED_RR</code>과 스케줄링 우선순위 속성 20으로 초기화 한다. 그러고서 프로그램은 (<tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setinheritsched(3)/">pthread_attr_setinheritsched(3)</a></tt>을 이용해) 스레드 속성 객체의 스케줄러 상속 속성을 <code>PTHREAD_EXPLICIT_SCHED</code>로 설정하는데, 이는 이 속성 객체를 사용해 생성한 스레드들이 스레드 속성 객체로부터 자기 스케줄링 속성들을 가져와야 한다는 의미이다. 그러고서 프로그램이 그 스레드 속성 객체를 이용해 스레드를 만들고, 그 스레드가 자기 스케줄링 정책과 우선순위를 표시한다.</p>
+<pre><code class="language-text">$ su      # 실시간 스케줄링 정책 설정을 위해 특권 필요
 Password:
 # ./a.out -mf10 -ar20 -i e
 Scheduler settings of main thread
@@ -228,10 +226,9 @@ Scheduler settings in 'attr'
 Scheduler attributes of new thread
     policy=SCHED_RR, priority=20
 </code></pre>
-
 <p>위 출력을 보면 스레드 속성 객체에 지정된 값들에서 스케줄링 정책과 우선순위를 가져왔음을 알 수 있다.</p>
 <p>다음 실행은 앞서와 같되 스케줄러 상속 속성을 <code>PTHREAD_INHERIT_SCHED</code>로 설정하는데, 이는 스레드 속성 객체를 사용해 생성한 스레드들이 그 스레드 객체에 지정된 스케줄링 속성들을 무시하고 대신 생성을 하는 스레드에게서 스케줄링 속성들을 가져와야 한다는 의미이다.</p>
-<pre><code class="text"># ./a.out -mf10 -ar20 -i i
+<pre><code class="language-text"># ./a.out -mf10 -ar20 -i i
 Scheduler settings of main thread
     policy=SCHED_FIFO, priority=10
 
@@ -242,11 +239,10 @@ Scheduler settings in 'attr'
 Scheduler attributes of new thread
     policy=SCHED_FIFO, priority=10
 </code></pre>
-
 <p>위 출력을 보면 스레드 속성 객체가 아니라 생성을 하는 스레드에게서 스케줄링 정책과 우선순위를 가져왔음을 알 수 있다.</p>
 <p>참고로 <code>-i i</code> 옵션을 생략했어도 출력이 동일했을 것이다. 스케줄러 상속 속성에 <code>PTHREAD_INHERIT_SCHED</code>가 기본값이기 때문이다.</p>
 <h3 id="_1">프로그램 소스</h3>
-<pre><code class="c">/* pthreads_sched_test.c */
+<pre><code class="language-c">/* pthreads_sched_test.c */
 
 #include &lt;pthread.h&gt;
 #include &lt;stdio.h&gt;
@@ -334,7 +330,7 @@ main(int argc, char *argv[])
     char *attr_sched_str, *main_sched_str, *inheritsched_str;
     struct sched_param param;
 
-    /* 명령행 옵션 처리 */
+    /* 명령행 옵션 처리하기. */
 
     use_null_attrib = 0;
     attr_sched_str = NULL;
@@ -356,7 +352,7 @@ main(int argc, char *argv[])
         usage(argv[0], &quot;Can't specify -A with -i or -a\n&quot;);
 
     /* 선택적으로 주 스레드의 스케줄링 속성을 설정하고
-       속성을 표시 */
+       속성을 표시하기. */
 
     if (main_sched_str != NULL) {
         if (!get_policy(main_sched_str[0], &amp;policy))
@@ -371,7 +367,7 @@ main(int argc, char *argv[])
     display_thread_sched_attr(&quot;Scheduler settings of main thread&quot;);
     printf(&quot;\n&quot;);
 
-    /* 옵션에 따라 스레드 속성 객체 초기화 */
+    /* 옵션에 따라 스레드 속성 객체 초기화하기. */
 
     attrp = NULL;
 
@@ -410,7 +406,7 @@ main(int argc, char *argv[])
     }
 
     /* 스레드 속성 객체를 초기화 했으면 객체에 설정된
-       스케줄링 속성들을 표시 */
+       스케줄링 속성들을 표시하기. */
 
     if (attrp != NULL) {
         s = pthread_attr_getschedparam(&amp;attr, &amp;param);
@@ -431,13 +427,13 @@ main(int argc, char *argv[])
         printf(&quot;\n&quot;);
     }
 
-    /* 자기 스케줄링 속성을 표시하는 스레드 생성 */
+    /* 자기 스케줄링 속성을 표시하는 스레드 생성하기. */
 
     s = pthread_create(&amp;thread, attrp, &amp;thread_start, NULL);
     if (s != 0)
         handle_error_en(s, &quot;pthread_create&quot;);
 
-    /* 필요 없는 속성 객체 파기 */
+    /* 필요 없는 속성 객체 파기하기. */
 
     if (!use_null_attrib) {
       s = pthread_attr_destroy(&amp;attr);
@@ -452,11 +448,10 @@ main(int argc, char *argv[])
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[getrlimit(2)]]</tt>, <tt>[[sched_get_priority_min(2)]]</tt>, <tt>[[pthread_attr_init(3)]]</tt>, <tt>[[pthread_attr_setinheritsched(3)]]</tt>, <tt>[[pthread_attr_setschedparam(3)]]</tt>, <tt>[[pthread_attr_setschedpolicy(3)]]</tt>, <tt>[[pthread_create(3)]]</tt>, <tt>[[pthread_self(3)]]</tt>, <tt>[[pthread_setschedprio(3)]]</tt>, <tt>[[pthreads(7)]]</tt>, <tt>[[sched(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/getrlimit(2)/">getrlimit(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sched_get_priority_min(2)/">sched_get_priority_min(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_init(3)/">pthread_attr_init(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setinheritsched(3)/">pthread_attr_setinheritsched(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setschedparam(3)/">pthread_attr_setschedparam(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setschedpolicy(3)/">pthread_attr_setschedpolicy(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_create(3)/">pthread_create(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_self(3)/">pthread_self(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_setschedprio(3)/">pthread_setschedprio(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthreads(7)/">pthreads(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sched(7)/">sched(7)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

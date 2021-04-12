@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/sigwaitinfo(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/sigwaitinfo%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Sigwaitinfo(2) - man-pages-ko</title>
+    <title>sigwaitinfo(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -152,30 +152,29 @@
 <h2 id="name">NAME</h2>
 <p>sigwaitinfo, sigtimedwait, rt_sigtimedwait - 동기적으로 대기 시그널 기다리기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;signal.h&gt;
+<pre><code class="language-c">#include &lt;signal.h&gt;
 
-int sigwaitinfo(const sigset_t *set, siginfo_t *info);
-
-int sigtimedwait(const sigset_t *set, siginfo_t *info,
-                 const struct timespec *timeout);
+int sigwaitinfo(const sigset_t *restrict set,
+                siginfo_t *restrict info);
+int sigtimedwait(const sigset_t *restrict set,
+                siginfo_t *restrict info,
+                const struct timespec *restrict timeout);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>sigwaitinfo()</code>, <code>sigtimedwait()</code>:</dt>
 <dd><code>_POSIX_C_SOURCE &gt;= 199309L</code></dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>sigwaitinfo()</code>는 <code>set</code>의 시그널들 중 하나가 미처리 상태일 때까지 호출 스레드의 실행을 중지한다. (<code>set</code>의 시그널들 중 하나가 이미 호출 스레드에게 미처리 상태이면 <code>sigwaitinfo()</code>가 즉시 반환하게 된다.)</p>
-<p><code>sigwaitinfo()</code>는 미처리 시그널 집합에서 그 시그널을 제거하고서 시그널 번호를 함수 결과로 반환한다. <code>info</code> 인자가 NULL이 아니라면 그 버퍼를 이용해 시그널에 대한 정보를 담은 <code>siginfo_t</code> 타입 구조체(<tt>[[sigaction(2)]]</tt> 참고)를 반환한다.</p>
-<p><code>set</code>에 있는 시그널 여러 개가 호출자에게 미처리 상태인 경우 <code>sigwaitinfo()</code>가 가져오는 시그널은 일반적인 순서 규칙에 따라 정해진다. 더 자세한 내용은 <tt>[[signal(7)]]</tt>을 보라.</p>
+<p><code>sigwaitinfo()</code>는 미처리 시그널 집합에서 그 시그널을 제거하고서 시그널 번호를 함수 결과로 반환한다. <code>info</code> 인자가 NULL이 아니라면 그 버퍼를 이용해 시그널에 대한 정보를 담은 <code>siginfo_t</code> 타입 구조체(<tt><a class="wikilink" href="/man-pages-ko/sigaction(2)/">sigaction(2)</a></tt> 참고)를 반환한다.</p>
+<p><code>set</code>에 있는 시그널 여러 개가 호출자에게 미처리 상태인 경우 <code>sigwaitinfo()</code>가 가져오는 시그널은 일반적인 순서 규칙에 따라 정해진다. 더 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt>을 보라.</p>
 <p><code>sigtimedwait()</code>은 <code>sigwaitinfo()</code>와 정확히 같은 식으로 동작하되 추가로 <code>timeout</code> 인자가 있어서 시그널을 기다리며 스레드를 중지해 둘 시간을 지정한다. (이 시간을 시스템 클럭 해상도에 따라 올림 하게 되며 커널 스케줄링 지연도 있기 때문에 그 시간을 약간 넘길 수도 있다.) 이 인자는 다음 타입이다.</p>
-<pre><code class="c">struct timespec {
+<pre><code class="language-c">struct timespec {
     time_t   tv_sec;        /* 초 */
     long     tv_nsec;       /* 나노초 */
 };
 </code></pre>
-
 <p>이 구조체의 두 필드 모두를 0으로 지정하면 검사를 수행하는 것이다. 즉, 호출자에게 미처리였던 시그널에 대한 정보를 가지고, 또는 <code>set</code>의 어느 시그널도 미처리가 아니었으면 오류와 함께 <code>sigtimedwait()</code>이 즉시 반환한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 <code>sigwaitinfo()</code>와 <code>sigtimedwait()</code> 모두 시그널 번호를 (즉 0보다 큰 값을) 반환한다. 실패 시 두 호출 모두 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
@@ -184,15 +183,15 @@ int sigtimedwait(const sigset_t *set, siginfo_t *info,
 <dt><code>EAGAIN</code></dt>
 <dd><code>sigtimedwait()</code>에 지정한 <code>timeout</code> 기간 내에 <code>set</code>의 어떤 시그널도 미처리 상태가 되지 않았다.</dd>
 <dt><code>EINTR</code></dt>
-<dd>시그널 핸들러에 의해 기다리기가 중단되었다. <tt>[[signal(7)]]</tt> 참고. (이 핸들러는 <code>set</code>에 있는 것 외의 시그널에 대한 것이다.)</dd>
+<dd>시그널 핸들러에 의해 기다리기가 중단되었다. <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt> 참고. (이 핸들러는 <code>set</code>에 있는 것 외의 시그널에 대한 것이다.)</dd>
 <dt><code>EINVAL</code></dt>
 <dd><code>timeout</code>이 유효하지 않다.</dd>
 </dl>
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008.</p>
 <h2 id="notes">NOTES</h2>
-<p>일반적 사용 방식에서는 호출 프로그램이 <tt>[[sigprocmask(2)]]</tt>를 미리 호출해서 <code>set</code> 안의 시그널들을 막으며 (그래서 이어지는 <code>sigwaitinfo()</code> 내지 <code>sigtimedwait()</code> 호출과의 사이에서 시그널이 미처리 상태가 되는 경우 기본 처리가 일어나지 않도록 하며), 그 시그널들에 대한 핸들러를 설정하지 않는다. 다중 스레드 프로그램에서는 <code>sigwaitinfo()</code> 내지 <code>sigtimedwait()</code>을 호출한 스레드 외의 스레드에서 기본 처리 방식에 따라 시그널이 처리되는 것을 막기 위해 모든 스레드에서 시그널을 막아야 한다.</p>
-<p>어떤 스레드에 미처리 상태인 시그널들의 집합은 특별히 그 스레드에게 미처리인 시그널들과 프로세스 전체에게 미처리인 시그널들의 합집합이다 (<tt>[[signal(7)]]</tt> 참고).</p>
+<p>일반적 사용 방식에서는 호출 프로그램이 <tt><a class="wikilink" href="/man-pages-ko/sigprocmask(2)/">sigprocmask(2)</a></tt>를 미리 호출해서 <code>set</code> 안의 시그널들을 막으며 (그래서 이어지는 <code>sigwaitinfo()</code> 내지 <code>sigtimedwait()</code> 호출과의 사이에서 시그널이 미처리 상태가 되는 경우 기본 처리가 일어나지 않도록 하며), 그 시그널들에 대한 핸들러를 설정하지 않는다. 다중 스레드 프로그램에서는 <code>sigwaitinfo()</code> 내지 <code>sigtimedwait()</code>을 호출한 스레드 외의 스레드에서 기본 처리 방식에 따라 시그널이 처리되는 것을 막기 위해 모든 스레드에서 시그널을 막아야 한다.</p>
+<p>어떤 스레드에 미처리 상태인 시그널들의 집합은 특별히 그 스레드에게 미처리인 시그널들과 프로세스 전체에게 미처리인 시그널들의 합집합이다 (<tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt> 참고).</p>
 <p><code>SIGKILL</code> 및 <code>SIGSTOP</code>을 기다리려는 시도는 조용히 무시된다.</p>
 <p>한 프로세스의 여러 스레드가 <code>sigwaitinfo()</code> 내지 <code>sigtimedwait()</code>에서 같은 시그널(들)을 기다리며 블록 되어 있는 경우에 프로세스 전체에 대한 시그널이 미처리가 되면 그 스레드들 중 정확히 한 개가 실제로 시그널을 받게 된다. 어느 스레드가 시그널을 받는지는 정해져 있지 않다.</p>
 <p><code>sigwaitinfo()</code> 내지 <code>sigtimedwait()</code>은 비유효 메모리 주소 접근으로 인한 <code>SIGSEGV</code>나 산술 오류로 인한 <code>SIGFPE</code>처럼 동기적으로 생성된 시그널을 받는 데는 쓸 수 없다. 그런 시그널들은 시그널 핸들러를 통해서만 잡을 수 있다.</p>
@@ -202,9 +201,9 @@ int sigtimedwait(const sigset_t *set, siginfo_t *info,
 <p>glibc의 <code>sigwaitinfo()</code> 및 <code>sigtimedwait()</code> 래퍼 함수에서는 NPTL 스레딩 구현 내부에서 쓰는 두 가지 실시간 시그널을 기다리려는 시도를 조용히 무시한다.</p>
 <p>원래 리눅스 시스템 호출의 이름은 <code>sigtimedwait()</code>이었다. 하지만 리눅스 2.2에 실시간 시그널이 추가되면서 그 시스템 호출이 지원하던 고정 크기 32비트 <code>sigset_t</code> 타입이 더는 용도에 맞지 않게 되었다. 그에 따라 확장된 <code>sigset_t</code> 타입을 지원하기 위해 새로운 시스템 호출 <code>rt_sigtimedwait()</code>이 추가되었다. 새 시스템 호출에서 네 번째 인자로 <code>size_t sigsetsize</code>를 받는데, 이는 <code>set</code>의 시그널 집합의 바이트 단위 크기를 나타낸다. 현재는 이 인자가 <code>sizeof(sigset_t)</code> 값을 가져야 한다. (안 그러면 <code>EINVAL</code> 오류가 난다.) glibc의 <code>sigtimedwait()</code> 래퍼 함수에서 이런 세부 사항을 감추고 커널이 제공할 때 투명하게 <code>rt_sigtimedwait()</code>을 호출한다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[kill(2)]]</tt>, <tt>[[sigaction(2)]]</tt>, <tt>[[signal(2)]]</tt>, <tt>[[signalfd(2)]]</tt>, <tt>[[sigpending(2)]]</tt>, <tt>[[sigprocmask(2)]]</tt>, <tt>[[sigqueue(3)]]</tt>, <tt>[[sigsetops(3)]]</tt>, <tt>[[sigwait(3)]]</tt>, <tt>[[signal(7)]]</tt>, <tt>[[time(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/kill(2)/">kill(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigaction(2)/">sigaction(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/signal(2)/">signal(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/signalfd(2)/">signalfd(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigpending(2)/">sigpending(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigprocmask(2)/">sigprocmask(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigqueue(3)/">sigqueue(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigsetops(3)/">sigsetops(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigwait(3)/">sigwait(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/time(7)/">time(7)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

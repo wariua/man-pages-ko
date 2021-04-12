@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/futex(7)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/futex%287%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Futex(7) - man-pages-ko</title>
+    <title>futex(7) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -150,28 +150,27 @@
 <h2 id="name">NAME</h2>
 <p>futex - 빠른 사용자 공간 락킹</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;linux/futex.h&gt;
+<pre><code class="language-c">#include &lt;linux/futex.h&gt;
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p>리눅스 커널에서는 빠른 사용자 공간 락과 세마포어를 만드는 데 쓸 수 있는 퓨텍스("Fast user-space mutex")를 제공한다. 퓨텍스는 아주 기본적인 요소이며 뮤텍스나 조건 변수, 읽기-쓰기 락, 배리어, 세마포어 같은 고수준 락 추상 요소를 만드는 데 쓰기에 적합하다.</p>
-<p>사실 대다수 프로그래머는 퓨텍스를 직접 사용하지 않는다. 대신 네이티브 POSIX 스레드 라이브러리(NPTL)(<tt>[[pthreads(7)]]</tt> 참고)처럼 그 위에 만들어진 시스템 라이브러리를 쓰게 된다.</p>
+<p>사실 대다수 프로그래머는 퓨텍스를 직접 사용하지 않는다. 대신 네이티브 POSIX 스레드 라이브러리(NPTL)(<tt><a class="wikilink" href="/man-pages-ko/pthreads(7)/">pthreads(7)</a></tt> 참고)처럼 그 위에 만들어진 시스템 라이브러리를 쓰게 된다.</p>
 <p>프로세스 내지 스레드 간에 공유 가능한 메모리 조각으로 각 퓨텍스를 식별한다. 한 퓨텍스가 다른 프로세스 내에서 동일한 주소를 가지고 있지 않아도 된다. 기본적으로 퓨텍스는 세마포어처럼 동작한다. 즉 원자적으로 올리거나 내릴 수 있는 카운터다. 그리고 그 값이 양수가 되기를 프로세스에서 기다릴 수 있다.</p>
 <p>경쟁이 없는 경우에 퓨텍스 동작은 오롯이 사용자 공간에서 이뤄진다. 경쟁이 있는 경우에만 중재를 위해 커널이 개입한다. 정상적인 설계라면 경쟁을 줄이려고 노력할 것이기에 퓨텍스 역시 그런 경우에 최적화되어 있다.</p>
-<p>근본적으로 퓨텍스는 정렬된 정수이며 원자적 어셈블러 인스트럭션으로만 조작한다. 그 정수는 모든 플랫폼에서 4바이트 길이다. 프로세스에서 <tt>[[mmap(2)]]</tt>을 사용해 공유 메모리 세그먼트를 통해 이 정수를 공유할 수 있으며, 또는 응용이 소위 다중 스레드인 경우에는 메모리 공간을 공유하므로 이 정수를 공유한다.</p>
+<p>근본적으로 퓨텍스는 정렬된 정수이며 원자적 어셈블러 인스트럭션으로만 조작한다. 그 정수는 모든 플랫폼에서 4바이트 길이다. 프로세스에서 <tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt>을 사용해 공유 메모리 세그먼트를 통해 이 정수를 공유할 수 있으며, 또는 응용이 소위 다중 스레드인 경우에는 메모리 공간을 공유하므로 이 정수를 공유한다.</p>
 <h3 id="_1">동작 방식</h3>
-<p>모든 퓨텍스 동작은 사용자 공간에서 시작하지만 <tt>[[futex(2)]]</tt> 시스템 호출을 써서 커널과 의사소통해야 할 수도 있다.</p>
+<p>모든 퓨텍스 동작은 사용자 공간에서 시작하지만 <tt><a class="wikilink" href="/man-pages-ko/futex(2)/">futex(2)</a></tt> 시스템 호출을 써서 커널과 의사소통해야 할 수도 있다.</p>
 <p>퓨텍스를 "올리려면(up)" 호스트 CPU에서 그 정수를 원자적으로 증가시키는 적당한 어셈블러 인스트럭션을 실행하면 된다. 그러고 나서 정수가 실제로 0에서 1로 바뀌었는지 확인한다. 만약 그렇다면 대기자가 없었던 것이고 동작이 끝난다. 이는 빠르게 동작하는 경쟁 없는 경우이며 이런 경우가 흔해야 한다.</p>
 <p>경쟁이 있는 경우에는 원자적 증가로 인해 -1(또는 어떤 다른 음수)였던 카운터를 바꾸게 된다. 이를 탐지했다면 대기자가 있는 것이다. 그럼 사용자 공간에서는 카운터를 1로 설정하고서 <code>FUTEX_WAKE</code> 동작을 써서 커널이 대기자들을 깨우게 한다.</p>
 <p>퓨텍스에 대기하는, 즉 "내리는(down)" 것은 반대 동작이다. 카운터를 원자적으로 감소시키고서 0으로 바뀌었는지 확인한다. 만약 그렇다면 동작이 끝난 것이고 퓨텍스에 경쟁이 없었던 것이다. 그렇지 않은 경우에는 프로세스가 카운터를 -1로 설정하고 다른 프로세스가 그 퓨텍스를 올릴 때까지 커널에서 대기하도록 요청해야 한다. <code>FUTEX_WAIT</code> 동작을 써서 그렇게 한다.</p>
-<p><tt>[[futex(2)]]</tt> 시스템 호출에 선택적으로 타임아웃을 줘서 퓨텍스가 올라가기를 커널에서 얼마나 오래 기다려야 하는지 지정할 수 있다. 이 경우는 동작 방식이 더 복잡하며 자세한 내용은 <tt>[[futex(2)]]</tt>에서 볼 수 있다. 비동기 퓨텍스 대기도 마찬가지다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/futex(2)/">futex(2)</a></tt> 시스템 호출에 선택적으로 타임아웃을 줘서 퓨텍스가 올라가기를 커널에서 얼마나 오래 기다려야 하는지 지정할 수 있다. 이 경우는 동작 방식이 더 복잡하며 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/futex(2)/">futex(2)</a></tt>에서 볼 수 있다. 비동기 퓨텍스 대기도 마찬가지다.</p>
 <h2 id="versions">VERSIONS</h2>
 <p>리눅스 2.5.7에 최초로 퓨텍스 지원이 병합됐지만 위에 설명한 것과 동작 방식이 달랐다. 리눅스 2.5.40부터 현재 동작 방식이 이어져 왔다.</p>
 <h2 id="notes">NOTES</h2>
 <p>다시 말하지만 퓨텍스 자체는 일반 사용자를 위한 쓰기 쉬운 추상 요소가 아니다. 이를 사용하려면 어셈블리에 능통해야 하며 아래 나오는 퓨텍스 사용자 공간 라이브러리 소스를 읽어 둘 필요가 있다.</p>
-<p>이 맨 페이지에서 설명하는 것은 가장 흔한 <tt>[[futex(2)]]</tt> 요소 사용 방식이다. 결코 유일한 방식이 아니다.</p>
+<p>이 맨 페이지에서 설명하는 것은 가장 흔한 <tt><a class="wikilink" href="/man-pages-ko/futex(2)/">futex(2)</a></tt> 요소 사용 방식이다. 결코 유일한 방식이 아니다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[clone(2)]]</tt>, <tt>[[futex(2)]]</tt>, <tt>[[get_robust_list(2)]]</tt>, <tt>[[set_robust_list(2)]]</tt>, <tt>[[set_tid_address(2)]]</tt>, <tt>[[pthreads(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/clone(2)/">clone(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/futex(2)/">futex(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/get_robust_list(2)/">get_robust_list(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/set_robust_list(2)/">set_robust_list(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/set_tid_address(2)/">set_tid_address(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthreads(7)/">pthreads(7)</a></tt></p>
 <p><em>Fuss, Futexes and Furwocks: Fast Userlevel Locking in Linux</em> (proceedings of the Ottawa Linux Symposium 2002), futex 예시 라이브러리, futex-*.tar.bz2 (<a href="ftp://ftp.kernel.org/pub/linux/kernel/people/rusty/">ftp://ftp.kernel.org/pub/linux/kernel/people/rusty/</a>).</p>
 <hr />
 <p>2017-09-15</p></div>

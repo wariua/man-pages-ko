@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/getdate_err(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/getdate_err%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Getdate err(3) - man-pages-ko</title>
+    <title>getdate_err(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -144,7 +144,7 @@
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
             <li class="second-level"><a href="#_1">프로그램 소스</a></li>
                 
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
@@ -155,7 +155,7 @@
 <h2 id="name">NAME</h2>
 <p>getdate, getdate_r - 날짜-시간 문자열을 분할 시간으로 변환하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;time.h&gt;
+<pre><code class="language-c">#include &lt;time.h&gt;
 
 struct tm *getdate(const char *string);
 
@@ -163,10 +163,9 @@ extern int getdate_err;
 
 #include &lt;time.h&gt;
 
-int getdate_r(const char *string, struct tm *res);
+int getdate_r(const char *restrict string, struct tm *restrict res);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>getdate()</code>:</dt>
 <dd><code>_XOPEN_SOURCE &gt;= 500</code></dd>
@@ -175,9 +174,9 @@ int getdate_r(const char *string, struct tm *res);
 </dl>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>getdate()</code> 함수는 <code>string</code>이 가리키는 버퍼에 담긴 날짜 및 시간 문자열 표현을 분할 시간으로 변환한다. 분할 시간을 <code>tm</code> 구조체에 저장해서 그 구조체에 대한 포인터를 함수 결과로 반환한다. 그 <code>tm</code> 구조체는 정적 저장 공간에 할당돼 있으므로 이어서 <code>getdate()</code>를 또 호출하면 덮어 써지게 된다.</p>
-<p>(<code>format</code> 인자가 있는) <tt>[[strptime(3)]]</tt>과 달리 <code>getdate()</code>에서는 파일에서 얻은 형식들을 사용한다. 그 파일의 전체 경로명을 환경 변수 <code>DATEMSK</code>로 받는다. 주어진 입력 문자열에 맞는 파일 내의 첫 행을 변환에 쓴다.</p>
+<p>(<code>format</code> 인자가 있는) <tt><a class="wikilink" href="/man-pages-ko/strptime(3)/">strptime(3)</a></tt>과 달리 <code>getdate()</code>에서는 파일에서 얻은 형식들을 사용한다. 그 파일의 전체 경로명을 환경 변수 <code>DATEMSK</code>로 받는다. 주어진 입력 문자열에 맞는 파일 내의 첫 행을 변환에 쓴다.</p>
 <p>맞는지 확인할 때 대소문자를 무시한다. 패턴이나 변환할 문자열 내의 잉여 공백은 무시한다.</p>
-<p><tt>[[strptime(3)]]</tt>의 변환 지정 항목들이 패턴에 포함될 수 있다. POSIX.1-2001에는 변환 지정 항목 한 가지가 추가로 명세돼 있다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/strptime(3)/">strptime(3)</a></tt>의 변환 지정 항목들이 패턴에 포함될 수 있다. POSIX.1-2001에는 변환 지정 항목 한 가지가 추가로 명세돼 있다.</p>
 <table>
 <thead>
 <tr>
@@ -192,7 +191,7 @@ int getdate_r(const char *string, struct tm *res);
 </tr>
 </tbody>
 </table>
-<p><code>%Z</code>가 있으면 분할 시간을 담는 구조체를 주어진 시간대의 현재 시간에 해당하는 값들로 초기화 한다. 아니면 구조체를 (<tt>[[localtime(3)]]</tt>을 호출한 것처럼) 현재 지역 시간에 해당하는 분할 시간으로 초기화 한다.</p>
+<p><code>%Z</code>가 있으면 분할 시간을 담는 구조체를 주어진 시간대의 현재 시간에 해당하는 값들로 초기화 한다. 아니면 구조체를 (<tt><a class="wikilink" href="/man-pages-ko/localtime(3)/">localtime(3)</a></tt>을 호출한 것처럼) 현재 지역 시간에 해당하는 분할 시간으로 초기화 한다.</p>
 <p>주 중 날 번호만 있는 경우에는 그 날을 오늘이나 이후의 첫 해당 날로 받는다.</p>
 <p>월만 있는 (년은 없는) 경우에는 그 달을 금월이나 이후의 첫 해당 달로 받는다.</p>
 <p>시분초가 없는 경우에는 현재 시분초를 쓴다.</p>
@@ -250,10 +249,10 @@ int getdate_r(const char *string, struct tm *res);
 <dt><code>DATEMSK</code></dt>
 <dd>서식 패턴을 담은 파일.</dd>
 <dt><code>TZ</code>, <code>LC_TIME</code></dt>
-<dd><tt>[[strptime(3)]]</tt>에서 쓰는 변수들.</dd>
+<dd><tt><a class="wikilink" href="/man-pages-ko/strptime(3)/">strptime(3)</a></tt>에서 쓰는 변수들.</dd>
 </dl>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -278,10 +277,10 @@ int getdate_r(const char *string, struct tm *res);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008.</p>
 <h2 id="notes">NOTES</h2>
-<p>POSIX.1의 <tt>[[strptime(3)]]</tt> 명세에는 <code>%E</code> 및 <code>%O</code> 수식자를 이용한 변환 지정 항목이 있지만 <code>getdate()</code>에는 그런 지정 항목이 없다. glibc에서는 <tt>[[getptime(3)]]</tt>으로 <code>getdate()</code>를 구현하고 있으며, 그래서 양쪽에서 정확히 같은 변환들을 지원한다.</p>
-<h2 id="example">EXAMPLE</h2>
+<p>POSIX.1의 <tt><a class="wikilink" href="/man-pages-ko/strptime(3)/">strptime(3)</a></tt> 명세에는 <code>%E</code> 및 <code>%O</code> 수식자를 이용한 변환 지정 항목이 있지만 <code>getdate()</code>에는 그런 지정 항목이 없다. glibc에서는 <tt><a class="wikilink" href="/man-pages-ko/getptime(3)/">getptime(3)</a></tt>으로 <code>getdate()</code>를 구현하고 있으며, 그래서 양쪽에서 정확히 같은 변환들을 지원한다.</p>
+<h2 id="examples">EXAMPLES</h2>
 <p>아래 프로그램에서는 명령행 인자 각각에 대해 <code>getdate()</code>를 호출하고 각 호출마다 반환된 <code>tm</code> 구조체의 필드 값들을 표시한다. 다음 셸 세션은 프로그램 사용 방식을 보여 준다.</p>
-<pre><code class="text">$ TFILE=$PWD/tfile
+<pre><code class="language-text">$ TFILE=$PWD/tfile
 $ echo '%A' &gt; $TFILE       # 주 중 날짜 이름
 $ echo '%T' &gt;&gt; $TFILE      # ISO 날짜 (YYYY-MM-DD)
 $ echo '%F' &gt;&gt; $TFILE      # 시간 (HH:MM:SS)
@@ -320,9 +319,8 @@ Call 3 (&quot;12:22:33&quot;) succeeded:
     tm_yday  = 250
     tm_isdst = 1
 </code></pre>
-
 <h3 id="_1">프로그램 소스</h3>
-<pre><code class="c">#define _GNU_SOURCE
+<pre><code class="language-c">#define _GNU_SOURCE
 #include &lt;time.h&gt;
 #include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
@@ -331,9 +329,8 @@ int
 main(int argc, char *argv[])
 {
     struct tm *tmp;
-    int j;
 
-    for (j = 1; j &lt; argc; j++) {
+    for (int j = 1; j &lt; argc; j++) {
         tmp = getdate(argv[j]);
 
         if (tmp == NULL) {
@@ -357,11 +354,10 @@ main(int argc, char *argv[])
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[time(2)]]</tt>, <tt>[[localtime(3)]]</tt>, <tt>[[setlocale(3)]]</tt>, <tt>[[strftime(3)]]</tt>, <tt>[[strptime(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/time(2)/">time(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/localtime(3)/">localtime(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/setlocale(3)/">setlocale(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/strftime(3)/">strftime(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/strptime(3)/">strptime(3)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

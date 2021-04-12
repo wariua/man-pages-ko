@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/ntp_gettimex(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/ntp_gettimex%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Ntp gettimex(3) - man-pages-ko</title>
+    <title>ntp_gettimex(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -150,42 +150,46 @@
 <h2 id="name">NAME</h2>
 <p>ntp_gettime, ntp_gettimex - 시간 매개변수 얻기 (NTP 데몬 인터페이스)</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;sys/timex.h&gt;
+<pre><code class="language-c">#include &lt;sys/timex.h&gt;
 
 int ntp_gettime(struct ntptimeval *ntv);
-
 int ntp_gettimex(struct ntptimeval *ntv);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p>이 두 API는 모두 다음 구조체 타입인 <code>ntv</code> 인자를 통해 호출자에게 정보를 반환한다.</p>
-<pre><code class="c">struct ntptimeval {
-    struct timeval time;        /* 현재 시간 */
-    long int maxerror;          /* 최대 오차 */
-    long int esterror;          /* 추정 오차 */
-    long int tai;               /* TAI 오프셋 */
+<pre><code class="language-c">struct ntptimeval {
+    struct timeval time;    /* 현재 시간 */
+    long maxerror;          /* 최대 오차 */
+    long esterror;          /* 추정 오차 */
+    long tai;               /* TAI 오프셋 */
 
     /* 향후 확장을 위한 추가 패딩 바이트 */
 };
 </code></pre>
-
 <p>이 구조체의 필드들은 다음과 같다.</p>
 <dl>
+<dt><code>time</code></dt>
+<dd>현재 시간. <code>timeval</code> 구조체로 표현.<pre><code>struct timeval {
+    time_t      tv_sec;   /* 에포크 이후 초 */
+    suseconds_t tv_usec;  /* 마이크로초 */
+};
+</code></pre>
+</dd>
 <dt><code>maxerror</code></dt>
-<dd>최대 오차. 마이크로초 단위. <tt>[[ntp_adjtime(3)]]</tt>으로 이 값을 초기화할 수 있으며, 주기적으로 (리눅스에선 매초마다) 증가하되 상한(커널 상수 <code>NTP_PHASE_MAX</code>, 16,000)이 있다.</dd>
+<dd>최대 오차. 마이크로초 단위. <tt><a class="wikilink" href="/man-pages-ko/ntp_adjtime(3)/">ntp_adjtime(3)</a></tt>으로 이 값을 초기화할 수 있으며, 주기적으로 (리눅스에선 매초마다) 증가하되 상한(커널 상수 <code>NTP_PHASE_MAX</code>, 16,000)이 있다.</dd>
 <dt><code>esterror</code></dt>
-<dd>추정 오차. 마이크로초 단위. 시스템 클럭과 실제 시간의 추산 차이를 담도록 <tt>[[ntp_adjtime(3)]]</tt>으로 이 값을 설정할 수 있다. 이 값은 커널 내에선 쓰이지 않는다.</dd>
+<dd>추정 오차. 마이크로초 단위. 시스템 클럭과 실제 시간의 추산 차이를 담도록 <tt><a class="wikilink" href="/man-pages-ko/ntp_adjtime(3)/">ntp_adjtime(3)</a></tt>으로 이 값을 설정할 수 있다. 이 값은 커널 내에선 쓰이지 않는다.</dd>
 <dt><code>tai</code></dt>
 <dd>TAI(국제원자시) 오프셋.</dd>
 </dl>
 <p><code>ntp_gettime()</code>은 <code>ntptimeval</code> 구조체의 <code>time</code>, <code>maxerror</code>, <code>esterror</code> 필드를 채워서 반환한다.</p>
 <p><code>ntp_gettimex()</code>는 <code>ntp_gettime()</code>과 같은 작업을 수행하되 <code>tai</code> 필드로도 정보를 반환한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p><code>ntp_gettime()</code> 및 <code>ntp_gettimex()</code>의 반환 값은 <tt>[[adjtimex(2)]]</tt>에서와 같다. 포인터 인자가 올바르면 이 함수들은 항상 성공한다.</p>
+<p><code>ntp_gettime()</code> 및 <code>ntp_gettimex()</code>의 반환 값은 <tt><a class="wikilink" href="/man-pages-ko/adjtimex(2)/">adjtimex(2)</a></tt>에서와 같다. 포인터 인자가 올바르면 이 함수들은 항상 성공한다.</p>
 <h2 id="versions">VERSIONS</h2>
 <p>glibc 2.1부터 <code>ntp_gettime()</code> 함수가 사용 가능하다. glibc 2.12부터 <code>ntp_gettimex()</code> 함수가 사용 가능하다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -205,10 +209,10 @@ int ntp_gettimex(struct ntptimeval *ntv);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p><code>ntp_gettime()</code>은 NTP Kernel Application Program Interface에 기술돼 있다. <code>ntp_gettimex()</code>는 GNU 확장이다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[adjtimex(2)]]</tt>, <tt>[[ntp_adjtime(3)]]</tt>, <tt>[[time(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/adjtimex(2)/">adjtimex(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ntp_adjtime(3)/">ntp_adjtime(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/time(7)/">time(7)</a></tt></p>
 <p>NTP "Kernel Application Program Interface" (<a href="http://www.slac.stanford.edu/comp/unix/package/rtems/src/ssrlApps/ntpNanoclock/api.htm">http://www.slac.stanford.edu/comp/unix/package/rtems/src/ssrlApps/ntpNanoclock/api.htm</a>)</p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

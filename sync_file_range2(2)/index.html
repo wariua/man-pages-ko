@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/sync_file_range2(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/sync_file_range2%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Sync file range2(2) - man-pages-ko</title>
+    <title>sync_file_range2(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -157,13 +157,12 @@
 <h2 id="name">NAME</h2>
 <p>sync_file_range - 파일 조각을 디스크로 동기화하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
+<pre><code class="language-c">#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
 #include &lt;fcntl.h&gt;
 
 int sync_file_range(int fd, off64_t offset, off64_t nbytes,
                     unsigned int flags);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>sync_file_range()</code>는 파일 디스크립터 <code>fd</code>가 가리키는 열린 파일을 디스크와 동기화하면서 세밀한 제어를 할 수 있게 해 준다.</p>
 <p><code>offset</code>은 동기화할 파일 범위의 시작 바이트이다. <code>nbytes</code>는 동기화할 범위의 길이를 바이트 단위로 지정한다. <code>nbytes</code>가 0이면 <code>offset</code>부터 파일 끝까지의 모든 바이트를 동기화한다. 동기화는 시스템 페이지 크기를 단위로 이뤄진다. <code>offset</code>을 페이지 경계로 내리고 <code>(offset+nbytes-1)</code>을 페이지 경계로 올린다.</p>
@@ -215,17 +214,16 @@ int sync_file_range(int fd, off64_t offset, off64_t nbytes,
 <p>이 시스템 호출은 리눅스 전용이므로 이식성 있는 프로그램에서는 피해야 한다.</p>
 <h2 id="notes">NOTES</h2>
 <h3 id="sync_file_range2"><code>sync_file_range2()</code></h3>
-<p>어떤 아키텍처(가령 PowerPC, ARM)에서는 64비트 인자를 적절한 레지스터 쌍에 맞춰 넣어야 한다. 그런 아키텍처에서 SYNOPSIS에 있는 <code>sync_file_range()</code> 호출 시그너처는 <code>fd</code>와 <code>offset</code> 인자 사이 패딩으로 레지스터 하나를 낭비하게 만들 것이다. (자세한 내용은 <tt>[[syscall(2)]]</tt> 참고.) 그래서 그런 아키텍처들에서는 인자 순서를 적절히 바꾼 다른 시스템 호출을 정의한다.</p>
-<pre><code class="c">int sync_file_range2(int fd, unsigned int flags,
+<p>어떤 아키텍처(가령 PowerPC, ARM)에서는 64비트 인자를 적절한 레지스터 쌍에 맞춰 넣어야 한다. 그런 아키텍처에서 SYNOPSIS에 있는 <code>sync_file_range()</code> 호출 시그너처는 <code>fd</code>와 <code>offset</code> 인자 사이 패딩으로 레지스터 하나를 낭비하게 만들 것이다. (자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/syscall(2)/">syscall(2)</a></tt> 참고.) 그래서 그런 아키텍처들에서는 인자 순서를 적절히 바꾼 다른 시스템 호출을 정의한다.</p>
+<pre><code class="language-c">int sync_file_range2(int fd, unsigned int flags,
                      off64_t offset, off64_t nbytes);
 </code></pre>
-
 <p>이 시스템 호출의 동작은 그 외 부분에서는 <code>sync_file_range()</code>와 정확히 같다.</p>
 <p>리눅스 2.6.20에서 ARM 아키텍처에 <code>arm_sync_file_range()</code>라는 이름으로 이 시그너처의 시스템 호출이 처음 등장했다. 리눅스 2.6.22에서 PowerPC에 비슷한 시스템 호출이 추가되면서 이름이 바뀌었다. glibc 지원이 제공되는 아키텍처에서는 glibc가 <code>sync_file_range()</code> 이름 하에 투명하게 <code>sync_file_range2()</code>를 감싸 준다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[fdatasync(2)]]</tt>, <tt>[[fsync(2)]]</tt>, <tt>[[msync(2)]]</tt>, <tt>[[sync(2)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/fdatasync(2)/">fdatasync(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fsync(2)/">fsync(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/msync(2)/">msync(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sync(2)/">sync(2)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

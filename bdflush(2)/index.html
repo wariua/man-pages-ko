@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/bdflush(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/bdflush%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Bdflush(2) - man-pages-ko</title>
+    <title>bdflush(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -150,12 +150,12 @@
 <h2 id="name">NAME</h2>
 <p>bdflush - 버퍼 변경 기록 데몬을 시작하고, 기록시키고, 조정하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;sys/kdaemon.h&gt;
+<pre><code class="language-c">#include &lt;sys/kdaemon.h&gt;
 
 int bdflush(int func, long *address);
 int bdflush(int func, long data);
 </code></pre>
-
+<p><em>주의</em>: 이 시스템 호출에 대한 glibc 래퍼가 없다. VERSIONS 참고.</p>
 <h2 id="description">DESCRIPTION</h2>
 <p><em>주의</em>: 이 시스템 호출은 리눅스 2.6부터 제거 예정으로 표시되었으며 아무것도 하지 않는다. 향후 커널 릴리스에서 완전히 사라질 것 같다. <code>bdflush()</code>가 수행하던 작업을 요즘은 커널 스레드 <code>pdflush</code>가 맡고 있다.</p>
 <p><code>bdflush()</code>는 버퍼 변경 기록(buffer-dirty-flush) 데몬을 시작하고, 기록시키고, 조정한다. 특권이 있는 (<code>CAP_SYS_ADMIN</code> 역능이 있는) 프로세스만 <code>bdflush()</code>를 호출할 수 있다.</p>
@@ -182,9 +182,9 @@ int bdflush(int func, long data);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p><code>bdflush()</code>는 리눅스 전용이므로 이식성이 있어야 하는 프로그램에서는 사용하지 말아야 한다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>sync(1)</code>, <tt>[[fsync(2)]]</tt>, <tt>[[sync(2)]]</tt></p>
+<p><code>sync(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/fsync(2)/">fsync(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sync(2)/">sync(2)</a></tt></p>
 <hr />
-<p>2016-10-08</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

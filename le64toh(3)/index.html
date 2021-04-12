@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/le64toh(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/le64toh%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Le64toh(3) - man-pages-ko</title>
+    <title>le64toh(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -141,7 +141,7 @@
         <li class="first-level "><a href="#versions">VERSIONS</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
             <li class="second-level"><a href="#_1">프로그램 소스</a></li>
                 
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
@@ -152,7 +152,7 @@
 <h2 id="name">NAME</h2>
 <p>htobe16, htole16, be16toh, le16toh, htobe32, htole32, be32toh, le32toh, htobe64, htole64, be64toh, le64toh - 호스트 바이트 순서와 빅/리틀 엔디언 바이트 순서 간에 값 변환하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;endian.h&gt;
+<pre><code class="language-c">#include &lt;endian.h&gt;
 
 uint16_t htobe16(uint16_t host_16bits);
 uint16_t htole16(uint16_t host_16bits);
@@ -169,8 +169,7 @@ uint64_t htole64(uint64_t host_64bits);
 uint64_t be64toh(uint64_t big_endian_64bits);
 uint64_t le64toh(uint64_t little_endian_64bits);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>htobe16()</code>, <code>htole16()</code>, <code>be16toh()</code>, <code>le16toh()</code>, <code>htobe32()</code>, <code>htole32()</code>, <code>be32toh()</code>, <code>le32toh()</code>, <code>htobe64()</code>, <code>htole64()</code>, <code>be64toh()</code>, <code>le64toh()</code>:</dt>
 <dd>
@@ -194,18 +193,17 @@ uint64_t le64toh(uint64_t little_endian_64bits);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>이 함수들은 비표준이다. 비슷한 함수들이 BSD들에 존재하는데 거기서 필요한 헤더 파일은 <code>&lt;endian.h&gt;</code>가 아니라 <code>&lt;sys/endian.h&gt;</code>이다. 안타깝게도 NetBSD, FreeBSD, glibc에서는 <em>nn</em> 부분이 항상 함수 이름 끝에 오는 OpenBSD의 원래 명명 관행을 따르지 않는다. (그래서 예를 들어 OpenBSD "betoh32"의 등가물이 NetBSD, FreeBSD, glibc에서는 "be32toh"이다.)</p>
 <h2 id="notes">NOTES</h2>
-<p>이 함수들은 더 오래된 <tt>[[byteorder(3)]]</tt> 계열 함수들과 비슷하다. 예를 들어 <code>be32toh()</code>는 <code>ntohl()</code>과 같다.</p>
-<p><tt>[[byteorder(3)]]</tt> 함수들의 장점은 표준 함수라서 모든 유닉스 시스템에서 사용 가능하다는 점이다. 하지만 TCP/IP 맥락에서 쓰려고 설계한 것이기 때문에 이 페이지에 기술된 64비트 형태와 리틀 엔디언 형태가 빠져 있다.</p>
-<h2 id="example">EXAMPLE</h2>
+<p>이 함수들은 더 오래된 <tt><a class="wikilink" href="/man-pages-ko/byteorder(3)/">byteorder(3)</a></tt> 계열 함수들과 비슷하다. 예를 들어 <code>be32toh()</code>는 <code>ntohl()</code>과 같다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/byteorder(3)/">byteorder(3)</a></tt> 함수들의 장점은 표준 함수라서 모든 유닉스 시스템에서 사용 가능하다는 점이다. 하지만 TCP/IP 맥락에서 쓰려고 설계한 것이기 때문에 이 페이지에 기술된 64비트 형태와 리틀 엔디언 형태가 빠져 있다.</p>
+<h2 id="examples">EXAMPLES</h2>
 <p>아래 프로그램에서는 정수를 호스트 바이트 순서에서 리틀 엔디언 및 빅 엔디언 바이트 순서로 변환한 결과를 보여 준다. 호스트 바이트 순서가 리틀 엔디언 아니면 빅 엔디언이므로 변환 중 한쪽만 효과가 있게 된다. 이 프로그램을 x86-32 같은 리틀 엔디언 시스템에서 돌리면 다음을 보게 된다.</p>
-<pre><code class="text">$ ./a.out
+<pre><code class="language-text">$ ./a.out
 x.u32 = 0x44332211
 htole32(x.u32) = 0x44332211
 htobe32(x.u32) = 0x11223344
 </code></pre>
-
 <h3 id="_1">프로그램 소스</h3>
-<pre><code class="c">#include &lt;endian.h&gt;
+<pre><code class="language-c">#include &lt;endian.h&gt;
 #include &lt;stdint.h&gt;
 #include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
@@ -223,18 +221,17 @@ main(int argc, char *argv[])
     x.arr[2] = 0x33;
     x.arr[3] = 0x44;    /* 최상위 주소 바이트 */
 
-    printf(&quot;x.u32 = 0x%x\n&quot;, x.u32);
-    printf(&quot;htole32(x.u32) = 0x%x\n&quot;, htole32(x.u32));
-    printf(&quot;htobe32(x.u32) = 0x%x\n&quot;, htobe32(x.u32));
+    printf(&quot;x.u32 = %#x\n&quot;, x.u32);
+    printf(&quot;htole32(x.u32) = %#x\n&quot;, htole32(x.u32));
+    printf(&quot;htobe32(x.u32) = %#x\n&quot;, htobe32(x.u32));
 
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[bswap(3)]]</tt>, <tt>[[byteorder(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/bswap(3)/">bswap(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/byteorder(3)/">byteorder(3)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

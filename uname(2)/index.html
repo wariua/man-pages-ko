@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/uname(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/uname%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Uname(2) - man-pages-ko</title>
+    <title>uname(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -152,18 +152,18 @@
 <h2 id="name">NAME</h2>
 <p>uname - 현재 커널에 대한 이름과 정보 얻기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;sys/utsname.h&gt;
+<pre><code class="language-c">#include &lt;sys/utsname.h&gt;
 
 int uname(struct utsname *buf);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>uname()</code>은 시스템 정보를 <code>buf</code>가 가리키는 구조체로 반환한다. <code>utsname</code> 구조체는 <code>&lt;sys/utsname.h&gt;</code>에 정의되어 있다.</p>
-<pre><code class="c">struct utsname {
+<pre><code class="language-c">struct utsname {
     char sysname[];    /* 운영 체제 이름 (가령 &quot;Linux&quot;) */
     char nodename[];   /* &quot;구현에서 규정하는 어떤 망&quot;
                           내에서의 이름 */
-    char release[];    /* 운영 체제 릴리스 (가령 &quot;2.6.28&quot;) */
+    char release[];    /* 운영 체제 릴리스
+                          (가령 &quot;2.6.28&quot;) */
     char version[];    /* 운영 체제 버전 */
     char machine[];    /* 하드웨어 식별자 */
 #ifdef _GNU_SOURCE
@@ -171,10 +171,9 @@ int uname(struct utsname *buf);
 #endif
 };
 </code></pre>
-
 <p><code>struct utsname</code> 내 배열들의 길이는 명세되어 있지 않다 (NOTES 참고). 그 필드들은 널 바이트(<code>'\0'</code>)로 끝난다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 0을 반환한다. 오류 시 -1을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<p>성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EFAULT</code></dt>
@@ -191,9 +190,9 @@ int uname(struct utsname *buf);
 <h3 id="c">C 라이브러리/커널 차이</h3>
 <p>시간이 흐르며 <code>utsname</code> 구조체가 커지면서 세 가지 <code>uname()</code> 버전이 생겼다. <code>sys_olduname()</code> (슬롯 <code>__NR_oldolduname</code>), <code>sys_uname()</code> (슬롯 <code>__NR_olduname</code>), 그리고 <code>sys_newuname()</code> (슬롯 <code>__NR_uname</code>)이다. 첫 번째에서는 모든 필드를 길이 9로 사용했고, 두 번째에서는 65를 사용했다. 세 번째에서도 65를 사용하지만 <code>domainname</code> 필드를 추가한다. glibc의 <code>uname()</code> 래퍼 함수에서 이런 세부 사항을 응용에게 감춰 주고 커널이 제공하는 가장 최신 버전의 시스템 호출을 부른다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>uname(1)</code>, <tt>[[getdomainname(2)]]</tt>, <tt>[[gethostname(2)]]</tt>, <tt>[[namespaces(7)]]</tt></p>
+<p><code>uname(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/getdomainname(2)/">getdomainname(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/gethostname(2)/">gethostname(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/uts_namespaces(7)/">uts_namespaces(7)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

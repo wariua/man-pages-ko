@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/canonicalize_file_name(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/canonicalize_file_name%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Canonicalize file name(3) - man-pages-ko</title>
+    <title>canonicalize_file_name(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -150,25 +150,23 @@
 <h2 id="name">NAME</h2>
 <p>canonicalize_file_name - 정규화 된 절대 경로명 반환</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
+<pre><code class="language-c">#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
 #include &lt;stdlib.h&gt;
 
 char *canonicalize_file_name(const char *path);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>canonicalize_file_name()</code> 함수는 <code>path</code>에 대응하는 정규화 된 절대 경로명을 담은 널 종료 문자열을 반환한다. 반환 문자열에서는 심볼릭 링크와 <code>.</code> 및 <code>..</code> 경로명 요소가 풀려 있다. 연달아 있는 슬래시(<code>/</code>) 문자들은 슬래시 한 개로 바뀐다.</p>
-<p>반환 문자열은 <code>canonicalize_file_name()</code>에서 동적으로 할당한 것이므로 더는 필요치 않을 때 호출자가 <tt>[[free(3)]]</tt>로 해제해야 한다.</p>
+<p>반환 문자열은 <code>canonicalize_file_name()</code>에서 동적으로 할당한 것이므로 더는 필요치 않을 때 호출자가 <tt><a class="wikilink" href="/man-pages-ko/free(3)/">free(3)</a></tt>로 해제해야 한다.</p>
 <p><code>canonicalize_file_name(path)</code> 호출은 다음 호출과 동등하다.</p>
-<pre><code class="c">realpath(path, NULL);
+<pre><code class="language-c">realpath(path, NULL);
 </code></pre>
-
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 <code>canonicalize_file_name()</code>은 널 종료 문자열을 반환한다. 오류 시 (가령 경로명 부분이 읽기 가능하지 않거나 존재하지 않으면) <code>canonicalize_file_name()</code>이 NULL을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
-<p><tt>[[realpath(3)]]</tt> 참고.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/realpath(3)/">realpath(3)</a></tt> 참고.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -188,9 +186,9 @@ char *canonicalize_file_name(const char *path);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>이 함수는 GNU 확장이다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[readlink(2)]]</tt>, <tt>[[realpath(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/readlink(2)/">readlink(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/realpath(3)/">realpath(3)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

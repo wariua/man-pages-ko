@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_rwlockattr_getpshared(3p)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_rwlockattr_getpshared%283p%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Pthread rwlockattr getpshared(3p) - man-pages-ko</title>
+    <title>pthread_rwlockattr_getpshared(3p) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -156,14 +156,13 @@
 <h2 id="name">NAME</h2>
 <p>pthread_rwlockattr_getpshared, pthread_rwlockattr_setpshared - 읽기-쓰기 락 속성 객체의 프로세스 공유 속성 얻기 및 설정하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;pthread.h&gt;
+<pre><code class="language-c">#include &lt;pthread.h&gt;
 
 int pthread_rwlockattr_getpshared(const pthread_rwlockattr_t
     *restrict attr, int *restrict pshared);
 int pthread_rwlockattr_setpshared(pthread_rwlockattr_t *attr,
     int pshared);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>pthread_rwlockattr_getpshared()</code> 함수는 <code>attr</code>이 가리키는 속성 객체로부터 <code>process-shared</code> 속성의 값을 얻는다. <code>pthread_rwlockattr_setpshared()</code> 함수는 <code>attr</code>이 가리키는 초기화 된 속성 객체의 <code>process-shared</code> 속성을 설정한다.</p>
 <p><code>process-shared</code> 속성을 <code>PTHREAD_PROCESS_SHARED</code>로 설정하면 읽기-쓰기 락을 할당한 메모리에 접근 가능한 아무 스레드나 그 읽기-쓰기 락을 조작할 수 있게 허용한다. <code>process-shared</code> 속성이 <code>PTHREAD_PROCESS_PRIVATE</code>이면 읽기-쓰기 락을 초기화 한 스레드와 같은 프로세스 내에 생성된 스레드만 그 읽기-쓰기 락을 조작할 수 있다. 그런 읽기-쓰기 락을 다른 프로세스의 스레드가 조작하려고 시도하는 경우의 동작 방식은 규정되어 있지 않다. <code>process-shared</code> 속성의 기본값은 <code>PTHREAD_PROCESS_PRIVATE</code>이다.</p>
@@ -189,7 +188,7 @@ int pthread_rwlockattr_setpshared(pthread_rwlockattr_t *attr,
 <h2 id="future-directions">FUTURE DIRECTIONS</h2>
 <p>없음.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[pthread_rwlock_destroy()]]</tt>, <tt>[[pthread_rwlockattr_destroy()]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/pthread_rwlock_destroy()/">pthread_rwlock_destroy()</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_rwlockattr_destroy()/">pthread_rwlockattr_destroy()</a></tt></p>
 <p>POSIX.1-2008 Base Definitions 권, <code>&lt;pthread.h&gt;</code></p>
 <h2 id="copyright">COPYRIGHT</h2>
 <p>Portions of this text are reprinted and reproduced in electronic form from IEEE Std 1003.1, 2013 Edition, Standard for Information Technology -- Portable Operating System Interface (POSIX), The Open Group Base Specifications Issue 7, Copyright (C) 2013 by the Institute of Electrical and Electronics Engineers, Inc and The Open Group. (This is POSIX.1-2008 with the 2013 Technical Corrigendum 1 applied.) In the event of any discrepancy between this version and the original IEEE and The Open Group Standard, the original IEEE and The Open Group Standard is the referee document. The original Standard can be obtained online at <a href="http://www.unix.org/online.html">http://www.unix.org/online.html</a>.</p>

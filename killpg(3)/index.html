@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/killpg(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/killpg%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Killpg(3) - man-pages-ko</title>
+    <title>killpg(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -152,30 +152,29 @@
 <h2 id="name">NAME</h2>
 <p>killpg - 프로세스 그룹에게 시그널 보내기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;signal.h&gt;
+<pre><code class="language-c">#include &lt;signal.h&gt;
 
 int killpg(int pgrp, int sig);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>killpg()</code>:</dt>
 <dd><code>_XOPEN_SOURCE &gt;= 500</code><br>
 <code>|| /* glibc 2.19부터: */ _DEFAULT_SOURCE</code><br>
-<code>|| /* glibc 버전 &lt;= 2.19: */ _BSD_SOURCE</code></dd>
+<code>|| /* glibc &lt;= 2.19: */ _BSD_SOURCE</code></dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>killpg()</code>는 프로세스 그룹 <code>pgrp</code>에게 시그널 <code>sig</code>를 보낸다. 시그널 목록은 <tt>[[signal(7)]]</tt>을 보라.</p>
+<p><code>killpg()</code>는 프로세스 그룹 <code>pgrp</code>에게 시그널 <code>sig</code>를 보낸다. 시그널 목록은 <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt>을 보라.</p>
 <p><code>pgrp</code>이 0인 경우 <code>killpg()</code>는 호출 프로세스의 프로세스 그룹에게 시그널을 보낸다. (POSIX: <code>pgrp</code>이 1 이하인 경우 동작 방식은 규정되어 있지 않다.)</p>
-<p>다른 프로세스에게 시그널을 보내는 데 필요한 권한에 대해선 <tt>[[kill(2)]]</tt>을 보라.</p>
+<p>다른 프로세스에게 시그널을 보내는 데 필요한 권한에 대해선 <tt><a class="wikilink" href="/man-pages-ko/kill(2)/">kill(2)</a></tt>을 보라.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 0을 반환한다. 오류 시 -1을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<p>성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EINVAL</code></dt>
 <dd><code>sig</code>가 유효한 시그널 번호가 아니다.</dd>
 <dt><code>EPERM</code></dt>
-<dd>프로세스에게 대상 프로세스 어느 것에도 시그널을 보낼 권한이 없다. 필요한 권한에 대해선 <tt>[[kill(2)]]</tt>을 보라.</dd>
+<dd>프로세스에게 대상 프로세스 어느 것에도 시그널을 보낼 권한이 없다. 필요한 권한에 대해선 <tt><a class="wikilink" href="/man-pages-ko/kill(2)/">kill(2)</a></tt>을 보라.</dd>
 <dt><code>ESRCH</code></dt>
 <dd><code>pgrp</code>으로 지정한 프로세스 그룹에서 프로세스를 찾을 수 없다.</dd>
 <dt><code>ESRCH</code></dt>
@@ -184,13 +183,13 @@ int killpg(int pgrp, int sig);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008, SVr4, 4.4BSD (4BSD에서 <code>killpg()</code>가 처음 등장).</p>
 <h2 id="notes">NOTES</h2>
-<p>BSD 계열 시스템과 시스템 V 계열 시스템 간에는 권한 검사에 다양한 차이점이 있다. POSIX의 <code>kill()</code>에 대한 rationale를 보라. POSIX에서 언급하지 않은 차이점은 반환 값 <code>EPERM</code>에 대한 것이다. BSD에서는 최소 한 개의 대상 프로세스에 대해 권한 검사가 실패했을 때 시그널을 보내지 않고 <code>EPERM</code>을 반환한다고 적고 있다. 반면 POSIX에서는 모든 대상 프로세스들에 대해 권한 검사가 실패했을 때만 <code>EPERM</code>이라고 적고 있다.</p>
+<p>BSD 계열 시스템과 시스템 V 계열 시스템 간에는 권한 검사에 다양한 차이점이 있다. POSIX의 <code>kill(3p)</code>에 대한 rationale를 보라. POSIX에서 언급하지 않은 차이점은 반환 값 <code>EPERM</code>에 대한 것이다. BSD에서는 최소 한 개의 대상 프로세스에 대해 권한 검사가 실패했을 때 시그널을 보내지 않고 <code>EPERM</code>을 반환한다고 적고 있다. 반면 POSIX에서는 모든 대상 프로세스들에 대해 권한 검사가 실패했을 때만 <code>EPERM</code>이라고 적고 있다.</p>
 <h3 id="c">C 라이브러리/커널 차이</h3>
 <p>리눅스에서 <code>killpg()</code>는 <code>kill(-pgrp, sig)</code> 호출을 하는 라이브러리 함수로 구현되어 있다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>getpgrp(2)</code>, <tt>[[kill(2)]]</tt>, <tt>[[signal(2)]]</tt>, <tt>[[capabilities(7)]]</tt>, <tt>[[credentials(7)]]</tt></p>
+<p><code>getpgrp(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/kill(2)/">kill(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/signal(2)/">signal(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/capabilities(7)/">capabilities(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/credentials(7)/">credentials(7)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

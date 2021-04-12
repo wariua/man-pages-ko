@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_rwlockattr_destroy()/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_rwlockattr_destroy%28%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Pthread rwlockattr destroy() - man-pages-ko</title>
+    <title>pthread_rwlockattr_destroy() - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -156,12 +156,11 @@
 <h2 id="name">NAME</h2>
 <p>pthread_rwlockattr_destroy, pthread_rwlockattr_init - 읽기-쓰기 락 속성 객체 파기 및 초기화</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;pthread.h&gt;
+<pre><code class="language-c">#include &lt;pthread.h&gt;
 
 int pthread_rwlockattr_destroy(pthread_rwlockattr_t *attr);
 int pthread_rwlockattr_init(pthread_rwlockattr_t *attr);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>pthread_rwlockattr_destroy()</code> 함수는 읽기-쓰기 락 속성 객체를 파기한다. 파기된 <code>attr</code> 속성 객체를 <code>pthread_rwlockattr_init()</code>으로 다시 초기화 할 수 있다. 파기된 객체를 그 외 방식으로 참조하는 결과는 규정되어 있지 않다. 구현 시 <code>attr</code>이 가리키는 객체를 <code>pthread_rwlockattr_destroy()</code>에서 비유효 값으로 설정하도록 할 수도 있다.</p>
 <p><code>pthread_rwlockattr_init()</code> 함수는 읽기-쓰기 락 속성 객체 <code>attr</code>을 구현에서 정의하는 모든 속성에 대해 기본값으로 초기화 한다.</p>
@@ -187,7 +186,7 @@ int pthread_rwlockattr_init(pthread_rwlockattr_t *attr);
 <h2 id="future-directions">FUTURE DIRECTIONS</h2>
 <p>없음.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[pthread_rwlock_destroy()]]</tt>, <tt>[[pthread_rwlockattr_getpshared()]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/pthread_rwlock_destroy()/">pthread_rwlock_destroy()</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_rwlockattr_getpshared()/">pthread_rwlockattr_getpshared()</a></tt></p>
 <p>POSIX.1-2008 Base Definitions 권, <code>&lt;pthread.h&gt;</code></p>
 <h2 id="copyright">COPYRIGHT</h2>
 <p>Portions of this text are reprinted and reproduced in electronic form from IEEE Std 1003.1, 2013 Edition, Standard for Information Technology -- Portable Operating System Interface (POSIX), The Open Group Base Specifications Issue 7, Copyright (C) 2013 by the Institute of Electrical and Electronics Engineers, Inc and The Open Group. (This is POSIX.1-2008 with the 2013 Technical Corrigendum 1 applied.) In the event of any discrepancy between this version and the original IEEE and The Open Group Standard, the original IEEE and The Open Group Standard is the referee document. The original Standard can be obtained online at <a href="http://www.unix.org/online.html">http://www.unix.org/online.html</a>.</p>

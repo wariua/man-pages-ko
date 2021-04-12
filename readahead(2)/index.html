@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/readahead(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/readahead%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Readahead(2) - man-pages-ko</title>
+    <title>readahead(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -152,17 +152,16 @@
 <h2 id="name">NAME</h2>
 <p>readahead - 파일을 페이지 캐시로 미리 읽어 들이기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#define _GNU_SOURCE             /* feature_test_macros(7) 참고 */
+<pre><code class="language-c">#define _GNU_SOURCE             /* feature_test_macros(7) 참고 */
 #include &lt;fcntl.h&gt;
 
 ssize_t readahead(int fd, off64_t offset, size_t count);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>readahead()</code>는 파일에서 미리 읽기를 개시해서 이후의 파일 읽기가 캐시에서 처리되어 디스크 I/O에서 블록 되지 않게 한다. (미리 읽기가 충분히 일찍 개시되었으며 중간에 시스템의 다른 활동이 캐시에서 그 페이지들을 내려 보내지 않았다고 가정한다.)</p>
 <p><code>fd</code> 인자는 읽을 파일을 나타내는 파일 디스크립터이다. <code>offset</code> 인자는 데이터를 읽기 시작할 지점을 나타내며 <code>count</code>는 읽을 바이트 수를 나타낸다. I/O가 페이지 단위로 수행되므로 실질적으로는 <code>offset</code>을 페이지 경계로 내림 하고 <code>(offset+count)</code> 이상 되는 위치에 있는 다음 페이지 경계까지의 바이트들을 읽는다. <code>readahead()</code>는 파일 끝 너머까지 읽지 않는다. 파일 디스크립터 <code>fd</code>가 가리키는 열린 파일 기술 항목의 파일 오프셋이 바뀌지 않는다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 <code>readahead()</code>는 0을 반환한다. 실패 시 -1을 반환하며 오류 원인을 나타내도록 <code>errno</code>를 설정한다.</p>
+<p>성공 시 <code>readahead()</code>는 0을 반환한다. 실패 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EBADF</code></dt>
@@ -175,13 +174,13 @@ ssize_t readahead(int fd, off64_t offset, size_t count);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p><code>readahead()</code> 시스템 호출은 리눅스 전용이므로 이식성이 있어야 하는 응용에서는 사용하지 말아야 한다.</p>
 <h2 id="notes">NOTES</h2>
-<p><tt>[[syscall(2)]]</tt>에서 설명하는 이유들 때문에 일부 32비트 아키텍처에서는 이 시스템 호출의 호출 시그너처가 다르다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/syscall(2)/">syscall(2)</a></tt>에서 설명하는 이유들 때문에 일부 32비트 아키텍처에서는 이 시스템 호출의 호출 시그너처가 다르다.</p>
 <h2 id="bugs">BUGS</h2>
 <p><code>readahead()</code>는 배경 읽기 스케줄링을 시도하고서 즉시 반환한다. 하지만 요청 블록들의 위치를 알기 위해 필요한 파일 시스템 메타데이터를 읽는 동안 블록 될 수도 있다. ext[234] 사용 시 익스텐트 대신 간접 블록을 쓰는 큰 파일에서 이런 경우가 자주 일어나며, 그래서 요청 데이터를 읽어 들일 때까지 호출이 블록 되는 것처럼 보인다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[lseek(2)]]</tt>, <tt>[[madvise(2)]]</tt>, <tt>[[mmap(2)]]</tt>, <tt>[[posix_fadvise(2)]]</tt>, <code>read(2)</code></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/lseek(2)/">lseek(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/madvise(2)/">madvise(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/posix_fadvise(2)/">posix_fadvise(2)</a></tt>, <code>read(2)</code></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

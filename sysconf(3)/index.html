@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/sysconf(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/sysconf%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Sysconf(3) - man-pages-ko</title>
+    <title>sysconf(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -154,27 +154,26 @@
 <h2 id="name">NAME</h2>
 <p>sysconf - 런타임에 구성 정보 얻기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;unistd.h&gt;
+<pre><code class="language-c">#include &lt;unistd.h&gt;
 
 long sysconf(int name);
 </code></pre>
-
 <p>POSIX에서는 특정 옵션이 지원되는지, 또는 특정 구성 상수나 제한값이 무엇인지를 응용에서 컴파일 때나 실행 때에 검사할 수 있도록 한다.</p>
 <p>컴파일 때에는 <code>&lt;unistd.h&gt;</code> 및/또는 <code>&lt;limits.h&gt;</code>를 포함시키고 특정 매크로 값을 검사하면 된다.</p>
-<p>실행 때에는 여기 있는 <code>sysconf()</code> 함수를 사용해 숫자 값을 물어볼 수 있다. 그리고 <tt>[[fpathconf(3)]]</tt>와 <tt>[[pathconf(3)]]</tt>를 사용해 파일이 위치한 파일 시스템에 따라 다를 수 있는 숫자 값을 물어볼 수 있다. 또 <tt>[[confstr(3)]]</tt>을 사용해 문자열 값을 물어볼 수 있다.</p>
+<p>실행 때에는 여기 있는 <code>sysconf()</code> 함수를 사용해 숫자 값을 물어볼 수 있다. 그리고 <tt><a class="wikilink" href="/man-pages-ko/fpathconf(3)/">fpathconf(3)</a></tt>와 <tt><a class="wikilink" href="/man-pages-ko/pathconf(3)/">pathconf(3)</a></tt>를 사용해 파일이 위치한 파일 시스템에 따라 다를 수 있는 숫자 값을 물어볼 수 있다. 또 <tt><a class="wikilink" href="/man-pages-ko/confstr(3)/">confstr(3)</a></tt>을 사용해 문자열 값을 물어볼 수 있다.</p>
 <p>이 함수들에서 얻는 값들은 시스템 구성 상수이다. 프로세스의 수명 동안 바뀌지 않는다.</p>
-<p>옵션들에는 보통 <code>&lt;unistd.h&gt;</code>에 정의되어 있을 수 있는 상수 <code>_POSIX_FOO</code>가 있다. 이 상수가 정의되어 있지 않으면 런타임에 물어봐야 한다. -1으로 정의되어 있으면 그 옵션이 지원되지 않는 것이다. 0으로 정의되어 있으면 관련 함수와 헤더가 존재하는 것이지만 사용할 수 있는 지원이 어느 정도인지 런타임에 물어봐야 한다. -1이나 0 아닌 값으로 정의되어 있으면 그 옵션이 지원되는 것이다. 일반적으로 (200112L 같은) 그 값이 옵션을 기술하는 POSIX 리비전의 연도와 월을 나타낸다. glibc에서는 POSIX 리비전이 아직 발행되지 않은 동안은 1 값을 사용해 지원을 표시한다. <code>sysconf()</code> 인자는 <code>_SC_FOO</code>가 된다. 옵션들의 목록은 <tt>[[posixoptions(7)]]</tt>를 보라.</p>
+<p>옵션들에는 보통 <code>&lt;unistd.h&gt;</code>에 정의되어 있을 수 있는 상수 <code>_POSIX_FOO</code>가 있다. 이 상수가 정의되어 있지 않으면 런타임에 물어봐야 한다. -1으로 정의되어 있으면 그 옵션이 지원되지 않는 것이다. 0으로 정의되어 있으면 관련 함수와 헤더가 존재하는 것이지만 사용할 수 있는 지원이 어느 정도인지 런타임에 물어봐야 한다. -1이나 0 아닌 값으로 정의되어 있으면 그 옵션이 지원되는 것이다. 일반적으로 (200112L 같은) 그 값이 옵션을 기술하는 POSIX 리비전의 연도와 월을 나타낸다. glibc에서는 POSIX 리비전이 아직 발행되지 않은 동안은 1 값을 사용해 지원을 표시한다. <code>sysconf()</code> 인자는 <code>_SC_FOO</code>가 된다. 옵션들의 목록은 <tt><a class="wikilink" href="/man-pages-ko/posixoptions(7)/">posixoptions(7)</a></tt>를 보라.</p>
 <p>변수나 제한값들에는 보통 <code>&lt;limits.h&gt;</code>에 정의돼 있을 수 있는 상수 <code>_FOO</code>나 <code>&lt;unistd.h&gt;</code>에 정의돼 있을 수 있는 <code>_POSIX_FOO</code>가 있다. 그 제한이 지정돼 있지 않으면 상수가 정의되어 있지 않을 것이다. 상수가 정의되어 있으면 보장된 값을 주며 실제로는 더 큰 값을 지원할 수도 있다. 시스템에 따라 달라질 수 있는 그 값들을 응용에서 활용하고 싶으면 <code>sysconf()</code> 호출을 할 수 있다. <code>sysconf()</code> 인자는 <code>_SC_FOO</code>가 된다.</p>
 <h3 id="posix1">POSIX.1 변수들</h3>
 <p>변수 이름, 값을 질의하는 데 쓰는 <code>sysconf()</code> 인자 이름, 그리고 짧은 설명이 온다.</p>
 <p>먼저 POSIX.1 호환 값들이다.</p>
 <dl>
 <dt><code>ARG_MAX</code> - <code>_SC_ARG_MAX</code></dt>
-<dd><tt>[[exec(3)]]</tt> 계열 함수에 대한 인자들의 최대 길이. <code>_POSIX_ARG_MAX</code>(4096)보다 작지 않아야 한다.</dd>
+<dd><tt><a class="wikilink" href="/man-pages-ko/exec(3)/">exec(3)</a></tt> 계열 함수에 대한 인자들의 최대 길이. <code>_POSIX_ARG_MAX</code>(4096)보다 작지 않아야 한다.</dd>
 <dt><code>CHILD_MAX</code> - <code>_SC_CHILD_MAX</code></dt>
 <dd>사용자 ID당 동시 프로세스 최대 개수. <code>_POSIX_CHILD_MAX</code>(25)보다 작지 않아야 한다.</dd>
 <dt><code>HOST_NAME_MAX</code> - <code>_SC_HOST_NAME_MAX</code></dt>
-<dd><tt>[[gethostname(2)]]</tt>이 반환하는 호스트명의 종료용 널 바이트 제외 최대 길이. <code>_POSIX_HOST_NAME_MAX</code>(255)보다 작지 않아야 한다.</dd>
+<dd><tt><a class="wikilink" href="/man-pages-ko/gethostname(2)/">gethostname(2)</a></tt>이 반환하는 호스트명의 종료용 널 바이트 제외 최대 길이. <code>_POSIX_HOST_NAME_MAX</code>(255)보다 작지 않아야 한다.</dd>
 <dt><code>LOGIN_NAME_MAX</code> - <code>_SC_LOGIN_NAME_MAX</code></dt>
 <dd>로그인 이름의 종료용 널 바이트 포함 최대 길이. <code>_POSIX_LOGIN_NAME_MAX</code>(9)보다 작지 않아야 한다.</dd>
 <dt><code>NGROUPS_MAX</code> - <code>_SC_NGROUPS_MAX</code></dt>
@@ -188,7 +187,7 @@ long sysconf(int name);
 <dt><code>PAGE_SIZE</code> - <code>_SC_PAGE_SIZE</code></dt>
 <dd><code>PAGESIZE</code>/<code>_SC_PAGESIZE</code>과 같은 의미. (POSIX에는 <code>PAGESIZE</code>와 <code>PAGE_SIZE</code> 둘 다 정의돼 있다.)</dd>
 <dt><code>RE_DUP_MAX</code> - <code>_SC_RE_DUP_MAX</code></dt>
-<dd><tt>[[regexec(3)]]</tt>와 <tt>[[regcomp(3)]]</tt>에서 허용하는 BRE 반복 횟수. <code>_POSIX2_RE_DUP_MAX</code>(255)보다 작지 않아야 한다.</dd>
+<dd><tt><a class="wikilink" href="/man-pages-ko/regexec(3)/">regexec(3)</a></tt>와 <tt><a class="wikilink" href="/man-pages-ko/regcomp(3)/">regcomp(3)</a></tt>에서 허용하는 BRE 반복 횟수. <code>_POSIX2_RE_DUP_MAX</code>(255)보다 작지 않아야 한다.</dd>
 <dt><code>STREAM_MAX</code> - <code>_SC_STREAM_MAX</code></dt>
 <dd>프로세스가 어느 시점에 열어 둘 수 있는 스트림의 최대 개수. 정의되어 있는 경우 표준 C 매크로 <code>FOPEN_MAX</code>와 같은 값이다. <code>_POSIX_STREAM_MAX</code>(8)보다 작지 않아야 한다.</dd>
 <dt><code>SYMLOOP_MAX</code> - <code>_SC_SYMLOOP_MAX</code></dt>
@@ -239,15 +238,15 @@ long sysconf(int name);
 <dt>- <code>_SC_AVPHYS_PAGES</code></dt>
 <dd>물리적 메모리의 현재 사용 가능한 페이지 수.</dd>
 <dt>- <code>_SC_NPROCESSORS_CONF</code></dt>
-<dd>구성된 프로세서 개수. <tt>[[get_nprocs_conf(3)]]</tt>도 참고.</dd>
+<dd>구성된 프로세서 개수. <tt><a class="wikilink" href="/man-pages-ko/get_nprocs_conf(3)/">get_nprocs_conf(3)</a></tt>도 참고.</dd>
 <dt>- <code>_SC_NPROCESSORS_ONLN</code></dt>
-<dd>현재 온라인인 (사용 가능한) 프로세서 개수. <tt>[[get_nprocs_conf(3)]]</tt>도 참고.</dd>
+<dd>현재 온라인인 (사용 가능한) 프로세서 개수. <tt><a class="wikilink" href="/man-pages-ko/get_nprocs_conf(3)/">get_nprocs_conf(3)</a></tt>도 참고.</dd>
 </dl>
 <h2 id="return-value">RETURN VALUE</h2>
 <p><code>sysconf()</code>의 반환 값은 다음 중 하나이다.</p>
 <ul>
 <li>
-<p>오류 시 -1을 반환하며 오류 원인을 나타내도록 <code>errno</code>를 설정한다. (예를 들어 <code>EINVAL</code>로 <code>name</code>이 유효하지 않음을 나타낸다.)</p>
+<p>오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다. (예를 들어 <code>EINVAL</code>로 <code>name</code>이 유효하지 않음을 나타낸다.)</p>
 </li>
 <li>
 <p><code>name</code>이 최대 내지 최소 제한에 해당하며 그 제한값이 불확정이면 -1을 반환하며 <code>errno</code>는 바꾸지 않는다. (불확정 제한을 오류와 구별하려면 호출 전에 <code>errno</code>를 0으로 설정하고서 -1이 반환되었을 때 <code>errno</code>가 0인지 확인하면 된다.)</p>
@@ -265,7 +264,7 @@ long sysconf(int name);
 <dd><code>name</code>이 유효하지 않다.</dd>
 </dl>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -285,12 +284,12 @@ long sysconf(int name);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008.</p>
 <h2 id="bugs">BUGS</h2>
-<p><code>ARG_MAX</code>를 사용하기가 어렵다. <tt>[[exec(3)]]</tt>를 위한 인자 공간 중 얼마만큼을 사용자의 환경 변수들이 소모하는지 명세되어 있지 않기 때문이다.</p>
+<p><code>ARG_MAX</code>를 사용하기가 어렵다. <tt><a class="wikilink" href="/man-pages-ko/exec(3)/">exec(3)</a></tt>를 위한 인자 공간 중 얼마만큼을 사용자의 환경 변수들이 소모하는지 명세되어 있지 않기 때문이다.</p>
 <p>반환되는 일부 값들이 아주 클 수도 있다. 즉, 메모리 할당에 쓰기에 적합하지 않다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>bc(1)</code>, <code>expr(1)</code>, <code>getconf(1)</code>, <code>locale(1)</code>, <tt>[[confstr(3)]]</tt>, <tt>[[fpathconf(3)]]</tt>, <tt>[[pathconf(3)]]</tt>, <tt>[[posixoptions(7)]]</tt></p>
+<p><code>bc(1)</code>, <code>expr(1)</code>, <code>getconf(1)</code>, <code>locale(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/confstr(3)/">confstr(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fpathconf(3)/">fpathconf(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pathconf(3)/">pathconf(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/posixoptions(7)/">posixoptions(7)</a></tt></p>
 <hr />
-<p>2019-05-09</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

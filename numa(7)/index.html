@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/numa(7)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/numa%287%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Numa(7) - man-pages-ko</title>
+    <title>numa(7) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -155,7 +155,7 @@
 <h2 id="description">DESCRIPTION</h2>
 <p>불균일 기억 장치 접근(Non-Uniform Memory Access; NUMA)은 메모리가 여러 메모리 노드들로 나눠져 있는 다중 프로세서 시스템을 가리킨다. 메모리 노드의 접근 시간이 접근하려는 CPU와 접근 대상 노드의 상대적 위치에 따라 달라진다. (이는 메모리 전체에 대한 접근 시간이 모든 CPU에게 동일한 대칭형 다중 프로세서 시스템과 대비된다.) 보통 NUMA 시스템의 각 CPU에는 로컬 메모리 노드가 있어서 다른 CPU에 로컬인 노드의 메모리나 모든 CPU가 공유하는 버스 상의 메모리보다 빠르게 그 내용물에 접근할 수 있다.</p>
 <h3 id="numa">NUMA 시스템 호출</h3>
-<p>리눅스 커널에서 다음의 NUMA 관련 시스템 호출을 구현하고 있다: <tt>[[get_mempolicy(2)]]</tt>, <tt>[[mbind(2)]]</tt>, <tt>[[migrate_pages(2)]]</tt>, <tt>[[move_pages(2)]]</tt>, <tt>[[set_mempolicy(2)]]</tt>. 하지만 응용에서는 보통 <code>libnuma</code>가 제공하는 인터페이스를 사용하는 게 좋다. 아래의 "라이브러리 지원"을 보라.</p>
+<p>리눅스 커널에서 다음의 NUMA 관련 시스템 호출을 구현하고 있다: <tt><a class="wikilink" href="/man-pages-ko/get_mempolicy(2)/">get_mempolicy(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mbind(2)/">mbind(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/migrate_pages(2)/">migrate_pages(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/move_pages(2)/">move_pages(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/set_mempolicy(2)/">set_mempolicy(2)</a></tt>. 하지만 응용에서는 보통 <code>libnuma</code>가 제공하는 인터페이스를 사용하는 게 좋다. 아래의 "라이브러리 지원"을 보라.</p>
 <h3 id="procnumbernuma_maps-2614"><code>/proc/[number]/numa_maps</code> (리눅스 2.6.14부터)</h3>
 <p>이 파일은 프로세스의 NUMA 메모리 정책과 할당에 대한 정보를 표시한다.</p>
 <p>각 행은 프로세스가 사용하는 메모리 범위에 대한 정보를 담고 있다. 여러 정보들에 더해서 그 메모리 범위에 대한 실효 메모리 정책, 그리고 그 페이지들이 어느 노드 상에서 할당되었는지를 보여 준다.</p>
@@ -195,11 +195,11 @@
 <p>리눅스의 NUMA 시스템 호출들과 <code>/proc</code> 인터페이스는 커널을 <code>CONFIG_NUMA</code> 옵션으로 구성하여 빌드 한 경우에만 사용 가능하다.</p>
 <h3 id="_1">라이브러리 지원</h3>
 <p>시스템 호출 정의들이 필요하면 <code>-lnuma</code>로 링크 하라. <code>libnuma</code>와 필수적인 <code>&lt;numaif.h&gt;</code> 헤더를 <code>numactl</code> 패키지에서 얻을 수 있다.</p>
-<p>하지만 응용에서 이 시스템 호출들을 직접 사용하지 않는 게 좋다. 그보다는 <code>numactl</code> 패키지의 <tt>[[numa(3)]]</tt> 함수들이 제공하는 고수준 인터페이스를 권장한다. <code>numactl</code> 패키지를 (<a href="ftp://oss.sgi.com/www/projects/libnuma/download/">ftp://oss.sgi.com/www/projects/libnuma/download/</a>)에서 얻을 수 있다. 또한 일부 리눅스 배포판에도 이 패키지가 포함되어 있다. 일부 배포판에서는 별도의 <code>numactl-devel</code> 패키지에 개발용 라이브러리와 헤더가 있다.</p>
+<p>하지만 응용에서 이 시스템 호출들을 직접 사용하지 않는 게 좋다. 그보다는 <code>numactl</code> 패키지의 <tt><a class="wikilink" href="/man-pages-ko/numa(3)/">numa(3)</a></tt> 함수들이 제공하는 고수준 인터페이스를 권장한다. <code>numactl</code> 패키지를 (<a href="ftp://oss.sgi.com/www/projects/libnuma/download/">ftp://oss.sgi.com/www/projects/libnuma/download/</a>)에서 얻을 수 있다. 또한 일부 리눅스 배포판에도 이 패키지가 포함되어 있다. 일부 배포판에서는 별도의 <code>numactl-devel</code> 패키지에 개발용 라이브러리와 헤더가 있다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[get_mempolicy(2)]]</tt>, <tt>[[mbind(2)]]</tt>, <tt>[[move_pages(2)]]</tt>, <tt>[[set_mempolicy(2)]]</tt>, <tt>[[numa(3)]]</tt>, <tt>[[cpuset(7)]]</tt>, <code>numactl(8)</code></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/get_mempolicy(2)/">get_mempolicy(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mbind(2)/">mbind(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/move_pages(2)/">move_pages(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/set_mempolicy(2)/">set_mempolicy(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/numa(3)/">numa(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/cpuset(7)/">cpuset(7)</a></tt>, <code>numactl(8)</code></p>
 <hr />
-<p>2012-08-05</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

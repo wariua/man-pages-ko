@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/getitimer(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/getitimer%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Getitimer(2) - man-pages-ko</title>
+    <title>getitimer(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -155,13 +155,12 @@
 <h2 id="name">NAME</h2>
 <p>getitimer, setitimer - 간격 타이머 값 얻거나 설정하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;sys/time.h&gt;
+<pre><code class="language-c">#include &lt;sys/time.h&gt;
 
 int getitimer(int which, struct itimerval *curr_value);
-int setitimer(int which, const struct itimerval *new_value,
-              struct itimerval *old_value);
+int setitimer(int which, const struct itimerval *restrict new_value,
+              struct itimerval *restrict old_value);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p>이 시스템 호출들은 간격 타이머, 즉 미래 어느 시점에 최초 만료되고 (선택적으로) 이후 주기적 간격으로 만료되는 타이머들을 사용할 수 있게 해 준다. 타이머가 만료될 때 호출 프로세스에 시그널이 생성되고 (간격이 0이 아니면) 타이머가 지정 간격으로 재설정된다.</p>
 <p>세 가지 종류의 타이머가 있어서 <code>which</code> 인자를 통해 지정한다. 각각은 서로 다른 클럭에 대해 계산을 하며 타이머 만료 시 다른 시그널을 생성한다.</p>
@@ -178,7 +177,7 @@ int setitimer(int which, const struct itimerval *new_value,
 </dl>
 <p>프로세스는 세 가지 타이머 종류별로 하나씩을 가지고 있다.</p>
 <p>다음 구조체들로 타이머 값을 지정한다.</p>
-<pre><code class="c">struct itimerval {
+<pre><code class="language-c">struct itimerval {
     struct timeval it_interval; /* 주기 타이머의 간격 */
     struct timeval it_value;    /* 다음 만료까지의 시간 */
 };
@@ -188,7 +187,6 @@ struct timeval {
     suseconds_t tv_usec;        /* 마이크로초 */
 };
 </code></pre>
-
 <h3 id="getitimer"><code>getitimer()</code></h3>
 <p><code>getitimer()</code> 함수는 <code>which</code>로 지정한 타이머의 현재 값을 <code>curr_value</code>가 가리키는 버퍼에 넣는다.</p>
 <p><code>it_value</code> 하위 구조체에는 지정한 타이머의 다음 만료 때까지 남은 시간이 채워진다. 이 값은 타이머가 카운트다운 하면서 바뀌게 되며 타이머가 만료될 때 <code>it_interval</code>로 재설정된다. <code>it_value</code>의 두 필드가 모두 0이면 이 타이머는 현재 해제된 (비활성) 상태이다.</p>
@@ -198,7 +196,7 @@ struct timeval {
 <p><code>new_value.it_value</code>의 어느 한 필드라도 0이 아니면 그 지정 시간에 최초 만료되도록 타이머를 장전한다. <code>new_value.it_value</code>의 두 필드가 모두 0이면 타이머를 해제한다.</p>
 <p><code>new_value.it_interval</code> 필드가 타이머의 새 간격을 지정한다. 그 하위 필드가 둘 모두 0이면 타이머가 단발성이다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 0을 반환한다. 오류 시 -1을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<p>성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EFAULT</code></dt>
@@ -207,19 +205,17 @@ struct timeval {
 <dd><code>which</code>가 <code>ITIMER_REAL</code>, <code>ITIMER_VIRTUAL</code>, <code>ITIMER_PROF</code> 중 하나가 아니다. 또는 (리눅스 2.6.22부터) <code>new_value</code>가 가리키는 구조체 내의 한 <code>tv_usec</code> 필드가 0에서 999999까지 범위 밖의 값을 담고 있다.</dd>
 </dl>
 <h2 id="conforming-to">CONFORMING TO</h2>
-<p>POSIX.1-2001, SVr4, 4.4BSD (4.2BSD에서 이 호출이 처음 등장). POSIX.1-2008에서는 <code>getitimer()</code>와 <code>setitimer()</code>를 구식으로 표시하고 대신 POSIX 타이머 API(<tt>[[timer_gettime(2)]]</tt>, <tt>[[timer_settime(2)]]</tt> 등) 사용을 권장한다.</p>
+<p>POSIX.1-2001, SVr4, 4.4BSD (4.2BSD에서 이 호출이 처음 등장). POSIX.1-2008에서는 <code>getitimer()</code>와 <code>setitimer()</code>를 구식으로 표시하고 대신 POSIX 타이머 API(<tt><a class="wikilink" href="/man-pages-ko/timer_gettime(2)/">timer_gettime(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/timer_settime(2)/">timer_settime(2)</a></tt> 등) 사용을 권장한다.</p>
 <h2 id="notes">NOTES</h2>
-<p>타이머는 요청 시간 전에는 절대 만료되지 않지만 시스템 타이머 해상도와 시스템 부하에 따라서 약간의 (짧은) 시간 후에 만료될 수도 있다. <tt>[[time(7)]]</tt> 참고. (하지만 아래 BUGS를 보라.) 프로세스가 활동 중인 동안 타이머가 만료되면 (<code>ITIMER_VIRTUAL</code>에서는 항상 참이다) 시그널이 생성 즉시 전달될 것이다.</p>
-<p><tt>[[fork(2)]]</tt>로 생성한 자식이 부모의 간격 타이머들을 물려받지 않는다. <tt>[[execve(2)]]</tt>를 거칠 때 간격 타이머들이 유지된다.</p>
-<p>POSIX.1에서는 <code>setitimer()</code>와 세 가지 인터페이스 <tt>[[alarm(2)]]</tt>, <tt>[[sleep(3)]]</tt>, <tt>[[usleep(3)]]</tt>과의 상호작용을 명세하지 않고 남겨두었다.</p>
+<p>타이머는 요청 시간 전에는 절대 만료되지 않지만 시스템 타이머 해상도와 시스템 부하에 따라서 약간의 (짧은) 시간 후에 만료될 수도 있다. <tt><a class="wikilink" href="/man-pages-ko/time(7)/">time(7)</a></tt> 참고. (하지만 아래 BUGS를 보라.) 프로세스가 활동 중인 동안 타이머가 만료되면 (<code>ITIMER_VIRTUAL</code>에서는 항상 참이다) 시그널이 생성 즉시 전달될 것이다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt>로 생성한 자식이 부모의 간격 타이머들을 물려받지 않는다. <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>를 거칠 때 간격 타이머들이 유지된다.</p>
+<p>POSIX.1에서는 <code>setitimer()</code>와 세 가지 인터페이스 <tt><a class="wikilink" href="/man-pages-ko/alarm(2)/">alarm(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sleep(3)/">sleep(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/usleep(3)/">usleep(3)</a></tt>과의 상호작용을 명세하지 않고 남겨두었다.</p>
 <p>표준들에서 다음 호출의 의미에 대해 언급하지 않고 있다.</p>
-<pre><code class="c">setitimer(which, NULL, &amp;old_value);
+<pre><code class="language-c">setitimer(which, NULL, &amp;old_value);
 </code></pre>
-
 <p>대부분의 (솔라리스, BSD, 그리고 아마 다른) 시스템들에서는 이를 다음과 동등하게 다룬다.</p>
-<pre><code class="c">getitimer(which, &amp;old_value);
+<pre><code class="language-c">getitimer(which, &amp;old_value);
 </code></pre>
-
 <p>리눅스에서는 이를 <code>new_value</code>의 필드들이 0인 호출과 동등하게 다룬다. 즉, 타이머가 비활성화된다. <em>리눅스의 이 비기능을 이용해서는 안 된다.</em> 이식성이 없으며 필요한 것도 아니다.</p>
 <h2 id="bugs">BUGS</h2>
 <p>시그널의 생성과 전달은 서로 별개이며 프로세스별로 위에 나열된 시그널들마다 한 인스턴스만 미처리 상태일 수 있다. 아주 높은 부하에서는 앞선 만료에서의 시그널이 전달되기 전에 <code>ITIMER_REAL</code> 타이머가 다시 만료될 수도 있다. 그런 경우 두 번째 시그널은 유실되게 된다.</p>
@@ -227,9 +223,9 @@ struct timeval {
 <p>특정 시스템들(i386 포함)에서 버전 2.6.12 전의 리눅스 커널에는 일부 상황에서 한 지피까지 이르게 타이머 만료가 일어나는 버그가 있다. 커널 2.6.12에서 이 버그가 수정되었다.</p>
 <p>POSIX.1-2001에서는 <code>tv_usec</code> 값을 0에서 999999까지 범위를 벗어나게 지정한 경우 <code>setitimer()</code>가 실패해야 한다고 한다. 하지만 2.6.21까지 커널에서 리눅스는 오류를 주지 않고 그 대신 조용하게 타이머의 대응하는 초 값을 조정한다. 커널 2.6.22부터는 이런 비준수 사항이 고쳐져서 잘못된 <code>tv_usec</code> 값이 <code>EINVAL</code> 오류를 유발한다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[gettimeofday(2)]]</tt>, <tt>[[sigaction(2)]]</tt>, <tt>[[signal(2)]]</tt>, <tt>[[timer_create(2)]]</tt>, <tt>[[timerfd_create(2)]]</tt>, <tt>[[time(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/gettimeofday(2)/">gettimeofday(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigaction(2)/">sigaction(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/signal(2)/">signal(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/timer_create(2)/">timer_create(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/timerfd_create(2)/">timerfd_create(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/time(7)/">time(7)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

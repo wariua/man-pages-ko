@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_kill_other_threads_np(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_kill_other_threads_np%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Pthread kill other threads np(3) - man-pages-ko</title>
+    <title>pthread_kill_other_threads_np(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -149,15 +149,14 @@
 <h2 id="name">NAME</h2>
 <p>pthread_kill_other_threads_np - 프로세스 내의 다른 모든 스레드들 종료시키기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;pthread.h&gt;
+<pre><code class="language-c">#include &lt;pthread.h&gt;
 
 void pthread_kill_other_threads_np(void);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>pthread_kill_other_threads_np()</code>는 LinuxThreads 스레딩 구현에서만 효력이 있다. 그 구현에서 이 함수를 호출하면 호출 스레드를 제외한 응용 내 모든 스레드들이 즉시 종료된다. 종료되는 스레드들의 취소 상태와 취소 유형이 무시되며 그 스레드에서 정리 핸들러들이 호출되지 않는다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -177,12 +176,12 @@ void pthread_kill_other_threads_np(void);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>이 함수들은 비표준 GNU 확장이다. 그래서 이름 뒤에 "_np"(nonportable: 이식성 없음)가 붙어 있다.</p>
 <h2 id="notes">NOTES</h2>
-<p><code>pthread_kill_other_threads_np()</code>는 스레드가 <tt>[[execve(2)]]</tt>나 유사 함수를 호출하기 바로 전에 호출하기 위한 것이다. 이 함수는 (POSIX.1-2001에 요구하는 대로) <tt>[[execve(2)]]</tt> 과정에서 응용의 다른 스레드들이 자동으로 종료되지 않는 구식 LinuxThreads 구현의 한계에 대처하기 위해 설계된 것이다.</p>
-<p>NPTL 스레딩 구현에는 <code>pthread_kill_other_threads_np()</code>가 존재하기는 하지만 아무것도 하지 않는다. (구현이 <tt>[[execve(2)]]</tt> 과정에서 제대로 동작하므로 아무것도 할 필요가 없다.)</p>
+<p><code>pthread_kill_other_threads_np()</code>는 스레드가 <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>나 유사 함수를 호출하기 바로 전에 호출하기 위한 것이다. 이 함수는 (POSIX.1-2001에 요구하는 대로) <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt> 과정에서 응용의 다른 스레드들이 자동으로 종료되지 않는 구식 LinuxThreads 구현의 한계에 대처하기 위해 설계된 것이다.</p>
+<p>NPTL 스레딩 구현에는 <code>pthread_kill_other_threads_np()</code>가 존재하기는 하지만 아무것도 하지 않는다. (구현이 <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt> 과정에서 제대로 동작하므로 아무것도 할 필요가 없다.)</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[execve(2)]]</tt>, <tt>[[pthread_cancel(3)]]</tt>, <tt>[[pthread_setcancelstate(3)]]</tt>, <tt>[[pthread_etcanceltype(3)]]</tt>, <tt>[[pthreads(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_cancel(3)/">pthread_cancel(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_setcancelstate(3)/">pthread_setcancelstate(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_etcanceltype(3)/">pthread_etcanceltype(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthreads(7)/">pthreads(7)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

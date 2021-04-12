@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/rand(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/rand%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Rand(3) - man-pages-ko</title>
+    <title>rand(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -142,7 +142,7 @@
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
@@ -151,16 +151,13 @@
 <h2 id="name">NAME</h2>
 <p>rand, rand_r, srand - 유사 난수 생성기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;stdlib.h&gt;
+<pre><code class="language-c">#include &lt;stdlib.h&gt;
 
 int rand(void);
-
 int rand_r(unsigned int *seedp);
-
 void srand(unsigned int seed);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>rand_r()</code>:</dt>
 <dd>
@@ -178,11 +175,11 @@ void srand(unsigned int seed);
 <p>시드 값을 제공하지 않으면 <code>rand()</code> 함수에서 자동으로 1 값을 시드로 삼는다.</p>
 <p><code>rand()</code> 함수는 재진입 가능하지 않다. 각 호출마다 바뀌는 숨겨진 상태를 사용하기 때문이다. 그 상태라는 것은 그저 다음 호출에서 사용할 시드 값일 수도 있고 더 정교한 무언가일 수도 있을 것이다. 스레드 사용 응용에서 재연 가능한 동작 방식을 얻기 위해선 이 상태를 명시적으로 만들어야 하는데, 재진입 가능 함수인 <code>rand_r()</code>을 사용하면 된다.</p>
 <p><code>rand()</code>와 마찬가지로 <code>rand_r()</code>은 [0, <code>RAND_MAX</code>] 범위 내의 유사 난수 정수를 반환한다. <code>seedp</code> 인자는 호출들 간에 상태 저장에 쓰이는 <code>unsigned int</code>에 대한 포인터이다. <code>seedp</code>가 가리키는 정수의 최초 값을 같게 해서 <code>rand_r()</code>을 호출하고 호출들 사이에서 그 값을 변경하지 않으면 동일한 유사 난수 열이 나오게 된다.</p>
-<p><code>rand_r()</code>의 <code>seedp</code> 인자가 가리키는 값은 아주 작은 양의 상태만 제공하므로 이 함수는 약한 유사 난수 생성기일 것이다. 대신 <tt>[[drand48_r(3)]]</tt>을 시도해 보라.</p>
+<p><code>rand_r()</code>의 <code>seedp</code> 인자가 가리키는 값은 아주 작은 양의 상태만 제공하므로 이 함수는 약한 유사 난수 생성기일 것이다. 대신 <tt><a class="wikilink" href="/man-pages-ko/drand48_r(3)/">drand48_r(3)</a></tt>을 시도해 보라.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p><code>rand()</code> 및 <code>rand_r()</code> 함수는 0에서 <code>RAND_MAX</code> 사이의 (경계 포함) 값을 반환한다. <code>srand()</code> 함수는 아무 값도 반환하지 않는다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -202,10 +199,10 @@ void srand(unsigned int seed);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p><code>rand()</code> 및 <code>srand()</code> 함수는 SVr4, 4.3BSD, C89, C99, POSIX.1-2001을 준수한다. <code>rand_r()</code> 함수는 POSIX.1-2001에서 온 것이다. POSIX.1-2008에서 <code>rand_r()</code>을 구식으로 표시하고 있다.</p>
 <h2 id="notes">NOTES</h2>
-<p>리눅스 C 라이브러리에 있는 <code>rand()</code> 및 <code>srand()</code> 버전은 <tt>[[random(3)]]</tt> 및 <tt>[[srandom(3)]]</tt>과 같은 난수 생성기를 사용하므로 하위 비트들이 상위 비트들만큼 임의적일 것이다. 하지만 오래된 <code>rand()</code> 구현들에서는, 그리고 다른 시스템들의 현행 구현에서는 하위 비트들이 상위 비트들보다 훨씬 덜 임의적이다. 이식성을 의도한 응용에서 좋은 난수성이 필요할 때는 이 함수를 사용하지 말아야 한다. (대신 <tt>[[random(3)]]</tt>을 사용하라.)</p>
-<h2 id="example">EXAMPLE</h2>
+<p>리눅스 C 라이브러리에 있는 <code>rand()</code> 및 <code>srand()</code> 버전은 <tt><a class="wikilink" href="/man-pages-ko/random(3)/">random(3)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/srandom(3)/">srandom(3)</a></tt>과 같은 난수 생성기를 사용하므로 하위 비트들이 상위 비트들만큼 임의적일 것이다. 하지만 오래된 <code>rand()</code> 구현들에서는, 그리고 다른 시스템들의 현행 구현에서는 하위 비트들이 상위 비트들보다 훨씬 덜 임의적이다. 이식성을 의도한 응용에서 좋은 난수성이 필요할 때는 이 함수를 사용하지 말아야 한다. (대신 <tt><a class="wikilink" href="/man-pages-ko/random(3)/">random(3)</a></tt>을 사용하라.)</p>
+<h2 id="examples">EXAMPLES</h2>
 <p>POSIX.1-2001에서 <code>rand()</code> 및 <code>srand()</code>의 구현 예시로 다음을 제시하고 있다. 서로 다른 머신에서 동일한 수열이 필요할 때 유용할 수도 있을 것이다.</p>
-<pre><code class="c">static unsigned long next = 1;
+<pre><code class="language-c">static unsigned long next = 1;
 
 /* RAND_MAX가 32767이라고 가정 */
 int myrand(void) {
@@ -217,15 +214,14 @@ void mysrand(unsigned int seed) {
     next = seed;
 }
 </code></pre>
-
 <p>다음 프로그램을 이용해 특정 시드가 주어졌을 때 <code>rand()</code>가 만들어 내는 유사 난수 열을 표시할 수 있다.</p>
-<pre><code class="c">#include &lt;stdlib.h&gt;
+<pre><code class="language-c">#include &lt;stdlib.h&gt;
 #include &lt;stdio.h&gt;
 
 int
 main(int argc, char *argv[])
 {
-    int j, r, nloops;
+    int j, nloops;
     unsigned int seed;
 
     if (argc != 3) {
@@ -237,7 +233,7 @@ main(int argc, char *argv[])
     nloops = atoi(argv[2]);
 
     srand(seed);
-    for (j = 0; j &lt; nloops; j++) {
+    for (int j = 0; j &lt; nloops; j++) {
         r =  rand();
         printf(&quot;%d\n&quot;, r);
     }
@@ -245,11 +241,10 @@ main(int argc, char *argv[])
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[drand48(3)]]</tt>, <tt>[[random(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/drand48(3)/">drand48(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/random(3)/">random(3)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

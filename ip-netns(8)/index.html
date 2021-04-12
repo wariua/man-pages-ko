@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/ip-netns(8)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/ip-netns%288%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Ip netns(8) - man-pages-ko</title>
+    <title>ip-netns(8) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -173,7 +173,7 @@
 <h2 id="description">DESCRIPTION</h2>
 <p>네트워크 네임스페이스는 논리적으로 네트워크 스택의 또 다른 사본이다. 자체 라우트와 방화벽 규칙, 네트워크 장치가 있다.</p>
 <p>기본적으로 프로세스는 부모의 네트워크 네임스페이스를 물려받는다. 처음에는 모든 프로세스가 init 프로세스에서 온 기본 네트워크 네임스페이스를 같이 공유한다.</p>
-<p>관행 상 기명(named) 네트워크 네임스페이스란 <code>/var/run/netns/NAME</code>에 있는 열 수 있는 객체이다. <code>/var/run/netns/NAME</code>을 열어서 나온 파일 디스크립터가 지정한 네트워크 네임스페이스를 가리킨다. 파일 디스크립터를 열어 두면 네트워크 네임스페이스가 계속 살아 있게 된다. 이 파일 디스크립터를 <tt>[[setns(2)]]</tt> 시스템 호출에 사용해서 태스크에 연계된 네트워크 네임스페이스를 바꿀 수 있다.</p>
+<p>관행 상 기명(named) 네트워크 네임스페이스란 <code>/var/run/netns/NAME</code>에 있는 열 수 있는 객체이다. <code>/var/run/netns/NAME</code>을 열어서 나온 파일 디스크립터가 지정한 네트워크 네임스페이스를 가리킨다. 파일 디스크립터를 열어 두면 네트워크 네임스페이스가 계속 살아 있게 된다. 이 파일 디스크립터를 <tt><a class="wikilink" href="/man-pages-ko/setns(2)/">setns(2)</a></tt> 시스템 호출에 사용해서 태스크에 연계된 네트워크 네임스페이스를 바꿀 수 있다.</p>
 <p>네트워크 네임스페이스를 인식하는 응용에서는 전역 네트워크 설정을 <code>/etc/netns/NAME/</code>에서 먼저 찾아본 다음 <code>/etc/</code>에서 찾는 게 관행이다. 예를 들어 vpn을 격리시키기 위한 어느 네트워크 네임스페이스에 다른 버전의 <code>/etc/resolv.conf</code>를 쓰고 싶다면 이름을 <code>/etc/netns/myvpn/resolv.conf</code>라고 하게 될 것이다.</p>
 <p>네트워크 네임스페이스 비인식 응용을 위해 <code>ip netns exec</code>가 이런 설정 및 파일 관행 처리를 자동화해 준다. 마운트 네임스페이스를 만들어서 네트워크 네임스페이스별 설정 파일 모두를 <code>/etc</code> 내의 전통적 위치로 결속(bind) 마운트 한다.</p>
 <dl>

@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/stpcpy(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/stpcpy%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Stpcpy(3) - man-pages-ko</title>
+    <title>stpcpy(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -142,7 +142,7 @@
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#bugs">BUGS</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
@@ -151,12 +151,11 @@
 <h2 id="name">NAME</h2>
 <p>stpcpy - 문자열을 복사하고 그 끝에 대한 포인터 반환하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;string.h&gt;
+<pre><code class="language-c">#include &lt;string.h&gt;
 
-char *stpcpy(char *dest, const char *src);
+char *stpcpy(char *restrict dest, const char *restrict src);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>stpcpy()</code>:</dt>
 <dd>
@@ -173,7 +172,7 @@ char *stpcpy(char *dest, const char *src);
 <h2 id="return-value">RETURN VALUE</h2>
 <p><code>stpcpy()</code>는 문자열 <code>dest</code>의 시작이 아니라 <strong>끝</strong>에 대한 포인터를 (즉, 종료용 널 바이트의 주소를) 반환한다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -194,9 +193,9 @@ char *stpcpy(char *dest, const char *src);
 <p>이 함수는 POSIX.1-2008에 추가되었다. 그 전에는 C나 POSIX.1 표준의 일부가 아니었고 유닉스 시스템에 통상 있는 것도 아니었다. 처음 등장한 것은 늦어도 1986년에 Lattice C Amiga-DOS 컴파일러에서였으며, 이후 1989년에 GNU fileutils와 GNU textutils에, 그리고 1992년에 GNU C 라이브러리에 등장했다. BSD 계열에도 있다.</p>
 <h2 id="bugs">BUGS</h2>
 <p>이 함수는 버퍼 <code>dest</code>를 넘치게 할 수 있다.</p>
-<h2 id="example">EXAMPLE</h2>
+<h2 id="examples">EXAMPLES</h2>
 <p>예를 들어 이 프로그램은 <code>stpcpy()</code>으로 <strong>foo</strong>와 <strong>bar</strong>를 이어 붙여서 <strong>foobar</strong>를 만들어 낸 다음 출력한다.</p>
-<pre><code class="c">#define _GNU_SOURCE
+<pre><code class="language-c">#define _GNU_SOURCE
 #include &lt;string.h&gt;
 #include &lt;stdio.h&gt;
 
@@ -211,11 +210,10 @@ main(void)
     printf(&quot;%s\n&quot;, buffer);
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>bcopy(3)</code>, <tt>[[memccpy(3)]]</tt>, <code>memcpy(3)</code>, <code>memmove(3)</code>, <tt>[[stpncpy(3)]]</tt>, <code>strcpy(3)</code>, <tt>[[string(3)]]</tt>, <code>wcpcpy(3)</code></p>
+<p><code>bcopy(3)</code>, <tt><a class="wikilink" href="/man-pages-ko/memccpy(3)/">memccpy(3)</a></tt>, <code>memcpy(3)</code>, <code>memmove(3)</code>, <tt><a class="wikilink" href="/man-pages-ko/stpncpy(3)/">stpncpy(3)</a></tt>, <code>strcpy(3)</code>, <tt><a class="wikilink" href="/man-pages-ko/string(3)/">string(3)</a></tt>, <code>wcpcpy(3)</code></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

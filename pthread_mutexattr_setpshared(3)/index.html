@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_mutexattr_setpshared(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_mutexattr_setpshared%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Pthread mutexattr setpshared(3) - man-pages-ko</title>
+    <title>pthread_mutexattr_setpshared(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -149,14 +149,14 @@
 <h2 id="name">NAME</h2>
 <p>pthread_mutexattr_getpshared, pthread_mutexattr_setpshared - 프로세스 공유 뮤텍스 속성 얻기/설정하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;pthread.h&gt;
+<pre><code class="language-c">#include &lt;pthread.h&gt;
 
-int pthread_mutexattr_getpshared(const pthread_mutexattr_t *attr,
-                                 int *pshared);
+int pthread_mutexattr_getpshared(
+                      const pthread_mutexattr_t *restrict attr,
+                      int *restrict pshared);
 int pthread_mutexattr_setpshared(pthread_mutexattr_t *attr,
-                                 int pshared);
+                      int pshared);
 </code></pre>
-
 <p><code>-pthread</code>로 컴파일 및 링크.</p>
 <h2 id="description">DESCRIPTION</h2>
 <p>이 함수들은 뮤텍스 속성 객체의 프로세스 공유 속성을 얻고 설정한다. 이 속성 객체를 이용해 생성하는 뮤텍스가 정확하고 효율적으로 동작할 수 있으려면 이 속성을 적절하게 설정해야 한다.</p>
@@ -182,9 +182,9 @@ int pthread_mutexattr_setpshared(pthread_mutexattr_t *attr,
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[pthread_mutexattr_init(3)]]</tt>, <tt>[[pthreads(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/pthread_mutexattr_init(3)/">pthread_mutexattr_init(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthreads(7)/">pthreads(7)</a></tt></p>
 <hr />
-<p>2017-09-13</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/hcreate_r(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/hcreate_r%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Hcreate r(3) - man-pages-ko</title>
+    <title>hcreate_r(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -144,7 +144,7 @@
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
         <li class="first-level "><a href="#bugs">BUGS</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
@@ -153,25 +153,22 @@
 <h2 id="name">NAME</h2>
 <p>hcreate, hdestroy, hsearch, hcreate_r, hdestroy_r, hsearch_r - 해시 테이블 관리</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;search.h&gt;
+<pre><code class="language-c">#include &lt;search.h&gt;
 
 int hcreate(size_t nel);
+void hdestroy(void);
 
 ENTRY *hsearch(ENTRY item, ACTION action);
-
-void hdestroy(void);
 
 #define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
 #include &lt;search.h&gt;
 
 int hcreate_r(size_t nel, struct hsearch_data *htab);
+void hdestroy_r(struct hsearch_data *htab);
 
 int hsearch_r(ENTRY item, ACTION action, ENTRY **retval,
               struct hsearch_data *htab);
-
-void hdestroy_r(struct hsearch_data *htab);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p>세 함수 <code>hcreate()</code>, <code>hsearch()</code>, <code>hdestroy()</code>를 통해 호출자가 키(문자열)와 연계 데이터로 이뤄진 항목들을 담은 해시 탐색 테이블을 만들고 관리할 수 있다. 이 함수들을 쓰면 한번에 해시 테이블 한 개만 사용할 수 있다.</p>
 <p>세 함수 <code>hcreate_r()</code>, <code>hsearch_r()</code>, <code>hdestroy_r()</code>은 재진입 가능 버전이며 프로그램에서 한번에 여러 개의 해시 탐색 테이블을 쓸 수 있게 해 준다. 마지막 인자 <code>htab</code>가 가리키는 것이 함수가 동작하는 테이블을 기술하는 구조체이다. 프로그래머는 이 구조체를 불투명한 것으로 다뤄야 한다. (즉 이 구조체의 필드에 직접 접근하거나 변경하려 하지 않아야 한다.)</p>
@@ -180,18 +177,17 @@ void hdestroy_r(struct hsearch_data *htab);
 <p><code>hdestroy()</code> 함수는 <code>hcreate()</code>로 만든 해시 테이블이 차지하는 메모리를 해제한다. <code>hdestroy()</code> 호출 후에 <code>hcreate()</code>로 새 해시 테이블을 만들 수 있다. <code>hdestroy_r()</code>은 유사한 일을 수행하되 앞서 <code>hcreate_r()</code>로 생성한 <code>*htab</code>로 기술한 해시 테이블에 대해 그렇게 한다.</p>
 <p><code>hsearch()</code> 함수는 해시 테이블에서 <code>item</code>과 같은 키를 가진 항목을 탐색한다. ("같은" 키인지 <code>strcmp(3)</code>로 판단한다.) 성공하면 그 항목에 대한 포인터를 반환한다.</p>
 <p><code>item</code> 인자는 <code>ENTRY</code> 타입인데, <code>&lt;search.h&gt;</code>에 다음처럼 정의돼 있다.</p>
-<pre><code class="c">typedef struct entry {
+<pre><code class="language-c">typedef struct entry {
     char *key;
     void *data;
 } ENTRY;
 </code></pre>
-
 <p><code>key</code> 필드가 가리키는 널 종료 문자열은 탐색 키이다. <code>data</code> 필드는 그 키에 연계된 데이터를 가리킨다.</p>
 <p><code>action</code> 인자는 탐색 실패 후에 <code>hsearch()</code>가 무엇을 할지 결정한다. 이 인자는 <code>item</code> 사본을 삽입하라는 뜻의 <code>ENTER</code> 값이거나 (이 경우 새 해시 테이블 항목에 대한 포인터를 함수 결과로 반환함) NULL을 반환해야 한다는 뜻의 <code>FIND</code> 값이어야 한다. (<code>action</code>이 <code>FIND</code>인 경우 <code>data</code>는 무시된다.)</p>
 <p><code>hsearch_r()</code> 함수는 <code>hsearch()</code>와 비슷하되 <code>*htab</code>로 기술한 테이블에 대해 동작한다. 그리고 <code>hsearch_r()</code> 함수는 발견 항목에 대한 포인터를 함수 결과가 아니라 <code>*retval</code>로 반환한다는 점에서 <code>hsearch()</code>와 다르다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p><code>hcreate()</code>와 <code>hcreate_r()</code>은 성공 시 0 아닌 값을 반환한다. 오류 시 0을 반환하며 오류 원인을 나타내도록 <code>errno</code>를 설정한다.</p>
-<p>성공 시 <code>hsearch()</code>는 해시 테이블 내 항목에 대한 포인터를 반환한다. <code>hsearch()</code>는 오류 시에, 즉 <code>action</code>이 <code>ENTER</code>인데 해시 테이블이 가득 찼거나 <code>action</code>이 <code>FIND</code>인데 해시 테이블에서 <code>item</code>을 찾을 수 없는 경우에 NULL을 반환한다. <code>hsearch_r()</code>은 성공 시 0 아닌 값을 반환하고 오류 시 0을 반환한다. 오류 시에 이 두 함수는 오류 원인을 나타내도록 <code>errno</code>를 설정한다.</p>
+<p><code>hcreate()</code>와 <code>hcreate_r()</code>은 성공 시 0 아닌 값을 반환한다. 오류 시 0을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
+<p>성공 시 <code>hsearch()</code>는 해시 테이블 내 항목에 대한 포인터를 반환한다. <code>hsearch()</code>는 오류 시에, 즉 <code>action</code>이 <code>ENTER</code>인데 해시 테이블이 가득 찼거나 <code>action</code>이 <code>FIND</code>인데 해시 테이블에서 <code>item</code>을 찾을 수 없는 경우에 NULL을 반환한다. <code>hsearch_r()</code>은 성공 시 0 아닌 값을 반환하고 오류 시 0을 반환한다. 오류 시에 이 두 함수는 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <p><code>hcreate_r()</code>과 <code>hdestroy_r()</code>이 다음 이유로 실패할 수 있다.</p>
 <dl>
@@ -207,7 +203,7 @@ void hdestroy_r(struct hsearch_data *htab);
 </dl>
 <p>POSIX.1에서는 <code>ENOMEM</code> 오류만 명세하고 있다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -218,12 +214,12 @@ void hdestroy_r(struct hsearch_data *htab);
 </thead>
 <tbody>
 <tr>
-<td><code>hcreate()</code>, <code>hsearch()</code>,<br><code>hdestroy()</code></td>
+<td><code>hcreate()</code>, <code>hsearch()</code>, <code>hdestroy()</code></td>
 <td>스레드 안전성</td>
 <td>MT-Unsafe race:hsearch</td>
 </tr>
 <tr>
-<td><code>hcreate_r()</code>, <code>hsearch_r()</code><br><code>hdestroy_r()</code></td>
+<td><code>hcreate_r()</code>, <code>hsearch_r()</code> <code>hdestroy_r()</code></td>
 <td>스레드 안전성</td>
 <td>MT-Safe race:htab</td>
 </tr>
@@ -238,9 +234,9 @@ void hdestroy_r(struct hsearch_data *htab);
 <h2 id="bugs">BUGS</h2>
 <p>SVr4와 POSIX.1-2001에서는 탐색 실패 시에만 <code>action</code>이 의미가 있으며 그래서 탐색 성공 시에는 <code>ENTER</code>가 아무것도 하지 않아야 한다고 명세한다. libc 및 (버전 2.3 전의) glibc 구현에서는 그 명세를 위반해서 그 경우에 해당 <code>key</code>의 <code>data</code>를 갱신한다.</p>
 <p>개별 해시 테이블 항목들을 추가할 수 있지만 삭제할 수는 없다.</p>
-<h2 id="example">EXAMPLE</h2>
+<h2 id="examples">EXAMPLES</h2>
 <p>다음 프로그램에서는 해시 테이블에 24개 항목을 삽입하고서 그 중 일부를 찍는다.</p>
-<pre><code class="c">#include &lt;stdio.h&gt;
+<pre><code class="language-c">#include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
 #include &lt;search.h&gt;
 
@@ -254,12 +250,12 @@ static char *data[] = { &quot;alpha&quot;, &quot;bravo&quot;, &quot;charlie&quot
 int
 main(void)
 {
-    ENTRY e, *ep;
-    int i;
+    ENTRY e;
+    ENTRY *ep;
 
     hcreate(30);
 
-    for (i = 0; i &lt; 24; i++) {
+    for (int i = 0; i &lt; 24; i++) {
         e.key = data[i];
         /* data는 뭔가에 대한 포인터가 아니라
            그냥 정수임 */
@@ -272,7 +268,7 @@ main(void)
         }
     }
 
-    for (i = 22; i &lt; 26; i++) {
+    for (int i = 22; i &lt; 26; i++) {
         /* 테이블에 있는 항목 두 개를 찍고,
            테이블에 없는 항목 두 개 보이기 */
         e.key = data[i];
@@ -284,11 +280,10 @@ main(void)
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[bsearch(3)]]</tt>, <tt>[[lsearch(3)]]</tt>, <tt>[[malloc(3)]]</tt>, <tt>[[tsearch(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/bsearch(3)/">bsearch(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/lsearch(3)/">lsearch(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/tsearch(3)/">tsearch(3)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

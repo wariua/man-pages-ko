@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_attr_setstack(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_attr_setstack%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Pthread attr setstack(3) - man-pages-ko</title>
+    <title>pthread_attr_setstack(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -144,7 +144,7 @@
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
@@ -153,16 +153,16 @@
 <h2 id="name">NAME</h2>
 <p>pthread_attr_setstack, pthread_attr_getstack - 스레드 속성 객체의 스택 속성 설정하기/얻기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;pthread.h&gt;
+<pre><code class="language-c">#include &lt;pthread.h&gt;
 
 int pthread_attr_setstack(pthread_attr_t *attr,
                           void *stackaddr, size_t stacksize);
-int pthread_attr_getstack(const pthread_attr_t *attr,
-                          void **stackaddr, size_t *stacksize);
+int pthread_attr_getstack(const pthread_attr_t *restrict attr,
+                          void **restrict stackaddr,
+                          size_t *restrict stacksize);
 </code></pre>
-
 <p><code>-pthread</code>로 컴파일 및 링크.</p>
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>pthread_attr_getstack()</code>, <code>pthread_attr_setstack()</code>:</dt>
 <dd><code>_POSIX_C_SOURCE &gt;= 200112L</code></dd>
@@ -183,7 +183,7 @@ int pthread_attr_getstack(const pthread_attr_t *attr,
 <h2 id="versions">VERSIONS</h2>
 <p>glibc 버전 2.2부터 이 함수들을 제공한다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -203,16 +203,16 @@ int pthread_attr_getstack(const pthread_attr_t *attr,
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008.</p>
 <h2 id="notes">NOTES</h2>
-<p>이 함수들은 스레드의 스택이 특정 위치에 있도록 해야 하는 응용들을 위한 것이다. 대부분 응용에서는 그럴 필요가 없으므로 이 함수들을 쓰지 않는 게 좋다. (응용에서 필요한 게 기본과 다른 스택 크기일 뿐이라면 <tt>[[pthread_attr_setstacksize(3)]]</tt>를 쓰면 된다.)</p>
-<p>응용에서 <code>pthread_attr_setstack()</code>을 이용할 때는 스택을 할당할 책임을 함께 가져간다. <tt>[[pthread_attr_setguardsize(3)]]</tt>로 설정한 방호 구역 크기 값이 무시된다. 필요시 스택 오버플로우 가능성에 대처하기 위해 방호 구역(읽기 및 쓰기가 안 되게 보호된 한 개 이상의 페이지)을 할당하는 것은 응용의 몫이다.</p>
-<p><code>stackaddr</code>로 지정하는 주소가 적절히 정렬되어 있는 게 좋다. 완전한 이식성을 위해선 페이지 경계(<code>sysconf(_SC_PAGESIZE)</code>)에 맞춰 정렬하면 된다. 할당에 <tt>[[posix_memalign(3)]]</tt>이 도움이 될 수 있다. <code>stacksize</code> 역시도 시스템 페이지 크기의 배수로 하는 게 좋을 것이다.</p>
-<p><code>attr</code>을 사용해 여러 스레드를 생성하는 경우에 호출자는 <tt>[[pthread_create(3)]]</tt> 호출들 간에 스택 주소 속성을 바꿔 주어야 한다. 안 그러면 여러 스레드가 같은 메모리 구역을 스택으로 쓰려고 하면서 혼란이 뒤따를 것이다.</p>
-<h2 id="example">EXAMPLE</h2>
-<p><tt>[[pthread_attr_init(3)]]</tt> 참고.</p>
+<p>이 함수들은 스레드의 스택이 특정 위치에 있도록 해야 하는 응용들을 위한 것이다. 대부분 응용에서는 그럴 필요가 없으므로 이 함수들을 쓰지 않는 게 좋다. (응용에서 필요한 게 기본과 다른 스택 크기일 뿐이라면 <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setstacksize(3)/">pthread_attr_setstacksize(3)</a></tt>를 쓰면 된다.)</p>
+<p>응용에서 <code>pthread_attr_setstack()</code>을 이용할 때는 스택을 할당할 책임을 함께 가져간다. <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setguardsize(3)/">pthread_attr_setguardsize(3)</a></tt>로 설정한 방호 구역 크기 값이 무시된다. 필요시 스택 오버플로우 가능성에 대처하기 위해 방호 구역(읽기 및 쓰기가 안 되게 보호된 한 개 이상의 페이지)을 할당하는 것은 응용의 몫이다.</p>
+<p><code>stackaddr</code>로 지정하는 주소가 적절히 정렬되어 있는 게 좋다. 완전한 이식성을 위해선 페이지 경계(<code>sysconf(_SC_PAGESIZE)</code>)에 맞춰 정렬하면 된다. 할당에 <tt><a class="wikilink" href="/man-pages-ko/posix_memalign(3)/">posix_memalign(3)</a></tt>이 도움이 될 수 있다. <code>stacksize</code> 역시도 시스템 페이지 크기의 배수로 하는 게 좋을 것이다.</p>
+<p><code>attr</code>을 사용해 여러 스레드를 생성하는 경우에 호출자는 <tt><a class="wikilink" href="/man-pages-ko/pthread_create(3)/">pthread_create(3)</a></tt> 호출들 간에 스택 주소 속성을 바꿔 주어야 한다. 안 그러면 여러 스레드가 같은 메모리 구역을 스택으로 쓰려고 하면서 혼란이 뒤따를 것이다.</p>
+<h2 id="examples">EXAMPLES</h2>
+<p><tt><a class="wikilink" href="/man-pages-ko/pthread_attr_init(3)/">pthread_attr_init(3)</a></tt> 참고.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[mmap(2)]]</tt>, <tt>[[mprotect(2)]]</tt>, <tt>[[posix_memalign(3)]]</tt>, <tt>[[pthread_attr_init(3)]]</tt>, <tt>[[pthread_attr_setguardsize(3)]]</tt>, <tt>[[pthread_attr_setstackaddr(3)]]</tt>, <tt>[[pthread_attr_setstacksize(3)]]</tt>, <tt>[[pthread_create(3)]]</tt>, <tt>[[pthreads(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mprotect(2)/">mprotect(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/posix_memalign(3)/">posix_memalign(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_init(3)/">pthread_attr_init(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setguardsize(3)/">pthread_attr_setguardsize(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setstackaddr(3)/">pthread_attr_setstackaddr(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setstacksize(3)/">pthread_attr_setstacksize(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_create(3)/">pthread_create(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthreads(7)/">pthreads(7)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

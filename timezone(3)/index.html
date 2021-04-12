@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/timezone(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/timezone%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Timezone(3) - man-pages-ko</title>
+    <title>timezone(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -151,7 +151,7 @@
 <h2 id="name">NAME</h2>
 <p>tzset, tzname, timezone, daylight - 시간 변환 정보 초기화</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;time.h&gt;
+<pre><code class="language-c">#include &lt;time.h&gt;
 
 void tzset (void);
 
@@ -159,8 +159,7 @@ extern char *tzname[2];
 extern long timezone;
 extern int daylight;
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>tzset()</code>:</dt>
 <dd><code>_POSIX_C_SOURCE</code></dd>
@@ -169,20 +168,18 @@ extern int daylight;
 <dt><code>timezone</code>, <code>daylight</code>:</dt>
 <dd><code>_XOPEN_SOURCE</code><br>
 <code>|| /* glibc 2.19부터: */ _DEFAULT_SOURCE</code><br>
-<code>|| /* glibc 버전 &lt;= 2.19: */ _SVID_SOURCE</code></dd>
+<code>|| /* glibc &lt;= 2.19: */ _SVID_SOURCE</code></dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>tzset()</code> 함수는 <code>TZ</code> 환경 변수를 가지고 <code>tzname</code> 변수를 초기화 한다. 시간대에 의존하는 다른 시간 변환 함수들에서 이 함수를 자동으로 호출한다. 시스템 V 방식 환경에서는 변수 <code>timezone</code>(UTC 서쪽으로 몇 초) 및 <code>daylight</code>(시간대에 일광 절약 시간 규칙이 없으면 0으로, 일광 절약 시간이 적용되는 과거나 현재, 미래 시점이 있으면 0 아닌 값으로)까지 설정한다.</p>
-<p>환경 내에 <code>TZ</code> 변수가 안 보이면 시스템 시간대를 쓴다. 시스템 시간대는 <tt>[[tzfile(5)]]</tt> 형식 파일을 <code>/etc/localtime</code>으로 복사하거나 링크 해서 설정한다. 시스템 시간대 디렉터리(아래 <strong>FILES</strong> 절 참고)에서 그런 파일들로 이뤄진 시간대 데이터베이스를 볼 수 있다.</p>
+<p>환경 내에 <code>TZ</code> 변수가 안 보이면 시스템 시간대를 쓴다. 시스템 시간대는 <tt><a class="wikilink" href="/man-pages-ko/tzfile(5)/">tzfile(5)</a></tt> 형식 파일을 <code>/etc/localtime</code>으로 복사하거나 링크 해서 설정한다. 시스템 시간대 디렉터리(아래 <strong>FILES</strong> 절 참고)에서 그런 파일들로 이뤄진 시간대 데이터베이스를 볼 수 있다.</p>
 <p>환경 내에 <code>TZ</code> 변수가 있기는 한데 값이 비어 있거나 그 값을 아래 명세하는 형식들 중 어떤 것으로도 해석할 수 없으면 협정 세계시(UTC)를 쓴다.</p>
 <p><code>TZ</code>의 값은 두 가지 형식 중 하나로 돼 있을 수 있다. 첫 번째 형식은 사용할 시간대를 직접 표현하는 문자열이다.</p>
-<pre><code class="text">std offset[dst[offset][,start[/time],end[/time]]]
+<pre><code class="language-text">std offset[dst[offset][,start[/time],end[/time]]]
 </code></pre>
-
 <p>명세 문자열 내에 공백이 전혀 없다. <code>std</code> 문자열은 시간대 약자를 나타내며 세 글자 이상의 알파벳 문자여야 한다. 이상(&lt;) 및 이상(&gt;) 부호로 감싼 경우 더하기(+) 부호와 빼기(-) 부호, 숫자들까지 포함하도록 문자 집합이 확장된다. <code>offset</code> 문자열은 <code>std</code> 바로 다음에 오며 지역 시간에 더하면 협정 세계시(UTC)가 나오는 시간 양을 나타낸다. 지역 시간대가 본초 자오선 서쪽이면 <code>offset</code>이 양수고 동쪽이면 음수다. 시간은 0에서 24까지, 분과 초는 00에서 59까지여야 한다.</p>
-<pre><code class="text">[+|-]hh[:mm[:ss]]
+<pre><code class="language-text">[+|-]hh[:mm[:ss]]
 </code></pre>
-
 <p><code>dst</code> 문자열 및 <code>offset</code>은 해당하는 일광 절약 시간대의 이름과 오프셋을 나타낸다. 오프셋이 생략돼 있으면 표준시보다 한 시간 앞서는 것으로 친다.</p>
 <p><code>start</code> 필드는 일광 절약 시간이 발효되는 때를 나타내고 <code>end</code> 필드는 다시 표준시로 바뀌는 때를 나타낸다. 이 두 필드는 다음 형식일 수 있다.</p>
 <dl>
@@ -195,18 +192,15 @@ extern int daylight;
 </dl>
 <p><code>time</code> 필드는 현재 적용 중인 지역 시간으로 언제 그 다른 시간으로 바뀌는지를 나타낸다. 생략 시 기본값은 02:00:00이다.</p>
 <p>다음은 뉴질랜드 사례이다. 표준 시간(NZST)이 UTC보다 12시간 앞서고, 일광 절약 시간(NZDT)이 UTC보다 13시간 앞서고 10월 첫째 일요일부터 3월 셋째 일요일까지 시행되며, 기본 시간 02:00:00에 전환이 이뤄진다.</p>
-<pre><code class="text">TZ=&quot;NZST-12:00:00NZDT-13:00:00,M10.1.0,M3.3.0&quot;
+<pre><code class="language-text">TZ=&quot;NZST-12:00:00NZDT-13:00:00,M10.1.0,M3.3.0&quot;
 </code></pre>
-
 <p>두 번째 형식은 파일에서 시간대 정보를 읽어 들이도록 명시한다.</p>
-<pre><code class="text">:[filespec]
+<pre><code class="language-text">:[filespec]
 </code></pre>
-
-<p>파일 명세 <code>filespec</code>이 생략돼 있거나 그 값을 해석할 수 없는 경우에는 협정 세계시(UTC)를 쓴다. <code>filespec</code>이 주어진 경우에는 시간대 정보를 읽어 들일 또 다른 <tt>[[tzfile(5)]]</tt> 형식 파일을 나타낸다. <code>filespec</code>이 '/'로 시작하지 않으면 시스템 시간대 디렉터리를 기준으로 파일을 지정하는 것이다. 콜론이 빠져 있으면 위의 <code>TZ</code> 형식들 각각을 시도해 보게 된다.</p>
+<p>파일 명세 <code>filespec</code>이 생략돼 있거나 그 값을 해석할 수 없는 경우에는 협정 세계시(UTC)를 쓴다. <code>filespec</code>이 주어진 경우에는 시간대 정보를 읽어 들일 또 다른 <tt><a class="wikilink" href="/man-pages-ko/tzfile(5)/">tzfile(5)</a></tt> 형식 파일을 나타낸다. <code>filespec</code>이 '/'로 시작하지 않으면 시스템 시간대 디렉터리를 기준으로 파일을 지정하는 것이다. 콜론이 빠져 있으면 위의 <code>TZ</code> 형식들 각각을 시도해 보게 된다.</p>
 <p>다시 뉴질랜드로 예를 들면 다음과 같다.</p>
-<pre><code class="text">TZ=&quot;:Pacific/Auckland&quot;
+<pre><code class="language-text">TZ=&quot;:Pacific/Auckland&quot;
 </code></pre>
-
 <h2 id="environment">ENVIRONMENT</h2>
 <dl>
 <dt><code>TZ</code></dt>
@@ -221,11 +215,11 @@ extern int daylight;
 <dt><code>/usr/share/zoneinfo/</code></dt>
 <dd>시스템 시간대 데이터베이스 디렉터리.</dd>
 <dt><code>/usr/share/zoneinfo/posixrules</code></dt>
-<dd>TZ 문자열에 dst 시간대가 있고 그 뒤에 아무것도 없으면 이 파일을 써서 시작/끝 규칙을 얻는다. <tt>[[tzfile(5)]]</tt> 형식으로 돼 있다. 기본적으로 zoneinfo의 Makefile에서 tzfile <code>America/New York</code>에 대한 하드 링크로 만들어 둔다.</dd>
+<dd>TZ 문자열에 dst 시간대가 있고 그 뒤에 아무것도 없으면 이 파일을 써서 시작/끝 규칙을 얻는다. <tt><a class="wikilink" href="/man-pages-ko/tzfile(5)/">tzfile(5)</a></tt> 형식으로 돼 있다. 기본적으로 zoneinfo의 Makefile에서 tzfile <code>America/New York</code>에 대한 하드 링크로 만들어 둔다.</dd>
 </dl>
 <p>이상은 현행 표준 파일 위치이다. glibc를 컴파일 할 때 설정 가능하다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -247,9 +241,9 @@ extern int daylight;
 <h2 id="notes">NOTES</h2>
 <p>4.3BSD에는 <code>char *timezone(zone, dst)</code> 함수가 있어서 첫 번째 인자(UTC 서쪽으로 몇 분)에 대응하는 시간대의 이름을 반환했다. 두 번째 인자가 0이면 표준 이름을 썼고 아니면 일광 절약 시간 버전을 썼다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>date(1)</code>, <tt>[[gettimeofday(2)]]</tt>, <tt>[[time(2)]]</tt>, <tt>[[ctime(3)]]</tt>, <tt>[[getenv(3)]]</tt>, <tt>[[tzfile(5)]]</tt></p>
+<p><code>date(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/gettimeofday(2)/">gettimeofday(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/time(2)/">time(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ctime(3)/">ctime(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/getenv(3)/">getenv(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/tzfile(5)/">tzfile(5)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

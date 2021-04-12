@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/strptime(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/strptime%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Strptime(3) - man-pages-ko</title>
+    <title>strptime(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -144,7 +144,7 @@
         <li class="first-level "><a href="#notes">NOTES</a></li>
             <li class="second-level"><a href="#glibc">glibc 참고 사항</a></li>
                 
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
@@ -153,16 +153,16 @@
 <h2 id="name">NAME</h2>
 <p>strptime - 시간 문자열 표현을 시간 tm 구조체로 변환하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#define _XOPEN_SOURCE       /* feature_test_macros(7) 참고 */
+<pre><code class="language-c">#define _XOPEN_SOURCE       /* feature_test_macros(7) 참고 */
 #include &lt;time.h&gt;
 
-char *strptime(const char *s, const char *format, struct tm *tm);
+char *strptime(const char *restrict s, const char *restrict format,
+               struct tm *restrict tm);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
-<p><code>strptime()</code> 함수는 <tt>[[strftime(3)]]</tt>의 반대이다. 즉 <code>s</code>가 가리키는 문자열을 <code>format</code>에 지정된 서식을 써서 <code>tm</code>이 가리키는 "분할 시간" 구조체에 저장된 값들로 변환한다.</p>
+<p><code>strptime()</code> 함수는 <tt><a class="wikilink" href="/man-pages-ko/strftime(3)/">strftime(3)</a></tt>의 반대이다. 즉 <code>s</code>가 가리키는 문자열을 <code>format</code>에 지정된 서식을 써서 <code>tm</code>이 가리키는 "분할 시간" 구조체에 저장된 값들로 변환한다.</p>
 <p>분할 시간 구조체 <code>tm</code>은 <code>&lt;time.h&gt;</code>에 다음처럼 정의돼 있다.</p>
-<pre><code class="c">struct tm {
+<pre><code class="language-c">struct tm {
     int tm_sec;    /* 초 (0-60) */
     int tm_min;    /* 분 (0-59) */
     int tm_hour;   /* 시간 (0-23) */
@@ -174,9 +174,8 @@ char *strptime(const char *s, const char *format, struct tm *tm);
     int tm_isdst;  /* 일광 절약 시간 */
 };
 </code></pre>
-
-<p><code>tm</code> 구조체에 대한 더 자세한 내용은 <tt>[[ctime(3)]]</tt>을 보라.</p>
-<p><code>format</code> 인자는 <tt>[[scanf(3)]]</tt>를 연상시키는 필드 기술 항목과 텍스트 문자들로 이뤄진 문자열이다. 각 필드 기술 항목은 % 문자와 뒤이은 다른 문자 하나로 되어 있어서 그 필드 기술 항목이 무엇을 대신하는지 나타낸다. <code>format</code> 문자열의 다른 문자들은 모두 입력 문자열에 대응하는 문자가 있어야 한다. 단 예외적으로 공백 문자는 입력 문자열의 0개 이상의 공백 문자와 대응한다. 두 필드 기술 항목 사이에는 공백이나 다른 영자 또는 숫자 문자가 있어야 한다.</p>
+<p><code>tm</code> 구조체에 대한 더 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/ctime(3)/">ctime(3)</a></tt>을 보라.</p>
+<p><code>format</code> 인자는 <tt><a class="wikilink" href="/man-pages-ko/scanf(3)/">scanf(3)</a></tt>를 연상시키는 필드 기술 항목과 텍스트 문자들로 이뤄진 문자열이다. 각 필드 기술 항목은 % 문자와 뒤이은 다른 문자 하나로 되어 있어서 그 필드 기술 항목이 무엇을 대신하는지 나타낸다. <code>format</code> 문자열의 다른 문자들은 모두 입력 문자열에 대응하는 문자가 있어야 한다. 단 예외적으로 공백 문자는 입력 문자열의 0개 이상의 공백 문자와 대응한다. 두 필드 기술 항목 사이에는 공백이나 다른 영자 또는 숫자 문자가 있어야 한다.</p>
 <p><code>strptime()</code> 함수는 왼쪽에서 오른쪽으로 입력 문자열을 처리해 나간다. 가능한 세 가지 입력 요소(공백, 리터럴, 서식) 각각을 하나씩 처리한다. 입력이 서식 문자열에 일치되지 않으면 함수 동작을 멈춘다. 서식 및 입력 문자열 나머지는 처리하지 않는다.</p>
 <p>지원하는 입력 필드 기술 항목들이 아래 나열돼 있다. 텍스트 문자열(가령 요일 이름이나 월 이름)을 맞춰 보는 경우에는 대소문자 구분 없이 비교한다. 수를 맞춰 보는 경우에는 앞에 0이 오는 걸 허용하되 요구하지는 않는다.</p>
 <table>
@@ -383,7 +382,7 @@ char *strptime(const char *s, const char *format, struct tm *tm);
 <h2 id="return-value">RETURN VALUE</h2>
 <p>함수의 반환 값은 그 함수 호출에서 처리되지 않은 첫 문자에 대한 포인터이다. 입력 문자열이 서식 문자열에서 요구하는 것보다 많은 문자를 담고 있는 경우에는 마지막으로 소모한 입력 문자 바로 다음을 반환 값이 가리킨다. 입력 문자열 전체를 소모한 경우에는 문자열 끝의 널 바이트를 반환 값이 가리킨다. <code>strptime()</code>에서 서식 문자열 전체를 맞추는 데 실패하면, 즉 오류가 발생했으면 함수가 NULL을 반환한다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -406,7 +405,7 @@ char *strptime(const char *s, const char *format, struct tm *tm);
 <p>원칙적으로 이 함수에서는 <code>tm</code>을 초기화 하지 않고 명시된 값들을 저장할 뿐이다. 이는 호출 전에 <code>tm</code>을 초기화 해야 한다는 뜻이다. 하지만 세부 사항은 유닉스 시스템들 간에 조금씩 다르다. glibc 구현에서는 명확히 지정돼 있지 않은 필드들을 건드리지 않는다. 단 연월일 요소들 중 하나라도 바뀌었으면 <code>tm_wday</code> 및 <code>tm_yday</code> 필드를 다시 계산한다.</p>
 <p>'y'(세기 내 연도) 지정 항목을 glibc 2.0에선 1950-2049 범위의 연도를 나타내는 것으로 처리한다. glibc 2.1부터는 1969-2068 내 연도로 받는다.</p>
 <h3 id="glibc">glibc 참고 사항</h3>
-<p>대칭성을 위해 glibc에서는 <tt>[[strftime(3)]]</tt>에서와 같은 서식 문자들을 <code>strptime()</code>에서 지원하려고 노력한다. (대부분의 경우 해당 필드를 파싱은 하되 <code>tm</code> 내 필드는 바꾸지 않는다.)</p>
+<p>대칭성을 위해 glibc에서는 <tt><a class="wikilink" href="/man-pages-ko/strftime(3)/">strftime(3)</a></tt>에서와 같은 서식 문자들을 <code>strptime()</code>에서 지원하려고 노력한다. (대부분의 경우 해당 필드를 파싱은 하되 <code>tm</code> 내 필드는 바꾸지 않는다.)</p>
 <table>
 <thead>
 <tr>
@@ -445,7 +444,7 @@ char *strptime(const char *s, const char *format, struct tm *tm);
 </tr>
 </tbody>
 </table>
-<p>비슷하게 <tt>[[strftime(3)]]</tt>의 GNU 확장 때문에 <code>%H</code> 동의어로 <code>%k</code>를 받아들이고, <code>%I</code> 동의어로 <code>%l</code>을, <code>%p</code> 동의어로 <code>%P</code>를 받아들인다. 마지막으로 다음을 지원한다.</p>
+<p>비슷하게 <tt><a class="wikilink" href="/man-pages-ko/strftime(3)/">strftime(3)</a></tt>의 GNU 확장 때문에 <code>%H</code> 동의어로 <code>%k</code>를 받아들이고, <code>%I</code> 동의어로 <code>%l</code>을, <code>%p</code> 동의어로 <code>%P</code>를 받아들인다. 마지막으로 다음을 지원한다.</p>
 <table>
 <thead>
 <tr>
@@ -461,9 +460,9 @@ char *strptime(const char *s, const char *format, struct tm *tm);
 </tbody>
 </table>
 <p>glibc 구현에서는 두 필드 기술 항목 사이에 공백이 있기를 요구하지 않는다.</p>
-<h2 id="example">EXAMPLE</h2>
-<p>다음 예는 <code>strptime()</code> 및 <tt>[[strftime(3)]]</tt> 사용 방식을 보여 준다.</p>
-<pre><code class="c">#define _XOPEN_SOURCE
+<h2 id="examples">EXAMPLES</h2>
+<p>다음 예는 <code>strptime()</code> 및 <tt><a class="wikilink" href="/man-pages-ko/strftime(3)/">strftime(3)</a></tt> 사용 방식을 보여 준다.</p>
+<pre><code class="language-c">#define _XOPEN_SOURCE
 #include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
 #include &lt;string.h&gt;
@@ -475,18 +474,17 @@ main(void)
     struct tm tm;
     char buf[255];
 
-    memset(&amp;tm, 0, sizeof(struct tm));
+    memset(&amp;tm, 0, sizeof(tm));
     strptime(&quot;2001-11-12 18:31:01&quot;, &quot;%Y-%m-%d %H:%M:%S&quot;, &amp;tm);
     strftime(buf, sizeof(buf), &quot;%d %b %Y %H:%M&quot;, &amp;tm);
     puts(buf);
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[time(2)]]</tt>, <tt>[[getdate(3)]]</tt>, <tt>[[scanf(3)]]</tt>, <tt>[[setlocale(3)]]</tt>, <tt>[[strftime(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/time(2)/">time(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/getdate(3)/">getdate(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/scanf(3)/">scanf(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/setlocale(3)/">setlocale(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/strftime(3)/">strftime(3)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

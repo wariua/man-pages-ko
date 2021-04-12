@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/timercmp(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/timercmp%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Timercmp(3) - man-pages-ko</title>
+    <title>timercmp(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -149,22 +149,19 @@
 <h2 id="name">NAME</h2>
 <p>timeradd, timersub, timercmp, timerclear, timerisset - timeval 연산</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;sys/time.h&gt;
+<pre><code class="language-c">#include &lt;sys/time.h&gt;
 
 void timeradd(struct timeval *a, struct timeval *b,
               struct timeval *res);
-
 void timersub(struct timeval *a, struct timeval *b,
               struct timeval *res);
 
 void timerclear(struct timeval *tvp);
-
 int timerisset(struct timeval *tvp);
 
 int timercmp(struct timeval *a, struct timeval *b, CMP);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt>위의 모든 함수:</dt>
 <dd>
@@ -178,22 +175,20 @@ int timercmp(struct timeval *a, struct timeval *b, CMP);
 </dl>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>&lt;sys/time.h&gt;</code>에 다음처럼 정의돼 있는 <code>timeval</code> 구조체에 대해 동작하는 매크로들이다.</p>
-<pre><code class="c">struct timeval {
+<pre><code class="language-c">struct timeval {
     time_t      tv_sec;     /* 초 */
     suseconds_t tv_usec;    /* 마이크로초 */
 };
 </code></pre>
-
 <p><code>timeradd()</code>는 <code>a</code>와 <code>b</code>의 시간 값을 더해서 그 합을 <code>res</code>가 가리키는 <code>timeval</code>에 넣는다. <code>res-&gt;tv_usec</code>이 0에서 999,999 범위의 값을 가지도록 결과가 정규화 된다.</p>
 <p><code>timersub()</code>는 <code>a</code>의 시간 값에서 <code>b</code>의 시간 값을 빼서 그 결과를 <code>res</code>가 가리키는 <code>timeval</code>에 넣는다. <code>res-&gt;tv_usec</code>이 0에서 999,999 범위의 값을 가지도록 결과가 정규화 된다.</p>
 <p><code>timerclear()</code>는 <code>tvp</code>가 가리키는 <code>timeval</code> 구조체를 0으로 채워서 에포크 1970-01-01 00:00:00 +0000 (UTC)를 나타내도록 한다.</p>
 <p><code>timerisset()</code>은 <code>tvp</code>가 가리키는 <code>timeval</code> 구조체의 어느 필드라도 0 아닌 값을 담고 있으면 참(0 아닌 값)을 반환한다.</p>
 <p><code>timercmp()</code>는 비교 연산자 <code>CMP</code>를 써서 <code>a</code>와 <code>b</code>의 시간 값을 비교해서 그 결과에 따라 참(0 아닌 값)이나 거짓(0)을 반환한다. 일부 시스템(리눅스/glibc는 아님)에서는 <code>timercmp()</code> 구현이 불완전해서 <code>CMP</code>가 <code>&gt;=</code>, <code>&lt;=</code>, <code>==</code>이면 제대로 동작하지 않는다. 이식 가능한 응용에서는 대신 다음 방식을 쓸 수 있다.</p>
-<pre><code class="c">!timercmp(..., &lt;)
+<pre><code class="language-c">!timercmp(..., &lt;)
 !timercmp(..., &gt;)
 !timercmp(..., !=)
 </code></pre>
-
 <h2 id="return-value">RETURN VALUE</h2>
 <p><code>timerisset()</code>과 <code>timercmp()</code>는 참(0 아닌 값) 또는 거짓(0)을 반환한다.</p>
 <h2 id="errors">ERRORS</h2>
@@ -201,9 +196,9 @@ int timercmp(struct timeval *a, struct timeval *b, CMP);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1에는 없다. 대부분의 BSD 파생 시스템에 존재한다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[gettimeofday(2)]]</tt>, <tt>[[time(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/gettimeofday(2)/">gettimeofday(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/time(7)/">time(7)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

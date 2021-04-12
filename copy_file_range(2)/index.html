@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/copy_file_range(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/copy_file_range%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Copy file range(2) - man-pages-ko</title>
+    <title>copy_file_range(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -143,7 +143,7 @@
         <li class="first-level "><a href="#versions">VERSIONS</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
@@ -152,16 +152,15 @@
 <h2 id="name">NAME</h2>
 <p>copy_file_range - 한 파일에서 다른 파일로 데이터 구간 복사하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include _GNU_SOURCE
+<pre><code class="language-c">#include _GNU_SOURCE
 #include &lt;unistd.h&gt;
 
-ssize_t copy_file_range(int fd_in, loff_t *off_in,
-                        int fd_out, loff_t *off_out,
+ssize_t copy_file_range(int fd_in, off64_t *off_in,
+                        int fd_out, off64_t *off_out,
                         size_t len, unsigned int flags);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
-<p><code>copy_file_range()</code> 시스템 호출은 커널에서 사용자 공간으로 데이터를 보내고 받는 추가 비용 없이 커널 내에서 두 파일 디스크립터 간에 복사를 수행한다. 파일 디스크립터 <code>fd_in</code>에서 파일 디스크립터 <code>fd_out</code>으로 최대 <code>len</code> 바이트까지 데이터를 복사하며, 대상 파일에서 요청 범위 내에 데이터가 존재하면 덮어 쓴다.</p>
+<p><code>copy_file_range()</code> 시스템 호출은 커널에서 사용자 공간으로 데이터를 보내고 받는 추가 비용 없이 커널 내에서 두 파일 디스크립터 간에 복사를 수행한다. 출발지 파일 디스크립터 <code>fd_in</code>에서 목적지 파일 디스크립터 <code>fd_out</code>으로 최대 <code>len</code> 바이트까지 데이터를 복사하며, 목적지 파일에서 요청 범위 내에 데이터가 존재하면 덮어 쓴다.</p>
 <p><code>off_in</code>에 다음 의미론이 적용되며, 비슷한 내용이 <code>off_out</code>에도 적용된다.</p>
 <ul>
 <li>
@@ -171,18 +170,31 @@ ssize_t copy_file_range(int fd_in, loff_t *off_in,
 <p><code>off_in</code>이 NULL이 아니면 <code>off_in</code>은 <code>fd_in</code>에서 바이트를 읽어 들이기 시작할 오프셋을 나타내는 버퍼를 가리켜야 한다. <code>fd_in</code>의 파일 오프셋을 바꾸지 않으며, 대신 <code>off_in</code>을 적절히 조정한다.</p>
 </li>
 </ul>
-<p><code>flags</code> 인자는 향후 확장을 위한 것이며 현재는 0이어야 한다.</p>
+<p><code>fd_in</code>과 <code>fd_out</code>이 같은 파일을 가리킬 수 있다. 같은 파일을 가리키는 경우에는 출발 범위와 목적 범위가 겹칠 수 없다.</p>
+<p><code>flags</code> 인자는 향후 확장을 위한 것이며 현재는 0으로 설정해야 한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 완료 시 <code>copy_file_range()</code>는 파일들 사이에서 복사한 바이트 수를 반환한다. 원래 요청한 길이보다 적을 수도 있다.</p>
 <p>오류 시 <code>copy_file_range()</code>는 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EBADF</code></dt>
-<dd>한 개 이상의 파일 디스크립터가 유효하지 않다. 또는 <code>fd_in</code>이 읽기 가능하게 열려 있지 않다. 또는 <code>fd_out</code>이 쓰기 가능하게 열려 있지 않다. 또는 <code>fd_out</code>이 가리키는 열린 파일 기술 항목(<tt>[[open(2)]]</tt> 참고)에 <code>O_APPEND</code> 플래그가 설정되어 있다.</dd>
+<dd>한 개 이상의 파일 디스크립터가 유효하지 않다.</dd>
+<dt><code>EBADF</code></dt>
+<dd><code>fd_in</code>이 읽기 가능하게 열려 있지 않다. 또는 <code>fd_out</code>이 쓰기 가능하게 열려 있지 않다.</dd>
+<dt><code>EBADF</code></dt>
+<dd>파일 디스크립터 <code>fd_out</code>이 가리키는 열린 파일 기술 항목(<tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt> 참고)에 <code>O_APPEND</code> 플래그가 설정되어 있다.</dd>
 <dt><code>EFBIG</code></dt>
-<dd>구현에서 정의하는 파일 최대 크기나 프로세스의 파일 크기 제한을 초과하도록 파일 쓰기 시도가 이뤄졌거나, 가능한 최대 오프셋을 넘는 위치에서 쓰기 시도가 이뤄졌다.</dd>
+<dd>커널에서 지원하는 최대 파일 오프셋을 넘는 위치에서 쓰기 시도가 이뤄졌다.</dd>
+<dt><code>EFBIG</code></dt>
+<dd>허용된 최대 파일 크기를 초과하는 범위로 쓰기 시도가 이뤄졌다. 최대 파일 크기는 파일 시스템 구현에 따라 다르며 허용된 최대 파일 오프셋과 다를 수 있다.</dd>
+<dt><code>EFBIG</code></dt>
+<dd>프로세스의 파일 크기 자원 제한을 초과하도록 쓰기 시도가 이뤄졌다. 이로 인해 프로세스가 <code>SIGXFSZ</code> 시그널도 받게 될 수 있다.</dd>
 <dt><code>EINVAL</code></dt>
-<dd>요청 범위가 출발 파일의 끝을 벗어난다. 또는 <code>flags</code> 인자가 0이 아니다.</dd>
+<dd><code>flags</code> 인자가 0이 아니다.</dd>
+<dt><code>EINVAL</code></dt>
+<dd><code>fd_in</code>과 <code>fd_out</code>이 같은 파일을 가리키며 출발지 범위와 목적지 범위가 겹친다.</dd>
+<dt><code>EINVAL</code></dt>
+<dd><code>fd_in</code>이나 <code>fd_out</code>이 정규 파일이 아니다.</dd>
 <dt><code>EIO</code></dt>
 <dd>복사 중에 저수준 I/O 오류가 발생했다.</dd>
 <dt><code>EISDIR</code></dt>
@@ -190,43 +202,39 @@ ssize_t copy_file_range(int fd_in, loff_t *off_in,
 <dt><code>ENOMEM</code></dt>
 <dd>메모리 부족.</dd>
 <dt><code>ENOSPC</code></dt>
-<dd>대상 파일 시스템에 복사를 완료하기 위한 충분한 공간이 없다.</dd>
+<dd>목적지 파일 시스템에 복사를 완료하기 위한 충분한 공간이 없다.</dd>
+<dt><code>EOVERFLOW</code></dt>
+<dd>요청한 출발지 내지 목적지 범위가 너무 커서 명세된 데이터 타입으로 표현할 수 없다.</dd>
+<dt><code>EPERM</code></dt>
+<dd><code>fd_out</code>이 불변 파일을 가리키고 있다.</dd>
+<dt><code>ETXTBSY</code></dt>
+<dd><code>fd_in</code>이나 <code>fd_out</code>이 활성 상태의 스왑 파일을 가리키고 있다.</dd>
 <dt><code>EXDEV</code></dt>
-<dd><code>file_in</code>과 <code>file_out</code>이 가리키는 파일이 같은 파일 시스템 상에 있지 않다.</dd>
+<dd><code>fd_in</code>과 <code>fd_out</code>이 가리키는 파일이 같은 파일 시스템 상에 있지 않다. (리눅스 5.3 전)</dd>
 </dl>
 <h2 id="versions">VERSIONS</h2>
-<p>리눅스 4.5에서 <code>copy_file_range()</code> 시스템 호출이 처음 등장했다. glibc 2.27에서는 사용 가능하지 않은 경우 사용자 공간 에뮬레이션을 제공한다.</p>
+<p>리눅스 4.5에서 <code>copy_file_range()</code> 시스템 호출이 처음 등장했다. 이용 가능하지 않은 경우 glibc 2.27에서 사용자 공간 에뮬레이션을 제공한다.</p>
+<p>5.3에서 커널 구현을 크게 고치는 작업이 이뤄졌다. API에서 명확하게 규정돼 있지 않던 부분을 명확히 하고 앞선 커널들보다 API 제한치를 훨씬 엄격하게 검사한다. 응용들에선 5.3 커널의 동작 방식과 요구 사항을 목표로 하는 게 좋다.</p>
+<p>리눅스 5.3에서 파일 시스템 간 복사를 지원하기 시작했다. 그 전 커널에선 파일 시스템 간 복사 시도 시 -EXDEV를 반환하게 된다.</p>
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p><code>copy_file_range()</code> 시스템 호출은 비표준 리눅스 및 GNU 확장이다.</p>
 <h2 id="notes">NOTES</h2>
-<p><code>file_in</code>이 희소 파일이면 요청 범위 내에 존재하는 구멍을 <code>copy_file_range()</code>가 채워 버릴 수 있다. 루프 안에서 <code>copy_file_range()</code>를 호출하면서 <tt>[[lseek(2)]]</tt> <code>SEEK_DATA</code> 및 <code>SEEK_HOLE</code> 동작으로 데이터 세그먼트의 위치를 알아내는 방식이 좋을 수 있다.</p>
+<p><code>fd_in</code>이 희소 파일이면 요청 범위 내에 존재하는 구멍을 <code>copy_file_range()</code>가 채워 버릴 수 있다. 루프 안에서 <code>copy_file_range()</code>를 호출하면서 <tt><a class="wikilink" href="/man-pages-ko/lseek(2)/">lseek(2)</a></tt> <code>SEEK_DATA</code> 및 <code>SEEK_HOLE</code> 동작으로 데이터 세그먼트의 위치를 알아내는 방식이 좋을 수 있다.</p>
 <p><code>copy_file_range()</code>는 파일 시스템에서 reflink(즉 여러 아이노드가 동일 copy-on-write 디스크 블록에 대한 포인터 공유)나 서버 측 복사(NFS인 경우) 사용 같은 "복사 가속" 기법을 적용할 기회를 준다.</p>
-<h2 id="example">EXAMPLE</h2>
-<pre><code class="c">#define _GNU_SOURCE
+<h2 id="examples">EXAMPLES</h2>
+<pre><code class="language-c">#define _GNU_SOURCE
 #include &lt;fcntl.h&gt;
 #include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
 #include &lt;sys/stat.h&gt;
-#include &lt;sys/syscall.h&gt;
 #include &lt;unistd.h&gt;
-
-/* glibc 2.27 전 버전에서는 syscall(2)로 copy_file_range()를
-   호출해야 한다. */
-
-static loff_t
-copy_file_range(int fd_in, loff_t *off_in, int fd_out,
-                loff_t *off_out, size_t len, unsigned int flags)
-{
-    return syscall(__NR_copy_file_range, fd_in, off_in, fd_out,
-                   off_out, len, flags);
-}
 
 int
 main(int argc, char **argv)
 {
     int fd_in, fd_out;
     struct stat stat;
-    loff_t len, ret;
+    off64_t len, ret;
 
     if (argc != 3) {
         fprintf(stderr, &quot;Usage: %s &lt;source&gt; &lt;destination&gt;\n&quot;, argv[0]);
@@ -260,18 +268,17 @@ main(int argc, char **argv)
         }
 
         len -= ret;
-    } while (len &gt; 0);
+    } while (len &gt; 0 &amp;&amp; ret &gt; 0);
 
     close(fd_in);
     close(fd_out);
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[lseek(2)]]</tt>, <tt>[[sendfile(2)]]</tt>, <tt>[[splice(2)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/lseek(2)/">lseek(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sendfile(2)/">sendfile(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/splice(2)/">splice(2)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

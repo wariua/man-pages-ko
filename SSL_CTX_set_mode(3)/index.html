@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/SSL_CTX_set_mode(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/SSL_CTX_set_mode%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>SSL CTX set mode(3) - man-pages-ko</title>
+    <title>SSL_CTX_set_mode(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -150,7 +150,7 @@
 <h2 id="name">NAME</h2>
 <p>SSL_CTX_set_mode, SSL_set_mode, SSL_CTX_get_mode, SSL_get_mode - SSL 엔진 모드 조작하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;openssl/ssl.h&gt;
+<pre><code class="language-c">#include &lt;openssl/ssl.h&gt;
 
 long SSL_CTX_set_mode(SSL_CTX *ctx, long mode);
 long SSL_set_mode(SSL *ssl, long mode);
@@ -158,7 +158,6 @@ long SSL_set_mode(SSL *ssl, long mode);
 long SSL_CTX_get_mode(SSL_CTX *ctx);
 long SSL_get_mode(SSL *ssl);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>SSL_CTX_set_mode()</code>는 <code>mode</code>의 비트마스크에 설정한 모드를 <code>ctx</code>에 추가한다. 이미 설정한 옵션들은 해제되지 않는다.</p>
 <p><code>SSL_set_mode()</code>는 <code>mode</code>의 비트마스크에 설정한 모드를 <code>ssl</code>에 추가한다. 이미 설정한 옵션들은 해제되지 않는다.</p>

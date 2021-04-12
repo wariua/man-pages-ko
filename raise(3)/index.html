@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/raise(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/raise%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Raise(3) - man-pages-ko</title>
+    <title>raise(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -150,25 +150,22 @@
 <h2 id="name">NAME</h2>
 <p>raise - 호출자에게 시그널 보내기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;signal.h&gt;
+<pre><code class="language-c">#include &lt;signal.h&gt;
 
 int raise(int sig);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>raise()</code> 함수는 호출 프로세스 내지 스레드에게 시그널을 보낸다.  단일 스레드 프로그램에서는 다음과 동등하다.</p>
-<pre><code class="c">kill(getpid(), sig);
+<pre><code class="language-c">kill(getpid(), sig);
 </code></pre>
-
 <p>다중 스레드 프로그램에서는 다음과 동등하다.</p>
-<pre><code class="c">pthread_kill(pthread_self(), sig);
+<pre><code class="language-c">pthread_kill(pthread_self(), sig);
 </code></pre>
-
 <p>시그널로 인해 핸들러가 호출되는 경우 시그널 핸들러가 반환한 후에야 <code>raise()</code>가 반환하게 된다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p><code>raise()</code>는 성공 시 0을 반환하고 실패 시 0 아닌 값을 반환한다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -188,11 +185,11 @@ int raise(int sig);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008, C89, C99.</p>
 <h2 id="notes">NOTES</h2>
-<p>버전 2.3.3부터 glibc에서는 커널이 <tt>[[tgkill(2)]]</tt> 시스템 호출을 지원하는 경우 이를 호출하는 것으로 <code>raise()</code>를 구현한다. 그 전의 glibc 버전들에서는 <tt>[[kill(2)]]</tt>을 이용해 <code>raise()</code>를 구현했다.</p>
+<p>버전 2.3.3부터 glibc에서는 커널이 <tt><a class="wikilink" href="/man-pages-ko/tgkill(2)/">tgkill(2)</a></tt> 시스템 호출을 지원하는 경우 이를 호출하는 것으로 <code>raise()</code>를 구현한다. 그 전의 glibc 버전들에서는 <tt><a class="wikilink" href="/man-pages-ko/kill(2)/">kill(2)</a></tt>을 이용해 <code>raise()</code>를 구현했다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[getpid(2)]]</tt>, <tt>[[kill(2)]]</tt>, <tt>[[sigaction(2)]]</tt>, <tt>[[signal(2)]]</tt>, <tt>[[pthread_kill(3)]]</tt>, <tt>[[signal(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/getpid(2)/">getpid(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/kill(2)/">kill(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigaction(2)/">sigaction(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/signal(2)/">signal(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_kill(3)/">pthread_kill(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt></p>
 <hr />
-<p>2015-08-08</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/strftime(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/strftime%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Strftime(3) - man-pages-ko</title>
+    <title>strftime(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -148,7 +148,7 @@
             <li class="second-level"><a href="#glibc">glibc 참고 사항</a></li>
                 
         <li class="first-level "><a href="#bugs">BUGS</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
             <li class="second-level"><a href="#_1">예시 프로그램</a></li>
                 
             <li class="second-level"><a href="#_2">프로그램 소스</a></li>
@@ -161,14 +161,14 @@
 <h2 id="name">NAME</h2>
 <p>strftime - 날짜 및 시간 서식화</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;time.h&gt;
+<pre><code class="language-c">#include &lt;time.h&gt;
 
-size_t strftime(char *s, size_t max, const char *format,
-                const struct tm *tm);
+size_t strftime(char *restrict s, size_t max,
+                const char *restrict format,
+                const struct tm *restrict tm);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
-<p><code>strftime()</code> 함수는 분할 시간 <code>tm</code>을 서식 <code>format</code>에 따라 변환해서 그 결과를 크기 <code>max</code>인 문자 배열 <code>s</code>에 집어넣는다. 분할 시간 구조체 <code>tm</code>은 <code>&lt;time.h&gt;</code>에 정의돼 있다. <tt>[[ctime(3)]]</tt>도 참고.</p>
+<p><code>strftime()</code> 함수는 분할 시간 <code>tm</code>을 서식 <code>format</code>에 따라 변환해서 그 결과를 크기 <code>max</code>인 문자 배열 <code>s</code>에 집어넣는다. 분할 시간 구조체 <code>tm</code>은 <code>&lt;time.h&gt;</code>에 정의돼 있다. <tt><a class="wikilink" href="/man-pages-ko/ctime(3)/">ctime(3)</a></tt>도 참고.</p>
 <p>서식은 널 종료 문자열이며 <em>변환 지정자</em>라는 특별한 문자 열을 포함할 수 있다. 각 변환 지정자는 '%' 문자로 시작해서 <em>변환 지정 문자</em>라는 어떤 다른 문자로 끝난다. 그 외의 모든 문자 열은 <em>일반 문자 열</em>이다.</p>
 <p>일반 문자 열의 문자들(널 바이트 포함)은 <code>format</code>에서 <code>s</code>로 그대로 복사한다. 하지만 변환 지정자의 문자들은 아래 목록에 나온 대로 바꿔서 넣는다. 이 목록에는 <code>tm</code> 구조체의 이용 필드(들)도 적혀 있다.</p>
 <table>
@@ -181,27 +181,27 @@ size_t strftime(char *s, size_t max, const char *format,
 <tbody>
 <tr>
 <td><code>%a</code></td>
-<td>현재 로캘에 따른 요일 축약 이름. (<code>tm_wday</code>로 계산)</td>
+<td>현재 로캘에 따른 요일 축약 이름. (<code>tm_wday</code>로 계산) (<code>ABDAY_{1-7}</code>을 인자로 <tt><a class="wikilink" href="/man-pages-ko/nl_langinfo(3)/">nl_langinfo(3)</a></tt>를 호출해서 현재 로캘에서 쓰는 구체적 이름을 얻을 수 있다.)</td>
 </tr>
 <tr>
 <td><code>%A</code></td>
-<td>현재 로캘에 따른 요일 원래 이름. (<code>tm_wday</code>로 계산)</td>
+<td>현재 로캘에 따른 요일 원래 이름. (<code>tm_wday</code>로 계산) (<code>DAY_{1-7}</code>을 인자로 <tt><a class="wikilink" href="/man-pages-ko/nl_langinfo(3)/">nl_langinfo(3)</a></tt>를 호출해서 현재 로캘에서 쓰는 구체적 이름을 얻을 수 있다.)</td>
 </tr>
 <tr>
 <td><code>%b</code></td>
-<td>현재 로캘에 따른 월 축약 이름. (<code>tm_mon</code>으로 계산)</td>
+<td>현재 로캘에 따른 월 축약 이름. (<code>tm_mon</code>으로 계산) (<code>ABMON_{1-12}</code>를 인자로 <tt><a class="wikilink" href="/man-pages-ko/nl_langinfo(3)/">nl_langinfo(3)</a></tt>를 호출해서 현재 로캘에서 쓰는 구체적 이름을 얻을 수 있다.)</td>
 </tr>
 <tr>
 <td><code>%B</code></td>
-<td>현재 로캘에 따른 월 원래 이름. (<code>tm_mon</code>으로 계산)</td>
+<td>현재 로캘에 따른 월 원래 이름. (<code>tm_mon</code>으로 계산) (<code>MON_{1-12}</code>를 인자로 <tt><a class="wikilink" href="/man-pages-ko/nl_langinfo(3)/">nl_langinfo(3)</a></tt>를 호출해서 현재 로캘에서 쓰는 구체적 이름을 얻을 수 있다.)</td>
 </tr>
 <tr>
 <td><code>%c</code></td>
-<td>현재 로캘에서 많이 쓰는 날짜 및 시간 표현.</td>
+<td>현재 로캘에서 많이 쓰는 날짜 및 시간 표현. (<code>%c</code> 변환 지정자는 <code>D_T_FMT</code>를, <code>%Ec</code> 변환 지정자는 <code>ERA_D_T_FMT</code>를 인자로 <tt><a class="wikilink" href="/man-pages-ko/nl_langinfo(3)/">nl_langinfo(3)</a></tt>를 호출해서 현재 로캘에서 쓰는 구체적 이름을 얻을 수 있다.) (POSIX 로캘에서는 <code>%a %b %e %H:%M:%S %Y</code>와 같다.)</td>
 </tr>
 <tr>
 <td><code>%C</code></td>
-<td>2자리 정수로 된 세기 번호 (년/100). (SU) (<code>tm_year</code>로 계산)</td>
+<td>2자리 정수로 된 세기 번호 (년/100). (SU) (<code>%EC</code> 변환 지정자는 시대 이름에 해당한다.) (<code>tm_year</code>로 계산)</td>
 </tr>
 <tr>
 <td><code>%d</code></td>
@@ -217,7 +217,7 @@ size_t strftime(char *s, size_t max, const char *format,
 </tr>
 <tr>
 <td><code>%E</code></td>
-<td>수식자: 다른 형식 사용. 아래 참고. (SU)</td>
+<td>수식자: 대체 ("시대 기반") 형식 사용. 아래 참고. (SU)</td>
 </tr>
 <tr>
 <td><code>%F</code></td>
@@ -225,7 +225,7 @@ size_t strftime(char *s, size_t max, const char *format,
 </tr>
 <tr>
 <td><code>%G</code></td>
-<td>ISO 8601 주 기준의 세기 포함한 십진수로 된 연도. (NOTES 참고.) 4자리 연도가 ISO 주 번호(<code>%V</code> 참고)에 부합한다. 그래서 <code>%Y</code>와 형식 및 값이 같되 ISO 주 번호가 지난해나 다음해에 속하면 그 연도를 쓴다. (TZ) (<code>tm_year</code>, <code>tm_yday</code>, <code>tm_wday</code>로 계산)</td>
+<td>ISO 8601 주 기준의 세기 포함한 십진수로 된 연도. (NOTES 참고.) ISO 주 번호(<code>%V</code> 참고)에 부합하는 4자리 연도. <code>%Y</code>와 형식 및 값이 같되 ISO 주 번호가 지난해나 다음해에 속하면 그 연도를 쓴다. (TZ) (<code>tm_year</code>, <code>tm_yday</code>, <code>tm_wday</code>로 계산)</td>
 </tr>
 <tr>
 <td><code>%g</code></td>
@@ -269,11 +269,11 @@ size_t strftime(char *s, size_t max, const char *format,
 </tr>
 <tr>
 <td><code>%O</code></td>
-<td>수식자: 다른 형식 사용. 아래 참고. (SU)</td>
+<td>수식자: 대체 숫자 심볼 사용. 아래 참고. (SU)</td>
 </tr>
 <tr>
 <td><code>%p</code></td>
-<td>해당 시간 값에 따라 "AM"이나 "PM", 또는 현재 로캘의 해당 문자열. 정오는 "PM"으로 취급하고 자정은 "AM"으로 취급한다. (<code>tm_hour</code>로 계산)</td>
+<td>해당 시간 값에 따라 "AM"이나 "PM", 또는 현재 로캘의 해당 문자열. 정오는 "PM"으로 취급하고 자정은 "AM"으로 취급한다. (<code>tm_hour</code>로 계산) (각기 <code>AM_STR</code> 및 <code>PM_STR</code>을 인자로 <tt><a class="wikilink" href="/man-pages-ko/nl_langinfo(3)/">nl_langinfo(3)</a></tt>를 호출해서 현재 로캘에서 "AM" 및 "PM"에 대해 쓰는 구체적 문자열 표현을 얻을 수 있다.)</td>
 </tr>
 <tr>
 <td><code>%P</code></td>
@@ -281,7 +281,7 @@ size_t strftime(char *s, size_t max, const char *format,
 </tr>
 <tr>
 <td><code>%r</code></td>
-<td>오전 오후를 표기한 시간. POSIX 로캘에서는 <code>%I:%M:%S %p</code>와 같다. (SU)</td>
+<td>오전 오후를 표기한 시간. (SU) (<code>T_FMT_AMPM</code>을 인자로 <tt><a class="wikilink" href="/man-pages-ko/nl_langinfo(3)/">nl_langinfo(3)</a></tt>를 호출해서 현재 로캘에서 쓰는 구체적 형식을 얻을 수 있다.) (POSIX 로캘에서는 <code>%I:%M:%S %p</code>와 같다.)</td>
 </tr>
 <tr>
 <td><code>%R</code></td>
@@ -325,19 +325,19 @@ size_t strftime(char *s, size_t max, const char *format,
 </tr>
 <tr>
 <td><code>%x</code></td>
-<td>현재 로캘에서 많이 쓰는 시간 없는 날짜 표현.</td>
+<td>현재 로캘에서 많이 쓰는 시간 없는 날짜 표현. (<code>%x</code> 변환 지정자는 <code>D_FMT</code>를, <code>%Ex</code> 변환 지정자는 <code>ERA_D_FMT</code>를 인자로 <tt><a class="wikilink" href="/man-pages-ko/nl_langinfo(3)/">nl_langinfo(3)</a></tt>를 호출해서 현재 로캘에서 쓰는 구체적 형식을 얻을 수 있다.) (POSIX 로캘에서는 <code>%m/%d/%y</code>와 같다.)</td>
 </tr>
 <tr>
 <td><code>%X</code></td>
-<td>현재 로캘에서 많이 쓰는 날짜 없는 시간 표현.</td>
+<td>현재 로캘에서 많이 쓰는 날짜 없는 시간 표현. (<code>%X</code> 변환 지정자는 <code>T_FMT</code>를, <code>%EX</code> 변환 지정하는 <code>ERA_T_FMT</code>를 인자로 <tt><a class="wikilink" href="/man-pages-ko/nl_langinfo(3)/">nl_langinfo(3)</a></tt>를 호출해서 현재 로캘에서 쓰는 구체적 형식을 얻을 수 있다.) (POSIX 로캘에서는 <code>%H:%M:%S</code>와 같다.)</td>
 </tr>
 <tr>
 <td><code>%y</code></td>
-<td>세기 없이 십진수로 된 연도. (00에서 99까지) (<code>tm_year</code>로 계산)</td>
+<td>세기 없이 십진수로 된 연도. (00에서 99까지) (<code>%Ey</code> 변환 지정자는 <code>%EC</code> 변환 지정자가 나타내는 시대 시작점부터의 연도에 해당한다.) (<code>tm_year</code>로 계산)</td>
 </tr>
 <tr>
 <td><code>%Y</code></td>
-<td>세기 포함한 십진수로 된 연도. (<code>tm_year</code>로 계산)</td>
+<td>세기 포함한 십진수로 된 연도. (<code>%EY</code> 변환 지정자는 완전한 대체 연도 표현 방식에 해당한다.) (<code>tm_year</code>로 계산)</td>
 </tr>
 <tr>
 <td><code>%z</code></td>
@@ -357,14 +357,14 @@ size_t strftime(char *s, size_t max, const char *format,
 </tr>
 </tbody>
 </table>
-<p>몇몇 변환 지정자들에선 변환 지정 문자 앞에 <code>E</code>나 <code>O</code> <em>수식자</em>를 붙여서 대체 형식을 써야 한다고 표시할 수 있다. 현재 로캘에서 대체 형식 내지 지정자가 존재하지 않는 경우에는 수식 없이 변환 지정자를 쓴 것처럼 동작하게 된다. (SU) 단일 유닉스 규격에서는 <code>%Ec</code>, <code>%EC</code>, <code>%Ex</code>, <code>%EX</code>, <code>%Ey</code>, <code>%EY</code>, <code>%Od</code>, <code>%Oe</code>, <code>%OH</code>, <code>%OI</code>, <code>%Om</code>, <code>%OM</code>, <code>%OS</code>, <code>%Ou</code>, <code>%OU</code>, <code>%OV</code>, <code>%Ow</code>, <code>%OW</code>, <code>%Oy</code>를 언급하는데, <code>O</code> 수식자의 효과는 대체 숫자 심볼(가령 로마 숫자)을 쓰는 것이고 <code>E</code> 수식자의 효과는 로캘별 대체 표현을 쓰는 것이다.</p>
+<p>몇몇 변환 지정자들에선 변환 지정 문자 앞에 <code>E</code>나 <code>O</code> <em>수식자</em>를 붙여서 대체 형식을 써야 한다고 표시할 수 있다. 현재 로캘에서 대체 형식 내지 지정자가 존재하지 않는 경우에는 수식 없이 변환 지정자를 쓴 것처럼 동작하게 된다. (SU) 단일 유닉스 규격에서는 <code>%Ec</code>, <code>%EC</code>, <code>%Ex</code>, <code>%EX</code>, <code>%Ey</code>, <code>%EY</code>, <code>%Od</code>, <code>%Oe</code>, <code>%OH</code>, <code>%OI</code>, <code>%Om</code>, <code>%OM</code>, <code>%OS</code>, <code>%Ou</code>, <code>%OU</code>, <code>%OV</code>, <code>%Ow</code>, <code>%OW</code>, <code>%Oy</code>를 언급하는데, <code>O</code> 수식자의 효과는 대체 숫자 심볼(가령 로마 숫자)을 쓰는 것이고 <code>E</code> 수식자의 효과는 로캘별 대체 표현을 쓰는 것이다. <code>ERA</code>를 <tt><a class="wikilink" href="/man-pages-ko/nl_langinfo(3)/">nl_langinfo(3)</a></tt>에 인자로 주어 <code>E</code> 수식자 있는 날짜 표현을 규정하는 규칙을 얻을 수 있다. 그런 대체 형식의 한 예가 <code>ja_JP</code> glibc 로캘의 일본 시대 역법 체계이다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>결과 문자열이 종료 널 바이트를 포함해서 <code>max</code> 바이트를 초과하지 않는 경우에는 배열 <code>s</code>에 집어넣은 (종료 널 바이트를 뺀) 바이트 수를 <code>strftime()</code>이 반환한다. 결과 문자열의 (종료 널 바이트 포함) 길이가 <code>max</code> 바이트를 넘게 될 경우에는 <code>strftime()</code>이 0을 반환하며, 이때 배열의 내용물은 규정돼 있지 않다.</p>
 <p>참고로 반환 값 0이 반드시 오류를 나타내는 건 아니다. 예를 들어 여러 로캘에서 <code>%p</code>는 빈 문자열이 된다. <code>format</code> 문자열이 비어 있어도 마찬가지로 빈 문자열이 나온다.</p>
 <h2 id="environment">ENVIRONMENT</h2>
 <p>환경 변수 <code>TZ</code> 및 <code>LC_TIME</code>을 쓴다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -386,7 +386,7 @@ size_t strftime(char *s, size_t max, const char *format,
 <p>SUSv2에서는 <code>%S</code> 변환자의 허용 범위가 00에서 61까지이다. 이는 1분에 윤초가 두 번 포함될 수 있는 이론적 가능성에 대비하기 위한 것이다. (지금까지 그런 경우는 한 번도 없었다.)</p>
 <h2 id="notes">NOTES</h2>
 <h3 id="iso-8601">ISO 8601 주 날짜</h3>
-<p><code>%G</code>, <code>%g</code>, <code>%V</code>는 ISO 8601 표준에 정의된 주 기준 연도로부터 계산한 값들을 내놓는다. 이 체계에서는 월요일부터 한 주가 시작하며, 첫 번째 주에 01번을 붙이고 마지막 주는 52번이나 53번이 된다. 1번 주는 4일 이상이 새해에 속하는 첫 번째 주이다. (즉 01번 주는 목요일을 포함한 그해 첫째 주이기도 하고, 1월 4일을 포함한 주이기도 하다.) 새해의 달력 첫 번째 주에서 3일 이하가 그해에 속할 때 ISO 8601 주 기반 체계에서는 그 날들을 전해의 53번 주로 계산한다. 예를 들어 2010년 1월 1일은 금요일이고, 그래서 그 달력 주의 3일만 2010년에 속한다. 따라서 ISO 8601 주 기반 체계에서는 그 날들을 2009년(<code>%G</code>)의 53번 주(<code>%V</code>)에 포함되는 걸로 본다. 즉 ISO 8601 기준 2010년의 01번 주는 2010년 1월 4일 월요일에 시작한다.</p>
+<p><code>%G</code>, <code>%g</code>, <code>%V</code>는 ISO 8601 표준에 정의된 주 기준 연도로부터 계산한 값들을 내놓는다. 이 체계에서는 월요일부터 한 주가 시작하며, 첫 번째 주에 01번을 붙이고 마지막 주는 52번이나 53번이 된다. 1번 주는 4일 이상이 새해에 속하는 첫 번째 주이다. (즉 01번 주는 목요일을 포함한 그해 첫째 주이기도 하고, 1월 4일을 포함한 주이기도 하다.) 새해의 달력 첫 번째 주에서 3일 이하가 그해에 속할 때 ISO 8601 주 기반 체계에서는 그 날들을 전해의 52번 내지 53번 주로 계산한다. 예를 들어 2010년 1월 1일은 금요일이고, 그래서 그 달력 주의 3일만 2010년에 속한다. 따라서 ISO 8601 주 기반 체계에서는 그 날들을 2009년(<code>%G</code>)의 53번 주(<code>%V</code>)에 포함되는 걸로 본다. 즉 ISO 8601 기준 2010년의 01번 주는 2010년 1월 4일 월요일에 시작한다. 마찬가지로 2011년 1월의 처음 이틀은 2010년의 52번 주에 포함되는 걸로 본다.</p>
 <h3 id="glibc">glibc 참고 사항</h3>
 <p>glibc에서는 변환 지정자 확장을 몇 가지 제공한다. (이 확장들은 POSIX.1-2001에 명세돼 있지 않지만 몇몇 다른 시스템에서도 비슷한 기능을 제공한다.) '%' 문자와 변환 지정 문자 사이에 선택적으로 플래그와 필드 폭을 지정할 수 있다. (<code>E</code> 및 <code>O</code> 수식자가 있는 경우에는 그 앞에 온다.)</p>
 <p>다음 플래그 문자들을 허용한다.</p>
@@ -424,37 +424,33 @@ size_t strftime(char *s, size_t max, const char *format,
 <h2 id="bugs">BUGS</h2>
 <p>출력 문자열이 <code>max</code> 바이트를 넘게 될 경우에 <code>errno</code>를 설정하지 <em>않는다</em>. 이 때문에 그 오류 경우와 <code>format</code> 문자열이 적법하게 길이 0인 출력 문자열을 만들어 내는 경우를 구별할 수 없다. POSIX.1-2001에서는 <code>strftime()</code>에 대해 어떤 <code>errno</code> 설정도 명세하고 있지 <em>않다</em>.</p>
 <p>일부 버그 있는 <code>gcc(1)</code> 버전들에서는 <code>%c</code> 사용 시 <em>warning: `%c' yields only last 2 digits of year in some locales</em>라고 나온다. 물론 프로그래머들은 많이 쓰는 날짜 및 시간 표현이 나오는 <code>%c</code>를 쓰는 게 바람직하다. 이런 <code>gcc(1)</code> 문제를 피하기 위한 온갖 희한한 위장 방법들을 만날 수 있는데, 그 중 비교적 깔끔한 방식은 중계 함수를 추가하는 것이다.</p>
-<pre><code class="c">size_t
+<pre><code class="language-c">size_t
 my_strftime(char *s, size_t max, const char *fmt,
             const struct tm *tm)
 {
     return strftime(s, max, fmt, tm);
 }
 </code></pre>
-
 <p>요즘은 <code>gcc(1)</code>에 <code>-Wno-format-y2k</code> 옵션이 있어서 그 경고를 막을 수 있으므로 위 우회 방법이 더는 필요치 않다.</p>
-<h2 id="example">EXAMPLE</h2>
+<h2 id="examples">EXAMPLES</h2>
 <p>RFC 2822 준수 날짜 형식 (%a 및 %b에는 영어 로캘)</p>
-<pre><code class="c">&quot;%a, %d %b %Y %T %z&quot;
+<pre><code class="language-c">&quot;%a, %d %b %Y %T %z&quot;
 </code></pre>
-
 <p>RFC 822 준수 날짜 형식 (%a 및 %b에는 영어 로캘)</p>
-<pre><code class="c">&quot;%a, %d %b %y %T %z&quot;
+<pre><code class="language-c">&quot;%a, %d %b %y %T %z&quot;
 </code></pre>
-
 <h3 id="_1">예시 프로그램</h3>
 <p>아래 프로그램으로 <code>strftime()</code> 동작을 실험해 볼 수 있다.</p>
 <p>다음은 glibc의 <code>strftime()</code> 구현이 내놓는 결과 문자열 예시이다.</p>
-<pre><code class="text">$ ./a.out '%m'
+<pre><code class="language-text">$ ./a.out '%m'
 Result string is &quot;11&quot;
 $ ./a.out '%5m'
 Result string is &quot;00011&quot;
 $ ./a.out '%_5m'
 Result string is &quot;   11&quot;
 </code></pre>
-
 <h3 id="_2">프로그램 소스</h3>
-<pre><code class="c">#include &lt;time.h&gt;
+<pre><code class="language-c">#include &lt;time.h&gt;
 #include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
 
@@ -481,11 +477,10 @@ main(int argc, char *argv[])
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>date(1)</code>, <tt>[[time(2)]]</tt>, <tt>[[ctime(3)]]</tt>, <tt>[[setlocale(3)]]</tt>, <tt>[[sprintf(3)]]</tt>, <tt>[[strptime(3)]]</tt></p>
+<p><code>date(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/time(2)/">time(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ctime(3)/">ctime(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/nl_langinfo(3)/">nl_langinfo(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/setlocale(3)/">setlocale(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sprintf(3)/">sprintf(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/strptime(3)/">strptime(3)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

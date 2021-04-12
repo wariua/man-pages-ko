@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/splice(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/splice%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Splice(2) - man-pages-ko</title>
+    <title>splice(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -143,7 +143,7 @@
         <li class="first-level "><a href="#versions">VERSIONS</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
@@ -152,13 +152,12 @@
 <h2 id="name">NAME</h2>
 <p>splice - 파이프에 데이터 이어 붙이기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
+<pre><code class="language-c">#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
 #include &lt;fcntl.h&gt;
 
-ssize_t splice(int fd_in, loff_t *off_in, int fd_out,
-               loff_t *off_out, size_t len, unsigned int flags);
+ssize_t splice(int fd_in, off64_t *off_in, int fd_out,
+               off64_t *off_out, size_t len, unsigned int flags);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>splice()</code>는 커널 주소 공간과 사용자 주소 공간 사이 복사 없이 두 파일 디스크립터 간에 데이터를 옮긴다. 파일 디스크립터 <code>fd_in</code>에서 파일 디스크립터 <code>fd_out</code>으로 최대 <code>len</code> 바이트까지 데이터를 이동시키는데, 두 파일 디스크립터 중 하나는 파이프를 가리켜야 한다.</p>
 <p><code>fd_in</code>과 <code>off_in</code>에 다음 의미론이 적용된다.</p>
@@ -181,9 +180,9 @@ ssize_t splice(int fd_in, loff_t *off_in, int fd_out,
 <dt><code>SPLICE_F_NONBLOCK</code></dt>
 <dd>I/O에서 블록 하지 않는다. 파이프 이어 붙이기 동작을 논블록 방식으로 만든다. 그래도 <code>splice()</code>가 블록 할 수도 있다. 이어 붙이는 파일 디스크립터에서 (<code>O_NONBLOCK</code> 플래그가 설정되어 있지 않다면) 블록 할 수도 있기 때문이다.</dd>
 <dt><code>SPLICE_F_MORE</code></dt>
-<dd>이어지는 <code>splice()</code>로 데이터가 더 올 예정이다. <code>fd_out</code>이 소켓을 가리키는 경우에 유용한 힌트이다. (<tt>[[send(2)]]</tt>의 <code>MSG_MORE</code> 설명과 <tt>[[tcp(7)]]</tt>의 <code>TCP_CORK</code> 설명 참고.)</dd>
+<dd>이어지는 <code>splice()</code>로 데이터가 더 올 예정이다. <code>fd_out</code>이 소켓을 가리키는 경우에 유용한 힌트이다. (<tt><a class="wikilink" href="/man-pages-ko/send(2)/">send(2)</a></tt>의 <code>MSG_MORE</code> 설명과 <tt><a class="wikilink" href="/man-pages-ko/tcp(7)/">tcp(7)</a></tt>의 <code>TCP_CORK</code> 설명 참고.)</dd>
 <dt><code>SPLICE_F_GIFT</code></dt>
-<dd><code>splice()</code>에서는 쓰지 않는다. <tt>[[vmsplice(2)]]</tt> 참고.</dd>
+<dd><code>splice()</code>에서는 쓰지 않는다. <tt><a class="wikilink" href="/man-pages-ko/vmsplice(2)/">vmsplice(2)</a></tt> 참고.</dd>
 </dl>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 완료 시 <code>splice()</code>는 파이프에 이어 붙인 바이트 수를 반환한다.</p>
@@ -215,23 +214,23 @@ ssize_t splice(int fd_in, loff_t *off_in, int fd_out,
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>이 시스템 호출은 리눅스 전용이다.</p>
 <h2 id="notes">NOTES</h2>
-<p>세 가지 시스템 호출 <code>splice()</code>, <tt>[[vmsplice(2)]]</tt>, <tt>[[tee(2)]]</tt>를 통해 사용자 프로그램에서 임의 커널 버퍼를 완전히 제어할 수 있는데, 그 버퍼는 커널 내에서 파이프에 쓰는 버퍼와 같은 타입으로 구현되어 있다. 이 시스템 호출들은 대략 다음 작업을 수행한다.</p>
+<p>세 가지 시스템 호출 <code>splice()</code>, <tt><a class="wikilink" href="/man-pages-ko/vmsplice(2)/">vmsplice(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/tee(2)/">tee(2)</a></tt>를 통해 사용자 프로그램에서 임의 커널 버퍼를 완전히 제어할 수 있는데, 그 버퍼는 커널 내에서 파이프에 쓰는 버퍼와 같은 타입으로 구현되어 있다. 이 시스템 호출들은 대략 다음 작업을 수행한다.</p>
 <dl>
 <dt><code>splice()</code></dt>
 <dd>버퍼에서 임의 파일 디스크립터로, 또는 반대로, 또는 한 버퍼에서 다른 버퍼로 데이터를 옮긴다.</dd>
-<dt><tt>[[tee(2)]]</tt></dt>
+<dt><tt><a class="wikilink" href="/man-pages-ko/tee(2)/">tee(2)</a></tt></dt>
 <dd>한 버퍼에서 다른 버퍼로 데이터를 "복사"한다.</dd>
-<dt><tt>[[vmsplice(2)]]</tt></dt>
+<dt><tt><a class="wikilink" href="/man-pages-ko/vmsplice(2)/">vmsplice(2)</a></tt></dt>
 <dd>사용자 공간에서 버퍼로 데이터를 "복사"한다.</dd>
 </dl>
 <p>복사라고 하지만 일반적으로 실제 복사를 피한다. 이를 위해 커널에서는 커널 메모리 페이지에 대한 참조 카운트 포인터들의 집합으로 파이프 버퍼를 구현한다. 페이지를 가리키는 (출력 버퍼를 위한) 새 포인터를 생성하고 그 페이지에 대한 참조 카운트를 올리는 것으로 버퍼 내에 페이지 "사본"을 생성한다. 즉, 버퍼 페이지가 아니라 포인터만 복사한다.</p>
 <p>리눅스 2.6.30 및 이전에서는 <code>fd_in</code>과 <code>fd_out</code> 중 한쪽만 파이프여야 했다. 리눅스 2.6.31부터 두 인자 모두 파이프를 가리킬 수 있다.</p>
-<h2 id="example">EXAMPLE</h2>
-<p><tt>[[tee(2)]]</tt> 참고.</p>
+<h2 id="examples">EXAMPLES</h2>
+<p><tt><a class="wikilink" href="/man-pages-ko/tee(2)/">tee(2)</a></tt> 참고.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[copy_file_range(2)]]</tt>, <tt>[[sendfile(2)]]</tt>, <tt>[[tee(2)]]</tt>, <tt>[[vmsplice(2)]]</tt>, <tt>[[pipe(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/copy_file_range(2)/">copy_file_range(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sendfile(2)/">sendfile(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/tee(2)/">tee(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/vmsplice(2)/">vmsplice(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pipe(7)/">pipe(7)</a></tt></p>
 <hr />
-<p>2019-05-09</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

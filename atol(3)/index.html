@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/atol(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/atol%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Atol(3) - man-pages-ko</title>
+    <title>atol(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -142,6 +142,7 @@
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#bugs">BUGS</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
@@ -150,29 +151,27 @@
 <h2 id="name">NAME</h2>
 <p>atoi, atol, atoll - 문자열을 정수로 변환하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;stdlib.h&gt;
+<pre><code class="language-c">#include &lt;stdlib.h&gt;
 
 int atoi(const char *nptr);
 long atol(const char *nptr);
 long long atoll(const char *nptr);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>atoll()</code>:</dt>
 <dd><code>_ISOC99_SOURCE</code><br>
-<code>|| /* glibc 버전 &lt;= 2.19: */ _BSD_SOURCE || _SVID_SOURCE</code></dd>
+<code>|| /* glibc &lt;= 2.19: */ _BSD_SOURCE || _SVID_SOURCE</code></dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>atoi()</code> 함수는 <code>nptr</code>이 가리키는 문자열의 처음 부분을 <code>int</code>로 변환한다. 다음과 동작이 같되, <code>atoi()</code>에서는 오류를 감지하지 않는다.</p>
-<pre><code class="c">strtol(nptr, NULL, 10);
+<pre><code class="language-c">strtol(nptr, NULL, 10);
 </code></pre>
-
 <p><code>atol()</code>과 <code>atoll()</code> 함수는 <code>atoi()</code>와 동일하게 동작하되 문자열의 처음 부분을 반환 타입인 <code>long</code>이나 <code>long long</code>으로 변환한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>변환한 값.</p>
+<p>변환한 값, 또는 오류 시 0.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -192,11 +191,13 @@ long long atoll(const char *nptr);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008, C99, SVr4, 4.3BSD. C89와 POSIX.1-1996에는 함수 <code>atoi()</code>와 <code>atol()</code>만 있다.</p>
 <h2 id="notes">NOTES</h2>
-<p>리눅스 libc에서 <code>atoll()</code>의 구식 이름인 <code>atoq()</code>를 제공했다. glibc에서는 <code>atoq()</code>를 제공하지 않는다.</p>
+<p>POSIX.1에서 오류 시 <code>atoi()</code>의 반환 값을 명세하지 않은 채 남겨 두었다. glibc, musl libc, uClibc에서는 오류 시 0을 반환한다.</p>
+<h2 id="bugs">BUGS</h2>
+<p>오류 시 <code>errno</code>를 설정하지 않으므로 0이 오류인지 변환된 값인지 구별할 방법이 없다. 오버플로우나 언더플로우 검사를 전혀 하지 않는다. 기수 10인 입력만 변환할 수 있다. 새 프로그램에서는 <code>strtol()</code> 및 <code>strtoul()</code> 함수를 쓰기를 권장한다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[atof(3)]]</tt>, <tt>[[strtod(3)]]</tt>, <tt>[[strtol(3)]]</tt>, <tt>[[strtoul(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/atof(3)/">atof(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/strtod(3)/">strtod(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/strtol(3)/">strtol(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/strtoul(3)/">strtoul(3)</a></tt></p>
 <hr />
-<p>2016-03-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

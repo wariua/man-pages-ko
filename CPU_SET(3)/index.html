@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/CPU_SET(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/CPU_SET%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>CPU SET(3) - man-pages-ko</title>
+    <title>CPU_SET(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -145,7 +145,7 @@
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
         <li class="first-level "><a href="#bugs">BUGS</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
@@ -154,7 +154,7 @@
 <h2 id="name">NAME</h2>
 <p>CPU_SET, CPU_CLR, CPU_ISSET, CPU_ZERO, CPU_COUNT, CPU_AND, CPU_OR, CPU_XOR, CPU_EQUAL, CPU_ALLOC, CPU_ALLOC_SIZE, CPU_FREE, CPU_SET_S, CPU_CLR_S, CPU_ISSET_S, CPU_ZERO_S, CPU_COUNT_S, CPU_AND_S, CPU_OR_S, CPU_XOR_S, CPU_EQUAL_S - CPU 세트 조작을 위한 매크로</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#define _GNU_SOURCE             /* feature_test_macros(7) 참고 */
+<pre><code class="language-c">#define _GNU_SOURCE             /* feature_test_macros(7) 참고 */
 #include &lt;sched.h&gt;
 
 void CPU_ZERO(cpu_set_t *set);
@@ -195,9 +195,8 @@ void CPU_XOR_S(size_t setsize, cpu_set_t *destset,
 
 int  CPU_EQUAL_S(size_t setsize, cpu_set_t *set1, cpu_set_t *set2);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
-<p><code>cpu_set_t</code> 데이터 구조는 CPU들의 집합을 표현한다. <tt>[[sched_setaffinity(2)]]</tt> 및 유사 인터페이스들에서 CPU 세트를 사용한다.</p>
+<p><code>cpu_set_t</code> 데이터 구조는 CPU들의 집합을 표현한다. <tt><a class="wikilink" href="/man-pages-ko/sched_setaffinity(2)/">sched_setaffinity(2)</a></tt> 및 유사 인터페이스들에서 CPU 세트를 사용한다.</p>
 <p><code>cpu_set_t</code> 데이터 타입은 비트 마스크로 구현되어 있다. 하지만 이 자료 구조를 불투명한 것으로 다루어야 한다. 즉, 모든 CPU 세트 조작이 이 페이지에서 기술하는 매크로들을 통해 이뤄져야 한다.</p>
 <p>CPU 세트 <code>cpu</code>에 동작하는 다음 매크로들이 있다.</p>
 <dl>
@@ -241,7 +240,7 @@ int  CPU_EQUAL_S(size_t setsize, cpu_set_t *set1, cpu_set_t *set2);
 <p><code>CPU_ISSET()</code> 및 <code>CPU_ISSET_S()</code>는 <code>set</code>에 <code>cpu</code>가 설정되어 있으면 0 아닌 값을 반환한다. 아니면 0을 반환한다.</p>
 <p><code>CPU_COUNT()</code> 및 <code>CPU_COUNT_S()</code>는 <code>set</code> 내의 CPU 개수를 반환한다.</p>
 <p><code>CPU_EQUAL()</code> 및 <code>CPU_EQUAL_S()</code>는 두 CPU 세트가 같으면 0 아닌 값을 반환한다. 아니면 0을 반환한다.</p>
-<p><code>CPU_ALLOC()</code>은 성공 시 포인터를, 실패 시 NULL을 반환한다. (오류는 <tt>[[malloc(3)]]</tt>에서와 같다.)</p>
+<p><code>CPU_ALLOC()</code>은 성공 시 포인터를, 실패 시 NULL을 반환한다. (오류는 <tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt>에서와 같다.)</p>
 <p><code>CPU_ALLOC_SIZE()</code>는 지정한 크기의 CPU 세트를 저장하는 데 필요한 바이트 수를 반환한다.</p>
 <p>다른 함수들은 값을 반환하지 않는다.</p>
 <h2 id="versions">VERSIONS</h2>
@@ -257,9 +256,9 @@ int  CPU_EQUAL_S(size_t setsize, cpu_set_t *set1, cpu_set_t *set2);
 <p>SYNOPSIS에 나와 있는 인자와 반환 값의 데이터 타입은 각 경우에 무엇을 예상하는지에 대한 힌트이다. 하지만 이 인터페이스들은 매크로로 구현되어 있기 때문에 그 제안을 어긴 경우 컴파일러가 타입 오류들을 꼭 다 잡아 주지는 않을 것이다.</p>
 <h2 id="bugs">BUGS</h2>
 <p>glibc가 2.8 이전인 32비트 플랫폼에서 <code>CPU_ALLOC()</code>이 필요한 크기 두 배로 공간을 할당하며 <code>CPU_ALLOC_SIZE()</code>가 두 배로 값을 반환한다. 이 버그가 프로그램의 동작 결과에 영향을 주지는 않겠지만 메모리가 낭비되며 동적 할당 CPU 세트에 동작하는 매크로들이 덜 효율적으로 동작하게 된다. glibc 2.9에서 이 버그들이 수정되었다.</p>
-<h2 id="example">EXAMPLE</h2>
+<h2 id="examples">EXAMPLES</h2>
 <p>다음 프로그램은 동적 할당 CPU 세트에 쓰는 매크로 몇 가지의 사용 방식을 보여 준다.</p>
-<pre><code class="c">#define _GNU_SOURCE
+<pre><code class="language-c">#define _GNU_SOURCE
 #include &lt;sched.h&gt;
 #include &lt;stdlib.h&gt;
 #include &lt;unistd.h&gt;
@@ -271,7 +270,7 @@ main(int argc, char *argv[])
 {
     cpu_set_t *cpusetp;
     size_t size;
-    int num_cpus, cpu;
+    int num_cpus;
 
     if (argc &lt; 2) {
         fprintf(stderr, &quot;Usage: %s &lt;num-cpus&gt;\n&quot;, argv[0]);
@@ -289,7 +288,7 @@ main(int argc, char *argv[])
     size = CPU_ALLOC_SIZE(num_cpus);
 
     CPU_ZERO_S(size, cpusetp);
-    for (cpu = 0; cpu &lt; num_cpus; cpu += 2)
+    for (int cpu = 0; cpu &lt; num_cpus; cpu += 2)
         CPU_SET_S(cpu, size, cpusetp);
 
     printf(&quot;CPU_COUNT() of set:    %d\n&quot;, CPU_COUNT_S(size, cpusetp));
@@ -298,11 +297,10 @@ main(int argc, char *argv[])
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[sched_setaffinity(2)]]</tt>, <tt>[[pthread_attr_setaffinity_np(3)]]</tt>, <tt>[[pthread_setaffinity_np(3)]]</tt>, <tt>[[cpuset(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/sched_setaffinity(2)/">sched_setaffinity(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setaffinity_np(3)/">pthread_attr_setaffinity_np(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_setaffinity_np(3)/">pthread_setaffinity_np(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/cpuset(7)/">cpuset(7)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

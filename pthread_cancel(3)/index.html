@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_cancel(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_cancel%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Pthread cancel(3) - man-pages-ko</title>
+    <title>pthread_cancel(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -143,7 +143,7 @@
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
             <li class="second-level"><a href="#_1">프로그램 소스</a></li>
                 
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
@@ -154,30 +154,29 @@
 <h2 id="name">NAME</h2>
 <p>pthread_cancel - 스레드에게 취소 요청 보내기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;pthread.h&gt;
+<pre><code class="language-c">#include &lt;pthread.h&gt;
 
 int pthread_cancel(pthread_t thread);
 </code></pre>
-
 <p><code>-pthread</code>로 링크.</p>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>pthread_cancel()</code> 함수는 스레드 <code>thread</code>에게 취소 요청을 보낸다. 대상 스레드가 취소 요청에 반응할지, 그렇다면 언제일지는 그 스레드의 통제 하에 있는 두 가지 속성, 즉 취소 가능성 <em>상태</em>와 <em>유형</em>에 달려 있다.</p>
-<p>스레드의 취소 가능성 상태는 <tt>[[pthread_setcancelstate(3)]]</tt>로 결정하며 <em>활성</em>(새 스레드의 기본값)이거나 <em>비활성</em>일 수 있다. 스레드에서 취소를 비활성화했으면 다시 취소를 활성화할 때까지 취소 요청이 큐에 남아 있는다. 스레드에서 취소를 활성화했으면 취소 가능성 유형이 취소 발생 시점을 결정한다.</p>
-<p>스레드의 취소 유형은 <tt>[[pthread_setcanceltype(3)]]</tt>으로 결정하며 <em>비동기</em>나 <em>연기</em>(새 스레드의 기본값)일 수 있다. 비동기 취소는 스레드가 언제든 (일반적으로 즉시이지만 시스템에서 보장하지 않음) 취소될 수 있다는 뜻이다. 연기 취소는 스레드에서 <em>취소점</em>인 함수를 호출할 때까지 취소가 연기된다는 뜻이다. 취소점이거나 취소점일 수도 있는 함수들의 목록이 <tt>[[pthreads(7)]]</tt>에 있다.</p>
+<p>스레드의 취소 가능성 상태는 <tt><a class="wikilink" href="/man-pages-ko/pthread_setcancelstate(3)/">pthread_setcancelstate(3)</a></tt>로 결정하며 <em>활성</em>(새 스레드의 기본값)이거나 <em>비활성</em>일 수 있다. 스레드에서 취소를 비활성화했으면 다시 취소를 활성화할 때까지 취소 요청이 큐에 남아 있는다. 스레드에서 취소를 활성화했으면 취소 가능성 유형이 취소 발생 시점을 결정한다.</p>
+<p>스레드의 취소 유형은 <tt><a class="wikilink" href="/man-pages-ko/pthread_setcanceltype(3)/">pthread_setcanceltype(3)</a></tt>으로 결정하며 <em>비동기</em>나 <em>연기</em>(새 스레드의 기본값)일 수 있다. 비동기 취소는 스레드가 언제든 (일반적으로 즉시이지만 시스템에서 보장하지 않음) 취소될 수 있다는 뜻이다. 연기 취소는 스레드에서 <em>취소점</em>인 함수를 호출할 때까지 취소가 연기된다는 뜻이다. 취소점이거나 취소점일 수도 있는 함수들의 목록이 <tt><a class="wikilink" href="/man-pages-ko/pthreads(7)/">pthreads(7)</a></tt>에 있다.</p>
 <p>취소 요청에 반응할 때 <code>thread</code>에서는 다음 단계들이 (차례로) 이뤄진다.</p>
 <ol>
 <li>
-<p>취소 정리 핸들러를 (집어넣은 순서 반대로) 꺼내서 호출한다. (<tt>[[pthread_cleanup_push(3)]]</tt>) 참고.)</p>
+<p>취소 정리 핸들러를 (집어넣은 순서 반대로) 꺼내서 호출한다. (<tt><a class="wikilink" href="/man-pages-ko/pthread_cleanup_push(3)/">pthread_cleanup_push(3)</a></tt>) 참고.)</p>
 </li>
 <li>
-<p>스레드별 데이터 소멸자들이 명세 안 된 순서로 호출된다. (<tt>[[pthread_key_create(3)]]</tt> 참고.)</p>
+<p>스레드별 데이터 소멸자들이 명세 안 된 순서로 호출된다. (<tt><a class="wikilink" href="/man-pages-ko/pthread_key_create(3)/">pthread_key_create(3)</a></tt> 참고.)</p>
 </li>
 <li>
-<p>스레드가 종료된다. (<tt>[[pthread_exit(3)]]</tt> 참고.)</p>
+<p>스레드가 종료된다. (<tt><a class="wikilink" href="/man-pages-ko/pthread_exit(3)/">pthread_exit(3)</a></tt> 참고.)</p>
 </li>
 </ol>
 <p>위 단계들은 <code>pthread_cancel()</code> 호출과 비동기적으로 이뤄진다. <code>pthread_cancel()</code>의 반환 상태는 취소 요청이 성공적으로 큐에 들어갔는지를 호출자에게 알려 줄 뿐이다.</p>
-<p>취소된 스레드가 종료한 후에 <tt>[[pthread_join(3)]]</tt>으로 그 스레드와 합류하면 스레드 종료 상태로 <code>PTHREAD_CANCELED</code>를 얻는다. (스레드와 합류하는 것은 취소가 완료됐는지 알 수 있는 유일한 방법이다.)</p>
+<p>취소된 스레드가 종료한 후에 <tt><a class="wikilink" href="/man-pages-ko/pthread_join(3)/">pthread_join(3)</a></tt>으로 그 스레드와 합류하면 스레드 종료 상태로 <code>PTHREAD_CANCELED</code>를 얻는다. (스레드와 합류하는 것은 취소가 완료됐는지 알 수 있는 유일한 방법이다.)</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 <code>pthread_cancel()</code>은 0을 반환한다. 오류 시 0 아닌 오류 번호를 반환한다.</p>
 <h2 id="errors">ERRORS</h2>
@@ -186,7 +185,7 @@ int pthread_cancel(pthread_t thread);
 <dd>ID가 <code>thread</code>인 스레드를 찾을 수 없다.</dd>
 </dl>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -207,17 +206,16 @@ int pthread_cancel(pthread_t thread);
 <p>POSIX.1-2001, POSIX.1-2008.</p>
 <h2 id="notes">NOTES</h2>
 <p>리눅스에서는 시그널을 이용해 취소를 구현한다. NPTL 스레딩 구현에서는 첫 번째 실시간 시그널(즉 시그널 32)을 이 용도에 쓴다. LinuxThreads에서는 실시간 시그널이 사용 가능하면 두 번째 실시간 시그널을 쓰고 아니면 <code>SIGUSR2</code>를 쓴다.</p>
-<h2 id="example">EXAMPLE</h2>
+<h2 id="examples">EXAMPLES</h2>
 <p>아래 프로그램에서는 스레드를 생성했다가 취소한다. 메인 스레드가 취소된 스레드와 합류해서 종료 상태가 <code>PTHREAD_CANCELED</code>인지 확인한다. 다음 셸 세션은 프로그램 실행 시 어떻게 되는지 보여 준다.</p>
-<pre><code class="text">$ ./a.out
+<pre><code class="language-text">$ ./a.out
 thread_func(): started; cancellation disabled
 main(): sending cancellation request
 thread_func(): about to enable cancellation
 main(): thread was canceled
 </code></pre>
-
 <h3 id="_1">프로그램 소스</h3>
-<pre><code class="c">#include &lt;pthread.h&gt;
+<pre><code class="language-c">#include &lt;pthread.h&gt;
 #include &lt;stdio.h&gt;
 #include &lt;errno.h&gt;
 #include &lt;stdlib.h&gt;
@@ -232,7 +230,7 @@ thread_func(void *ignored_argument)
     int s;
 
     /* 취소를 잠시 비활성화해서 취소 요청에
-       즉시 반응하지 않도록 하기 */
+       즉시 반응하지 않도록 하기. */
 
     s = pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, NULL);
     if (s != 0)
@@ -246,11 +244,11 @@ thread_func(void *ignored_argument)
     if (s != 0)
         handle_error_en(s, &quot;pthread_setcancelstate&quot;);
 
-    /* sleep()은 취소점임 */
+    /* sleep()은 취소점이다. */
 
     sleep(1000);        /* 잠들어 있는 동안 취소됨 */
 
-    /* 절대 여기로 안 옴 */
+    /* 절대 여기까지 안 온다. */
 
     printf(&quot;thread_func(): not canceled!\n&quot;);
     return NULL;
@@ -263,7 +261,7 @@ main(void)
     void *res;
     int s;
 
-    /* 스레드 시작하고 취소 요청을 보내기 */
+    /* 스레드 시작하고 취소 요청을 보내기. */
 
     s = pthread_create(&amp;thr, NULL, &amp;thread_func, NULL);
     if (s != 0)
@@ -276,7 +274,7 @@ main(void)
     if (s != 0)
         handle_error_en(s, &quot;pthread_cancel&quot;);
 
-    /* 스레드와 합류해서 종료 상태 보기 */
+    /* 스레드와 합류해서 종료 상태 보기. */
 
     s = pthread_join(thr, &amp;res);
     if (s != 0)
@@ -289,11 +287,10 @@ main(void)
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[pthread_cleanup_push(3)]]</tt>, <tt>[[pthread_create(3)]]</tt>, <tt>[[pthread_exit(3)]]</tt>, <tt>[[pthread_join(3)]]</tt>, <tt>[[pthread_key_create(3)]]</tt>, <tt>[[pthread_setcancelstate(3)]]</tt>, <tt>[[pthread_setcanceltype(3)]]</tt>, <tt>[[pthread_testcancel(3)]]</tt>, <tt>[[pthreads(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/pthread_cleanup_push(3)/">pthread_cleanup_push(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_create(3)/">pthread_create(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_exit(3)/">pthread_exit(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_join(3)/">pthread_join(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_key_create(3)/">pthread_key_create(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_setcancelstate(3)/">pthread_setcancelstate(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_setcanceltype(3)/">pthread_setcanceltype(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_testcancel(3)/">pthread_testcancel(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthreads(7)/">pthreads(7)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

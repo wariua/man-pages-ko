@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_rwlock_destroy(3p)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_rwlock_destroy%283p%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Pthread rwlock destroy(3p) - man-pages-ko</title>
+    <title>pthread_rwlock_destroy(3p) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -156,14 +156,13 @@
 <h2 id="name">NAME</h2>
 <p>pthread_rwlock_destroy, pthread_rwlock_init - 읽기-쓰기 락 객체 파기 및 초기화</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;pthread.h&gt;
+<pre><code class="language-c">#include &lt;pthread.h&gt;
 
 int pthread_rwlock_destroy(pthread_rwlock_t *rwlock);
 int pthread_rwlock_init(pthread_rwlock_t *restrict rwlock,
     const pthread_rwlockattr_t *restrict attr);
 pthread_rwlock_t rwlock = PTHREAD_RWLOCK_INITIALIZER;
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>pthread_rwlock_destroy()</code> 함수는 <code>rwlock</code>이 가리키는 읽기-쓰기 락 객체를 파기하고 그 락에서 쓰는 모든 자원을 해제한다. 락을 또 다른 <code>pthread_rwlock_init()</code> 호출로 다시 초기화 하기 전까지는 이후 그 락 사용의 결과가 규정되어 있지 않다. 구현 시 <code>pthread_rwlock_destroy()</code>에서 <code>rwlock</code>이 가리키는 객체를 비유효 값으로 설정하도록 할 수도 있다. <code>rwlock</code>을 잡고 있는 스레드가 있을 때 <code>pthread_rwlock_destroy()</code>를 호출하는 경우의 결과는 규정되어 있지 않다. 초기화 안 된 읽기-쓰기 락을 파기하려 하는 결과는 규정되어 있지 않다.</p>
 <p><code>pthread_rwlock_init()</code> 함수는 <code>rwlock</code>이 가리키는 읽기-쓰기 락을 사용하기 위해 필요한 자원이 있으면 할당하고서 그 락을 <code>attr</code>이 가리키는 속성들로 풀린 상태로 초기화 한다. <code>attr</code>이 NULL이면 기본 읽기-쓰기 락 속성들을 사용한다. 즉 기본 읽기-쓰기 락 속성 객체의 주소를 전달하는 것과 효과가 같다. 한 번 초기화 하고 나면 재초기화 없이 몇 번이든 락을 쓸 수 있다. 이미 초기화 된 읽기-쓰기 락을 지정해서 <code>pthread_rwlock_init()</code>을 호출하는 경우의 결과는 규정되어 있지 않다. 읽기 쓰기 락을 먼저 초기화 하지 않고 쓰는 경우의 결과는 규정되어 있지 않다.</p>
@@ -196,7 +195,7 @@ pthread_rwlock_t rwlock = PTHREAD_RWLOCK_INITIALIZER;
 <h2 id="future-directions">FUTURE DIRECTIONS</h2>
 <p>없음.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[pthread_rwlock_rdlock()]]</tt>, <tt>[[pthread_rwlock_timedrdlock()]]</tt>, <tt>[[pthread_rwlock_timedwrlock()]]</tt>, <tt>[[pthread_rwlock_trywrlock()]]</tt>, <tt>[[pthread_rwlock_unlock()]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/pthread_rwlock_rdlock()/">pthread_rwlock_rdlock()</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_rwlock_timedrdlock()/">pthread_rwlock_timedrdlock()</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_rwlock_timedwrlock()/">pthread_rwlock_timedwrlock()</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_rwlock_trywrlock()/">pthread_rwlock_trywrlock()</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_rwlock_unlock()/">pthread_rwlock_unlock()</a></tt></p>
 <p>POSIX.1-2008 Base Definitions 권, <em>3.287절 Priority Inversion</em>, <code>&lt;pthread.h&gt;</code></p>
 <h2 id="copyright">COPYRIGHT</h2>
 <p>Portions of this text are reprinted and reproduced in electronic form from IEEE Std 1003.1, 2013 Edition, Standard for Information Technology -- Portable Operating System Interface (POSIX), The Open Group Base Specifications Issue 7, Copyright (C) 2013 by the Institute of Electrical and Electronics Engineers, Inc and The Open Group. (This is POSIX.1-2008 with the 2013 Technical Corrigendum 1 applied.) In the event of any discrepancy between this version and the original IEEE and The Open Group Standard, the original IEEE and The Open Group Standard is the referee document. The original Standard can be obtained online at <a href="http://www.unix.org/online.html">http://www.unix.org/online.html</a>.</p>

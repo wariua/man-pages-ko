@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/restart_syscall(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/restart_syscall%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Restart syscall(2) - man-pages-ko</title>
+    <title>restart_syscall(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -151,13 +151,12 @@
 <h2 id="name">NAME</h2>
 <p>restart_syscall - 정지 시그널로 중단된 후 시스템 호출 재시작 하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">int restart_syscall(void);
+<pre><code class="language-c">long restart_syscall(void);
 </code></pre>
-
 <p><em>주의</em>: 이 시스템 호출에 대한 glibc 래퍼가 없다. NOTES 참고.</p>
 <h2 id="description">DESCRIPTION</h2>
 <p>시그널(가령 <code>SIGSTOP</code>이나 <code>SIGTSTP</code>)에 의해 정지됐던 프로세스가 이후 <code>SIGCONT</code> 시그널을 수신하여 재개된 후에 특정 시스템 호출들을 재시작하기 위해 <code>restart_syscall()</code>을 사용한다. 이 시스템 호출은 커널 내부 용도로만 설계된 것이다.</p>
-<p>재시작 때 시간 관련 매개변수를 조정해야 하는 시스템 호출들을 재시작 하는 데에만 <code>restart_syscall()</code>을 사용한다. 말하자면 <tt>[[poll(2)]]</tt> (리눅스 2.6.24부터), <tt>[[nanosleep(2)]]</tt> (리눅스 2.6부터), <tt>[[clock_nanosleep(2)]]</tt> (리눅스 2.6부터), 그리고 <tt>[[futex(2)]]</tt>를 <code>FUTEX_WAIT</code>(리눅스 2.6.22부터) 및 <code>FUTEX_WAIT_BITSET</code>(리눅스 2.6.31부터)으로 쓸 때이다. <code>restart_syscall()</code>은 (시그널에 의해 프로세스가 정지되어 있던 시간를 포함해) 이미 지난 시간을 고려해 적절히 조정한 시간 인자를 가지고 중단됐던 시스템 호출을 재시작 한다. <code>restart_syscall()</code> 메커니즘이 없다면 프로세스가 실행을 속행했을 때 이 시스템 호출들을 재시작 하면서 이미 지난 시간을 정확히 제하지 못할 것이다.</p>
+<p>재시작 때 시간 관련 매개변수를 조정해야 하는 시스템 호출들을 재시작 하는 데에만 <code>restart_syscall()</code>을 사용한다. 말하자면 <tt><a class="wikilink" href="/man-pages-ko/poll(2)/">poll(2)</a></tt> (리눅스 2.6.24부터), <tt><a class="wikilink" href="/man-pages-ko/nanosleep(2)/">nanosleep(2)</a></tt> (리눅스 2.6부터), <tt><a class="wikilink" href="/man-pages-ko/clock_nanosleep(2)/">clock_nanosleep(2)</a></tt> (리눅스 2.6부터), 그리고 <tt><a class="wikilink" href="/man-pages-ko/futex(2)/">futex(2)</a></tt>를 <code>FUTEX_WAIT</code>(리눅스 2.6.22부터) 및 <code>FUTEX_WAIT_BITSET</code>(리눅스 2.6.31부터)으로 쓸 때이다. <code>restart_syscall()</code>은 (시그널에 의해 프로세스가 정지되어 있던 시간를 포함해) 이미 지난 시간을 고려해 적절히 조정한 시간 인자를 가지고 중단됐던 시스템 호출을 재시작 한다. <code>restart_syscall()</code> 메커니즘이 없다면 프로세스가 실행을 속행했을 때 이 시스템 호출들을 재시작 하면서 이미 지난 시간을 정확히 제하지 못할 것이다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p><code>restart_syscall()</code>의 반환 값은 재시작 하는 그 시스템 호출의 반환 값이다.</p>
 <h2 id="errors">ERRORS</h2>
@@ -168,12 +167,12 @@
 <p>이 시스템 호출은 리눅스 전용이다.</p>
 <h2 id="notes">NOTES</h2>
 <p>이 시스템 호출에 대한 glibc 래퍼가 없다. 커널에서만 쓰기 위한 것이고 응용에서는 절대 호출하지 말아야 하는 호출이기 때문이다.</p>
-<p>프로세스가 시그널에 의해 정지되었다가 <code>SIGCONT</code>에 의해 재개된 후 시스템 호출을 재시작할 때 프로세스가 정지 상태에서 보낸 시간이 원래 시스템 호출에 지정했던 타임아웃 시간에서 빠지도록 하기 위해 커널에서 <code>restart_syscall()</code>을 사용한다. 시스템 호출에서 타임아웃 인자를 받으며 정지 시그널 및 <code>SIGCONT</code> 후에 자동으로 재시작 하지만 <code>restart_syscall()</code> 메커니즘을 내장하고 있지 않은 경우에는 프로세스가 정지 상태로 보낸 시간이 타임아웃 값에서 빠지지 <em>않는다</em>. 이런 문제를 겪는 주요 시스템 호출들로 <tt>[[ppoll(2)]]</tt>, <tt>[[select(2)]]</tt>, <tt>[[pselect(2)]]</tt>가 있다.</p>
+<p>프로세스가 시그널에 의해 정지되었다가 <code>SIGCONT</code>에 의해 재개된 후 시스템 호출을 재시작할 때 프로세스가 정지 상태에서 보낸 시간이 원래 시스템 호출에 지정했던 타임아웃 시간에서 빠지도록 하기 위해 커널에서 <code>restart_syscall()</code>을 사용한다. 시스템 호출에서 타임아웃 인자를 받으며 정지 시그널 및 <code>SIGCONT</code> 후에 자동으로 재시작 하지만 <code>restart_syscall()</code> 메커니즘을 내장하고 있지 않은 경우에는 프로세스가 정지 상태로 보낸 시간이 타임아웃 값에서 빠지지 <em>않는다</em>. 이런 문제를 겪는 주요 시스템 호출들로 <tt><a class="wikilink" href="/man-pages-ko/ppoll(2)/">ppoll(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/select(2)/">select(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pselect(2)/">pselect(2)</a></tt>가 있다.</p>
 <p>사용자 공간에게는 <code>restart_syscall()</code>의 동작이 거의 보이지 않는다. 재시작 되는 시스템 호출을 불렀던 프로세스에게는 시스템 호출이 평소처럼 실행되고 반환한 것처럼 보인다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[sigaction(2)]]</tt>, <tt>[[sigreturn(2)]]</tt>, <tt>[[signal(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/sigaction(2)/">sigaction(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigreturn(2)/">sigreturn(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

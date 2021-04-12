@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/getsubopt(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/getsubopt%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Getsubopt(3) - man-pages-ko</title>
+    <title>getsubopt(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -142,7 +142,7 @@
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
@@ -151,22 +151,21 @@
 <h2 id="name">NAME</h2>
 <p>getsubopt - 문자열에서 하위 옵션 인자 파싱</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;stdlib.h&gt;
+<pre><code class="language-c">#include &lt;stdlib.h&gt;
 
-int getsubopt(char **optionp, char * const *tokens, char **valuep);
+int getsubopt(char **restrict optionp, char *const *restrict tokens,
+              char **restrict valuep);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>getsubopt()</code>:</dt>
 <dd><code>_XOPEN_SOURCE &gt;= 500</code><br>
 <code>|| /* glibc 2.12부터: */ _POSIX_C_SOURCE &gt;= 200809L</code></dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>getsubopt()</code>는 <code>optionp</code>로 받은 쉼표 구분 하위 옵션 목록을 파싱 한다. (보통 <tt>[[getopt(3)]]</tt>를 써서 명령행을 파싱 할 때 그런 하위 옵션 목록이 생긴다. 가령 <tt>[[mount(8)]]</tt>의 <code>-o</code> 옵션 참고.) 각 하위 옵션에 값이 있을 수도 있으며 그 경우 등호를 써서 하위 옵션 이름과 구별한다. 다음은 <code>optionp</code>로 전달될 수 있을 종류의 문자열 예시이다.</p>
-<pre><code class="text">ro,name=xyz
+<p><code>getsubopt()</code>는 <code>optionp</code>로 받은 쉼표 구분 하위 옵션 목록을 파싱 한다. (보통 <tt><a class="wikilink" href="/man-pages-ko/getopt(3)/">getopt(3)</a></tt>를 써서 명령행을 파싱 할 때 그런 하위 옵션 목록이 생긴다. 가령 <tt><a class="wikilink" href="/man-pages-ko/mount(8)/">mount(8)</a></tt>의 <code>-o</code> 옵션 참고.) 각 하위 옵션에 값이 있을 수도 있으며 그 경우 등호를 써서 하위 옵션 이름과 구별한다. 다음은 <code>optionp</code>로 전달될 수 있을 종류의 문자열 예시이다.</p>
+<pre><code class="language-text">ro,name=xyz
 </code></pre>
-
 <p><code>tokens</code> 인자는 토큰들에 대한 포인터들로 된 NULL 종료 배열에 대한 포인터이다. <code>getsubopt()</code>가 <code>optionp</code>에서 그 토큰들을 찾게 된다. 토큰은 적어도 한 문자를 담은 서로 구별되는 널 종료 문자열이어야 하며 등호나 쉼표가 들어 있지 않아야 한다.</p>
 <p>각 <code>getsubopt()</code> 호출은 다음 미처리 하위 옵션에 대한 정보를 <code>optionp</code>으로 반환한다. 서브 옵션의 첫 번째 등호는 (있다면) 그 하위 옵션의 이름과 값 사이 구분자로 해석한다. 값은 다음 쉽표까지 또는 (마지막 하위 옵션인 경우) 문자열 끝까지 이어진다. 하위 옵션의 이름이 <code>tokens</code>에 있는 어떤 이름과 일치하고 값 문자열이 있는 경우에 <code>getsubopt()</code>는 그 문자열의 주소를 <code>*valuep</code>에 설정한다. 그리고 <code>optionp</code>의 첫 번째 쉼표를 널 바이트로 덮어 써서 <code>*valuep</code>가 정확하게 그 하위 옵션의 "값 문자열"이 된다.</p>
 <p>하위 옵션을 인식했지만 값 문자열은 찾지 못한 경우에는 <code>*valuep</code>를 NULL로 설정한다.</p>
@@ -175,7 +174,7 @@ int getsubopt(char **optionp, char * const *tokens, char **valuep);
 <p><code>optionp</code>의 첫 번째 하위 옵션을 인식한 경우 <code>getsubopt()</code>는 <code>tokens</code>에서 일치하는 하위 옵션 항목의 인덱스를 반환한다. 아니라면 -1을 반환하며 <code>*valuep</code>는 <code>name[=value]</code> 문자열 전체이다.</p>
 <p><code>*optionp</code>가 바뀌기 때문에 <code>getsubopt()</code> 호출 전의 첫 번째 하위 옵션은 <code>getsubopt()</code> 후의 첫 번째 하위 옵션과 (반드시) 같지 않다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -196,9 +195,9 @@ int getsubopt(char **optionp, char * const *tokens, char **valuep);
 <p>POSIX.1-2001, POSIX.1-2008.</p>
 <h2 id="notes">NOTES</h2>
 <p>문자열 <code>*optionp</code>에서 찾은 쉼표를 <code>getsubopt()</code>에서 덮어 쓰기 때문에 그 문자열이 쓰기 가능해야 한다. 즉 문자열 상수일 수 없다.</p>
-<h2 id="example">EXAMPLE</h2>
+<h2 id="examples">EXAMPLES</h2>
 <p>다음 프로그램은 "-o" 옵션 다음의 하위 옵션을 받는다.</p>
-<pre><code class="c">#define _XOPEN_SOURCE 500
+<pre><code class="language-c">#define _XOPEN_SOURCE 500
 #include &lt;stdlib.h&gt;
 #include &lt;assert.h&gt;
 #include &lt;stdio.h&gt;
@@ -283,11 +282,10 @@ main(int argc, char **argv)
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[getopt(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/getopt(3)/">getopt(3)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

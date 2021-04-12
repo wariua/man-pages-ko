@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/madvise(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/madvise%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Madvise(2) - man-pages-ko</title>
+    <title>madvise(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -157,19 +157,18 @@
 <h2 id="name">NAME</h2>
 <p>madvise - 메모리 사용에 대한 조언 주기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;sys/mman.h&gt;
+<pre><code class="language-c">#include &lt;sys/mman.h&gt;
 
 int madvise(void *addr, size_t length, int advice);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>madvise()</code>:</dt>
 <dd>
 <dl>
-<dt>glibc 2.19부터</dt>
+<dt>glibc 2.19부터:</dt>
 <dd><code>_DEFAULT_SOURCE</code></dd>
-<dt>glibc 2.19 및 이전:</dt>
+<dt>glibc 2.19까지:</dt>
 <dd><code>_BSD_SOURCE</code></dd>
 </dl>
 </dd>
@@ -178,7 +177,7 @@ int madvise(void *addr, size_t length, int advice);
 <p><code>madvise()</code> 시스템 호출을 사용해 주소 <code>addr</code>에서 시작하고 크기가 <code>length</code> 바이트인 주소 범위에 대해 커널에게 조언 내지 지시를 한다. 대부분의 경우 그 조언의 목적은 시스템 내지 응용의 성능을 개선하는 것이다.</p>
 <p>처음에 이 시스템 호출은 다른 여러 구현에서도 사용 가능한 "전통적인" <code>advice</code> 값들을 지원했다. (참고로 <code>madvise()</code>는 POSIX에 명세되어 있지 않다.) 이후에 리눅스 전용 <code>advice</code> 값들이 여러 가지 추가되었다.</p>
 <h3 id="_1">전통적인 조언 값</h3>
-<p>응용에서 아래 나열된 <code>advice</code> 값들을 이용하여 어떤 맵 된 메모리 영역이나 공유 메모리 영역을 어떻게 사용할 예정인지 커널에게 알려 줄 수 있다. 그러면 커널에서 적절한 미리 읽기 및 캐시 기법을 선택할 수 있다. 이 <code>advice</code> 값들은 (<code>MADV_DONTNEED</code>를 제외하고) 응용의 동작 결과에 영향을 주지 않으며 성능에만 영향을 끼칠 수 있다. 여기 나열된 <code>advice</code> 값들은 모두 POSIX 명세 함수인 <tt>[[posix_madvise(3)]]</tt>에 유사한 항목이 있으며 <code>MADV_DONTNEED</code>를 제외하고 값의 의미가 같다.</p>
+<p>응용에서 아래 나열된 <code>advice</code> 값들을 이용하여 어떤 맵 된 메모리 영역이나 공유 메모리 영역을 어떻게 사용할 예정인지 커널에게 알려 줄 수 있다. 그러면 커널에서 적절한 미리 읽기 및 캐시 기법을 선택할 수 있다. 이 <code>advice</code> 값들은 (<code>MADV_DONTNEED</code>를 제외하고) 응용의 동작 결과에 영향을 주지 않으며 성능에만 영향을 끼칠 수 있다. 여기 나열된 <code>advice</code> 값들은 모두 POSIX 명세 함수인 <tt><a class="wikilink" href="/man-pages-ko/posix_madvise(3)/">posix_madvise(3)</a></tt>에 유사한 항목이 있으며 <code>MADV_DONTNEED</code>를 제외하고 값의 의미가 같다.</p>
 <p>조언을 나타내는 <code>advice</code> 인자는 다음 중 하나이다.</p>
 <dl>
 <dt><code>MADV_NORMAL</code></dt>
@@ -198,18 +197,18 @@ int madvise(void *addr, size_t length, int advice);
 </dd>
 </dl>
 <h3 id="_2">리눅스 전용 조언 값</h3>
-<p>다음의 리눅스 전용 <code>advice</code> 값들은 POSIX에 명세된 <tt>[[posix_madvise(3)]]</tt>에 대응 항목이 없으며, 다른 구현에서 사용 가능한 <code>madvise()</code> 인터페이스에는 대응 항목이 있을 수도 있고 없을 수도 있다. 참고로 이 동작들 중 일부는 메모리 접근의 동작 결과를 바꾼다.</p>
+<p>다음의 리눅스 전용 <code>advice</code> 값들은 POSIX에 명세된 <tt><a class="wikilink" href="/man-pages-ko/posix_madvise(3)/">posix_madvise(3)</a></tt>에 대응 항목이 없으며, 다른 구현에서 사용 가능한 <code>madvise()</code> 인터페이스에는 대응 항목이 있을 수도 있고 없을 수도 있다. 참고로 이 동작들 중 일부는 메모리 접근의 동작 결과를 바꾼다.</p>
 <dl>
 <dt><code>MADV_REMOVE</code> (리눅스 2.6.16부터)</dt>
 <dd>
-<p>지정한 페이지 범위 및 연계된 기반 저장 공간을 해제한다. 기반 저장 공간의 대응하는 바이트 범위에 구멍을 뚫는 것과 동등하다. (<tt>[[fallocate(2)]]</tt> 참고.) 지정한 주소 범위를 이후에 접근하면 0이 담긴 바이트들을 보게 된다.</p>
+<p>지정한 페이지 범위 및 연계된 기반 저장 공간을 해제한다. 기반 저장 공간의 대응하는 바이트 범위에 구멍을 뚫는 것과 동등하다. (<tt><a class="wikilink" href="/man-pages-ko/fallocate(2)/">fallocate(2)</a></tt> 참고.) 지정한 주소 범위를 이후에 접근하면 0이 담긴 바이트들을 보게 된다.</p>
 <p>지정한 주소 범위가 공유 맵이고 쓰기 가능해야 한다. 고정된 페이지, 거대 TLB 페이지, <code>VM_PFNMAP</code> 페이지에 이 플래그를 적용할 수 없다.</p>
-<p>초기 구현에서는 <tt>[[tmpfs(5)]]</tt>만 <code>MADV_REMOVE</code>를 지원했다. 리눅스 3.5부터는 <tt>[[fallocate(2)]]</tt> <code>FALLOC_FL_PUNCH_HOLE</code> 모드를 지원하는 파일 시스템이면 <code>MADV_REMOVE</code>도 지원한다. hugetlbfs는 <code>EINVAL</code>로 실패하며 다른 파일 시스템들은 <code>EOPNOTSUPP</code> 오류로 실패한다.</p>
+<p>초기 구현에서는 <tt><a class="wikilink" href="/man-pages-ko/tmpfs(5)/">tmpfs(5)</a></tt>만 <code>MADV_REMOVE</code>를 지원했다. 리눅스 3.5부터는 <tt><a class="wikilink" href="/man-pages-ko/fallocate(2)/">fallocate(2)</a></tt> <code>FALLOC_FL_PUNCH_HOLE</code> 모드를 지원하는 파일 시스템이면 <code>MADV_REMOVE</code>도 지원한다. hugetlbfs는 <code>EINVAL</code>로 실패하며 다른 파일 시스템들은 <code>EOPNOTSUPP</code> 오류로 실패한다.</p>
 </dd>
 <dt><code>MADV_DONTFORK</code> (리눅스 2.6.16부터)</dt>
-<dd>이 범위의 페이지들을 <tt>[[fork(2)]]</tt> 후에 자식에서 사용 가능하게 만들지 않는다. <tt>[[fork(2)]]</tt> 후에 부모가 페이지에 쓰기를 하는 경우 copy-on-write 동작 방식 때문에 페이지의 물리적 위치가 바뀌는 것을 막는 데 유용하다. (하드웨어에서 그 페이지로 DMA 하는 경우에 그런 페이지 재배치가 문제를 일으킨다.)</dd>
+<dd>이 범위의 페이지들을 <tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt> 후에 자식에서 사용 가능하게 만들지 않는다. <tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt> 후에 부모가 페이지에 쓰기를 하는 경우 copy-on-write 동작 방식 때문에 페이지의 물리적 위치가 바뀌는 것을 막는 데 유용하다. (하드웨어에서 그 페이지로 DMA 하는 경우에 그런 페이지 재배치가 문제를 일으킨다.)</dd>
 <dt><code>MADV_DOFORK</code> (리눅스 2.6.16부터)</dt>
-<dd><code>MADV_DONTFORK</code>의 효과를 되돌린다. <tt>[[fork(2)]]</tt>를 거치며 매핑을 물려받는 기본 동작 방식을 복원한다.</dd>
+<dd><code>MADV_DONTFORK</code>의 효과를 되돌린다. <tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt>를 거치며 매핑을 물려받는 기본 동작 방식을 복원한다.</dd>
 <dt><code>MADV_HWPOISON</code> (리눅스 2.6.32부터)</dt>
 <dd>
 <p><code>addr</code>과 <code>length</code>로 지정한 범위의 페이지들에 오염 표시를 해서 그 페이지들에 대한 이후 참조를 하드웨어 메모리 오염처럼 처리한다. 이 동작은 특권(<code>CAP_SYS_ADMIN</code>) 프로세스에만 사용 가능하다. 이 동작으로 인해 호출 프로세스가 <code>SIGBUS</code>를 받고 페이지 맵이 제거될 수도 있다.</p>
@@ -217,7 +216,7 @@ int madvise(void *addr, size_t length, int advice);
 </dd>
 <dt><code>MADV_MERGEABLE</code> (리눅스 2.6.32부터)</dt>
 <dd>
-<p><code>addr</code>과 <code>length</code>로 지정한 범위의 페이지들에 커널 동일 페이지 병합(KSM: Kernel Samepage Merging) 기능을 켠다. 병합 가능하다고 표시된 사용자 메모리 영역들을 커널이 정기적으로 조사해서 내용이 동일한 페이지들을 찾는다. 그리고 그 페이지들을 쓰기 방지 페이지 한 개로 교체한다. (이후 프로세스에서 페이지 내용을 갱신하려 하면 페이지가 자동으로 복사된다.) KSM은 비공유 익명 페이지(<tt>[[mmap(2)]]</tt> 참고)만 병합한다.</p>
+<p><code>addr</code>과 <code>length</code>로 지정한 범위의 페이지들에 커널 동일 페이지 병합(KSM: Kernel Samepage Merging) 기능을 켠다. 병합 가능하다고 표시된 사용자 메모리 영역들을 커널이 정기적으로 조사해서 내용이 동일한 페이지들을 찾는다. 그리고 그 페이지들을 쓰기 방지 페이지 한 개로 교체한다. (이후 프로세스에서 페이지 내용을 갱신하려 하면 페이지가 자동으로 복사된다.) KSM은 비공유 익명 페이지(<tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt> 참고)만 병합한다.</p>
 <p>KSM 기능은 같은 데이터의 인스턴스를 여러 개 생성하는 응용들(가령 KVM 같은 가상화 시스템)을 위한 것이다. 프로세싱 능력을 많이 소모할 수 있으므로 조심해서 써야 한다. 더 자세한 내용은 커널 소스 파일 <code>Documentation/admin-guide/mm/ksm.rst</code>를 보라.</p>
 <p><code>MADV_MERGEABLE</code> 및 <code>MADV_UNMERGEABLE</code> 동작은 커널을 <code>CONFIG_KSM</code>으로 구성했을 때만 사용 가능하다.</p>
 </dd>
@@ -230,32 +229,37 @@ int madvise(void *addr, size_t length, int advice);
 </dd>
 <dt><code>MADV_HUGEPAGE</code> (리눅스 2.6.38부터)</dt>
 <dd>
-<p><code>addr</code>과 <code>length</code>로 지정한 범위의 페이지들에 자동 거대 페이지(THP: Transparent Huge Pages) 기능을 켠다. 현재 자동 거대 페이지 기능은 비공유 익명 페이지(<tt>[[mmap(2)]]</tt> 참고)로만 동작한다. 거대 페이지 후보로 표시된 영역들을 커널이 정기적으로 조사해서 거대 페이지로 교체한다. 또한 커널에서 할당하는 영역이 거대 페이지 크기에 자연스럽게 정렬되어 있으면 (<tt>[[posix_memalign(3)]]</tt> 참고) 바로 거대 페이지를 할당하게 된다.</p>
+<p><code>addr</code>과 <code>length</code>로 지정한 범위의 페이지들에 자동 거대 페이지(THP: Transparent Huge Pages) 기능을 켠다. 현재 자동 거대 페이지 기능은 비공유 익명 페이지(<tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt> 참고)로만 동작한다. 거대 페이지 후보로 표시된 영역들을 커널이 정기적으로 조사해서 거대 페이지로 교체한다. 또한 커널에서 할당하는 영역이 거대 페이지 크기에 자연스럽게 정렬되어 있으면 (<tt><a class="wikilink" href="/man-pages-ko/posix_memalign(3)/">posix_memalign(3)</a></tt> 참고) 바로 거대 페이지를 할당하게 된다.</p>
 <p>이 기능이 주로 노리는 것은 큰 데이터 매핑을 사용하고 그 메모리의 큰 영역들에 일시에 접근하는 응용들(가령 QEMU 같은 가상화 시스템)이다. 이 기능은 메모리를 낭비하기가 아주 쉽다. (가령 2MB짜리 매핑에서 한 바이트만 접근하는 경우 4KB짜리 페이지 하나가 아니라 메모리 2MB가 연결된다.) 더 자세한 내용은 리눅스 커널 소스 파일 <code>Documentation/admin-guide/mm/transhuge.rst</code>를 보라.</p>
+<p>흔히 만날 수 있는 커널 구성들에선 대부분 기본적으로 <code>MADV_HUGEPAGE</code> 같은 동작을 제공하며, 그래서 보통은 <code>MADV_HUGEPAGE</code>가 필요하지 않다. 주로 필요한 경우는 커널에서 <code>MADV_HUGEPAGE</code> 같은 동작이 기본적으로 켜져 있지 않을 수도 있는 임베디드 시스템에서다. 그런 시스템에서 이 플래그를 써서 선택적으로 THP를 켤 수 있다. <code>MADV_HUGEPAGE</code>를 사용한다면 반드시 자동 거대 페이지를 켰을 때의 접근 패턴이 응용의 메모리 사용 규모를 늘이지 않는다는 것을 개발자가 미리 알고 있는 메모리 영역에서여야 한다.</p>
 <p><code>MADV_HUGEPAGE</code> 및 <code>MADV_NOHUGEPAGE</code> 동작은 커널을 <code>CONFIG_TRANSPARENT_HUGEPAGE</code>로 구성했을 때만 사용 가능하다.</p>
 </dd>
 <dt><code>MADV_NOHUGEPAGE</code> (리눅스 2.6.38부터)</dt>
-<dd><code>addr</code>과 <code>length</code>로 지정한 주소 범위의 메모리가 거대 페이지로 뭉치지 않게 한다.</dd>
+<dd><code>addr</code>과 <code>length</code>로 지정한 주소 범위의 메모리에 자동 거대 페이지를 쓰지 않게 한다.</dd>
 <dt><code>MADV_DONTDUMP</code> (리눅스 3.4부터)</dt>
-<dd><code>addr</code>과 <code>length</code>로 지정한 범위의 페이지들을 코어 덤프에서 제외한다. 코어 덤프에서 쓸모가 없는 커다란 메모리 영역을 가진 응용에 유용하다. <code>MADV_DONTDUMP</code>의 효과가 <code>/proc/[pid]/coredump_filter</code> 파일(<tt>[[core(5)]]</tt> 참고)로 설정한 비트 마스크보다 우선한다.</dd>
+<dd><code>addr</code>과 <code>length</code>로 지정한 범위의 페이지들을 코어 덤프에서 제외한다. 코어 덤프에서 쓸모가 없는 커다란 메모리 영역을 가진 응용에 유용하다. <code>MADV_DONTDUMP</code>의 효과가 <code>/proc/[pid]/coredump_filter</code> 파일(<tt><a class="wikilink" href="/man-pages-ko/core(5)/">core(5)</a></tt> 참고)로 설정한 비트 마스크보다 우선한다.</dd>
 <dt><code>MADV_DODUMP</code> (리눅스 3.4부터)</dt>
 <dd>앞선 <code>MADV_DONTDUMP</code>의 효과를 되돌린다.</dd>
 <dt><code>MADV_FREE</code> (리눅스 4.5부터)</dt>
 <dd>
 <p><code>addr</code>과 <code>length</code>로 지정한 범위의 페이지들을 응용에서 더는 필요로 하지 않는다. 따라서 커널에서 그 페이지들을 해제할 수 있는데, 메모리 압박이 있을 때까지 해제가 미뤄질 수도 있다. 그리고 해제하게 표시가 되었지만 아직 해제되지 않은 페이지에 호출자가 쓰기를 하면 해제 동작이 취소된다. <code>MADV_FREE</code> 동작 성공 후에 커널에서 페이지를 해제할 때 최신이 아닌 데이터(즉 더러워졌고 기록 안 된 페이지)가 있으면 그냥 사라지게 된다. 하지만 뒤이어 그 범위의 페이지에서 쓰기에 성공하고 나면 커널이 그 더러워진 페이지를 해제할 수 없고, 그래서 호출자는 언제나 방금 기록한 데이터를 볼 수 있다. 이어지는 쓰기가 없으면 커널에서 그 페이지를 어느 때든 해제할 수 있다. 그 범위의 페이지가 해제되고 나면 호출자는 이어지는 페이지 참조에서 zero-fill-on-demand 페이지를 보게 된다.</p>
-<p><code>MADV_FREE</code> 동작은 비공유 익명 페이지(<tt>[[mmap(2)]]</tt> 참고)에만 적용할 수 있다. 리눅스 4.12 전에선 스왑이 없는 시스템에서 페이지를 해제할 때는 메모리 압박과 상관없이 지정한 범위의 페이지를 즉시 해제한다.</p>
+<p><code>MADV_FREE</code> 동작은 비공유 익명 페이지(<tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt> 참고)에만 적용할 수 있다. 리눅스 4.12 전에선 스왑이 없는 시스템에서 페이지를 해제할 때는 메모리 압박과 상관없이 지정한 범위의 페이지를 즉시 해제한다.</p>
 </dd>
 <dt><code>MADV_WIPEONFORK</code> (리눅스 4.14부터)</dt>
 <dd>
-<p><tt>[[fork(2)]]</tt> 후 자식 프로세스에게 이 범위에 0으로 채운 메모리를 준다. 서버에서 분기하면서 민감한 프로세스별 데이터(가령 PRNG 시드, 암호학적 비밀값 등)가 자식 프로세스에게 전달되지 않도록 하는 데 유용하다.</p>
-<p><code>MADV_WIPEONFORK</code> 동작은 비공유 익명 페이지(<tt>[[mmap(2)]]</tt> 참고)에만 적용할 수 있다.</p>
-<p><tt>[[fork(2)]]</tt>로 생성한 자식에서 지정한 주소 범위에 <code>MADV_WIPEONFORK</code> 설정이 그대로 유지된다. <tt>[[execve(2)]]</tt> 과정에서는 이 설정이 사라진다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt> 후 자식 프로세스에게 이 범위에 0으로 채운 메모리를 준다. 서버에서 분기하면서 민감한 프로세스별 데이터(가령 PRNG 시드, 암호학적 비밀값 등)가 자식 프로세스에게 전달되지 않도록 하는 데 유용하다.</p>
+<p><code>MADV_WIPEONFORK</code> 동작은 비공유 익명 페이지(<tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt> 참고)에만 적용할 수 있다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt>로 생성한 자식에서 지정한 주소 범위에 <code>MADV_WIPEONFORK</code> 설정이 그대로 유지된다. <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt> 과정에서는 이 설정이 사라진다.</p>
 </dd>
 <dt><code>MADV_KEEPONFORK</code> (리눅스 4.14부터)</dt>
 <dd>앞선 <code>MADV_WIPEONFORK</code>의 효과를 되돌린다.</dd>
+<dt><code>MADV_COLD</code> (리눅스 5.4부터)</dt>
+<dd>지정한 페이지 범위를 비활성화한다. 이렇게 하면 메모리 압박이 있을 때 그 페이지들이 회수 대상이 될 가능성이 더 높아지게 된다. 이는 비파괴적인 동작이다. 적용 가능하지 않은 경우 범위 내의 일부 페이지에 대해 조언이 무시될 수도 있다.</dd>
+<dt><code>MADV_PAGEOUT</code> (리눅스 5.4부터)</dt>
+<dd>지정한 페이지 범위를 회수한다. 그렇게 해서 그 페이지들이 차지하는 메모리를 해제한다. 익명 페이지이면 스왑으로 내보낸다. 파일 기반 페이지이고 더러워져 있으면 기반 저장소로 기록한다. 적용 가능하지 않은 경우 범위 내의 일부 페이지에 대해 조언이 무시될 수도 있다.</dd>
 </dl>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 <code>madvise()</code>는 0을 반환한다. 오류 시 -1을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<p>성공 시 <code>madvise()</code>는 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EACCES</code></dt>
@@ -287,14 +291,14 @@ int madvise(void *addr, size_t length, int advice);
 <p>리눅스 3.18부터 기반 시스템 호출 지원이 선택적이다. <code>CONFIG_ADVISE_SYSCALLS</code> 구성 옵션 설정에 따라 정해진다.</p>
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p><code>madvise()</code>는 어느 표준에도 명세되어 있지 않다. 다양한 <code>advice</code> 값들을 구현한 이 시스템 호출의 여러 버전이 다른 여러 구현들에 존재한다. 보통 다른 구현들에서는 적어도 <em>전통적인 조언 값</em>에 나열된 플래그들을 구현하고 있지만 의미에 약간의 차이가 있다.</p>
-<p>POSIX.1-2001에 기술하는 <tt>[[posix_madvise(3)]]</tt>에는 상수 <code>POSIX_MADV_NORMAL</code>, <code>POSIX_MADV_RANDOM</code>, <code>POSIX_MADV_SEQUENTIAL</code>, <code>POSIX_MADV_WILLNEED</code>, <code>POSIX_MADV_DONTNEED</code> 등이 있는데 위에 나열된 비슷한 이름의 플래그들과 동작 방식이 비슷하다.</p>
+<p>POSIX.1-2001에 기술하는 <tt><a class="wikilink" href="/man-pages-ko/posix_madvise(3)/">posix_madvise(3)</a></tt>에는 상수 <code>POSIX_MADV_NORMAL</code>, <code>POSIX_MADV_RANDOM</code>, <code>POSIX_MADV_SEQUENTIAL</code>, <code>POSIX_MADV_WILLNEED</code>, <code>POSIX_MADV_DONTNEED</code> 등이 있는데 위에 나열된 비슷한 이름의 플래그들과 동작 방식이 비슷하다.</p>
 <h2 id="notes">NOTES</h2>
 <h3 id="_3">리눅스 참고 사항</h3>
 <p>리눅스 구현에서는 주소 <code>addr</code>이 페이지에 정렬되어 있기를 요구하며 <code>length</code>가 0인 것을 허용한다. 지정한 주소 범위의 일부가 맵 되어 있지 않은 경우 리눅스 버전 <code>madvise()</code>는 그 부분을 무시하고 나머지에 호출 내용을 적용한다. (하지만 시스템 호출은 원래 그래야 하는 대로 <code>ENOMEM</code>을 반환한다.)</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[getrlimit(2)]]</tt>, <tt>[[mincore(2)]]</tt>, <tt>[[mmap(2)]]</tt>, <tt>[[mprotect(2)]]</tt>, <tt>[[msync(2)]]</tt>, <tt>[[munmap(2)]]</tt>, <tt>[[prctl(2)]]</tt>, <tt>[[posix_madvise(3)]]</tt>, <tt>[[core(5)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/getrlimit(2)/">getrlimit(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mincore(2)/">mincore(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mprotect(2)/">mprotect(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/msync(2)/">msync(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/munmap(2)/">munmap(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/prctl(2)/">prctl(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/process_madvise(2)/">process_madvise(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/posix_madvise(3)/">posix_madvise(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/core(5)/">core(5)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

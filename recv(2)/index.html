@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/recv(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/recv%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Recv(2) - man-pages-ko</title>
+    <title>recv(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -150,7 +150,7 @@
         <li class="first-level "><a href="#errors">ERRORS</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
@@ -159,40 +159,35 @@
 <h2 id="name">NAME</h2>
 <p>recv, recvfrom, recvmsg - 소켓에서 메시지 받기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;sys/types.h&gt;
-#include &lt;sys/socket.h&gt;
+<pre><code class="language-c">#include &lt;sys/socket.h&gt;
 
 ssize_t recv(int sockfd, void *buf, size_t len, int flags);
-
-ssize_t recvfrom(int sockfd, void *buf, size_t len, int flags,
-                 struct sockaddr *src_addr, socklen_t *addrlen);
-
+ssize_t recvfrom(int sockfd, void *restrict buf, size_t len, int flags,
+                 struct sockaddr *restrict src_addr,
+                 socklen_t *restrict addrlen);
 ssize_t recvmsg(int sockfd, struct msghdr *msg, int flags);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>recv()</code>, <code>recvfrom()</code>, <code>recvmsg()</code> 호출을 이용해 소켓에서 메시지를 받는다. 무연결 소켓과 연결 지향 소켓 모두에서 데이터를 받을 수 있다. 이 페이지에서는 먼저 세 가지 시스템 호출의 공통 기능을 기술한 다음 호출들 간의 차이점을 기술한다.</p>
 <p><code>recv()</code>와 <code>read(2)</code>의 유일한 차이는 <code>flags</code>의 존재 여부다. <code>flags</code> 인자가 0이면 <code>recv()</code>는 일반적으로 <code>read(2)</code>와 동등하다. (하지만 NOTES 참고.) 또한 다음 호출은</p>
-<pre><code class="c">recv(sockfd, buf, len, flags);
+<pre><code class="language-c">recv(sockfd, buf, len, flags);
 </code></pre>
-
 <p>다음과 동등하다.</p>
-<pre><code class="c">recvfrom(sockfd, buf, len, flags, NULL, NULL);
+<pre><code class="language-c">recvfrom(sockfd, buf, len, flags, NULL, NULL);
 </code></pre>
-
 <p>세 호출 모두 성공 완료 시 메시지 길이를 반환한다. 메시지가 너무 길어서 제공 버퍼에 들어가지 않는 경우 메시지를 받는 소켓의 종류에 따라선 넘치는 바이트들을 버릴 수도 있다.</p>
-<p>수신 호출들은 소켓에 메시지가 없으면 메시지가 도착하기를 기다린다. 단 소켓이 논블로킹이면 (<tt>[[fcntl(2)]]</tt> 참고) -1 값을 반환하고 외부 변수 <code>errno</code>를 <code>EAGAIN</code>이나 <code>EWOULDBLOCK</code>으로 설정한다. 수신 호출들은 보통 요청 받은 양 전체를 수신할 때까지 기다리기보다는 사용 가능한 데이터를 최대 요청 크기만큼 바로 반환한다.</p>
-<p>응용에서 <tt>[[select(2)]]</tt>, <tt>[[poll(2)]]</tt>, <tt>[[epoll(7)]]</tt>을 이용해 소켓에 데이터가 더 도착했는지 알아낼 수 있다.</p>
+<p>수신 호출들은 소켓에 메시지가 없으면 메시지가 도착하기를 기다린다. 단 소켓이 논블로킹이면 (<tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt> 참고) -1 값을 반환하고 <code>errno</code>를 <code>EAGAIN</code>이나 <code>EWOULDBLOCK</code>으로 설정한다. 수신 호출들은 보통 요청 받은 양 전체를 수신할 때까지 기다리기보다는 사용 가능한 데이터를 최대 요청 크기만큼 바로 반환한다.</p>
+<p>응용에서 <tt><a class="wikilink" href="/man-pages-ko/select(2)/">select(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/poll(2)/">poll(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/epoll(7)/">epoll(7)</a></tt>을 이용해 소켓에 데이터가 더 도착했는지 알아낼 수 있다.</p>
 <h3 id="flags"><code>flags</code> 인자</h3>
 <p><code>flags</code> 인자는 다음 값들을 1개 이상 OR 해서 구성한다.</p>
 <dl>
 <dt><code>MSG_CMSG_CLOEXEC</code> (<code>recvmsg()</code> 전용, 리눅스 2.6.23부터)</dt>
-<dd>(<tt>[[unix(7)]]</tt>에서 기술하는) <code>SCM_RIGHTS</code> 동작으로 유닉스 도메인 파일 디스크립터를 통해 수신하는 파일 디스크립터에 'exec에서 닫기' 플래그를 설정한다. <tt>[[open(2)]]</tt>의 <code>O_CLOEXEC</code> 플래그와 같은 이유로 이 플래그가 유용하다.</dd>
+<dd>(<tt><a class="wikilink" href="/man-pages-ko/unix(7)/">unix(7)</a></tt>에서 기술하는) <code>SCM_RIGHTS</code> 동작으로 유닉스 도메인 파일 디스크립터를 통해 수신하는 파일 디스크립터에 'exec에서 닫기' 플래그를 설정한다. <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>의 <code>O_CLOEXEC</code> 플래그와 같은 이유로 이 플래그가 유용하다.</dd>
 <dt><code>MSG_DONTWAIT</code> (리눅스 2.2부터)</dt>
-<dd>논블로킹 동작을 켠다. 동작이 블록 되려는 경우 호출이 <code>EAGAIN</code>이나 <code>EWOULDBLOCK</code>으로 실패한다. (<tt>[[fcntl(2)]]</tt> <code>F_SETFL</code> 동작을 통해) <code>O_NONBLOCK</code> 플래그를 설정한 경우와 비슷한 동작 방식인데, <code>MSG_DONTWAIT</code>이 호출별 옵션인 반면 <code>O_NONBLOCK</code>은 열린 파일 기술 항목에 대한 설정이어서 (<tt>[[open(2)]]</tt> 참고) 호출 프로세스 내 모든 스레드뿐 아니라 같은 열린 파일 기술 항목을 가리키는 파일 디스크립터를 가진 다른 프로세스에도 영향을 끼치게 된다.</dd>
+<dd>논블로킹 동작을 켠다. 동작이 블록 되려는 경우 호출이 <code>EAGAIN</code>이나 <code>EWOULDBLOCK</code>으로 실패한다. (<tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt> <code>F_SETFL</code> 동작을 통해) <code>O_NONBLOCK</code> 플래그를 설정한 경우와 비슷한 동작 방식인데, <code>MSG_DONTWAIT</code>이 호출별 옵션인 반면 <code>O_NONBLOCK</code>은 열린 파일 기술 항목에 대한 설정이어서 (<tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt> 참고) 호출 프로세스 내 모든 스레드뿐 아니라 같은 열린 파일 기술 항목을 가리키는 파일 디스크립터를 가진 다른 프로세스에도 영향을 끼치게 된다.</dd>
 <dt><code>MSG_ERRQUEUE</code> (리눅스 2.2부터)</dt>
 <dd>
-<p>이 플래그는 소켓 오류 큐에 있는 오류를 받아와야 함을 나타낸다. 보조 메시지로 오류가 전달되며 그 타입은 프로토콜에 따라 다르다. (IPv4에서는 <code>IP_RECVERR</code>.) 사용자가 충분한 크기의 버퍼를 제공해야 한다. 자세한 내용은 <tt>[[cmsg(3)]]</tt>와 <tt>[[ip(7)]]</tt>를 보라. 오류를 유발한 원인 패킷의 페이로드가 <code>msg_iovec</code>을 통해 정상 데이터처럼 전달된다. 오류를 유발한 데이터그램의 원래 목적 주소가 <code>msg_name</code>으로 제공된다.</p>
+<p>이 플래그는 소켓 오류 큐에 있는 오류를 받아와야 함을 나타낸다. 보조 메시지로 오류가 전달되며 그 타입은 프로토콜에 따라 다르다. (IPv4에서는 <code>IP_RECVERR</code>.) 사용자가 충분한 크기의 버퍼를 제공해야 한다. 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/cmsg(3)/">cmsg(3)</a></tt>와 <tt><a class="wikilink" href="/man-pages-ko/ip(7)/">ip(7)</a></tt>를 보라. 오류를 유발한 원인 패킷의 페이로드가 <code>msg_iovec</code>을 통해 정상 데이터처럼 전달된다. 오류를 유발한 데이터그램의 원래 목적 주소가 <code>msg_name</code>으로 제공된다.</p>
 <p><code>sock_extended_err</code> 구조체로 오류를 제공한다.</p>
 <pre><code>#define SO_EE_ORIGIN_NONE    0
 #define SO_EE_ORIGIN_LOCAL   1
@@ -223,7 +218,7 @@ struct sockaddr *SO_EE_OFFENDER(struct sock_extended_err *);
 <dt><code>MSG_TRUNC</code> (리눅스 2.2부터)</dt>
 <dd>
 <p>로우 (<code>AF_PACKET</code>), 인터넷 데이터그램 (리눅스 2.4.27/2.6.8부터), 넷링크 (리눅스 2.6.22부터), 유닉스 데이터그램 (리눅스 3.4부터) 소켓에서: 패킷 내지 데이터그램의 실제 길이가 전달한 버퍼보다 컸던 경우에도 그 실제 길이를 반환한다.</p>
-<p>인터넷 스트림 프로토콜에서의 사용에 대해선 <tt>[[tcp(7)]]</tt> 참고.</p>
+<p>인터넷 스트림 프로토콜에서의 사용에 대해선 <tt><a class="wikilink" href="/man-pages-ko/tcp(7)/">tcp(7)</a></tt> 참고.</p>
 </dd>
 <dt><code>MSG_WAITALL</code> (리눅스 2.2부터)</dt>
 <dd>이 플래그는 요청 전체가 충족될 때까지 동작이 블록하기를 요청한다. 하지만 시그널을 잡거나, 오류 내지 연결 끊김이 발생하거나, 다음 수신 데이터가 다른 타입인 경우에는 여전히 요청보다 적은 데이터를 반환할 수 있다. 데이터그램 소켓에는 이 플래그가 효과가 없다.</dd>
@@ -234,12 +229,11 @@ struct sockaddr *SO_EE_OFFENDER(struct sock_extended_err *);
 <p>호출자가 출발 주소에 관심이 없으면 <code>src_addr</code>과 <code>addrlen</code>을 NULL로 지정해야 한다.</p>
 <h3 id="recv"><code>recv()</code></h3>
 <p><code>recv()</code> 호출은 보통 <em>연결</em> 상태인 (<code>connect(2)</code> 참고) 소켓에서만 쓴다. 다음 호출과 동등하다.</p>
-<pre><code class="c">recvfrom(fd, buf, len, flags, NULL, 0);
+<pre><code class="language-c">recvfrom(fd, buf, len, flags, NULL, 0);
 </code></pre>
-
 <h3 id="recvmsg"><code>recvmsg()</code></h3>
 <p><code>recvmsg()</code> 호출에서는 <code>msghdr</code> 구조체를 사용해 직접 제공하는 인자들의 수를 줄인다. 이 구조체는 <code>&lt;sys/socket.h&gt;</code>에 다음과 같이 정의되어 있다.</p>
-<pre><code class="c">struct iovec {                    /* 스캐터/개더 배열 항목 */
+<pre><code class="language-c">struct iovec {                    /* 스캐터/개더 배열 항목 */
     void  *iov_base;              /* 시작 주소 */
     size_t iov_len;               /* 이동할 바이트 수 */
 };
@@ -254,12 +248,11 @@ struct msghdr {
     int           msg_flags;      /* 수신 메시지에 대한 플래그 */
 };
 </code></pre>
-
 <p><code>msg_name</code> 필드는 호출자 할당 버퍼를 가리키며 소켓이 연결돼 있지 않은 경우 출발 주소를 반환하는 데 이 버퍼를 쓴다. 호출 전에 호출자가 <code>msg_namelen</code>에 버퍼 크기를 설정해야 하며 성공 호출 반환 시 <code>msg_namelen</code>이 반환 주소의 길이를 담게 된다. 응용에서 출발 주소를 알 필요가 없으면 <code>msg_name</code>을 NULL로 지정하면 된다.</p>
-<p><code>msg_iov</code> 및 <code>msg_iovlen</code> 필드는 <tt>[[readv(2)]]</tt>에서처럼 스캐터-개더 위치들을 기술한다.</p>
+<p><code>msg_iov</code> 및 <code>msg_iovlen</code> 필드는 <tt><a class="wikilink" href="/man-pages-ko/readv(2)/">readv(2)</a></tt>에서처럼 스캐터-개더 위치들을 기술한다.</p>
 <p><code>msg_control</code> 필드는 여타 프로토콜 제어 관련 메시지나 여러 보조 데이터를 위한 <code>msg_controllen</code> 길이의 버퍼를 가리킨다. <code>recvmsg()</code> 호출 시 <code>msg_controllen</code>이 <code>msg_control</code>의 가용 버퍼 길이를 담고 있어야 한다. 성공 호출 반환 시 제어 메시지 열의 길이를 담게 된다.</p>
 <p>메시지는 다음 형태이다.</p>
-<pre><code class="c">struct cmsghdr {
+<pre><code class="language-c">struct cmsghdr {
     size_t cmsg_len;    /* 데이터 바이트 개수. 헤더 포함.
                            (POSIX에서는 타입이 socklen_t) */
     int    cmsg_level;  /* 기원 프로토콜 */
@@ -268,9 +261,8 @@ struct msghdr {
     unsigned char cmsg_data[]; */
 };
 </code></pre>
-
-<p>보조 데이터는 <tt>[[cmsg(3)]]</tt>에 정의된 매크로를 통해서만 접근해야 한다.</p>
-<p>예를 들어 리눅스에서는 이 보조 데이터 메커니즘을 이용해 확장 오류나 IP 옵션을, 그리고 유닉스 도메인 소켓 상으로 파일 디스크립터를 전달한다.</p>
+<p>보조 데이터는 <tt><a class="wikilink" href="/man-pages-ko/cmsg(3)/">cmsg(3)</a></tt>에 정의된 매크로를 통해서만 접근해야 한다.</p>
+<p>예를 들어 리눅스에서는 이 보조 데이터 메커니즘을 이용해 확장 오류나 IP 옵션을, 그리고 유닉스 도메인 소켓 상으로 파일 디스크립터를 전달한다. 다양한 소켓 도메인에서 보조 데이터를 이용하는 방식에 대한 자세한 설명은 <tt><a class="wikilink" href="/man-pages-ko/unix(7)/">unix(7)</a></tt>와 <tt><a class="wikilink" href="/man-pages-ko/ip(7)/">ip(7)</a></tt>를 보라.</p>
 <p><code>recvmsg()</code> 반환 시 <code>msghdr</code>의 <code>msg_flags</code> 필드가 설정된다. 여러 플래그가 담길 수 있다.</p>
 <dl>
 <dt><code>MSG_EOR</code></dt>
@@ -301,7 +293,7 @@ struct msghdr {
 <dt><code>EFAULT</code></dt>
 <dd>수신 버퍼 포인터(들)이 프로세스의 주소 공간 밖을 가리키고 있다.</dd>
 <dt><code>EINTR</code></dt>
-<dd>사용 가능한 데이터가 있기 전에 시그널 전달에 의해 수신이 중단되었다. <tt>[[signal(7)]]</tt> 참고.</dd>
+<dd>사용 가능한 데이터가 있기 전에 시그널 전달에 의해 수신이 중단되었다. <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt> 참고.</dd>
 <dt><code>EINVAL</code></dt>
 <dd>유효하지 않은 인자를 전달했다.</dd>
 <dt><code>ENOMEM</code></dt>
@@ -317,14 +309,14 @@ struct msghdr {
 <h2 id="notes">NOTES</h2>
 <p>길이가 0인 데이터그램이 대기 중인 경우 <code>read(2)</code>와 <code>flags</code> 인자 0인 <code>recv()</code>의 동작이 다르다. 이 경우에 <code>read(2)</code>는 효력이 없지만 (데이터그램이 대기 중으로 남는다) <code>recv()</code>는 대기 중인 데이터그램을 소모한다.</p>
 <p><code>socklen_t</code> 타입은 POSIX에서 고안한 것이다. <code>accept(2)</code>도 참고.</p>
-<p>POSIX.1에 따르면 <code>msghdr</code> 구조체의 <code>msg_controllen</code> 필드가 <code>socklen_t</code> 타입이어야 하지만 glibc에서는 현재 <code>size_t</code> 타입으로 하고 있다.</p>
-<p>호출 한 번에 여러 데이터그램을 수신할 수 있는 리눅스 전용 시스템 호출에 대한 내용은 <tt>[[recvmmsg(2)]]</tt>를 보라.</p>
-<h2 id="example">EXAMPLE</h2>
-<p><tt>[[getaddrinfo(3)]]</tt>에서 <code>recvfrom()</code> 사용례를 볼 수 있다.</p>
+<p>POSIX.1에 따르면 <code>msghdr</code> 구조체의 <code>msg_controllen</code> 필드가 <code>socklen_t</code> 타입이어야 하고 <code>msg_iovlen</code> 필드가 <code>int</code> 타입이어야 하지만 glibc에서는 현재 둘 모두 <code>size_t</code> 타입으로 하고 있다.</p>
+<p>호출 한 번에 여러 데이터그램을 수신할 수 있는 리눅스 전용 시스템 호출에 대한 내용은 <tt><a class="wikilink" href="/man-pages-ko/recvmmsg(2)/">recvmmsg(2)</a></tt>를 보라.</p>
+<h2 id="examples">EXAMPLES</h2>
+<p><tt><a class="wikilink" href="/man-pages-ko/getaddrinfo(3)/">getaddrinfo(3)</a></tt>에서 <code>recvfrom()</code> 사용례를 볼 수 있다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[fcntl(2)]]</tt>, <code>getsockopt(2)</code>, <code>read(2)</code>, <tt>[[recvmmsg(2)]]</tt>, <tt>[[select(2)]]</tt>, <tt>[[shutdown(2)]]</tt>, <tt>[[socket(2)]]</tt>, <tt>[[cmsg(3)]]</tt>, <tt>[[sockatmark(3)]]</tt>, <tt>[[ip(7)]]</tt>, <tt>[[ipv6(7)]]</tt>, <tt>[[socket(7)]]</tt>, <tt>[[tcp(7)]]</tt>, <tt>[[udp(7)]]</tt>, <tt>[[unix(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt>, <code>getsockopt(2)</code>, <code>read(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/recvmmsg(2)/">recvmmsg(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/select(2)/">select(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/shutdown(2)/">shutdown(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/socket(2)/">socket(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/cmsg(3)/">cmsg(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sockatmark(3)/">sockatmark(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ip(7)/">ip(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ipv6(7)/">ipv6(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/socket(7)/">socket(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/tcp(7)/">tcp(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/udp(7)/">udp(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/unix(7)/">unix(7)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

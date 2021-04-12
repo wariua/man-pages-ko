@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/sigqueue(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/sigqueue%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Sigqueue(3) - man-pages-ko</title>
+    <title>sigqueue(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -154,43 +154,41 @@
 <h2 id="name">NAME</h2>
 <p>sigqueue - 프로세스에게 시그널과 데이터 큐잉 하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;signal.h&gt;
+<pre><code class="language-c">#include &lt;signal.h&gt;
 
 int sigqueue(pid_t pid, int sig, const union sigval value);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>sigqueue()</code>:</dt>
 <dd><code>_POSIX_C_SOURCE &gt;= 199309L</code></dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>sigqueue()</code>는 <code>pid</code>에 준 PID의 프로세스에게 <code>sig</code>에 지정한 시그널을 보낸다. 시그널을 보내기 위해 필요한 권한은 <tt>[[kill(2)]]</tt>과 같다. <tt>[[kill(2)]]</tt>에서처럼 널 시그널(0)을 이용해 해당 PID의 프로세스가 존재하는지 확인할 수 있다.</p>
+<p><code>sigqueue()</code>는 <code>pid</code>에 준 PID의 프로세스에게 <code>sig</code>에 지정한 시그널을 보낸다. 시그널을 보내기 위해 필요한 권한은 <tt><a class="wikilink" href="/man-pages-ko/kill(2)/">kill(2)</a></tt>과 같다. <tt><a class="wikilink" href="/man-pages-ko/kill(2)/">kill(2)</a></tt>에서처럼 널 시그널(0)을 이용해 해당 PID의 프로세스가 존재하는지 확인할 수 있다.</p>
 <p>시그널에 동반해 보낼 데이터 항목(정수 또는 포인터 값)을 <code>value</code> 인자로 지정하며, 다음 타입이다.</p>
-<pre><code class="c">union sigval {
+<pre><code class="language-c">union sigval {
     int   sival_int;
     void *sival_ptr;
 };
 </code></pre>
-
-<p>수신 프로세스에서 <tt>[[sigaction(2)]]</tt>에 <code>SA_SIGINFO</code> 플래그를 써서 이 시그널에 대한 핸들러를 설치해 두었다면 핸들러 두 번째 인자로 전달되는 <code>siginfo_t</code> 구조체의 <code>si_value</code> 필드를 통해 이 데이터를 얻을 수 있다. 더불어 그 구조체의 <code>si_code</code> 필드가 <code>SI_QUEUE</code>로 설정될 것이다.</p>
+<p>수신 프로세스에서 <tt><a class="wikilink" href="/man-pages-ko/sigaction(2)/">sigaction(2)</a></tt>에 <code>SA_SIGINFO</code> 플래그를 써서 이 시그널에 대한 핸들러를 설치해 두었다면 핸들러 두 번째 인자로 전달되는 <code>siginfo_t</code> 구조체의 <code>si_value</code> 필드를 통해 이 데이터를 얻을 수 있다. 더불어 그 구조체의 <code>si_code</code> 필드가 <code>SI_QUEUE</code>로 설정될 것이다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 <code>sigqueue()</code>는 0을 반환하여 시그널이 수신 프로세스에게 성공적으로 큐잉 되었음을 나타낸다. 그 외의 경우에는 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EAGAIN</code></dt>
-<dd>큐에 넣을 수 있는 시그널 개수 한계에 도달했다. (자세한 내용은 <tt>[[signal(7)]]</tt>을 보라.)</dd>
+<dd>큐에 넣을 수 있는 시그널 개수 한계에 도달했다. (자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt>을 보라.)</dd>
 <dt><code>EINVAL</code></dt>
 <dd><code>sig</code>가 유효하지 않다.</dd>
 <dt><code>EPERM</code></dt>
-<dd>프로세스가 수신 프로세스로 시그널을 보낼 권한을 가지고 있지 않다. 필요한 권한에 대해선 <tt>[[kill(2)]]</tt>을 보라.</dd>
+<dd>프로세스가 수신 프로세스로 시그널을 보낼 권한을 가지고 있지 않다. 필요한 권한에 대해선 <tt><a class="wikilink" href="/man-pages-ko/kill(2)/">kill(2)</a></tt>을 보라.</dd>
 <dt><code>ESRCH</code></dt>
 <dd><code>pid</code>에 일치하는 PID의 프로세스가 없다.</dd>
 </dl>
 <h2 id="versions">VERSIONS</h2>
-<p>리눅스 2.2에서 <code>sigqueue()</code>와 기반 되는 <tt>[[rt_sigqueueinfo(2)]]</tt> 시스템 호출이 처음 등장했다.</p>
+<p>리눅스 2.2에서 <code>sigqueue()</code>와 기반 되는 <tt><a class="wikilink" href="/man-pages-ko/rt_sigqueueinfo(2)/">rt_sigqueueinfo(2)</a></tt> 시스템 호출이 처음 등장했다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -210,20 +208,19 @@ int sigqueue(pid_t pid, int sig, const union sigval value);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008.</p>
 <h2 id="notes">NOTES</h2>
-<p>이 함수로 인해 호출한 프로세스에게 시그널을 보내게 되는데 호출 스레드가 그 시그널을 막고 있지 않았고, 다른 어떤 스레드도 (비차단으로 두거나 <tt>[[sigwait(3)]]</tt>으로 기다려서) 그 시그널을 처리하려는 의사가 없었으면 이 함수가 반환하기 전에 이 스레드에게 적어도 어떤 시그널이 전달되어야 한다.</p>
+<p>이 함수로 인해 호출한 프로세스에게 시그널을 보내게 되는데 호출 스레드가 그 시그널을 막고 있지 않았고, 다른 어떤 스레드도 (비차단으로 두거나 <tt><a class="wikilink" href="/man-pages-ko/sigwait(3)/">sigwait(3)</a></tt>으로 기다려서) 그 시그널을 처리하려는 의사가 없었으면 이 함수가 반환하기 전에 이 스레드에게 적어도 어떤 시그널이 전달되어야 한다.</p>
 <h3 id="c">C 라이브러리/커널 차이</h3>
-<p>리눅스에서 <code>sigqueue()</code>는 <tt>[[rt_sigqueueinfo(2)]]</tt> 시스템 호출을 이용해 구현되어 있다. 그 시스템 호출은 세 번째 인자가 <code>siginfo_t</code> 구조체인 점이 다른데, 이 구조체가 수신 프로세스의 시그널 핸들러에게 제공되거나 수신 프로세스의 <tt>[[sigtimedwait(2)]]</tt> 호출에 의해 반환된다. glibc의 <code>sigqueue()</code> 래퍼에서 이 인자 <code>uinfo</code>를 다음과 같이 설정한다.</p>
-<pre><code class="c">uinfo.si_signo = sig;      /* sigqueue()에게 준 인자 */
+<p>리눅스에서 <code>sigqueue()</code>는 <tt><a class="wikilink" href="/man-pages-ko/rt_sigqueueinfo(2)/">rt_sigqueueinfo(2)</a></tt> 시스템 호출을 이용해 구현되어 있다. 그 시스템 호출은 세 번째 인자가 <code>siginfo_t</code> 구조체인 점이 다른데, 이 구조체가 수신 프로세스의 시그널 핸들러에게 제공되거나 수신 프로세스의 <tt><a class="wikilink" href="/man-pages-ko/sigtimedwait(2)/">sigtimedwait(2)</a></tt> 호출에 의해 반환된다. glibc의 <code>sigqueue()</code> 래퍼에서 이 인자 <code>uinfo</code>를 다음과 같이 설정한다.</p>
+<pre><code class="language-c">uinfo.si_signo = sig;      /* sigqueue()에게 준 인자 */
 uinfo.si_code = SI_QUEUE;
 uinfo.si_pid = getpid();   /* 송신자의 프로세스 ID */
 uinfo.si_uid = getuid();   /* 송신자의 실제 UID */
 uinfo.si_value = val;      /* sigqueue()에게 준 인자 */
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[kill(2)]]</tt>, <tt>[[rt_sigqueueinfo(2)]]</tt>, <tt>[[sigaction(2)]]</tt>, <tt>[[signal(2)]]</tt>, <tt>[[pthread_sigqueue(3)]]</tt>, <tt>[[sigwait(3)]]</tt>, <tt>[[signal(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/kill(2)/">kill(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/rt_sigqueueinfo(2)/">rt_sigqueueinfo(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigaction(2)/">sigaction(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/signal(2)/">signal(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_sigqueue(3)/">pthread_sigqueue(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigwait(3)/">sigwait(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

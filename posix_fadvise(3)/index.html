@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/posix_fadvise(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/posix_fadvise%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Posix fadvise(3) - man-pages-ko</title>
+    <title>posix_fadvise(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -145,7 +145,7 @@
         <li class="first-level "><a href="#notes">NOTES</a></li>
             <li class="second-level"><a href="#c">C 라이브러리/커널 차이</a></li>
                 
-            <li class="second-level"><a href="#_1">아키텍처별 변이</a></li>
+            <li class="second-level"><a href="#_1">아키텍처별 차이</a></li>
                 
         <li class="first-level "><a href="#bugs">BUGS</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
@@ -156,12 +156,11 @@
 <h2 id="name">NAME</h2>
 <p>posix_fadvise - 파일 데이터 접근 방식을 미리 선언하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;fcntl.h&gt;
+<pre><code class="language-c">#include &lt;fcntl.h&gt;
 
 int posix_fadvise(int fd, off_t offset, off_t len, int advice);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>posix_fadvise()</code>:</dt>
 <dd><code>_POSIX_C_SOURCE &gt;= 200112L</code></dd>
@@ -192,7 +191,7 @@ int posix_fadvise(int fd, off_t offset, off_t len, int advice);
 <p>지정한 데이터에 당분간은 접근하지 않을 것이다.</p>
 <p><code>POSIX_FADV_DONTNEED</code>는 지정한 영역과 연계된 캐싱 된 페이지들을 해제 시도한다. 예를 들어 큰 파일을 스트리밍 할 때 유용하다. 프로그램에서 이미 사용한 데이터를 캐시에서 해제하라고 주기적으로 커널에게 요청할 수 있고, 그러면 캐시 내의 더 유용한 페이지들이 폐기되지 않을 수 있다.</p>
 <p>페이지 일부만 폐기하는 요청은 무시한다. 불필요한 데이터를 폐기하는 것보다 필요한 데이터를 보존하는 쪽이 중요하다. 데이터 폐기를 고려하게 하려면 <code>offset</code>과 <code>len</code>이 페이지에 정렬되어 있어야 한다.</p>
-<p>지정 영역 내의 변경된 페이지들을 구현체가 기반 장치로 기록하려 시도할 <em>수도</em> 있다. 하지만 이를 보장하지는 않는다. 기록 안 된 변경 페이지가 있으면 해제되지 않을 것이다. 변경된 페이지가 해제되게 하고 싶으면 응용에서 먼저 <tt>[[fsync(2)]]</tt>나 <tt>[[fdatasync(2)]]</tt>를 호출해야 할 것이다.</p>
+<p>지정 영역 내의 변경된 페이지들을 구현체가 기반 장치로 기록하려 시도할 <em>수도</em> 있다. 하지만 이를 보장하지는 않는다. 기록 안 된 변경 페이지가 있으면 해제되지 않을 것이다. 변경된 페이지가 해제되게 하고 싶으면 응용에서 먼저 <tt><a class="wikilink" href="/man-pages-ko/fsync(2)/">fsync(2)</a></tt>나 <tt><a class="wikilink" href="/man-pages-ko/fdatasync(2)/">fdatasync(2)</a></tt>를 호출해야 할 것이다.</p>
 </dd>
 </dl>
 <h2 id="return-value">RETURN VALUE</h2>
@@ -210,27 +209,26 @@ int posix_fadvise(int fd, off_t offset, off_t len, int advice);
 <p>리눅스 2.5.60에서 커널 지원이 처음 등장했다. 기반 시스템 호출의 이름이 <code>fadvise64()</code>였다. glibc 버전 2.2부터 래퍼 함수 <code>posix_fadvise()</code>를 통해 라이브러리 지원이 이뤄졌다.</p>
 <p>리눅스 3.18부터 기반 시스템 호출 지원이 선택적이다. <code>CONFIG_ADVISE_SYSCALLS</code> 구성 옵션 설정에 따라 정해진다.</p>
 <h2 id="conforming-to">CONFORMING TO</h2>
-<p>POSIX.1-2001, POSIX.1-2008. 참고로 POSIX.1-2003 TC1에서 <code>len</code> 인자의 타입이 <code>size_t</code>에서 <code>off_t</code>로 바뀌었다.</p>
+<p>POSIX.1-2001, POSIX.1-2008. 참고로 POSIX.1-2001 TC1에서 <code>len</code> 인자의 타입이 <code>size_t</code>에서 <code>off_t</code>로 바뀌었다.</p>
 <h2 id="notes">NOTES</h2>
 <p>리눅스에서 <code>POSIX_FADV_NORMAL</code>은 미리 읽기 윈도를 기반 장치별 기본값으로 설정한다. <code>POSIX_FADV_SEQUENTIAL</code>은 두 배 크기로 만들고 <code>POSIX_FADV_RANDOM</code>은 파일 미리 읽기를 완전히 끈다. 이런 변경은 지정한 영역만이 아니라 파일 전체에 영향을 끼친다. (단, 동일 파일에 대한 다른 열린 파일 핸들은 영향을 받지 않는다.)</p>
-<p><tt>[[proc(5)]]</tt>에서 기술하는 <code>/proc/sys/vm/drop_caches</code> 인터페이스를 통해 커널 버퍼 캐시 내용을 비울 수 있다.</p>
-<p>파일을 열어서 <tt>[[mmap(2)]]</tt>으로 맵 하고서 그 매핑에 <tt>[[mincore(2)]]</tt>를 적용하면 파일의 어느 페이지들이 버퍼 캐시 안에 상주하고 있는지에 대한 스냅샷을 얻을 수 있다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/proc(5)/">proc(5)</a></tt>에서 기술하는 <code>/proc/sys/vm/drop_caches</code> 인터페이스를 통해 커널 버퍼 캐시 내용을 비울 수 있다.</p>
+<p>파일을 열어서 <tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt>으로 맵 하고서 그 매핑에 <tt><a class="wikilink" href="/man-pages-ko/mincore(2)/">mincore(2)</a></tt>를 적용하면 파일의 어느 페이지들이 버퍼 캐시 안에 상주하고 있는지에 대한 스냅샷을 얻을 수 있다.</p>
 <h3 id="c">C 라이브러리/커널 차이</h3>
 <p>C 라이브러리의 래퍼 함수 이름이 <code>posix_fadvise()</code>이다. 기반 시스템 호출의 이름은 <code>fadvise64()</code>이다. (일부 아키텍처에서는 <code>fadvise64_64()</code>이다.) 두 시스템 호출의 차이는 전자에서 <code>len</code> 인자의 타입이 <code>size_t</code>라고 상정하는 반면 후자에서는 <code>loff_t</code>를 기대한다는 점이다.</p>
-<h3 id="_1">아키텍처별 변이</h3>
-<p>어떤 아키텍처에서는 64비트 인자를 적절한 레지스터 쌍에 맞춰 넣어야 한다. (자세한 내용은 <tt>[[syscall(2)]]</tt> 참고.) 그런 아키텍처에서 SYNOPSIS에 있는 <code>posix_fadvise()</code> 호출 시그너처는 <code>fd</code>와 <code>offset</code> 인자 사이 패딩으로 레지스터 하나를 낭비하게 만들 것이다. 그래서 그런 아키텍처들에서는 인자 순서를 적절히 바꾸고 나머지는 <code>posix_fadvise()</code>와 정확하게 동일한 버전을 정의한다.</p>
+<h3 id="_1">아키텍처별 차이</h3>
+<p>어떤 아키텍처에서는 64비트 인자를 적절한 레지스터 쌍에 맞춰 넣어야 한다. (자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/syscall(2)/">syscall(2)</a></tt> 참고.) 그런 아키텍처에서 SYNOPSIS에 있는 <code>posix_fadvise()</code> 호출 시그너처는 <code>fd</code>와 <code>offset</code> 인자 사이 패딩으로 레지스터 하나를 낭비하게 만들 것이다. 그래서 그런 아키텍처들에서는 인자 순서를 적절히 바꾸고 나머지는 <code>posix_fadvise()</code>와 정확하게 동일한 버전을 정의한다.</p>
 <p>예를 들어 리눅스 2.6.14부터 ARM에는 다음 시스템 호출이 있다.</p>
-<pre><code class="c">long arm_fadvise64_64(int fd, int advice,
+<pre><code class="language-c">long arm_fadvise64_64(int fd, int advice,
                       loff_t offset, loff_t len);
 </code></pre>
-
 <p>일반적으로 응용에게는 이런 아키텍처별 세부 사항이 감춰져 있다. glibc의 <code>posix_fadvise()</code> 래퍼 함수에서 적절한 아키텍처별 시스템 호출을 불러 준다.</p>
 <h2 id="bugs">BUGS</h2>
 <p>커널 2.6.6 전에서는 <code>len</code>을 0으로 지정하면 이를 "파일 끝까지 전체 바이트"로 해석하지 않고 말 그대로 "0바이트"로 해석했다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>fincore(1)</code>, <tt>[[mincore(2)]]</tt>, <tt>[[readahead(2)]]</tt>, <tt>[[sync_file_range(2)]]</tt>, <tt>[[posix_fallocate(3)]]</tt>, <tt>[[posix_madvise(3)]]</tt></p>
+<p><code>fincore(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/mincore(2)/">mincore(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/readahead(2)/">readahead(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sync_file_range(2)/">sync_file_range(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/posix_fallocate(3)/">posix_fallocate(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/posix_madvise(3)/">posix_madvise(3)</a></tt></p>
 <hr />
-<p>2018-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

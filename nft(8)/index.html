@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/nft(8)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/nft%288%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Nft(8) - man-pages-ko</title>
+    <title>nft(8) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -418,13 +418,12 @@
 
 <p><code>define</code> 문을 써서 심볼 변수를 정의할 수 있다. 변수 참조는 식이며 이를 이용해 다른 변수를 초기화 할 수 있다. 정의 유효 범위는 현재 블록과 그 안에 포함된 모든 블록이다.</p>
 <h4 id="_5">심볼 변수 사용하기</h4>
-<pre><code class="text">define int_if1 = eth0
+<pre><code class="language-text">define int_if1 = eth0
 define int_if2 = eth1
 define int_ifs = { $int_if1, $int_if2 }
 
 filter input iif $int_ifs accept
 </code></pre>
-
 <h2 id="_6">주소 패밀리</h2>
 <p>주소 패밀리에 따라 어떤 종류의 패킷이 처리되는지 정해진다. 각 주소 패밀리별로 커널 패킷 처리 경로의 특정 지점들에 소위 훅이 있어서 그 훅에 대한 규칙이 존재하면 nftables를 호출한다.</p>
 <dl>
@@ -555,7 +554,7 @@ filter input iif $int_ifs accept
 </tbody>
 </table>
 <h4 id="_10">테이블 추가, 변경, 삭제</h4>
-<pre><code class="text"># 대화형으로 nft 시작
+<pre><code class="language-text"># 대화형으로 nft 시작
 nft --interactive
 
 # 새 테이블 생성
@@ -573,7 +572,6 @@ add table inet mytable { flags dormant; }
 # 테이블을 다시 활성화
 add table inet mytable
 </code></pre>
-
 <dl>
 <dt><code>add</code></dt>
 <dd>지정한 이름으로 지정한 패밀리에 새 테이블 추가.</dd>
@@ -757,13 +755,12 @@ add table inet mytable
 <dd>지정한 규칙 삭제.</dd>
 </dl>
 <h4 id="ip-input">ip 테이블 input 체인에 규칙 추가</h4>
-<pre><code class="text">nft add rule filter output ip daddr 192.168.0.0/24 accept # 'ip filter' 상정
+<pre><code class="language-text">nft add rule filter output ip daddr 192.168.0.0/24 accept # 'ip filter' 상정
 # 같은 명령을 좀 더 길게 쓰기
 nft add rule ip filter output ip daddr 192.168.0.0/24 accept
 </code></pre>
-
 <h4 id="inet">inet 테이블에서 규칙 삭제</h4>
-<pre><code class="text"># nft -a list ruleset
+<pre><code class="language-text"># nft -a list ruleset
 table inet filter {
         chain input {
                 type filter hook input priority 0; policy accept;
@@ -773,18 +770,15 @@ table inet filter {
 # 핸들이 5인 규칙 삭제하기
 # nft delete rule inet filter input handle 5
 </code></pre>
-
 <h2 id="_13">집합</h2>
 <p>nftables에는 두 가지 집합 개념이 있다. 익명 집합은 따로 이름이 없는 집합이다. 집합을 쓰는 규칙을 만들 때 집합 멤버들을 중괄호로 감싸고 쉼표로 원소들을 구분한다. 그 규칙이 제거되면 집합도 제거된다. 이 집합은 갱신이 불가능하다. 즉 익명 집합은 일단 선언하고 나면 그 익명 집합을 쓰는 규칙을 제거/변경하지 않고는 변경할 수 없다.</p>
 <h4 id="_14">익명 집합 이용해 특정 서브넷 및 포트 허용하기</h4>
-<pre><code class="text">nft add rule filter input ip saddr { 10.0.0.0/8, 192.168.0.0/16 } tcp dport { 22, 443 } accept
+<pre><code class="language-text">nft add rule filter input ip saddr { 10.0.0.0/8, 192.168.0.0/16 } tcp dport { 22, 443 } accept
 </code></pre>
-
 <p>기명 집합은 규칙에서 참조하기 전에 먼저 정의해야 한다. 익명 집합과 달리 언제든 기명 집합의 원소를 추가하거나 제거할 수 있다. 규칙에서 집합 이름 앞에 @를 붙여서 집합을 참조한다.</p>
 <h4 id="_15">기명 집합 이용해 주소 및 포트 허용하기</h4>
-<pre><code class="text">nft add rule filter input ip saddr @allowed_hosts tcp dport @allowed_ports accept
+<pre><code class="language-text">nft add rule filter input ip saddr @allowed_hosts tcp dport @allowed_ports accept
 </code></pre>
-
 <p>집합 allowed_hosts와 allowed_ports가 먼저 만들어져 있어야 한다. 다음 절에서 nft set 문법을 더 자세히 설명한다.</p>
 <pre>
 <strong>add set</strong> [<em>family</em>] <em>table set</em> <strong>{ type</strong> <em>type</em> <strong>;</strong> [<strong>flags</strong> <em>flags</em> <strong>;</strong>] [<strong>timeout</strong> <em>timeout</em> <strong>;</strong>] [<strong>gc-interval</strong> <em>gc-interval</em> <strong>;</strong>] [<strong>elements = {</strong> <em>element</em>[<strong>,</strong> ...] <strong>} ;</strong>] [<strong>size</strong> <em>size</em> <strong>;</strong>] [<strong>policy</strong> <em>policy</em> <strong>;</strong>] [<strong>auto-merge ;</strong>] <strong>}</strong>
@@ -993,7 +987,7 @@ table inet filter {
 </table>
 <h4 id="ftp">ftp 헬퍼 정의하고 할당하기</h4>
 <p>iptables와 달리 conntrack 검색이 완료된 후에, 예를 들어 기본 훅 우선순위 0으로 헬퍼 할당을 수행해야 한다.</p>
-<pre><code class="text">table inet myhelpers {
+<pre><code class="language-text">table inet myhelpers {
     ct helper ftp-standard {
         type &quot;ftp&quot; protocol tcp
     }
@@ -1003,7 +997,6 @@ table inet filter {
     }
 }
 </code></pre>
-
 <h3 id="ct-timeout">ct timeout</h3>
 <pre>
 <strong>ct timeout</strong> <em>name</em> <strong>{ protocol</strong> <em>protocol</em> <strong>; policy = {</strong> <em>state</em><strong>:</strong> <em>value</em> [<strong>,</strong> ...] <strong>} ;</strong> [<strong>l3proto</strong> <em>family</em> <strong>;</strong>] <strong>}</strong>
@@ -1043,7 +1036,7 @@ table inet filter {
 </tbody>
 </table>
 <h4 id="ct">ct 타임아웃 정책 정의하고 할당하기</h4>
-<pre><code class="text">table ip filter {
+<pre><code class="language-text">table ip filter {
         ct timeout customtimeout {
                 protocol tcp;
                 l3proto ip
@@ -1056,17 +1049,14 @@ table inet filter {
         }
 }
 </code></pre>
-
 <h4 id="_19">갱신된 타임아웃 정책 확인하기</h4>
-<pre><code class="text">% conntrack -E
+<pre><code class="language-text">% conntrack -E
 </code></pre>
-
 <p>다음처럼 나와야 한다.</p>
-<pre><code class="text">[UPDATE] tcp      6 120 ESTABLISHED src=172.16.19.128 dst=172.16.19.1
+<pre><code class="language-text">[UPDATE] tcp      6 120 ESTABLISHED src=172.16.19.128 dst=172.16.19.1
 sport=22 dport=41360 [UNREPLIED] src=172.16.19.1 dst=172.16.19.128
 sport=41360 dport=22
 </code></pre>
-
 <h3 id="ct-expectation">ct expectation</h3>
 <pre>
 <strong>ct expectation</strong> <em>name</em> <strong>{ protocol</strong> <em>protocol</em> <strong>; dport</strong> <em>dport</em> <strong>; timeout</strong> <em>timeout</em> <strong>; size</strong> <em>size</em> <strong>;</strong> [<strong>l3proto</strong> <em>family</em> <strong>;</strong>] <strong>}</strong>
@@ -1111,7 +1101,7 @@ sport=41360 dport=22
 </tbody>
 </table>
 <h4 id="ct_1">ct 예상 정책 정의하고 할당하기</h4>
-<pre><code class="text">table ip filter {
+<pre><code class="language-text">table ip filter {
         ct expectation expect {
                 protocol udp
                 dport 9876
@@ -1126,7 +1116,6 @@ sport=41360 dport=22
         }
 }
 </code></pre>
-
 <h3 id="counter">counter</h3>
 <pre>
 <strong>counter</strong> [<em>packets bytes</em>]
@@ -1191,7 +1180,7 @@ sport=41360 dport=22
 
 <p><code>describe</code> 명령은 식의 종류와 그 데이터 타입에 대한 정보를 보여 준다. 데이터 타입을 줄 수도 있으며, 그 경우 nft는 그 타입에 대한 추가 정보를 표시한다.</p>
 <h4 id="describe_1">describe 명령</h4>
-<pre><code class="text">$ nft describe tcp flags
+<pre><code class="language-text">$ nft describe tcp flags
 payload expression, datatype tcp_flag (TCP flag) (basetype bitmask, integer), 8 bits
 
 predefined symbolic constants:
@@ -1204,18 +1193,16 @@ urg                           0x20
 ecn                           0x40
 cwr                           0x80
 </code></pre>
-
 <h2 id="_21">데이터 타입</h2>
 <p>데이터 타입에 따라 크기, 심볼 값의 파싱 및 표현 방법, 식의 타입 호환성이 결정된다. 여러 가지 전역 데이터 타입이 있으며, 추가로 어떤 식들에서 그 식 종류에 한정된 데이터 타입을 추가로 정의한다. 대부분의 데이터 타입은 크기가 고정돼 있지만 일부는 크기가 동적일 수 있는데, 가령 문자열 타입이 그렇다.</p>
 <p>어떤 타입에는 미리 정의된 심볼 상수들이 있다. nft <code>describe</code> 명령으로 그 상수들을 나열할 수 있다.</p>
-<pre><code class="text">$ nft describe ct_state
+<pre><code class="language-text">$ nft describe ct_state
 datatype ct_state (conntrack state) (basetype bitmask, integer), 32 bits
 
 pre-defined symbolic constants (in hexadecimal):
 invalid                         0x00000001
 new ...
 </code></pre>
-
 <p>하위 타입에서 다른 타입이 파생될 수도 있다. 예를 들어 IPv4 주소 타입은 정수 타입에서 파생된 것인데, IPv4 주소를 정수 값으로도 나타낼 수 있다는 뜻이다.</p>
 <p>특정 맥락(집합 및 맵 정의)에서는 데이터 타입을 명시적으로 지정해야 한다. 타입마다 있는 이름을 거기 쓴다.</p>
 <h3 id="_22">정수 타입</h3>
@@ -1279,13 +1266,12 @@ new ...
 </table>
 <p>문자열 타입은 문자열에 쓴다. 문자열은 알파벳 문자(a-zA-Z)로 시작하고 0개 이상의 알파벳이나 숫자, /, -, _, . 문자가 온다. 추가로 큰괄호(")로 감싼 건 뭐든 문자열로 인식한다.</p>
 <h4 id="_25">문자열 표시</h4>
-<pre><code class="text"># 인터페이스 이름
+<pre><code class="language-text"># 인터페이스 이름
 filter input iifname eth0
 
 # 기이한 인터페이스 이름
 filter input iifname &quot;(eth0)&quot;
 </code></pre>
-
 <h3 id="_26">링크 계층 주소 타입</h3>
 <table>
 <thead>
@@ -1307,10 +1293,9 @@ filter input iifname &quot;(eth0)&quot;
 </table>
 <p>링크 계층 주소 타입은 링크 계층 주소에 쓴다. 링크 계층 주소는 가변 개수의 16진수 숫자 두개 묶음을 콜론(:)으로 구분해서 나타낸다.</p>
 <h4 id="_27">링크 계층 주소 표시</h4>
-<pre><code class="text"># 이더넷 목적 MAC 주소
+<pre><code class="language-text"># 이더넷 목적 MAC 주소
 filter input ether daddr 20:c9:d0:43:12:d9
 </code></pre>
-
 <h3 id="ipv4">IPv4 주소 타입</h3>
 <table>
 <thead>
@@ -1332,13 +1317,12 @@ filter input ether daddr 20:c9:d0:43:12:d9
 </table>
 <p>IPv4 주소 타입은 IPv4 주소에 쓴다. 점 찍은 10진수, 점 찍은 16진수, 점 찍은 8진수, 10진수, 16진수, 8진수 표기, 또는 호스트 이름으로 주소를 나타낸다. 호스트 이름은 표준 시스템 리졸버를 이용해 해석한다.</p>
 <h4 id="ipv4_1">IPv4 주소 표시</h4>
-<pre><code class="text"># 점 찍은 10진수 표기
+<pre><code class="language-text"># 점 찍은 10진수 표기
 filter output ip daddr 127.0.0.1
 
 # 호스트 이름
 filter output ip daddr localhost
 </code></pre>
-
 <h3 id="ipv6">IPv6 주소 타입</h3>
 <table>
 <thead>
@@ -1360,16 +1344,14 @@ filter output ip daddr localhost
 </table>
 <p>IPv6 주소 타입은 IPv6 주소에 쓴다. 호스트 이름이나 콜론으로 구분된 16진수 하프워드들로 나타낸다. 포트 번호와 구별하기 위해 주소를 대괄호("[]")로 감쌀 수도 있다.</p>
 <h4 id="ipv6_1">IPv6 주소 표시</h4>
-<pre><code class="text"># 축약된 루프백 주소
+<pre><code class="language-text"># 축약된 루프백 주소
 filter output ip6 daddr ::1
 </code></pre>
-
 <h4 id="ipv6_2">대괄호 표기법을 쓴 IPv6 주소 표시</h4>
-<pre><code class="text"># []가 없으면 포트 번호(22)가 ipv6 주소의 일부인 것으로
+<pre><code class="language-text"># []가 없으면 포트 번호(22)가 ipv6 주소의 일부인 것으로
 # 파싱 됨
 ip6 nat prerouting tcp dport 2222 dnat to [1ce::d0]:22
 </code></pre>
-
 <h3 id="_28">불리언 타입</h3>
 <table>
 <thead>
@@ -1433,7 +1415,7 @@ ip6 nat prerouting tcp dport 2222 dnat to [1ce::d0]:22
 </tbody>
 </table>
 <h4 id="_29">불리언 지정</h4>
-<pre><code class="text"># 라우트 존재하면 일치
+<pre><code class="language-text"># 라우트 존재하면 일치
 filter input fib daddr . iif oif exists
 
 # IPv6 트래픽 중 단편화 안 된 패킷에 일치
@@ -1442,7 +1424,6 @@ filter input exthdr frag missing
 # TCP 타임스탬프 옵션이 있으면 일치
 filter input tcp option timestamp exists
 </code></pre>
-
 <h3 id="icmp">ICMP 타입 타입</h3>
 <table>
 <thead>
@@ -1535,10 +1516,9 @@ filter input tcp option timestamp exists
 </tbody>
 </table>
 <h4 id="icmp_1">ICMP 타입 지정</h4>
-<pre><code class="text"># 핑 패킷 일치
+<pre><code class="language-text"># 핑 패킷 일치
 filter output icmp type { echo-request, echo-reply }
 </code></pre>
-
 <h3 id="icmp_2">ICMP 코드 타입</h3>
 <table>
 <thead>
@@ -1706,10 +1686,9 @@ filter output icmp type { echo-request, echo-reply }
 </tbody>
 </table>
 <h4 id="icmpv6_1">ICMPv6 타입 지정</h4>
-<pre><code class="text"># ICMPv6 핑 패킷 일치
+<pre><code class="language-text"># ICMPv6 핑 패킷 일치
 filter output icmpv6 type { echo-request, echo-reply }
 </code></pre>
-
 <h3 id="icmpv6_2">ICMPv6 코드 타입</h3>
 <table>
 <thead>
@@ -2014,9 +1993,8 @@ filter output icmpv6 type { echo-request, echo-reply }
 <p>meta 식에는 지정 meta 식과 비지정 meta 식 두 종류가 있다. 지정 meta 식에선 메타 키 앞에 meta 키워드가 필요하고 비지정 meta 식은 메타 키를 바로 쓰거나 지정 meta 식으로 지정할 수 있다. meta l4proto는 IPv4나 IPv6 패킷에 포함된 특정 전송 프로토콜을 맞춰 보는 데 유용하다. IPv6 패킷에 IPv6 확장 헤더가 있으면 그 역시 건너뛰게 된다.</p>
 <p>meta iif, oif, iifname, oifname는 패킷이 도착한 인터페이스와 나갈 인터페이스를 맞춰 보는 데 쓴다.</p>
 <p>iif와 oif는 인터페이스 번호로 맞춰 보는 반면 iifname과 oifname은 인터페이스 이름으로 맞춰 본다. 이 둘은 같지 않다. 가령 다음 규칙을 생각해 보면,</p>
-<pre><code class="text">filter input meta iif &quot;foo&quot;
+<pre><code class="language-text">filter input meta iif &quot;foo&quot;
 </code></pre>
-
 <p>인터페이스 "foo"가 존재하는 경우에만 이 규칙을 추가할 수 있다. 또한 그 규칙은 인터페이스 "foo"의 이름이 "bar"로 바뀐 경우에도 계속 일치하게 된다.</p>
 <p>그렇게 되는 이유는 내부적으로 인터페이스 번호를 쓰기 때문이다. tun/tap이나 다이얼업 인터페이스(예를 들어 ppp)처럼 동적으로 생성되는 인터페이스인 경우 iifname과 oifname을 쓰는 게 더 나을 수 있다.</p>
 <p>그런 경우에 이름을 쓰면 규칙을 추가하기 위해 인터페이스가 꼭 존재할 필요가 없고, 인터페이스 이름이 바뀌면 일치하지 않게 됐다가 인터페이스가 삭제되고 같은 이름의 새 인터페이스가 생기면 다시 일치하게 된다.</p>
@@ -2237,7 +2215,7 @@ filter output icmpv6 type { echo-request, echo-reply }
 </tbody>
 </table>
 <h4 id="meta_1">meta 식 사용하기</h4>
-<pre><code class="text"># 지정 meta 식
+<pre><code class="language-text"># 지정 meta 식
 filter output meta oif eth0
 
 # 비지정 meta 식
@@ -2246,7 +2224,6 @@ filter output oif eth0
 # 패킷이 ipsec 처리 대상이었음
 raw prerouting meta ipsec exists accept
 </code></pre>
-
 <h3 id="socket">socket 식</h3>
 <pre>
 <strong>socket</strong> {<strong>transparent</strong> | <strong>mark</strong>}
@@ -2276,7 +2253,7 @@ raw prerouting meta ipsec exists accept
 </tbody>
 </table>
 <h4 id="_31">소켓 식 사용하기</h4>
-<pre><code class="text"># 투명 소켓에 대응하는 패킷에 표시
+<pre><code class="language-text"># 투명 소켓에 대응하는 패킷에 표시
 table inet x {
     chain y {
         type filter hook prerouting priority -150; policy accept;
@@ -2300,7 +2277,6 @@ table inet x {
     }
 }
 </code></pre>
-
 <h3 id="osf">osf 식</h3>
 <pre>
 <strong>osf</strong> [<strong>ttl</strong> {<strong>loose</strong> | <strong>skip</strong>}] {<strong>name</strong> | <strong>version</strong>}
@@ -2341,7 +2317,7 @@ table inet x {
 <li>skip: TTL을 아예 비교하지 않는다.</li>
 </ul>
 <h4 id="osf_1">osf 식 사용하기</h4>
-<pre><code class="text"># TTL 비교 없이 &quot;Linux&quot; OS 계열 시그너처에 일치하는 패킷 허용하기
+<pre><code class="language-text"># TTL 비교 없이 &quot;Linux&quot; OS 계열 시그너처에 일치하는 패킷 허용하기
 table inet x {
     chain y {
         type filter hook input priority 0; policy accept;
@@ -2349,7 +2325,6 @@ table inet x {
     }
 }
 </code></pre>
-
 <h3 id="fib">fib 식</h3>
 <pre>
 <strong>fib</strong> {<strong>saddr</strong> | <strong>daddr</strong> | <strong>mark</strong> | <strong>iif</strong> | <strong>oif</strong>} [<strong>.</strong> ...] {<strong>oif</strong> | <strong>oifname</strong> | <strong>type</strong>}
@@ -2385,18 +2360,16 @@ table inet x {
 </table>
 <p>모든 주소 타입들의 목록을 보려면 <code>nft describe fib_addrtype</code>.</p>
 <h4 id="fib_1">fib 식 사용하기</h4>
-<pre><code class="text"># 역경로 없는 패킷 버리기
+<pre><code class="language-text"># 역경로 없는 패킷 버리기
 filter prerouting fib saddr . iif oif missing drop
 </code></pre>
-
 <p>이 예에서 <code>saddr . iif</code>는 출발 주소와 입력 인터페이스를 가지고 라우팅 정보를 검색한다. oif는 그 라우팅 정보에서 출력 인터페이스 번호를 뽑아낸다. 그 출발 주소/입력 인터페이스 조합에 대한 라우트를 찾지 못했으면 출력 인터페이스 번호가 0이다. 입력 키 중 일부로 입력 인터페이스를 지정한 경우 출력 인터페이스 번호는 언제나 입력 인터페이스 번호와 같거나 0이다. <code>saddr oif</code>만 준 경우에는 oif가 아무 인터페이스 번호 또는 0일 수 있다.</p>
-<pre><code class="text"># 인터페이스에 설정 안 된 주소를 향한 패킷 버리기
+<pre><code class="language-text"># 인터페이스에 설정 안 된 주소를 향한 패킷 버리기
 filter prerouting fib daddr . iif type != { local, broadcast, multicast } drop
 
 # 특정 '블랙홀' 테이블(0xdead, 적절한 ip rule 필요)에서 검색 수행하기
 filter prerouting meta mark set 0xdead fib daddr . mark type vmap { blackhole : drop, prohibit : jump prohibited, unreachable : drop }
 </code></pre>
-
 <h3 id="_32">라우팅 식</h3>
 <pre>
 <strong>rt</strong> [<strong>ip</strong> | <strong>ip6</strong>] {<strong>classid</strong> | <strong>nexthop</strong> | <strong>mtu</strong> | <strong>ipsec</strong>}
@@ -2451,7 +2424,7 @@ filter prerouting meta mark set 0xdead fib daddr . mark type vmap { blackhole : 
 </tbody>
 </table>
 <h4 id="_33">라우팅 식 사용하기</h4>
-<pre><code class="text"># IP 패밀리와 무관한 rt 식
+<pre><code class="language-text"># IP 패밀리와 무관한 rt 식
 filter output rt classid 10
 filter output rt ipsec missing
 
@@ -2461,7 +2434,6 @@ ip6 filter output rt nexthop fd00::1
 inet filter output rt ip nexthop 192.168.0.1
 inet filter output rt ip6 nexthop fd00::1
 </code></pre>
-
 <h3 id="ipsec">ipsec 식</h3>
 <pre>
 <strong>ipsec</strong> {<strong>in</strong> | <strong>out</strong>} [ <strong>spnum</strong> <em>NUM</em> ] {<strong>reqid</strong> | <strong>spi</strong>}
@@ -2510,7 +2482,7 @@ inet filter output rt ip6 nexthop fd00::1
 <p>수 생성기를 만든다. <code>inc</code> 및 <code>random</code> 키워드가 동작 방식을 결정한다. <code>inc</code> 방식에서는 마지막 반환 값을 증가시킬 뿐이다. <code>random</code> 방식에선 새 난수를 반환한다. <code>mod</code> 키워드 뒤의 값은 반환되는 수가 도달할 수 없는 상한을 (모듈로 연산) 지정한다. 선택적인 <code>offset</code>를 통해 반환 값을 고정된 간격만큼 증가시킬 수 있다.</p>
 <p><code>numgen</code>의 일반적인 용도는 부하 분산이다.</p>
 <h4 id="numgen_1">numgen 식 사용하기</h4>
-<pre><code class="text"># 192.168.10.100과 192.168.20.200 중 하나로 라운드 로빈:
+<pre><code class="language-text"># 192.168.10.100과 192.168.20.200 중 하나로 라운드 로빈:
 add rule nat prerouting dnat to numgen inc mod 2 map \
         { 0 : 192.168.10.100, 1 : 192.168.20.200 }
 
@@ -2518,7 +2490,6 @@ add rule nat prerouting dnat to numgen inc mod 2 map \
 add rule nat prerouting dnat to numgen random mod 10 map \
         { 0-2 : 192.168.10.100, 3-9 : 192.168.20.200 }
 </code></pre>
-
 <h2 id="_34">페이로드 식</h2>
 <p>페이로드 식은 패킷 페이코드에서 온 데이터를 가리킨다.</p>
 <h3 id="_35">이더넷 헤더 식</h3>
@@ -2883,10 +2854,9 @@ add rule nat prerouting dnat to numgen random mod 10 map \
 </tbody>
 </table>
 <h4 id="ip6">ip6 헤더 식 사용하기</h4>
-<pre><code class="text"># 첫 번째 확장 헤더가 단편을 나타내면 일치
+<pre><code class="language-text"># 첫 번째 확장 헤더가 단편을 나타내면 일치
 ip6 nexthdr ipv6-frag
 </code></pre>
-
 <h3 id="icmpv6_3">ICMPv6 헤더 식</h3>
 <pre>
 <strong>icmpv6</strong> {<strong>type</strong> | <strong>code</strong> | <strong>checksum</strong> | <strong>parameter-problem</strong> | <strong>packet-too-big</strong> | <strong>id</strong> | <strong>sequence</strong> | <strong>max-delay</strong>}
@@ -3276,18 +3246,15 @@ ip6 nexthdr ipv6-frag
 </tbody>
 </table>
 <h4 id="udp-tcp">UDP와 TCP 모두의 목적 포트 확인하기</h4>
-<pre><code class="text">inet filter input meta l4proto {tcp, udp} @th,16,16 { 53, 80 }
+<pre><code class="language-text">inet filter input meta l4proto {tcp, udp} @th,16,16 { 53, 80 }
 </code></pre>
-
 <p>위를 다음처럼 쓸 수도 있다.</p>
-<pre><code class="text">inet filter input meta l4proto {tcp,udp} th dport { 53, 80 }
+<pre><code class="language-text">inet filter input meta l4proto {tcp,udp} th dport { 53, 80 }
 </code></pre>
-
 <p>더 편리하긴 하지만 비가공 식 표기와 마찬가지로 어떤 의존 조건도 만들거나 확인하지 않는다. 포트 개념이 있는 헤더 종류들로만 검사를 한정하는 건 사용자의 책임이다. 그렇게 해 주지 않으면 가령 ESP 패킷의 SPI 필드를 포트로 잘못 해석해서 식과 무관한 패킷이 잘못 걸리게 된다.</p>
 <h4 id="arp_2">ARP 패킷 목적 프로토콜 주소가 지정 주소와 일치하면 대상 하드웨어 주소 다시 쓰기</h4>
-<pre><code class="text">input meta iifname enp2s0 arp ptype 0x0800 arp htype 1 arp hlen 6 arp plen 4 @nh,192,32 0xc0a88f10 @nh,144,48 set 0x112233445566 accept
+<pre><code class="language-text">input meta iifname enp2s0 arp ptype 0x0800 arp htype 1 arp hlen 6 arp plen 4 @nh,192,32 0xc0a88f10 @nh,144,48 set 0x112233445566 accept
 </code></pre>
-
 <h3 id="_39">확장 헤더 식</h3>
 <p>확장 헤더 식은 IPv6 확장 헤더, TCP 옵션, IPv4 옵션 같은 가변 크기 프로토콜 헤더의 데이터를 가리킨다.</p>
 <p>nftables에서는 현재 IPv6 확장 헤더, TCP 옵션, IPv4 옵션 검사(찾기)를 지원한다.</p>
@@ -3444,17 +3411,14 @@ ip6 nexthdr ipv6-frag
 </tbody>
 </table>
 <h4 id="tcp_1">TCP 옵션 찾기</h4>
-<pre><code class="text">filter input tcp option sack-permitted kind 1 counter
+<pre><code class="language-text">filter input tcp option sack-permitted kind 1 counter
 </code></pre>
-
 <h4 id="ipv6-exthdr">IPv6 exthdr 확인하기</h4>
-<pre><code class="text">ip6 filter input frag more-fragments 1 counter
+<pre><code class="language-text">ip6 filter input frag more-fragments 1 counter
 </code></pre>
-
 <h4 id="ip">IP 옵션 찾기</h4>
-<pre><code class="text">filter input ip option lsrr exists counter
+<pre><code class="language-text">filter input ip option lsrr exists counter
 </code></pre>
-
 <h3 id="conntrack_1">conntrack 식</h3>
 <p>conntrack 식은 패킷과 연계된 연결 추적 항목의 메타 데이터를 가리킨다.</p>
 <p>세 가지 conntrack 식이 있다. 어떤 conntrack 식에선 conntrack 키 앞에 흐름 방향이 필요하지만 다른 식은 방향과 무관할 수 있기 때문에 바로 쓸 수도 있다. <code>packets</code>, <code>bytes</code>, <code>avgpkt</code> 키워드는 방향과 함께 쓸 수도 있고 없이 쓸 수도 있다. 방향을 생략하면 original 방향과 reply 방향의 합을 내놓는다. <code>zone</code>도 마찬가진데, 방향을 주면 그 존 ID가 해당 방향에 결속돼 있는 경우에만 존이 일치한다.</p>
@@ -3564,9 +3528,8 @@ ip6 nexthdr ipv6-frag
 </table>
 <p>위에 나열된 conntrack 한정 타입들에 대한 설명을 위의 conntrack 타입 절에서 볼 수 있다.</p>
 <h4 id="_40">서버로 동시에 향하는 연결 수 제한하기</h4>
-<pre><code class="text">filter input tcp dport 22 meter test { ip saddr ct count over 2 } reject
+<pre><code class="language-text">filter input tcp dport 22 meter test { ip saddr ct count over 2 } reject
 </code></pre>
-
 <h2 id="_41">문</h2>
 <h3 id="_42">판정 문</h3>
 <h3 id="_43">페이로드 문</h3>

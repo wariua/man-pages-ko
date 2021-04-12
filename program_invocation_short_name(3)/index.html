@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/program_invocation_short_name(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/program_invocation_short_name%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Program invocation short name(3) - man-pages-ko</title>
+    <title>program_invocation_short_name(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -148,13 +148,12 @@
 <h2 id="name">NAME</h2>
 <p>program_invocation_name, program_invocation_short_name - 호출 프로그램 실행에 사용한 이름 얻기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
+<pre><code class="language-c">#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
 #include &lt;errno.h&gt;
 
 extern char *program_invocation_name;
 extern char *program_invocation_short_name;
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>program_invocation_name</code>은 호출 프로그램 실행에 사용했던 이름을 담고 있다. <code>main()</code>의 <code>argv[0]</code>의 값과 같은데, <code>program_invocation_name</code>은 스코프가 전역이라는 점이 다르다.</p>
 <p><code>program_invocation_short_name</code>은 호출 프로그램 실행에 사용했던 이름의 basename 부분을 담고 있다. 즉 <code>program_invocation_name</code>에서 마지막 슬래시(/)까지의 내용을 모두 없앤 것과 같은 값(슬래시가 없으면 그대로)이다.</p>
@@ -164,7 +163,7 @@ extern char *program_invocation_short_name;
 <h2 id="notes">NOTES</h2>
 <p>리눅스 전용인 <code>/proc/[number]/cmdline</code> 파일을 통해 비슷한 정보에 접근할 수 있다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[proc(5)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/proc(5)/">proc(5)</a></tt></p>
 <hr />
 <p>2017-09-15</p></div>
         

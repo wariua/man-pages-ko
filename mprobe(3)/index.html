@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/mprobe(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/mprobe%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Mprobe(3) - man-pages-ko</title>
+    <title>mprobe(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -143,7 +143,7 @@
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
             <li class="second-level"><a href="#_1">프로그램 소스</a></li>
                 
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
@@ -154,23 +154,20 @@
 <h2 id="name">NAME</h2>
 <p>mcheck, mcheck_check_all, mcheck_pedantic, mprobe - 힙 일관성 검사</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;mcheck.h&gt;
+<pre><code class="language-c">#include &lt;mcheck.h&gt;
 
 int mcheck(void (*abortfunc)(enum mcheck_status mstatus));
-
 int mcheck_pedantic(void (*abortfunc)(enum mcheck_status mstatus));
-
 void mcheck_check_all(void);
 
 enum mcheck_status mprobe(void *ptr);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
-<p><code>mcheck()</code> 함수는 <tt>[[malloc(3)]]</tt> 계열 메모리 할당 함수들에 디버깅 훅을 설치한다. 그러면 힙 상태에 대한 무모순성 검사 몇 가지를 수행하게 된다. 그 검사를 통해 메모리 블록을 여러 번 해제하거나 할당 메모리 블록 바로 앞의 관리용 자료 구조를 오염시키는 것 같은 응용 오류를 탐지할 수 있다.</p>
-<p>효과가 있으려면 <tt>[[malloc(3)]]</tt> 내지 관련 함수를 처음 호출하기 전에 <code>mcheck()</code> 함수를 호출해야 한다. 그렇게 하는 게 어려운 경우에는 <code>-lmcheck</code>로 프로그램을 링크 하면 메모리 할당 함수 최초 호출 앞에 묵시적인 <code>mcheck()</code> 호출이 (NULL 인자로) 들어간다.</p>
+<p><code>mcheck()</code> 함수는 <tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt> 계열 메모리 할당 함수들에 디버깅 훅을 설치한다. 그러면 힙 상태에 대한 무모순성 검사 몇 가지를 수행하게 된다. 그 검사를 통해 메모리 블록을 여러 번 해제하거나 할당 메모리 블록 바로 앞의 관리용 자료 구조를 오염시키는 것 같은 응용 오류를 탐지할 수 있다.</p>
+<p>효과가 있으려면 <tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt> 내지 관련 함수를 처음 호출하기 전에 <code>mcheck()</code> 함수를 호출해야 한다. 그렇게 하는 게 어려운 경우에는 <code>-lmcheck</code>로 프로그램을 링크 하면 메모리 할당 함수 최초 호출 앞에 묵시적인 <code>mcheck()</code> 호출이 (NULL 인자로) 들어간다.</p>
 <p><code>mcheck_pedantic()</code> 함수는 <code>mcheck()</code>와 비슷하되 메모리 할당 함수들 중 하나를 호출할 때마다 모든 할당 블록에 대해 검사를 수행한다. 아주 느릴 수 있다!</p>
 <p><code>mcheck_check_all()</code> 함수는 모든 할당 블록에 대해 즉시 검사를 수행하게 한다. 이 호출은 앞서 <code>mcheck()</code>를 호출했을 때만 효과가 있다.</p>
-<p>힙에서 모순성을 탐지하면 <code>abortfunc</code>가 가리키는 호출자 제공 함수를 시스템에서 부른다. 유일한 인자 <code>mstatus</code>는 탐지한 모순성 종류를 나타낸다. <code>abortfunc</code>가 NULL인 경우 기본 함수에서는 <code>stderr</code>로 오류 메시지를 찍고 <tt>[[abort(3)]]</tt>를 호출한다.</p>
+<p>힙에서 모순성을 탐지하면 <code>abortfunc</code>가 가리키는 호출자 제공 함수를 시스템에서 부른다. 유일한 인자 <code>mstatus</code>는 탐지한 모순성 종류를 나타낸다. <code>abortfunc</code>가 NULL인 경우 기본 함수에서는 <code>stderr</code>로 오류 메시지를 찍고 <tt><a class="wikilink" href="/man-pages-ko/abort(3)/">abort(3)</a></tt>를 호출한다.</p>
 <p><code>mprobe()</code> 함수는 <code>ptr</code>이 가리키는 할당 메모리 블록에 대해 무모순성 검사를 수행한다. 앞서 <code>mcheck()</code> 함수를 호출했어야 한다. (안 그러면 <code>mprobe()</code>가 <code>MCHECK_DISABLED</code>를 반환한다.)</p>
 <p>다음은 <code>mprobe()</code>가 반환하거나 <code>abortfunc</code> 호출 시 <code>mstatus</code> 인자로 전달되는 값들에 대한 설명이다.</p>
 <dl>
@@ -190,7 +187,7 @@ enum mcheck_status mprobe(void *ptr);
 <h2 id="versions">VERSIONS</h2>
 <p>glibc 2.2부터 <code>mcheck_pedantic()</code> 및 <code>mcheck_check_all()</code> 함수가 사용 가능하다. 적어도 glibc 2.0부터 <code>mcheck()</code> 및 <code>mprobe()</code> 함수가 존재한다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -210,8 +207,8 @@ enum mcheck_status mprobe(void *ptr);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>이 함수들은 GNU 확장이다.</p>
 <h2 id="notes">NOTES</h2>
-<p>프로그램을 <code>-lmcheck</code>로 링크 하는 방식과 <code>MALLOC_CHECK_</code> 환경 변수(<tt>[[mallopt(3)]]</tt>에서 설명)를 쓰는 방식에서 탐지하는 오류 종류는 같다. 하지만 <code>MALLOC_CHECK_</code> 방식에서는 응용을 다시 링크할 필요가 없다.</p>
-<h2 id="example">EXAMPLE</h2>
+<p>프로그램을 <code>-lmcheck</code>로 링크 하는 방식과 <code>MALLOC_CHECK_</code> 환경 변수(<tt><a class="wikilink" href="/man-pages-ko/mallopt(3)/">mallopt(3)</a></tt>에서 설명)를 쓰는 방식에서 탐지하는 오류 종류는 같다. 하지만 <code>MALLOC_CHECK_</code> 방식에서는 응용을 다시 링크할 필요가 없다.</p>
+<h2 id="examples">EXAMPLES</h2>
 <p>아래 프로그램은 NULL 인자로 <code>mcheck()</code>를 호출하고서 같은 메모리 블록을 두 번 해제한다. 다음 셸 세션은 프로그램이 돌 때 어떻게 되는지 보여 준다.</p>
 <pre><code>$ ./a.out
 About to free
@@ -220,9 +217,8 @@ About to free a second time
 block freed twice
 Aborted (core dumped)
 </code></pre>
-
 <h3 id="_1">프로그램 소스</h3>
-<pre><code class="c">#include &lt;stdlib.h&gt;
+<pre><code class="language-c">#include &lt;stdlib.h&gt;
 #include &lt;stdio.h&gt;
 #include &lt;mcheck.h&gt;
 
@@ -247,11 +243,10 @@ main(int argc, char *argv[])
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[malloc(3)]]</tt>, <tt>[[mallopt(3)]]</tt>, <tt>[[mtrace(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mallopt(3)/">mallopt(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mtrace(3)/">mtrace(3)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

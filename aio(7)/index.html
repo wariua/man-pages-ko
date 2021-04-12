@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/aio(7)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/aio%287%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Aio(7) - man-pages-ko</title>
+    <title>aio(7) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -141,7 +141,7 @@
         <li class="first-level "><a href="#versions">VERSIONS</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
             <li class="second-level"><a href="#_1">프로그램 소스</a></li>
                 
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
@@ -155,25 +155,25 @@
 <p>POSIX 비동기 I/O(AIO) 인터페이스를 응용에서 이용하여 비동기적으로 (즉 배경에서) 수행되는 I/O 동작을 한 개 이상 개시할 수 있다. I/O 동작 완료에 대한 알림을 응용에서 원하는 다양한 방식으로 받을 수 있다. 시그널 전달, 스레드 실행, 또는 알림을 받지 않을 수도 있다.</p>
 <p>POSIX AIO 인터페이스는 다음 함수들로 이뤄져 있다.</p>
 <dl>
-<dt><tt>[[aio_read(3)]]</tt></dt>
+<dt><tt><a class="wikilink" href="/man-pages-ko/aio_read(3)/">aio_read(3)</a></tt></dt>
 <dd>읽기 요청을 큐에 넣는다. <code>read(2)</code>의 비동기 형태이다.</dd>
-<dt><tt>[[aio_write(3)]]</tt></dt>
+<dt><tt><a class="wikilink" href="/man-pages-ko/aio_write(3)/">aio_write(3)</a></tt></dt>
 <dd>쓰기 요청을 큐에 넣는다. <code>write(2)</code>의 비동기 형태이다.</dd>
-<dt><tt>[[aio_fsync(3)]]</tt></dt>
-<dd>파일 디스크립터 상의 I/O 동작들에 대한 동기화 요청을 큐에 넣는다. <tt>[[fsync(2)]]</tt> 및 <tt>[[fdatasync(2)]]</tt>의 비동기 형태이다.</dd>
-<dt><tt>[[aio_error(3)]]</tt></dt>
+<dt><tt><a class="wikilink" href="/man-pages-ko/aio_fsync(3)/">aio_fsync(3)</a></tt></dt>
+<dd>파일 디스크립터 상의 I/O 동작들에 대한 동기화 요청을 큐에 넣는다. <tt><a class="wikilink" href="/man-pages-ko/fsync(2)/">fsync(2)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/fdatasync(2)/">fdatasync(2)</a></tt>의 비동기 형태이다.</dd>
+<dt><tt><a class="wikilink" href="/man-pages-ko/aio_error(3)/">aio_error(3)</a></tt></dt>
 <dd>큐에 넣은 I/O 요청의 오류 상태를 얻는다.</dd>
-<dt><tt>[[aio_return(3)]]</tt></dt>
+<dt><tt><a class="wikilink" href="/man-pages-ko/aio_return(3)/">aio_return(3)</a></tt></dt>
 <dd>완료된 I/O 요청의 반환 상태를 얻는다.</dd>
-<dt><tt>[[aio_suspend(3)]]</tt></dt>
+<dt><tt><a class="wikilink" href="/man-pages-ko/aio_suspend(3)/">aio_suspend(3)</a></tt></dt>
 <dd>지정한 I/O 요청이 하나 이상 완료될 때까지 호출자를 멈춘다.</dd>
-<dt><tt>[[aio_cancel(3)]]</tt></dt>
+<dt><tt><a class="wikilink" href="/man-pages-ko/aio_cancel(3)/">aio_cancel(3)</a></tt></dt>
 <dd>지정한 파일 디스크립터 상의 미처리 I/O 요청들을 취소 시도한다.</dd>
-<dt><tt>[[lio_listio(3)]]</tt></dt>
+<dt><tt><a class="wikilink" href="/man-pages-ko/lio_listio(3)/">lio_listio(3)</a></tt></dt>
 <dd>한 번의 함수 호출로 여러 I/O 요청을 큐에 넣는다.</dd>
 </dl>
 <p><code>aiocb</code>(비동기 I/O 제어 블록) 구조체가 I/O 동작을 제어하는 매개변수들을 정의한다. 위에 나열한 함수 모두에서 이 타입의 인자를 쓴다. 이 구조체는 다음 형태이다.</p>
-<pre><code class="c">#include &lt;aiocb.h&gt;
+<pre><code class="language-c">#include &lt;aiocb.h&gt;
 
 struct aiocb {
     /* 이 필드들의 순서는 구현에 따라 다름 */
@@ -194,7 +194,6 @@ struct aiocb {
 
 enum { LIO_READ, LIO_WRITE, LIO_NOP };
 </code></pre>
-
 <p>이 구조체의 필드들은 다음과 같다.</p>
 <dl>
 <dt><code>aio_fildes</code></dt>
@@ -206,15 +205,15 @@ enum { LIO_READ, LIO_WRITE, LIO_NOP };
 <dt><code>aio_nbytes</code></dt>
 <dd><code>aio_buf</code>가 가리키는 버퍼의 크기.</dd>
 <dt><code>aio_reqprio</code></dt>
-<dd>이 필드에 지정한 값을 호출 스레드의 실시간 우선순위에서 빼서 이 I/O 요청의 실행 우선순위를 결정한다. (<tt>[[pthread_setschedparam(3)]]</tt> 참고.) 지정하는 값이 0과 <code>sysconf(_SC_AIO_PRIO_DELTA_MAX)</code> 반환 값 사이에 있어야 한다. 파일 동기화 동작에서는 이 필드를 무시한다.</dd>
+<dd>이 필드에 지정한 값을 호출 스레드의 실시간 우선순위에서 빼서 이 I/O 요청의 실행 우선순위를 결정한다. (<tt><a class="wikilink" href="/man-pages-ko/pthread_setschedparam(3)/">pthread_setschedparam(3)</a></tt> 참고.) 지정하는 값이 0과 <code>sysconf(_SC_AIO_PRIO_DELTA_MAX)</code> 반환 값 사이에 있어야 한다. 파일 동기화 동작에서는 이 필드를 무시한다.</dd>
 <dt><code>aio_sigevent</code></dt>
-<dd>비동기 I/O 동작이 완료됐을 때 호출자가 알림을 받는 방법을 지정하는 구조체이다. <code>aio_sigevent.sigev_notify</code>에 가능한 값은 <code>SIGEV_NONE</code>, <code>SIGEV_SIGNAL</code>, <code>SIGEV_THREAD</code>이다. 자세한 내용은 <tt>[[sigevent(7)]]</tt> 참고.</dd>
+<dd>비동기 I/O 동작이 완료됐을 때 호출자가 알림을 받는 방법을 지정하는 구조체이다. <code>aio_sigevent.sigev_notify</code>에 가능한 값은 <code>SIGEV_NONE</code>, <code>SIGEV_SIGNAL</code>, <code>SIGEV_THREAD</code>이다. 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/sigevent(7)/">sigevent(7)</a></tt> 참고.</dd>
 <dt><code>aio_lio_opcode</code></dt>
-<dd>수행할 동작 종류. <tt>[[lio_listio(3)]]</tt>에서만 사용.</dd>
+<dd>수행할 동작 종류. <tt><a class="wikilink" href="/man-pages-ko/lio_listio(3)/">lio_listio(3)</a></tt>에서만 사용.</dd>
 </dl>
 <p>위에 나열한 표준 함수들에 더해서 GNU C 라이브러리에서는 POSIX AIO API에 대한 다음 확장을 제공한다.</p>
 <dl>
-<dt><tt>[[aio_init(3)]]</tt></dt>
+<dt><tt><a class="wikilink" href="/man-pages-ko/aio_init(3)/">aio_init(3)</a></tt></dt>
 <dd>glibc POSIX AIO 구현의 동작을 조정하는 매개변수들을 설정한다.</dd>
 </dl>
 <h2 id="errors">ERRORS</h2>
@@ -229,12 +228,12 @@ enum { LIO_READ, LIO_WRITE, LIO_NOP };
 <h2 id="notes">NOTES</h2>
 <p>제어 블록 버퍼를 사용하기 전에 0으로 채우는 게 좋다. (<code>memset(3)</code> 참고.) I/O 동작이 진행 중인 동안 제어 블록 버퍼와 <code>aio_buf</code>가 가리키는 버퍼가 변경되어선 안 된다. I/O 동작이 완료될 때까지 그 버퍼들이 유효한 상태로 유지돼야 한다.</p>
 <p>같은 <code>aiocb</code> 구조체를 사용해 동시에 비동기 읽기 동작과 쓰기 동작을 할 때 나오는 결과는 규정돼 있지 않다.</p>
-<p>현재 리눅스의 POSIX AIO 구현은 사용자 공간에서 glibc가 제공한다. 그래서 여러 제약이 있는데, 가장 눈에 띄는 건 I/O 동작을 수행하기 위해 여러 스레드를 유지하는 게 비용이 크고 확장성이 떨어진다는 점이다. 얼마 전부터 커널에서 상태 머신 기반으로 비동기 I/O를 구현하는 작업이 진행 중이긴 한데 (<tt>[[io_submit(2)]]</tt>, <tt>[[io_setup(2)]]</tt>, <tt>[[io_cancel(2)]]</tt>, <tt>[[io_destroy(2)]]</tt>, <tt>[[io_getevents(2)]]</tt> 참고) 그 커널 시스템 호출들을 이용해 POSIX AIO 구현을 완전히 재구현할 수 있는 수준까지는 아직 오지 못했다.</p>
-<h2 id="example">EXAMPLE</h2>
-<p>아래 프로그램에서는 명령행 인자에 지명한 파일들 각각을 열어서 얻은 파일 디스크립터에 <tt>[[aio_read(3)]]</tt>로 요청을 넣는다. 그러고서 루프를 돌면서 아직 진행 중인 I/O 동작 각각을 <tt>[[aio_error(3)]]</tt>를 이용해 주기적으로 확인한다. I/O 요청 각각은 시그널 전달로 알림을 주도록 설정한다. 모든 I/O 요청이 완료된 후에 <tt>[[aio_return(3)]]</tt>으로 상태를 가져온다.</p>
-<p><code>SIGQUIT</code> 시그널(Control-\ 입력으로 생성)을 주면 프로그램에서 <tt>[[aio_cancel(3)]]</tt>로 미처리 요청 각각의 취소를 요청한다.</p>
+<p>현재 리눅스의 POSIX AIO 구현은 사용자 공간에서 glibc가 제공한다. 그래서 여러 제약이 있는데, 가장 눈에 띄는 건 I/O 동작을 수행하기 위해 여러 스레드를 유지하는 게 비용이 크고 확장성이 떨어진다는 점이다. 얼마 전부터 커널에서 상태 머신 기반으로 비동기 I/O를 구현하는 작업이 진행 중이긴 한데 (<tt><a class="wikilink" href="/man-pages-ko/io_submit(2)/">io_submit(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/io_setup(2)/">io_setup(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/io_cancel(2)/">io_cancel(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/io_destroy(2)/">io_destroy(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/io_getevents(2)/">io_getevents(2)</a></tt> 참고) 그 커널 시스템 호출들을 이용해 POSIX AIO 구현을 완전히 재구현할 수 있는 수준까지는 아직 오지 못했다.</p>
+<h2 id="examples">EXAMPLES</h2>
+<p>아래 프로그램에서는 명령행 인자에 지명한 파일들 각각을 열어서 얻은 파일 디스크립터에 <tt><a class="wikilink" href="/man-pages-ko/aio_read(3)/">aio_read(3)</a></tt>로 요청을 넣는다. 그러고서 루프를 돌면서 아직 진행 중인 I/O 동작 각각을 <tt><a class="wikilink" href="/man-pages-ko/aio_error(3)/">aio_error(3)</a></tt>를 이용해 주기적으로 확인한다. I/O 요청 각각은 시그널 전달로 알림을 주도록 설정한다. 모든 I/O 요청이 완료된 후에 <tt><a class="wikilink" href="/man-pages-ko/aio_return(3)/">aio_return(3)</a></tt>으로 상태를 가져온다.</p>
+<p><code>SIGQUIT</code> 시그널(Control-\ 입력으로 생성)을 주면 프로그램에서 <tt><a class="wikilink" href="/man-pages-ko/aio_cancel(3)/">aio_cancel(3)</a></tt>로 미처리 요청 각각의 취소를 요청한다.</p>
 <p>다음은 이 프로그램을 실행한 결과 예시이다. 이 예에서는 표준 입력에 대한 요청을 두 개 하고, "abc"와 "x"를 담은 두 입력 행으로 그 요청을 충족시킨다.</p>
-<pre><code class="text">$ ./a.out /dev/stdin /dev/stdin
+<pre><code class="language-text">$ ./a.out /dev/stdin /dev/stdin
 opened /dev/stdin on descriptor 3
 opened /dev/stdin on descriptor 4
 aio_error():
@@ -256,9 +255,8 @@ aio_return():
     for request 0 (descriptor 3): 4
     for request 1 (descriptor 4): 2
 </code></pre>
-
 <h3 id="_1">프로그램 소스</h3>
-<pre><code class="c">#include &lt;fcntl.h&gt;
+<pre><code class="language-c">#include &lt;fcntl.h&gt;
 #include &lt;stdlib.h&gt;
 #include &lt;unistd.h&gt;
 #include &lt;stdio.h&gt;
@@ -269,8 +267,6 @@ aio_return():
 #define BUF_SIZE 20     /* 읽기 동작을 위한 버퍼 크기 */
 
 #define errExit(msg) do { perror(msg); exit(EXIT_FAILURE); } while (0)
-
-#define errMsg(msg)  do { perror(msg); } while (0)
 
 struct ioRequest {      /* I/O 요청 추적을 위해 응용 자체에서
                            정의하는 구조체 */
@@ -307,10 +303,8 @@ aioSigHandler(int sig, siginfo_t *si, void *ucontext)
 int
 main(int argc, char *argv[])
 {
-    struct ioRequest *ioList;
-    struct aiocb *aiocbList;
     struct sigaction sa;
-    int s, j;
+    int s;
     int numReqs;        /* 큐에 넣은 I/O 요청 총 개수 */
     int openReqs;       /* 아직 진행 중인 I/O 요청 개수 */
 
@@ -322,17 +316,17 @@ main(int argc, char *argv[])
 
     numReqs = argc - 1;
 
-    /* 배열 할당 */
+    /* 배열 할당하기. */
 
-    ioList = calloc(numReqs, sizeof(struct ioRequest));
+    struct ioRequest *ioList = calloc(numReqs, sizeof(*ioList));
     if (ioList == NULL)
         errExit(&quot;calloc&quot;);
 
-    aiocbList = calloc(numReqs, sizeof(struct aiocb));
+    struct aiocb *aiocbList = calloc(numReqs, sizeof(*aiocbList));
     if (aiocbList == NULL)
         errExit(&quot;calloc&quot;);
 
-    /* SIGQUIT 및 I/O 완료 시그널을 위한 핸들러 설정 */
+    /* SIGQUIT 및 I/O 완료 시그널을 위한 핸들러 설정하기. */
 
     sa.sa_flags = SA_RESTART;
     sigemptyset(&amp;sa.sa_mask);
@@ -347,9 +341,9 @@ main(int argc, char *argv[])
         errExit(&quot;sigaction&quot;);
 
     /* 명령행에 지정한 파일 각각을 열고, 그렇게 얻은 파일
-       디스크립터에서 읽기 요청을 큐에 넣기 */
+       디스크립터에서 읽기 요청을 큐에 넣기. */
 
-    for (j = 0; j &lt; numReqs; j++) {
+    for (int j = 0; j &lt; numReqs; j++) {
         ioList[j].reqNum = j;
         ioList[j].status = EINPROGRESS;
         ioList[j].aiocbp = &amp;aiocbList[j];
@@ -379,7 +373,7 @@ main(int argc, char *argv[])
 
     openReqs = numReqs;
 
-    /* 루프 돌면서 I/O 요청 상태 확인 */
+    /* 루프 돌면서 I/O 요청 상태 확인하기. */
 
     while (openReqs &gt; 0) {
         sleep(3);       /* 확인 간격 */
@@ -387,11 +381,11 @@ main(int argc, char *argv[])
         if (gotSIGQUIT) {
 
             /* SIGQUIT 수신 시 미처리 I/O 요청 각각을 취소 시도하고,
-               취소 요청에서 반환 받은 상태를 표시 */
+               취소 요청에서 반환 받은 상태를 표시하기. */
 
             printf(&quot;got SIGQUIT; canceling I/O requests: \n&quot;);
 
-            for (j = 0; j &lt; numReqs; j++) {
+            for (int j = 0; j &lt; numReqs; j++) {
                 if (ioList[j].status == EINPROGRESS) {
                     printf(&quot;    Request %d on descriptor %d:&quot;, j,
                             ioList[j].aiocbp-&gt;aio_fildes);
@@ -404,17 +398,17 @@ main(int argc, char *argv[])
                     else if (s == AIO_ALLDONE)
                         printf(&quot;I/O all done\n&quot;);
                     else
-                        errMsg(&quot;aio_cancel&quot;);
+                        perror(&quot;aio_cancel&quot;);
                 }
             }
 
             gotSIGQUIT = 0;
         }
 
-        /* 아직 진행 중인 I/O 요청 각각의 상태 확인 */
+        /* 아직 진행 중인 I/O 요청 각각의 상태 확인하기. */
 
         printf(&quot;aio_error():\n&quot;);
-        for (j = 0; j &lt; numReqs; j++) {
+        for (int j = 0; j &lt; numReqs; j++) {
             if (ioList[j].status == EINPROGRESS) {
                 printf(&quot;    for request %d (descriptor %d): &quot;,
                         j, ioList[j].aiocbp-&gt;aio_fildes);
@@ -431,7 +425,7 @@ main(int argc, char *argv[])
                     printf(&quot;Canceled\n&quot;);
                     break;
                 default:
-                    errMsg(&quot;aio_error&quot;);
+                    perror(&quot;aio_error&quot;);
                     break;
                 }
 
@@ -443,10 +437,10 @@ main(int argc, char *argv[])
 
     printf(&quot;All I/O requests completed\n&quot;);
 
-    /* 모든 I/O 요청의 상태 반환 값 확인 */
+    /* 모든 I/O 요청의 상태 반환 값 확인하기. */
 
     printf(&quot;aio_return():\n&quot;);
-    for (j = 0; j &lt; numReqs; j++) {
+    for (int j = 0; j &lt; numReqs; j++) {
         ssize_t s;
 
         s = aio_return(ioList[j].aiocbp);
@@ -457,12 +451,11 @@ main(int argc, char *argv[])
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[io_cancel(2)]]</tt>, <tt>[[io_destroy(2)]]</tt>, <tt>[[io_getevents(2)]]</tt>, <tt>[[io_setup(2)]]</tt>, <tt>[[io_submit(2)]]</tt>, <tt>[[aio_cancel(3)]]</tt>, <tt>[[aio_error(3)]]</tt>, <tt>[[aio_init(3)]]</tt>, <tt>[[aio_read(3)]]</tt>, <tt>[[aio_return(3)]]</tt>, <tt>[[aio_write(3)]]</tt>, <tt>[[lio_listio(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/io_cancel(2)/">io_cancel(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/io_destroy(2)/">io_destroy(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/io_getevents(2)/">io_getevents(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/io_setup(2)/">io_setup(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/io_submit(2)/">io_submit(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/aio_cancel(3)/">aio_cancel(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/aio_error(3)/">aio_error(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/aio_init(3)/">aio_init(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/aio_read(3)/">aio_read(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/aio_return(3)/">aio_return(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/aio_write(3)/">aio_write(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/lio_listio(3)/">lio_listio(3)</a></tt></p>
 <p>"Asynchronous I/O Support in Linux 2.5", Bhattacharya, Pratt, Pulavarty, and Morgan, Proceedings of the Linux SYmposium, 2003, <a href="https://www.kernel.org/doc/ols/2003/ols2003-pages-351-366.pdf">https://www.kernel.org/doc/ols/2003/ols2003-pages-351-366.pdf</a></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

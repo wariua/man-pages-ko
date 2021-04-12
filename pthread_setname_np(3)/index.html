@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_setname_np(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_setname_np%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Pthread setname np(3) - man-pages-ko</title>
+    <title>pthread_setname_np(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -144,7 +144,7 @@
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
             <li class="second-level"><a href="#_1">프로그램 소스</a></li>
                 
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
@@ -155,16 +155,15 @@
 <h2 id="name">NAME</h2>
 <p>pthread_setname_np, pthread_getname_np - 스레드 이름 설정하기/얻기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#define _GNU_SOURCE             /* feature_test_macros(7) 참고 */
+<pre><code class="language-c">#define _GNU_SOURCE             /* feature_test_macros(7) 참고 */
 #include &lt;pthread.h&gt;
-int pthread_setname_np(pthread_t thread, const char *name);
-int pthread_getname_np(pthread_t thread,
-                       char *name, size_t len);
-</code></pre>
 
+int pthread_setname_np(pthread_t thread, const char *name);
+int pthread_getname_np(pthread_t thread, char *name, size_t len);
+</code></pre>
 <p><code>-pthread</code>로 컴파일 및 링크.</p>
 <h2 id="description">DESCRIPTION</h2>
-<p>기본적으로 <tt>[[pthread_create(3)]]</tt>를 이용해 만든 스레드들은 모두 프로그램 이름을 물려받는다. <code>pthread_setname_np()</code> 함수를 사용해 스레드에 고유한 이름을 설정할 수 있는데, 다중 스레드 응용을 디버깅 할 때 유용할 수 있다. 스레드 이름은 유의미한 C 문자열로, 종료용 널 바이트(<code>'\0'</code>) 포함 16개 문자로 길이가 제약되어 있다. <code>thread</code> 인자는 이름을 바꿀 스레드를 나타내고 <code>name</code>은 새 이름을 나타낸다.</p>
+<p>기본적으로 <tt><a class="wikilink" href="/man-pages-ko/pthread_create(3)/">pthread_create(3)</a></tt>를 이용해 만든 스레드들은 모두 프로그램 이름을 물려받는다. <code>pthread_setname_np()</code> 함수를 사용해 스레드에 고유한 이름을 설정할 수 있는데, 다중 스레드 응용을 디버깅 할 때 유용할 수 있다. 스레드 이름은 유의미한 C 문자열로, 종료용 널 바이트(<code>'\0'</code>) 포함 16개 문자로 길이가 제약되어 있다. <code>thread</code> 인자는 이름을 바꿀 스레드를 나타내고 <code>name</code>은 새 이름을 나타낸다.</p>
 <p><code>pthread_getname_np()</code> 함수를 사용해 스레드의 이름을 얻어올 수 있다. <code>thread</code> 인자는 이름을 가져올 스레드를 나타낸다. 버퍼 <code>name</code>을 이용해 스레드 이름을 반환하며 <code>len</code>은 <code>name</code>에서 사용 가능한 바이트 개수를 나타낸다. <code>name</code>으로 지정한 버퍼는 최소 16개 문자 길이여야 한다. 출력 버퍼로 반환되는 스레드 이름은 널로 끝나게 된다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 이 함수들은 0을 반환한다. 오류 시 0 아닌 오류 번호를 반환한다.</p>
@@ -179,11 +178,11 @@ int pthread_getname_np(pthread_t thread,
 <dt><code>ERANGE</code></dt>
 <dd><code>name</code>과 <code>len</code>으로 지정한 버퍼가 스레드 이름을 담기에 너무 작다.</dd>
 </dl>
-<p>이 함수들이 <code>/proc/self/task/[tid]/comm</code>을 여는 데 실패하면 <tt>[[open(2)]]</tt>에서 기술하는 오류들 중 하나로 실패할 수도 있다.</p>
+<p>이 함수들이 <code>/proc/self/task/[tid]/comm</code>을 여는 데 실패하면 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>에서 기술하는 오류들 중 하나로 실패할 수도 있다.</p>
 <h2 id="versions">VERSIONS</h2>
 <p>glibc 버전 2.12에 이 함수들이 처음 등장했다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -204,10 +203,10 @@ int pthread_getname_np(pthread_t thread,
 <p>이 함수들은 비표준 GNU 확장이다. 그래서 이름 뒤에 "_np"(nonportable: 이식성 없음)가 붙어 있다.</p>
 <h2 id="notes">NOTES</h2>
 <p>내부적으로 <code>pthread_setname_np()</code>는 <code>/proc</code> 파일 시스템 내의 스레드별 <code>comm</code> 파일인 <code>/proc/self/task/[tid]/comm</code>에 쓰기를 한다. <code>pthread_getname_np()</code>는 같은 위치에서 이름을 가져온다.</p>
-<h2 id="example">EXAMPLE</h2>
+<h2 id="examples">EXAMPLES</h2>
 <p>아래 프로그램이 <code>pthread_setname_np()</code>와 <code>pthread_getname_np()</code> 사용 방식을 보여 준다.</p>
 <p>다음 셸 세션이 프로그램 실행 예를 보여 준다.</p>
-<pre><code class="text">$ ./a.out
+<pre><code class="language-text">$ ./a.out
 Created a thread. Default name is: a.out
 The thread name after setting it is THREADFOO.
 ^Z                           # 프로그램 정지
@@ -221,9 +220,8 @@ a.out
 $ cat /proc/5990/task/5991/comm
 THREADFOO
 </code></pre>
-
 <h3 id="_1">프로그램 소스</h3>
-<pre><code class="c">#define _GNU_SOURCE
+<pre><code class="language-c">#define _GNU_SOURCE
 #include &lt;pthread.h&gt;
 #include &lt;stdio.h&gt;
 #include &lt;string.h&gt;
@@ -234,8 +232,8 @@ THREADFOO
 #define NAMELEN 16
 
 #define errExitEN(en, msg) \
-            do { errno = en; perror(msg); exit(EXIT_FAILURE); \
-        } while (0)
+                        do { errno = en; perror(msg); \
+                             exit(EXIT_FAILURE); } while (0)
 
 static void *
 threadfunc(void *parm)
@@ -280,11 +278,10 @@ main(int argc, char **argv)
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[prctl(2)]]</tt>, <tt>[[pthread_create(3)]]</tt>, <tt>[[pthreads(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/prctl(2)/">prctl(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_create(3)/">pthread_create(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthreads(7)/">pthreads(7)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

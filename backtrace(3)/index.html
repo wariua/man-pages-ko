@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/backtrace(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/backtrace%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Backtrace(3) - man-pages-ko</title>
+    <title>backtrace(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -142,7 +142,7 @@
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
             <li class="second-level"><a href="#_1">프로그램 소스</a></li>
                 
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
@@ -153,24 +153,22 @@
 <h2 id="name">NAME</h2>
 <p>backtrace, backtrace_symbols, backtrace_symbols_fd - 응용 셀프 디버깅 지원</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;execinfo.h&gt;
+<pre><code class="language-c">#include &lt;execinfo.h&gt;
 
 int backtrace(void **buffer, int size);
 
 char **backtrace_symbols(void *const *buffer, int size);
-
 void backtrace_symbols_fd(void *const *buffer, int size, int fd);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>backtrace()</code>는 <code>buffer</code>가 가리키는 배열에 호출 프로그램의 백트레이스를 반환한다. 백트레이스란 프로그램에서 현재 활성인 함수 호출들의 열이다. <code>buffer</code>가 가리키는 배열의 각 항목은 <code>void *</code> 타입이며 대응하는 스택 프레임의 반환 주소이다. <code>size</code> 인자는 <code>buffer</code>에 저장할 수 있는 주소의 최대 개수를 나타낸다. 백트레이스가 <code>size</code>보다 큰 경우에는 가장 최근 <code>size</code> 개 함수 호출에 대응하는 주소들을 반환한다. 백트레이스 전체를 얻으려면 <code>buffer</code>와 <code>size</code>를 충분히 크게 해야 한다.</p>
-<p><code>backtrace()</code>가 반환한 주소 집합을 <code>backtrace_symbols()</code>에게 <code>buffer</code>로 주면 주소를 심볼로 나타낸 문자열들의 배열로 변환해 준다. <code>size</code> 인자는 <code>buffer</code>의 주소 개수를 나타낸다. 각 주소의 심볼 표현은 함수 이름 (알아낼 수 있는 경우), 16진수로 된 함수 내 오프셋, (16진수로 된) 실제 반환 주소로 이뤄져 있다. 문자열 포인터들의 배열의 주소를 <code>backtrace_symbols()</code>가 함수 결과로 반환한다. 그 배열은 <code>backtrace_symbols()</code>에서 <tt>[[malloc(3)]]</tt> 한 것이므로 호출자가 해제해야 한다. (그 포인터 배열이 가리키는 문자열들은 해제할 필요가 없으며 해서도 안 된다.)</p>
-<p><code>backtrace_symbols_fd()</code>는 <code>backtrace_symbols()</code>와 같은 <code>buffer</code> 및 <code>size</code> 인자를 받되 문자열 배열을 호출자에게 반환하는 대신 파일 디스크립터 <code>fd</code>에 그 문자열들을 한 행에 하나씩 쓴다. <code>backtrace_symbols_fd()</code>는 <tt>[[malloc(3)]]</tt>을 호출하지 않으므로 <tt>[[malloc(3)]]</tt>이 실패할 수도 있는 경우에 이용할 수 있다. 하지만 NOTES를 보라.</p>
+<p><code>backtrace()</code>가 반환한 주소 집합을 <code>backtrace_symbols()</code>에게 <code>buffer</code>로 주면 주소를 심볼로 나타낸 문자열들의 배열로 변환해 준다. <code>size</code> 인자는 <code>buffer</code>의 주소 개수를 나타낸다. 각 주소의 심볼 표현은 함수 이름 (알아낼 수 있는 경우), 16진수로 된 함수 내 오프셋, (16진수로 된) 실제 반환 주소로 이뤄져 있다. 문자열 포인터들의 배열의 주소를 <code>backtrace_symbols()</code>가 함수 결과로 반환한다. 그 배열은 <code>backtrace_symbols()</code>에서 <tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt> 한 것이므로 호출자가 해제해야 한다. (그 포인터 배열이 가리키는 문자열들은 해제할 필요가 없으며 해서도 안 된다.)</p>
+<p><code>backtrace_symbols_fd()</code>는 <code>backtrace_symbols()</code>와 같은 <code>buffer</code> 및 <code>size</code> 인자를 받되 문자열 배열을 호출자에게 반환하는 대신 파일 디스크립터 <code>fd</code>에 그 문자열들을 한 행에 하나씩 쓴다. <code>backtrace_symbols_fd()</code>는 <tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt>을 호출하지 않으므로 <tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt>이 실패할 수도 있는 경우에 이용할 수 있다. 하지만 NOTES를 보라.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p><code>backtrace()</code>는 <code>buffer</code>로 반환하는 주소들의 수를 반환하며 그 값은 <code>size</code>보다 크지 않다. 반환 값이 <code>size</code>보다 작은 경우에는 백트레이스 전체가 저장된 것이다. <code>size</code>와 같은 경우에는 일부가 잘렸을 수도 있으며, 그 경우 오래된 스택 프레임들의 주소가 반환되지 않는다.</p>
-<p>성공 시 <code>backtrace_symbols()</code>는 호출에서 <tt>[[malloc(3)]]</tt> 한 배열에 대한 포인터를 반환한다. 오류 시 NULL을 반환한다.</p>
+<p>성공 시 <code>backtrace_symbols()</code>는 호출에서 <tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt> 한 배열에 대한 포인터를 반환한다. 오류 시 NULL을 반환한다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -181,7 +179,7 @@ void backtrace_symbols_fd(void *const *buffer, int size, int fd);
 </thead>
 <tbody>
 <tr>
-<td><code>backtrace()</code>,<br><code>backtrace_symbols()</code>,<br><code>backtrace_symbols_fd()</code></td>
+<td><code>backtrace()</code>, <code>backtrace_symbols()</code>,<br><code>backtrace_symbols_fd()</code></td>
 <td>스레드 안전성</td>
 <td>MT-Safe</td>
 </tr>
@@ -202,13 +200,13 @@ void backtrace_symbols_fd(void *const *buffer, int size, int fd);
 <p>꼬리 호출 최적화가 이뤄지면 한 스택 프레임이 다른 프레임을 대체한다.</p>
 </li>
 <li>
-<p><code>backtrace()</code>와 <code>backtrace_symbols_fd()</code>에서 <tt>[[malloc(3)]]</tt>을 명시적으로 호출하지는 않지만 그 함수들이 포함된 <code>libgcc</code>가 최초 사용 때 동적으로 적재된다. 그리고 동적 적재는 일반적으로 <tt>[[malloc(3)]]</tt> 호출을 유발한다. 이 두 함수에 대한 특정 호출이 (가령 시그널 핸들러 안에서) 메모리 할당을 하지 않게 하려면 <code>libgcc</code>가 미리 적재돼 있도록 해야 한다.</p>
+<p><code>backtrace()</code>와 <code>backtrace_symbols_fd()</code>에서 <tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt>을 명시적으로 호출하지는 않지만 그 함수들이 포함된 <code>libgcc</code>가 최초 사용 때 동적으로 적재된다. 그리고 동적 적재는 일반적으로 <tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt> 호출을 유발한다. 이 두 함수에 대한 특정 호출이 (가령 시그널 핸들러 안에서) 메모리 할당을 하지 않게 하려면 <code>libgcc</code>가 미리 적재돼 있도록 해야 한다.</p>
 </li>
 </ul>
 <p>특별한 링커 옵션을 쓰지 않으면 심볼 이름을 얻지 못할 수도 있다. GNU 링커를 사용하는 시스템에서는 <code>-rdynamic</code> 링커 옵션을 써야 한다. 참고로 "static" 함수의 이름은 노출되지 않으므로 백트레이스에 나오지 않는다.</p>
-<h2 id="example">EXAMPLE</h2>
+<h2 id="examples">EXAMPLES</h2>
 <p>아래 프로그램은 <code>backtrace()</code> 및 <code>backtrace_symbols()</code>의 사용 방식을 보여 준다. 다음 셸 세션은 프로그램 실행 시 볼 수 있는 결과이다.</p>
-<pre><code class="text">$ cc -rdynamic prog.c -o prog
+<pre><code class="language-text">$ cc -rdynamic prog.c -o prog
 $ ./prog 3
 backtrace() returned 8 addresses
 ./prog(myfunc3+0x5c) [0x80487f0]
@@ -220,9 +218,8 @@ backtrace() returned 8 addresses
 /lib/libc.so.6(__libc_start_main+0xdc) [0xb7e38f9c]
 ./prog [0x8048711]
 </code></pre>
-
 <h3 id="_1">프로그램 소스</h3>
-<pre><code class="c">#include &lt;execinfo.h&gt;
+<pre><code class="language-c">#include &lt;execinfo.h&gt;
 #include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
 #include &lt;unistd.h&gt;
@@ -232,7 +229,7 @@ backtrace() returned 8 addresses
 void
 myfunc3(void)
 {
-    int j, nptrs;
+    int nptrs;
     void *buffer[BT_BUF_SIZE];
     char **strings;
 
@@ -248,7 +245,7 @@ myfunc3(void)
         exit(EXIT_FAILURE);
     }
 
-    for (j = 0; j &lt; nptrs; j++)
+    for (int j = 0; j &lt; nptrs; j++)
         printf(&quot;%s\n&quot;, strings[j]);
 
     free(strings);
@@ -281,11 +278,10 @@ main(int argc, char *argv[])
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[addr2line(1)]]</tt>, <code>gcc(1)</code>, <tt>[[gdb(1)]]</tt>, <code>ld(1)</code>, <tt>[[dlopen(3)]]</tt>, <tt>[[malloc(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/addr2line(1)/">addr2line(1)</a></tt>, <code>gcc(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/gdb(1)/">gdb(1)</a></tt>, <code>ld(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/dlopen(3)/">dlopen(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/sched_getcpu(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/sched_getcpu%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Sched getcpu(3) - man-pages-ko</title>
+    <title>sched_getcpu(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -152,12 +152,11 @@
 <h2 id="name">NAME</h2>
 <p>sched_getcpu - 호출 스레드가 돌고 있는 CPU 알아내기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;sched.h&gt;
+<pre><code class="language-c">#include &lt;sched.h&gt;
 
 int sched_getcpu(void);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>sched_getcpu()</code>:</dt>
 <dd>
@@ -166,7 +165,7 @@ int sched_getcpu(void);
 <dd><code>_GNU_SOURCE</code></dd>
 <dt>glibc 2.14 전:</dt>
 <dd><code>_BSD_SOURCE || _SVID_SOURCE</code><br>
-<code>/* _GNU_SOURCE로도 충분함 */</code></dd>
+<code>/* _GNU_SOURCE로도 충분 */</code></dd>
 </dl>
 </dd>
 </dl>
@@ -177,12 +176,12 @@ int sched_getcpu(void);
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>ENOSYS</code></dt>
-<dd>이 커널에서 <tt>[[getcpu(2)]]</tt>를 구현하고 있지 않다.</dd>
+<dd>이 커널에서 <tt><a class="wikilink" href="/man-pages-ko/getcpu(2)/">getcpu(2)</a></tt>를 구현하고 있지 않다.</dd>
 </dl>
 <h2 id="versions">VERSIONS</h2>
 <p>glibc 2.6부터 이 함수가 사용 가능하다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -203,19 +202,17 @@ int sched_getcpu(void);
 <p><code>sched_getcpu()</code>는 glibc 전용이다.</p>
 <h2 id="notes">NOTES</h2>
 <p>다음 호출은</p>
-<pre><code class="c">cpu = sched_getcpu();
+<pre><code class="language-c">cpu = sched_getcpu();
 </code></pre>
-
-<p>다음의 <tt>[[getcpu(2)]]</tt> 호출과 동등하다.</p>
-<pre><code class="c">int c, s;
+<p>다음의 <tt><a class="wikilink" href="/man-pages-ko/getcpu(2)/">getcpu(2)</a></tt> 호출과 동등하다.</p>
+<pre><code class="language-c">int c, s;
 s = getcpu(&amp;c, NULL, NULL);
 cpu = (s == -1) ? s : c;
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[getcpu(2)]]</tt>, <tt>[[sched(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/getcpu(2)/">getcpu(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sched(7)/">sched(7)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

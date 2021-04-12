@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/mkostemp(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/mkostemp%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Mkostemp(3) - man-pages-ko</title>
+    <title>mkostemp(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -152,63 +152,53 @@
 <h2 id="name">NAME</h2>
 <p>mkstemp, mkostemp, mkstemps, mkostemps - 유일한 임시 파일 만들기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;stdlib.h&gt;
+<pre><code class="language-c">#include &lt;stdlib.h&gt;
 
 int mkstemp(char *template);
-
 int mkostemp(char *template, int flags);
-
 int mkstemps(char *template, int suffixlen);
-
 int mkostemps(char *template, int suffixlen, int flags);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>mkstemp()</code>:</dt>
-<dd>
-<code>_XOPEN_SOURCE >= 500</code><br>
-<code>|| /* glibc 2.12부터: */ _POSIX_C_SOURCE >= 200809L</code><br>
-<code>|| /* glibc 버전 <= 2.19: */ _SVID_SOURCE || _BSD_SOURCE</code>
-</dd>
+<dd><code>_XOPEN_SOURCE &gt;= 500</code><br>
+<code>|| /* glibc 2.12부터: */ _POSIX_C_SOURCE &gt;= 200809L</code><br>
+<code>|| /* glibc &lt;= 2.19: */ _SVID_SOURCE || _BSD_SOURCE</code></dd>
 <dt><code>mkostemp()</code>:</dt>
 <dd><code>_GNU_SOURCE</code></dd>
 <dt><code>mkstemps()</code>:</dt>
-<dd>
-<code>/* glibc 2.19부터: */ _DEFAULT_SOURCE</code><br>
-<code>|| /* glibc 버전 <= 2.19: */ _SVID_SOURCE || _BSD_SOURCE</code>
-</dd>
+<dd><code>/* glibc 2.19부터: */ _DEFAULT_SOURCE</code><br>
+<code>|| /* glibc &lt;= 2.19: */ _SVID_SOURCE || _BSD_SOURCE</code></dd>
 <dt><code>mkostemps()</code>:</dt>
 <dd><code>_GNU_SOURCE</code></dd>
 </dl>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>mkstemp()</code> 함수는 <code>template</code>을 가지고 유일한 임시 파일명을 만들어 내고, 그 파일을 생성해서 열고, 그 파일에 대한 열린 파일 디스크립터를 반환한다.</p>
 <p><code>template</code>의 마지막 여섯 글자가 "XXXXXX"여야 하며 그 글자들을 바꿔서 파일명을 유일하게 만든다. 변경이 이뤄지므로 <code>template</code>이 문자열 상수여서는 안 되며 문자 배열로 선언하는 게 좋다.</p>
-<p>0600 권한으로 파일을 생성한다. 즉 소유자에게만 읽기 및 쓰기 권한이 있다. 반환되는 파일 디스크립터를 통해 파일에 읽기 및 쓰기 접근을 할 수 있다. <tt>[[open(2)]]</tt>의 <code>O_EXCL</code> 플래그를 써서 파일을 열기 때문에 호출자가 파일을 생성한 프로세스라는 게 보장된다.</p>
-<p><code>mkostemp()</code> 함수는 <code>mkstemp()</code>와 비슷하되 <code>flags</code>에 (<tt>[[open(2)]]</tt>에서와 의미가 같은) 비트 <code>O_APPEND</code>, <code>O_CLOEXEC</code>, <code>O_SYNC</code>를 지정할 수 있다는 점이 다르다. 참고로 <code>mkostemp()</code>에서 파일을 만들 때 <code>flags</code> 인자에 <code>O_RDWR</code>, <code>O_CREAT</code>, <code>O_EXCL</code> 값을 포함시켜서 <tt>[[open(2)]]</tt>에 준다. 따라서 <code>mkostemp()</code>의 <code>flags</code> 인자에 그 값들을 포함시키는 것은 불필요하며 어떤 시스템에서는 오류가 발생한다.</p>
+<p>0600 권한으로 파일을 생성한다. 즉 소유자에게만 읽기 및 쓰기 권한이 있다. 반환되는 파일 디스크립터를 통해 파일에 읽기 및 쓰기 접근을 할 수 있다. <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>의 <code>O_EXCL</code> 플래그를 써서 파일을 열기 때문에 호출자가 파일을 생성한 프로세스라는 게 보장된다.</p>
+<p><code>mkostemp()</code> 함수는 <code>mkstemp()</code>와 비슷하되 <code>flags</code>에 (<tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>에서와 의미가 같은) 비트 <code>O_APPEND</code>, <code>O_CLOEXEC</code>, <code>O_SYNC</code>를 지정할 수 있다는 점이 다르다. 참고로 <code>mkostemp()</code>에서 파일을 만들 때 <code>flags</code> 인자에 <code>O_RDWR</code>, <code>O_CREAT</code>, <code>O_EXCL</code> 값을 포함시켜서 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>에 준다. 따라서 <code>mkostemp()</code>의 <code>flags</code> 인자에 그 값들을 포함시키는 것은 불필요하며 어떤 시스템에서는 오류가 발생한다.</p>
 <p><code>mkstemps()</code> 함수는 <code>mkstemp()</code>와 비슷하되 <code>template</code>의 문자열에 <code>suffixlen</code> 개 문자만큼의 접미부가 있다는 점이 다르다. 즉 <code>template</code>이 <code>prefixXXXXXXsuffix</code> 형태이며 <code>mkstemp()</code>에서처럼 문자열 XXXXXX가 변경된다.</p>
 <p><code>mkostemps()</code> 함수와 <code>mkstemps()</code>의 관계는 <code>mkostemp()</code>와 <code>mkstemp()</code>의 관계와 같다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 이 함수들은 임시 파일의 파일 디스크립터를 반환한다. 오류 시 -1을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<p>성공 시 이 함수들은 임시 파일의 파일 디스크립터를 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EEXIST</code></dt>
-<dd>유일한 임시 파일명을 만들 수 없다. 이때 <code>template</code>의 내용은 규정돼 있지 않다.</dd>
-<dt><code>EINVAL</code></dt>
 <dd>
-
-<code>mkstemp()</code> 및 <code>mkostemp()</code>: <code>template</code>의 마지막 여섯 글자가 XXXXXX가 아니다. 이때 <code>template</code>은 바뀌지 않는다.
-
-<code>mkstemps()</code> 및 <code>mkostemps()</code>: <code>template</code>의 길이가 <code>(6 + suffixlen)</code> 글자보다 작거나 <code>template</code>의 접미부 앞 마지막 6 글자가 XXXXXX가 아니다.
+<dl>
+<dt>유일한 임시 파일명을 만들 수 없다. 이때 <code>template</code>의 내용은 규정돼 있지 않다.</dt>
+<dt><code>EINVAL</code></dt>
+<dd><code>mkstemp()</code> 및 <code>mkostemp()</code>: <code>template</code>의 마지막 여섯 글자가 XXXXXX가 아니다. 이때 <code>template</code>은 바뀌지 않는다.</dd>
+</dl>
+<p><code>mkstemps()</code> 및 <code>mkostemps()</code>: <code>template</code>의 길이가 <code>(6 + suffixlen)</code> 글자보다 작거나 <code>template</code>의 접미부 앞 마지막 6 글자가 XXXXXX가 아니다.</p>
 </dd>
 </dl>
-
-<p>이 함수들이 <tt>[[open(2)]]</tt>에서 기술하는 오류들 때문에 실패할 수도 있다.</p>
+<p>이 함수들이 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>에서 기술하는 오류들 때문에 실패할 수도 있다.</p>
 <h2 id="versions">VERSIONS</h2>
 <p>glibc 2.7부터 <code>mkostemp()</code>가 사용 가능하다. glibc 2.11부터 <code>mkstemps()</code>와 <code>mkostemps()</code>가 사용 가능하다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -219,7 +209,7 @@ int mkostemps(char *template, int suffixlen, int flags);
 </thead>
 <tbody>
 <tr>
-<td><code>mkstemp()</code>, <code>mkostemp()</code>,<br><code>mkstemps()</code>, <code>mkostemps()</code></td>
+<td><code>mkstemp()</code>, <code>mkostemp()</code>, <code>mkstemps()</code>, <code>mkostemps()</code></td>
 <td>스레드 안전성</td>
 <td>MT-Safe</td>
 </tr>
@@ -231,11 +221,11 @@ int mkostemps(char *template, int suffixlen, int flags);
 <p><code>mkostemp()</code> 및 <code>mkostemps()</code>: glibc 확장임.</p>
 <h2 id="notes">NOTES</h2>
 <p>glibc 버전 2.06 및 이전에서는 0666 권한, 즉 모든 사용자 읽기 및 쓰기로 파일을 생성한다. 이 구식 동작 방식이 보안 위험 요소일 수도 있다. 다른 유닉스 계열에서는 0600을 사용하는데 프로그램을 포팅 할 때 이 세부 사항을 간과할 수도 있기 때문이다. 0600 모드로 파일을 생성해야 한다는 요구 사항이 POSIX.1-2008에 추가됐다.</p>
-<p>더 일반적으로 <code>mkstemp()</code>의 POSIX 명세에서는 파일 모드에 대해 아무것도 언급하지 않으므로 응용에서 <code>mkstemp()</code>를 (또는 <code>mkostemp()</code>를) 호출하기 전에 파일 모드 생성 마스크(<tt>[[umask(2)]]</tt> 참고)가 적절히 설정돼 있도록 해야 할 것이다.</p>
+<p>더 일반적으로 <code>mkstemp()</code>의 POSIX 명세에서는 파일 모드에 대해 아무것도 언급하지 않으므로 응용에서 <code>mkstemp()</code>를 (또는 <code>mkostemp()</code>를) 호출하기 전에 파일 모드 생성 마스크(<tt><a class="wikilink" href="/man-pages-ko/umask(2)/">umask(2)</a></tt> 참고)가 적절히 설정돼 있도록 해야 할 것이다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[mkdtemp(3)]]</tt>, <tt>[[mktemp(3)]]</tt>, <tt>[[tempnam(3)]]</tt>, <tt>[[tmpfile(3)]]</tt>, <tt>[[tmpnam(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/mkdtemp(3)/">mkdtemp(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mktemp(3)/">mktemp(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/tempnam(3)/">tempnam(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/tmpfile(3)/">tmpfile(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/tmpnam(3)/">tmpnam(3)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

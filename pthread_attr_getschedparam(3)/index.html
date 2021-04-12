@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_attr_getschedparam(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_attr_getschedparam%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Pthread attr getschedparam(3) - man-pages-ko</title>
+    <title>pthread_attr_getschedparam(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -143,7 +143,7 @@
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
@@ -152,26 +152,24 @@
 <h2 id="name">NAME</h2>
 <p>pthread_attr_setschedparam, pthread_attr_getschedparam - 스레드 속성 객체의 스케줄링 매개변수 속성 설정하기/얻기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;pthread.h&gt;
+<pre><code class="language-c">#include &lt;pthread.h&gt;
 
 int pthread_attr_setschedparam(pthread_attr_t *attr,
                                const struct sched_param *param);
 int pthread_attr_getschedparam(const pthread_attr_t *attr,
                                struct sched_param *param);
 </code></pre>
-
 <p><code>-pthread</code>로 컴파일 및 링크.</p>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>pthread_attr_setschedparam()</code> 함수는 <code>attr</code>이 가리키는 스레드 속성 객체의 스케줄링 매개변수 속성들을 <code>param</code>이 가리키는 버퍼에 지정한 값들로 설정한다. 이 속성들이 스레드 속성 객체 <code>attr</code>을 이용해 생성하는 스레드의 스케줄링 매개변수들을 결정한다.</p>
 <p><code>pthread_attr_getschedparam()</code>은 스레드 속성 객체 <code>attr</code>의 스케줄링 매개변수 속성들을 <code>param</code>이 가리키는 버퍼로 반환한다.</p>
 <p>다음 구조체에 스케줄링 매개변수들을 담는다.</p>
-<pre><code class="c">struct sched_param {
+<pre><code class="language-c">struct sched_param {
     int sched_priority;     /* 스케줄링 우선순위 */
 };
 </code></pre>
-
-<p>보다시피 한 가지 스케줄링 매개변수만 지원한다. 각 스케줄링 정책에서 허용하는 스케줄링 우선순위 범위에 대한 세부 내용은 <tt>[[sched(7)]]</tt>를 보라.</p>
-<p><code>pthread_attr_setschedparam()</code>으로 설정한 매개변수가 <tt>[[pthread_create(3)]]</tt> 호출 때 효과가 있으려면 호출자가 <tt>[[pthread_attr_setinheritsched(3)]]</tt>를 사용해 속성 객체 <code>attr</code>의 스케줄러 상속 속성을 <code>PTHREAD_EXPLICIT_SCHED</code>로 설정해야 한다.</p>
+<p>보다시피 한 가지 스케줄링 매개변수만 지원한다. 각 스케줄링 정책에서 허용하는 스케줄링 우선순위 범위에 대한 세부 내용은 <tt><a class="wikilink" href="/man-pages-ko/sched(7)/">sched(7)</a></tt>를 보라.</p>
+<p><code>pthread_attr_setschedparam()</code>으로 설정한 매개변수가 <tt><a class="wikilink" href="/man-pages-ko/pthread_create(3)/">pthread_create(3)</a></tt> 호출 때 효과가 있으려면 호출자가 <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setinheritsched(3)/">pthread_attr_setinheritsched(3)</a></tt>를 사용해 속성 객체 <code>attr</code>의 스케줄러 상속 속성을 <code>PTHREAD_EXPLICIT_SCHED</code>로 설정해야 한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 이 함수들은 0을 반환한다. 오류 시 0 아닌 오류 번호를 반환한다.</p>
 <h2 id="errors">ERRORS</h2>
@@ -182,7 +180,7 @@ int pthread_attr_getschedparam(const pthread_attr_t *attr,
 </dl>
 <p>POSIX.1에서는 <code>pthread_attr_setschedparam()</code>에서 <code>ENOTSUP</code> 오류도 적고 있다. 리눅스에서는 절대 이 값을 반환하지 않는다. (그렇기는 하지만 이식 가능하고 미래를 대비하는 응용에서는 이 오류 반환 값을 처리해야 할 것이다.)</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -202,13 +200,13 @@ int pthread_attr_getschedparam(const pthread_attr_t *attr,
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008.</p>
 <h2 id="notes">NOTES</h2>
-<p>리눅스에서 지원하는 스레드 스케줄링 정책들의 목록은 <tt>[[pthread_attr_setschedpolicy(3)]]</tt>을 보라.</p>
-<h2 id="example">EXAMPLE</h2>
-<p><tt>[[pthread_setschedparam(3)]]</tt> 참고.</p>
+<p>리눅스에서 지원하는 스레드 스케줄링 정책들의 목록은 <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setschedpolicy(3)/">pthread_attr_setschedpolicy(3)</a></tt>을 보라.</p>
+<h2 id="examples">EXAMPLES</h2>
+<p><tt><a class="wikilink" href="/man-pages-ko/pthread_setschedparam(3)/">pthread_setschedparam(3)</a></tt> 참고.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[sched_get_priority_min(2)]]</tt>, <tt>[[pthread_attr_init(3)]]</tt>, <tt>[[pthread_attr_setinheritsched(3)]]</tt>, <tt>[[pthread_attr_setschedpolicy(3)]]</tt>, <tt>[[pthread_create(3)]]</tt>, <tt>[[pthread_setschedparam(3)]]</tt>, <tt>[[pthread_setschedprio(3)]]</tt>, <tt>[[pthreads(7)]]</tt>, <tt>[[sched(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/sched_get_priority_min(2)/">sched_get_priority_min(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_init(3)/">pthread_attr_init(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setinheritsched(3)/">pthread_attr_setinheritsched(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setschedpolicy(3)/">pthread_attr_setschedpolicy(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_create(3)/">pthread_create(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_setschedparam(3)/">pthread_setschedparam(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_setschedprio(3)/">pthread_setschedprio(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthreads(7)/">pthreads(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sched(7)/">sched(7)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

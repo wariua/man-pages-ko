@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/remque(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/remque%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Remque(3) - man-pages-ko</title>
+    <title>remque(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -142,7 +142,7 @@
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
         <li class="first-level "><a href="#bugs">BUGS</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
             <li class="second-level"><a href="#_1">프로그램 소스</a></li>
                 
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
@@ -153,19 +153,17 @@
 <h2 id="name">NAME</h2>
 <p>insque, remque - 큐에 항목 삽입하기/제거하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;search.h&gt;
+<pre><code class="language-c">#include &lt;search.h&gt;
 
 void insque(void *elem, void *prev);
-
 void remque(void *elem);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>insque()</code>, <code>remque()</code>:</dt>
 <dd><code>_XOPEN_SOURCE &gt;= 500</code><br>
 <code>|| /* Glibc 2.19부터: */ _DEFAULT_SOURCE</code><br>
-<code>|| /* Glibc 버전 &lt;= 2.19: */ _SVID_SOURCE</code></dd>
+<code>|| /* Glibc &lt;= 2.19: */ _SVID_SOURCE</code></dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>insque()</code> 및 <code>remque()</code> 함수는 이중 연결 리스트를 조작한다. 리스트의 각 항목은 처음 두 요소가 순방향 및 역방향 포인터인 구조체이다. 연결 리스트는 선형(즉 리스트 끝에서 순방향 포인터가 NULL이고 리스트 처음에서 역방향 포인터가 NULL)일 수도 있고 원형일 수도 있다.</p>
@@ -174,7 +172,7 @@ void remque(void *elem);
 <p>리스트가 원형이면 호출자가 첫 항목의 순방향 포인터와 역방향 포인터가 그 항목을 가리키도록 해야 하며, <code>insque()</code>의 <code>prev</code> 인자도 그 항목을 가리켜야 한다.</p>
 <p><code>remque()</code> 함수는 <code>elem</code>이 가리키는 항목을 이중 연결 리스트에서 제거한다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -195,29 +193,27 @@ void remque(void *elem);
 <p>POSIX.1-2001, POSIX.1-2008.</p>
 <h2 id="notes">NOTES</h2>
 <p>아주 오래된 시스템에서는 이 함수들의 인자가 다음처럼 정의된 <code>struct qelem *</code> 타입이었다.</p>
-<pre><code class="c">struct qelem {
+<pre><code class="language-c">struct qelem {
     struct qelem *q_forw;
     struct qelem *q_back;
     char          q_data[1];
 };
 </code></pre>
-
 <p>아직도 <code>&lt;search.h&gt;</code> 포함 전에 <code>_GNU_SOURCE</code>가 정의되어 있으면 이 타입을 얻을 수 있다.</p>
 <p>이 함수들 원형의 위치가 유닉스 버전에 따라 다르다. 위는 POSIX 버전이다. 어떤 시스템에서는 <code>&lt;string.h&gt;</code>에 있다.</p>
 <h2 id="bugs">BUGS</h2>
 <p>glibc 2.4 및 이전에서는 <code>prev</code>에 NULL을 지정하는 게 불가능했다. 그래서 선형 리스트를 만들려면 호출자가 순방향 및 역방향 포인터를 적절히 초기화 한 리스트의 처음 두 항목으로 최초 호출을 해서 리스트를 만들어야 했다.</p>
-<h2 id="example">EXAMPLE</h2>
+<h2 id="examples">EXAMPLES</h2>
 <p>아래 프로그램은 <code>insque()</code> 사용 방식을 보여 준다. 다음은 프로그램 실행 예이다.</p>
-<pre><code class="text">$ ./a.out -c a b c
+<pre><code class="language-text">$ ./a.out -c a b c
 Traversing completed list:
     a
     b
     c
 That was a circular list
 </code></pre>
-
 <h3 id="_1">프로그램 소스</h3>
-<pre><code class="c">#include &lt;stdio.h&gt;
+<pre><code class="language-c">#include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
 #include &lt;unistd.h&gt;
 #include &lt;search.h&gt;
@@ -231,9 +227,7 @@ struct element {
 static struct element *
 new_element(void)
 {
-    struct element *e;
-
-    e = malloc(sizeof(struct element));
+    struct element *e = malloc(sizeof(*e));
     if (e == NULL) {
         fprintf(stderr, &quot;malloc() failed\n&quot;);
         exit(EXIT_FAILURE);
@@ -269,7 +263,7 @@ main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    /* 첫 번째 항목을 만들어서 연결 리스트에 넣기 */
+    /* 첫 번째 항목을 만들어서 연결 리스트에 넣기. */
 
     elem = new_element();
     first = elem;
@@ -284,7 +278,7 @@ main(int argc, char *argv[])
         insque(elem, NULL);
     }
 
-    /* 나머지 명령행 인자들을 리스트 항목으로 추가하기 */
+    /* 나머지 명령행 인자들을 리스트 항목으로 추가하기. */
 
     while (++optind &lt; argc) {
         prev = elem;
@@ -294,7 +288,7 @@ main(int argc, char *argv[])
         insque(elem, prev);
     }
 
-    /* 리스트를 처음부터 순회하면서 항목 이름 찍기 */
+    /* 리스트를 처음부터 순회하면서 항목 이름 찍기. */
 
     printf(&quot;Traversing completed list:\n&quot;);
     elem = first;
@@ -309,11 +303,10 @@ main(int argc, char *argv[])
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[queue(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/queue(7)/">queue(7)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

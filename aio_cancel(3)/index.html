@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/aio_cancel(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/aio_cancel%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Aio cancel(3) - man-pages-ko</title>
+    <title>aio_cancel(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -152,16 +152,15 @@
 <h2 id="name">NAME</h2>
 <p>aio_cancel - 미처리 비동기 IO 요청 취소하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;aio.h&gt;
+<pre><code class="language-c">#include &lt;aio.h&gt;
 
 int aio_cancel(int fd, struct aiocb *aiocbp);
 </code></pre>
-
 <p><code>-lrt</code>로 링크.</p>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>aio_cancel()</code> 함수는 파일 디스크립터 <code>fd</code>에 대한 미처리 비동기 I/O 요청들을 취소하려고 시도한다. <code>aiocbp</code>가 NULL이면 해당 요청들을 모두 취소한다. 아니면 <code>aiocbp</code>가 가리키는 제어 블록이 기술하는 요청만 취소한다. (<code>aiocb</code> 구조체에 대한 설명은 <tt>[[aio(7)]]</tt> 참고.)</p>
-<p>취소되는 요청에 대해 정상적으로 비동기 알림이 이뤄진다. (<tt>[[aio(7)]]</tt> 및 <tt>[[sigevent(7)]]</tt> 참고.) 요청 반환 상태(<tt>[[aio_return(3)]]</tt>)는 -1이 되고 요청 오류 상태(<tt>[[aio_error(3)]]</tt>)는 <code>ECANCELED</code>가 된다. 취소할 수 없는 요청의 제어 블록은 변경되지 않는다.</p>
-<p>요청을 취소할 수 없었던 경우에는 I/O 동작 수행 후에 요청이 일반적 방식으로 종결된다. (이 경우 <tt>[[aio_error(3)]]</tt>가 상태 <code>EINPROGRESS</code>를 반환하게 된다.)</p>
+<p><code>aio_cancel()</code> 함수는 파일 디스크립터 <code>fd</code>에 대한 미처리 비동기 I/O 요청들을 취소하려고 시도한다. <code>aiocbp</code>가 NULL이면 해당 요청들을 모두 취소한다. 아니면 <code>aiocbp</code>가 가리키는 제어 블록이 기술하는 요청만 취소한다. (<code>aiocb</code> 구조체에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/aio(7)/">aio(7)</a></tt> 참고.)</p>
+<p>취소되는 요청에 대해 정상적으로 비동기 알림이 이뤄진다. (<tt><a class="wikilink" href="/man-pages-ko/aio(7)/">aio(7)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/sigevent(7)/">sigevent(7)</a></tt> 참고.) 요청 반환 상태(<tt><a class="wikilink" href="/man-pages-ko/aio_return(3)/">aio_return(3)</a></tt>)는 -1이 되고 요청 오류 상태(<tt><a class="wikilink" href="/man-pages-ko/aio_error(3)/">aio_error(3)</a></tt>)는 <code>ECANCELED</code>가 된다. 취소할 수 없는 요청의 제어 블록은 변경되지 않는다.</p>
+<p>요청을 취소할 수 없었던 경우에는 I/O 동작 수행 후에 요청이 일반적 방식으로 종결된다. (이 경우 <tt><a class="wikilink" href="/man-pages-ko/aio_error(3)/">aio_error(3)</a></tt>가 상태 <code>EINPROGRESS</code>를 반환하게 된다.)</p>
 <p><code>aiocbp</code>가 NULL이 아닌데 <code>fd</code>가 그 비동기 동작을 개시했던 파일 디스크립터와 다른 경우 발생하는 결과는 명세돼 있지 않다.</p>
 <p>어떤 동작들이 취소 가능한지는 구현에서 규정한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
@@ -170,7 +169,7 @@ int aio_cancel(int fd, struct aiocb *aiocbp);
 <dt><code>AIO_CANCELED</code></dt>
 <dd>모든 요청들을 성공적으로 취소했다.</dd>
 <dt><code>AIO_NOTCANCELED</code></dt>
-<dd>지정한 요청들 중 적어도 한 개가 진행 중이어서 취소되지 않았다. 이 경우 <tt>[[aio_error(3)]]</tt>를 이용해 개별 요청의 상태를 확인할 수 있다.</dd>
+<dd>지정한 요청들 중 적어도 한 개가 진행 중이어서 취소되지 않았다. 이 경우 <tt><a class="wikilink" href="/man-pages-ko/aio_error(3)/">aio_error(3)</a></tt>를 이용해 개별 요청의 상태를 확인할 수 있다.</dd>
 <dt><code>AIO_ALLDONE</code></dt>
 <dd>모든 요청들이 호출 전에 이미 완료되었다.</dd>
 <dt><code>-1</code></dt>
@@ -186,7 +185,7 @@ int aio_cancel(int fd, struct aiocb *aiocbp);
 <h2 id="versions">VERSIONS</h2>
 <p>glibc 2.1부터 <code>aio_cancel()</code> 함수가 사용 가능하다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -206,11 +205,11 @@ int aio_cancel(int fd, struct aiocb *aiocbp);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008.</p>
 <h2 id="examples">EXAMPLES</h2>
-<p><tt>[[aio(7)]]</tt> 참고.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/aio(7)/">aio(7)</a></tt> 참고.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[aio_error(3)]]</tt>, <tt>[[aio_fsync(3)]]</tt>, <tt>[[aio_read(3)]]</tt>, <tt>[[aio_return(3)]]</tt>, <tt>[[aio_suspend(3)]]</tt>, <tt>[[aio_write(3)]]</tt>, <tt>[[lio_listio(3)]]</tt>, <tt>[[aio(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/aio_error(3)/">aio_error(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/aio_fsync(3)/">aio_fsync(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/aio_read(3)/">aio_read(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/aio_return(3)/">aio_return(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/aio_suspend(3)/">aio_suspend(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/aio_write(3)/">aio_write(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/lio_listio(3)/">lio_listio(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/aio(7)/">aio(7)</a></tt></p>
 <hr />
-<p>2015-03-02</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

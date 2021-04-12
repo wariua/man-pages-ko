@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_mutex_timedlock(3p)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_mutex_timedlock%283p%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Pthread mutex timedlock(3p) - man-pages-ko</title>
+    <title>pthread_mutex_timedlock(3p) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -156,13 +156,12 @@
 <h2 id="name">NAME</h2>
 <p>pthread_mutex_timedlock - 뮤텍스 잠그기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;pthread.h&gt;
+<pre><code class="language-c">#include &lt;pthread.h&gt;
 #include &lt;time.h&gt;
 
 int pthread_mutex_timedlock(pthread_mutex_t *restrict mutex,
     const struct timespec *restrict abstime);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>pthread_mutex_timedlock()</code> 함수는 <code>mutex</code>가 가리키는 뮤텍스 객체를 잠근다. 뮤텍스가 이미 잠겨 있으면 <code>pthread_mutex_lock()</code> 함수에서처럼 뮤텍스가 사용 가능해질 때까지 호출 스레드가 블록 한다. 다른 스레드가 뮤텍스를 푸는 걸 기다리지 않고는 뮤텍스를 잠글 수 없는 경우에 지정한 타임아웃 만료 시 그 대기를 끝낸다.</p>
 <p>타임아웃 기준 클럭으로 측정해서 <code>abstime</code>으로 지정한 절대 시간이 지날 때 (즉 그 클럭의 값이 <code>abstime</code>과 같거나 그보다 커질 때), 또는 <code>abstime</code>으로 지정한 절대 시간이 호출 시점에 이미 지나 있는 경우에 타임아웃이 만료된다.</p>
@@ -209,7 +208,7 @@ int pthread_mutex_timedlock(pthread_mutex_t *restrict mutex,
 <h2 id="future-directions">FUTURE DIRECTIONS</h2>
 <p>없음.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[pthread_mutex_destroy()]]</tt>, <tt>[[pthread_mutex_lock()]]</tt>, <code>time()</code></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/pthread_mutex_destroy()/">pthread_mutex_destroy()</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_mutex_lock()/">pthread_mutex_lock()</a></tt>, <code>time()</code></p>
 <p>POSIX.1-2008 Base Definitions 권, <em>4.11절 Memory Synchronization</em>, <code>&lt;pthread.h&gt;</code>, <code>&lt;time.h&gt;</code></p>
 <h2 id="copyright">COPYRIGHT</h2>
 <p>Portions of this text are reprinted and reproduced in electronic form from IEEE Std 1003.1, 2013 Edition, Standard for Information Technology -- Portable Operating System Interface (POSIX), The Open Group Base Specifications Issue 7, Copyright (C) 2013 by the Institute of Electrical and Electronics Engineers, Inc and The Open Group. (This is POSIX.1-2008 with the 2013 Technical Corrigendum 1 applied.) In the event of any discrepancy between this version and the original IEEE and The Open Group Standard, the original IEEE and The Open Group Standard is the referee document. The original Standard can be obtained online at <a href="http://www.unix.org/online.html">http://www.unix.org/online.html</a>.</p>

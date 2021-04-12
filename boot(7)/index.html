@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/boot(7)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/boot%287%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Boot(7) - man-pages-ko</title>
+    <title>boot(7) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -182,10 +182,10 @@
 <p>리눅스에서 OS 로더는 많은 경우 <code>lilo(8)</code> 아니면 <code>grub(8)</code>이다.</p>
 <h3 id="_2">커널</h3>
 <p>커널은 올라가면서 컴퓨터와 운영 체제의 다양한 구성 요소들을 초기화 한다. 일반적으로 그런 일을 책임지는 소프트웨어의 각 부분을 해당 구성 요소의 "<strong>드라이버(driver)</strong>"라고 본다. 커널은 가상 메모리 스와퍼(요즘 리눅스 커널에서는 "kswapd"라는 커널 프로세스)를 시작하고 루트 경로 <code>/</code>에 어떤 파일 시스템을 마운트 한다.</p>
-<p>커널에 전달할 수 있는 매개변수들 중 일부가 이 동작들과 관련되어 있다. (예를 들어 기본 루트 파일 시스템을 변경할 수 있다.) 리눅스 커널 매개변수에 대한 자세한 내용은 <tt>[[bootparam(7)]]</tt>을 읽어 보라.</p>
+<p>커널에 전달할 수 있는 매개변수들 중 일부가 이 동작들과 관련되어 있다. (예를 들어 기본 루트 파일 시스템을 변경할 수 있다.) 리눅스 커널 매개변수에 대한 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/bootparam(7)/">bootparam(7)</a></tt>을 읽어 보라.</p>
 <p>여기까지 하고 나서야 커널이 최초의 사용자 공간 프로세스를 생성한다. 그 프로세스에는 <strong>PID</strong>(프로세스 ID)로 1번을 준다. 전통적으로 이 프로세스는 프로그램 <code>/sbin/init</code>을 실행하는데, 커널이 처리하지 못한 매개변수들이 그리 전달된다.</p>
 <h3 id="_3">루트 사용자 공간 프로세스</h3>
-<p>참고: 다음 설명은 유닉스 시스템 V 릴리스 4를 기반으로 하는 OS에 적용된다. 하지만 널리 쓰이는 여러 시스템들에서는 관련은 있지만 근본적으로 다른 <code>systemd(1)</code>라는 방식을 채택했다. 그와 연계된 <tt>[[bootup(7)]]</tt>에서 거기서의 부팅 과정을 상술한다.</p>
+<p>참고: 다음 설명은 유닉스 시스템 V 릴리스 4를 기반으로 하는 OS에 적용된다. 하지만 널리 쓰이는 여러 시스템들에서는 관련은 있지만 근본적으로 다른 <code>systemd(1)</code>라는 방식을 채택했다. 그와 연계된 <tt><a class="wikilink" href="/man-pages-ko/bootup(7)/">bootup(7)</a></tt>에서 거기서의 부팅 과정을 상술한다.</p>
 <p><code>/sbin/init</code>은 시작하면서 <code>/etc/inittab</code>을 읽어서 추가 지시를 받는다. 이 파일에서는 <code>/sbin/init</code> 프로그램이 특정 <em>런레벨(run-level)</em>로 진입하라는 지식를 받을 때 무엇을 실행해야 하는지를 규정한다. 그래서 관리자가 어떤 용도를 위한 환경을 손쉽게 수립할 수 있게 해 준다. 각 런레벨은 일군의 서비스들과 연계되어 있다. (예를 들어 런레벨 <code>S</code>는 <em>단일 사용자(single-user)</em> 모드이며 런레벨 <code>2</code>에는 상당수의 네트워크 서비스 실행이 수반된다.)</p>
 <p>관리자가 <code>init(1)</code>을 통해 현재 런레벨을 바꿀 수 있고 <code>runlevel(8)</code>을 통해 현재 런레벨을 질의할 수 있다.</p>
 <p>하지만 이 파일을 편집해서 개별 서비스들을 관리하는 것은 불편하므로 <code>/etc/inittab</code>에서는 개별 서비스들을 실제로 시작/정지하는 일군의 스크립트들을 실행하기만 한다.</p>
@@ -203,7 +203,7 @@
 <h2 id="files">FILES</h2>
 <p><code>/etc/init.d/</code>, <code>/etc/rc[S0-6].d/</code>, <code>/etc/sysconfig/</code></p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>init(1)</code>, <code>systemd(1)</code>, <code>inittab(5)</code>, <tt>[[bootparam(7)]]</tt>, <tt>[[bootup(7)]]</tt>, <code>runlevel(8)</code>, <code>shutdown(8)</code></p>
+<p><code>init(1)</code>, <code>systemd(1)</code>, <code>inittab(5)</code>, <tt><a class="wikilink" href="/man-pages-ko/bootparam(7)/">bootparam(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/bootup(7)/">bootup(7)</a></tt>, <code>runlevel(8)</code>, <code>shutdown(8)</code></p>
 <hr />
 <p>2015-03-11</p></div>
         

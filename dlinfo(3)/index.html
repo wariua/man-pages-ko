@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/dlinfo(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/dlinfo%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Dlinfo(3) - man-pages-ko</title>
+    <title>dlinfo(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -142,7 +142,7 @@
         <li class="first-level "><a href="#versions">VERSIONS</a></li>
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
             <li class="second-level"><a href="#_1">프로그램 소스</a></li>
                 
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
@@ -153,16 +153,15 @@
 <h2 id="name">NAME</h2>
 <p>dlinfo - 동적 적재 오브젝트에 대한 정보 얻기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#define _GNU_SOURCE
+<pre><code class="language-c">#define _GNU_SOURCE
 #include &lt;link.h&gt;
 #include &lt;dlfcn.h&gt;
 
-int dlinfo(void *handle, int request, void *info);
+int dlinfo(void *restrict handle, int request, void *restrict info);
 </code></pre>
-
 <p><code>-ldl</code>로 링크.</p>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>dlinfo()</code> 함수는 (보통 앞선 <tt>[[dlopen(3)]]</tt> 내지 <tt>[[dlmopen(3)]]</tt> 호출로 얻은) <code>handle</code>이 가리키는 동적 적재 오브젝트에 대한 정보를 얻어 온다. <code>request</code> 인자가 어떤 정보를 반환해야 하는지 지정한다. <code>info</code> 인자는 호출에서 반환하는 정보를 저장하는 데 쓰는 버퍼에 대한 포인터다. <code>request</code>에 따라 이 인자의 타입이 달라진다.</p>
+<p><code>dlinfo()</code> 함수는 (보통 앞선 <tt><a class="wikilink" href="/man-pages-ko/dlopen(3)/">dlopen(3)</a></tt> 내지 <tt><a class="wikilink" href="/man-pages-ko/dlmopen(3)/">dlmopen(3)</a></tt> 호출로 얻은) <code>handle</code>이 가리키는 동적 적재 오브젝트에 대한 정보를 얻어 온다. <code>request</code> 인자가 어떤 정보를 반환해야 하는지 지정한다. <code>info</code> 인자는 호출에서 반환하는 정보를 저장하는 데 쓰는 버퍼에 대한 포인터다. <code>request</code>에 따라 이 인자의 타입이 달라진다.</p>
 <p><code>request</code>에 다음 값들을 지원한다. (괄호 안은 해당하는 <code>info</code> 타입이다.)</p>
 <dl>
 <dt><code>RTLD_DI_LMID</code> (<code>Lmid_t *</code>)</dt>
@@ -230,11 +229,11 @@ int dlinfo(void *handle, int request, void *info);
 <dd>이 공유 오브젝트의 TLS 세그먼트에 대응하는 호출 스레드의 TLS 블록에 대한 포인터를 얻는다. 오브젝트에 PT_TLS 세그먼트가 정의돼 있지 않거나 호출 스레드에서 블록을 할당하지 않았으면 <code>*info</code>에 NULL이 들어간다.</dd>
 </dl>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 <code>dlinfo()</code>는 0을 반환한다. 실패 시 -1을 반환한다. <tt>[[dlerror(3)]]</tt>로 오류 원인을 진단할 수 있다.</p>
+<p>성공 시 <code>dlinfo()</code>는 0을 반환한다. 실패 시 -1을 반환한다. <tt><a class="wikilink" href="/man-pages-ko/dlerror(3)/">dlerror(3)</a></tt>로 오류 원인을 진단할 수 있다.</p>
 <h2 id="versions">VERSIONS</h2>
 <p>glibc 2.3.3에서 <code>dlinfo()</code>가 처음 등장했다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -253,15 +252,14 @@ int dlinfo(void *handle, int request, void *info);
 </table>
 <h2 id="notes">NOTES</h2>
 <p>이 함수는 같은 이름의 솔라리스 함수에서 유래한 것이며 몇몇 다른 시스템에도 있다. 다양한 구현들에서 지원하는 요청 세트들은 일부만 서로 겹친다.</p>
-<h2 id="example">EXAMPLE</h2>
-<p>아래 프로그램에서는 <tt>[[dlopen(3)]]</tt>을 써서 공유 오브젝트를 연 다음 <code>RTLD_DI_SERINFOSIZE</code> 및 <code>RTLD_DI_SERINFO</code> 요청을 이용해 그 라이브러리에 대한 라이브러리 탐색 경로 목록을 얻는다. 다음은 프로그램 실행 시 볼 수 있는 출력의 예이다.</p>
-<pre><code class="text">$ ./a.out /lib64/libm.so.6
+<h2 id="examples">EXAMPLES</h2>
+<p>아래 프로그램에서는 <tt><a class="wikilink" href="/man-pages-ko/dlopen(3)/">dlopen(3)</a></tt>을 써서 공유 오브젝트를 연 다음 <code>RTLD_DI_SERINFOSIZE</code> 및 <code>RTLD_DI_SERINFO</code> 요청을 이용해 그 라이브러리에 대한 라이브러리 탐색 경로 목록을 얻는다. 다음은 프로그램 실행 시 볼 수 있는 출력의 예이다.</p>
+<pre><code class="language-text">$ ./a.out /lib64/libm.so.6
 dls_serpath[0].dls_name = /lib64
 dls_serpath[1].dls_name = /usr/lib64
 </code></pre>
-
 <h3 id="_1">프로그램 소스</h3>
-<pre><code class="c">#define _GNU_SOURCE
+<pre><code class="language-c">#define _GNU_SOURCE
 #include &lt;dlfcn.h&gt;
 #include &lt;link.h&gt;
 #include &lt;stdio.h&gt;
@@ -273,14 +271,13 @@ main(int argc, char *argv[])
     void *handle;
     Dl_serinfo serinfo;
     Dl_serinfo *sip;
-    int j;
 
     if (argc != 2) {
         fprintf(stderr, &quot;Usage: %s &lt;libpath&gt;\n&quot;, argv[0]);
         exit(EXIT_FAILURE);
     }
 
-    /* 명령행에 지정된 공유 오브젝트에 대한 핸들 얻기 */
+    /* 명령행에 지정된 공유 오브젝트에 대한 핸들 얻기. */
 
     handle = dlopen(argv[1], RTLD_NOW);
     if (handle == NULL) {
@@ -288,14 +285,14 @@ main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    /* RTLD_DI_SERINFO에 줘야 하는 버퍼 크기 알아내기 */
+    /* RTLD_DI_SERINFO에 줘야 하는 버퍼 크기 알아내기. */
 
     if (dlinfo(handle, RTLD_DI_SERINFOSIZE, &amp;serinfo) == -1) {
         fprintf(stderr, &quot;RTLD_DI_SERINFOSIZE failed: %s\n&quot;, dlerror());
         exit(EXIT_FAILURE);
     }
 
-    /* RTLD_DI_SERINFO에 쓸 버퍼 할당하기 */
+    /* RTLD_DI_SERINFO에 쓸 버퍼 할당하기. */
 
     sip = malloc(serinfo.dls_size);
     if (sip == NULL) {
@@ -303,32 +300,31 @@ main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    /* 새로 할당된 버퍼의 'dls_size' 및 'dls_cnt' 필드 설정하기 */
+    /* 새로 할당된 버퍼의 'dls_size' 및 'dls_cnt' 필드 설정하기. */
 
     if (dlinfo(handle, RTLD_DI_SERINFOSIZE, sip) == -1) {
         fprintf(stderr, &quot;RTLD_DI_SERINFOSIZE failed: %s\n&quot;, dlerror());
         exit(EXIT_FAILURE);
     }
 
-    /* 라이브러리 탐색 경로 목록 얻어 와서 찍기 */
+    /* 라이브러리 탐색 경로 목록 얻어 와서 찍기. */
 
     if (dlinfo(handle, RTLD_DI_SERINFO, sip) == -1) {
         fprintf(stderr, &quot;RTLD_DI_SERINFO failed: %s\n&quot;, dlerror());
         exit(EXIT_FAILURE);
     }
 
-    for (j = 0; j &lt; serinfo.dls_cnt; j++)
+    for (int j = 0; j &lt; serinfo.dls_cnt; j++)
         printf(&quot;dls_serpath[%d].dls_name = %s\n&quot;,
                 j, sip-&gt;dls_serpath[j].dls_name);
 
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[dl_iterate_phdr(3)]]</tt>, <tt>[[dladdr(3)]]</tt>, <tt>[[dlerror(3)]]</tt>, <tt>[[dlopen(3)]]</tt>, <tt>[[dlsym(3)]]</tt>, <tt>[[ld.so(8)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/dl_iterate_phdr(3)/">dl_iterate_phdr(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/dladdr(3)/">dladdr(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/dlerror(3)/">dlerror(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/dlopen(3)/">dlopen(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/dlsym(3)/">dlsym(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ld.so(8)/">ld.so(8)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/sysinfo(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/sysinfo%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Sysinfo(2) - man-pages-ko</title>
+    <title>sysinfo(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -151,15 +151,14 @@
 <h2 id="name">NAME</h2>
 <p>sysinfo - 시스템 정보 반환</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;sys/sysinfo.h&gt;
+<pre><code class="language-c">#include &lt;sys/sysinfo.h&gt;
 
 int sysinfo(struct sysinfo *info);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>sysinfo()</code>는 메모리 및 스왑 사용, 그리고 평균 부하에 대한 몇 가지 통계를 반환한다.</p>
 <p>리눅스 2.3.16까지에서 <code>sysinfo()</code>는 다음 구조체로 정보를 반환했다.</p>
-<pre><code class="c">struct sysinfo {
+<pre><code class="language-c">struct sysinfo {
     long uptime;             /* 부팅 후 지난 초 */
     unsigned long loads[3];  /* 1분, 5분, 15분 평균 부하 */
     unsigned long totalram;  /* 사용 가능한 주 메모리 총크기 */
@@ -172,10 +171,9 @@ int sysinfo(struct sysinfo *info);
     char _f[22];             /* 구조체를 64비트로 채우기 */
 };
 </code></pre>
-
 <p>위 구조체에서 메모리 및 스왑 필드의 크기는 바이트 단위이다.</p>
 <p>리눅스 2.3.23(i386) 및 2.3.48(모든 아키텍처)부터는 다음 구조체이다.</p>
-<pre><code class="c">struct sysinfo {
+<pre><code class="language-c">struct sysinfo {
     long uptime;             /* 부팅 후 지난 초 */
     unsigned long loads[3];  /* 1분, 5분, 15분 평균 부하 */
     unsigned long totalram;  /* 사용 가능한 주 메모리 총크기 */
@@ -192,10 +190,9 @@ int sysinfo(struct sysinfo *info);
                              /* 구조체를 64비트로 채우기 */
 };
 </code></pre>
-
 <p>위 구조체에서 메모리 및 스왑 필드의 크기는 <code>mem_unit</code> 바이트가 단위이다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 <code>sysinfo()</code>는 0을 반환한다. 오류 시 -1을 반환하며 오류 원인을 나타내도록 <code>errno</code>를 설정한다.</p>
+<p>성공 시 <code>sysinfo()</code>는 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EFAULT</code></dt>
@@ -208,9 +205,9 @@ int sysinfo(struct sysinfo *info);
 <h2 id="notes">NOTES</h2>
 <p>이 시스템 호출에서 제공하는 정보 모두를 <code>/proc/meminfo</code> 및 <code>/proc/loadavg</code>를 통해서도 얻을 수 있다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[proc(5)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/proc(5)/">proc(5)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_getcpuclockid(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_getcpuclockid%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Pthread getcpuclockid(3) - man-pages-ko</title>
+    <title>pthread_getcpuclockid(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -144,7 +144,7 @@
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
             <li class="second-level"><a href="#_1">프로그램 소스</a></li>
                 
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
@@ -155,15 +155,14 @@
 <h2 id="name">NAME</h2>
 <p>pthread_getcpuclockid - 스레드의 CPU 시간 클럭의 ID 얻기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;pthread.h&gt;
+<pre><code class="language-c">#include &lt;pthread.h&gt;
 #include &lt;time.h&gt;
 
-int pthread_getcpuclockid(pthread_t thread, clockid_t *clock_id);
+int pthread_getcpuclockid(pthread_t thread, clockid_t *clockid);
 </code></pre>
-
 <p><code>-pthread</code>로 컴파일 및 링크.</p>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>pthread_getcpuclockid()</code> 함수는 스레드 <code>thread</code>의 CPU 시간 클럭에 대한 클럭 ID를 반환한다.</p>
+<p><code>pthread_getcpuclockid()</code> 함수는 <code>thread</code>로 ID를 지정한 스레드의 CPU 시간 클럭의 ID를 얻어서 <code>clockid</code>가 가리키는 위치로 반환한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 이 함수는 0을 반환한다. 오류 시 0 아닌 오류 번호를 반환한다.</p>
 <h2 id="errors">ERRORS</h2>
@@ -176,7 +175,7 @@ int pthread_getcpuclockid(pthread_t thread, clockid_t *clock_id);
 <h2 id="versions">VERSIONS</h2>
 <p>glibc 버전 2.2부터 이 함수가 사용 가능하다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -196,10 +195,10 @@ int pthread_getcpuclockid(pthread_t thread, clockid_t *clock_id);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008.</p>
 <h2 id="notes">NOTES</h2>
-<p><code>thread</code>가 호출 스레드를 가리킬 때 이 함수가 반환하는 식별자가 가리키는 클럭은 클럭 ID로 <code>CLOCK_THREAD_CPUTIME_ID</code>를 주어 <tt>[[clock_gettime(2)]]</tt> 및 <tt>[[clock_settime(2)]]</tt>으로 조작하는 것과 같은 클럭이다.</p>
-<h2 id="example">EXAMPLE</h2>
-<p>아래 프로그램은 스레드를 생성한 다음 <tt>[[clock_gettime(2)]]</tt>을 써서 총 프로세스 CPU 시간을 얻고서 두 스레드가 소모한 스레드별 CPU 시간을 얻는다. 다음 셸 세션이 실행 예를 보여 준다.</p>
-<pre><code class="text">$ ./a.out
+<p><code>thread</code>가 호출 스레드를 가리킬 때 이 함수가 반환하는 식별자가 가리키는 클럭은 클럭 ID로 <code>CLOCK_THREAD_CPUTIME_ID</code>를 주어 <tt><a class="wikilink" href="/man-pages-ko/clock_gettime(2)/">clock_gettime(2)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/clock_settime(2)/">clock_settime(2)</a></tt>으로 조작하는 것과 같은 클럭이다.</p>
+<h2 id="examples">EXAMPLES</h2>
+<p>아래 프로그램은 스레드를 생성한 다음 <tt><a class="wikilink" href="/man-pages-ko/clock_gettime(2)/">clock_gettime(2)</a></tt>을 써서 총 프로세스 CPU 시간을 얻고서 두 스레드가 소모한 스레드별 CPU 시간을 얻는다. 다음 셸 세션이 실행 예를 보여 준다.</p>
+<pre><code class="language-text">$ ./a.out
 Main thread sleeping
 Subthread starting infinite loop
 Main thread consuming some CPU time...
@@ -207,12 +206,12 @@ Process total CPU time:    1.368
 Main thread CPU time:      0.376
 Subthread CPU time:        0.992
 </code></pre>
-
 <h3 id="_1">프로그램 소스</h3>
-<pre><code class="c">/* &quot;-lrt&quot;로 링크 */
+<pre><code class="language-c">/* &quot;-lrt&quot;로 링크 */
 
 #include &lt;time.h&gt;
 #include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
 #include &lt;stdlib.h&gt;
 #include &lt;unistd.h&gt;
 #include &lt;pthread.h&gt;
@@ -241,7 +240,7 @@ pclock(char *msg, clockid_t cid)
     printf(&quot;%s&quot;, msg);
     if (clock_gettime(cid, &amp;ts) == -1)
         handle_error(&quot;clock_gettime&quot;);
-    printf(&quot;%4ld.%03ld\n&quot;, ts.tv_sec, ts.tv_nsec / 1000000);
+    printf(&quot;%4jd.%03ld\n&quot;, (intmax_t) ts.tv_sec, ts.tv_nsec / 1000000);
 }
 
 int
@@ -249,7 +248,7 @@ main(int argc, char *argv[])
 {
     pthread_t thread;
     clockid_t cid;
-    int j, s;
+    int s;
 
     s = pthread_create(&amp;thread, NULL, thread_start, NULL);
     if (s != 0)
@@ -259,7 +258,7 @@ main(int argc, char *argv[])
     sleep(1);
 
     printf(&quot;Main thread consuming some CPU time...\n&quot;);
-    for (j = 0; j &lt; 2000000; j++)
+    for (int j = 0; j &lt; 2000000; j++)
         getppid();
 
     pclock(&quot;Process total CPU time: &quot;, CLOCK_PROCESS_CPUTIME_ID);
@@ -280,11 +279,10 @@ main(int argc, char *argv[])
     exit(EXIT_SUCCESS);         /* 두 스레드 모두 종료 */
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[clock_gettime(2)]]</tt>, <tt>[[clock_settime(2)]]</tt>, <tt>[[timer_create(2)]]</tt>, <tt>[[clock_getcpuclockid(3)]]</tt>, <tt>[[pthread_self(3)]]</tt>, <tt>[[pthreads(7)]]</tt>, <tt>[[time(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/clock_gettime(2)/">clock_gettime(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/clock_settime(2)/">clock_settime(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/timer_create(2)/">timer_create(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/clock_getcpuclockid(3)/">clock_getcpuclockid(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_self(3)/">pthread_self(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthreads(7)/">pthreads(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/time(7)/">time(7)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

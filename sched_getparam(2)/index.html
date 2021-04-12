@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/sched_getparam(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/sched_getparam%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Sched getparam(2) - man-pages-ko</title>
+    <title>sched_getparam(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -149,10 +149,9 @@
 <h2 id="name">NAME</h2>
 <p>sched_setparam, sched_getparam - 스케줄링 매개변수를 설정하고 얻기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;sched.h&gt;
+<pre><code class="language-c">#include &lt;sched.h&gt;
 
 int sched_setparam(pid_t pid, const struct sched_param *param);
-
 int sched_getparam(pid_t pid, struct sched_param *param);
 
 struct sched_param {
@@ -161,15 +160,14 @@ struct sched_param {
     ...
 };
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
-<p><code>sched_setparam()</code>은 <code>pid</code>에 스레드 ID가 지정된 스레드의 스케줄링 정책에 연계된 스케줄링 매개변수를 설정한다. <code>pid</code>가 0이면 호출 스레드의 매개변수를 설정한다. <code>param</code> 인자의 해석 방식은 <code>pid</code>가 나타내는 스레드의 스케줄링 정책에 따라 달라진다. 리눅스에서 지원하는 스케줄링 정책들에 대한 설명은 <tt>[[sched(7)]]</tt>를 보라.</p>
+<p><code>sched_setparam()</code>은 <code>pid</code>에 스레드 ID가 지정된 스레드의 스케줄링 정책에 연계된 스케줄링 매개변수를 설정한다. <code>pid</code>가 0이면 호출 스레드의 매개변수를 설정한다. <code>param</code> 인자의 해석 방식은 <code>pid</code>가 나타내는 스레드의 스케줄링 정책에 따라 달라진다. 리눅스에서 지원하는 스케줄링 정책들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/sched(7)/">sched(7)</a></tt>를 보라.</p>
 <p><code>sched_getparam()</code>은 <code>pid</code>가 나타내는 스레드의 스케줄링 매개변수를 가져온다. <code>pid</code>가 0이면 호출 스레드의 매개변수를 가져온다.</p>
-<p><code>sched_setparam()</code>은 스레드의 스케줄링 정책에 대해 <code>param</code>의 유효성을 확인한다. <code>param-&gt;sched_priority</code> 값이 <tt>[[sched_get_priority_min(2)]]</tt>과 <tt>[[sched_get_priority_max(2)]]</tt>에 의한 범위 내에 있어야 한다.</p>
-<p>스케줄링 우선순위와 정책에 관련된 특권과 자원 제한에 대한 논의는 <tt>[[sched(7)]]</tt>를 보라.</p>
+<p><code>sched_setparam()</code>은 스레드의 스케줄링 정책에 대해 <code>param</code>의 유효성을 확인한다. <code>param-&gt;sched_priority</code> 값이 <tt><a class="wikilink" href="/man-pages-ko/sched_get_priority_min(2)/">sched_get_priority_min(2)</a></tt>과 <tt><a class="wikilink" href="/man-pages-ko/sched_get_priority_max(2)/">sched_get_priority_max(2)</a></tt>에 의한 범위 내에 있어야 한다.</p>
+<p>스케줄링 우선순위와 정책에 관련된 특권과 자원 제한에 대한 논의는 <tt><a class="wikilink" href="/man-pages-ko/sched(7)/">sched(7)</a></tt>를 보라.</p>
 <p><code>sched_setparam()</code>과 <code>sched_getparam()</code>을 사용할 수 있는 POSIX 시스템에는 <code>&lt;unistd.h&gt;</code>에 <code>_POSIX_PRIORITY_SCHEDULING</code>이 정의되어 있다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 <code>sched_setparam()</code>과 <code>sched_getparam()</code>은 0을 반환한다. 오류 시 -1을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<p>성공 시 <code>sched_setparam()</code>과 <code>sched_getparam()</code>은 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EINVAL</code></dt>
@@ -184,9 +182,9 @@ struct sched_param {
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[gettid(2)]]</tt>, <tt>[[getpriority(2)]]</tt>, <tt>[[nice(2)]]</tt>, <tt>[[sched_get_priority_max(2)]]</tt>, <tt>[[sched_get_priority_min(2)]]</tt>, <tt>[[sched_getaffinity(2)]]</tt>, <tt>[[sched_getscheduler(2)]]</tt>, <tt>[[sched_setaffinity(2)]]</tt>, <tt>[[sched_setattr(2)]]</tt>, <tt>[[sched_setscheduler(2)]]</tt>, <tt>[[setpriority(2)]]</tt>, <tt>[[capabilities(7)]]</tt>, <tt>[[sched(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/getpriority(2)/">getpriority(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/gettid(2)/">gettid(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/nice(2)/">nice(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sched_get_priority_max(2)/">sched_get_priority_max(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sched_get_priority_min(2)/">sched_get_priority_min(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sched_getaffinity(2)/">sched_getaffinity(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sched_getscheduler(2)/">sched_getscheduler(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sched_setaffinity(2)/">sched_setaffinity(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sched_setattr(2)/">sched_setattr(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sched_setscheduler(2)/">sched_setscheduler(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/setpriority(2)/">setpriority(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/capabilities(7)/">capabilities(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sched(7)/">sched(7)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

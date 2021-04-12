@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/bswap_64(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/bswap_64%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Bswap 64(3) - man-pages-ko</title>
+    <title>bswap_64(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -141,7 +141,7 @@
         <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
         <li class="first-level "><a href="#errors">ERRORS</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
             <li class="second-level"><a href="#_1">프로그램 소스</a></li>
                 
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
@@ -152,13 +152,12 @@
 <h2 id="name">NAME</h2>
 <p>bswap_16, bswap_32, bswap_64 - 바이트 순서 뒤집기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;byteswap.h&gt;
+<pre><code class="language-c">#include &lt;byteswap.h&gt;
 
 bswap_16(x);
 bswap_32(x);
 bswap_64(x);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p>이 매크로들은 각각의 2바이트, 4바이트, 8바이트 인자의 바이트 순서를 뒤집은 값을 반환한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
@@ -167,14 +166,13 @@ bswap_64(x);
 <p>이 매크로들은 항상 성공한다.</p>
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>이 매크로들은 GNU 확장이다.</p>
-<h2 id="example">EXAMPLE</h2>
+<h2 id="examples">EXAMPLES</h2>
 <p>아래 프로그램에서는 명령행 인자로 받은 8바이트 정수의 바이트들을 뒤집는다. 다음 셸 세션이 프로그램 사용 방식을 보여 준다.</p>
-<pre><code class="text">$ ./a.out 0x0123456789abcdef
+<pre><code class="language-text">$ ./a.out 0x0123456789abcdef
 0x123456789abcdef ==&gt; 0xefcdab8967452301
 </code></pre>
-
 <h3 id="_1">프로그램 소스</h3>
-<pre><code class="c">#include &lt;stdio.h&gt;
+<pre><code class="language-c">#include &lt;stdio.h&gt;
 #include &lt;stdint.h&gt;
 #include &lt;stdlib.h&gt;
 #include &lt;inttypes.h&gt;
@@ -190,17 +188,16 @@ main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    x = strtoul(argv[1], NULL, 0);
-    printf(&quot;0x%&quot; PRIx64 &quot; ==&gt; 0x%&quot; PRIx64 &quot;\n&quot;, x, bswap_64(x));
+    x = strtoull(argv[1], NULL, 0);
+    printf(&quot;%#&quot; PRIx64 &quot; ==&gt; %#&quot; PRIx64 &quot;\n&quot;, x, bswap_64(x));
 
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[byteorder(3)]]</tt>, <tt>[[endian(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/byteorder(3)/">byteorder(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/endian(3)/">endian(3)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2020-11-01</p></div>
         
         
     </div>

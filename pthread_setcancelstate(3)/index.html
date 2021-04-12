@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_setcancelstate(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_setcancelstate%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Pthread setcancelstate(3) - man-pages-ko</title>
+    <title>pthread_setcancelstate(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -147,7 +147,7 @@
                 
             <li class="second-level"><a href="#_2">이식성 관련 사항</a></li>
                 
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
@@ -156,12 +156,11 @@
 <h2 id="name">NAME</h2>
 <p>pthread_setcancelstate, pthread_setcanceltype - 취소 가능성 상태와 유형 설정하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;pthread.h&gt;
+<pre><code class="language-c">#include &lt;pthread.h&gt;
 
 int pthread_setcancelstate(int state, int *oldstate);
 int pthread_setcanceltype(int type, int *oldtype);
 </code></pre>
-
 <p><code>-pthread</code>로 링크.</p>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>pthread_setcancelstate()</code>는 호출 스레드의 취소 가능성 상태를 <code>state</code>에 준 값으로 설정한다. 스레드의 이전 취소 가능성 상태를 <code>oldstate</code>가 가리키는 버퍼로 반환한다. <code>state</code> 인자는 다음 값들 중 하나여야 한다.</p>
@@ -174,7 +173,10 @@ int pthread_setcanceltype(int type, int *oldtype);
 <p><code>pthread_setcanceltype()</code>은 호출 스레드의 취소 가능성 유형을 <code>type</code>에 준 값으로 설정한다. 스레드의 이전 취소 가능성 유형을 <code>oldtype</code>이 가리키는 버퍼로 반환한다. <code>type</code> 인자는 다음 값들 중 하나여야 한다.</p>
 <dl>
 <dt><code>PTHREAD_CANCEL_DEFERRED</code></dt>
-<dd>스레드가 취소점(<tt>[[pthreads(7)]]</tt> 참고)인 함수를 호출할 때까지 취소 요청을 연기한다. 최초 스레드를 포함한 모든 새 스레드의 기본 취소 가능성 유형이다.</dd>
+<dd>
+<p>스레드가 취소점(<tt><a class="wikilink" href="/man-pages-ko/pthreads(7)/">pthreads(7)</a></tt> 참고)인 함수를 호출할 때까지 취소 요청을 연기한다. 최초 스레드를 포함한 모든 새 스레드의 기본 취소 가능성 유형이다.</p>
+<p>취소가 연기된 경우에도 비동기 시그널 핸들러 내의 취소점이 작용할 수 있으며, 그 효과는 비동기 취소가 일어난 것과 같다.</p>
+</dd>
 <dt><code>PTHREAD_CANCEL_ASYNCHRONOUS</code></dt>
 <dd>스레드가 언제든 취소될 수 있다. (보통은 취소 요청 수신 즉시 취소되지만 시스템에서 이를 보장하지는 않는다.)</dd>
 </dl>
@@ -193,7 +195,7 @@ int pthread_setcanceltype(int type, int *oldtype);
 <dd><code>type</code>에 유효하지 않은 값.</dd>
 </dl>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -218,20 +220,20 @@ int pthread_setcanceltype(int type, int *oldtype);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008.</p>
 <h2 id="notes">NOTES</h2>
-<p>스레드가 취소될 때 어떤 일이 일어나는지에 대한 자세한 내용은 <tt>[[pthread_cancel(3)]]</tt>을 보라.</p>
+<p>스레드가 취소될 때 어떤 일이 일어나는지에 대한 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/pthread_cancel(3)/">pthread_cancel(3)</a></tt>을 보라.</p>
 <p>취소 요청으로 중단돼선 안 되는 어떤 중요한 동작을 스레드에서 수행할 때 취소 가능성을 잠시 꺼 두는 게 유용하다. 긴 기간 동안, 또는 오래 블록 할 수 있는 동작에서 취소 가능성을  끄지 않도록 조심해야 한다. 스레드가 취소 요청에 묵묵부답이 된다.</p>
 <h3 id="_1">비동기 취소 가능성</h3>
-<p>취소 가능성 유형을 <code>PTHREAD_CANCEL_ASYNCHRONOUS</code>로 설정하는 게 유용한 경우는 잘 없다. 스레드가 <em>언제든</em> 취소될 수 있으므로 안전하게 자원을 예약(가령 <tt>[[malloc(3)]]</tt>으로 메모리 할당)하거나 뮤텍스나 세마포어, 락 등을 획득할 수 없다. 자원 예약이 안전하지 않은 이유는 스레드가 취소될 때 그 자원들의 상태가 어떤지를 (즉 자원 예약 전에 취소가 일어났는지, 아니면 예약한 상태에서, 또는 해제한 후에 일어났는지를) 응용에서 알 방법이 없기 때문이다. 또한 함수 호출 중에 취소가 발생하는 경우 어떤 내부 자료 구조(가령 <tt>[[malloc(3)]]</tt> 계열 함수들에서 관리하는 유휴 블록 연결 리스트)가 비일관 상태로 남을 수도 있다. 그 결과 정리 핸들러가 더는 쓸모가 없게 된다.</p>
-<p>안전하게 비동기적으로 취소할 수 있는 함수를 <em>비동기 취소 안전 함수</em>라고 부른다. POSIX.1-2001과 POSIX.1-2008에서는 <tt>[[pthread_cancel(3)]]</tt>, <code>pthread_setcancelstate()</code>, <code>pthread_setcanceltype()</code>이 비동기 취소 안전이기만을 요구한다. 일반적으로 비동기적으로 취소될 수 있는 스레드에서 다른 라이브러리 함수들을 안전하게 호출할 수 없다.</p>
+<p>취소 가능성 유형을 <code>PTHREAD_CANCEL_ASYNCHRONOUS</code>로 설정하는 게 유용한 경우는 잘 없다. 스레드가 <em>언제든</em> 취소될 수 있으므로 안전하게 자원을 예약(가령 <tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt>으로 메모리 할당)하거나 뮤텍스나 세마포어, 락 등을 획득할 수 없다. 자원 예약이 안전하지 않은 이유는 스레드가 취소될 때 그 자원들의 상태가 어떤지를 (즉 자원 예약 전에 취소가 일어났는지, 아니면 예약한 상태에서, 또는 해제한 후에 일어났는지를) 응용에서 알 방법이 없기 때문이다. 또한 함수 호출 중에 취소가 발생하는 경우 어떤 내부 자료 구조(가령 <tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt> 계열 함수들에서 관리하는 유휴 블록 연결 리스트)가 비일관 상태로 남을 수도 있다. 그 결과 정리 핸들러가 더는 쓸모가 없게 된다.</p>
+<p>안전하게 비동기적으로 취소할 수 있는 함수를 <em>비동기 취소 안전 함수</em>라고 부른다. POSIX.1-2001과 POSIX.1-2008에서는 <tt><a class="wikilink" href="/man-pages-ko/pthread_cancel(3)/">pthread_cancel(3)</a></tt>, <code>pthread_setcancelstate()</code>, <code>pthread_setcanceltype()</code>이 비동기 취소 안전이기만을 요구한다. 일반적으로 비동기적으로 취소될 수 있는 스레드에서 다른 라이브러리 함수들을 안전하게 호출할 수 없다.</p>
 <p>비동기 취소 가능성이 쓸모 있는 몇 안 되는 경우 중 하나는 순수한 연산 위주 루프 내에 있는 스레드를 취소할 때이다.</p>
 <h3 id="_2">이식성 관련 사항</h3>
 <p>리눅스 스레딩 구현에서는 <code>pthread_setcancelstate()</code>의 <code>oldstate</code> 인자가 NULL인 것을 허용하며, 그 경우 이전 취소 가능성 상태에 대한 정보가 호출자에게 반환되지 않는다. 다른 여러 구현에서도 NULL인 <code>oldstate</code> 인자를 허용한다. 하지만 POSIX.1에서는 이 점을 명세하고 있지 않으므로 이식 가능한 응용에서는 항상 <code>oldstate</code>에 NULL 아닌 값을 지정하는 게 좋다. 정확히 같은 내용이 <code>pthread_setcanceltype()</code>의 <code>oldtype</code> 인자에도 적용된다.</p>
-<h2 id="example">EXAMPLE</h2>
-<p><tt>[[pthread_cancel(3)]]</tt> 참고.</p>
+<h2 id="examples">EXAMPLES</h2>
+<p><tt><a class="wikilink" href="/man-pages-ko/pthread_cancel(3)/">pthread_cancel(3)</a></tt> 참고.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[pthread_cancel(3)]]</tt>, <tt>[[pthread_cleanup_push(3)]]</tt>, <tt>[[pthread_testcancel(3)]]</tt>, <tt>[[pthreads(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/pthread_cancel(3)/">pthread_cancel(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_cleanup_push(3)/">pthread_cleanup_push(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_testcancel(3)/">pthread_testcancel(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthreads(7)/">pthreads(7)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

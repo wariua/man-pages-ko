@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/etext(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/etext%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Etext(3) - man-pages-ko</title>
+    <title>etext(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -140,7 +140,7 @@
         <li class="first-level "><a href="#description">DESCRIPTION</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
             <li class="second-level"><a href="#_1">프로그램 소스</a></li>
                 
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
@@ -151,11 +151,10 @@
 <h2 id="name">NAME</h2>
 <p>etext, edata, end - 프로그램 세그먼트들의 끝</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">extern etext;
+<pre><code class="language-c">extern etext;
 extern edata;
 extern end;
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p>이 심볼들의 주소는 다양한 프로그램 세그먼트들의 끝을 나타낸다.</p>
 <dl>
@@ -171,18 +170,17 @@ extern end;
 <h2 id="notes">NOTES</h2>
 <p>프로그램에서 이 심볼들을 명시적으로 선언해야 한다. 어떤 헤더 파일에도 정의되어 있지 않다.</p>
 <p>일부 시스템에서는 이 심볼들의 이름 앞에 밑줄이 붙어서 <code>_etext</code>, <code>_edata</code>, <code>_end</code>이다. 리눅스에서 컴파일 하는 프로그램에게는 이 심볼들도 정의되어 있다.</p>
-<p>프로그램 실행이 시작될 때 프로그램 단절점(break)은 <code>&amp;end</code> 근처 어딘가(아마 다음 페이지의 시작점)일 것이다. 하지만 <tt>[[brk(2)]]</tt>나 <tt>[[malloc(3)]]</tt>을 통해 메모리를 할당하면서 그 단절점이 바뀌게 된다. 인자 0으로 <tt>[[sbrk(2)]]</tt>를 사용하면 현재의 프로그램 단절점 값을 알아낼 수 있다.</p>
-<h2 id="example">EXAMPLE</h2>
+<p>프로그램 실행이 시작될 때 프로그램 단절점(break)은 <code>&amp;end</code> 근처 어딘가(아마 다음 페이지의 시작점)일 것이다. 하지만 <tt><a class="wikilink" href="/man-pages-ko/brk(2)/">brk(2)</a></tt>나 <tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt>을 통해 메모리를 할당하면서 그 단절점이 바뀌게 된다. 인자 0으로 <tt><a class="wikilink" href="/man-pages-ko/sbrk(2)/">sbrk(2)</a></tt>를 사용하면 현재의 프로그램 단절점 값을 알아낼 수 있다.</p>
+<h2 id="examples">EXAMPLES</h2>
 <p>실행 시 아래 프로그램은 다음과 같은 출력을 내놓는다.</p>
-<pre><code class="text">$ ./a.out
+<pre><code class="language-text">$ ./a.out
 First address past:
     program text (etext)       0x8048568
     initialized data (edata)   0x804a01c
     uninitialized data (end)   0x804a024
 </code></pre>
-
 <h3 id="_1">프로그램 소스</h3>
-<pre><code class="c">#include &lt;stdio.h&gt;
+<pre><code class="language-c">#include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
 
 extern char etext, edata, end; /* 심볼들에 뭔가 타입을 줘야 한다.
@@ -199,11 +197,10 @@ main(int argc, char *argv[])
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[objdump(1)]]</tt>, <tt>[[readelf(1)]]</tt>, <tt>[[sbrk(2)]]</tt>, <tt>[[elf(5)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/objdump(1)/">objdump(1)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/readelf(1)/">readelf(1)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sbrk(2)/">sbrk(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/elf(5)/">elf(5)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2020-06-09</p></div>
         
         
     </div>

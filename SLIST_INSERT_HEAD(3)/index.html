@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/SLIST_INSERT_HEAD(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/SLIST_INSERT_HEAD%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>SLIST INSERT HEAD(3) - man-pages-ko</title>
+    <title>SLIST_INSERT_HEAD(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -138,477 +138,143 @@
         <li class="first-level active"><a href="#name">NAME</a></li>
         <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
         <li class="first-level "><a href="#description">DESCRIPTION</a></li>
-            <li class="second-level"><a href="#_1">단일 연결 리스트</a></li>
+            <li class="second-level"><a href="#_1">생성</a></li>
                 
-            <li class="second-level"><a href="#_2">단일 연결 리스트 예시</a></li>
+            <li class="second-level"><a href="#_2">삽입</a></li>
                 
-            <li class="second-level"><a href="#_3">단일 연결 꼬리 큐</a></li>
+            <li class="second-level"><a href="#_3">순회</a></li>
                 
-            <li class="second-level"><a href="#_4">단일 연결 꼬리 큐 예시</a></li>
+            <li class="second-level"><a href="#_4">제거</a></li>
                 
-            <li class="second-level"><a href="#_5">리스트</a></li>
-                
-            <li class="second-level"><a href="#_6">리스트 예시</a></li>
-                
-            <li class="second-level"><a href="#_7">꼬리 큐</a></li>
-                
-            <li class="second-level"><a href="#_8">꼬리 큐 예시</a></li>
-                
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#bugs">BUGS</a></li>
+            <li class="second-level"><a href="#_5">단일 연결 리스트 예시</a></li>
+                
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
         <div class="col-md-9" role="main">
 
 <h2 id="name">NAME</h2>
-<p>SLIST_EMPTY, SLIST_ENTRY, SLIST_FIRST, SLIST_FOREACH, SLIST_HEAD, SLIST_HEAD_INITIALIZER, SLIST_INIT, SLIST_INSERT_AFTER, SLIST_INSERT_HEAD, SLIST_NEXT, SLIST_REMOVE_HEAD, SLIST_REMOVE, STAILQ_CONCAT, STAILQ_EMPTY, STAILQ_ENTRY, STAILQ_FIRST, STAILQ_FOREACH, STAILQ_HEAD, STAILQ_HEAD_INITIALIZER, STAILQ_INIT, STAILQ_INSERT_AFTER, STAILQ_INSERT_HEAD, STAILQ_INSERT_TAIL, STAILQ_NEXT, STAILQ_REMOVE_HEAD, STAILQ_REMOVE, LIST_EMPTY, LIST_ENTRY, LIST_FIRST, LIST_FOREACH, LIST_HEAD, LIST_HEAD_INITIALIZER, LIST_INIT, LIST_INSERT_AFTER, LIST_INSERT_BEFORE, LIST_INSERT_HEAD, LIST_NEXT, LIST_REMOVE, TAILQ_CONCAT, TAILQ_EMPTY, TAILQ_ENTRY, TAILQ_FIRST, TAILQ_FOREACH, TAILQ_FOREACH_REVERSE, TAILQ_HEAD, TAILQ_HEAD_INITIALIZER, TAILQ_INIT, TAILQ_INSERT_AFTER, TAILQ_INSERT_BEFORE, TAILQ_INSERT_HEAD, TAILQ_INSERT_TAIL, TAILQ_LAST, TAILQ_NEXT, TAILQ_PREV, TAILQ_REMOVE, TAILQ_SWAP - 단일 연결 리스트, 단일 연결 꼬리 큐, 리스트, 꼬리 큐 구현</p>
+<p>SLIST_EMPTY, SLIST_ENTRY, SLIST_FIRST, SLIST_FOREACH, SLIST_HEAD, SLIST_HEAD_INITIALIZER, SLIST_INIT, SLIST_INSERT_AFTER, SLIST_INSERT_HEAD, SLIST_NEXT, SLIST_REMOVE, SLIST_REMOVE_HEAD - 단일 연결 리스트 구현</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;sys/queue.h&gt;
-
-SLIST_EMPTY(SLIST_HEAD *head);
+<pre><code class="language-c">#include &lt;sys/queue.h&gt;
 
 SLIST_ENTRY(TYPE);
 
-SLIST_FIRST(SLIST_HEAD *head);
-
-SLIST_FOREACH(TYPE *var, SLIST_HEAD *head, SLIST_ENTRY NAME);
-
 SLIST_HEAD(HEADNAME, TYPE);
+SLIST_HEAD SLIST_HEAD_INITIALIZER(SLIST_HEAD head);
+void SLIST_INIT(SLIST_HEAD *head);
 
-SLIST_HEAD_INITIALIZER(SLIST_HEAD head);
+int SLIST_EMPTY(SLIST_HEAD *head);
 
-SLIST_INIT(SLIST_HEAD *head);
+void SLIST_INSERT_HEAD(SLIST_HEAD *head,
+                        struct TYPE *elm, SLIST_ENTRY NAME);
+void SLIST_INSERT_AFTER(struct TYPE *listelm,
+                        struct TYPE *elm, SLIST_ENTRY NAME);
 
-SLIST_INSERT_AFTER(TYPE *listelm, TYPE *elm, SLIST_ENTRY NAME);
+struct TYPE *SLIST_FIRST(SLIST_HEAD *head);
+struct TYPE *SLIST_NEXT(struct TYPE *elm, SLIST_ENTRY NAME);
 
-SLIST_INSERT_HEAD(SLIST_HEAD *head, TYPE *elm, SLIST_ENTRY NAME);
+SLIST_FOREACH(struct TYPE *var, SLIST_HEAD *head, SLIST_ENTRY NAME);
 
-SLIST_NEXT(TYPE *elm, SLIST_ENTRY NAME);
-
-SLIST_REMOVE_HEAD(SLIST_HEAD *head, SLIST_ENTRY NAME);
-
-SLIST_REMOVE(SLIST_HEAD *head, TYPE *elm, TYPE, SLIST_ENTRY NAME);
-
-STAILQ_CONCAT(STAILQ_HEAD *head1, STAILQ_HEAD *head2);
-
-STAILQ_EMPTY(STAILQ_HEAD *head);
-
-STAILQ_ENTRY(TYPE);
-
-STAILQ_FIRST(STAILQ_HEAD *head);
-
-STAILQ_FOREACH(TYPE *var, STAILQ_HEAD *head, STAILQ_ENTRY NAME);
-
-STAILQ_HEAD(HEADNAME, TYPE);
-
-STAILQ_HEAD_INITIALIZER(STAILQ_HEAD head);
-
-STIALQ_INIT(STAILQ_HEAD *head);
-
-STAILQ_INSERT_AFTER(STAILQ_HEAD *head, TYPE *listelm, TYPE *elm,
-    STAILQ_ENTRY NAME);
-
-STAILQ_INSERT_HEAD(STAILQ_HEAD *head, TYPE *elm, STAILQ_ENTRY NAME);
-
-STAILQ_INSERT_TAIL(STAILQ_HEAD *head, TYPE *elm, STAILQ_ENTRY NAME);
-
-STAILQ_NEXT(TYPE *elm, STAILQ_ENTRY NAME);
-
-STAILQ_REMOVE_HEAD(STAILQ_HEAD *head, STAILQ_ENTRY NAME);
-
-STAILQ_REMOVE(STAILQ_HEAD *head, TYPE *elm, TYPE, STAILQ_ENTRY NAME);
-
-LIST_EMPTY(LIST_HEAD *head);
-
-LIST_ENTRY(TYPE);
-
-LIST_FIRST(LIST_HEAD *head);
-
-LIST_FOREACH(TYPE *var, LIST_HEAD *head, LIST_ENTRY NAME);
-
-LIST_HEAD(HEADNAME, TYPE);
-
-LIST_HEAD_INITIALIZER(LIST_HEAD head);
-
-LIST_INIT(LIST_HEAD *head);
-
-LIST_INSERT_AFTER(TYPE *listelm, TYPE *elm, LIST_ENTRY NAME);
-
-LIST_INSERT_BEFORE(TYPE *listelm, TYPE *elm, LIST_ENTRY NAME);
-
-LIST_INSERT_HEAD(LIST_HEAD *head, TYPE *elm, LIST_ENTRY NAME);
-
-LIST_NEXT(TYPE *elm, LIST_ENTRY NAME);
-
-LIST_REMOVE(TYPE *elm, LIST_ENTRY NAME);
-
-LIST_SWAP(LIST_HEAD *head1, LIST_HEAD *head2, TYPE, LIST_ENTRY NAME);
-
-TAILQ_CONCAT(TAILQ_HEAD *head1, TAILQ_HEAD *head2, TAILQ_ENTRY NAME);
-
-TAILQ_EMPTY(TAILQ_HEAD *head);
-
-TAILQ_ENTRY(TYPE);
-
-TAILQ_FIRST(TAILQ_HEAD *head);
-
-TAILQ_FOREACH(TYPE *var, TAILQ_HEAD *head, TAILQ_ENTRY NAME);
-
-TAILQ_FOREACH_REVERSE(TYPE *var, TAILQ_HEAD *head, HEADNAME, TAILQ_ENTRY NAME);
-
-TAILQ_HEAD(HEADNAME, TYPE);
-
-TAILQ_HEAD_INITIALIZER(TAILQ_HEAD head);
-
-TAILQ_INIT(TAILQ_HEAD *head);
-
-TAILQ_INSERT_AFTER(TAILQ_HEAD *head, TYPE *listelm, TYPE *elm),
-    TAILQ_ENTRY NAME);
-
-TAILQ_INSERT_BEFORE(TYPE *listelm, TYPE *elm, TAILQ_ENTRY NAME);
-
-TAILQ_INSERT_HEAD(TAILQ_HEAD *head, TYPE *elm, TAILQ_ENTRY NAME);
-
-TAILQ_INSERT_TAIL(TAILQ_HEAD *head, TYPE *elm, TAILQ_ENTRY NAME);
-
-TAILQ_LAST(TAILQ_HEAD *head, HEADNAME);
-
-TAILQ_NEXT(TYPE *elm, TAILQ_ENTRY NAME);
-
-TAILQ_PREV(TYPE *elm, HEADNAME, TAILQ_ENTRY NAME);
-
-TAILQ_REMOVE(TAILQ_HEAD *head, TYPE *elm, TAILQ_ENTRY NAME);
-
-TAILQ_SWAP(TAILQ_HEAD *head1, TAILQ_HEAD *head2, TYPE, TAILQ_ENTRY NAME);
+void SLIST_REMOVE(SLIST_HEAD *head, struct TYPE *elm,
+                        SLIST_ENTRY NAME);
+void SLIST_REMOVE_HEAD(SLIST_HEAD *head,
+                        SLIST_ENTRY NAME);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
-<p>이 매크로들은 네 가지 자료 구조(단일 연결 리스트, 단일 연결 꼬리 큐, 리스트, 꼬리 큐)에 대해 정의되어 동작한다. 네 가지 구조 모두 다음 기능성을 지원한다.</p>
-<ol>
-<li>리스트 머리에 새 항목 삽입하기.</li>
-<li>리스트 내 임의 항목 뒤에 새 항목 삽입하기.</li>
-<li>리스트 머리에서 O(1)으로 항목 제거하기.</li>
-<li>순방향으로 리스트 순회하기.</li>
-<li>두 리스트의 내용 서로 바꾸기.</li>
-</ol>
-<p>단일 연결 리스트는 네 가지 자료 구조 중 가장 단순하며 위 기능들만 지원한다. 단일 연결 리스트는 데이터 양이 많고 제거가 없는 응용에, 또는 LIFO 큐 구현에 잘 맞는다. 단일 연결 리스트에는 추가로 다음 기능성이 있다.</p>
-<ol>
-<li>리스트 내 임의 항목을 O(n)으로 제거하기.</li>
-</ol>
-<p>단일 연결 꼬리 큐에는 추가로 다음 기능성이 있다.</p>
-<ol>
-<li>리스트 끝에 항목을 추가할 수 있다.</li>
-<li>리스트 내 임의 항목을 O(n)으로 제거하기.</li>
-<li>두 리스트를 이어 붙일 수 있다.</li>
-</ol>
-<p>하지만</p>
-<ol>
-<li>리스트 삽입 시 리스트 머리를 지정해야 한다.</li>
-<li>각 머리 항목에 포인터가 한 개가 아니라 두 개 필요하다.</li>
-<li>단일 연결 리스트와 비교할 때 코드 크기가 15% 정도 크고 동작이 20% 정도 느리다.</li>
-</ol>
-<p>단일 연결 꼬리 큐는 데이터 양이 많고 삭제가 드물거나 없는 응용에, 또는 FIFO 큐 구현에 잘 맞는다.</p>
-<p>이중 연결 방식 자료 구조 모두(리스트와 꼬리 큐)에서는 추가로 다음이 가능하다.</p>
-<ol>
-<li>리스트 내 임의 항목 앞에 새 항목 삽입하기.</li>
-<li>리스트 내 임의 항목을 O(1)으로 제거하기.</li>
-</ol>
-<p>하지만</p>
-<ol>
-<li>각 항목에 포인터가 한 개가 아니라 두 개 필요하다.</li>
-<li>코드 크기와 (제거를 제외한) 실행 시간이 단일 연결 자료 구조의 두 배 정도이다.</li>
-</ol>
-<p>연결 리스트는 가장 단순한 이중 연결 자료 구조이다. 위에다 추가로 다음 기능성이 있다.</p>
-<ol>
-<li>역방향으로 순회할 수 있다.</li>
-</ol>
-<p>하지만</p>
-<ol>
-<li>역방향으로 순회하려면 순회를 시작할 항목과 그 항목을 담은 리스트를 지정해야 한다.</li>
-</ol>
-<p>꼬리 큐에는 추가로 다음 기능성이 있다.</p>
-<ol>
-<li>리스트 끝에 항목을 추가할 수 있다.</li>
-<li>꼬리에서 머리로 역방향 순회를 할 수 있다.</li>
-<li>두 리스트를 이어 붙일 수 있다.</li>
-</ol>
-<p>하지만</p>
-<ol>
-<li>리스트 삽입 및 제거 시 리스트 머리를 지정해야 한다.</li>
-<li>각 머리 항목에 포인터가 한 개가 아니라 두 개 필요하다.</li>
-<li>단일 연결 리스트와 비교할 때 코드 크기가 15% 정도 크고 동작이 20% 정도 느리다.</li>
-</ol>
-<p>매크로 정의에서 <code>TYPE</code>은 사용자 정의 구조체의 이름이며 그 구조체에는 이름이 <code>NAME</code>이고 타입이 <code>SLIST_ENTRY</code>, <code>STAILQ_ENTRY</code>, <code>LIST_ENTRY</code>, <code>TAILQ_ENTRY</code> 중 하나인 필드가 있어야 한다. 인자 <code>HEADNAME</code>은 사용자 정의 구조체의 이름이며 매크로 <code>SLIST_HEAD</code>, <code>STAILQ_HEAD</code>, <code>LIST_HEAD</code>, <code>TAILQ_HEAD</code> 중 하나로 그 구조체를 선언해야 한다. 이 매크로 사용 방식에 대한 추가 설명은 아래의 예시들을 참고하라.</p>
-<h3 id="_1">단일 연결 리스트</h3>
-<p>단일 연결 리스트의 머리는 <code>SLIST_HEAD</code> 매크로로 정의한 구조체이다. 이 구조체에는 리스트 첫 번째 항목에 대한 포인터 하나가 있다. 공간 및 포인터 조작 오버헤드를 최소화하기 위해 단일 연결로 되어 있으며, 대신 임의 항목 제거에 O(n) 비용이 든다. 기존 항목 뒤나 리스트 머리에 새 항목을 추가할 수 있다. <code>SLIST_HEAD</code> 구조체를 다음처럼 선언한다.</p>
-<pre><code class="c">SLIST_HEAD(HEADNAME, TYPE) head;
+<p>이 매크로들은 단일 연결 리스트를 정의하고 조작한다.</p>
+<p>매크로 정의에서 <code>TYPE</code>은 사용자 정의 구조체의 이름이며, 그 구조체에는 타입이 <code>SLIST_ENTRY</code>이고 이름이 <code>NAME</code>인 필드가 있어야 한다. <code>HEADNAME</code> 인자는 <code>SLIST_HEAD()</code> 매크로를 써서 선언해야 하는 사용자 정의 구조체의 이름이다.</p>
+<h3 id="_1">생성</h3>
+<p>단일 연결 리스트의 머리는 <code>SLIST_HEAD()</code> 매크로로 정의한 구조체이다. 이 구조체에는 리스트 첫 번째 항목에 대한 포인터 하나가 들어 있다. 공간 및 포인터 조작 오버헤드를 최소화하기 위해 단일 연결로 되어 있으며, 대신 임의 항목 제거에 O(n) 비용이 든다. 기존 항목 뒤나 리스트 머리에 새 항목을 추가할 수 있다. <code>SLIST_HEAD</code> 구조체를 다음처럼 선언한다.</p>
+<pre><code class="language-c">SLIST_HEAD(HEADNAME, TYPE) head;
 </code></pre>
-
-<p><code>HEADNAME</code>은 정의하려는 구조체의 이름이고 <code>TYPE</code>은 리스트로 연결할 항목들의 타입이다. 이후 다음처럼 리스트 머리에 대한 포인터를 선언할 수 있다.</p>
-<pre><code class="c">struct HEADNAME *headp;
+<p><code>struct HEADNAME</code>이 정의하려는 구조체의 이름이고 <code>struct TYPE</code>이 리스트로 연결할 항목들의 타입이다. 이후 다음처럼 리스트 머리에 대한 포인터를 선언할 수 있다.</p>
+<pre><code class="language-c">struct HEADNAME *headp;
 </code></pre>
-
 <p>(이름 <code>head</code>와 <code>headp</code>는 사용자가 정할 수 있다.)</p>
-<p>매크로 <code>SLIST_HEAD_INITIALIZER</code>는 리스트 <code>head</code>를 위한 초기화 값으로 평가된다.</p>
-<p>매크로 <code>SLIST_EMPTY</code>는 리스트에 항목이 없으면 참으로 평가된다.</p>
-<p>매크로 <code>SLIST_ENTRY</code>는 리스트에서 항목들을 연결하는 구조체를 선언한다.</p>
-<p>매크로 <code>SLIST_FIRST</code>는 리스트의 첫 번째 항목을 반환하며 리스트가 비어 있으면 NULL을 반환한다.</p>
-<p>매크로 <code>SLIST_FOREACH</code>는 <code>head</code>가 가리키는 리스트를 순방향으로 순회하면서 각 항목을 차례로 <code>var</code>에 할당한다.</p>
-<p>매크로 <code>SLIST_INIT</code>은 <code>head</code>가 가리키는 리스트를 초기화 한다.</p>
-<p>매크로 <code>SLIST_INSERT_HEAD</code>는 새 항목 <code>elm</code>을 리스트의 머리에 삽입한다.</p>
-<p>매크로 <code>SLIST_INSERT_AFTER</code>는 새 항목 <code>elm</code>을 항목 <code>listelm</code> 뒤에 삽입한다.</p>
-<p>매크로 <code>SLIST_NEXT</code>는 리스트 내의 다음 항목을 반환한다.</p>
-<p>매크로 <code>SLIST_REMOVE_HEAD</code>는 항목 <code>elm</code>을 리스트의 머리에서 제거한다. 최고의 효율성을 위해선 리스트의 머리에서 항목을 제거할 때 범용 <code>SLIST_REMOVE</code> 매크로 대신 명시적으로 이 매크로를 쓰는 게 좋다.</p>
-<p>매크로 <code>SLIST_REMOVE</code>는 항목 <code>elm</code>을 리스트에서 제거한다.</p>
-<h3 id="_2">단일 연결 리스트 예시</h3>
-<pre><code class="c">SLIST_HEAD(slisthead, entry) head =
-    SLIST_HEAD_INITIALIZER(head);
-struct slisthead *headp;                /* 단일 연결 리스트 머리 */
+<p><code>SLIST_ENTRY()</code>는 리스트에서 항목들을 연결하는 구조체를 선언한다.</p>
+<p><code>SLIST_HEAD_INITIALIZER()</code>는 리스트 <code>head</code>를 위한 초기화 값으로 평가된다.</p>
+<p><code>SLIST_INIT()</code>은 <code>head</code>가 가리키는 리스트를 초기화 한다.</p>
+<p><code>SLIST_EMPTY()</code>는 리스트에 아무 항목도 없으면 참으로 평가된다.</p>
+<h3 id="_2">삽입</h3>
+<p><code>SLIST_INSERT_HEAD()</code>는 새 항목 <code>elm</code>을 리스트의 머리에 삽입한다.</p>
+<p><code>SLIST_INSERT_AFTER()</code>는 새 항목 <code>elm</code>을 항목 <code>listelm</code> 뒤에 삽입한다.</p>
+<h3 id="_3">순회</h3>
+<p><code>SLIST_FIRST()</code>는 리스트의 첫 번째 항목을 반환하며 리스트가 비어 있으면 NULL을 반환한다.</p>
+<p><code>SLIST_NEXT()</code>는 리스트 내의 다음 항목을 반환한다.</p>
+<p><code>SLIST_FOREACH()</code>는 <code>head</code>가 가리키는 리스트를 순방향으로 순회하면서 각 항목을 차례로 <code>var</code>에 할당한다.</p>
+<h3 id="_4">제거</h3>
+<p><code>SLIST_REMOVE()</code>는 항목 <code>elm</code>을 리스트에서 제거한다.</p>
+<p><code>SLIST_REMOVE_HEAD()</code>는 항목 <code>elm</code>을 리스트의 머리에서 제거한다. 최고의 효율성을 위해선 리스트의 머리에서 항목을 제거할 때 범용 <code>SLIST_REMOVE()</code> 매크로 대신 명시적으로 이 매크로를 쓰는 게 좋다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p><code>SLIST_EMPTY()</code>는 리스트가 비어 있으면 0 아닌 값을 반환하고, 리스트에 한 항목이라도 있으면 0을 반환한다.</p>
+<p><code>SLIST_FIRST()</code>와 <code>SLIST_NEXT()</code>는 각각 처음 또는 다음 <code>TYPE</code> 구조체에 대한 포인터를 반환한다.</p>
+<p><code>SLIST_HEAD_INITIALIZER()</code>는 리스트 <code>head</code>에 할당할 수 있는 초기화 값을 반환한다.</p>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>POSIX.1, POSIX.1-2001, POSIX.1-2008에 없다. BSD들에 있다. (4.4BSD에서 SLIST 매크로들이 처음 등장했다.)</p>
+<h2 id="bugs">BUGS</h2>
+<p><code>SLIST_FOREACH()</code>에서 <code>var</code>를 루프 안에서 제거하거나 해제하는 것이 허용되지 않는다. 순회를 방해하게 되기 때문이다. BSD들에 있지만 glibc에는 없는 <code>SLIST_FOREACH_SAFE()</code>에서 이 제약을 수정해서, 순회를 방해하지 않고 루프 안에서 <code>var</code>를 안전하게 리스트에서 제거하고 해제하는 것이 허용된다.</p>
+<h3 id="_5">단일 연결 리스트 예시</h3>
+<pre><code class="language-c">#include &lt;stddef.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;sys/queue.h&gt;
 
 struct entry {
-        ...
-        SLIST_ENTRY(entry) entries;     /* 단일 연결 리스트 */
-        ...
-} *n1, *n2, *n3, *np;
+    int data;
+    SLIST_ENTRY(entry) entries;             /* 단일 연결 리스트 */
+};
 
-SLIST_INIT(&amp;head);                      /* 리스트 초기화 */
+SLIST_HEAD(slisthead, entry);
 
-n1 = malloc(sizeof(struct entry));      /* 머리에 삽입 */
-SLIST_INSERT_HEAD(&amp;head, n1, entries);
+int
+main(void)
+{
+    struct entry *n1, *n2, *n3, *np;
+    struct slisthead head;                  /* 단일 연결 리스트 머리 */
 
-n2 = malloc(sizeof(struct entry));      /* 바로 뒤에 삽입 */
-SLIST_INSERT_AFTER(n1, n2, entries);
+    SLIST_INIT(&amp;head);                      /* 리스트 초기화 */
 
-SLIST_REMOVE(&amp;head, n2, entry, entries);/* 삭제 */
-free(n2);
+    n1 = malloc(sizeof(struct entry));      /* 머리에 삽입 */
+    SLIST_INSERT_HEAD(&amp;head, n1, entries);
 
-n3 = SLIST_FIRST(&amp;head);
-SLIST_REMOVE_HEAD(&amp;head, entries);      /* 머리에서 삭제 */
-free(n3);
+    n2 = malloc(sizeof(struct entry));      /* 바로 뒤에 삽입 */
+    SLIST_INSERT_AFTER(n1, n2, entries);
 
-SLIST_FOREACH(np, &amp;head, entries)
-        np-&gt; ...
+    SLIST_REMOVE(&amp;head, n2, entry, entries);/* 삭제 */
+    free(n2);
 
-while (!SLIST_EMPTY(&amp;head)) {           /* 리스트 삭제 */
+    n3 = SLIST_FIRST(&amp;head);
+    SLIST_REMOVE_HEAD(&amp;head, entries);      /* 머리에서 삭제 */
+    free(n3);
+
+    for (int i = 0; i &lt; 5; i++) {
+        n1 = malloc(sizeof(struct entry));
+        SLIST_INSERT_HEAD(&amp;head, n1, entries);
+        n1-&gt;data = i;
+    }
+
+                                            /* 순방향 순회 */
+    SLIST_FOREACH(np, &amp;head, entries)
+        printf(&quot;%i\n&quot;, np-&gt;data);
+
+    while (!SLIST_EMPTY(&amp;head)) {           /* 리스트 삭제 */
         n1 = SLIST_FIRST(&amp;head);
         SLIST_REMOVE_HEAD(&amp;head, entries);
         free(n1);
+    }
+    SLIST_INIT(&amp;head);
+
+    exit(EXIT_SUCCESS);
 }
 </code></pre>
-
-<h3 id="_3">단일 연결 꼬리 큐</h3>
-<p>단일 연결 꼬리 큐의 머리는 <code>STAILQ_HEAD</code> 매크로로 정의한 구조체이다. 이 구조체에는 포인터 한 쌍이 있는데, 하나는 꼬리 큐의 첫 번째 항목을 가리키고 다른 하나는 꼬리 큐의 마지막 항목을 가리킨다. 공간 및 포인터 조작 오버헤드를 최소화하기 위해 단일 연결로 되어 있으며, 대신 임의 항목 제거에 O(n) 비용이 든다. 기존 항목 뒤에, 또는 꼬리 큐 머리나 꼬리 큐 끝에 새 항목을 추가할 수 있다. <code>STAILQ_HEAD</code> 구조체를 다음처럼 선언한다.</p>
-<pre><code class="c">STAILQ_HEAD(HEADNAME, TYPE) head;
-</code></pre>
-
-<p><code>HEADNAME</code>은 정의하려는 구조체의 이름이고 <code>TYPE</code>은 꼬리 큐로 연결할 항목들의 타입이다. 이후 다음처럼 꼬리 큐 머리에 대한 포인터를 선언할 수 있다.</p>
-<pre><code class="c">struct HEADNAME *headp;
-</code></pre>
-
-<p>(이름 <code>head</code>와 <code>headp</code>는 사용자가 정할 수 있다.)</p>
-<p>매크로 <code>STAILQ_HEAD_INITIALIZER</code>는 꼬리 큐 <code>head</code>를 위한 초기화 값으로 평가된다.</p>
-<p>매크로 <code>STAILQ_CONCAT</code>은 <code>head2</code>가 가리키는 꼬리 큐를 <code>head1</code>이 가리키는 꼬리 큐 끝에 이어 붙이고 <code>head2</code>에서 모든 항목을 제거한다.</p>
-<p>매크로 <code>STAILQ_EMPTY</code>는 꼬리 큐에 항목이 없으면 참으로 평가된다.</p>
-<p>매크로 <code>STAILQ_ENTRY</code>는 꼬리 큐에서 항목들을 연결하는 구조체를 선언한다.</p>
-<p>매크로 <code>STAILQ_FIRST</code>는 꼬리 큐의 첫 번째 항목을 반환하며 꼬리 큐가 비어 있으면 NULL을 반환한다.</p>
-<p>매크로 <code>STAILQ_FOREACH</code>는 <code>head</code>가 가리키는 꼬리 큐를 순방향으로 순회하면서 각 항목을 차례로 <code>var</code>에 할당한다.</p>
-<p>매크로 <code>STAILQ_INIT</code>은 <code>head</code>가 가리키는 꼬리 큐를 초기화 한다.</p>
-<p>매크로 <code>STAILQ_INSERT_HEAD</code>는 새 항목 <code>elm</code>을 꼬리 큐의 머리에 삽입한다.</p>
-<p>매크로 <code>STAILQ_INSERT_TAIL</code>은 새 항목 <code>elm</code>을 꼬리 큐의 끝에 삽입한다.</p>
-<p>매크로 <code>STAILQ_INSERT_AFTER</code>는 새 항목 <code>elm</code>을 항목 <code>listelm</code> 뒤에 삽입한다.</p>
-<p>매크로 <code>STAILQ_NEXT</code>는 꼬리 큐 내의 다음 항목을 반환하며, 현 항목이 마지막이면 NULL을 반환한다.</p>
-<p>매크로 <code>STAILQ_REMOVE_HEAD</code>는 항목 <code>elm</code>을 꼬리 큐의 머리에서 제거한다. 최고의 효율성을 위해선 꼬리 큐의 머리에서 항목을 제거할 때 범용 <code>STAILQ_REMOVE</code> 매크로 대신 명시적으로 이 매크로를 쓰는 게 좋다.</p>
-<p>매크로 <code>STAILQ_REMOVE</code>는 항목 <code>elm</code>을 꼬리 큐에서 제거한다.</p>
-<h3 id="_4">단일 연결 꼬리 큐 예시</h3>
-<pre><code class="c">STAILQ_HEAD(stailhead, entry) head =
-    STAILQ_HEAD_INITIALIZER(head);
-struct stailhead *headp;                /* 단일 연결 꼬리 큐 머리 */
-struct entry {
-        ...
-        STAILQ_ENTRY(entry) entries;    /* 꼬리 큐 */
-        ...
-} *n1, *n2, *n3, *np;
-
-STAILQ_INIT(&amp;head);                     /* 큐 초기화 */
-
-n1 = malloc(sizeof(struct entry));      /* 머리에 삽입 */
-STAILQ_INSERT_HEAD(&amp;head, n1, entries);
-
-n1 = malloc(sizeof(struct entry));      /* 꼬리에 삽입 */
-STAILQ_INSERT_TAIL(&amp;head, n1, entries);
-
-n2 = malloc(sizeof(struct entry));      /* 바로 뒤에 삽입 */
-STAILQ_INSERT_AFTER(&amp;head, n1, n2, entries);
-                                        /* 삭제 */
-STAILQ_REMOVE(&amp;head, n2, entry, entries);
-free(n2);
-                                        /* 머리에서 삭제 */
-n3 = STAILQ_FIRST(&amp;head);
-STAILQ_REMOVE_HEAD(&amp;head, entries);
-free(n3);
-                                        /* 순방향 순회 */
-STAILQ_FOREACH(np, &amp;head, entries)
-        np-&gt; ...
-                                        /* 꼬리 큐 삭제 */
-while (!STAILQ_EMPTY(&amp;head)) {
-        n1 = STAILQ_FIRST(&amp;head);
-        STAILQ_REMOVE_HEAD(&amp;head, entries);
-        free(n1);
-}
-                                        /* 더 빠른 꼬리 큐 삭제 */
-n1 = STAILQ_FIRST(&amp;head);
-while (n1 != NULL) {
-        n2 = STAILQ_NEXT(n1, entries);
-        free(n1);
-        n1 = n2;
-}
-STAILQ_INIT(&amp;head);
-</code></pre>
-
-<h3 id="_5">리스트</h3>
-<p>리스트의 머리는 <code>LIST_HEAD</code> 매크로로 정의한 구조체이다. 이 구조체에는 리스트 첫 번째 항목에 대한 포인터 하나가 있다. 항목들이 이중으로 연결되어 있으므로 리스트 순회 없이 임의 항목을 제거할 수 있다. 기존 항목 뒤나 기존 항목 앞에, 또는 리스트 머리에 새 항목을 추가할 수 있다. <code>LIST_HEAD</code> 구조체를 다음처럼 선언한다.</p>
-<pre><code class="c">LIST_HEAD(HEADNAME, TYPE) head;
-</code></pre>
-
-<p><code>HEADNAME</code>은 정의하려는 구조체의 이름이고 <code>TYPE</code>은 리스트로 연결할 항목들의 타입이다. 이후 다음처럼 리스트 머리에 대한 포인터를 선언할 수 있다.</p>
-<pre><code class="c">struct HEADNAME *headp;
-</code></pre>
-
-<p>(이름 <code>head</code>와 <code>headp</code>는 사용자가 정할 수 있다.)</p>
-<p>매크로 <code>LIST_HEAD_INITIALIZER</code>는 리스트 <code>head</code>를 위한 초기화 값으로 평가된다.</p>
-<p>매크로 <code>LIST_EMPTY</code>는 리스트에 항목이 없으면 참으로 평가된다.</p>
-<p>매크로 <code>LIST_ENTRY</code>는 리스트에서 항목들을 연결하는 구조체를 선언한다.</p>
-<p>매크로 <code>LIST_FIRST</code>는 리스트의 첫 번째 항목을 반환하며 리스트가 비어 있으면 NULL을 반환한다.</p>
-<p>매크로 <code>LIST_FOREACH</code>는 <code>head</code>가 가리키는 리스트를 순방향으로 순회하면서 각 항목을 차례로 <code>var</code>에 할당한다.</p>
-<p>매크로 <code>LIST_INIT</code>은 <code>head</code>가 가리키는 리스트를 초기화 한다.</p>
-<p>매크로 <code>LIST_INSERT_HEAD</code>는 새 항목 <code>elm</code>을 리스트의 머리에 삽입한다.</p>
-<p>매크로 <code>LIST_INSERT_AFTER</code>는 새 항목 <code>elm</code>을 항목 <code>listelm</code> 뒤에 삽입한다.</p>
-<p>매크로 <code>LIST_INSERT_BEFORE</code>는 새 항목 <code>elm</code>을 항목 <code>listelm</code> 앞에 삽입한다.</p>
-<p>매크로 <code>LIST_NEXT</code>는 리스트 내의 다음 항목을 반환하며, 현 항목이 마지막이면 NULL을 반환한다.</p>
-<p>매크로 <code>LIST_REMOVE</code>는 항목 <code>elm</code>을 리스트에서 제거한다.</p>
-<h3 id="_6">리스트 예시</h3>
-<pre><code class="c">LIST_HEAD(listhead, entry) head =
-    LIST_HEAD_INITIALIZER(head);
-struct listhead *headp;                 /* 리스트 머리 */
-struct entry {
-        ...
-        LIST_ENTRY(entry) entries;      /* 리스트 */
-        ...
-} *n1, *n2, *n3, *np, *np_temp;
-
-LIST_INIT(&amp;head);                       /* 리스트 초기화 */
-
-n1 = malloc(sizeof(struct entry));      /* 머리에 삽입 */
-LIST_INSERT_HEAD(&amp;head, n1, entries);
-
-n2 = malloc(sizeof(struct entry));      /* 바로 뒤에 삽입 */
-LIST_INSERT_AFTER(n1, n2, entries);
-
-n3 = malloc(sizeof(struct entry));      /* 바로 앞에 삽입 */
-LIST_INSERT_BEFORE(n2, n3, entries);
-
-LIST_REMOVE(n2, entries);               /* 삭제 */
-free(n2);
-                                        /* 순방향 순회 */
-LIST_FOREACH(np, &amp;head, entries)
-        np-&gt; ...
-
-while (!LIST_EMPTY(&amp;head)) {            /* 리스트 삭제 */
-        n1 = LIST_FIRST(&amp;head);
-        LIST_REMOVE(n1, entries);
-        free(n1);
-}
-
-n1 = LIST_FIRST(&amp;head);                 /* 더 빠른 리스트 삭제 */
-while (n1 != NULL) {
-        n2 = LIST_NEXT(n1, entries);
-        free(n1);
-        n1 = n2;
-}
-LIST_INIT(&amp;head);
-</code></pre>
-
-<h3 id="_7">꼬리 큐</h3>
-<p>꼬리 큐의 머리는 <code>TAILQ_HEAD</code> 매크로로 정의한 구조체이다. 이 구조체에는 포인터 한 쌍이 있는데, 하나는 꼬리 큐의 첫 번째 항목을 가리키고 다른 하나는 꼬리 큐의 마지막 항목을 가리킨다. 항목들이 이중으로 연결되어 있으므로 꼬리 큐 순회 없이 임의 항목을 제거할 수 있다. 기존 항목 뒤나 기존 항목 앞에, 꼬리 큐 머리나 꼬리 큐 끝에 새 항목을 추가할 수 있다. <code>TAILQ_HEAD</code> 구조체를 다음처럼 선언한다.</p>
-<pre><code class="c">TAILQ_HEAD(HEADNAME, TYPE) head;
-</code></pre>
-
-<p><code>HEADNAME</code>은 정의하려는 구조체의 이름이고 <code>TYPE</code>은 꼬리 큐로 연결할 항목들의 타입이다. 이후 다음처럼 꼬리 큐 머리에 대한 포인터를 선언할 수 있다.</p>
-<pre><code class="c">struct HEADNAME *headp;
-</code></pre>
-
-<p>(이름 <code>head</code>와 <code>headp</code>는 사용자가 정할 수 있다.)</p>
-<p>매크로 <code>TAILQ_HEAD_INITIALIZER</code>는 꼬리 큐 <code>head</code>를 위한 초기화 값으로 평가된다.</p>
-<p>매크로 <code>TAILQ_CONCAT</code>은 <code>head2</code>가 가리키는 꼬리 큐를 <code>head1</code>이 가리키는 꼬리 큐 끝에 이어 붙이고 <code>head2</code>에서 모든 항목을 제거한다.</p>
-<p>매크로 <code>TAILQ_EMPTY</code>는 꼬리 큐에 항목이 없으면 참으로 평가된다.</p>
-<p>매크로 <code>TAILQ_ENTRY</code>는 꼬리 큐에서 항목들을 연결하는 구조체를 선언한다.</p>
-<p>매크로 <code>TAILQ_FIRST</code>는 꼬리 큐의 첫 번째 항목을 반환하며 꼬리 큐가 비어 있으면 NULL을 반환한다.</p>
-<p>매크로 <code>TAILQ_FOREACH</code>는 <code>head</code>가 가리키는 꼬리 큐를 순방향으로 순회하면서 각 항목을 차례로 <code>var</code>에 할당한다. 루프가 정상적으로 끝나거나 항목이 없는 경우에 <code>var</code>를 NULL로 설정한다.</p>
-<p>매크로 <code>TAILQ_FOREACH_REVERSE</code>는 <code>head</code>가 가리키는 꼬리 큐를 역방향으로 순회하면서 각 항목을 차례로 <code>var</code>에 할당한다.</p>
-<p>매크로 <code>TAILQ_INIT</code>은 <code>head</code>가 가리키는 꼬리 큐를 초기화 한다.</p>
-<p>매크로 <code>TAILQ_INSERT_HEAD</code>는 새 항목 <code>elm</code>을 꼬리 큐의 머리에 삽입한다.</p>
-<p>매크로 <code>TAILQ_INSERT_TAIL</code>은 새 항목 <code>elm</code>을 꼬리 큐의 끝에 삽입한다.</p>
-<p>매크로 <code>TAILQ_INSERT_AFTER</code>는 새 항목 <code>elm</code>을 항목 <code>listelm</code> 뒤에 삽입한다.</p>
-<p>매크로 <code>TAILQ_INSERT_BEFORE</code>는 새 항목 <code>elm</code>을 항목 <code>listelm</code> 앞에 삽입한다.</p>
-<p>매크로 <code>TAILQ_LAST</code>는 꼬리 큐의 마지막 항목을 반환한다. 꼬리 큐가 비어 있으면 반환 값이 NULL이다.</p>
-<p>매크로 <code>TAILQ_NEXT</code>는 꼬리 큐 내의 다음 항목을 반환하며, 현 항목이 마지막이면 NULL을 반환한다.</p>
-<p>매크로 <code>TAILQ_PREV</code>는 꼬리 큐 내의 이전 항목을 반환하며, 현 항목이 첫 번째이면 NULL을 반환한다.</p>
-<p>매크로 <code>TAILQ_REMOVE</code>는 항목 <code>elm</code>을 꼬리 큐에서 제거한다.</p>
-<p>매크로 <code>TAILQ_SWAP</code>은 <code>head1</code>과 <code>head2</code>의 내용을 서로 바꾼다.</p>
-<h3 id="_8">꼬리 큐 예시</h3>
-<pre><code class="c">TAILQ_HEAD(tailhead, entry) head =
-    TAILQ_HEAD_INITIALIZER(head);
-struct tailhead *headp;                 /* 꼬리 큐 머리 */
-struct entry {
-        ...
-        TAILQ_ENTRY(entry) entries;     /* 꼬리 큐 */
-        ...
-} *n1, *n2, *n3, *np;
-
-TAILQ_INIT(&amp;head);                      /* 큐 초기화 */
-
-n1 = malloc(sizeof(struct entry));      /* 머리에 삽입 */
-TAILQ_INSERT_HEAD(&amp;head, n1, entries);
-
-n1 = malloc(sizeof(struct entry));      /* 꼬리에 삽입 */
-TAILQ_INSERT_TAIL(&amp;head, n1, entries);
-
-n2 = malloc(sizeof(struct entry));      /* 바로 뒤에 삽입 */
-TAILQ_INSERT_AFTER(&amp;head, n1, n2, entries);
-
-n3 = malloc(sizeof(struct entry));      /* 바로 앞에 삽입 */
-TAILQ_INSERT_BEFORE(n2, n3, entries);
-
-TAILQ_REMOVE(&amp;head, n2, entries);       /* 삭제 */
-free(n2);
-                                        /* 순방향 순회 */
-TAILQ_FOREACH(np, &amp;head, entries)
-        np-&gt; ...
-                                        /* 역방향 순회 */
-TAILQ_FOREACH_REVERSE(np, &amp;head, tailhead, entries)
-        np-&gt; ...
-                                        /* 꼬리 큐 삭제 */
-while (!TAILQ_EMPTY(&amp;head)) {
-        n1 = TAILQ_FIRST(&amp;head);
-        TAILQ_REMOVE(&amp;head, n1, entries);
-        free(n1);
-}
-                                        /* 더 빠른 꼬리 큐 삭제 */
-n1 = TAILQ_FIRST(&amp;head);
-while (n1 != NULL) {
-        n2 = TAILQ_NEXT(n1, entries);
-        free(n1);
-        n1 = n2;
-}
-TAILQ_INIT(&amp;head);
-</code></pre>
-
-<h2 id="conforming-to">CONFORMING TO</h2>
-<p>POSIX.1, POSIX.1-2001, POSIX.1-2008에 없음. BSD에 있음. 4.4BSD에서 <code>queue</code> 함수들이 처음 등장했다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[insque(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/insque(3)/">insque(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/queue(7)/">queue(7)</a></tt></p>
 <hr />
-<p>2015년 2월 7일</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

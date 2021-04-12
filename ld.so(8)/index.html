@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/ld.so(8)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/ld.so%288%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Ld.so(8) - man-pages-ko</title>
+    <title>ld.so(8) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -138,17 +138,17 @@
         <li class="first-level active"><a href="#name">NAME</a></li>
         <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
         <li class="first-level "><a href="#description">DESCRIPTION</a></li>
-            <li class="second-level"><a href="#rpath">rpath 토큰 확장</a></li>
+            <li class="second-level"><a href="#_1">동적 문자열 토큰</a></li>
                 
         <li class="first-level "><a href="#options">OPTIONS</a></li>
         <li class="first-level "><a href="#environment">ENVIRONMENT</a></li>
-            <li class="second-level"><a href="#_1">안전 실행 모드</a></li>
+            <li class="second-level"><a href="#_2">안전 실행 모드</a></li>
                 
-            <li class="second-level"><a href="#_2">환경 변수</a></li>
+            <li class="second-level"><a href="#_3">환경 변수</a></li>
                 
         <li class="first-level "><a href="#files">FILES</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-            <li class="second-level"><a href="#_3">하드웨어 호환성</a></li>
+            <li class="second-level"><a href="#_4">하드웨어 호환성</a></li>
                 
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
@@ -161,7 +161,6 @@
 <p>어떤 동적 링크 된 프로그램 내지 공유 오브젝트를 실행함으로써 동적 링커를 간접적으로 실행할 수도 있고 (이 경우 동적 링커에 명령행 옵션을 줄 수 없으며, ELF인 경우 프로그램의 <code>.interp</code> 섹션에 저장된 동적 링커를 실행한다.) 다음처럼 직접 실행할 수도 있다.</p>
 <pre><code>/lib/ld-linux.so.*  [OPTIONS] [PROGRAM [ARGUMENTS]]
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p>프로그램 <code>ld.so</code> 및 <code>ld-linux.so*</code>는 프로그램에 필요한 공유 오브젝트(공유 라이브러리)들을 찾아서 적재하고 프로그램을 실행을 위한 준비를 한 다음 실행한다.</p>
 <p>리눅스 바이너리들은 컴파일 때 <code>ld(1)</code>에 <code>-static</code> 옵션을 준 경우가 아니라면 동적 링크(런타임 링크)가 필요하다.</p>
@@ -185,8 +184,23 @@
 <p>기본 경로 <code>/lib</code>, 그 다음으로 <code>/usr/lib</code>. (일부 64비트 아키텍처에서는 64비트 공유 오브젝트들의 기본 경로가 <code>/lib64</code> 및 <code>/usr/lib64</code>이다.) 바이너리를 <code>-z nodeflib</code> 링커 옵션을 써서 링크했다면 이 단계를 건너뛴다.</p>
 </li>
 </ul>
-<h3 id="rpath">rpath 토큰 확장</h3>
-<p>동적 링커는 rpath 지정 항목(DT_RPATH 또는 DT_RUNPATH)에서 특정 토큰 문자열들을 알아본다. 그 문자열들을 다음과 같이 치환한다.</p>
+<h3 id="_1">동적 문자열 토큰</h3>
+<p>동적 링커가 여러 곳에서 동적 문자열 토큰들을 확장시킨다.</p>
+<ul>
+<li>
+<p>환경 변수 <code>LD_LIBRARY_PATH</code>, <code>LD_PRELOAD</code>, <code>LD_AUDIT</code>에서</p>
+</li>
+<li>
+<p>ELF 바이너리의 동적 섹션 태그 <code>DT_NEEDED</code>, <code>DT_RPATH</code>, <code>DT_RUNPATH</code>, <code>DT_AUDIT</code>, <code>DT_DEPAUDIT</code>의 값 내에서</p>
+</li>
+<li>
+<p><code>ld.so</code> 명령행 옵션 <code>--audit</code>, <code>--library-path</code>, <code>--reload</code>에서 (아래 참고)</p>
+</li>
+<li>
+<p><tt><a class="wikilink" href="/man-pages-ko/dlopen(3)/">dlopen(3)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/dlmopen(3)/">dlmopen(3)</a></tt> 함수의 파일명 인자에서</p>
+</li>
+</ul>
+<p>대체되는 토큰들은 다음과 같다.</p>
 <dl>
 <dt><code>$ORIGIN</code> (또는 <code>${ORIGIN}</code>)</dt>
 <dd>
@@ -198,10 +212,13 @@
 <dt><code>$LIB</code> (또는 <code>${LIB}</code>)</dt>
 <dd>아키텍처에 따라서 <code>lib</code> 또는 <code>lib64</code>로 확장된다. (가령 x86-64에서는 <code>lib64</code>로 확장되고 x86-32에서는 <code>lib</code>로 확장된다.)</dd>
 <dt><code>$PLATFORM</code> (또는 <code>${PLATFORM}</code>)</dt>
-<dd>호스트 시스템의 프로세서 유형에 대응하는 문자열(가령 "x86_64")로 확장된다. 일부 아키텍처에서는 리눅스 커널이 동적 링커에게 플랫폼 문자열을 알려 주지 않는다. 보조 벡터(<tt>[[getauxval(3)]]</tt> 참고)의 <code>AT_PLATFORM</code>에서 이 문자열 값을 가져온다.</dd>
+<dd>호스트 시스템의 프로세서 유형에 대응하는 문자열(가령 "x86_64")로 확장된다. 일부 아키텍처에서는 리눅스 커널이 동적 링커에게 플랫폼 문자열을 알려 주지 않는다. 보조 벡터(<tt><a class="wikilink" href="/man-pages-ko/getauxval(3)/">getauxval(3)</a></tt> 참고)의 <code>AT_PLATFORM</code>에서 이 문자열 값을 가져온다.</dd>
 </dl>
+<p>셸에서 동적 문자열 토큰을 설정할 때는 셸 변수나 환경 변수로 확장되지 않도록 동적 문자열 토큰을 잘 감싸 주어야 한다.</p>
 <h2 id="options">OPTIONS</h2>
 <dl>
+<dt><code>--argv0 string</code> (glibc 2.33부터)</dt>
+<dd>프로그램을 실행하기 전에 <code>argv[0]</code>을 <code>string</code> 값으로 설정한다.</dd>
 <dt><code>--audit list</code></dt>
 <dd><code>list</code>에 지정한 오브젝트들을 감사자로 쓴다. <code>list</code>의 오브젝트들은 콜론으로 구분한다.</dd>
 <dt><code>--inhibit-cache</code></dt>
@@ -222,9 +239,9 @@
 </dl>
 <h2 id="environment">ENVIRONMENT</h2>
 <p>다양한 환경 변수들이 동적 링커의 동작에 영향을 준다.</p>
-<h3 id="_1">안전 실행 모드</h3>
+<h3 id="_2">안전 실행 모드</h3>
 <p>보안상 이유 때문에 동적 링커에서 바이너리를 안전 실행(secure-execution) 모드로 돌려야 한다고 판단한 경우에는 일부 환경 변수의 효과가 무효화되거나 바뀌고 환경에서 그 환경 변수들이 제거돼서 프로그램에서는 그 정의조차 볼 수 없게 된다. 동적 링커 자체의 동작에 영향을 끼치는 몇 가지 환경 변수를 아래에서 설명한다. 이런 식으로 처리되는 다른 환경 변수로 <code>GCONV_PATH</code>, <code>GETCONF_DIR</code>, <code>HOSTALIASES</code>, <code>LOCALDOMAIN</code>, <code>LOCPATH</code>, <code>MALLOC_TRACE</code>, <code>NIS_PATH</code>, <code>NLSPATH</code>, <code>RESOLV_HOST_CONF</code>, <code>RES_OPTIONS</code>, <code>TMPDIR</code>, <code>TZDIR</code> 등이 있다.</p>
-<p>보조 벡터(<tt>[[getauxval(3)]]</tt> 참고)의 <code>AT_SECURE</code> 항목이 0 아닌 값을 가지고 있으면 바이너리를 안전 실행 모드로 실행한다. 여러 이유로 그 항목이 0 아닌 값을 가질 수 있다.</p>
+<p>보조 벡터(<tt><a class="wikilink" href="/man-pages-ko/getauxval(3)/">getauxval(3)</a></tt> 참고)의 <code>AT_SECURE</code> 항목이 0 아닌 값을 가지고 있으면 바이너리를 안전 실행 모드로 실행한다. 여러 이유로 그 항목이 0 아닌 값을 가질 수 있다.</p>
 <ul>
 <li>
 <p>프로세스의 실제 사용자 ID와 실효 사용자 ID가, 또는 실제 그룹 ID와 실효 그룹 ID가 다르다. 보통 set-user-ID 내지 set-group-ID 프로그램 실행 결과로 그렇게 된다.</p>
@@ -236,7 +253,7 @@
 <p>리눅스 보안 모듈 때문에 0 아닌 값이 설정됐을 수도 있다.</p>
 </li>
 </ul>
-<h3 id="_2">환경 변수</h3>
+<h3 id="_3">환경 변수</h3>
 <p>가장 중요한 환경 변수들로 다음이 있다.</p>
 <dl>
 <dt><code>LD_ASSUME_KERNEL</code> (glibc 2.2.3부터)</dt>
@@ -246,15 +263,15 @@
 <pre><code>$ LD_ASSUME_KERNEL=2.2.5 ./myprog
 </code></pre>
 <p>각기 최소 커널 ABI 버전 요건이 다른 여러 버전의 공유 오브젝트를 (탐색 경로의 다른 디렉터리들에서) 제공하는 시스템에서는 <code>LD_ASSUME_KERNEL</code>을 이용해 (디렉터리 탐색 순서에 따라서) 사용할 오브젝트 버전을 선택할 수 있다.</p>
-<p>역사적으로 <code>LD_ASSUME_KERNEL</code> 기능의 가장 큰 용도는 LinuxThreads와 NPTL를 모두 제공하는 시스템에서 (그럴 때는 보통 후자가 기본인데) 더 구식인 LinuxThreads POSIX 스레드 구현을 수동으로 선택하는 것이었다. <tt>[[pthreads(7)]]</tt> 참고.</p>
+<p>역사적으로 <code>LD_ASSUME_KERNEL</code> 기능의 가장 큰 용도는 LinuxThreads와 NPTL를 모두 제공하는 시스템에서 (그럴 때는 보통 후자가 기본인데) 더 구식인 LinuxThreads POSIX 스레드 구현을 수동으로 선택하는 것이었다. <tt><a class="wikilink" href="/man-pages-ko/pthreads(7)/">pthreads(7)</a></tt> 참고.</p>
 </dd>
 <dt><code>LD_BIND_NOW</code> (glibc 2.1.1부터)</dt>
 <dd>비어 있지 않은 문자열로 설정돼 있으면 함수 호출 결정을 첫 참조 시점까지 미루지 않고 프로그램 시작 때 동적 링커가 모든 심볼들을 결정하게 한다. 디버거 사용 시 유용하다.</dd>
 <dt><code>LD_LIBRARY_PATH</code></dt>
 <dd>
-<p>실행 시점에 ELF 라이브러리들을 탐색할 디렉터리들의 목록. 콜론이나 세미콜론으로 목록 내 항목들을 구분하는데 어느 쪽 구분자에도 이스케이핑 지원은 없다.</p>
+<p>실행 시점에 ELF 라이브러리들을 탐색할 디렉터리들의 목록. 콜론이나 세미콜론으로 목록 내 항목들을 구분하는데 어느 쪽 구분자에도 이스케이핑 지원은 없다. 길이가 0인 디렉터리 이름은 현재 작업 디렉터리를 나타낸다.</p>
 <p>안전 실행 모드에서는 이 변수를 무시한다.</p>
-<p>동적 링커는 <code>LD_LIBRARY_PATH</code>에 지정된 경로명에서 토큰 <code>$ORIGIN</code>, <code>$LIB</code>, <code>$PLATFORM</code>을 (또는 이름에 중괄호를 두른 버전을) 위의 <em>rpath 토큰 확장</em>에서 설명한 것처럼 확장한다. 그래서 예를 들어 다음과 같이 하면 실행할 프로그램을 담은 디렉터리 아래의 <code>lib</code> 또는 <code>lib64</code> 서브디렉터리에서 라이브러리를 찾게 된다.</p>
+<p>동적 링커는 <code>LD_LIBRARY_PATH</code>에 지정된 경로명에서 토큰 <code>$ORIGIN</code>, <code>$LIB</code>, <code>$PLATFORM</code>을 (또는 이름에 중괄호를 두른 버전을) 위의 <em>동적 문자열 토큰</em>에서 설명한 것처럼 확장한다. 그래서 예를 들어 다음과 같이 하면 실행할 프로그램을 담은 디렉터리 아래의 <code>lib</code> 또는 <code>lib64</code> 서브디렉터리에서 라이브러리를 찾게 된다.</p>
 <pre><code>$ LD_LIBRARY_PATH='$ORIGIN/$LIB' prog
 </code></pre>
 <p>(작은따옴표를 쓴 것에 유의하라. <code>$ORIGIN</code>과 <code>$LIB</code>가 셸 변수로 확장되는 걸 막기 위해서이다.)</p>
@@ -264,7 +281,7 @@
 <p>다른 어떤 오브젝트보다 먼저 추가로 적재할 사용자 지정 ELF 공유 오브젝트들의 목록. 이 기능을 이용해 다른 공유 오브젝트의 함수들을 선택적으로 오버라이드 할 수 있다.</p>
 <p>공백이나 콜론으로 목록 내 항목들을 구분하는데 어느 쪽 구분자에도 이스케이핑 지원은 없다. 오브젝트 탐색은 DESCRIPTION에 기술된 규칙에 따라 이뤄진다. 목록에 지정한 좌에서 우로의 순서에 따라 오브젝트를 탐색해서 링크 맵에 추가한다.</p>
 <p>안전 실행 모드에서는 슬래시가 포함된 사전 적재 경로명을 무시한다. 또한 표준 탐색 디렉터리에 있는 것만, 그리고 set-user-ID 모드 비트가 켜져 있는 (흔치 않은) 경우에만 공유 오브젝트를 미리 적재한다.</p>
-<p>동적 링커는 <code>LD_PRELOAD</code> 목록에 지정된 이름에서 토큰 <code>$ORIGIN</code>, <code>$LIB</code>, <code>$PLATFORM</code>을 (또는 이름에 중괄호를 두른 버전을) 위의 <em>rpath 토큰 확장</em>에서 설명한 것처럼 처리한다. (<code>LD_LIBRARY_PATH</code> 설명의 따옴표 처리 내용도 참고.)</p>
+<p>동적 링커는 <code>LD_PRELOAD</code> 목록에 지정된 이름에서 토큰 <code>$ORIGIN</code>, <code>$LIB</code>, <code>$PLATFORM</code>을 (또는 이름에 중괄호를 두른 버전을) 위의 <em>동적 문자열 토큰</em>에서 설명한 것처럼 처리한다. (<code>LD_LIBRARY_PATH</code> 설명의 따옴표 처리 내용도 참고.)</p>
 <p>사전 적재할 라이브러리를 지정하는 방법이 여러 가지 있으며, 다음 순서로 처리된다.</p>
 <p>(1) <code>LD_PRELOAD</code> 환경 변수.</p>
 <p>(2) 동적 링커 직접 호출 시의 명령행 옵션 <code>--preload</code>.</p>
@@ -279,8 +296,8 @@
 <dd>
 <p>다른 어떤 오브젝트보다 먼저 별도의 링커 네임스페이스에 적재할 (즉 프로세스에서 이뤄질 정상적 심볼 결속을 침해하지 않는다) 사용자 지정 ELF 공유 오브젝트들의 목록이다. 이 오브젝트들을 이용해 동적 링커의 동작을 감사할 수 있다. 리스트의 항목들을 콜론으로 구분하며 구분자 이스케이핑 지원이 없다.</p>
 <p>안전 실행 모드에서는 <code>LD_AUDIT</code>을 무시한다.</p>
-<p>이른바 감사 지점들에서 (예를 들어 새 공유 오브젝트 적재 시, 심볼 결정 시, 다른 공유 오브젝트로부터 심볼 호출 시) 동적 링커가 감사 공유 오브젝트 내의 적절한 함수를 호출하여 알려 주게 된다. 자세한 내용은 <tt>[[rtld-audit(7)]]</tt>을 보라. 감사 인터페이스가 솔라리스에서 제공하는 <em>Linker and Libraries Guide</em>의 <em>Runtime Linker Auditing Interface</em> 장에서 설명하는 내용과 전반적으로 호환된다.</p>
-<p>동적 링커는 <code>LD_AUDIT</code> 목록에 지정된 이름에서 토큰 <code>$ORIGIN</code>, <code>$LIB</code>, <code>$PLATFORM</code>을 (또는 이름에 중괄호를 두른 버전을) 위의 <em>rpath 토큰 확장</em>에서 설명한 것처럼 처리한다. (<code>LD_LIBRARY_PATH</code> 설명의 따옴표 처리 내용도 참고.)</p>
+<p>이른바 감사 지점들에서 (예를 들어 새 공유 오브젝트 적재 시, 심볼 결정 시, 다른 공유 오브젝트로부터 심볼 호출 시) 동적 링커가 감사 공유 오브젝트 내의 적절한 함수를 호출하여 알려 주게 된다. 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/rtld-audit(7)/">rtld-audit(7)</a></tt>을 보라. 감사 인터페이스가 솔라리스에서 제공하는 <em>Linker and Libraries Guide</em>의 <em>Runtime Linker Auditing Interface</em> 장에서 설명하는 내용과 전반적으로 호환된다.</p>
+<p>동적 링커는 <code>LD_AUDIT</code> 목록에 지정된 이름에서 토큰 <code>$ORIGIN</code>, <code>$LIB</code>, <code>$PLATFORM</code>을 (또는 이름에 중괄호를 두른 버전을) 위의 <em>동적 문자열 토큰</em>에서 설명한 것처럼 처리한다. (<code>LD_LIBRARY_PATH</code> 설명의 따옴표 처리 내용도 참고.)</p>
 <p>glibc 2.13부터 안전 실행 모드에서는 감사 목록에서 슬래시가 포함된 이름을 무시하며 표준 탐색 디렉터리에 있고 set-user-ID 비트가 켜진 공유 오브젝트만 적재한다.</p>
 </dd>
 <dt><code>LD_BIND_NOT</code> (glibc 2.1.95부터)</dt>
@@ -335,7 +352,7 @@
 <p>glibc 2.4부터 안전 실행 모드에서는 <code>LD_ORIGIN_PATH</code>를 무시한다.</p>
 </dd>
 <dt><code>LD_POINTER_GUARD</code> (glibc 2.4에서 2.22까지)</dt>
-<dd>0으로 설정하면 포인터 보호 기능을 끈다. 그 외 다른 값은 포인터 보호 기능을 켜며, 이게 기본이다. 포인터 보호 기능이란 쓰기 가능한 프로그램 메모리에 저장되는 몇몇 코드 포인터들(<tt>[[setjmp(3)]]</tt>에서 저장하는 반환 주소나 여러 glibc 내부 함수에서 쓰는 함수 포인터들)을 난수에 가깝게 바꿔 놔서 공격자가 버퍼 오버런 내지 스택 넘침 공격 시 그 포인터들을 악용하는 걸 어렵게 만드는 보안 메커니즘이다. glibc 2.23부터는 포인터 보호 기능이 항상 켜져 있으므로 더는 <code>LD_POINTER_GUARD</code>를 써서 기능을 끌 수 없다.</dd>
+<dd>0으로 설정하면 포인터 보호 기능을 끈다. 그 외 다른 값은 포인터 보호 기능을 켜며, 이게 기본이다. 포인터 보호 기능이란 쓰기 가능한 프로그램 메모리에 저장되는 몇몇 코드 포인터들(<tt><a class="wikilink" href="/man-pages-ko/setjmp(3)/">setjmp(3)</a></tt>에서 저장하는 반환 주소나 여러 glibc 내부 함수에서 쓰는 함수 포인터들)을 난수에 가깝게 바꿔 놔서 공격자가 버퍼 오버런 내지 스택 넘침 공격 시 그 포인터들을 악용하는 걸 어렵게 만드는 보안 메커니즘이다. glibc 2.23부터는 포인터 보호 기능이 항상 켜져 있으므로 더는 <code>LD_POINTER_GUARD</code>를 써서 기능을 끌 수 없다.</dd>
 <dt><code>LD_PROFILE</code> (glibc 2.1부터)</dt>
 <dd>
 <p>프로파일 할 (단일) 공유 오브젝트의 이름을 경로명이나 soname으로 지정한 것. "<code>$LD_PROFILE_OUTPUT</code>/<code>$LD_PROFILE</code>.profile"이라는 이름의 파일에 프로파일링 출력이 덧붙는다.</p>
@@ -348,7 +365,7 @@
 </dd>
 <dt><code>LD_SHOW_AUXV</code> (glibc 2.1부터)</dt>
 <dd>
-<p>이 환경 변수가 (어떤 값으로든) 정의돼 있으면 커널로부터 전달받은 보조 배열(<tt>[[getauxval(3)]]</tt> 참고)을 보여 준다.</p>
+<p>이 환경 변수가 (어떤 값으로든) 정의돼 있으면 커널로부터 전달받은 보조 배열(<tt><a class="wikilink" href="/man-pages-ko/getauxval(3)/">getauxval(3)</a></tt> 참고)을 보여 준다.</p>
 <p>glibc 2.3.4부터 안전 실행 모드에서는 <code>LD_SHOW_AUXV</code>를 무시한다.</p>
 </dd>
 <dt><code>LD_TRACE_PRELINKING</code> (glibc 2.4부터)</dt>
@@ -364,7 +381,7 @@
 <dd>비어 있지 않은 문자열로 설정돼 있으면 결정 안 된 심볼들에 대한 경고를 표시한다.</dd>
 <dt><code>LD_PREFER_MAP_32BIT_EXEC</code> (x86-64 전용, glibc 2.23부터)</dt>
 <dd>
-<p>인텔 실버몬트 소프트웨어 최적화 안내서에 따르면 64비트 응용에서 브랜치의 대상이 브랜치에서 4GB 넘게 떨어져 있으면 브랜치 예측 성능에 부정적 영향이 있을 수 있다. 이 환경 변수가 (어떤 값으로든) 설정돼 있으면 동적 링커에서 먼저 <tt>[[mmap(2)]]</tt> <code>MAP_32BIT</code> 플래그를 써서 실행 파일 페이지 매핑을 시도하고, 실패하면 그 플래그 없이 매핑하게 된다. 주의: <code>MAP_32BIT</code>는 주소 공간 하위 (4GB가 아닌) 2GB로 매핑 한다.</p>
+<p>인텔 실버몬트 소프트웨어 최적화 안내서에 따르면 64비트 응용에서 브랜치의 대상이 브랜치에서 4GB 넘게 떨어져 있으면 브랜치 예측 성능에 부정적 영향이 있을 수 있다. 이 환경 변수가 (어떤 값으로든) 설정돼 있으면 동적 링커에서 먼저 <tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt> <code>MAP_32BIT</code> 플래그를 써서 실행 파일 페이지 매핑을 시도하고, 실패하면 그 플래그 없이 매핑하게 된다. 주의: <code>MAP_32BIT</code>는 주소 공간 하위 (4GB가 아닌) 2GB로 매핑 한다.</p>
 <p><code>MAP_32BIT</code>를 쓰면 주소 공간 배치 무작위화(ASLR)에 쓸 수 있는 주소 범위가 줄어들기 때문에 안전 실행 모드에서는 항상 <code>LD_PREFER_MAP_32BIT_EXEC</code>를 끈다.</p>
 </dd>
 </dl>
@@ -382,7 +399,7 @@
 <dd>공유 오브젝트</dd>
 </dl>
 <h2 id="notes">NOTES</h2>
-<h3 id="_3">하드웨어 호환성</h3>
+<h3 id="_4">하드웨어 호환성</h3>
 <p>어떤 공유 오브젝트들은 모든 CPU에 존재하지는 않는 하드웨어별 인스트럭션을 이용해 컴파일 된다. 그런 오브젝트들은 <code>/usr/lib/sse2/</code>처럼 필요한 하드웨어 능력을 나타내는 이름의 디렉터리에 설치돼야 한다. 동적 링커에서 그런 디렉터리들을 머신 하드웨어와 맞는지 확인해서 해당 공유 오브젝트의 가장 적절한 버전을 선택한다. 하드웨어 능력 디렉터리들을 계층적으로 만들어서 CPU 기능들을 합칠 수도 있다. 지원하는 하드웨어 능력 이름의 목록은 CPU에 따라 다르다. 현재 다음 이름들을 인식한다.</p>
 <dl>
 <dt>Alpha</dt>
@@ -399,9 +416,9 @@
 <dd>acpi, apic, clflush, cmov, cx8, dts, fxsr, ht, i386, i486, i586, i686, mca, mmx, mtrr, pat, pbe, pge, pn, pse36, sep, ss, sse, sse2, tm</dd>
 </dl>
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>ld(1)</code>, <code>ldd(1)</code>, <code>pldd(1)</code>, <code>sprof(1)</code>, <tt>[[dlopen(3)]]</tt>, <tt>[[getauxval(3)]]</tt>, <tt>[[elf(5)]]</tt>, <tt>[[capabilities(7)]]</tt>, <tt>[[rtld-audit(7)]]</tt>, <code>ldconfig(8)</code>, <code>sln(8)</code></p>
+<p><code>ld(1)</code>, <code>ldd(1)</code>, <code>pldd(1)</code>, <code>sprof(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/dlopen(3)/">dlopen(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/getauxval(3)/">getauxval(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/elf(5)/">elf(5)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/capabilities(7)/">capabilities(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/rtld-audit(7)/">rtld-audit(7)</a></tt>, <code>ldconfig(8)</code>, <code>sln(8)</code></p>
 <hr />
-<p>2019-08-02</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

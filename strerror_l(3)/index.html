@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/strerror_l(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/strerror_l%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Strerror l(3) - man-pages-ko</title>
+    <title>strerror_l(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -154,30 +154,35 @@
         <div class="col-md-9" role="main">
 
 <h2 id="name">NAME</h2>
-<p>strerror, strerror_r, strerror_l - 오류 번호를 설명하는 문자열 반환</p>
+<p>strerror, strerrorname_np, strerrordesc_np, strerror_r, strerror_l - 오류 번호를 설명하는 문자열 반환</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;string.h&gt;
+<pre><code class="language-c">#include &lt;string.h&gt;
 
 char *strerror(int errnum);
+const char *strerrorname_np(int errnum);
+const char *strerrordesc_np(int errnum);
 
 int strerror_r(int errnum, char *buf, size_t buflen);
-            /* XSI 준수 */
+               /* XSI 준수 */
 
 char *strerror_r(int errnum, char *buf, size_t buflen);
-            /* GNU 전용 */
+               /* GNU 전용 */
 
 char *strerror_l(int errnum, locale_t locale);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
+<dt><code>strerrorname_np()</code>, <code>strerrordesc_np()</code>:</dt>
+<dd><code>_GNU_SOURCE</code></dd>
 <dt><code>strerror_r()</code>:</dt>
 <dd>다음 경우에 XSI 준수 버전 제공:<br>
-<code>(_POSIX_C_SOURCE &gt;= 200112L) &amp;&amp; !  _GNU_SOURCE</code><br>
+<code>(_POSIX_C_SOURCE &gt;= 200112L) &amp;&amp; ! _GNU_SOURCE</code><br>
 아니면 GNU 전용 버전 제공.</dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>strerror()</code> 함수는 <code>errnum</code> 인자로 준 오류 코드를 설명하는 문자열 포인터를 반환하며, 현재 로캘의 <code>LC_MESSAGES</code> 요소로 적절한 언어를 선택할 수도 있다. (예를 들어 <code>errnum</code>가 <code>EINVAL</code>이면 반환되는 설명이 "Invalid argument"이다.) 응용에서 그 문자열을 변경해선 안 되며, 후속 <code>strerror()</code> 내지 <code>strerror_l()</code> 호출에서 그 문자열을 변경할 수 있다. <tt>[[perror(3)]]</tt>를 포함한 다른 라이브러리 함수들은 이 문자열을 변경하지 않는다.</p>
+<p><code>strerror()</code> 함수는 <code>errnum</code> 인자로 준 오류 코드를 설명하는 문자열 포인터를 반환하며, 현재 로캘의 <code>LC_MESSAGES</code> 요소로 적절한 언어를 선택할 수도 있다. (예를 들어 <code>errnum</code>가 <code>EINVAL</code>이면 반환되는 설명이 "Invalid argument"이다.) 응용에서 그 문자열을 변경해선 안 되며, 후속 <code>strerror()</code> 내지 <code>strerror_l()</code> 호출에서 그 문자열을 변경할 수 있다. <tt><a class="wikilink" href="/man-pages-ko/perror(3)/">perror(3)</a></tt>를 포함한 다른 라이브러리 함수들은 이 문자열을 변경하지 않는다.</p>
+<p><code>strerrordesc_np()</code> 함수는 <code>strerror()</code>과 마찬가지로 <code>errnum</code> 인자로 준 오류 코드를 설명하는 문자열 포인터를 반환하는데, 반환되는 문자열이 현재 로캘에 따라 번역돼 있지 않다는 점이 다르다.</p>
+<p><code>strerrorname_np()</code> 함수는 <code>errnum</code> 인자로 준 오류 코드의 이름을 담은 문자열 포인터를 반환한다. 예를 들어 <code>EPERM</code>을 인자로 주면 문자열 "EPERM"에 대한 포인터를 반환한다.</p>
 <h3 id="strerror_r"><code>strerror_r()</code></h3>
 <p><code>strerror_r()</code> 함수는 <code>strerror()</code>와 비슷하되 스레드에 안전하다. 이 함수는 두 가지 버전이 있다. POSIX.1-2001에 명세된 XSI 준수 버전(glibc 2.3.4부터 사용 가능하지만 glibc 2.13까지는 XSI 준수 아님)과 GNU 전용 버전(glibc 2.0부터 사용 가능)이다. SYNOPSIS에 있는 기능 확인 매크로 구성으로는 XSI 준수 버전이 제공되고, 아니면 GNU 전용 버전이 제공된다. 명시적으로 어떤 기능 확인 매크로도 정의하지 않으면 (glibc 2.4부터) 기본적으로 <code>_POSIX_C_SOURCE</code>가 200112L 값으로 정의되고, 그래서 <code>strerror_r()</code>의 XSI 준수 버전이 기본적으로 제공된다.</p>
 <p>이식 가능한 응용에서는 XSI 준수 <code>strerror_r()</code>가 바람직하다. 사용자가 제공하는 <code>buflen</code> 길이의 버퍼 <code>buf</code>로 오류 문자열을 반환한다.</p>
@@ -186,6 +191,7 @@ char *strerror_l(int errnum, locale_t locale);
 <p><code>strerror_l()</code>은 <code>strerror()</code>와 비슷하되 <code>errnum</code>을 <code>locale</code>에 지정한 로캘의 로캘 의존적 오류 메시지로 연결한다. <code>locale</code>이 특수 로캘 객체 <code>LC_GLOBAL_LOCALE</code>이거나 유효한 로캘 객체 핸들이 아닌 경우 <code>strerror_l()</code>의 동작 방식은 규정돼 있지 않다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p><code>strerror()</code>, <code>strerror_l()</code>, GNU 전용 <code>strerror_r()</code> 함수는 적절한 오류 설명 문자열을 반환한다. 알 수 없는 오류 번호면 "Unknown error nnn" 메시지를 반환한다.</p>
+<p>성공 시 <code>strerrname_np()</code>와 <code>strerrordesc_np()</code>는 적절한 오류 설명 문자열을 반환한다. <code>errnum</code>이 유효하지 않은 오류 번호이면 NULL을 반환한다.</p>
 <p>XSI 준수 <code>strerror_r()</code> 함수는 성공 시 0을 반환한다. 오류 시 (양수) 오류 번호를 반환하거나 (glibc 2.13부터), -1을 반환하고 오류를 나타내도록 <code>errno</code>를 설정한다 (glibc 버전 2.13 전).</p>
 <p>POSIX.1-2001과 POSIX.1-2008에서는 <code>strerror()</code>나 <code>strerror_l()</code> 호출 성공 시 <code>errno</code>를 바꾸지 않아야 한다고 요구하고 있으며, 오류를 나타내기 위한 함수 반환 값이 없기 때문에 응용에서 호출 전에 <code>errno</code>를 0으로 설정하고 호출 후에 <code>errno</code>를 확인해야 한다고 언급한다.</p>
 <h2 id="errors">ERRORS</h2>
@@ -197,8 +203,9 @@ char *strerror_l(int errnum, locale_t locale);
 </dl>
 <h2 id="versions">VERSIONS</h2>
 <p>glibc 2.6에서 <code>strerror_l()</code> 함수가 처음 등장했다.</p>
+<p>glibc 2.32에서 <code>strerrorname_np()</code> 및 <code>strerrordesc_np()</code> 함수가 처음 등장했다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -214,7 +221,12 @@ char *strerror_l(int errnum, locale_t locale);
 <td>MT-Unsafe race:strerror</td>
 </tr>
 <tr>
-<td><code>strerror_r()</code>,<br><code>strerror_l()</code></td>
+<td><code>strerrorname_np()</code>, <code>strerrordesc_np()</code></td>
+<td>스레드 안전성</td>
+<td>MT-Safe</td>
+</tr>
+<tr>
+<td><code>strerror_r()</code>, <code>strerror_l()</code></td>
 <td>스레드 안전성</td>
 <td>MT-Safe</td>
 </tr>
@@ -223,14 +235,15 @@ char *strerror_l(int errnum, locale_t locale);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p><code>strerror()</code>는 POSIX.1-2001, POSIX.1-2008, C89, C99에 명세돼 있다. <code>strerror_r()</code>은 POSIX.1-2001, POSIX.1-2008에 명세돼 있다.</p>
 <p><code>strerror_l()</code>은 POSIX.1-2008에 명세돼 있다.</p>
-<p>GNU 전용 <code>strerror_r()</code> 함수는 비표준 확장이다.</p>
+<p>GNU 전용 함수 <code>strerror_r()</code>, <code>strerrorname_np()</code>, <code>strerrordesc_np()</code>는 비표준 확장이다.</p>
 <p>POSIX.1-2001에서는 <code>strerror()</code> 호출에서 오류를 만난 경우 <code>errno</code>를 설정하는 건 허용하지만 오류 시에 함수 결과로 어떤 값을 반환해야 하는지는 명시하지 않고 있다. 어떤 시스템에서는 알 수 없는 오류 번호인 경우 NULL을 반환한다. 다른 시스템에서는 알 수 없는 오류 번호인 경우 <code>strerror()</code>가 "Error nnn occurred" 비슷한 문자열을 반환하고 <code>errno</code>를 <code>EINVAL</code>로 설정한다. C99와 POSIX.1-2008에서는 반환 값이 NULL이 아니어야 한다고 요구한다.</p>
 <h2 id="notes">NOTES</h2>
 <p>GNU C 라이브러리에서는 <code>strerror()</code>에 1024개 문자로 된 버퍼를 쓴다. 이 크기면 <code>strerror_r()</code> 호출 시 <code>ERANGE</code> 오류를 피하기에 충분할 것이다.</p>
+<p><code>strerrorname_np()</code>와 <code>strerrordesc_np()</code>는 스레드 안전이고 비동기 시그널 안전이다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[err(3)]]</tt>, <tt>[[errno(3)]]</tt>, <tt>[[error(3)]]</tt>, <tt>[[perror(3)]]</tt>, <tt>[[strsignal(3)]]</tt>, <tt>[[locale(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/err(3)/">err(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/errno(3)/">errno(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/error(3)/">error(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/perror(3)/">perror(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/strsignal(3)/">strsignal(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/locale(7)/">locale(7)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

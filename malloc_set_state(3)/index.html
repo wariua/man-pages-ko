@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/malloc_set_state(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/malloc_set_state%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Malloc set state(3) - man-pages-ko</title>
+    <title>malloc_set_state(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -150,22 +150,20 @@
 <h2 id="name">NAME</h2>
 <p>malloc_get_state, malloc_set_state - malloc 구현의 상태를 기록하고 복원하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;malloc.h&gt;
+<pre><code class="language-c">#include &lt;malloc.h&gt;
 
 void *malloc_get_state(void);
-
 int malloc_set_state(void *state);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><em>주의</em>: 이 함수들은 glibc 버전 2.25에서 제거되었다.</p>
-<p><code>malloc_get_state()</code> 함수는 <tt>[[malloc(3)]]</tt> 내부 상태 관리 변수들 모두의 현재 상태를 (힙의 실제 내용이나 <tt>[[malloc_hook(3)]]</tt> 함수 포인터들의 상태는 제외) 기록한다. <tt>[[malloc(3)]]</tt>을 통해 동적으로 할당한 시스템 의존적인 불투명 자료 구조에 그 상태를 기록하고 그 자료 구조에 대한 포인터를 함수 결과로 반환한다. (그 메모리를 <tt>[[free(3)]]</tt> 하는 것은 호출자의 책임이다.)</p>
-<p><code>malloc_set_state()</code> 함수는 <tt>[[malloc(3)]]</tt> 내부 상태 관리 변수들 모두의 상태를 <code>state</code>가 가리키는 불투명 자료 구조에 기록된 값들로 복원한다.</p>
+<p><code>malloc_get_state()</code> 함수는 <tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt> 내부 상태 관리 변수들 모두의 현재 상태를 (힙의 실제 내용이나 <tt><a class="wikilink" href="/man-pages-ko/malloc_hook(3)/">malloc_hook(3)</a></tt> 함수 포인터들의 상태는 제외) 기록한다. <tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt>을 통해 동적으로 할당한 시스템 의존적인 불투명 자료 구조에 그 상태를 기록하고 그 자료 구조에 대한 포인터를 함수 결과로 반환한다. (그 메모리를 <tt><a class="wikilink" href="/man-pages-ko/free(3)/">free(3)</a></tt> 하는 것은 호출자의 책임이다.)</p>
+<p><code>malloc_set_state()</code> 함수는 <tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt> 내부 상태 관리 변수들 모두의 상태를 <code>state</code>가 가리키는 불투명 자료 구조에 기록된 값들로 복원한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 <code>malloc_get_state()</code>는 새로 할당된 불투명 자료 구조에 대한 포인터를 반환한다. 오류 시 (가령 그 자료 구조를 위한 메모리를 할당할 수 없으면) <code>malloc_get_state()</code>는 NULL을 반환한다.</p>
 <p>성공 시 <code>malloc_set_state()</code>는 0을 반환한다. <code>state</code>가 올바른 형식의 자료 구조를 가리키고 있지 않다고 구현에서 탐지한 경우 <code>malloc_set_state()</code>가 -1을 반환한다. <code>state</code>가 가리키는 자료 구조의 버전이 구현에서 인식하는 것보다 최신이라고 탐지한 경우 <code>malloc_set_state()</code>가 -2를 반환한다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -185,12 +183,12 @@ int malloc_set_state(void *state);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>이 함수들은 GNU 확장이다.</p>
 <h2 id="notes">NOTES</h2>
-<p><tt>[[malloc(3)]]</tt> 구현을 어느 공유 라이브러리의 구성 요소로 사용하며 힙 내용을 어떤 다른 방법으로 저장/복원하는 경우에 이 함수들이 유용하다. GNU 이맥스에서 이 기법을 이용해 "덤프" 기능을 구현한다.</p>
-<p>이 함수들에서 절대 훅 함수 포인터들을 저장 내지 복원하지 않되 두 가지 예외가 있다. <code>malloc_get_state()</code>를 호출할 때 malloc 검사(<tt>[[mallopt(3)]]</tt> 참고)를 쓰고 있었으면 <code>malloc_set_state()</code>에서 가능한 경우 malloc 검사 훅들을 초기화 한다. 기록한 상태에서는 malloc 검사를 쓰고 있지 않았는데 호출자가 malloc 검사를 요청해 둔 경우에는 훅들이 0으로 초기화 된다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt> 구현을 어느 공유 라이브러리의 구성 요소로 사용하며 힙 내용을 어떤 다른 방법으로 저장/복원하는 경우에 이 함수들이 유용하다. GNU 이맥스에서 이 기법을 이용해 "덤프" 기능을 구현한다.</p>
+<p>이 함수들에서 절대 훅 함수 포인터들을 저장 내지 복원하지 않되 두 가지 예외가 있다. <code>malloc_get_state()</code>를 호출할 때 malloc 검사(<tt><a class="wikilink" href="/man-pages-ko/mallopt(3)/">mallopt(3)</a></tt> 참고)를 쓰고 있었으면 <code>malloc_set_state()</code>에서 가능한 경우 malloc 검사 훅들을 초기화 한다. 기록한 상태에서는 malloc 검사를 쓰고 있지 않았는데 호출자가 malloc 검사를 요청해 둔 경우에는 훅들이 0으로 초기화 된다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[malloc(3)]]</tt>, <tt>[[mallopt(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mallopt(3)/">mallopt(3)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

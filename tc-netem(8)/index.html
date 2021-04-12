@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/tc-netem(8)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/tc-netem%288%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Tc netem(8) - man-pages-ko</title>
+    <title>tc-netem(8) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -220,13 +220,11 @@
 <p>이 옵션을 쓰면 패킷들이 큐에 들어가기 전에 지정한 비율만큼 복제된다. 적당한 매개변수를 통해 상관도를 주는 것도 가능하다.</p>
 <h3 id="reorder">reorder</h3>
 <p>순서 바꾸기를 하려면 delay 옵션을 지정해야 한다. 두 가지 방식으로 이 옵션을 사용할 수 있다. ('delay 10ms' 옵션을 지정했다고 가정.)</p>
-<pre><code class="text">reorder 25% 50% gap 5
+<pre><code class="language-text">reorder 25% 50% gap 5
 </code></pre>
-
 <p>이 예에서는 처음 4개(gap - 1) 패킷을 10ms만큼 지연시키고 후속 패킷들을 0.25 확률로 (상관도 50%로) 즉시 보내든지 0.75 확률로 지연시킨다. 패킷 순서가 바뀌고 나면 이 과정을 재시작한다. 즉 그 다음 4개 패킷을 지연시키고 후속 패킷들을 순서 바뀜 확률에 따라 즉시 보내거나 지연시킨다. 패킷이 5개마다 하나씩 확실히 순서가 바뀌는 재연 가능한 패턴을 만들려면 순서 바뀜 확률을 100%로 하면 된다.</p>
-<pre><code class="text">reorder 25% 50%
+<pre><code class="language-text">reorder 25% 50%
 </code></pre>
-
 <p>이 예에서는 패킷 25%를 (연관도 50%로) 즉시 보내고 나머지는 10ms 지연시킨다.</p>
 <h3 id="rate">rate</h3>
 <p>패킷 크기에 기반해 패킷을 지연시킨다. 즉 TBF를 대신할 수 있다. 흔히 쓰는 단위로 속도를 지정할 수 있다 (가령 100kbit). 선택적인 <code>PACKETOVERHEAD</code> 옵션은 (바이트 단위로) 패킷당 오버헤드를 나타내며 음수일 수도 있다. 양수 값을 사용해 추가로 있는 링크 계층 헤더들의 효과를 흉내낼 수 있으며, 음수 값을 사용해 (가령 -14라고 해서) 이더넷 헤더를 가상으로 벗겨 내거나 링크 계층 헤더 압축 체계를 흉내낼 수 있다. 세 번째 매개변수(부호 없는 값)는 셀 크기를 나타낸다. 그 셀 크기를 통해 링크 계층 체계를 흉내낼 수 있다. 예를 들어 ATM에서는 페이로드 셀 크기가 48바이트고 셀 헤더가 5바이트다. 패킷이 50바이트짜리라면 ATM에서 셀을 두 개 써야 하고, 48바이트 페이로드 2개에 5바이트 헤더 2개를 포함하면 회선 상에서 106바이트를 소모한다. 마지막 옵션 값 <code>CELLOVERHEAD</code>를 사용해 셀당 오버헤드를 지정할 수 있는데, ATM 예에서는 5가 된다. <code>CELLOVERHEAD</code>가 음수일 수 있기는 하지만 음수 값은 조심해서 써야 한다.</p>
@@ -234,9 +232,8 @@
 <h2 id="_1">제약</h2>
 <p>Netem의 잘 알려진 제약들은 타이머 정밀도와 관련돼 있다. 리눅스가 실시간 운영 체제가 아니기 때문이다.</p>
 <h2 id="examples">EXAMPLES</h2>
-<pre><code class="text">tc qdisc add dev eth0 root netem rate 5kbit 20 100 5
+<pre><code class="language-text">tc qdisc add dev eth0 root netem rate 5kbit 20 100 5
 </code></pre>
-
 <p>eth0 장치로 나가는 모든 패킷을 패킷당 오버헤드 20바이트, 셀 크기 100바이트, 셀 오버헤드 5바이트로 해서 5kbit 속도로 지연시킨다.</p>
 <h2 id="sources">SOURCES</h2>
 <ol>

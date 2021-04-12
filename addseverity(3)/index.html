@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/addseverity(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/addseverity%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Addseverity(3) - man-pages-ko</title>
+    <title>addseverity(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -151,12 +151,11 @@
 <h2 id="name">NAME</h2>
 <p>addseverity - 새로운 심각도 수준 도입하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;fmtmsg.h&gt;
+<pre><code class="language-c">#include &lt;fmtmsg.h&gt;
 
 int addseverity(int severity, const char *s);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>addseverity()</code>:</dt>
 <dd>
@@ -169,13 +168,13 @@ int addseverity(int severity, const char *s);
 </dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
-<p>이 함수를 이용하면 <tt>[[fmtmsg(3)]]</tt> 함수의 <code>severity</code> 인자로 지정할 수 있는 새로운 심각도 수준을 도입할 수 있다. 기본적으로 그 함수는 심각도 0~4에 대해서만 (문자열 (없음), <code>HALT</code>, <code>ERROR</code>, <code>WARNING</code>, <code>INFO</code>로) 메시지를 찍을 줄 안다. 이 호출은 주어진 값 <code>severity</code>에 주어진 문자열 <code>s</code>를 연결시킨다. <code>s</code>가 NULL이면 숫자 값이 <code>severity</code>인 심각도 수준을 제거한다. 기본 심각도 수준을 덮어쓰거나 제거하는 것은 불가능하다. 심각도 값은 음수가 아니어야 한다.</p>
+<p>이 함수를 이용하면 <tt><a class="wikilink" href="/man-pages-ko/fmtmsg(3)/">fmtmsg(3)</a></tt> 함수의 <code>severity</code> 인자로 지정할 수 있는 새로운 심각도 수준을 도입할 수 있다. 기본적으로 그 함수는 심각도 0~4에 대해서만 (문자열 (없음), <code>HALT</code>, <code>ERROR</code>, <code>WARNING</code>, <code>INFO</code>로) 메시지를 찍을 줄 안다. 이 호출은 주어진 값 <code>severity</code>에 주어진 문자열 <code>s</code>를 연결시킨다. <code>s</code>가 NULL이면 숫자 값이 <code>severity</code>인 심각도 수준을 제거한다. 기본 심각도 수준을 덮어쓰거나 제거하는 것은 불가능하다. 심각도 값은 음수가 아니어야 한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 <code>MM_OK</code> 값을 반환한다. 오류 시 반환 값은 <code>MM_NOTOK</code>이다. 가능한 오류들로 메모리 부족, 존재하지 않거나 기본으로 있는 심각도 수준 제거 시도 등이 있다.</p>
 <h2 id="versions">VERSIONS</h2>
 <p>glibc 버전 2.1부터 <code>addseverity()</code>를 제공한다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -193,13 +192,13 @@ int addseverity(int severity, const char *s);
 </tbody>
 </table>
 <h2 id="conforming-to">CONFORMING TO</h2>
-<p>X/Open Portability Guide에 <tt>[[fmtmsg(3)]]</tt> 함수는 명세되어 있지만 이 함수는 명세되어 있지 않다. 시스템 V 시스템에서 사용 가능하다.</p>
+<p>X/Open Portability Guide에 <tt><a class="wikilink" href="/man-pages-ko/fmtmsg(3)/">fmtmsg(3)</a></tt> 함수는 명세되어 있지만 이 함수는 명세되어 있지 않다. 시스템 V 시스템에서 사용 가능하다.</p>
 <h2 id="notes">NOTES</h2>
 <p>환경 변수 <code>SEV_LEVEL</code>을 설정하는 것으로도 새로운 심각도 수준을 추가할 수 있다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[fmtmsg(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/fmtmsg(3)/">fmtmsg(3)</a></tt></p>
 <hr />
-<p>2016-03-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

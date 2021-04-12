@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/posix_fallocate(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/posix_fallocate%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Posix fallocate(3) - man-pages-ko</title>
+    <title>posix_fallocate(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -152,12 +152,11 @@
 <h2 id="name">NAME</h2>
 <p>posix_fallocate - 파일 공간 할당하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;fcntl.h&gt;
+<pre><code class="language-c">#include &lt;fcntl.h&gt;
 
 int posix_fallocate(int fd, off_t offset, off_t len);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>posix_fallocate()</code>:</dt>
 <dd><code>_POSIX_C_SOURCE &gt;= 200112L</code></dd>
@@ -181,13 +180,15 @@ int posix_fallocate(int fd, off_t offset, off_t len);
 <dd><code>fd</code>가 정규 파일을 가리키고 있지 않다.</dd>
 <dt><code>ENOSPC</code></dt>
 <dd><code>fd</code>가 가리키는 파일을 담은 장치에 충분한 공간이 남아 있지 않다.</dd>
+<dt><code>EOPNOTSUPP</code></dt>
+<dd><code>fd</code>가 가리키는 파일을 포함하는 파일 시스템에서 이 동작을 지원하지 않는다. NOTES에서 설명하는 에뮬레이션을 수행하지 않는 musl libc 같은 C 라이브러리에서 이 오류 코드를 반환할 수 있다.</dd>
 <dt><code>ESPIPE</code></dt>
 <dd><code>fd</code>가 파이프를 가리키고 있다.</dd>
 </dl>
 <h2 id="versions">VERSIONS</h2>
 <p>glibc 2.1.94부터 <code>posix_fallocate()</code>가 사용 가능하다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -208,7 +209,7 @@ int posix_fallocate(int fd, off_t offset, off_t len);
 <p>POSIX.1-2001.</p>
 <p>POSIX.1-2008에 따르면 <code>len</code>이 0이거나 <code>offset</code>이 0보다 작은 경우 구현체에서 <code>EINVAL</code> 오류를 <em>내놓아야 한다</em>. POSIX.1-2001에 따르면 <code>len</code>이 0보다 작거나 <code>offset</code>이 0보다 작은 경우 구현체에서 <code>EINVAL</code> 오류를 <em>내놓아야 하며</em>, <code>len</code>이 0과 같은 경우 오류를 <em>내놓을 수 있다</em>.</p>
 <h2 id="notes">NOTES</h2>
-<p>glibc 구현에서 <code>posix_fallocate()</code>는 <tt>[[fallocate(2)]]</tt> 시스템 호출을 써서 구현돼 있으며 그 시스템 호출은 MT-safe이다. 하위 파일 시스템에서 <tt>[[fallocate(2)]]</tt>를 지원하지 않는 경우에는 동작을 에뮬레이션 하는데, 몇 가지 유의 사항이 있다.</p>
+<p>glibc 구현에서 <code>posix_fallocate()</code>는 <tt><a class="wikilink" href="/man-pages-ko/fallocate(2)/">fallocate(2)</a></tt> 시스템 호출을 써서 구현돼 있으며 그 시스템 호출은 MT-safe이다. 하위 파일 시스템에서 <tt><a class="wikilink" href="/man-pages-ko/fallocate(2)/">fallocate(2)</a></tt>를 지원하지 않는 경우에는 동작을 에뮬레이션 하는데, 몇 가지 유의 사항이 있다.</p>
 <ul>
 <li>
 <p>에뮬레이션이 비효율적이다.</p>
@@ -223,11 +224,11 @@ int posix_fallocate(int fd, off_t offset, off_t len);
 <p><code>fd</code>를 <code>O_APPEND</code> 플래그나 <code>O_WRONLY</code> 플래그로 열었으면 함수가 <code>EBADF</code>로 실패한다.</p>
 </li>
 </ul>
-<p>전반적으로 그 에뮬레이션은 MT-safe가 아니다. 응용에서 이런 에뮬레이션 유의 사항들을 용인할 수 없는 경우 리눅스에서는 <tt>[[fallocate(2)]]</tt>를 쓸 수도 있다. 일반적으로 이 방법은 <code>EOPNOTSUPP</code> 반환 시 응용 동작을 중단할 생각일 때만 권장할 만하다. 그렇지 않다면 응용 자체에서 대비책을 구현해야 할 텐데, 그러면 glibc의 에뮬레이션와 같은 문제들이 그대로 발생하게 된다.</p>
+<p>전반적으로 그 에뮬레이션은 MT-safe가 아니다. 응용에서 이런 에뮬레이션 유의 사항들을 용인할 수 없는 경우 리눅스에서는 <tt><a class="wikilink" href="/man-pages-ko/fallocate(2)/">fallocate(2)</a></tt>를 쓸 수도 있다. 일반적으로 이 방법은 <code>EOPNOTSUPP</code> 반환 시 응용 동작을 중단할 생각일 때만 권장할 만하다. 그렇지 않다면 응용 자체에서 대비책을 구현해야 할 텐데, 그러면 glibc의 에뮬레이션와 같은 문제들이 그대로 발생하게 된다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>fallocate(1)</code>, <tt>[[fallocate(2)]]</tt>, <tt>[[lseek(2)]]</tt>, <tt>[[posix_fadvise(2)]]</tt></p>
+<p><code>fallocate(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/fallocate(2)/">fallocate(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/lseek(2)/">lseek(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/posix_fadvise(2)/">posix_fadvise(2)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

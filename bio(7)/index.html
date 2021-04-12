@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/bio(7)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/bio%287%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Bio(7) - man-pages-ko</title>
+    <title>bio(7) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -148,9 +148,8 @@
 <h2 id="name">NAME</h2>
 <p>bio - 기본(Basic) I/O 추상화</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;openssl/bio.h&gt;
+<pre><code class="language-c">#include &lt;openssl/bio.h&gt;
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p>BIO는 I/O를 추상화한 것으로 기반 I/O의 여러 세부 사항들을 응용에게 감춰 준다. 응용에서 I/O에 BIO를 사용하면 SSL 연결, 비암호화 네트워크 연결, 파일 I/O를 투명하게 다룰 수 있다.</p>
 <p>BIO에는 두 종류가 있는데, 원천/싱크 BIO와 필터 BIO이다.</p>
@@ -163,9 +162,8 @@
 <p>보통 <code>type</code> 인자는 BIO_METHOD 포인터를 반환하는 함수로 제공한다. 그런 함수들에는 명명 관행이 있는데, 보통 원천/싱크 BIO는 <code>BIO_s_*()</code>이고 필터 BIO는 <code>BIO_f_*()</code>이다.</p>
 <h2 id="example">EXAMPLE</h2>
 <p>메모리 BIO 만들기:</p>
-<pre><code class="c">BIO *mem = BIO_new(BIO_s_mem());
+<pre><code class="language-c">BIO *mem = BIO_new(BIO_s_mem());
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
 <p><code>BIO_ctrl(3)</code>, <code>BIO_f_base64(3)</code>, <code>BIO_f_buffer(3)</code>, <code>BIO_f_cipher(3)</code>, <code>BIO_f_md(3)</code>, <code>BIO_f_null(3)</code>, <code>BIO_f_ssl(3)</code>, <code>BIO_find_type(3)</code>, <code>BIO_new(3)</code>, <code>BIO_new_bio_pair(3)</code>, <code>BIO_push(3)</code>, <code>BIO_read_ex(3)</code>, <code>BIO_s_accept(3)</code>, <code>BIO_s_bio(3)</code>, <code>BIO_s_connect(3)</code>, <code>BIO_s_fd(3)</code>, <code>BIO_s_file(3)</code>, <code>BIO_s_mem(3)</code>, <code>BIO_s_null(3)</code>, <code>BIO_s_socket(3)</code>, <code>BIO_set_callback(3)</code>, <code>BIO_should_retry(3)</code></p>
 <h2 id="copyright">COPYRIGHT</h2>

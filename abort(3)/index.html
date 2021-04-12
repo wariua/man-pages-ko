@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/abort(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/abort%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Abort(3) - man-pages-ko</title>
+    <title>abort(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -140,8 +140,8 @@
         <li class="first-level "><a href="#description">DESCRIPTION</a></li>
         <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
-        <li class="first-level "><a href="#notes">NOTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
@@ -150,18 +150,17 @@
 <h2 id="name">NAME</h2>
 <p>abort - 비정상적 프로세스 종료 일으키기</p>
 <h2 id="synosis">SYNOSIS</h2>
-<pre><code class="c">#include &lt;stdlib.h&gt;
+<pre><code class="language-c">#include &lt;stdlib.h&gt;
 
-void abort(void);
+noreturn void abort(void);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
-<p><code>abort()</code>는 먼저 <code>SIGABRT</code> 시그널을 차단 해제하고서 호출 프로세스에게 (<tt>[[raise(3)]]</tt>를 호출한 것처럼) 그 시그널을 발생시킨다. <code>SIGABRT</code> 시그널을 잡아서 시그널 핸들러가 반환하지 않는 (<tt>[[longjmp(3)]]</tt> 참고) 경우가 아니면 이로 인해 프로세스 비정상적 종료가 일어난다.</p>
+<p><code>abort()</code> 함수는 먼저 <code>SIGABRT</code> 시그널을 차단 해제하고서 호출 프로세스에게 (<tt><a class="wikilink" href="/man-pages-ko/raise(3)/">raise(3)</a></tt>를 호출한 것처럼) 그 시그널을 발생시킨다. <code>SIGABRT</code> 시그널을 잡아서 시그널 핸들러가 반환하지 않는 (<tt><a class="wikilink" href="/man-pages-ko/longjmp(3)/">longjmp(3)</a></tt> 참고) 경우가 아니면 이로 인해 프로세스 비정상적 종료가 일어난다.</p>
 <p><code>SIGABRT</code> 시그널을 무시하거나 시그널을 잡은 핸들러가 반환하는 경우에도 <code>abort()</code> 함수가 프로세스를 종료시키게 된다. <code>SIGABRT</code>의 기본 처리 방식을 되살리고서 다시 그 시그널을 발생시키기 때문이다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p><code>abort()</code> 함수는 절대 반환하지 않는다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -178,14 +177,14 @@ void abort(void);
 </tr>
 </tbody>
 </table>
-<h2 id="notes">NOTES</h2>
-<p>glibc 2.26까지에서는 <code>abort()</code> 함수 때문에 프로세스가 종료되면 열린 스트림들이 모두 (<tt>[[fclose(3)]]</tt> 한 것처럼) 닫히고 플러시 되었다. 하지만 어떤 경우에 그 때문에 교착과 데이터 오염이 발생할 수 있었다. 그래서 glibc 2.27부터는 <code>abort()</code>가 프로세스를 종료시키면서 스트림을 플러시 하지 않는다. POSIX.1에서는 어느 동작도 허용하는데, <code>abort()</code>가 "모든 열린 스트림에 <tt>[[fclose()]]</tt> 효과를 주려는 시도를 포함할 수도 있다"고 한다.</p>
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>SVr4, POSIX.1-2001, POSIX.1-2008, 4.3BSD, C89, C99.</p>
+<h2 id="notes">NOTES</h2>
+<p>glibc 2.26까지에서는 <code>abort()</code> 함수 때문에 프로세스가 종료되면 열린 스트림들이 모두 (<tt><a class="wikilink" href="/man-pages-ko/fclose(3)/">fclose(3)</a></tt> 한 것처럼) 닫히고 플러시 되었다. 하지만 어떤 경우에 그 때문에 교착과 데이터 오염이 발생할 수 있었다. 그래서 glibc 2.27부터는 <code>abort()</code>가 프로세스를 종료시키면서 스트림을 플러시 하지 않는다. POSIX.1에서는 어느 동작도 허용하는데, <code>abort()</code>가 "모든 열린 스트림에 <tt><a class="wikilink" href="/man-pages-ko/fclose()/">fclose()</a></tt> 효과를 주려는 시도를 포함할 수도 있다"고 한다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[gdb(1)]]</tt>, <tt>[[sigaction(2)]]</tt>, <tt>[[assert(3)]]</tt>, <tt>[[exit(3)]]</tt>, <tt>[[longjmp(3)]]</tt>, <tt>[[raise(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/gdb(1)/">gdb(1)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigaction(2)/">sigaction(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/assert(3)/">assert(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/exit(3)/">exit(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/longjmp(3)/">longjmp(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/raise(3)/">raise(3)</a></tt></p>
 <hr />
-<p>2017-11-26</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

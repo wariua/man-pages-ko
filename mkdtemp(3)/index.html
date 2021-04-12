@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/mkdtemp(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/mkdtemp%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Mkdtemp(3) - man-pages-ko</title>
+    <title>mkdtemp(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -151,12 +151,11 @@
 <h2 id="name">NAME</h2>
 <p>mkdtemp - 유일한 임시 디렉터리 만들기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;stdlib.h&gt;
+<pre><code class="language-c">#include &lt;stdlib.h&gt;
 
 char *mkdtemp(char *template);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>mkdtemp()</code>:</dt>
 <dd><code>/* glibc 2.19부터: */ _DEFAULT_SOURCE</code><br>
@@ -166,17 +165,17 @@ char *mkdtemp(char *template);
 <h2 id="description">DESCRIPTION</h2>
 <p><code>mkdtemp()</code> 함수는 <code>template</code>을 가지고 유일한 이름의 임시 디렉터리를 만들어 낸다. <code>template</code>의 마지막 여섯 글자가 XXXXXX여야 하며 그 글자들을 바꿔서 디렉터리 이름을 유일하게 만든다. 그리고 0700 권한으로 디렉터리를 생성한다. 변경이 이뤄지므로 <code>template</code>이 문자열 상수여서는 안 되며 문자 배열로 선언하는 게 좋다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p><code>mkdtemp()</code> 함수는 성공 시 변경된 템플릿 문자열에 대한 포인터를 반환한다. 오류 시 NULL을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<p><code>mkdtemp()</code> 함수는 성공 시 변경된 템플릿 문자열에 대한 포인터를 반환한다. 오류 시 NULL을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EINVAL</code></dt>
 <dd><code>template</code>의 마지막 여섯 글자가 XXXXXX가 아니다. 이때 <code>template</code>은 바뀌지 않는다.</dd>
 </dl>
-<p><code>errno</code>에 가능한 다른 값들은 <tt>[[mkdir(2)]]</tt>을 보라.</p>
+<p><code>errno</code>에 가능한 다른 값들은 <tt><a class="wikilink" href="/man-pages-ko/mkdir(2)/">mkdir(2)</a></tt>을 보라.</p>
 <h2 id="versions">VERSIONS</h2>
 <p>glibc 2.1.91부터 사용 가능하다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -196,9 +195,9 @@ char *mkdtemp(char *template);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2008. BSD 계열에 이 함수가 있다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>mktemp(1)</code>, <tt>[[mkdir(2)]]</tt>, <tt>[[mkstemp(3)]]</tt>, <tt>[[mktemp(3)]]</tt>, <tt>[[tempnam(3)]]</tt>, <tt>[[tmpfile(3)]]</tt>, <tt>[[tmpnam(3)]]</tt></p>
+<p><code>mktemp(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/mkdir(2)/">mkdir(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mkstemp(3)/">mkstemp(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mktemp(3)/">mktemp(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/tempnam(3)/">tempnam(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/tmpfile(3)/">tmpfile(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/tmpnam(3)/">tmpnam(3)</a></tt></p>
 <hr />
-<p>2016-07-17</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

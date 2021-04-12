@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/inode(7)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/inode%287%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Inode(7) - man-pages-ko</title>
+    <title>inode(7) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -149,8 +149,8 @@
 <h2 id="name">NAME</h2>
 <p>inode - 파일 아이노드 정보</p>
 <h2 id="description">DESCRIPTION</h2>
-<p>각 파일에는 그 파일에 대한 메타데이터를 담은 아이노드(inode)가 있다. <code>stat</code> 구조체를 반환하는 <tt>[[stat(2)]]</tt>을 (또는 유사 호출을) 이용해서, 또는 <code>statx</code> 구조체를 반환하는 <tt>[[statx(2)]]</tt>를 이용해서 응용에서 그 메타정보를 얻을 수 있다.</p>
-<p>다음은 일반적으로 파일 아이노드 내에 있거나 연계돼 있는 정보들의 목록이다. <tt>[[stat(2)]]</tt> 및 <tt>[[statx(2)]]</tt>에서 반환하는 대응 구조체 필드의 이름이 적혀 있다.</p>
+<p>각 파일에는 그 파일에 대한 메타데이터를 담은 아이노드(inode)가 있다. <code>stat</code> 구조체를 반환하는 <tt><a class="wikilink" href="/man-pages-ko/stat(2)/">stat(2)</a></tt>을 (또는 유사 호출을) 이용해서, 또는 <code>statx</code> 구조체를 반환하는 <tt><a class="wikilink" href="/man-pages-ko/statx(2)/">statx(2)</a></tt>를 이용해서 응용에서 그 메타정보를 얻을 수 있다.</p>
+<p>다음은 일반적으로 파일 아이노드 내에 있거나 연계돼 있는 정보들의 목록이다. <tt><a class="wikilink" href="/man-pages-ko/stat(2)/">stat(2)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/statx(2)/">statx(2)</a></tt>에서 반환하는 대응 구조체 필드의 이름이 적혀 있다.</p>
 <dl>
 <dt>아이노드가 위치한 장치</dt>
 <dd>
@@ -170,17 +170,17 @@
 <dt>링크 수</dt>
 <dd>
 <p><code>stat.st_nlink</code>. <code>statx.stx_nlink</code>.</p>
-<p>이 필드는 파일에 대한 하드 링크 수를 담고 있다. <tt>[[link(2)]]</tt>를 써서 기존 파일에 대한 링크를 추가로 만든다.</p>
+<p>이 필드는 파일에 대한 하드 링크 수를 담고 있다. <tt><a class="wikilink" href="/man-pages-ko/link(2)/">link(2)</a></tt>를 써서 기존 파일에 대한 링크를 추가로 만든다.</p>
 </dd>
 <dt>사용자 ID</dt>
 <dd>
 <p><code>stat.st_uid</code>. <code>statx.stx_uid</code>.</p>
-<p>이 필드는 파일 소유자의 사용자 ID를 기록한다. 파일이 새로 생성될 때 파일 사용자 ID는 생성 프로세스의 실효 사용자 ID다. <tt>[[chown(2)]]</tt>을 써서 파일의 사용자 ID를 바꿀 수 있다.</p>
+<p>이 필드는 파일 소유자의 사용자 ID를 기록한다. 파일이 새로 생성될 때 파일 사용자 ID는 생성 프로세스의 실효 사용자 ID다. <tt><a class="wikilink" href="/man-pages-ko/chown(2)/">chown(2)</a></tt>을 써서 파일의 사용자 ID를 바꿀 수 있다.</p>
 </dd>
 <dt>그룹 ID</dt>
 <dd>
 <p><code>stat.st_gid</code>. <code>statx.stx_gid</code>.</p>
-<p>아이노드에 파일 그룹 소유자의 ID를 기록해 둔다. 파일이 새로 생성될 때 파일 그룹 ID는 부모 디렉터리에 set-group-ID 비트가 설정돼 있는지 여부에 따라 부모 디렉터리의 그룹 ID거나 호출 프로세스의 실효 그룹 ID다. (아래 참고.) <tt>[[chown(2)]]</tt>을 써서 파일의 그룹 ID를 바꿀 수 있다.</p>
+<p>아이노드에 파일 그룹 소유자의 ID를 기록해 둔다. 파일이 새로 생성될 때 파일 그룹 ID는 부모 디렉터리에 set-group-ID 비트가 설정돼 있는지 여부에 따라 부모 디렉터리의 그룹 ID거나 호출 프로세스의 실효 그룹 ID다. (아래 참고.) <tt><a class="wikilink" href="/man-pages-ko/chown(2)/">chown(2)</a></tt>을 써서 파일의 그룹 ID를 바꿀 수 있다.</p>
 </dd>
 <dt>이 아이노드가 나타내는 장치</dt>
 <dd>
@@ -206,8 +206,8 @@
 <dt>최근 접근 타임스탬프 (atime)</dt>
 <dd>
 <p><code>stat.st_atime</code>. <code>statx.stx_atime</code>.</p>
-<p>파일의 최근 접근 타임스탬프다. <tt>[[execve(2)]]</tt>, <tt>[[mknod(2)]]</tt>, <tt>[[pipe(2)]]</tt>, <tt>[[utime(2)]]</tt>, (0 바이트보다 큰) <code>read(2)</code> 등의 파일 접근에 의해 바뀐다. <tt>[[mmap(2)]]</tt> 같은 다른 인터페이스는 atime 타임스탬프를 갱신할 수도 있고 하지 않을 수도 있다.</p>
-<p>일부 파일 시스템 타입에서는 파일 및/또는 디렉터리 접근이 atime 타임스탬프 갱신을 일으키지 않도록 마운트 하는 게 가능하다. (<tt>[[mount(8)]]</tt>의 <code>noatime</code>, <code>nodiratime</code>, <code>relatime</code>, 그리고 <tt>[[mount(2)]]</tt>의 관련 정보 참고.) 더불어 <code>O_NOATIME</code> 플래그를 써서 파일을 열면 atime 타임스탬프가 갱신되지 않는다. <tt>[[open(2)]]</tt> 참고.</p>
+<p>파일의 최근 접근 타임스탬프다. <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mknod(2)/">mknod(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pipe(2)/">pipe(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/utime(2)/">utime(2)</a></tt>, (0 바이트보다 큰) <code>read(2)</code> 등의 파일 접근에 의해 바뀐다. <tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt> 같은 다른 인터페이스는 atime 타임스탬프를 갱신할 수도 있고 하지 않을 수도 있다.</p>
+<p>일부 파일 시스템 타입에서는 파일 및/또는 디렉터리 접근이 atime 타임스탬프 갱신을 일으키지 않도록 마운트 하는 게 가능하다. (<tt><a class="wikilink" href="/man-pages-ko/mount(8)/">mount(8)</a></tt>의 <code>noatime</code>, <code>nodiratime</code>, <code>relatime</code>, 그리고 <tt><a class="wikilink" href="/man-pages-ko/mount(2)/">mount(2)</a></tt>의 관련 정보 참고.) 더불어 <code>O_NOATIME</code> 플래그를 써서 파일을 열면 atime 타임스탬프가 갱신되지 않는다. <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt> 참고.</p>
 </dd>
 <dt>파일 생성 (탄생) 타임스탬프 (btime)</dt>
 <dd>
@@ -218,7 +218,7 @@
 <dt>최근 수정 타임스탬프 (mtime)</dt>
 <dd>
 <p><code>stat.st_mtime</code>. <code>statx.stx_mtime</code>.</p>
-<p>파일의 최근 수정 타임스탬프다. <tt>[[mknod(2)]]</tt>, <tt>[[truncate(2)]]</tt>, <tt>[[utime(2)]]</tt>, (0 바이트보다 큰) <tt>[[write(2)]]</tt> 등의 파일 변경에 의해 바뀐다. 또한 디렉터리의 mtime 타임스탬프는 그 디렉터리 내의 파일 생성 및 삭제에 의해 바뀐다. 소유자, 그룹, 하드 링크 수, 모드의 변경에 의해선 mtime 타임스탬프가 바뀌지 <em>않는다</em>.</p>
+<p>파일의 최근 수정 타임스탬프다. <tt><a class="wikilink" href="/man-pages-ko/mknod(2)/">mknod(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/truncate(2)/">truncate(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/utime(2)/">utime(2)</a></tt>, (0 바이트보다 큰) <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt> 등의 파일 변경에 의해 바뀐다. 또한 디렉터리의 mtime 타임스탬프는 그 디렉터리 내의 파일 생성 및 삭제에 의해 바뀐다. 소유자, 그룹, 하드 링크 수, 모드의 변경에 의해선 mtime 타임스탬프가 바뀌지 <em>않는다</em>.</p>
 </dd>
 <dt>최근 상태 변경 타임스탬프 (ctime)</dt>
 <dd>
@@ -226,10 +226,10 @@
 <p>파일의 최근 상태 변경 타임스탬프다. 아이노드 정보(즉 소유자, 그룹, 링크 수, 모드 등) 기록 내지 설정에 의해 바뀐다.</p>
 </dd>
 </dl>
-<p>타임스탬프 필드들은 <em>에포크(Epoch)</em>, 즉 1970-01-01 00:00:00 +0000, UTC를 영점으로 해서 (<tt>[[time(7)]] 참고) 측정한 시간을 알려 준다.</p>
-<p>XFS, JFS, Btrfs, ext4(리눅스 2.6.23부터)에서 나노초 타임스탬프를 지원한다. ext2, ext3, Reiserfs에서는 나노초 타임스탬프를 지원하지 않는다. 나노초 정밀도로 타임스탬프를 반환할 수 있도록 <code>stat</code> 및 <code>statx</code> 구조체의 타임스탬프 필드들은 나노초 항목을 포함한 구조체로 정의돼 있다. 자세한 건 <tt>[[stat(2)]]</tt> 및 <tt>[[statx(2)]]</tt>를 보라. 초보다 작은 단위의 타임스탬프를 지원하지 않는 파일 시스템에서는 <code>stat</code> 및 <code>statx</code> 구조체의 나노초 필드가 0 값으로 반환된다.</p>
+<p>타임스탬프 필드들은 <em>에포크(Epoch)</em>, 즉 1970-01-01 00:00:00 +0000, UTC를 영점으로 해서 (<tt><a class="wikilink" href="/man-pages-ko/time(7)/">time(7)</a> 참고) 측정한 시간을 알려 준다.</p>
+<p>XFS, JFS, Btrfs, ext4(리눅스 2.6.23부터)에서 나노초 타임스탬프를 지원한다. ext2, ext3, Reiserfs에서는 나노초 타임스탬프를 지원하지 않는다. 나노초 정밀도로 타임스탬프를 반환할 수 있도록 <code>stat</code> 및 <code>statx</code> 구조체의 타임스탬프 필드들은 나노초 항목을 포함한 구조체로 정의돼 있다. 자세한 건 <tt><a class="wikilink" href="/man-pages-ko/stat(2)/">stat(2)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/statx(2)/">statx(2)</a></tt>를 보라. 초보다 작은 단위의 타임스탬프를 지원하지 않는 파일 시스템에서는 <code>stat</code> 및 <code>statx</code> 구조체의 나노초 필드가 0 값으로 반환된다.</p>
 <h3 id="_1">파일 종류 및 모드</h3>
-<p><code>stat.st_mode</code> 필드는 (<tt>[[statx(2)]]</tt>인 경우 <code>statx.stx_mode</code> 필드는) 파일 종류 및 모드를 담고 있다.</p>
+<p><code>stat.st_mode</code> 필드는 (<tt><a class="wikilink" href="/man-pages-ko/statx(2)/">statx(2)</a></tt>인 경우 <code>statx.stx_mode</code> 필드는) 파일 종류 및 모드를 담고 있다.</p>
 <p>POSIX에서는 <code>stat.st_mode</code>에서 마스크 <code>S_IFMT</code>(아래 참고)에 해당하는 비트들을 <em>파일 종류</em>로, 마스크 07777에 해당하는 12비트를 <em>파일 모드 비트</em>로, 그리고 마지막 9비트(0777)를 <em>파일 권한 비트</em>라고 부른다.</p>
 <p>파일 종류로 다음 마스크 값들이 정의돼 있다.</p>
 <table>
@@ -289,12 +289,11 @@
 </tbody>
 </table>
 <p>그래서 (예를 들어) 정규 파일인지 확인하려면 다음과 같이 작성할 수 있다.</p>
-<pre><code class="c">stat(pathname, &amp;sb);
+<pre><code class="language-c">stat(pathname, &amp;sb);
 if ((sb.st_mode &amp; S_IFMT) == S_IFREG) {
     /* 정규 파일 처리 */
 }
 </code></pre>
-
 <p>위 형태의 검사가 흔하기 때문에 POSIX에서는 <code>st_mode</code>의 파일 종류 검사를 정확히 작성할 수 있도록 해 주는 매크로를 추가로 정의한다.</p>
 <table>
 <thead>
@@ -335,12 +334,11 @@ if ((sb.st_mode &amp; S_IFMT) == S_IFREG) {
 </tbody>
 </table>
 <p>그래서 앞의 코드를 다음과 같이 작성할 수 있다.</p>
-<pre><code class="c">stat(pathname, &amp;sb);
+<pre><code class="language-c">stat(pathname, &amp;sb);
 if (S_ISREG(sb.st_mode)) {
     /* 정규 파일 처리 */
 }
 </code></pre>
-
 <p>위 파일 종류 검사 매크로 대다수는 기능 확인 매크로 <code>_BSD_SOURCE</code> (glibc 2.19 및 이전), <code>_SVID_SOURCE</code> (glibc 2.19 및 이전), <code>_DEFAULT_SOURCE</code> (glibc 2.20 및 이후) 중 하나라도 정의돼 있으면 그 정의가 제공된다. 추가로 <code>_XOPEN_SOURCE</code>가 정의돼 있으면 <code>S_IFSOCK</code> 및 <code>S_ISSOCK()</code>을 빼고 위의 매크로 전체의 정의가 제공된다.</p>
 <p><code>S_IFSOCK</code> 정의는 <code>_XOPEN_SOURCE</code>를 500 이상의 값으로 정의하거나 (glibc 2.24부터), <code>_XOPEN_SOURCE</code>와 <code>_XOPEN_SOURCE_EXTENDED</code> 모두를 정의해서 드러낼 수 있다.</p>
 <p><code>S_ISSOCK()</code> 정의는 기능 확인 매크로 <code>_BSD_SOURCE</code> (glibc 2.19 및 이전), <code>DEFAULT_SOURCE</code> (glibc 2.20 및 이후), 500 이상 값으로 <code>_XOPEN_SOURCE</code>, 200112L 이상 값으로 <code>_POSIX_C_SOURCE</code> 중 하나라도 정의돼 있거나 <code>_XOPEN_SOURCE</code>와 <code>_XOPEN_SOURCE_EXTENDED</code> 모두가 정의돼 있으면 드러난다.</p>
@@ -357,7 +355,7 @@ if (S_ISREG(sb.st_mode)) {
 <tr>
 <td><code>S_ISUID</code></td>
 <td><code>04000</code></td>
-<td>set-user-ID 비트 (<tt>[[execve(2)]]</tt> 참고)</td>
+<td>set-user-ID 비트 (<tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt> 참고)</td>
 </tr>
 <tr>
 <td><code>S_ISGID</code></td>
@@ -446,7 +444,7 @@ if (S_ISREG(sb.st_mode)) {
 </tr>
 </tbody>
 </table>
-<p>set-group-ID 비트(<code>S_ISGID</code>)에는 여러 가지 특수한 사용 방식이 있다. 디렉터리에서는 그 디렉터리에 BSD 동작 방식이 쓰여야 함을 나타낸다. 즉 거기서 생성되는 파일들이 호출 프로세스의 실효 그룹 ID가 아니라 디렉터리의 그룹 ID를 물려받으며, 거기서 생성되는 디렉터리에도 <code>S_ISGID</code> 비트가 설정된다. 실행 파일에서 set-group-ID 비트는 파일을 실행하는 프로세스의 실효 그룹 ID가 <tt>[[execve(2)]]</tt>에 기술된 대로 바뀌게 한다. 그룹 실행 비트(<code>S_IXGRP</code>)가 설정돼 있지 않은 파일에서 set-group-ID 비트는 강제적 파일/레코드 락킹을 나타낸다.</p>
+<p>set-group-ID 비트(<code>S_ISGID</code>)에는 여러 가지 특수한 사용 방식이 있다. 디렉터리에서는 그 디렉터리에 BSD 동작 방식이 쓰여야 함을 나타낸다. 즉 거기서 생성되는 파일들이 호출 프로세스의 실효 그룹 ID가 아니라 디렉터리의 그룹 ID를 물려받으며, 거기서 생성되는 디렉터리에도 <code>S_ISGID</code> 비트가 설정된다. 실행 파일에서 set-group-ID 비트는 파일을 실행하는 프로세스의 실효 그룹 ID가 <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>에 기술된 대로 바뀌게 한다. 그룹 실행 비트(<code>S_IXGRP</code>)가 설정돼 있지 않은 파일에서 set-group-ID 비트는 강제적 파일/레코드 락킹을 나타낸다.</p>
 <p>디렉터리의 스티키 비트(<code>S_ISVTX</code>)는 그 디렉터리 안의 파일을 파일 소유자, 디렉터리 소유자, 특권 프로세스만 이름을 바꾸거나 삭제할 수 있다는 뜻이다.</p>
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p><code>&lt;sys/stat.h&gt;</code>에서 <code>blkcnt_t</code> 내지 <code>blksize_t</code> 타입의 정의를 얻어야 한다면 (<em>어떤</em> 헤더 파일도 포함하기 전에) <code>_XOPEN_SOURCE</code>를 500 이상 값으로 정의하면 된다.</p>
@@ -456,9 +454,9 @@ if (S_ISREG(sb.st_mode)) {
 <h2 id="notes">NOTES</h2>
 <p>커널에서 자동 생성하는 가상 파일들에 대해 커널이 알려 주는 파일 크기(<code>stat.st_size</code>, <code>statx.stx_size</code>)가 정확하지 않다. 예를 들어 <code>/proc</code> 디렉터리의 많은 파일들에 대해 0 값이 반환되는 반면 <code>/sys</code>의 여러 파일들에 대해선 파일 내용이 더 작은데도 크기가 4096 바이트라고 나온다. 그런 파일들에서는 그냥 최대한으로 읽어 들이면 (그리고 그 결과를 문자열로 해석해야 하면 반환 버퍼 끝에 '\0'을 덧붙여 주면) 된다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>stat(1)</code>, <tt>[[stat(2)]]</tt>, <tt>[[statx(2)]]</tt>, <tt>[[symlink(7)]]</tt></p>
+<p><code>stat(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/stat(2)/">stat(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/statx(2)/">statx(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/symlink(7)/">symlink(7)</a></tt></p>
 <hr />
-<p>2019-05-09</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

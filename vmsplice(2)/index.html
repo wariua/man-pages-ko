@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/vmsplice(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/vmsplice%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Vmsplice(2) - man-pages-ko</title>
+    <title>vmsplice(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -151,33 +151,31 @@
 <h2 id="name">NAME</h2>
 <p>vmsplice - 사용자 페이지를 파이프와 연결하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
+<pre><code class="language-c">#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
 #include &lt;fcntl.h&gt;
 #include &lt;sys/uio.h&gt;
 
 ssize_t vmsplice(int fd, const struct iovec *iov,
-                 unsigned long nr_segs, unsigned int flags);
+                 size_t nr_segs, unsigned int flags);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>fd</code>가 쓰기용으로 열려 있으면 <code>vmsplice()</code> 시스템 호출은 <code>iov</code>가 기술하는 <code>nr_segs</code> 개 사용자 메모리 범위를 파이프로 매핑 한다. <code>fd</code>가 읽기용으로 열려 있으면 <code>vmsplice()</code> 시스템 호출은 <code>iov</code>가 기술하는 <code>nr_segs</code> 개 사용자 메모리 범위를 파이프에서 읽은 내용으로 채운다. 파일 디스크립터 <code>fd</code>는 파이프를 가리켜야 한다.</p>
 <p>포인터 <code>iov</code>는 <code>&lt;sys/uio.h&gt;</code>에 정의된 <code>iovec</code> 구조체의 배열을 가리킨다.</p>
-<pre><code class="c">struct iovec {
+<pre><code class="language-c">struct iovec {
     void  *iov_base;        /* 시작 주소 */
     size_t iov_len;         /* 바이트 수 */
 };
 </code></pre>
-
 <p><code>flags</code> 인자는 다음 값을 0개 이상 OR 해서 구성한 비트 마스크이다.</p>
 <dl>
 <dt><code>SPLICE_F_MOVE</code></dt>
-<dd><code>vmsplice()</code>에서는 쓰지 않는다. <tt>[[splice(2)]]</tt> 참고.</dd>
+<dd><code>vmsplice()</code>에서는 쓰지 않는다. <tt><a class="wikilink" href="/man-pages-ko/splice(2)/">splice(2)</a></tt> 참고.</dd>
 <dt><code>SPLICE_F_NONBLOCK</code></dt>
-<dd>I/O에서 블록 하지 않는다. 자세한 내용은 <tt>[[splice(2)]]</tt> 참고.</dd>
+<dd>I/O에서 블록 하지 않는다. 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/splice(2)/">splice(2)</a></tt> 참고.</dd>
 <dt><code>SPLICE_F_MORE</code></dt>
-<dd>현재 <code>vmsplice()</code>에 아무 효과가 없지만 향후에 구현될 수도 있다. <tt>[[splice(2)]]</tt> 참고.</dd>
+<dd>현재 <code>vmsplice()</code>에 아무 효과가 없지만 향후에 구현될 수도 있다. <tt><a class="wikilink" href="/man-pages-ko/splice(2)/">splice(2)</a></tt> 참고.</dd>
 <dt><code>SPLICE_F_GIFT</code></dt>
-<dd>사용자 페이지가 커널에 주는 선물이다. 응용에서 그 메모리를 절대 변경해서는 안 되며, 만약 그러면 페이지 캐시와 디스크 상의 데이터가 달라질 수 있다. 커널에 페이지를 선물한다는 것은 이어지는 <tt>[[splice(2)]]</tt> <code>SPLICE_F_MOVE</code>에서 그 페이지를 성공적으로 옮길 수 있다는 뜻이다. 이 플래그를 지정하지 않으면 이어지는 <tt>[[splice(2)]]</tt> <code>SPLICE_F_MOVE</code>에서 페이지를 복사해야 한다. 데이터의 위치와 길이 모두 페이지에 맞게 정렬되어 있어야 한다.</dd>
+<dd>사용자 페이지가 커널에 주는 선물이다. 응용에서 그 메모리를 절대 변경해서는 안 되며, 만약 그러면 페이지 캐시와 디스크 상의 데이터가 달라질 수 있다. 커널에 페이지를 선물한다는 것은 이어지는 <tt><a class="wikilink" href="/man-pages-ko/splice(2)/">splice(2)</a></tt> <code>SPLICE_F_MOVE</code>에서 그 페이지를 성공적으로 옮길 수 있다는 뜻이다. 이 플래그를 지정하지 않으면 이어지는 <tt><a class="wikilink" href="/man-pages-ko/splice(2)/">splice(2)</a></tt> <code>SPLICE_F_MOVE</code>에서 페이지를 복사해야 한다. 데이터의 위치와 길이 모두 페이지에 맞게 정렬되어 있어야 한다.</dd>
 </dl>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 완료 시 <code>vmsplice()</code>는 파이프로 전달한 바이트 수를 반환한다. 오류 시 <code>vmsplice()</code>는 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
@@ -200,9 +198,9 @@ ssize_t vmsplice(int fd, const struct iovec *iov,
 <p>전달하는 조각 개수 제한에 있어서 <code>vmsplice()</code>는 다른 벡터 방식 읽기/쓰기 함수들을 따른다. 그 제한은 <code>&lt;limits.h&gt;</code>에 정의된 <code>IOV_MAX</code>이다. 현재 그 제한값은 1024이다.</p>
 <p><code>vmsplice()</code>는 사용자 메모리에서 파이프 방향으로만 진짜 연결을 지원한다. 반대 방향으로는 사실 사용자 공간으로 데이터를 복사할 뿐이다. 하지만 양방향을 지원해서 인터페이스가 깔끔하게 대칭이 되며 사람들이 <code>vmsplice()</code>를 이용하도록 하고 향후 성능 개선 여지를 남길 수 있다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[splice(2)]]</tt>, <tt>[[tee(2)]]</tt>, <tt>[[pipe(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/splice(2)/">splice(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/tee(2)/">tee(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pipe(7)/">pipe(7)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

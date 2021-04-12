@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/alarm(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/alarm%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Alarm(2) - man-pages-ko</title>
+    <title>alarm(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -149,11 +149,10 @@
 <h2 id="name">NAME</h2>
 <p>alarm - 시그널 전달되도록 알람 시계 설정하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;unistd.h&gt;
+<pre><code class="language-c">#include &lt;unistd.h&gt;
 
 unsigned int alarm(unsigned int seconds);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>alarm()</code>은 <code>seconds</code> 초 후에 호출 프로세스에게 <code>SIGALRM</code> 시그널이 전달되도록 한다.</p>
 <p><code>seconds</code>가 0이면 대기 중 알람이 있으면 취소한다.</p>
@@ -163,12 +162,12 @@ unsigned int alarm(unsigned int seconds);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008, SVr4, 4.3BSD.</p>
 <h2 id="notes">NOTES</h2>
-<p><code>alarm()</code>과 <tt>[[setitimer(2)]]</tt>는 같은 타이머를 공유한다. 즉 한쪽을 호출하면 다른 쪽 사용에 영향을 주게 된다.</p>
-<p><code>alarm()</code>으로 생성된 알람이 <tt>[[execve(2)]]</tt>를 거치면서 보존된다. <tt>[[fork(2)]]</tt>를 통해 생긴 자식들이 물려받지 않는다.</p>
-<p><tt>[[sleep(3)]]</tt>이 <code>SIGALRM</code>을 이용해 구현돼 있을 수 있다. 즉 <code>alarm()</code>과 <tt>[[sleep(3)]]</tt>을 같이 쓰는 건 좋지 않다.</p>
+<p><code>alarm()</code>과 <tt><a class="wikilink" href="/man-pages-ko/setitimer(2)/">setitimer(2)</a></tt>는 같은 타이머를 공유한다. 즉 한쪽을 호출하면 다른 쪽 사용에 영향을 주게 된다.</p>
+<p><code>alarm()</code>으로 생성된 알람이 <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>를 거치면서 보존된다. <tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt>를 통해 생긴 자식들이 물려받지 않는다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/sleep(3)/">sleep(3)</a></tt>이 <code>SIGALRM</code>을 이용해 구현돼 있을 수 있다. 즉 <code>alarm()</code>과 <tt><a class="wikilink" href="/man-pages-ko/sleep(3)/">sleep(3)</a></tt>을 같이 쓰는 건 좋지 않다.</p>
 <p>언제나 그렇듯 스케줄링 지연 때문에 프로세스 실행이 임의 시간만큼 지연될 수 있다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[gettimeofday(2)]]</tt>, <tt>[[pause(2)]]</tt>, <tt>[[select(2)]]</tt>, <tt>[[setitimer(2)]]</tt>, <tt>[[sigaction(2)]]</tt>, <tt>[[signal(2)]]</tt>, <tt>[[timer_create(2)]]</tt>, <tt>[[timerfd_create(2)]]</tt>, <tt>[[sleep(3)]]</tt>, <tt>[[time(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/gettimeofday(2)/">gettimeofday(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pause(2)/">pause(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/select(2)/">select(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/setitimer(2)/">setitimer(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigaction(2)/">sigaction(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/signal(2)/">signal(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/timer_create(2)/">timer_create(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/timerfd_create(2)/">timerfd_create(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sleep(3)/">sleep(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/time(7)/">time(7)</a></tt></p>
 <hr />
 <p>2017-05-03</p></div>
         

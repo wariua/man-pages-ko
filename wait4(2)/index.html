@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/wait4(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/wait4%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Wait4(2) - man-pages-ko</title>
+    <title>wait4(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -152,24 +152,26 @@
 <h2 id="name">NAME</h2>
 <p>wait3, wait4 - 프로세스 상태 변경 기다리기, BSD 방식</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;sys/types.h&gt;
+<pre><code class="language-c">#include &lt;sys/types.h&gt;
 #include &lt;sys/time.h&gt;
 #include &lt;sys/resource.h&gt;
 #include &lt;sys/wait.h&gt;
 
-pid_t wait3(int *wstatus, int options,
-            struct rusage *rusage);
-
+pid_t wait3(int *wstatus, int options, struct rusage *rusage);
 pid_t wait4(pid_t pid, int *wstatus, int options,
             struct rusage *rusage);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>wait3()</code>:</dt>
 <dd>
 <dl>
-<dt>glibc 2.19부터:</dt>
+<dt>glibc 2.26부터:</dt>
+<dd><code>_DEFAULT_SOURCE</code><br>
+<code>|| (_XOPEN_SOURCE &gt;= 500 &amp;&amp;</code><br>
+<code>! (_POSIX_C_SOURCE &gt;= 200112L</code><br>
+<code>|| _XOPEN_SOURCE &gt;= 600))</code></dd>
+<dt>glibc 2.19부터 2.25까지:</dt>
 <dd><code>_DEFAULT_SOURCE || _XOPEN_SOURCE &gt;= 500</code></dd>
 <dt>glibc 2.19 및 이전:</dt>
 <dd><code>_BSD_SOURCE || _XOPEN_SOURCE &gt;= 500</code></dd>
@@ -186,30 +188,26 @@ pid_t wait4(pid_t pid, int *wstatus, int options,
 </dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
-<p>이 함수들은 비표준이다. 새로 만드는 프로그램에서는 <tt>[[waitpid(2)]]</tt>나 <tt>[[waitid(2)]]</tt>를 사용하는 게 바람직하다.</p>
-<p><code>wait3()</code> 및 <code>wait4()</code> 시스템 호출은 <tt>[[waitpid(2)]]</tt>와 비슷하되 추가로 <code>rusage</code>가 가리키는 구조체에 자식에 대한 자원 사용 정보를 반환한다.</p>
+<p>이 함수들은 비표준이다. 새로 만드는 프로그램에서는 <tt><a class="wikilink" href="/man-pages-ko/waitpid(2)/">waitpid(2)</a></tt>나 <tt><a class="wikilink" href="/man-pages-ko/waitid(2)/">waitid(2)</a></tt>를 사용하는 게 바람직하다.</p>
+<p><code>wait3()</code> 및 <code>wait4()</code> 시스템 호출은 <tt><a class="wikilink" href="/man-pages-ko/waitpid(2)/">waitpid(2)</a></tt>와 비슷하되 추가로 <code>rusage</code>가 가리키는 구조체에 자식에 대한 자원 사용 정보를 반환한다.</p>
 <p><code>rusage</code> 인자 사용을 제외하면 다음 <code>wait3()</code> 호출은</p>
-<pre><code class="c">wait3(wstatus, options, rusage);
+<pre><code class="language-c">wait3(wstatus, options, rusage);
 </code></pre>
-
 <p>다음과 동등하다.</p>
-<pre><code class="c">waitpid(-1, wstatus, options);
+<pre><code class="language-c">waitpid(-1, wstatus, options);
 </code></pre>
-
 <p>마찬가지로 다음 <code>wait4()</code> 호출은</p>
-<pre><code class="c">wait4(pid, wstatus, options, rusage);
+<pre><code class="language-c">wait4(pid, wstatus, options, rusage);
 </code></pre>
-
 <p>다음과 동등하다.</p>
-<pre><code class="c">waitpid(pid, wstatus, options);
+<pre><code class="language-c">waitpid(pid, wstatus, options);
 </code></pre>
-
-<p>다시 말해 <code>wait3()</code>는 아무 자식이나 기다리는 반면 <code>wait4()</code>를 쓰면 기다릴 특정 자식 내지 자식들을 선택할 수 있다. 더 자세한 내용은 <tt>[[wait(2)]]</tt>을 보라.</p>
-<p><code>rusage</code>가 NULL이 아니면 그 인자가 가리키는 <code>struct rusage</code>를 자식에 대한 사용량 정보로 채우게 된다. 자세한 내용은 <tt>[[getrusage(2)]]</tt>를 보라.</p>
+<p>다시 말해 <code>wait3()</code>는 아무 자식이나 기다리는 반면 <code>wait4()</code>를 쓰면 기다릴 특정 자식 내지 자식들을 선택할 수 있다. 더 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/wait(2)/">wait(2)</a></tt>을 보라.</p>
+<p><code>rusage</code>가 NULL이 아니면 그 인자가 가리키는 <code>struct rusage</code>를 자식에 대한 사용량 정보로 채우게 된다. 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/getrusage(2)/">getrusage(2)</a></tt>를 보라.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p><tt>[[waitpid(2)]]</tt>와 같음.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/waitpid(2)/">waitpid(2)</a></tt>와 같음.</p>
 <h2 id="errors">ERRORS</h2>
-<p><tt>[[waitpid(2)]]</tt>와 같음.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/waitpid(2)/">waitpid(2)</a></tt>와 같음.</p>
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>4.3BSD.</p>
 <p>SUSv1에 <code>wait3()</code> 명세가 포함되었다. SUSv2에 <code>wait3()</code>가 포함되었지만 LEGACY로 표시되었다. SUSv3에서 제거되었다.</p>
@@ -218,9 +216,9 @@ pid_t wait4(pid_t pid, int *wstatus, int options,
 <h3 id="c">C 라이브러리/커널 차이</h3>
 <p>리눅스에서 <code>wait3()</code>는 <code>wait4()</code> 시스템 호출 위에서 구현한 라이브러리 함수이다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[fork(2)]]</tt>, <tt>[[getrusage(2)]]</tt>, <tt>[[sigaction(2)]]</tt>, <tt>[[signal(2)]]</tt>, <tt>[[wait(2)]]</tt>, <tt>[[signal(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/getrusage(2)/">getrusage(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigaction(2)/">sigaction(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/signal(2)/">signal(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/wait(2)/">wait(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt></p>
 <hr />
-<p>2018-04-30</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

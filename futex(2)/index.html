@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/futex(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/futex%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Futex(2) - man-pages-ko</title>
+    <title>futex(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -149,7 +149,7 @@
         <li class="first-level "><a href="#versions">VERSIONS</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
             <li class="second-level"><a href="#_4">프로그램 소스</a></li>
                 
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
@@ -160,14 +160,14 @@
 <h2 id="name">NAME</h2>
 <p>futex - 빠른 사용자 공간 락킹</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;linux/futex.h&gt;
+<pre><code class="language-c">#include &lt;linux/futex.h&gt;
+#include &lt;stdint.h&gt;
 #include &lt;sys/time.h&gt;
 
-int futex(int *uaddr, int futex_op, int val,
+long futex(uint32_t *uaddr, int futex_op, uint32_t val,
           const struct timespec *timeout,   /* 또는: uint32_t val2 */
-          int *uaddr2, int val3);
+          uint32_t *uaddr2, uint32_t val3);
 </code></pre>
-
 <p><em>주의</em>: 이 시스템 호출에 대한 glibc 래퍼가 없다. NOTES 참고.</p>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>futex()</code> 시스템 호출은 어떤 조건이 참이 될 때까지 기다리는 방법을 제공한다. 보통 공유 메모리 동기화 쪽에서 블로킹 요소로 쓰인다. 퓨텍스 사용 시 동기화 동작은 대부분 사용자 공간에서 이뤄진다. ...</p>
@@ -242,8 +242,8 @@ unlock(A);
 <dd>
 <p>....</p>
 <p>....</p>
-<pre><code>int oldval = *(int *) uaddr2;
-*(int *) uaddr2 = oldval op oparg;
+<pre><code>uint32_t oldval = *(uint32_t *) uaddr2;
+*(uint32_t *) uaddr2 = oldval op oparg;
 futex(uaddr, FUTEX_WAKE, val, 0, 0, 0);
 if (oldval cmp cmparg)
     futex(uaddr2, FUTEX_WAKE, val2, 0, 0, 0);
@@ -494,11 +494,11 @@ FUTEX_OP_CMP_GE     5  /* if (oldval &gt;= cmparg) wake */
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>이 시스템 호출은 리눅스 전용이다.</p>
 <h2 id="notes">NOTES</h2>
-<p>glibc에서 이 시스템 호출에 대한 래퍼를 제공하지 않는다. <tt>[[syscall(2)]]</tt>을 이용해 호출해야 한다.</p>
+<p>glibc에서 이 시스템 호출에 대한 래퍼를 제공하지 않는다. <tt><a class="wikilink" href="/man-pages-ko/syscall(2)/">syscall(2)</a></tt>을 이용해 호출해야 한다.</p>
 <p>....</p>
-<h2 id="example">EXAMPLE</h2>
+<h2 id="examples">EXAMPLES</h2>
 <p>....</p>
-<pre><code class="text">$ ./futex_demo
+<pre><code class="language-text">$ ./futex_demo
 Parent (18534) 0
 Child  (18535) 0
 Parent (18534) 1
@@ -510,9 +510,8 @@ Child  (18535) 3
 Parent (18534) 4
 Child  (18535) 4
 </code></pre>
-
 <h3 id="_4">프로그램 소스</h3>
-<pre><code class="c">/* futex_demo.c
+<pre><code class="language-c">/* futex_demo.c
 
    Usage: futex_demo [nloops]
                     (Default: 5)
@@ -528,6 +527,7 @@ Child  (18535) 4
 #include &lt;stdio.h&gt;
 #include &lt;errno.h&gt;
 #include &lt;stdatomic.h&gt;
+#include &lt;stdint.h&gt;
 #include &lt;stdlib.h&gt;
 #include &lt;unistd.h&gt;
 #include &lt;sys/wait.h&gt;
@@ -539,23 +539,23 @@ Child  (18535) 4
 #define errExit(msg)    do { perror(msg); exit(EXIT_FAILURE); \
                         } while (0)
 
-static int *futex1, *futex2, *iaddr;
+static uint32_t *futex1, *futex2, *iaddr;
 
 static int
-futex(int *uaddr, int futex_op, int val,
-      const struct timespec *timeout, int *uaddr2, int val3)
+futex(uint32_t *uaddr, int futex_op, uint32_t val,
+      const struct timespec *timeout, uint32_t *uaddr2, uint32_t val3)
 {
     return syscall(SYS_futex, uaddr, futex_op, val,
-                   timeout, uaddr, val3);
+                   timeout, uaddr2, val3);
 }
 
 /* Acquire the futex pointed to by 'futexp': wait for its value to
    become 1, and then set the value to 0. */
 
 static void
-fwait(int *futexp)
+fwait(uint32_t *futexp)
 {
-    int s;
+    long s;
 
     /* atomic_compare_exchange_strong(ptr, oldval, newval)
        atomically performs the equivalent of:
@@ -569,11 +569,11 @@ fwait(int *futexp)
 
         /* Is the futex available? */
 
-        const int zero = 0;
-        if (atomic_compare_exchange_strong(futexp, &amp;zero, 1))
+        const uint32_t one = 1;
+        if (atomic_compare_exchange_strong(futexp, &amp;one, 0))
             break;      /* Yes */
 
-        /* Futex is not available; wait */
+        /* Futex is not available; wait. */
 
         s = futex(futexp, FUTEX_WAIT, 0, NULL, NULL, 0);
         if (s == -1 &amp;&amp; errno != EAGAIN)
@@ -583,17 +583,18 @@ fwait(int *futexp)
 
 /* Release the futex pointed to by 'futexp': if the futex currently
    has the value 0, set its value to 1 and the wake any futex waiters,
-   so that if the peer is blocked in fpost(), it can proceed. */
+   so that if the peer is blocked in fwait(), it can proceed. */
 
 static void
-fpost(int *futexp)
+fpost(uint32_t *futexp)
 {
-    int s;
+    long s;
 
-    /* atomic_compare_exchange_strong() was described in comments above */
+    /* atomic_compare_exchange_strong() was described
+       in comments above */
 
-    const int one = 1;
-    if (atomic_compare_exchange_strong(futexp, &amp;one, 0)) {
+    const uint32_t zero = 0;
+    if (atomic_compare_exchange_strong(futexp, &amp;zero, 1)) {
         s = futex(futexp, FUTEX_WAKE, 1, NULL, NULL, 0);
         if (s  == -1)
             errExit(&quot;futex-FUTEX_WAKE&quot;);
@@ -604,7 +605,7 @@ int
 main(int argc, char *argv[])
 {
     pid_t childPid;
-    int j, nloops;
+    int nloops;
 
     setbuf(stdout, NULL);
 
@@ -613,9 +614,9 @@ main(int argc, char *argv[])
     /* Create a shared anonymous mapping that will hold the futexes.
        Since the futexes are being shared between processes, we
        subsequently use the &quot;shared&quot; futex operations (i.e., not the
-       ones suffixed &quot;_PRIVATE&quot;) */
+       ones suffixed &quot;_PRIVATE&quot;). */
 
-    iaddr = mmap(NULL, sizeof(int) * 2, PROT_READ | PROT_WRITE,
+    iaddr = mmap(NULL, sizeof(*iaddr) * 2, PROT_READ | PROT_WRITE,
                 MAP_ANONYMOUS | MAP_SHARED, -1, 0);
     if (iaddr == MAP_FAILED)
         errExit(&quot;mmap&quot;);
@@ -627,27 +628,27 @@ main(int argc, char *argv[])
     *futex2 = 1;        /* State: available */
 
     /* Create a child process that inherits the shared anonymous
-       mapping */
+       mapping. */
 
     childPid = fork();
     if (childPid == -1)
         errExit(&quot;fork&quot;);
 
     if (childPid == 0) {        /* Child */
-        for (j = 0; j &lt; nloops; j++) {
+        for (int j = 0; j &lt; nloops; j++) {
             fwait(futex1);
-            printf(&quot;Child  (%ld) %d\n&quot;, (long) getpid(), j);
+            printf(&quot;Child  (%jd) %d\n&quot;, (intmax_t) getpid(), j);
             fpost(futex2);
         }
 
         exit(EXIT_SUCCESS);
     }
 
-    /* Parent falls through to here */
+    /* Parent falls through to here. */
 
-    for (j = 0; j &lt; nloops; j++) {
+    for (int j = 0; j &lt; nloops; j++) {
         fwait(futex2);
-        printf(&quot;Parent (%ld) %d\n&quot;, (long) getpid(), j);
+        printf(&quot;Parent (%jd) %d\n&quot;, (intmax_t) getpid(), j);
         fpost(futex1);
     }
 
@@ -656,9 +657,8 @@ main(int argc, char *argv[])
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[get_robust_list(2)]]</tt>, <tt>[[restart_syscall(2)]]</tt>, <tt>[[pthread_mutexattr_getprotocol(3)]], <tt>[[futex(7)]]</tt>, <tt>[[sched(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/get_robust_list(2)/">get_robust_list(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/restart_syscall(2)/">restart_syscall(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_mutexattr_getprotocol(3)/">pthread_mutexattr_getprotocol(3)</a>, <tt><a class="wikilink" href="/man-pages-ko/futex(7)/">futex(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sched(7)/">sched(7)</a></tt></p>
 <p>다음 커널 소스 파일:</p>
 <ul>
 <li>
@@ -683,7 +683,7 @@ main(int argc, char *argv[])
 <p>Drepper, U., 2011, <em>Futexes Are Tricky</em>, <a href="http://www.akkadia.org/drepper/futex.pdf">http://www.akkadia.org/drepper/futex.pdf</a></p>
 <p>Futex 예시 라이브러리, futex-*.tar.bz2 at <a href="ftp://ftp.kernel.org/pub/linux/kernel/people/rusty/">ftp://ftp.kernel.org/pub/linux/kernel/people/rusty/</a></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

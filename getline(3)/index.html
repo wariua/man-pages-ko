@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/getline(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/getline%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Getline(3) - man-pages-ko</title>
+    <title>getline(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -142,7 +142,7 @@
         <li class="first-level "><a href="#errors">ERRORS</a></li>
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
@@ -151,14 +151,14 @@
 <h2 id="name">NAME</h2>
 <p>getline, getdelim - 구분자 사용 문자열 입력</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;stdio.h&gt;
+<pre><code class="language-c">#include &lt;stdio.h&gt;
 
-ssize_t getline(char **lineptr, size_t *n, FILE *stream);
-
-ssize_t getdelim(char **lineptr, size_t *n, int delim, FILE *stream);
+ssize_t getline(char **restrict lineptr, size_t *restrict n,
+                FILE *restrict stream);
+ssize_t getdelim(char **restrict lineptr, size_t *restrict n,
+                int delim, FILE *restrict stream);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>getline()</code>, <code>getdelim()</code>:</dt>
 <dd>
@@ -173,12 +173,12 @@ ssize_t getdelim(char **lineptr, size_t *n, int delim, FILE *stream);
 <h2 id="description">DESCRIPTION</h2>
 <p><code>getline()</code>은 <code>stream</code>으로부터 행 하나를 통째로 읽어서 그 텍스트를 담은 버퍼의 주소를 <code>*lineptr</code>에 저장한다. 그 버퍼는 널로 끝나며 개행 문자가 있으면 그대로 포함한다.</p>
 <p>호출 전에 <code>*lineptr</code>이 NULL로 설정되어 있고 <code>*n</code>이 0으로 설정되어 있으면 행을 저장하기 위한 버퍼를 <code>getline()</code>에서 할당하게 된다. 사용자 프로그램에서 이 버퍼를 해제해야 하는데, <code>getline()</code>이 실패한 경우도 마찬가지이다.</p>
-<p>그렇지 않고 <code>getline()</code> 호출 전에 <code>*lineptr</code>이 <tt>[[malloc(3)]]</tt>으로 할당한 <code>*n</code> 바이트 크기 버퍼에 대한 포인터를 담고 있을 수 있다. 그 버퍼가 행을 담기에 충분히 크지 않으면 <code>getline()</code>에서 <tt>[[realloc(3)]]</tt>으로 크기를 조정하고 <code>*lineptr</code>과 <code>*n</code>을 적절히 갱신한다.</p>
+<p>그렇지 않고 <code>getline()</code> 호출 전에 <code>*lineptr</code>이 <tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt>으로 할당한 <code>*n</code> 바이트 크기 버퍼에 대한 포인터를 담고 있을 수 있다. 그 버퍼가 행을 담기에 충분히 크지 않으면 <code>getline()</code>에서 <tt><a class="wikilink" href="/man-pages-ko/realloc(3)/">realloc(3)</a></tt>으로 크기를 조정하고 <code>*lineptr</code>과 <code>*n</code>을 적절히 갱신한다.</p>
 <p>어느 경우에든 호출 성공 시에 <code>*lineptr</code>과 <code>*n</code>이 각각 버퍼 주소와 할당 크기를 나타내도록 갱신된다.</p>
 <p><code>getdelim()</code>은 <code>getline()</code>처럼 동작하되 <code>delimiter</code> 인자로 개행 외의 행 구분자를 지정할 수 있다. <code>getline()</code>에서처럼 입력에 구분자 문자 없이 파일 끝에 도달했으면 구분자 문자가 버퍼에 추가되지 않는다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 <code>getline()</code>과 <code>getdelim()</code>은 읽은 문자 수를 반환하는데, 구문 문자는 포함하고 종료용 널 바이트(<code>'\0'</code>)는 제외한다. 이 값을 이용하면 읽은 행에 널 바이트가 포함된 경우를 다룰 수 있다.</p>
-<p>두 함수 모두 행을 읽는 데 실패하면 (파일 끝 상태 포함) -1을 반환한다. 오류 발생 시 오류 원인을 나타내도록 <code>errno</code>를 설정한다.</p>
+<p>두 함수 모두 행을 읽는 데 실패하면 (파일 끝 상태 포함) -1을 반환한다. 실패 시 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EINVAL</code></dt>
@@ -187,7 +187,7 @@ ssize_t getdelim(char **lineptr, size_t *n, int delim, FILE *stream);
 <dd>행 버퍼 할당 내지 재할당 실패.</dd>
 </dl>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -206,8 +206,8 @@ ssize_t getdelim(char **lineptr, size_t *n, int delim, FILE *stream);
 </table>
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p><code>getline()</code>과 <code>getdelim()</code> 모두 원래는 GNU 확장이었다. POSIX.1-2008에서 표준화되었다.</p>
-<h2 id="example">EXAMPLE</h2>
-<pre><code class="c">#define _GNU_SOURCE
+<h2 id="examples">EXAMPLES</h2>
+<pre><code class="language-c">#define _GNU_SOURCE
 #include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
 
@@ -231,7 +231,7 @@ main(int argc, char *argv[])
     }
 
     while ((nread = getline(&amp;line, &amp;len, stream)) != -1) {
-        printf(&quot;Retrieved line of length %zu:\n&quot;, nread);
+        printf(&quot;Retrieved line of length %zd:\n&quot;, nread);
         fwrite(line, nread, 1, stdout);
     }
 
@@ -240,11 +240,10 @@ main(int argc, char *argv[])
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>read(2)</code>, <tt>[[fgets(3)]]</tt>, <tt>[[fopen(3)]]</tt>, <code>fread(3)</code>, <tt>[[scanf(3)]]</tt></p>
+<p><code>read(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/fgets(3)/">fgets(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fopen(3)/">fopen(3)</a></tt>, <code>fread(3)</code>, <tt><a class="wikilink" href="/man-pages-ko/scanf(3)/">scanf(3)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

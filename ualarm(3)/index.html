@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/ualarm(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/ualarm%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Ualarm(3) - man-pages-ko</title>
+    <title>ualarm(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -151,12 +151,11 @@
 <h2 id="name">NAME</h2>
 <p>ualarm - 주어진 마이크로초 후로 시그널 예약하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;unistd.h&gt;
+<pre><code class="language-c">#include &lt;unistd.h&gt;
 
 useconds_t ualarm(useconds_t usecs, useconds_t interval);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>ualarm()</code>:</dt>
 <dd>
@@ -164,7 +163,7 @@ useconds_t ualarm(useconds_t usecs, useconds_t interval);
 <dt>glibc 2.12부터:</dt>
 <dd><code>(_XOPEN_SOURCE &gt;= 500) &amp;&amp; ! (_POSIX_C_SOURCE &gt;= 200809L)</code><br>
 <code>|| /* glibc 2.19부터: */ _DEFAULT_SOURCE</code><br>
-<code>|| /* glibc 버전 &lt;= 2.19: */ _BSD_SOURCE</code></dd>
+<code>|| /* glibc &lt;= 2.19: */ _BSD_SOURCE</code></dd>
 <dt>glibc 2.12 전:</dt>
 <dd><code>_BSD_SOURCE || _XOPEN_SOURCE &gt;= 500</code></dd>
 </dl>
@@ -179,12 +178,12 @@ useconds_t ualarm(useconds_t usecs, useconds_t interval);
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EINTR</code></dt>
-<dd>시그널에 의해 중단됨. <tt>[[signal(7)]]</tt> 참고.</dd>
+<dd>시그널에 의해 중단됨. <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt> 참고.</dd>
 <dt><code>EINVAL</code></dt>
 <dd><code>usec</code>나 <code>interval</code>이 1000000 미만이 아니다. (그게 오류라고 보는 시스템에서.)</dd>
 </dl>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -206,12 +205,12 @@ useconds_t ualarm(useconds_t usecs, useconds_t interval);
 <h2 id="notes">NOTES</h2>
 <p>POSIX.1-2001에서는 <code>usecs</code> 인자가 0일 때 어떻게 되는지 명세하고 있지 않다. 리눅스에서 (그리고 아마 대다수의 다른 시스템에서) 그 효과는 미처리 알람이 있으면 취소하는 것이다.</p>
 <p><code>useconds_t</code> 타입은 [0,1000000] 범위의 정수를 담을 수 있는 부호 없는 정수 타입이다. 원래 BSD 구현에서, 그리고 glibc 버전 2.1 전에서는 <code>ualarm()</code> 인자들에 <code>unsigned int</code> 타입을 썼다. 프로그램에서 <code>useconds_t</code>를 명시적으로 쓰지 않는 게 이식성 측면에서 나을 것이다.</p>
-<p>이 함수와 <tt>[[alarm(2)]]</tt>, <tt>[[sleep(3)]]</tt>, <tt>[[nanosleep(2)]]</tt>, <tt>[[setitimer(2)]]</tt>, <tt>[[timer_create(2)]]</tt>, <tt>[[timer_delete(2)]]</tt>, <tt>[[timer_getoverrun(2)]]</tt>, <tt>[[timer_gettime(2)]]</tt>, <tt>[[timer_settime(2)]]</tt>, <tt>[[usleep(3)]]</tt> 등의 여타 타이머 함수들과의 상호작용은 명세돼 있지 않다.</p>
-<p>이 함수는 구식이다. 대신 <tt>[[setitimer(2)]]</tt>나 POSIX 간격 타이머(<tt>[[timer_create(2)]]</tt> 등)를 써야 한다.</p>
+<p>이 함수와 <tt><a class="wikilink" href="/man-pages-ko/alarm(2)/">alarm(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sleep(3)/">sleep(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/nanosleep(2)/">nanosleep(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/setitimer(2)/">setitimer(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/timer_create(2)/">timer_create(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/timer_delete(2)/">timer_delete(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/timer_getoverrun(2)/">timer_getoverrun(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/timer_gettime(2)/">timer_gettime(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/timer_settime(2)/">timer_settime(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/usleep(3)/">usleep(3)</a></tt> 등의 여타 타이머 함수들과의 상호작용은 명세돼 있지 않다.</p>
+<p>이 함수는 구식이다. 대신 <tt><a class="wikilink" href="/man-pages-ko/setitimer(2)/">setitimer(2)</a></tt>나 POSIX 간격 타이머(<tt><a class="wikilink" href="/man-pages-ko/timer_create(2)/">timer_create(2)</a></tt> 등)를 써야 한다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[alarm(2)]]</tt>, <tt>[[getitimer(2)]]</tt>, <tt>[[nanosleep(2)]]</tt>, <tt>[[select(2)]]</tt>, <tt>[[setitimer(2)]]</tt>, <tt>[[usleep(3)]]</tt>, <tt>[[time(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/alarm(2)/">alarm(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/getitimer(2)/">getitimer(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/nanosleep(2)/">nanosleep(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/select(2)/">select(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/setitimer(2)/">setitimer(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/usleep(3)/">usleep(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/time(7)/">time(7)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/getrandom(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/getrandom%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Getrandom(2) - man-pages-ko</title>
+    <title>getrandom(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -156,11 +156,10 @@
 <h2 id="name">NAME</h2>
 <p>getrandom - 일련의 난수 바이트 얻기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;sys/random.h&gt;
+<pre><code class="language-c">#include &lt;sys/random.h&gt;
 
 ssize_t getrandom(void *buf, size_t buflen, unsigned int flags);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>getrandom()</code> 시스템 호출은 <code>buf</code>가 가리키는 버퍼를 <code>buflen</code> 개까지의 난수 바이트들로 채운다. 이 바이트들을 사용자 공간 난수 생성기의 시드로 사용하거나 암호학적 용도에 사용할 수 있다.</p>
 <p>기본적으로 <code>getrandom()</code>은 <code>urandom</code> 원천으로부터 (즉 <code>/dev/urandom</code> 장치와 같은 원천으로부터) 엔트로피를 뽑아낸다. <code>flags</code> 인자를 통해 이 동작을 바꿀 수 있다.</p>
@@ -175,7 +174,7 @@ ssize_t getrandom(void *buf, size_t buflen, unsigned int flags);
 </dl>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 <code>getrandom()</code>은 버퍼 <code>buf</code>로 복사된 바이트 수를 반환한다. <code>flags</code>에 <code>GRND_RANDOM</code>을 지정했는데 <code>random</code> 원천에 충분한 엔트로피가 있지 않았거나 시스템 호출이 시그널에 의해 중단되었다면 이 값이 <code>buflen</code>을 통해 요청한 바이트 수보다 작을 수도 있다.</p>
-<p>오류 시 -1을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<p>오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EAGAIN</code></dt>
@@ -183,7 +182,7 @@ ssize_t getrandom(void *buf, size_t buflen, unsigned int flags);
 <dt><code>EFAULT</code></dt>
 <dd><code>buf</code>가 가리키는 주소가 접근 가능한 주소 공간 밖에 있다.</dd>
 <dt><code>EINTR</code></dt>
-<dd>호출이 시그널 핸들러에 의해 중단되었다. <tt>[[signal(7)]]</tt> 맨 페이지에서 <code>SA_RESTART</code> 플래그가 있거나 없을 때 "느린" 장치에 대한 <code>read(2)</code> 호출 중단을 어떻게 처리하는지에 대한 설명을 보라.</dd>
+<dd>호출이 시그널 핸들러에 의해 중단되었다. <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt> 맨 페이지에서 <code>SA_RESTART</code> 플래그가 있거나 없을 때 "느린" 장치에 대한 <code>read(2)</code> 호출 중단을 어떻게 처리하는지에 대한 설명을 보라.</dd>
 <dt><code>EINVAL</code></dt>
 <dd><code>flags</code>에 유효하지 않은 플래그를 지정했다.</dd>
 <dt><code>ENOSYS</code></dt>
@@ -194,8 +193,8 @@ ssize_t getrandom(void *buf, size_t buflen, unsigned int flags);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>이 시스템 호출은 리눅스 전용이다.</p>
 <h2 id="notes">NOTES</h2>
-<p>난수를 얻는 데 사용할 수 있는 다양한 인터페이스들의 소개와 비교는 <tt>[[random(7)]]</tt>을 보라.</p>
-<p><code>/dev/random</code> 및 <code>/dev/urandom</code>과 달리 <code>getrandom()</code>에는 경로명이나 파일 디스크립터 사용이 수반되지 않는다. 따라서 <tt>[[chroot(2)]]</tt> 때문에 <code>/dev</code> 경로명이 보이지 않게 되는 경우나 라이브러리에서 이 파일들 중 하나를 연 파일 디스크립터를 응용이 (가령 데몬이 개시 과정 중에) 닫는 경우에 <code>getrandom()</code>이 유용할 수 있다.</p>
+<p>난수를 얻는 데 사용할 수 있는 다양한 인터페이스들의 소개와 비교는 <tt><a class="wikilink" href="/man-pages-ko/random(7)/">random(7)</a></tt>을 보라.</p>
+<p><code>/dev/random</code> 및 <code>/dev/urandom</code>과 달리 <code>getrandom()</code>에는 경로명이나 파일 디스크립터 사용이 수반되지 않는다. 따라서 <tt><a class="wikilink" href="/man-pages-ko/chroot(2)/">chroot(2)</a></tt> 때문에 <code>/dev</code> 경로명이 보이지 않게 되는 경우나 라이브러리에서 이 파일들 중 하나를 연 파일 디스크립터를 응용이 (가령 데몬이 개시 과정 중에) 닫는 경우에 <code>getrandom()</code>이 유용할 수 있다.</p>
 <h3 id="_1">반환하는 최대 바이트 수</h3>
 <p>리눅스 3.19 현재 다음 제한이 적용된다.</p>
 <ul>
@@ -211,7 +210,7 @@ ssize_t getrandom(void *buf, size_t buflen, unsigned int flags);
 <p><code>urandom</code> 원천으로부터 읽고 있는 동안 블록 된 <code>getrandom()</code> 호출이 시그널 핸들러에 의해 중단되었을 때의 동작 방식은 엔트로피 버퍼의 최초 상태와 요청 크기인 <code>buflen</code>에 따라 달라진다. 아직 엔트로피가 초기화 되지 않았으면 <code>EINTR</code> 오류로 호출이 실패한다. 엔트로피 풀이 초기화 되었으며 요청 크기가 크면 (<code>buflen</code> &gt; 256) 호출이 일부만 채워진 버퍼를 반환하며 성공하거나 <code>EINTR</code> 오류로 실패한다. 엔트로피 풀이 초기화 되었으며 요청 크기가 작으면 (<code>buflen</code> &lt;= 256) <code>getrandom()</code>이 <code>EINTR</code>로 실패하지 않게 된다. 요청 받은 만큼의 바이트를 모두 반환하게 된다.</p>
 <p><code>random</code> 원천으로부터 읽고 있는 중에 임의 크기의 블로킹 요청이 시그널 핸들러에 의해 중단될 수 있다. (호출이 <code>EINTR</code> 오류로 실패한다.)</p>
 <p><code>urandom</code> 원천으로부터 작은 (&lt;= 256바이트) 버퍼를 읽어들이는 것이 <code>getrandom()</code>의 선호 사용 방식이다.</p>
-<p>작은 <code>buflen</code> 값에 대한 특별한 처리는 요즘 glibc에서도 지원하는 OpenBSD의 <tt>[[getentropy(3)]]</tt>와의 호환성을 위해 설계된 것이다.</p>
+<p>작은 <code>buflen</code> 값에 대한 특별한 처리는 요즘 glibc에서도 지원하는 OpenBSD의 <tt><a class="wikilink" href="/man-pages-ko/getentropy(3)/">getentropy(3)</a></tt>와의 호환성을 위해 설계된 것이다.</p>
 <p><code>getrandom()</code> 사용자는 언제나 반환 값을 확인하여 오류가 발생했거나 요청보다 적은 바이트가 반환되었는지 판단<em>해야 한다</em>. <code>GRND_RANDOM</code>을 지정하지 않았고 <code>buflen</code>가 256 이하인 경우에는 요청보다 적은 바이트가 반환되는 경우가 절대 없을 테지만 세심한 프로그래머라면 그래도 확인할 것이다!</p>
 <h2 id="bugs">BUGS</h2>
 <p>리눅스 3.19 현재 다음 버그가 존재한다.</p>
@@ -219,9 +218,9 @@ ssize_t getrandom(void *buf, size_t buflen, unsigned int flags);
 <li>CPU 부하에 따라 <code>getrandom()</code>이 요청한 바이트 모두를 읽기 전까지 시그널에 반응하지 않는다.</li>
 </ul>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[getentropy(3)]]</tt>, <tt>[[random(4)]]</tt>, <tt>[[urandom(4)]]</tt>, <tt>[[random(7)]]</tt>, <tt>[[signal(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/getentropy(3)/">getentropy(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/random(4)/">random(4)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/urandom(4)/">urandom(4)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/random(7)/">random(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

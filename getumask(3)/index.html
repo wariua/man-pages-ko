@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/getumask(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/getumask%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Getumask(3) - man-pages-ko</title>
+    <title>getumask(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -148,29 +148,27 @@
 <h2 id="name">NAME</h2>
 <p>getumask - 파일 생성 마스크 얻기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#define _GNU_SOURCE             /* feature_test_macros(7) 참고 */
+<pre><code class="language-c">#define _GNU_SOURCE             /* feature_test_macros(7) 참고 */
 #include &lt;sys/types.h&gt;
 #include &lt;sys/stat.h&gt;
 
 mode_t getumask(void);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
-<p>이 함수는 현재의 파일 생성 마스크를 반환한다. 스레드 안전이라고 (즉 <tt>[[umask(2)]]</tt> 라이브러리 호출과 락을 공유) 문서화 돼 있다는 걸 빼면 다음과 동등하다.</p>
-<pre><code class="c">mode_t getumask(void)
+<p>이 함수는 현재의 파일 생성 마스크를 반환한다. 스레드 안전이라고 (즉 <tt><a class="wikilink" href="/man-pages-ko/umask(2)/">umask(2)</a></tt> 라이브러리 호출과 락을 공유) 문서화 돼 있다는 걸 빼면 다음과 동등하다.</p>
+<pre><code class="language-c">mode_t getumask(void)
 {
     mode_t mask = umask( 0 );
     umask(mask);
     return mask;
 }
 </code></pre>
-
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>이 함수는 베이퍼웨어 GNU 확장이다.</p>
 <h2 id="notes">NOTES</h2>
-<p>glibc 매뉴얼에 이 함수가 문서화 돼 있기는 하지만 glibc 버전 2.24 현재 리눅스에서 구현돼 있지 않다. (프로세스 umask를 알아내기 위한 스레드에 안전한 방법은 <tt>[[umask(2)]]</tt>를 보라.)</p>
+<p>glibc 매뉴얼에 이 함수가 문서화 돼 있기는 하지만 glibc 버전 2.24 현재 리눅스에서 구현돼 있지 않다. (프로세스 umask를 알아내기 위한 스레드에 안전한 방법은 <tt><a class="wikilink" href="/man-pages-ko/umask(2)/">umask(2)</a></tt>를 보라.)</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[umask(2)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/umask(2)/">umask(2)</a></tt></p>
 <hr />
 <p>2017-09-15</p></div>
         

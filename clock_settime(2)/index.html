@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/clock_settime(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/clock_settime%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Clock settime(2) - man-pages-ko</title>
+    <title>clock_settime(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -138,18 +138,21 @@
         <li class="first-level active"><a href="#name">NAME</a></li>
         <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
         <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+            <li class="second-level"><a href="#_1">동적 클럭</a></li>
+                
         <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
         <li class="first-level "><a href="#errors">ERRORS</a></li>
         <li class="first-level "><a href="#versions">VERSIONS</a></li>
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
-        <li class="first-level "><a href="#availability">AVAILABILITY</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
             <li class="second-level"><a href="#c">C 라이브러리/커널 차이</a></li>
                 
             <li class="second-level"><a href="#smp">SMP 시스템 관련 역사적 기록</a></li>
                 
-        <li class="first-level "><a href="#bugs">BUGS</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
+            <li class="second-level"><a href="#_2">프로그램 소스</a></li>
+                
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
@@ -158,73 +161,105 @@
 <h2 id="name">NAME</h2>
 <p>clock_getres, clock_gettime, clock_settime - 클럭 및 시간 함수들</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;time.h&gt;
+<pre><code class="language-c">#include &lt;time.h&gt;
 
-int clock_getres(clockid_t clk_id, struct timespec *res);
+int clock_getres(clockid_t clockid, struct timespec *res);
 
-int clock_gettime(clockid_t clk_id, struct timespec *tp);
-
-int clock_settime(clockid_t clk_id, const struct timespec *tp);
+int clock_gettime(clockid_t clockid, struct timespec *tp);
+int clock_settime(clockid_t clockid, const struct timespec *tp);
 </code></pre>
-
 <p><code>-lrt</code>로 링크 (glibc 버전 2.17 전에서만).</p>
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>clock_getres()</code>, <code>clock_gettime()</code>, <code>clock_settime()</code>:</dt>
 <dd><code>_POSIX_C_SOURCE &gt;= 199309L</code></dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>clock_getres()</code> 함수는 지정한 클럭 <code>clk_id</code>의 해상도(정밀도)를 알아내고, <code>res</code>가 NULL이 아니면 <code>res</code>가 가리키는 <code>struct timespec</code>에 그 해상도를 저장한다. 클럭의 해상도는 구현체에 따라 달라지며 특정 프로세스가 설정할 수 있는 것이 아니다. <code>clock_settime()</code>의 인자 <code>tp</code>가 가리키는 시간 값이 <code>res</code>의 배수가 아니면 배수가 되게 잘라낸다.</p>
-<p>함수 <code>clock_gettime()</code> 및 <code>clock_settime()</code>은 지정한 클럭 <code>clk_id</code>의 시간을 가져오거나 설정한다.</p>
+<p><code>clock_getres()</code> 함수는 지정한 클럭 <code>clockid</code>의 해상도(정밀도)를 알아내고, <code>res</code>가 NULL이 아니면 <code>res</code>가 가리키는 <code>struct timespec</code>에 그 해상도를 저장한다. 클럭의 해상도는 구현체에 따라 달라지며 특정 프로세스가 설정할 수 있는 것이 아니다. <code>clock_settime()</code>의 인자 <code>tp</code>가 가리키는 시간 값이 <code>res</code>의 배수가 아니면 배수가 되게 잘라낸다.</p>
+<p>함수 <code>clock_gettime()</code> 및 <code>clock_settime()</code>은 지정한 클럭 <code>clockid</code>의 시간을 가져오거나 설정한다.</p>
 <p><code>res</code> 및 <code>tp</code> 인자는 <code>&lt;time.h&gt;</code>에 있는 <code>timespec</code> 구조체이다.</p>
-<pre><code class="c">struct timespec {
+<pre><code class="language-c">struct timespec {
     time_t   tv_sec;        /* 초 */
     long     tv_nsec;       /* 나노초 */
 };
 </code></pre>
-
-<p><code>clk_id</code> 인자는 동작을 수행할 구체적 클럭의 식별자이다. 클럭은 시스템 전역이어서 모든 프로세스에게 보일 수도 있고 프로세스별로 있어서 한 프로세스 내에서만 시간을 측정할 수도 있다.</p>
+<p><code>clockid</code> 인자는 동작을 수행할 구체적 클럭의 식별자이다. 클럭은 시스템 전역이어서 모든 프로세스에게 보일 수도 있고 프로세스별로 있어서 한 프로세스 내에서만 시간을 측정할 수도 있다.</p>
 <p>모든 구현체는 시스템 전역 실제 시간 클럭을 제공하며 <code>CLOCK_REALTIME</code>으로 이를 나타낸다. 이 클럭의 시간은 에포크 이후 지난 초와 나노초를 나타낸다. 이 클럭의 시간이 바뀔 때 상대적 시간의 타이머는 영향을 받지 않지만 절대적 시점에 대한 타이머는 영향을 받는다.</p>
 <p>더 많은 클럭들이 구현되어 있을 수 있다. 해당하는 시간 값을 해석하는 방식과 타이머에 대한 영향은 명세되어 있지 않다.</p>
 <p>충분히 최신인 glibc 및 리눅스 커널에서는 다음 클럭들을 지원한다.</p>
 <dl>
 <dt><code>CLOCK_REALTIME</code></dt>
-<dd>실제 시간을 (즉 벽시계 시간을) 재는 시스템 전역 클럭. 이 클럭을 설정하려면 적절한 특권이 필요하다. 이 클럭은 시스템 시간의 불연속적 도약(가령 시스템 관리자가 수동으로 클럭을 변경하는 경우)과 <tt>[[adjtime(3)]]</tt> 및 NTP가 수행하는 점진적 조정에 영향을 받는다.</dd>
+<dd>실제 시간을 (즉 벽시계 시간을) 재는 설정 가능한 시스템 전역 클럭. 이 클럭을 설정하려면 적절한 특권이 필요하다. 이 클럭은 시스템 시간의 불연속적 도약(가령 시스템 관리자가 수동으로 클럭을 변경하는 경우)과 <tt><a class="wikilink" href="/man-pages-ko/adjtime(3)/">adjtime(3)</a></tt> 및 NTP가 수행하는 점진적 조정에 영향을 받는다.</dd>
+<dt><code>CLOCK_REALTIME_ALARM</code> (리눅스 3.0부터. 리눅스 전용.)</dt>
+<dd><code>CLOCK_REALTIME</code>과 유사하되 설정 가능하지 않다. 자세한 설명은 <tt><a class="wikilink" href="/man-pages-ko/timer_create(2)/">timer_create(2)</a></tt>을 보라.</dd>
 <dt><code>CLOCK_REALTIME_COARSE</code> (리눅스 2.6.32부터. 리눅스 전용.)</dt>
-<dd><code>CLOCK_REALTIME</code>의 더 빠르지만 덜 정확한 버전. 아주 빠르되 정밀하지는 않은 타임스탬프가 필요할 때 쓰면 된다. 아키텍처별 지원이 필요하며, <tt>[[vdso(7)]]</tt> 내에서 이 플래그에 대한 아키텍처 지원도 필요할 것이다.</dd>
+<dd><code>CLOCK_REALTIME</code>의 더 빠르지만 덜 정확한 버전. 이 클럭은 설정 가능하지 않다. 아주 빠르되 정밀하지는 않은 타임스탬프가 필요할 때 쓰면 된다. 아키텍처별 지원이 필요하며, <tt><a class="wikilink" href="/man-pages-ko/vdso(7)/">vdso(7)</a></tt> 내에서 이 플래그에 대한 아키텍처 지원도 필요할 것이다.</dd>
+<dt><code>CLOCK_TAI</code> (리눅스 3.10부터. 리눅스 전용.)</dt>
+<dd>
+<p>벽시계 시간에서 파생되었고 윤초를 무시하는 설정 불가능한 시스템 전역 클럭. 이 클럭은 <code>CLOCK_REALTIME</code>처럼 NTP의 윤초 삽입으로 인한 불연속과 역방향 도약을 겪지 않는다.</p>
+<p>TAI는 국제원자시(International Atomic Time)를 나타낸다.</p>
+</dd>
 <dt><code>CLOCK_MONOTONIC</code></dt>
 <dd>
-<p>"어떤 규정돼 있지 않은 시점"(POSIX의 서술)부터 단조 증가하는 시간을 나타내며 설정할 수 없는 클럭. 리눅스에서는 시스템이 부팅 하고 동작한 초 수에 해당한다.</p>
-<p><code>CLOCK_MONOTONIC</code> 클럭은 시스템 시간의 불연속적 도약(가령 시스템 관리자가 수동으로 클럭을 변경하는 경우)에는 영향을 받지 않지만 <tt>[[adjtime(3)]]</tt> 및 NTP가 수행하는 점진적 조정에는 영향을 받는다. 시스템이 절전 대기 상태인 시간은 포함하지 않는다.</p>
+<p>"어떤 규정돼 있지 않은 시점"(POSIX의 서술)부터 단조 증가하는 시간을 나타내는 설정 불가능한 시스템 전역 클럭. 리눅스에서는 시스템이 부팅 하고 동작한 초 수에 해당한다.</p>
+<p><code>CLOCK_MONOTONIC</code> 클럭은 시스템 시간의 불연속적 도약(가령 시스템 관리자가 수동으로 클럭을 변경하는 경우)에는 영향을 받지 않지만 <tt><a class="wikilink" href="/man-pages-ko/adjtime(3)/">adjtime(3)</a></tt> 및 NTP가 수행하는 점진적 조정에는 영향을 받는다. 시스템이 절전 대기 상태인 시간은 포함하지 않는다. 모든 <code>CLOCK_MONOTONIC</code>류 클럭에서 연속 호출 시 반환되는 시간이 뒤로 가지 않는다는 것은 보장되지만 (아키텍처에 따라선) 연속 호출 시 반환되는 시간이 (증가하지 않은) 같은 시간 값일 수도 있다.</p>
 </dd>
 <dt><code>CLOCK_MONOTONIC_COARSE</code> (리눅스 2.6.32부터. 리눅스 전용.)</dt>
-<dd><code>CLOCK_MONOTONIC</code>의 더 빠르지만 덜 정확한 버전. 아주 빠르되 정밀하지는 않은 타임스탬프가 필요할 때 쓰면 된다. 아키텍처별 지원이 필요하며, <tt>[[vdso(7)]]</tt> 내에서 이 플래그에 대한 아키텍처 지원도 필요할 것이다.</dd>
+<dd><code>CLOCK_MONOTONIC</code>의 더 빠르지만 덜 정확한 버전. 아주 빠르되 정밀하지는 않은 타임스탬프가 필요할 때 쓰면 된다. 아키텍처별 지원이 필요하며, <tt><a class="wikilink" href="/man-pages-ko/vdso(7)/">vdso(7)</a></tt> 내에서 이 플래그에 대한 아키텍처 지원도 필요할 것이다.</dd>
 <dt><code>CLOCK_MONOTONIC_RAW</code> (리눅스 2.6.28부터. 리눅스 전용.)</dt>
-<dd><code>CLOCK_MONOTONIC</code>과 유사하되 NTP 조정이나 <tt>[[adjtime(3)]]</tt>이 수행하는 점진적 조정의 영향을 받지 않는 하드웨어 기반 시간에 대한 접근을 제공한다. 시스템이 절전 대기 상태인 시간은 포함하지 않는다.</dd>
+<dd><code>CLOCK_MONOTONIC</code>과 유사하되 NTP 조정이나 <tt><a class="wikilink" href="/man-pages-ko/adjtime(3)/">adjtime(3)</a></tt>이 수행하는 점진적 조정의 영향을 받지 않는 하드웨어 기반 시간에 대한 접근을 제공한다. 시스템이 절전 대기 상태인 시간은 포함하지 않는다.</dd>
 <dt><code>CLOCK_BOOTTIME</code> (리눅스 2.6.39부터. 리눅스 전용.)</dt>
-<dd><code>CLOCK_MONOTONIC</code>과 동일하되 시스템이 절전 대기 상태인 시간도 포함한다. <tt>[[settimeofday(2)]]</tt> 등을 이용해 시간을 바꾸면 불연속적일 수도 있는 <code>CLOCK_REALTIME</code>의 복잡함을 응용에서 다룰 필요 없이 절전 대기를 인식하는 단조 증가 클럭을 얻을 수 있다.</dd>
+<dd><code>CLOCK_MONOTONIC</code>과 동일하되 시스템이 절전 대기 상태인 시간도 포함하는 설정 불가능한 시스템 전역 클럭. <tt><a class="wikilink" href="/man-pages-ko/settimeofday(2)/">settimeofday(2)</a></tt> 등을 이용해 시간을 바꾸면 불연속적일 수도 있는 <code>CLOCK_REALTIME</code>의 복잡함을 응용에서 다룰 필요 없이 절전 대기를 인식하는 단조 증가 클럭을 얻을 수 있다.</dd>
+<dt><code>CLOCK_BOOTTIME_ALARM</code> (리눅스 3.0부터. 리눅스 전용.)</dt>
+<dd><code>CLOCK_BOOTTIME</code>과 유사하다. 자세한 설명은 <tt><a class="wikilink" href="/man-pages-ko/timer_create(2)/">timer_create(2)</a></tt>을 보라.</dd>
 <dt><code>CLOCK_PROCESS_CPUTIME_ID</code> (리눅스 2.6.12부터.)</dt>
-<dd>프로세스별 CPU 시간 클럭. (프로세스 내 모든 스레드들이 소모한 CPU 시간을 측정함.)</dd>
+<dd>이 프로세스가 소모한 CPU 시간(즉 프로세스의 모든 스레드가 소모한 CPU 시간)을 측정하는 클럭이다. 리눅스에서 이 클럭은 설정 가능하지 않다.</dd>
 <dt><code>CLOCK_THREAD_CPUTIME_ID</code> (리눅스 2.6.12부터.)</dt>
-<dd>스레드 한정 CPU 시간 클럭.</dd>
+<dd>이 스레드가 소모한 CPU 시간을 측정하는 클럭이다. 리눅스에서 이 클럭은 설정 가능하지 않다.</dd>
 </dl>
+<p>리눅스에선 다음과 같은 동적 클럭 인스턴스도 구현되어 있다.</p>
+<h3 id="_1">동적 클럭</h3>
+<p>위에서 설명한 하드코딩 된 시스템 V 방식 클럭 ID에 더해서 리눅스에선 특정 문자 장치들에 대한 POSIX 클럭 동작도 지원한다. 그 장치를 "동적" 클럭이라고 하며 리눅스 2.6.39부터 지원한다.</p>
+<p>적절한 매크로를 쓰면 열린 파일 디스크립터를 클럭 ID로 변환해서 <code>clock_gettime()</code>, <code>clock_settime()</code>, <tt><a class="wikilink" href="/man-pages-ko/clock_adjtime(2)/">clock_adjtime(2)</a></tt>에 줄 수 있다. 다음 예는 파일 디스크립터를 동적 클럭 ID로 변환하는 방법을 보여 준다.</p>
+<pre><code class="language-c">#define CLOCKFD 3
+#define FD_TO_CLOCKID(fd)   ((~(clockid_t) (fd) &lt;&lt; 3) | CLOCKFD)
+#define CLOCKID_TO_FD(clk)  ((unsigned int) ~((clk) &gt;&gt; 3))
+
+struct timespec ts;
+clockid_t clkid;
+int fd;
+
+fd = open(&quot;/dev/ptp0&quot;, O_RDWR);
+clkid = FD_TO_CLOCKID(fd);
+clock_gettime(clkid, &amp;ts);
+</code></pre>
 <h2 id="return-value">RETURN VALUE</h2>
-<p><code>clock_gettime()</code>, <code>clock_settime()</code>, <code>clock_getres()</code>는 성공 시 0을 반환하고 실패 시 -1을 반환한다. (그리고 실패한 경우 <code>errno</code>를 적절히 설정한다.)</p>
+<p><code>clock_gettime()</code>, <code>clock_settime()</code>, <code>clock_getres()</code>는 성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
+<dt><code>EACCES</code></dt>
+<dd><code>clock_settime()</code>에서 지정한 동적 POSIX 클럭 장치에 대한 쓰기 권한이 없다.</dd>
 <dt><code>EFAULT</code></dt>
 <dd><code>tp</code>가 접근 가능한 주소 공간 밖을 가리키고 있다.</dd>
 <dt><code>EINVAL</code></dt>
-<dd>지정한 <code>clk_id</code>를 이 시스템에서 지원하지 않는다.</dd>
+<dd>지정한 <code>clockid</code>가 유효하지 않다. 시스템 V 방식의 하드코딩 된 양수 값이 범위를 벗어났거나, 동적인 클럭 ID가 유효한 클럭 객체 인스턴스를 가리키고 있지 않다.</dd>
+<dt><code>EINVAL</code></dt>
+<dd>(<code>clock_settime()</code>): <code>tp.tv_sec</code>이 음수거나 <code>tp.tv_usec</code>이 [0..999,999,999] 범위 밖이다.</dd>
+<dt><code>EINVAL</code></dt>
+<dd><code>clock_settime()</code> 호출에 지정한 <code>clockid</code>가 설정 가능한 클럭이 아니다.</dd>
 <dt><code>EINVAL</code> (리눅스 4.3부터)</dt>
-<dd><code>clk_id</code>를 <code>CLOCK_REALTIME</code>으로 한 <code>clock_settime()</code> 호출에서 시간을 <code>CLOCK_MONOTINIC</code> 클럭 현재 값보다 작은 값으로 설정하려 했다.</dd>
+<dd><code>clockid</code>를 <code>CLOCK_REALTIME</code>으로 한 <code>clock_settime()</code> 호출에서 시간을 <code>CLOCK_MONOTINIC</code> 클럭 현재 값보다 작은 값으로 설정하려 했다.</dd>
+<dt><code>ENODEV</code></dt>
+<dd>동적 <code>clockid</code>가 나타내는 (예컨대 USB 같은) 핫플러그 장치가 문자 장치가 열린 후에 사라졌다.</dd>
+<dt><code>ENOTSUP</code></dt>
+<dd>지정한 동적 POSIX 클럭 장치에서 그 동작을 지원하지 않는다.</dd>
 <dt><code>EPERM</code></dt>
 <dd><code>clock_settime()</code>에서 표시 클럭을 설정할 권한을 가지고 있지 않다.</dd>
 </dl>
 <h2 id="versions">VERSIONS</h2>
 <p>리눅스 2.6에서 이 시스템 호출들이 처음 등장했다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -235,7 +270,7 @@ int clock_settime(clockid_t clk_id, const struct timespec *tp);
 </thead>
 <tbody>
 <tr>
-<td><code>clock_getres()</code>, <code>clock_gettime()</code>,<br><code>clock_settime()</code></td>
+<td><code>clock_getres()</code>, <code>clock_gettime()</code>, <code>clock_settime()</code></td>
 <td>스레드 안전성</td>
 <td>MT-Safe</td>
 </tr>
@@ -243,26 +278,100 @@ int clock_settime(clockid_t clk_id, const struct timespec *tp);
 </table>
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008, SUSv2.</p>
-<h2 id="availability">AVAILABILITY</h2>
-<p>이 함수들이 사용 가능한 POSIX 시스템에는 <code>&lt;unistd.h&gt;</code>에 심볼 <code>_POSIX_TIMERS</code>가 0보다 큰 값으로 정의되어 있다. 심볼 <code>_POSIX_MONOTONIC_CLOCK</code>, <code>_POSIX_CPUTIME</code>, <code>_POSIX_THREAD_CPUTIME</code>은 <code>CLOCK_MONOTONIC</code>, <code>CLOCK_PROCESS_CPUTIME_ID</code>, <code>CLOCK_THREAD_CPUTIME_ID</code>가 사용 가능함을 나타낸다. (<tt>[[sysconf(3)]]</tt>도 참고.)</p>
+<p>이 함수들이 사용 가능한 POSIX 시스템에는 <code>&lt;unistd.h&gt;</code>에 심볼 <code>_POSIX_TIMERS</code>가 0보다 큰 값으로 정의되어 있다. 심볼 <code>_POSIX_MONOTONIC_CLOCK</code>, <code>_POSIX_CPUTIME</code>, <code>_POSIX_THREAD_CPUTIME</code>은 <code>CLOCK_MONOTONIC</code>, <code>CLOCK_PROCESS_CPUTIME_ID</code>, <code>CLOCK_THREAD_CPUTIME_ID</code>가 사용 가능함을 나타낸다. (<tt><a class="wikilink" href="/man-pages-ko/sysconf(3)/">sysconf(3)</a></tt>도 참고.)</p>
 <h2 id="notes">NOTES</h2>
 <p>POSIX.1에서 다음과 같이 명세하고 있다.</p>
 <blockquote>
 <p><code>clock_settime()</code>을 통해 <code>CLOCK_REALTIME</code> 클럭의 값을 설정하는 것이 <code>nanosleep()</code>을 포함해 이 클럭 기반의 상대적 시간 서비스를 기다리며 블록 되어 있는 스레드들에 어떤 영향도 끼치지 않아야 하며, 이 클럭 기반의 상대적 타이머의 만료에 대해서도 마찬가지이다. 따라서 이런 시간 서비스들은 그 클럭의 신규 내지 이전 값과 상관없이 요청했던 상대적 시간이 경과했을 때에 만료되어야 한다.</p>
 </blockquote>
+<p>POSIX.1-2001에 따르면 "적절한 특권"을 가진 프로세스가 <code>clock_settime()</code>을 이용해 <code>CLOCK_PROCESS_CPUTIME_ID</code> 및 <code>CLOCK_THREAD_CPUTIME_ID</code> 클럭을 설정할 수 있다. 리눅스에서 이 클럭들은 설정 가능하지 않다. (즉, 어떤 프로세스도 "적절한 특권"을 가지고 있지 않다.)</p>
 <h3 id="c">C 라이브러리/커널 차이</h3>
-<p>일부 아키텍처에서는 <code>clock_gettime()</code> 구현을 <tt>[[vdso(7)]]</tt>로 제공한다.</p>
+<p>일부 아키텍처에서는 <code>clock_gettime()</code> 구현을 <tt><a class="wikilink" href="/man-pages-ko/vdso(7)/">vdso(7)</a></tt>로 제공한다.</p>
 <h3 id="smp">SMP 시스템 관련 역사적 기록</h3>
 <p>리눅스에 <code>CLOCK_PROCESS_CPUTIME_ID</code> 및 <code>CLOCK_THREAD_CPUTIME_ID</code>에 대한 커널 지원이 추가되기 전에 glibc에서는 여러 플랫폼들에서 CPU의 타이머 레지스터(i386의 TSC, Itanium의 AR.ITC)를 이용해 이 클럭들을 구현했다. 이런 레지스터들은 CPU마다 값이 다를 수도 있으며 그로 인해 프로세스가 다른 CPU로 이전하는 경우 이 클럭들이 <strong>엉터리 결과</strong>를 내놓을 수도 있다.</p>
 <p>SMP 시스템에서 CPU들이 클럭 원천이 서로 다르면 각 CPU가 살짝 다른 진동수로 동작할 것이므로 그 타이머 레지스터들 사이에 연관성을 유지할 방법이 없다. 그런 경우에 <code>clock_getcpuclockid(0)</code>은 <code>ENOENT</code>를 반환하여 이런 상황을 나타낸다. 그럴 때는 프로세스가 특정 CPU에 머물러 있다고 확신할 수 있는 경우에만 두 클럭이 쓸모가 있게 된다.</p>
 <p>SMP 시스템 내의 프로세서들이 모두 정확히 같은 때에 시작하지는 않기 때문에 보통은 타이머 레지스터들이 차이를 가지고 돈다. 어떤 아키텍처들에는 부팅 때 이 차이를 제한하려고 시도하는 코드가 들어있다. 하지만 그 코드가 차이를 정확하게 조정한다고 보장하지는 못한다. glibc에는 (리눅스 커널과 달리) 이런 차이를 다루기 위한 어떤 대비책도 담겨 있지 않다. 보통 이 차이는 작기 때문에 대부분의 경우에서는 그 효과를 무시할 수 있다.</p>
 <p>glibc 2.4부터는 이 페이지에서 기술하는 시스템 호출들에 대한 래퍼 함수들이 <code>CLOCK_PROCESS_CPUTIME_ID</code> 및 <code>CLOCK_THREAD_CPUTIME_ID</code>의 커널 구현을 제공하는 시스템(즉 리눅스 2.6.12 및 이후)에서는 그 구현을 사용하여 앞서 언급한 문제들을 피한다.</p>
-<h2 id="bugs">BUGS</h2>
-<p>POSIX.1-2001에 따르면 "적절한 특권"을 가진 프로세스가 <code>clock_settime()</code>을 이용해 <code>CLOCK_PROCESS_CPUTIME_ID</code> 및 <code>CLOCK_THREAD_CPUTIME_ID</code> 클럭을 설정할 수 있다. 리눅스에서 이 클럭들은 설정 가능하지 않다. (즉, 어떤 프로세스도 "적절한 특권"을 가지고 있지 않다.)</p>
+<h2 id="examples">EXAMPLES</h2>
+<p>아래 프로그램은 다양한 클럭으로 <code>clock_gettime()</code> 및 <code>clock_getres()</code> 사용 방식을 보여 준다. 다음은 프로그램 실행 시 볼 수 있을 출력 예이다.</p>
+<pre><code class="language-text">$ ./clock_times x
+CLOCK_REALTIME : 1585985459.446 (18356 days +  7h 30m 59s)
+     resolution:          0.000000001
+CLOCK_TAI      : 1585985496.447 (18356 days +  7h 31m 36s)
+     resolution:          0.000000001
+CLOCK_MONOTONIC:      52395.722 (14h 33m 15s)
+     resolution:          0.000000001
+CLOCK_BOOTTIME :      72691.019 (20h 11m 31s)
+     resolution:          0.000000001
+</code></pre>
+<h3 id="_2">프로그램 소스</h3>
+<pre><code class="language-c">/* clock_times.c
+
+   Licensed under GNU General Public License v2 or later.
+*/
+#define _XOPEN_SOURCE 600
+#include &lt;time.h&gt;
+#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;stdbool.h&gt;
+#include &lt;unistd.h&gt;
+
+#define SECS_IN_DAY (24 * 60 * 60)
+
+static void
+displayClock(clockid_t clock, const char *name, bool showRes)
+{
+    struct timespec ts;
+
+    if (clock_gettime(clock, &amp;ts) == -1) {
+        perror(&quot;clock_gettime&quot;);
+        exit(EXIT_FAILURE);
+    }
+
+    printf(&quot;%-15s: %10jd.%03ld (&quot;, name,
+            (intmax_t) ts.tv_sec, ts.tv_nsec / 1000000);
+
+    long days = ts.tv_sec / SECS_IN_DAY;
+    if (days &gt; 0)
+        printf(&quot;%ld days + &quot;, days);
+
+    printf(&quot;%2dh %2dm %2ds&quot;,
+            (int) (ts.tv_sec % SECS_IN_DAY) / 3600,
+            (int) (ts.tv_sec % 3600) / 60,
+            (int) ts.tv_sec % 60);
+    printf(&quot;)\n&quot;);
+
+    if (clock_getres(clock, &amp;ts) == -1) {
+        perror(&quot;clock_getres&quot;);
+        exit(EXIT_FAILURE);
+    }
+
+    if (showRes)
+        printf(&quot;     resolution: %10jd.%09ld\n&quot;,
+                (intmax_t) ts.tv_sec, ts.tv_nsec);
+}
+
+int
+main(int argc, char *argv[])
+{
+    bool showRes = argc &gt; 1;
+
+    displayClock(CLOCK_REALTIME, &quot;CLOCK_REALTIME&quot;, showRes);
+#ifdef CLOCK_TAI
+    displayClock(CLOCK_TAI, &quot;CLOCK_TAI&quot;, showRes);
+#endif
+    displayClock(CLOCK_MONOTONIC, &quot;CLOCK_MONOTONIC&quot;, showRes);
+#ifdef CLOCK_BOOTTIME
+    displayClock(CLOCK_BOOTTIME, &quot;CLOCK_BOOTTIME&quot;, showRes);
+#endif
+    exit(EXIT_SUCCESS);
+}
+</code></pre>
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>date(1)</code>, <tt>[[gettimeofday(2)]]</tt>, <tt>[[settimeofday(2)]]</tt>, <tt>[[time(2)]]</tt>, <tt>[[adjtime(3)]]</tt>, <tt>[[clock_getcpuclockid(3)]]</tt>, <tt>[[ctime(3)]]</tt>, <tt>[[ftime(3)]]</tt>, <tt>[[pthread_getcpuclockid(3)]]</tt>, <tt>[[sysconf(3)]]</tt>, <tt>[[time(7)]]</tt>, <tt>[[vdso(7)]]</tt>, <tt>[[hwclock(8)]]</tt></p>
+<p><code>date(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/gettimeofday(2)/">gettimeofday(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/settimeofday(2)/">settimeofday(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/time(2)/">time(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/adjtime(3)/">adjtime(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/clock_getcpuclockid(3)/">clock_getcpuclockid(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ctime(3)/">ctime(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ftime(3)/">ftime(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_getcpuclockid(3)/">pthread_getcpuclockid(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sysconf(3)/">sysconf(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/time(7)/">time(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/time_namespaces(7)/">time_namespaces(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/vdso(7)/">vdso(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/hwclock(8)/">hwclock(8)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

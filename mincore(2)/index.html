@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/mincore(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/mincore%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Mincore(2) - man-pages-ko</title>
+    <title>mincore(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -151,13 +151,12 @@
 <h2 id="name">NAME</h2>
 <p>mincore - 페이지가 메모리에 상주하고 있는지 확인하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;unistd.h&gt;
+<pre><code class="language-c">#include &lt;unistd.h&gt;
 #include &lt;sys/mman.h&gt;
 
 int mincore(void *addr, size_t length, unsigned char *vec);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>mincore()</code>:</dt>
 <dd>
@@ -174,7 +173,7 @@ int mincore(void *addr, size_t length, unsigned char *vec);
 <p><code>addr</code> 인자는 시스템 페이지 크기의 배수여야 한다. <code>length</code> 인자는 페이지 크기의 배수일 필요가 없다. 하지만 페이지 단위로 상주 정보를 반환하기 때문에 실질적으로 <code>length</code>가 페이지 크기의 다음 배수로 올림 된다. <code>sysconf(_SC_PAGESIZE)</code>로 페이지 크기(<code>PAGE_SIZE</code>)를 얻을 수 있다.</p>
 <p><code>vec</code> 인자는 적어도 <code>(length+PAGE_SIZE-1) / PAGE_SIZE</code> 바이트를 담은 배열에 대한 포인터여야 한다. 반환 시에, 페이지가 현재 메모리에 상주하고 있으면 대응하는 바이트의 최하위 비트가 설정되고, 아니면 해제된다. (각 바이트의 다른 비트들의 설정은 규정되어 있지 않다. 그 비트들은 향후 용도를 위해 예비되어 있다.) 당연하지만 <code>vec</code>에 반환된 정보는 스냅샷일 뿐이다. 메모리에 고정되어 있지 않은 페이지는 언제든 들어오고 나갈 수 있으므로 호출 반환 시점에 <code>vec</code>의 내용이 이미 낡은 것일 수도 있다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 <code>mincore()</code>는 0을 반환한다. 오류 시 -1을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<p>성공 시 <code>mincore()</code>는 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EAGAIN</code></dt>
@@ -193,11 +192,11 @@ int mincore(void *addr, size_t length, unsigned char *vec);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p><code>mincore()</code>는 POSIX.1에 명세되어 있지 않으며, 모든 유닉스 구현에서 사용 가능하지는 않다.</p>
 <h2 id="bugs">BUGS</h2>
-<p>커널 2.6.21 전에서 <code>MAP_PRIVATE</code> 매핑이나 (<tt>[[remap_file_pages(2)]]</tt>로 수립한) 비선형 매핑에 대해 <code>mincore()</code>가 올바른 정보를 반환하지 않았다.</p>
+<p>커널 2.6.21 전에서 <code>MAP_PRIVATE</code> 매핑이나 (<tt><a class="wikilink" href="/man-pages-ko/remap_file_pages(2)/">remap_file_pages(2)</a></tt>로 수립한) 비선형 매핑에 대해 <code>mincore()</code>가 올바른 정보를 반환하지 않았다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>fincore(1)</code>, <tt>[[madvise(2)]]</tt>, <tt>[[mlock(2)]]</tt>, <tt>[[mmap(2)]]</tt>, <tt>[[posix_fadvise(2)]]</tt>, <tt>[[posix_madvise(3)]]</tt></p>
+<p><code>fincore(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/madvise(2)/">madvise(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mlock(2)/">mlock(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/posix_fadvise(2)/">posix_fadvise(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/posix_madvise(3)/">posix_madvise(3)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

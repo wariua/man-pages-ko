@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/mallinfo2%283%29/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>mallinfo2(3) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
+        <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#bugs">BUGS</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
+            <li class="second-level"><a href="#_1">프로그램 소스</a></li>
+                
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>mallinfo, mallinfo2 - 메모리 할당 정보 얻기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="language-c">#include &lt;malloc.h&gt;
+
+struct mallinfo mallinfo(void);
+struct mallinfo2 mallinfo2(void);
+</code></pre>
+<h2 id="description">DESCRIPTION</h2>
+<p>이 함수들은 <tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt> 및 관련 함수들이 수행하는 메모리 할당에 대한 정보를 담은 구조체 사본을 반환한다. 각 함수가 반환하는 구조체에는 같은 필드들이 들어 있다. 하지만 구식 함수인 <code>mallinfo()</code>는 필드에 쓰인 타입이 너무 작기 때문에 제거 예정이다. (BUGS 참고.)</p>
+<p>이 함수들에서 모든 할당이 보이는 건 아니라는 점에 유의하라. BUGS를 참고하고 <tt><a class="wikilink" href="/man-pages-ko/malloc_info(3)/">malloc_info(3)</a></tt> 사용을 검토해 보라.</p>
+<p><code>mallinfo2()</code>가 반환하는 <code>mallinfo2</code> 구조체는 다음처럼 정의돼 있다.</p>
+<pre><code class="language-c">struct mallinfo2 {
+    size_t arena;     /* 비 mmap 할당 공간 (바이트) */
+    size_t ordblks;   /* 유휴 청크 수 */
+    size_t smblks;    /* 유휴 패스트빈 블록 수 */
+    size_t hblks;     /* mmap 영역 수 */
+    size_t hblkhd;    /* mmap 영역들의 할당 공간 (바이트) */
+    size_t usmblks;   /* 총 할당 공간 최대치 (바이트) */
+    size_t fsmblks;   /* 유휴 패스트빈 블록들의 공간 (바이트) */
+    size_t uordblks;  /* 총 할당 공간 (바이트) */
+    size_t fordblks;  /* 총 유휴 공간 (바이트) */
+    size_t keepcost;  /* 최상단의 해제 가능 공간 (바이트) */
+};
+</code></pre>
+<p>구식 <code>mallinfo()</code> 함수에서 반환하는 <code>mallinfo</code> 구조체는 필드들의 타입이 <code>int</code>라는 점을 빼고 위와 동일하다.</p>
+<p>구조체의 필드들은 다음 정보를 담고 있다.</p>
+<dl>
+<dt><code>arena</code></dt>
+<dd><tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt> 외의 방법으로 할당된 메모리의 (즉 힙에 할당된 메모리의) 총량. 이 수치에는 사용 중인 블록과 유휴 목록의 블록이 모두 포함된다.</dd>
+<dt><code>ordblks</code></dt>
+<dd>평범한 (즉 패스트빈 아닌) 유휴 블록 개수.</dd>
+<dt><code>smblks</code></dt>
+<dd>패스트빈 유휴 블록 개수. (<tt><a class="wikilink" href="/man-pages-ko/mallopt(3)/">mallopt(3)</a></tt> 참고.)</dd>
+<dt><code>hblks</code></dt>
+<dd>현재 <tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt>으로 할당된 블록 개수. (<tt><a class="wikilink" href="/man-pages-ko/mallopt(3)/">mallopt(3)</a></tt>의 <code>M_MMAP_THRESHOLD</code> 논의 참고.)</dd>
+<dt><code>hblkhd</code></dt>
+<dd>현재 <tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt>으로 할당된 블록들의 바이트 수.</dd>
+<dt><code>usmblks</code></dt>
+<dd>이 필드는 쓰지 않으며 항상 0이다. 역사적으로는 할당 공간의 "최고 수위 선", 즉 지금까지 할당했던 공간의 (바이트 단위) 최대치였다. 스레드를 쓰지 않는 환경에서만 이 필드를 유지했다.</dd>
+<dt><code>fsmblks</code></dt>
+<dd>패스트빈 유휴 블록들의 총 바이트 수.</dd>
+<dt><code>uordblks</code></dt>
+<dd>사용 중인 할당들에 쓰는 총 바이트 수.</dd>
+<dt><code>fordblks</code></dt>
+<dd>유휴 블록들의 총 바이트 수.</dd>
+<dt><code>keepcost</code></dt>
+<dd>힙 상단의 해제 가능한 유휴 공간의 총량. 다른 제약이 없다면 (즉 페이지 정렬 제약 등을 무시할 때) <tt><a class="wikilink" href="/man-pages-ko/malloc_trim(3)/">malloc_trim(3)</a></tt>으로 해제 가능한 최대 바이트 수이다.</dd>
+</dl>
+<h2 id="versions">VERSIONS</h2>
+<p>glibc 2.33에서 <code>mallinfo2()</code> 함수가 추가되었다.</p>
+<h2 id="attributes">ATTRIBUTES</h2>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
+<table>
+<thead>
+<tr>
+<th>인터페이스</th>
+<th>속성</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mallinfo()</code>, <code>mallinfo2()</code></td>
+<td>스레드 안전성</td>
+<td>MT-Unsafe init const:mallopt</td>
+</tr>
+</tbody>
+</table>
+<p><code>mallinfo()</code>/<code>mallinfo2()</code>는 몇몇 전역 내부 객체들에 접근하게 된다. 비원자적 변경 시 모순적인 결과를 얻을 수도 있다. <code>const:mallopt</code>의 식별자 <code>mallopt</code>가 뜻하는 것은 <code>mallopt()</code>는 전역 내부 객체를 원자적으로 변경하므로 <code>mallinfo()</code>/<code>mallinfo2()</code>가 충분히 안전할 것이고, 비원자적으로 변경하는 다른 함수들은 그렇지 않을 수 있다는 것이다.</p>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>이 함수들은 POSIX나 C 표준에 명세되어 있지 않다. 여러 시스템 V 파생 시스템에 <code>mallinfo()</code> 함수가 존재하며 SVID에 명세되었다.</p>
+<h2 id="bugs">BUGS</h2>
+<p><strong>주 메모리 할당 영역에 대한 정보만 반환한다.</strong> 다른 아레나에서의 할당은 빠져 있다. 다른 아레나에 대한 정보를 포함하는 대안으로는 <tt><a class="wikilink" href="/man-pages-ko/malloc_stats(3)/">malloc_stats(3)</a></tt>와 <tt><a class="wikilink" href="/man-pages-ko/malloc_info(3)/">malloc_info(3)</a></tt>를 보라.</p>
+<p>구식 <code>mallinfo()</code> 함수가 반환하는 <code>mallinfo</code> 구조체의 필드들이 <code>int</code> 타입으로 되어 있다. 하지만 내부의 몇몇 상태 관리 값들이 <code>long</code> 타입일 수도 있기 때문에 얻어 온 값이 잘려서 부정확할 수도 있다.</p>
+<h2 id="examples">EXAMPLES</h2>
+<p>아래 프로그램에서는 <code>mallinfo2()</code>를 이용해 할당 전과 후, 그리고 일부 메모리 블록을 해제한 후에 메모리 할당 통계를 얻어 온다. 그 통계를 표준 출력으로 표시한다.</p>
+<p>처음 두 개의 명령행 인자는 <tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt>으로 할당할 블록의 수와 크기를 지정한다.</p>
+<p>나머지 세 인자는 할당 블록들 중 어느 것을 <tt><a class="wikilink" href="/man-pages-ko/free(3)/">free(3)</a></tt>로 해제할지 지정한다. 이 세 인자는 선택적이며, (차례대로) 블록 해제 루프 내에서 쓸 단계 크기 (기본은 1, 즉 범위 내 모든 블록을 해제), 해제할 첫 블록의 순번 (기본은 0, 즉 첫 번째 할당 블록), 해제할 마지막 블록의 순번에 1을 더한 것 (기본은 최대 블록 번호에 1을 더한 것)이다. 이 세 인자를 생략한 경우의 기본값은 모든 할당 블록들을 해제하게 한다.</p>
+<p>다음 프로그램 실행 예에서는 100바이트 할당을 1000번 수행하고서 할당 블록 두 개마다 하나씩 해제한다.</p>
+<pre><code class="language-text">$ ./a.out 1000 100 2
+============== Before allocating blocks ==============
+Total non-mmapped bytes (arena):       0
+# of free chunks (ordblks):            1
+# of free fastbin blocks (smblks):     0
+# of mapped regions (hblks):           0
+Bytes in mapped regions (hblkhd):      0
+Max. total allocated space (usmblks):  0
+Free bytes held in fastbins (fsmblks): 0
+Total allocated space (uordblks):      0
+Total free space (fordblks):           0
+Topmost releasable block (keepcost):   0
+
+============== After allocating blocks ==============
+Total non-mmapped bytes (arena):       135168
+# of free chunks (ordblks):            1
+# of free fastbin blocks (smblks):     0
+# of mapped regions (hblks):           0
+Bytes in mapped regions (hblkhd):      0
+Max. total allocated space (usmblks):  0
+Free bytes held in fastbins (fsmblks): 0
+Total allocated space (uordblks):      104000
+Total free space (fordblks):           31168
+Topmost releasable block (keepcost):   31168
+
+============== After freeing blocks ==============
+Total non-mmapped bytes (arena):       135168
+# of free chunks (ordblks):            501
+# of free fastbin blocks (smblks):     0
+# of mapped regions (hblks):           0
+Bytes in mapped regions (hblkhd):      0
+Max. total allocated space (usmblks):  0
+Free bytes held in fastbins (fsmblks): 0
+Total allocated space (uordblks):      52000
+Total free space (fordblks):           83168
+Topmost releasable block (keepcost):   31168
+</code></pre>
+<h3 id="_1">프로그램 소스</h3>
+<pre><code class="language-c">#include &lt;malloc.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+static void
+display_mallinfo2(void)
+{
+    struct mallinfo2 mi;
+
+    mi = mallinfo2();
+
+    printf(&quot;Total non-mmapped bytes (arena):       %zu\n&quot;, mi.arena);
+    printf(&quot;# of free chunks (ordblks):            %zu\n&quot;, mi.ordblks);
+    printf(&quot;# of free fastbin blocks (smblks):     %zu\n&quot;, mi.smblks);
+    printf(&quot;# of mapped regions (hblks):           %zu\n&quot;, mi.hblks);
+    printf(&quot;Bytes in mapped regions (hblkhd):      %zu\n&quot;, mi.hblkhd);
+    printf(&quot;Max. total allocated space (usmblks):  %zu\n&quot;, mi.usmblks);
+    printf(&quot;Free bytes held in fastbins (fsmblks): %zu\n&quot;, mi.fsmblks);
+    printf(&quot;Total allocated space (uordblks):      %zu\n&quot;, mi.uordblks);
+    printf(&quot;Total free space (fordblks):           %zu\n&quot;, mi.fordblks);
+    printf(&quot;Topmost releasable block (keepcost):   %zu\n&quot;, mi.keepcost);
+}
+
+int
+main(int argc, char *argv[])
+{
+#define MAX_ALLOCS 2000000
+    char *alloc[MAX_ALLOCS];
+    int numBlocks, freeBegin, freeEnd, freeStep;
+    size_t blockSize;
+
+    if (argc &lt; 3 || strcmp(argv[1], &quot;--help&quot;) == 0) {
+        fprintf(stderr, &quot;%s num-blocks block-size [free-step &quot;
+                &quot;[start-free [end-free]]]\n&quot;, argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    numBlocks = atoi(argv[1]);
+    blockSize = atoi(argv[2]);
+    freeStep = (argc &gt; 3) ? atoi(argv[3]) : 1;
+    freeBegin = (argc &gt; 4) ? atoi(argv[4]) : 0;
+    freeEnd = (argc &gt; 5) ? atoi(argv[5]) : numBlocks;
+
+    printf(&quot;============== Before allocating blocks ==============\n&quot;);
+    display_mallinfo2();
+
+    for (int j = 0; j &lt; numBlocks; j++) {
+        if (numBlocks &gt;= MAX_ALLOCS) {
+            fprintf(stderr, &quot;Too many allocations\n&quot;);
+            exit(EXIT_FAILURE);
+        }
+
+        alloc[j] = malloc(blockSize);
+        if (alloc[j] == NULL) {
+            perror(&quot;malloc&quot;);
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    printf(&quot;\n============== After allocating blocks ==============\n&quot;);
+    display_mallinfo2();
+
+    for (int j = freeBegin; j &lt; freeEnd; j += freeStep)
+        free(alloc[j]);
+
+    printf(&quot;\n============== After freeing blocks ==============\n&quot;);
+    display_mallinfo2();
+
+    exit(EXIT_SUCCESS);
+}
+</code></pre>
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/malloc_info(3)/">malloc_info(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/malloc_stats(3)/">malloc_stats(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/malloc_trim(3)/">malloc_trim(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mallopt(3)/">mallopt(3)</a></tt></p>
+<hr />
+<p>2021-03-22</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

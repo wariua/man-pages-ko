@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/posix_memalign(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/posix_memalign%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Posix memalign(3) - man-pages-ko</title>
+    <title>posix_memalign(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -154,7 +154,7 @@
 <h2 id="name">NAME</h2>
 <p>posix_memalign, aligned_alloc, memalign, valloc, pvalloc - 정렬된 메모리 할당하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;stdlib.h&gt;
+<pre><code class="language-c">#include &lt;stdlib.h&gt;
 
 int posix_memalign(void **memptr, size_t alignment, size_t size);
 void *aligned_alloc(size_t alignment, size_t size);
@@ -165,8 +165,7 @@ void *valloc(size_t size);
 void *memalign(size_t alignment, size_t size);
 void *pvalloc(size_t size);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>posix_memalign()</code>:</dt>
 <dd><code>_POSIX_C_SOURCE &gt;= 200112L</code></dd>
@@ -178,23 +177,22 @@ void *pvalloc(size_t size);
 <dt>glibc 2.12부터:</dt>
 <dd><code>(_XOPEN_SOURCE &gt;= 500) &amp;&amp; !(_POSIX_C_SOURCE &gt;= 200112L)</code><br>
 <code>|| /* glibc 2.19부터: */ _DEFAULT_SOURCE</code><br>
-<code>|| /* glibc 버전 &lt;= 2.19: */ _SVID_SOURCE || _BSD_SOURCE</code></dd>
+<code>|| /* glibc &lt;= 2.19: */ _SVID_SOURCE || _BSD_SOURCE</code></dd>
 <dt>glibc 2.12 전:</dt>
-<dd><code>_BSD_SOURCE || _XOPEN_SOURCE &gt;= 500</code>&gt;&gt;<br>
-((비표준) 헤더 파일 <code>&lt;malloc.h&gt;</code>도 <code>valloc()</code> 선언을 드러낸다. 어떤 기능 확인 매크로도 필요하지 않다.)</dd>
+<dd><code>_BSD_SOURCE || _XOPEN_SOURCE &gt;= 500</code></dd>
 </dl>
 </dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>posix_memalign()</code> 함수는 <code>size</code> 바이트를 할당하여 할당한 메모리의 주소를 <code>*memptr</code>에 넣는다. 할당한 메모리의 주소가 <code>alignment</code>의 배수가 된다. <code>alignment</code>는 2의 거듭제곱이어야 하며 <code>sizeof(void *)</code>의 배수여야 한다. <code>size</code>가 0인 경우 <code>*memptr</code>에 넣는 값은 NULL이거나, 이후 <tt>[[free(3)]]</tt>에 무사히 전달할 수 있는 고유한 포인터 값이다.</p>
+<p><code>posix_memalign()</code> 함수는 <code>size</code> 바이트를 할당하여 할당한 메모리의 주소를 <code>*memptr</code>에 넣는다. <code>alignment</code>는 2의 거듭제곱이어야 하며 <code>sizeof(void *)</code>의 배수여야 한다. 할당된 메모리의 주소가 <code>alignment</code>의 배수가 된다. 그 주소를 이후 <tt><a class="wikilink" href="/man-pages-ko/free(3)/">free(3)</a></tt>에 무사히 전달할 수 있다. <code>size</code>가 0인 경우 <code>*memptr</code>에 들어가는 값은 NULL이거나 어떤 고유한 포인터 값이다.</p>
 <p>구식 함수 <code>memalign()</code>은 <code>size</code> 바이트를 할당하여 할당된 메모리에 대한 포인터를 반환한다. 메모리 주소가 <code>alignment</code>의 배수가 된다. <code>alignment</code>는 2의 거듭제곱이어야 한다.</p>
 <p><code>aligned_alloc()</code> 함수는 <code>memalign()</code>과 동일하되 <code>size</code>가 <code>alignment</code>의 배수여야 한다는 제약이 추가된다.</p>
 <p>구식 함수 <code>valloc()</code>은 <code>size</code> 바이트를 할당하여 할당된 메모리에 대한 포인터를 반환한다. 메모리 주소가 페이지 크기의 배수가 된다. <code>memalign(sysconf(_SC_PAGESIZE),size)</code>와 동등하다.</p>
 <p>구식 함수 <code>pvalloc()</code>은 <code>valloc()</code>과 유사하되 할당 크기를 시스템 페이지 크기의 배수로 올림 한다.</p>
 <p>이 함수들 모두 메모리를 0으로 채우지 않는다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 <code>aligned_alloc()</code>, <code>memalign()</code>, <code>valloc()</code>, <code>pvalloc()</code>은 할당한 메모리에 대한 포인터를 반환한다. 오류 시 NULL을 반환하며 오류 원인을 나타내도록 <code>errno</code>를 설정한다.</p>
-<p><code>posix_memalign()</code>은 성공 시 0을 반환하고 실패 시 다음 절에 나열한 오류 값들 중 하나를 반환한다. <code>errno</code> 값은 설정하지 않는다. 리눅스에서는 (그리고 다른 시스템들에서는) 실패 시 <code>posix_memalign()</code>이 <code>memptr</code>을 변경하지 않는다. 이런 동작 방식을 표준화한 요구 사항이 POSIX.1-2016에 추가되었다.</p>
+<p>성공 시 <code>aligned_alloc()</code>, <code>memalign()</code>, <code>valloc()</code>, <code>pvalloc()</code>은 할당한 메모리에 대한 포인터를 반환한다. 오류 시 NULL을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
+<p><code>posix_memalign()</code>은 성공 시 0을 반환하고 실패 시 다음 절에 나열한 오류 값들 중 하나를 반환한다. <code>errno</code> 값은 설정하지 않는다. 리눅스에서는 (그리고 다른 시스템들에서는) 실패 시 <code>posix_memalign()</code>이 <code>memptr</code>을 변경하지 않는다. 이런 동작 방식을 표준화한 요구 사항이 POSIX.1-2008 TC2에 추가되었다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EINVAL</code></dt>
@@ -203,11 +201,11 @@ void *pvalloc(size_t size);
 <dd>할당 요청을 충족할 충분한 메모리가 없다.</dd>
 </dl>
 <h2 id="versions">VERSIONS</h2>
-<p>리눅스의 모든 libc 라이브러리들에서 <code>memalign()</code>, <code>valloc()</code>, <code>pvalloc()</code> 함수가 늘 사용 가능했다.</p>
+<p>적어도 glibc 2.0부터 <code>memalign()</code>, <code>valloc()</code>, <code>pvalloc()</code> 함수가 사용 가능했다.</p>
 <p>glibc 버전 2.16에서 <code>aligned_alloc()</code> 함수가 추가되었다.</p>
 <p>glibc 2.1.91부터 <code>posix_memalign()</code> 함수가 사용 가능하다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -218,12 +216,12 @@ void *pvalloc(size_t size);
 </thead>
 <tbody>
 <tr>
-<td><code>aligned_alloc()</code>,<br><code>memalign()</code>,<br><code>posix_memalign()</code></td>
+<td><code>aligned_alloc()</code>, <code>memalign()</code>, <code>posix_memalign()</code></td>
 <td>스레드 안전성</td>
 <td>MT-Safe</td>
 </tr>
 <tr>
-<td><code>valloc()</code>,<br><code>pvalloc()</code></td>
+<td><code>valloc()</code>, <code>pvalloc()</code></td>
 <td>스레드 안전성</td>
 <td>MT-Unsafe init</td>
 </tr>
@@ -238,16 +236,16 @@ void *pvalloc(size_t size);
 <h3 id="_1">헤더</h3>
 <p><code>posix_memalign()</code>이 <code>&lt;stdlib.h&gt;</code>에 선언되어 있다는 것에는 모두가 동의한다.</p>
 <p>일부 시스템에서는 <code>memalign()</code>이 <code>&lt;malloc.h&gt;</code>가 아니라 <code>&lt;stdlib.h&gt;</code>에 선언되어 있다.</p>
-<p>SUSv2에 따르면 <code>valloc()</code>은 <code>&lt;stdlib.h&gt;</code>에 선언되어 있다. libc 4와 5, 그리고 glibc에서는 <code>&lt;malloc.h&gt;</code>에서 선언하며, 적절한 기능 확인 매크로가 정의되어 있으면 (위 참고) <code>&lt;stdlib.h&gt;</code>에서도 선언한다.</p>
+<p>SUSv2에 따르면 <code>valloc()</code>은 <code>&lt;stdlib.h&gt;</code>에 선언되어 있다. glibc에서는 <code>&lt;malloc.h&gt;</code>에서 선언하며, 적절한 기능 확인 매크로가 정의되어 있으면 (위 참고) <code>&lt;stdlib.h&gt;</code>에서도 선언한다.</p>
 <h2 id="notes">NOTES</h2>
 <p>여러 시스템에서 가령 블록 장치 직접 I/O에 쓰는 버퍼들에 정렬 제약이 있다. POSIX에서는 어떤 정렬이 필요한지 알려 주는 <code>pathconf(path,_PC_REC_XFER_ALIGN)</code> 호출을 명세한다. 그러면 <code>posix_memalign()</code>을 사용해 이런 요구 사항을 충족시킬 수 있다.</p>
 <p><code>posix_memalign()</code>은 <code>alignment</code>가 위에 상술한 요구 사항에 맞는지 검사한다. <code>memalign()</code>은 <code>alignment</code> 인자가 올바른지 검사하지 않을 수도 있다.</p>
-<p>POSIX에서는 <code>posix_memalign()</code>에게서 얻은 메모리를 <tt>[[free(3)]]</tt>로 해제할 수 있어야 한다고 요구한다. 일부 시스템에서는 <code>memalign()</code>이나 <code>valloc()</code>으로 할당한 메모리를 회수하기 위한 방법을 제공하지 않는다. (<tt>[[malloc(3)]]</tt>에게서 얻은 포인터만 <tt>[[free(3)]]</tt>에 줄 수 있는데 가령 <code>memalign()</code>에서 <tt>[[malloc(3)]]</tt>을 호출해서 얻은 값을 정렬하게 되기 때문이다.) glibc 구현에서는 위 함수들 중 무엇으로 얻은 메모리든지 <tt>[[free(3)]]</tt>로 회수할 수 있다.</p>
-<p>glibc의 <tt>[[malloc(3)]]</tt>은 항상 8바이트에 정렬된 메모리 주소를 반환한다. 따라서 더 큰 정렬 값이 필요할 때만 이 함수들을 쓰면 된다.</p>
+<p>POSIX에서는 <code>posix_memalign()</code>에게서 얻은 메모리를 <tt><a class="wikilink" href="/man-pages-ko/free(3)/">free(3)</a></tt>로 해제할 수 있어야 한다고 요구한다. 일부 시스템에서는 <code>memalign()</code>이나 <code>valloc()</code>으로 할당한 메모리를 회수하기 위한 방법을 제공하지 않는다. (<tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt>에게서 얻은 포인터만 <tt><a class="wikilink" href="/man-pages-ko/free(3)/">free(3)</a></tt>에 줄 수 있는데 가령 <code>memalign()</code>에서 <tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt>을 호출해서 얻은 값을 정렬하게 되기 때문이다.) glibc 구현에서는 위 함수들 중 무엇으로 얻은 메모리든지 <tt><a class="wikilink" href="/man-pages-ko/free(3)/">free(3)</a></tt>로 회수할 수 있다.</p>
+<p>glibc의 <tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt>은 항상 8바이트에 정렬된 메모리 주소를 반환한다. 따라서 더 큰 정렬 값이 필요할 때만 이 함수들을 쓰면 된다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[brk(2)]]</tt>, <tt>[[getpagesize(2)]]</tt>, <tt>[[free(3)]]</tt>, <tt>[[malloc(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/brk(2)/">brk(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/getpagesize(2)/">getpagesize(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/free(3)/">free(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt></p>
 <hr />
-<p>2019-05-09</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

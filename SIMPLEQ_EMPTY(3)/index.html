@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/SIMPLEQ_EMPTY%283%29/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>SIMPLEQ_EMPTY(3) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+            <li class="second-level"><a href="#_1">생성</a></li>
+                
+            <li class="second-level"><a href="#_2">삽입</a></li>
+                
+            <li class="second-level"><a href="#_3">순회</a></li>
+                
+            <li class="second-level"><a href="#_4">제거</a></li>
+                
+            <li class="second-level"><a href="#_5">기타</a></li>
+                
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#bugs">BUGS</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>SIMPLEQ_EMPTY, SIMPLEQ_ENTRY, SIMPLEQ_FIRST, SIMPLEQ_FOREACH, SIMPLEQ_HEAD, SIMPLEQ_HEAD_INITIALIZER, SIMPLEQ_INIT, SIMPLEQ_INSERT_AFTER, SIMPLEQ_INSERT_HEAD, SIMPLEQ_INSERT_TAIL, SIMPLEQ_NEXT, SIMPLEQ_REMOVE, SIMPLEQ_REMOVE_HEAD, STAILQ_CONCAT, STAILQ_EMPTY, STAILQ_ENTRY, STAILQ_FIRST, STAILQ_FOREACH, STAILQ_HEAD, STAILQ_HEAD_INITIALIZER, STAILQ_INIT, STAILQ_INSERT_AFTER, STAILQ_INSERT_HEAD, STAILQ_INSERT_TAIL, STAILQ_NEXT, STAILQ_REMOVE, STAILQ_REMOVE_HEAD - 단일 연결 꼬리 큐 구현</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="language-c">#include &lt;sys/queue.h&gt;
+
+STAILQ_ENTRY(TYPE);
+
+STAILQ_HEAD(HEADNAME, TYPE);
+STAILQ_HEAD STAILQ_HEAD_INITIALIZER(STAILQ_HEAD head);
+void STAILQ_INIT(STAILQ_HEAD *head);
+
+int STAILQ_EMPTY(STAILQ_HEAD *head);
+
+void STAILQ_INSERT_HEAD(STAILQ_HEAD *head,
+                         struct TYPE *elm, STAILQ_ENTRY NAME);
+void STAILQ_INSERT_TAIL(STAILQ_HEAD *head,
+                         struct TYPE *elm, STAILQ_ENTRY NAME);
+void STAILQ_INSERT_AFTER(STAILQ_HEAD *head, struct TYPE *listelm,
+                         struct TYPE *elm, STAILQ_ENTRY NAME);
+
+struct TYPE *STAILQ_FIRST(STAILQ_HEAD *head);
+struct TYPE *STAILQ_NEXT(struct TYPE *elm, STAILQ_ENTRY NAME);
+
+STAILQ_FOREACH(struct TYPE *var, STAILQ_HEAD *head, STAILQ_ENTRY NAME);
+
+void STAILQ_REMOVE(STAILQ_HEAD *head, struct TYPE *elm, TYPE,
+                         STAILQ_ENTRY NAME);
+void STAILQ_REMOVE_HEAD(STAILQ_HEAD *head,
+                         STAILQ_ENTRY NAME);
+
+void STAILQ_CONCAT(STAILQ_HEAD *head1, STAILQ_HEAD *head2);
+</code></pre>
+<p><em>주의</em>: 앞에 STAILQ 대신 SIMPLEQ가 붙은 동일한 매크로들이 존재한다. NOTES 참고.</p>
+<h2 id="description">DESCRIPTION</h2>
+<p>이 매크로들은 단일 연결 꼬리 큐를 정의하고 조작한다.</p>
+<p>매크로 정의에서 <code>TYPE</code>은 사용자 정의 구조체의 이름이며, 그 구조체에는 타입이 <code>STAILQ_ENTRY</code>이고 이름이 <code>NAME</code>인 필드가 있어야 한다. <code>HEADNAME</code> 인자는 <code>STAILQ_HEAD()</code> 매크로를 써&gt;서 선언해야 하는 사용자 정의 구조체의 이름이다.</p>
+<h3 id="_1">생성</h3>
+<p>단일 연결 꼬리 큐의 머리는 <code>STAILQ_HEAD()</code> 매크로로 정의한 구조체이다. 이 구조체에는 포인터 한 쌍이 있는데, 하나는 꼬리 큐의 첫 번째 항목을 가리키고 다른 하나는 꼬리 큐의 마지막 항목을 가리킨다. 공간 및 포인터 조작 오버헤드를 최소화하기 위해 단일 연결로 되어 있으며, 대신 임의 항목 제거에 O(n) 비용이 든다. 기존 항목 뒤에, 또는 꼬리 큐 머리나 꼬리 큐 끝에 새 항목을 추가할 수 있다. <code>STAILQ_HEAD</code> 구조체를 다음처럼 선언한다.</p>
+<pre><code class="language-c">STAILQ_HEAD(HEADNAME, TYPE) head;
+</code></pre>
+<p><code>struct HEADNAME</code>이 정의하려는 구조체의 이름이고 <code>struct TYPE</code>이 꼬리 큐로 연결할 항목들의 타입이다. 이후 다음처럼 꼬리 큐 머리에 대한 포인터를 선언할 수 있다.</p>
+<pre><code class="language-c">struct HEADNAME *headp;
+</code></pre>
+<p>(이름 <code>head</code>와 <code>headp</code>는 사용자가 정할 수 있다.)</p>
+<p><code>STAILQ_ENTRY()</code>는 꼬리 큐에서 항목들을 연결하는 구조체를 선언한다.</p>
+<p><code>STAILQ_HEAD_INITIALIZER()</code>는 꼬리 큐 <code>head</code>를 위한 초기화 값으로 평가된다.</p>
+<p><code>STAILQ_INIT()</code>은 <code>head</code>가 가리키는 꼬리 큐를 초기화 한다.</p>
+<p><code>STAILQ_EMPTY()</code>는 꼬리 큐에 아무 항목도 없으면 참으로 평가된다.</p>
+<h3 id="_2">삽입</h3>
+<p><code>STAILQ_INSERT_HEAD()</code>는 새 항목 <code>elm</code>을 꼬리 큐의 머리에 삽입한다.</p>
+<p><code>STAILQ_INSERT_TAIL()</code>은 새 항목 <code>elm</code>을 꼬리 큐의 끝에 삽입한다.</p>
+<p><code>STAILQ_INSERT_AFTER()</code>는 새 항목 <code>elm</code>을 항목 <code>listelm</code> 뒤에 삽입한다.</p>
+<h3 id="_3">순회</h3>
+<p><code>STAILQ_FIRST()</code>는 꼬리 큐의 첫 번째 항목을 반환하며 꼬리 큐가 비어 있으면 NULL을 반환한다.</p>
+<p><code>STAILQ_NEXT()</code>는 꼬리 큐 내의 다음 항목을 반환하며, 현 항목이 마지막이면 NULL을 반환한다.</p>
+<p><code>STAILQ_FOREACH()</code>는 <code>head</code>가 가리키는 꼬리 큐를 순방향으로 순회하면서 각 항목을 차례로 <code>var</code>에 할당한다.</p>
+<h3 id="_4">제거</h3>
+<p><code>STAILQ_REMOVE()</code>는 항목 <code>elm</code>을 꼬리 큐에서 제거한다.</p>
+<p><code>STAILQ_REMOVE_HEAD()</code>는 꼬리 큐의 머리에 있는 항목을 제거한다. 최고의 효율성을 위해선 꼬리 큐의 머리에서 항목을 제거할 때 범용 <code>STAILQ_REMOVE()</code> 매크로 대신 명시적으로 이 매크로를 쓰는 게 좋다.</p>
+<h3 id="_5">기타</h3>
+<p><code>STAILQ_CONCAT()</code>은 <code>head2</code>가 가리키는 꼬리 큐를 <code>head1</code>이 가리키는 꼬리 큐 끝에 이어 붙이고 <code>head2</code>에서 모든 항목을 제거한다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p><code>STAILQ_EMPTY()</code>는 큐가 비어 있으면 0 아닌 값을 반환하고, 큐에 한 항목이라도 있으면 0을 반환한다.</p>
+<p><code>STAILQ_FIRST()</code>와 <code>STAILQ_NEXT()</code>는 각각 처음 또는 다음 <code>TYPE</code> 구조체에 대한 포인터를 반환한다.</p>
+<p><code>STAILQ_HEAD_INITIALIZER()</code>는 큐 <code>head</code>에 할당할 수 있는 초기화 값을 반환한다.</p>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>POSIX.1, POSIX.1-2001, POSIX.1-2008에 없다. BSD들에 있다. (4.4BSD에서 STAILQ 매크로들이 처음 등장했다.)</p>
+<h2 id="bugs">BUGS</h2>
+<p><code>STAILQ_FOREACH()</code>에서 <code>var</code>를 루프 안에서 제거하거나 해제하는 것이 허용되지 않는다. 순회를 방해하게 되기 때문이다. BSD들에 있지만 glibc에는 없는 <code>STAILQ_FOREACH_SAFE()</code>에서 이 제약을 수정해서, 순회를 방해하지 않고 루프 안에서 <code>var</code>를 안전하게 리스트에서 제거하고 해제하는 것이 허용된다.</p>
+<h2 id="notes">NOTES</h2>
+<p>일부 BSD들에선 STAILQ 대신 SIMPLEQ를 제공한다. 둘은 동일하지만 역사적 이유 때문에 다른 이름이 붙었다. STAILQ는 FreeBSD에서 유래했고 SIMPLEQ는 NetBSD에서 유래했다. 호환성을 위해 어떤 시스템에선 두 매크로 세트를 모두 제공한다. glibc에서는 STAILQ와 SIMPLEQ를 모두 제공하는데, <code>STAILQ_CONCAT()</code>에 대응하는 SIMPLEQ 매크로가 없다는 점을 빼고 서로 동일하다.</p>
+<h2 id="examples">EXAMPLES</h2>
+<pre><code class="language-c">#include &lt;stddef.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;sys/queue.h&gt;
+
+struct entry {
+    int data;
+    STAILQ_ENTRY(entry) entries;        /* 단일 연결 꼬리 큐 */
+};
+
+STAILQ_HEAD(stailhead, entry);
+
+int
+main(void)
+{
+    struct entry *n1, *n2, *n3, *np;
+    struct stailhead head;                  /* 단일 연결 꼬리 큐 머리 */
+
+    STAILQ_INIT(&amp;head);                     /* 큐 초기화 */
+
+    n1 = malloc(sizeof(struct entry));      /* 머리에 삽입 */
+    STAILQ_INSERT_HEAD(&amp;head, n1, entries);
+
+    n1 = malloc(sizeof(struct entry));      /* 꼬리에 삽입 */
+    STAILQ_INSERT_TAIL(&amp;head, n1, entries);
+
+    n2 = malloc(sizeof(struct entry));      /* 바로 뒤에 삽입 */
+    STAILQ_INSERT_AFTER(&amp;head, n1, n2, entries);
+
+    STAILQ_REMOVE(&amp;head, n2, entry, entries); /* 삭제 */
+    free(n2);
+
+    n3 = STAILQ_FIRST(&amp;head);
+    STAILQ_REMOVE_HEAD(&amp;head, entries);     /* 머리에서 삭제 */
+    free(n3);
+
+    n1 = STAILQ_FIRST(&amp;head);
+    n1-&gt;data = 0;
+    for (int i = 1; i &lt; 5; i++) {
+        n1 = malloc(sizeof(struct entry));
+        STAILQ_INSERT_HEAD(&amp;head, n1, entries);
+        n1-&gt;data = i;
+    }
+                                            /* 순방향 순회 */
+    STAILQ_FOREACH(np, &amp;head, entries)
+        printf(&quot;%i\n&quot;, np-&gt;data);
+                                            /* 꼬리 큐 삭제 */
+    n1 = STAILQ_FIRST(&amp;head);
+    while (n1 != NULL) {
+        n2 = STAILQ_NEXT(n1, entries);
+        free(n1);
+        n1 = n2;
+    }
+    STAILQ_INIT(&amp;head);
+
+    exit(EXIT_SUCCESS);
+}
+</code></pre>
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt><a class="wikilink" href="/man-pages-ko/insque(3)/">insque(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/queue(7)/">queue(7)</a></tt></p>
+<hr />
+<p>2021-03-22</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/tee(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/tee%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Tee(2) - man-pages-ko</title>
+    <title>tee(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -143,7 +143,7 @@
         <li class="first-level "><a href="#versions">VERSIONS</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
             <li class="second-level"><a href="#_1">프로그램 소스</a></li>
                 
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
@@ -154,24 +154,23 @@
 <h2 id="name">NAME</h2>
 <p>tee - 파이프 내용물 복제하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
+<pre><code class="language-c">#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
 #include &lt;fcntl.h&gt;
 
 ssize_t tee(int fd_in, int fd_out, size_t len, unsigned int flags);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
-<p><code>tee()</code>는 파일 디스크립터 <code>fd_in</code>이 가리키는 파이프에서 온 데이터를 파일 디스크립터 <code>fd_out</code>이 가리키는 파이프로 최대 <code>len</code> 바이트까지 복제한다. <code>fd_in</code>에서 복제한 데이터를 소모하지 않는다. 따라서 이어지는 <tt>[[splice(2)]]</tt>로 그 데이터를 복사할 수 있다.</p>
+<p><code>tee()</code>는 파일 디스크립터 <code>fd_in</code>이 가리키는 파이프에서 온 데이터를 파일 디스크립터 <code>fd_out</code>이 가리키는 파이프로 최대 <code>len</code> 바이트까지 복제한다. <code>fd_in</code>에서 복제한 데이터를 소모하지 않는다. 따라서 이어지는 <tt><a class="wikilink" href="/man-pages-ko/splice(2)/">splice(2)</a></tt>로 그 데이터를 복사할 수 있다.</p>
 <p><code>flags</code>는 다음 값을 0개 이상 OR 해서 구성한 비트 마스크이다.</p>
 <dl>
 <dt><code>SPLICE_F_MOVE</code></dt>
-<dd>현재 <code>tee()</code>에 아무 효과가 없다. <tt>[[splice(2)]]</tt> 참고.</dd>
+<dd>현재 <code>tee()</code>에 아무 효과가 없다. <tt><a class="wikilink" href="/man-pages-ko/splice(2)/">splice(2)</a></tt> 참고.</dd>
 <dt><code>SPLICE_F_NONBLOCK</code></dt>
-<dd>I/O에서 블록 하지 않는다. 자세한 내용은 <tt>[[splice(2)]]</tt> 참고.</dd>
+<dd>I/O에서 블록 하지 않는다. 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/splice(2)/">splice(2)</a></tt> 참고.</dd>
 <dt><code>SPLICE_F_MORE</code></dt>
-<dd>현재 <code>tee()</code>에 아무 효과가 없지만 향후에 구현될 수도 있다. <tt>[[splice(2)]]</tt> 참고.</dd>
+<dd>현재 <code>tee()</code>에 아무 효과가 없지만 향후에 구현될 수도 있다. <tt><a class="wikilink" href="/man-pages-ko/splice(2)/">splice(2)</a></tt> 참고.</dd>
 <dt><code>SPLICE_F_GIFT</code></dt>
-<dd><code>tee()</code>에서는 쓰지 않는다. <tt>[[vmsplice(2)]]</tt> 참고.</dd>
+<dd><code>tee()</code>에서는 쓰지 않는다. <tt><a class="wikilink" href="/man-pages-ko/vmsplice(2)/">vmsplice(2)</a></tt> 참고.</dd>
 </dl>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 완료 시 <code>tee()</code>는 입력과 출력 간에 복제한 바이트 수를 반환한다. 반환 값 0은 이동시킬 데이터가 없었으며 <code>fd_in</code>이 가리키는 파이프의 쓰기 쪽에 연결된 쓰기 수행자가 없어서 블록 하는 것이 의미가 없었음을 뜻한다.</p>
@@ -191,16 +190,15 @@ ssize_t tee(int fd_in, int fd_out, size_t len, unsigned int flags);
 <p>이 시스템 호출은 리눅스 전용이다.</p>
 <h2 id="notes">NOTES</h2>
 <p>개념적으로 <code>tee()</code>는 두 파이프 간에 데이터를 복사한다. 하지만 실제로는 어떤 데이터 복사도 이뤄지지 않는다. 내부적으로 <code>tee()</code>는 입력에 대한 참조만 잡고서 데이터를 출력 쪽으로 할당한다.</p>
-<h2 id="example">EXAMPLE</h2>
+<h2 id="examples">EXAMPLES</h2>
 <p>아래 예에서는 <code>tee()</code> 시스템 호출을 이용해 기본적인 <code>tee(1)</code> 프로그램을 구현한다. 다음이 사용 예시이다.</p>
-<pre><code class="text">$ date |./a.out out.log | cat
+<pre><code class="language-text">$ date |./a.out out.log | cat
 Tue Oct 28 10:06:00 CET 2014
 $ cat out.log
 Tue Oct 28 10:06:00 CET 2014
 </code></pre>
-
 <h3 id="_1">프로그램 소스</h3>
-<pre><code class="c">#define _GNU_SOURCE
+<pre><code class="language-c">#define _GNU_SOURCE
 #include &lt;fcntl.h&gt;
 #include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
@@ -259,11 +257,10 @@ main(int argc, char *argv[])
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[splice(2)]]</tt>, <tt>[[vmsplice(2)]]</tt>, <tt>[[pipe(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/splice(2)/">splice(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/vmsplice(2)/">vmsplice(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pipe(7)/">pipe(7)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2020-06-09</p></div>
         
         
     </div>

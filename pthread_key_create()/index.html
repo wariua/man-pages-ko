@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_key_create()/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_key_create%28%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Pthread key create() - man-pages-ko</title>
+    <title>pthread_key_create() - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -160,11 +160,10 @@
 <h2 id="name">NAME</h2>
 <p>pthread_key_create - 스레드별 데이터 키 생성</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;pthread.h&gt;
+<pre><code class="language-c">#include &lt;pthread.h&gt;
 
 int pthread_key_create(pthread_key_t *key, void (*destructor)(void*));
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>pthread_key_create()</code> 함수는 프로세스 내 모든 스레드에게 보이는 스레드별 데이터 키를 생성한다. <code>pthread_key_create()</code>가 내놓는 키 값은 스레드별 데이터 위치를 얻는 데 쓰는 불투명 객체이다. 여러 스레드에서 같은 키 값을 사용할 수 있으며, <code>pthread_setspecific()</code>으로 키에 결속한 값은 스레드별로 관리되고 호출 스레드의 수명 동안 유지된다.</p>
 <p>키 생성 시 모든 활성 스레드에서 새 키에 NULL 값이 연계된다. 스레드 생성 시 새 스레드에서 모든 정의된 키에 NULL 값이 연계된다.</p>
@@ -184,7 +183,7 @@ int pthread_key_create(pthread_key_t *key, void (*destructor)(void*));
 <p><em>이하는 규범적이지 않은 내용이다.</em></p>
 <h2 id="examples">EXAMPLES</h2>
 <p>다음 예의 함수는 최초 호출 때 스레드별 데이터 키를 초기화 하며, 필요시 초기화를 해서 스레드별 객체를 호출 스레드에 연결해 준다.</p>
-<pre><code class="c">static pthread_key_t key;
+<pre><code class="language-c">static pthread_key_t key;
 static pthread_once_t key_once = PTHREAD_ONCE_INIT;
 
 static void
@@ -206,9 +205,8 @@ func()
     ...
 }
 </code></pre>
-
 <p>참고로 <code>pthread_getspecific()</code>이나 <code>pthread_setspecific()</code>을 쓰기 전에 키를 초기화 해야 한다. 모듈 초기화 루틴에서 명시적으로 <code>pthread_key_create()</code> 호출을 할 수도 있고 이 예에서처럼 최초 호출에서 묵시적으로 할 수도 있다. 초기화 전에 키를 사용하려는 시도는 모두 프로그래밍 오류이며, 그래서 아래 코드는 잘못된 것이다.</p>
-<pre><code class="c">static pthread_key_t key;
+<pre><code class="language-c">static pthread_key_t key;
 
 func()
 {
@@ -222,19 +220,17 @@ func()
     }
 }
 </code></pre>
-
 <h2 id="application-usage">APPLICATION USAGE</h2>
 <p>없음.</p>
 <h2 id="rationale">RATIONALE</h2>
 <h3 id="_1">소멸자 함수</h3>
 <p>보통 특정 스레드에 대해 키에 결속되는 값은 그 호출 스레드를 위해 동적으로 할당한 저장 공간을 가리키는 포인터이다. <code>pthread_key_create()</code>에 지정하는 소멸자 함수는 스레드가 끝날 때 그 공간을 해제하기 위한 것이다. 여기에 스레드 취소 정리 핸들러를 이용할 수는 없는데, 취소 정리 핸들러가 동작하는 문법적 스코프 밖에서 스레드별 데이터가 계속 존재할 수도 있기 때문이다.</p>
 <p>스레드 동작 기간 중에 어떤 키에 연계된 값을 갱신해야 하는 경우 새 값을 결속하기 전에 이전 값에 연계된 저장 공간을 해제해야 할 수도 있다. 이를 <code>pthread_setspecific()</code> 함수에서 자동으로 해 줄 수도 있겠지만 그로 인한 복잡성 추가를 정당화 할 만큼 자주 필요한 기능이 아니다. 대신 프로그래머가 이전 공간 해제를 책임진다.</p>
-<pre><code class="c">pthread_getspecific(key, &amp;old);
+<pre><code class="language-c">pthread_getspecific(key, &amp;old);
 new = allocate();
 destructor(old);
 pthread_setspecific(key, new);
 </code></pre>
-
 <p><strong>주의</strong>: 비동기 취소를 켜고서 실행하면 위 예에서 저장 공간 누수가 일어날 수도 있다. get과 set 사이에 어떤 취소점도 없다면 기본 취소 상태에서 그런 문제가 발생하지 않는다.</p>
 <p>소멸자에 안전한 함수라는 개념은 없다. 응용이 시그널 핸들러에서 <code>pthread_exit()</code>를 호출하지 않는다면, 또는 핸들러에서 <code>pthread_exit()</code>를 호출할 수도 있는 시그널을 비동기 안전하지 않은 함수를 호출하는 동안 막아 둔다면 소멸자에서 모든 함수들을 안전하게 호출할 수 있다.</p>
 <h3 id="_2">비멱등 데이터 키 생성</h3>
@@ -244,7 +240,7 @@ pthread_setspecific(key, new);
 <h2 id="future-directions">FUTURE DIRECTIONS</h2>
 <p>없음.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[pthread_getspecific()]]</tt>, <tt>[[pthread_key_delete()]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/pthread_getspecific()/">pthread_getspecific()</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_key_delete()/">pthread_key_delete()</a></tt></p>
 <p>POSIX.1-2008 Base Definitions 권, <code>&lt;pthread.h&gt;</code></p>
 <h2 id="copyright">COPYRIGHT</h2>
 <p>Portions of this text are reprinted and reproduced in electronic form from IEEE Std 1003.1, 2013 Edition, Standard for Information Technology -- Portable Operating System Interface (POSIX), The Open Group Base Specifications Issue 7, Copyright (C) 2013 by the Institute of Electrical and Electronics Engineers, Inc and The Open Group. (This is POSIX.1-2008 with the 2013 Technical Corrigendum 1 applied.) In the event of any discrepancy between this version and the original IEEE and The Open Group Standard, the original IEEE and The Open Group Standard is the referee document. The original Standard can be obtained online at <a href="http://www.unix.org/online.html">http://www.unix.org/online.html</a>.</p>

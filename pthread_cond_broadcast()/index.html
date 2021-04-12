@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_cond_broadcast()/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_cond_broadcast%28%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Pthread cond broadcast() - man-pages-ko</title>
+    <title>pthread_cond_broadcast() - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -158,12 +158,11 @@
 <h2 id="name">NAME</h2>
 <p>pthread_cond_broadcast, pthread_cond_signal - 조건을 동보하거나 알리기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;pthread.h&gt;
+<pre><code class="language-c">#include &lt;pthread.h&gt;
 
 int pthread_cond_broadcast(pthread_cond_t *cond);
 int pthread_cond_signal(pthread_cond_t *cond);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p>이 함수들은 조건 변수에 블록 되어 있는 스레드를 풀어 준다.</p>
 <p><code>pthread_cond_broadcast()</code> 함수는 지정한 조건 변수 <code>cond</code>에 현재 블록 되어 있는 모든 스레드를 풀어 준다.</p>
@@ -210,14 +209,13 @@ pthread_cond_signal(cond):
     }
     pthread_mutex_unlock(cond-&gt;mutex); /* 9 */
 </code></pre>
-
 <p>결과는 <code>pthread_cond_signal()</code> 호출 한 번에 의해 여러 스레드가 <code>pthread_cond_wait()</code> 내지 <code>pthread_cond_timedwait()</code> 호출에서 반환할 수 있다는 것이다. 이를 "거짓 깨어남(spurious wakeup)"라고 한다. 참고로 그렇게 깨어나는 스레드 수가 유한하므로 그 상황은 알아서 바로잡힌다. 예를 들어 위의 실행 순서 후에 다음으로 <code>pthread_cond_wait()</code>을 호출하는 스레드는 블록 한다.</p>
 <p>이 문제를 해결할 수도 있겠지만 드물게만 발생하는 주변적 조건 때문에 효율성을 잃는 것이 수용 가능하지 않으며, 어차피 조건 변수에 연관된 술어를 검사해야 한다면 특히 그렇다. 이 문제를 고치는 것이 모든 상위 동기화 동작들의 기초가 되는 이 구성 요소의 동시성 수준을 불필요하게 감소시키게 될 것이다.</p>
 <p>거짓 깨어남을 허용할 때의 추가 이득은 응용에서 조건 대기를 감싸는 술어 검사 루프 코드를 작성하도록 강제한다는 점이다. 이렇게 하면 응용의 어떤 다른 부분에 코딩 되어 있을 수 있는 동일 조건 변수에 대한 불필요한 조건 동보나 신호를 응용이 용인할 수 있게 되기도 한다. 그 결과 응용이 더 견고해진다. 그래서 POSIX.1-2008에서는 거짓 깨어나기가 발생할 수 있다고 명시적으로 적고 있다.</p>
 <h2 id="future-directions">FUTURE DIRECTIONS</h2>
 <p>없음.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p>[[pthread_cond_destroy()]], [[pthread_cond_timedwait()]]</p>
+<p><a class="wikilink" href="/man-pages-ko/pthread_cond_destroy()/">pthread_cond_destroy()</a>, <a class="wikilink" href="/man-pages-ko/pthread_cond_timedwait()/">pthread_cond_timedwait()</a></p>
 <p>POSIX.1-2008 Base Definitions 권, <em>4.11절 Memory Synchronization</em>, <code>&lt;pthread.h&gt;</code></p>
 <h2 id="copyright">COPYRIGHT</h2>
 <p>Portions of this text are reprinted and reproduced in electronic form from IEEE Std 1003.1, 2013 Edition, Standard for Information Technology -- Portable Operating System Interface (POSIX), The Open Group Base Specifications Issue 7, Copyright (C) 2013 by the Institute of Electrical and Electronics Engineers, Inc and The Open Group. (This is POSIX.1-2008 with the 2013 Technical Corrigendum 1 applied.) In the event of any discrepancy between this version and the original IEEE and The Open Group Standard, the original IEEE and The Open Group Standard is the referee document. The original Standard can be obtained online at <a href="http://www.unix.org/online.html">http://www.unix.org/online.html</a>.</p>

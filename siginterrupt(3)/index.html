@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/siginterrupt(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/siginterrupt%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Siginterrupt(3) - man-pages-ko</title>
+    <title>siginterrupt(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -150,31 +150,30 @@
 <h2 id="name">NAME</h2>
 <p>siginterrupt - 시그널이 시스템 호출을 중단시킬 수 있게 허용하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;signal.h&gt;
+<pre><code class="language-c">#include &lt;signal.h&gt;
 
 int siginterrupt(int sig, int flag);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>siginterrupt()</code>:</dt>
 <dd><code>_XOPEN_SOURCE &gt;= 500</code><br>
 <code>|| /* glibc 2.12부터: */ _POSIX_C_SOURCE &gt;= 200809L</code><br>
-<code>|| /* glibc 버전 &lt;= 2.19: */ _BSD_SOURCE</code></dd>
+<code>|| /* glibc &lt;= 2.19: */ _BSD_SOURCE</code></dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>siginterrupt()</code> 함수는 시그널 <code>sig</code>에 의해 시스템 호출이 중단될 때의 재시작 동작 방식을 변경한다. <code>flag</code> 인자가 거짓(0)이면 지정한 시그널 <code>sig</code>에 의해 중단된 경우 시스템 호출이 재시작 된다. 이것이 리눅스에서 기본 동작 방식이다.</p>
 <p><code>flag</code>가 참(1)이고 어떤 데이터도 이동하지 않았으면 시그널 <code>sig</code>에 의해 중단된 시스템 호출이 -1을 반환하게 되고 <code>errno</code>가 <code>EINTR</code>로 설정된다.</p>
 <p><code>flag</code>가 참(1)이고 데이터 이동이 시작됐으면 시스템 호출이 중단되고 실제 전송된 데이터의 양을 반환하게 된다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p><code>siginterrupt()</code> 함수는 성공 시 0을 반환한다. 시그널 번호 <code>sig</code>가 유효하지 않으면 -1을 반환하고 오류 원인을 나타내도록 <code>errno</code>를 설정한다.</p>
+<p><code>siginterrupt()</code> 함수는 성공 시 0을 반환한다. 시그널 번호 <code>sig</code>가 유효하지 않으면 -1을 반환하고 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EINVAL</code></dt>
 <dd>지정한 시그널 번호가 유효하지 않다.</dd>
 </dl>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -192,11 +191,11 @@ int siginterrupt(int sig, int flag);
 </tbody>
 </table>
 <h2 id="conforming-to">CONFORMING TO</h2>
-<p>4.3BSD, POSIX.1-2001. POSIX.1-2008에서는 <code>siginterrupt()</code>를 구식으로 표시하며 대신 <tt>[[sigaction(2)]]</tt>을 <code>SA_RESTART</code> 플래그와 함께 사용하기를 권장한다.</p>
+<p>4.3BSD, POSIX.1-2001. POSIX.1-2008에서는 <code>siginterrupt()</code>를 구식으로 표시하며 대신 <tt><a class="wikilink" href="/man-pages-ko/sigaction(2)/">sigaction(2)</a></tt>을 <code>SA_RESTART</code> 플래그와 함께 사용하기를 권장한다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[signal(2)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/signal(2)/">signal(2)</a></tt></p>
 <hr />
-<p>2016-03-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

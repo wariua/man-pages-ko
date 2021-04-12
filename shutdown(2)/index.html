@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/shutdown(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/shutdown%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Shutdown(2) - man-pages-ko</title>
+    <title>shutdown(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -151,15 +151,14 @@
 <h2 id="name">NAME</h2>
 <p>shutdown - 전이중 연결의 일부 정지시키기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;sys/socket.h&gt;
+<pre><code class="language-c">#include &lt;sys/socket.h&gt;
 
 int shutdown(int sockfd, int how);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>shutdown()</code> 호출은 <code>sockfd</code>에 연계된 소켓 상의 전이중 연결 전체 또는 일부를 정지시킨다. <code>how</code>가 <code>SHUT_RD</code>이면 더는 수신이 허용되지 않게 된다. <code>how</code>가 <code>SHUT_WR</code>이면 더는 송신이 허용되지 않게 된다. <code>how</code>가 <code>SHUT_RDWR</code>이면 더는 수신과 송신이 허용되지 않게 된다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 0을 반환한다. 오류 시 -1을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<p>성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EBADF</code></dt>
@@ -178,9 +177,9 @@ int shutdown(int sockfd, int how);
 <h2 id="bugs">BUGS</h2>
 <p><code>how</code>의 유효성 검사는 도메인별 코드에서 이뤄지는데 리눅스 3.7 전에는 모든 도메인에서 이 검사를 수행하지는 않았다. 특히 유닉스 도메인 소켓에서 유효하지 않은 값을 그냥 무시했다. 유닉스 도메인 소켓에 대해선 리눅스 3.7에서 이 문제가 수정되었다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[close(2)]]</tt>, <code>connect(2)</code>, <tt>[[socket(2)]]</tt>, <tt>[[socket(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/close(2)/">close(2)</a></tt>, <code>connect(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/socket(2)/">socket(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/socket(7)/">socket(7)</a></tt></p>
 <hr />
-<p>2018-04-30</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/gdb(1)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/gdb%281%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Gdb(1) - man-pages-ko</title>
+    <title>gdb(1) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -174,18 +174,15 @@ gdb [<strong>-help</strong>] [<strong>-nh</strong>] [<strong>-nx</strong>] [<str
 <p>GDB를 사용해 C, C++, Fortran, Modula-2로 작성된 프로그램을 디버그 할 수 있다.</p>
 <p>셸 명령 "gdb"로 GDB를 실행한다. 시작하고 나면 GDB 명령 "quit"으로 나가라고 할 때까지 터미널에서 명령들을 읽어 들인다. "help" 명령을 쓰면 GDB 내장 도움말을 볼 수 있다.</p>
 <p>아무 인자나 옵션 없이도 "gdb"를 실행할 수 있다. 하지만 GDB를 실행할 때 가장 흔한 방식은 인자 한 개나 두 개로 실행 프로그램을 지정하는 것이다.</p>
-<pre><code class="sh">gdb program
+<pre><code class="language-sh">gdb program
 </code></pre>
-
 <p>실행 프로그램과 코어 파일을 모두 지정해서 시작할 수도 있다.</p>
-<pre><code class="sh">gdb program core
+<pre><code class="language-sh">gdb program core
 </code></pre>
-
 <p>또는 실행 중인 프로세스를 디버그 하고 싶다면 두 번째 인자로 프로세스 ID를 지정할 수 있다.</p>
-<pre><code class="sh">gdb program 1234
+<pre><code class="language-sh">gdb program 1234
 gdb -p 1234
 </code></pre>
-
 <p>그러면 GDB가 프로세스 1234에 붙게 된다. (단 <code>1234</code>라는 파일이 없어야 한다. GDB는 코어 파일을 먼저 확인한다.) <code>-p</code> 옵션을 쓰면 파일명 <code>program</code>을 생략할 수 있다.</p>
 <p>다음은 자주 쓰는 몇 가지 GDB 명령들이다.</p>
 <dl>
@@ -259,9 +256,8 @@ gdb -p 1234
 </dl>
 <h2 id="see-also">SEE ALSO</h2>
 <p>완전한 GDB 문서는 Texinfo 설명서 형태로 유지한다. "info"와 "gdb" 프로그램, 그리고 GDB의 Texinfo 문서가 올바로 설치돼 있다면 다음 명령으로 완전한 설명서를 볼 수 있다.</p>
-<pre><code class="sh">info gdb
+<pre><code class="language-sh">info gdb
 </code></pre>
-
 <p><em>Using GDB: A Guide to the GNU Source-Level Debugger</em>, Richard M. Stallman and Roland H. Pesch, 1991년 7월.</p>
 <h2 id="copyright">COPYRIGHT</h2>
 <p>Copyright (c) 1988-2018 Free Software Foundation, Inc.</p>

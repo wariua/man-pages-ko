@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/strtof(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/strtof%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Strtof(3) - man-pages-ko</title>
+    <title>strtof(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -143,7 +143,7 @@
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
@@ -152,14 +152,13 @@
 <h2 id="name">NAME</h2>
 <p>strtod, strtof, strtold - ASCII 문자열을 부동소수점수로 변환하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;stdlib.h&gt;
+<pre><code class="language-c">#include &lt;stdlib.h&gt;
 
-double strtod(const char *nptr, char **endptr);
-float strtof(const char *nptr, char **endptr);
-long double strtold(const char *nptr, char **endptr);
+double strtod(const char *restrict nptr, char **restrict endptr);
+float strtof(const char *restrict nptr, char **restrict endptr);
+long double strtold(const char *restrict nptr, char **restrict endptr);
 </code></pre>
-
-<p>glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):</p>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
 <dt><code>strtof()</code>, <code>strtold()</code>:</dt>
 <dd><code>_ISOC99_SOURCE || _POSIX_C_SOURCE &gt;= 200112L</code></dd>
@@ -175,14 +174,15 @@ long double strtold(const char *nptr, char **endptr);
 <p>이 함수들은 변환한 값이 있으면 그 값을 반환한다.</p>
 <p><code>endptr</code>이 NULL이 아니면 변환에 쓴 마지막 문자 다음 문자에 대한 포인터를 <code>endptr</code>이 가리키는 위치에 저장한다.</p>
 <p>어떤 변환도 수행하지 않았으면 0을 반환하며 (<code>endptr</code>이 널이 아니면) <code>nptr</code>의 값을 <code>endptr</code>이 가리키는 위치에 저장한다.</p>
-<p>값이 오버플로우를 일으키게 되면 (그 값의 부호에 따라) 양수 또는 음수 <code>HUGE_VAL</code>(<code>HUGE_VALF</code>, <code>HUGE_VALL</code>)을 반환하며 <code>errno</code>에 <code>ERANGE</code>를 저장한다. 값이 언더플로우를 일으키게 되면 0을 반환하며 <code>errno</code>에 <code>ERANGE</code>를 저장한다.</p>
+<p>값이 오버플로우를 일으키게 되면 (그 값의 반환 타입과 부호에 따라) 양수 또는 음수인 <code>HUGE_VAL</code>, <code>HUGE_VALF</code>, <code>HUGE_VALL</code>을 반환하며 <code>errno</code>에 <code>ERANGE</code>를 저장한다.</p>
+<p>값이 언더플로우를 일으키게 되면 크기가 <code>DBL_MIN</code>, <code>FLT_MIN</code>, <code>LDBL_MIN</code>보다 크지 않은 값을 반환하며 <code>errno</code>에 <code>ERANGE</code>를 저장한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>ERANGE</code></dt>
 <dd>오버플로우나 언더플로우가 발생했다.</dd>
 </dl>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -205,12 +205,12 @@ long double strtold(const char *nptr, char **endptr);
 <h2 id="notes">NOTES</h2>
 <p>성공과 실패 어느 쪽에서도 적법하게 0을 반환할 수 있으므로 호출 프로그램에서는 호출 전에 <code>errno</code>를 0으로 설정하고서 호출 후에 <code>errno</code>가 0 아닌 값인지 검사해서 오류가 발생했는지 확인해야 한다.</p>
 <p>glibc 구현에서는 "NAN" 뒤에 선택적으로 오는 <code>n-char-sequence</code>를 정수로 해석하여 (선택적으로 앞에 '0'이나 '0x'를 붙여서 8진법이나 16진법 선택) 반환 값의 가수 부분에 집어넣는다.</p>
-<h2 id="example">EXAMPLE</h2>
-<p><tt>[[strtol(3)]]</tt> 매뉴얼 페이지의 예를 참고하라. 이 매뉴얼 페이지에서 기술하는 함수들과 사용 방식이 비슷하다.</p>
+<h2 id="examples">EXAMPLES</h2>
+<p><tt><a class="wikilink" href="/man-pages-ko/strtol(3)/">strtol(3)</a></tt> 매뉴얼 페이지의 예를 참고하라. 이 매뉴얼 페이지에서 기술하는 함수들과 사용 방식이 비슷하다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[atof(3)]]</tt>, <tt>[[atoi(3)]]</tt>, <tt>[[atol(3)]]</tt>, <code>nan(3)</code>, <code>nanf(3)</code>, <code>nanl(3)</code>, <tt>[[strfromd(3)]]</tt>, <tt>[[strtol(3)]]</tt>, <tt>[[strtoul(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/atof(3)/">atof(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/atoi(3)/">atoi(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/atol(3)/">atol(3)</a></tt>, <code>nan(3)</code>, <code>nanf(3)</code>, <code>nanl(3)</code>, <tt><a class="wikilink" href="/man-pages-ko/strfromd(3)/">strfromd(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/strtol(3)/">strtol(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/strtoul(3)/">strtoul(3)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

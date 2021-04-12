@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_getconcurrency(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pthread_getconcurrency%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Pthread getconcurrency(3) - man-pages-ko</title>
+    <title>pthread_getconcurrency(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -152,12 +152,11 @@
 <h2 id="name">NAME</h2>
 <p>pthread_setconcurrency, pthread_getconcurrency - 동시성 수준 설정하기/얻기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;pthread.h&gt;
+<pre><code class="language-c">#include &lt;pthread.h&gt;
 
 int pthread_setconcurrency(int new_level);
 int pthread_getconcurrency(void);
 </code></pre>
-
 <p><code>-pthread</code>로 컴파일 및 링크.</p>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>pthread_setconcurrency()</code> 함수는 <code>new_level</code>에 지정한 응용이 원하는 동시성 수준을 구현체에게 알린다. 구현체는 이를 힌트로만 받아들인다. POSIX.1에서는 <code>pthread_setconcurrency()</code> 호출의 결과로 제공되어야 하는 동시성 수준을 명세하고 있지 않다.</p>
@@ -176,7 +175,7 @@ int pthread_getconcurrency(void);
 <h2 id="versions">VERSIONS</h2>
 <p>glibc 버전 2.1부터 이 함수들이 사용 가능하다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -200,9 +199,9 @@ int pthread_getconcurrency(void);
 <p>동시성 수준은 M:N 스레딩 구현에서만 의미가 있다. 그 방식에서는 한 시점에 프로세스의 사용자 수준 스레드들 중 일부가 더 적은 커널 스케줄링 개체들에 결속되어 있을 수 있다. 동시성 수준을 설정함으로써 효율적인 응용 실행을 위해 제공돼야 하는 커널 스케줄링 개체 수에 대한 힌트를 응용이 시스템에게 줄 수 있다.</p>
 <p>LinuxThreads와 NPTL 모두 1:1 스레딩 구현이므로 동시성 수준 설정이 의미가 없다. 다시 말해 리눅스에서 이 함수들은 다른 시스템과의 호환성을 위해 있을 뿐이며 프로그램 실행에 어떤 영향도 주지 않는다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[pthread_attr_setscope(3)]]</tt>, <tt>[[pthread(7)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/pthread_attr_setscope(3)/">pthread_attr_setscope(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread(7)/">pthread(7)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

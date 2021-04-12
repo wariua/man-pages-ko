@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/alloca(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/alloca%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Alloca(3) - man-pages-ko</title>
+    <title>alloca(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -153,17 +153,16 @@
 <h2 id="name">NAME</h2>
 <p>alloca - 자동으로 해제되는 메모리 할당하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;alloca.h&gt;
+<pre><code class="language-c">#include &lt;alloca.h&gt;
 
 void *alloca(size_t size);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>alloca()</code> 함수는 호출자의 스택 프레임에 <code>size</code> 바이트의 공간을 할당한다. <code>alloca()</code>를 호출했던 함수가 자기 호출자에게 반환할 때 그 임시 공간이 자동으로 해제된다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p><code>alloca()</code> 함수는 할당된 공간의 시작점에 대한 포인터를 반환한다. 할당으로 인해 스택 오버플로우가 발생하는 경우 프로그램 동작 방식은 규정되어 있지 않다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -184,17 +183,16 @@ void *alloca(size_t size);
 <p>POSIX.1에는 이 함수가 없다.</p>
 <p>32V, PWB, PWB.2, 3BSD, 4BSD에 <code>alloca()</code> 함수가 등장했다는 증거가 있다. 4.3BSD에 맨 페이지가 있다. 리눅스에서는 GNU 버전을 사용한다.</p>
 <h2 id="notes">NOTES</h2>
-<p><code>alloca()</code> 함수는 머신 의존적이고 컴파일러 의존적이다. 어떤 응용들에서는 이를 사용하는 것이 <tt>[[malloc(3)]]</tt>과 <tt>[[free(3)]]</tt>를 사용하는 것에 비해 효율성을 향상시킬 수 있다. 어떤 경우에는 <tt>[[longjmp(3)]]</tt>나 <tt>[[siglongjmp(3)]]</tt>를 쓰는 응용에서 메모리 해제가 단순해지기도 한다. 그 외의 경우에는 사용을 권하지 않는다.</p>
-<p><code>alloca()</code>로 할당한 공간이 스택 프레임에서 할당되기 때문에 <tt>[[longjmp(3)]]</tt>나 <tt>[[siglongjmp(3)]]</tt> 호출로 함수 반환을 건너뛰어도 그 공간이 자동으로 해제된다.</p>
+<p><code>alloca()</code> 함수는 머신 의존적이고 컴파일러 의존적이다. 어떤 응용들에서는 이를 사용하는 것이 <tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt>과 <tt><a class="wikilink" href="/man-pages-ko/free(3)/">free(3)</a></tt>를 사용하는 것에 비해 효율성을 향상시킬 수 있다. 어떤 경우에는 <tt><a class="wikilink" href="/man-pages-ko/longjmp(3)/">longjmp(3)</a></tt>나 <tt><a class="wikilink" href="/man-pages-ko/siglongjmp(3)/">siglongjmp(3)</a></tt>를 쓰는 응용에서 메모리 해제가 단순해지기도 한다. 그 외의 경우에는 사용을 권하지 않는다.</p>
+<p><code>alloca()</code>로 할당한 공간이 스택 프레임에서 할당되기 때문에 <tt><a class="wikilink" href="/man-pages-ko/longjmp(3)/">longjmp(3)</a></tt>나 <tt><a class="wikilink" href="/man-pages-ko/siglongjmp(3)/">siglongjmp(3)</a></tt> 호출로 함수 반환을 건너뛰어도 그 공간이 자동으로 해제된다.</p>
 <p><code>alloca()</code>로 할당한 공간을 가리키는 포인터의 스코프를 벗어날 때 그 공간이 자동으로 해제되는 게 <em>아니다</em>.</p>
-<p><code>alloca()</code>로 할당한 공간을 <tt>[[free(3)]]</tt> 해서는 안 된다!</p>
+<p><code>alloca()</code>로 할당한 공간을 <tt><a class="wikilink" href="/man-pages-ko/free(3)/">free(3)</a></tt> 해서는 안 된다!</p>
 <h3 id="gnu">GNU 버전에 대한 참고 사항</h3>
 <p>보통은 <code>gcc(1)</code>가 <code>alloca()</code> 호출을 인라인 코드로 변환한다. <code>-ansi</code>나 <code>-std=c89</code>, <code>-std=c99</code>, <code>-std=c11</code> 옵션을 주고 <code>&lt;alloca.h&gt;</code> 헤더를 포함 안 하면 변환이 이뤄지지 않는다. 그러지 않으면 (<code>-ansi</code>나 <code>-std=c*</code> 옵션이 없으면) glibc 버전 <code>&lt;stdlib.h&gt;</code>에서 <code>&lt;alloca.h&gt;</code>를 포함시키는데 그 파일에 다음 행이 있다.</p>
-<pre><code class="c">#ifdef __GNUC__
+<pre><code class="language-c">#ifdef __GNUC__
 #define alloca(size)   __builtin_alloca (size)
 #endif
 </code></pre>
-
 <p>그래서 이 함수의 자체 버전을 가지고 있으면 상황이 복잡해진다.</p>
 <p>코드가 인라인 된다는 것은 이 함수의 주소를 얻는 것이, 그리고 다른 라이브러리를 링크 해서 함수의 동작 방식을 바꾸는 것이 불가능하다는 의미이다.</p>
 <p>많은 경우에서 인라인 된 코드는 스택 포인터를 조정하는 인스트럭션 한 개로 이뤄져 있고 스택 오버플로우를 검사하지 않는다. 따라서 NULL 오류 반환이 없다.</p>
@@ -202,9 +200,9 @@ void *alloca(size_t size);
 <p>스택 프레임을 확장할 수 없는 경우 오류 표시가 없다. (하지만 아마 할당 실패 후에 프로그램이 할당 안 된 공간에 접근하려 하면서 <code>SIGSEGV</code>를 받게 될 것이다.)</p>
 <p>많은 시스템에서는 함수 호출의 인자 목록 내에서 <code>alloca()</code>를 사용할 수 없는데, 그러면 <code>alloca()</code>가 예약한 공간이 스택에서 함수 인자들을 위한 공간 중간에 있게 될 것이기 때문이다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[brk(2)]]</tt>, <tt>[[longjmp(3)]]</tt>, <tt>[[malloc(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/brk(2)/">brk(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/longjmp(3)/">longjmp(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

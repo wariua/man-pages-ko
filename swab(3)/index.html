@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/swab(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/swab%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Swab(3) - man-pages-ko</title>
+    <title>swab(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -149,19 +149,18 @@
 <h2 id="name">NAME</h2>
 <p>swab - 이웃한 바이트 교환하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#define _XOPEN_SOURCE       /* feature_test_macros(7) 참고 */
+<pre><code class="language-c">#define _XOPEN_SOURCE       /* feature_test_macros(7) 참고 */
 #include &lt;unistd.h&gt;
 
-void swab(const void *from, void *to, ssize_t n);
+void swab(const void *restrict from, void *restrict to, ssize_t n);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>swab()</code> 함수는 <code>from</code>이 가리키는 배열에서 <code>to</code>가 가리키는 배열로 <code>n</code> 바이트를 복사하면서 이웃한 짝수 번째 바이트와 홀수 번째 바이트를 교환한다. 하위/상위 바이트 순서가 다른 머신들 간에 데이터를 교환하는 데 이 함수를 쓸 수 있다.</p>
 <p><code>n</code>이 음수면 이 함수는 아무것도 하지 않는다. <code>n</code>이 양수이고 홀수면 <code>n-1</code> 바이트를 위와 같이 처리하며 마지막 바이트에는 명세되지 않은 뭔가를 한다. (달리 말해 <code>n</code>이 짝수여야 한다.)</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p><code>swab()</code> 함수는 아무 값도 반환하지 않는다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -181,9 +180,9 @@ void swab(const void *from, void *to, ssize_t n);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008, SVr4, 4.3BSD.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[bstring(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/bstring(3)/">bstring(3)</a></tt></p>
 <hr />
-<p>2015-08-08</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

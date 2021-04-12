@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/strtoimax(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/strtoimax%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Strtoimax(3) - man-pages-ko</title>
+    <title>strtoimax(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -149,18 +149,19 @@
 <h2 id="name">NAME</h2>
 <p>strtoimax, strtoumax - 문자열을 정수로 변환하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;inttypes.h&gt;
+<pre><code class="language-c">#include &lt;inttypes.h&gt;
 
-intmax_t strtoimax(const char *nptr, char **endptr, int base);
-uintmax_t strtoumax(const char *nptr, char **endptr, int base);
+intmax_t strtoimax(const char *restrict nptr, char **restrict endptr,
+                   int base);
+uintmax_t strtoumax(const char *restrict nptr, char **restrict endptr,
+                   int base);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
-<p>이 함수들은 <tt>[[strtol(3)]]</tt> 및 <tt>[[strtoul(3)]]</tt>과 같되, 각각 <code>intmax_t</code> 및 <code>uintmax_t</code> 타입 값을 반환한다.</p>
+<p>이 함수들은 <tt><a class="wikilink" href="/man-pages-ko/strtol(3)/">strtol(3)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/strtoul(3)/">strtoul(3)</a></tt>과 같되, 각각 <code>intmax_t</code> 및 <code>uintmax_t</code> 타입 값을 반환한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 변환한 값을 반환한다. 변환할 것이 없으면 0을 반환한다. 오버플로우나 언더플로우 시에는 <code>INTMAX_MAX</code>나 <code>INTMAX_MIN</code>, 또는 <code>UINTMAX_MAX</code>를 반환하며 <code>errno</code>를 <code>ERANGE</code>로 설정한다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -180,9 +181,9 @@ uintmax_t strtoumax(const char *nptr, char **endptr, int base);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008, C99.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>imaxabs(3)</code>, <code>imaxdiv(3)</code>, <tt>[[strtol(3)]]</tt>, <tt>[[strtoul(3)]]</tt>, <code>wcstoimax(3)</code></p>
+<p><code>imaxabs(3)</code>, <code>imaxdiv(3)</code>, <tt><a class="wikilink" href="/man-pages-ko/strtol(3)/">strtol(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/strtoul(3)/">strtoul(3)</a></tt>, <code>wcstoimax(3)</code></p>
 <hr />
-<p>2015-08-08</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/malloc_usable_size(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/malloc_usable_size%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Malloc usable size(3) - man-pages-ko</title>
+    <title>malloc_usable_size(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -150,17 +150,16 @@
 <h2 id="name">NAME</h2>
 <p>malloc_usable_size - 힙에서 할당한 메모리 블록의 크기 얻기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;malloc.h&gt;
+<pre><code class="language-c">#include &lt;malloc.h&gt;
 
 size_t malloc_usable_size(void *ptr);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
-<p><code>malloc_usable_size()</code> 함수는 <code>ptr</code>이 가리키는 블록 내에서 사용 가능한 바이트 수를 반환한다. <code>ptr</code>은 <tt>[[malloc(3)]]</tt>이나 관련 함수로 할당한 메모리 블록에 대한 포인터이다.</p>
+<p><code>malloc_usable_size()</code> 함수는 <code>ptr</code>이 가리키는 블록 내에서 사용 가능한 바이트 수를 반환한다. <code>ptr</code>은 <tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt>이나 관련 함수로 할당한 메모리 블록에 대한 포인터이다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p><code>malloc_usable_size()</code>는 <code>ptr</code>이 가리키는 할당 메모리 블록에서 사용 가능한 바이트 수를 반환한다. <code>ptr</code>이 NULL이면 0을 반환한다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -183,9 +182,9 @@ size_t malloc_usable_size(void *ptr);
 <p>정렬과 최소 크기 제한 때문에 <code>malloc_usable_size()</code>가 반환하는 값이 할당 요청 크기보다 클 수도 있다. 응용이 초과 바이트들에 쓰기를 해도 부작용이 없기는 하지만 좋은 프로그래밍 방식이 아니다. 할당에서 초과 바이트의 수는 기반 구현에 따라 달라진다.</p>
 <p>이 함수의 주된 용도는 디버깅과 내성(introspection)이다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt>[[malloc(3)]]</tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt></p>
 <hr />
-<p>2017-09-15</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

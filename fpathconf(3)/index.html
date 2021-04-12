@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/fpathconf(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/fpathconf%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Fpathconf(3) - man-pages-ko</title>
+    <title>fpathconf(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -151,12 +151,11 @@
 <h2 id="name">NAME</h2>
 <p>fpathconf, pathconf - 파일에 대한 구성 값 얻기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;unistd.h&gt;
+<pre><code class="language-c">#include &lt;unistd.h&gt;
 
 long fpathconf(int fd, int name);
 long pathconf(const char *path, int name);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>fpathconf()</code>는 열린 파일 디스크립터 <code>fd</code>에 대해 구성 옵션 <code>name</code>의 값을 얻는다.</p>
 <p><code>pathconf()</code>는 파일명 <code>path</code>에 대해 구성 옵션 <code>name</code>의 값을 얻는다.</p>
@@ -177,7 +176,7 @@ long pathconf(const char *path, int name);
 <dd>FIFO나 파이프에 원자적으로 기록할 수 있는 최대 바이트 수. <code>fpathconf()</code>의 경우 <code>fd</code>가 파이프나 FIFO를 가리켜야 한다. <code>pathconf()</code>의 경우 <code>path</code>가 FIFO나 디렉터리를 가리켜야 하며, 후자의 경우 반환 값은 그 디렉터리에 생성되는 FIFO에 해당하는 것이다. 대응하는 매크로는 <code>_POSIX_PIPE_BUF</code>이다.</dd>
 <dt><code>_PC_CHOWN_RESTRICTED</code></dt>
 <dd>
-<p><tt>[[chown(2)]]</tt> 및 <tt>[[fchown(2)]]</tt>을 사용해 파일의 사용자 ID를 바꾸는 것이 적절한 특권을 가진 프로세스로 제한되어 있고, 파일의 그룹 ID를 프로세스의 실효 그룹 ID나 추가 그룹 ID들 중 하나가 아닌 값으로 바꾸는 것이 적절한 특권을 가진 프로세스로 제한되어 있으면 양수 값을 반환한다. POSIX.1에 따르면 이 변수는 항상 -1이 아닌 값으로 정의되어 있어야 한다. 대응하는 매크로는 <code>_POSIX_CHOWN_RESTRICTED</code>이다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/chown(2)/">chown(2)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/fchown(2)/">fchown(2)</a></tt>을 사용해 파일의 사용자 ID를 바꾸는 것이 적절한 특권을 가진 프로세스로 제한되어 있고, 파일의 그룹 ID를 프로세스의 실효 그룹 ID나 추가 그룹 ID들 중 하나가 아닌 값으로 바꾸는 것이 적절한 특권을 가진 프로세스로 제한되어 있으면 양수 값을 반환한다. POSIX.1에 따르면 이 변수는 항상 -1이 아닌 값으로 정의되어 있어야 한다. 대응하는 매크로는 <code>_POSIX_CHOWN_RESTRICTED</code>이다.</p>
 <p><code>fd</code> 내지 <code>path</code>가 디렉터리를 가리키는 경우에는 그 디렉터리 내의 모든 파일들에 값이 적용되는 것이다.</p>
 </dd>
 <dt><code>_PC_NO_TRUNC</code></dt>
@@ -189,7 +188,7 @@ long pathconf(const char *path, int name);
 <p>이 함수들의 반환 값은 다음 중 하나이다.</p>
 <ul>
 <li>
-<p>오류 시 -1을 반환하며 오류 원인을 나타내도록 <code>errno</code>를 설정한다. (예를 들어 <code>EINVAL</code>로 <code>name</code>이 유효하지 않음을 나타낸다.)</p>
+<p>오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다. (예를 들어 <code>EINVAL</code>로 <code>name</code>이 유효하지 않음을 나타낸다.)</p>
 </li>
 <li>
 <p><code>name</code>이 최대 내지 최소 제한에 해당하며 그 제한값이 불확정이면 -1을 반환하며 <code>errno</code>는 바꾸지 않는다. (불확정 제한을 오류와 구별하려면 호출 전에 <code>errno</code>를 0으로 설정하고서 -1이 반환되었을 때 <code>errno</code>가 0인지 확인하면 된다.)</p>
@@ -221,7 +220,7 @@ long pathconf(const char *path, int name);
 <dd>(<code>pathconf()</code>) <code>path</code>에 디렉터리로 쓰인 어느 요소가 실제로는 디렉터리가 아니다.</dd>
 </dl>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -244,9 +243,9 @@ long pathconf(const char *path, int name);
 <p><code>_PC_NAME_MAX</code>와 같은 <code>name</code>에 대해 반환된 값보다 긴 이름의 파일이 해당 디렉터리에 존재할 수도 있다.</p>
 <p>반환되는 일부 값들이 아주 클 수도 있다. 즉, 메모리 할당에 쓰기에 적합하지 않다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>getconf(1)</code>, <tt>[[open(2)]]</tt>, <tt>[[statfs(2)]]</tt>, <tt>[[confstr(3)]]</tt>, <tt>[[sysconf(3)]]</tt></p>
+<p><code>getconf(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/statfs(2)/">statfs(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/confstr(3)/">confstr(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sysconf(3)/">sysconf(3)</a></tt></p>
 <hr />
-<p>2017-07-13</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

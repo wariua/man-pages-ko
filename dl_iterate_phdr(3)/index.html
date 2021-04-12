@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/dl_iterate_phdr(3)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/dl_iterate_phdr%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Dl iterate phdr(3) - man-pages-ko</title>
+    <title>dl_iterate_phdr(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -143,7 +143,7 @@
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
             <li class="second-level"><a href="#_1">프로그램 소스</a></li>
                 
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
@@ -154,21 +154,20 @@
 <h2 id="name">NAME</h2>
 <p>dl_iterate_phdr - 공유 오브젝트 리스트 순회하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
+<pre><code class="language-c">#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
 #include &lt;link.h&gt;
 
 int dl_iterate_phdr(
-          int (*callback) (struct dl_phdr_info *info,
-                           size_t size, void *data),
+          int (*callback)(struct dl_phdr_info *info,
+                          size_t size, void *data),
           void *data);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p><code>dl_iterate_phdr()</code> 함수를 이용해 응용에서 어떤 공유 오브젝트들을 적재했고 어떤 순서로 적재됐는지 런타임에 질의할 수 있다.</p>
 <p><code>dl_iterate_phdr()</code> 함수는 응용의 공유 오브젝트 목록을 순회하면서 각 오브젝트마다 함수 <code>callback</code>을 호출한다. 모든 공유 오브젝트를 처리했으면, 또는 <code>callback</code>이 0 아닌 값을 반환하면 멈춘다.</p>
 <p><code>callback</code> 호출 각각은 세 개 인자를 받는다. <code>info</code>는 공유 오브젝트에 대한 정보를 담은 구조체에 대한 포인터이고 <code>size</code>는 <code>info</code>가 가리키는 구조체의 크기이다. <code>data</code>는 호출 프로그램에서 <code>dl_iterate_phdr()</code> 호출 때 (역시 이름이 <code>data</code>인) 두 번째 인자로 준 값의 사본이다.</p>
 <p><code>info</code> 인자는 다음 타입의 구조체이다.</p>
-<pre><code class="c">struct dl_phdr_info {
+<pre><code class="language-c">struct dl_phdr_info {
     ElfW(Addr)        dlpi_addr;  /* 오브젝트의 기준 주소 */
     const char       *dlpi_name;  /* 오브젝트의 (널 종료) 이름 */
     const ElfW(Phdr) *dlpi_phdr;  /* 이 오브젝트의 ELF 프로그램
@@ -180,10 +179,10 @@ int dl_iterate_phdr(
        전달되는 size 인자를 사용해서 이후 멤버 각각이 사용
        가능한지 여부를 확인해야 한다. */
 
-    unsigned long long int dlpi_adds;
+    unsigned long long dlpi_adds;
                     /* 새 오브젝트가 추가됐을 수도
                있을 때 증가됨 */
-    unsigned long long int dlpi_subs;
+    unsigned long long dlpi_subs;
                     /* 오브젝트가 제거됐을 수도
                있을 때 증가됨 */
     size_t dlpi_tls_modid;
@@ -195,12 +194,11 @@ int dl_iterate_phdr(
                그 주소, 아니면 널 포인터 */
 };
 </code></pre>
-
 <p>(<code>ElfW()</code> 매크로는 그 인자를 하드웨어 아키텍처에 맞는 ELF 데이터 타입 이름으로 바꿔 준다. 예를 들어 32비트 플랫폼에서 <code>ElfW(Addr)</code>은 데이터 타입 이름 <code>Elf32_Addr</code>을 내놓는다. 이런 타입들에 대한 추가 정보를 헤더 파일 <code>&lt;elf.h&gt;</code> 및 <code>&lt;link.h&gt;</code>에서 볼 수 있다.)</p>
 <p><code>dlpi_addr</code> 필드는 공유 오브젝트의 기준 주소를 나타낸다. (즉 공유 오브젝트의 가상 메모리 주소와 그 오브젝트를 적재한 파일 내에서의 오프셋 간의 차이이다.) <code>dlpi_name</code> 필드는 그 공유 오브젝트를 적재한 경로명을 알려 주는 널 종료 문자열이다.</p>
 <p><code>dlpi_phdr</code> 및 <code>dlpi_phnum</code> 필드의 의미를 이해하려면 ELF 공유 오브젝트가 여러 세그먼트로 이뤄져 있고 각각에 그 세그먼트를 기술하는 프로그램 헤더가 있다는 점을 알아야 한다. <code>dlpi_phdr</code> 필드는 이 공유 오브젝트의 프로그램 헤더들의 배열에 대한 포인터이다. <code>dlpi_phnum</code> 필드는 그 배열의 크기를 나타낸다.</p>
 <p>그 프로그램 헤더들은 다음 형태의 구조체이다.</p>
-<pre><code class="c">typedef struct {
+<pre><code class="language-c">typedef struct {
     Elf32_Word  p_type;    /* 세그먼트 타입 */
     Elf32_Off   p_offset;  /* 세그먼트 파일 오프셋 */
     Elf32_Addr  p_vaddr;   /* 세그먼트 가상 주소 */
@@ -211,13 +209,11 @@ int dl_iterate_phdr(
     Elf32_Word  p_align;   /* 세그먼트 정렬 */
 } Elf32_Phdr;
 </code></pre>
-
 <p>참고로 다음 식을 사용해 특정 프로그램 헤더 <code>x</code>의 가상 메모리 내 위치를 계산할 수 있다.</p>
-<pre><code class="c">addr == info-&gt;dlpi_addr + info-&gt;dlpi_phdr[x].p_vaddr;
+<pre><code class="language-c">addr == info-&gt;dlpi_addr + info-&gt;dlpi_phdr[x].p_vaddr;
 </code></pre>
-
 <p><code>p_type</code>에 가능한 값들로 다음이 있다. (더 자세한 내용은 <code>&lt;elf.h&gt;</code> 참고.)</p>
-<pre><code class="c">#define PT_LOAD         1    /* 적재 가능 프로그램 세그먼트 */
+<pre><code class="language-c">#define PT_LOAD         1    /* 적재 가능 프로그램 세그먼트 */
 #define PT_DYNAMIC      2    /* 동적 링크 정보 */
 #define PT_INTERP       3    /* 프로그램 인터프리터 */
 #define PT_NOTE         4    /* 보조 정보 */
@@ -228,13 +224,12 @@ int dl_iterate_phdr(
 #define PT_GNU_STACK  0x6474e551 /* 스택 실행 가능 여부 표시 */
 #define PT_GNU_RELRO  0x6474e552 /* 재배치 후에는 읽기 전용 */
 </code></pre>
-
 <h2 id="return-value">RETURN VALUE</h2>
 <p><code>dl_iterate_phdr()</code> 함수는 마지막 <code>callback</code> 호출이 반환한 값을 그대로 반환한다.</p>
 <h2 id="versions">VERSIONS</h2>
 <p>glibc 버전 2.2.4부터 <code>dl_iterate_phdr()</code>를 지원한다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
-<p>이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.</p>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
 <thead>
 <tr>
@@ -256,10 +251,10 @@ int dl_iterate_phdr(
 <h2 id="notes">NOTES</h2>
 <p>C 라이브러리의 이후 버전에서 <code>dl_phdr_info</code> 구조체에 필드를 더 추가할 수도 있다. 그 경우 콜백 함수에서는 <code>size</code> 인자를 통해 추가 필드가 있는 시스템에서 동작 중인지 알아낼 수 있다.</p>
 <p><code>callback</code>이 방문하는 첫 번째 오브젝트는 메인 프로그램이다. 메인 프로그램에서 <code>dlpi_name</code> 필드는 빈 문자열이 된다.</p>
-<h2 id="example">EXAMPLE</h2>
+<h2 id="examples">EXAMPLES</h2>
 <p>다음 프로그램에서는 적재한 공유 오브젝트들의 경로명 목록을 표시한다. 그리고 각 공유 오브젝트에 대해서 오브젝트의 각 ELF 세그먼트의 정보(가상 주소, 크기, 플래그, 타입)를 나열한다.</p>
 <p>다음 셸 세션은 x86-64 시스템에서 프로그램이 내놓는 출력을 보여 준다. 출력 첫 번째의 (이름이 빈 문자열인) 공유 오브젝트는 메인 프로그램이다.</p>
-<pre><code class="text">$ ./a.out
+<pre><code class="language-text">$ ./a.out
 Name: &quot;&quot; (9 segments)
      0: [      0x400040; memsz:    1f8] flags: 0x5; PT_PHDR
      1: [      0x400238; memsz:     1c] flags: 0x4; PT_INTERP
@@ -295,23 +290,23 @@ Name: &quot;/lib64/ld-linux-x86-64.so.2&quot; (7 segments)
      5: [0x7f557168f000; memsz:      0] flags: 0x6; PT_GNU_STACK
      6: [0x7f55718afba0; memsz:    460] flags: 0x4; PT_GNU_RELRO
 </code></pre>
-
 <h3 id="_1">프로그램 소스</h3>
-<pre><code class="c">#define _GNU_SOURCE
+<pre><code class="language-c">#define _GNU_SOURCE
 #include &lt;link.h&gt;
 #include &lt;stdlib.h&gt;
 #include &lt;stdio.h&gt;
+#include &lt;stdint.h&gt;
 
 static int
 callback(struct dl_phdr_info *info, size_t size, void *data)
 {
     char *type;
-    int p_type, j;
+    int p_type;
 
     printf(&quot;Name: \&quot;%s\&quot; (%d segments)\n&quot;, info-&gt;dlpi_name,
                info-&gt;dlpi_phnum);
 
-    for (j = 0; j &lt; info-&gt;dlpi_phnum; j++) {
+    for (int j = 0; j &lt; info-&gt;dlpi_phnum; j++) {
         p_type = info-&gt;dlpi_phdr[j].p_type;
         type =  (p_type == PT_LOAD) ? &quot;PT_LOAD&quot; :
                 (p_type == PT_DYNAMIC) ? &quot;PT_DYNAMIC&quot; :
@@ -324,14 +319,14 @@ callback(struct dl_phdr_info *info, size_t size, void *data)
                 (p_type == PT_GNU_STACK) ? &quot;PT_GNU_STACK&quot; :
                 (p_type == PT_GNU_RELRO) ? &quot;PT_GNU_RELRO&quot; : NULL;
 
-        printf(&quot;    %2d: [%14p; memsz:%7lx] flags: 0x%x; &quot;, j,
+        printf(&quot;    %2d: [%14p; memsz:%7jx] flags: %#jx; &quot;, j,
                 (void *) (info-&gt;dlpi_addr + info-&gt;dlpi_phdr[j].p_vaddr),
-                info-&gt;dlpi_phdr[j].p_memsz,
-                info-&gt;dlpi_phdr[j].p_flags);
+                (uintmax_t) info-&gt;dlpi_phdr[j].p_memsz,
+                (uintmax_t) info-&gt;dlpi_phdr[j].p_flags);
         if (type != NULL)
             printf(&quot;%s\n&quot;, type);
         else
-            printf(&quot;[other (0x%x)]\n&quot;, p_type);
+            printf(&quot;[other (%#x)]\n&quot;, p_type);
     }
 
     return 0;
@@ -345,12 +340,11 @@ main(int argc, char *argv[])
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>ldd(1)</code>, <tt>[[objdump(1)]]</tt>, <tt>[[readelf(1)]]</tt>, <tt>[[dladdr(3)]]</tt>, <tt>[[dlopen(3)]]</tt>, <tt>[[elf(5)]]</tt>, <tt>[[ld.so(8)]]</tt></p>
+<p><code>ldd(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/objdump(1)/">objdump(1)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/readelf(1)/">readelf(1)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/dladdr(3)/">dladdr(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/dlopen(3)/">dlopen(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/elf(5)/">elf(5)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ld.so(8)/">ld.so(8)</a></tt></p>
 <p><em>Executable and Linking Format Specification</em>, 온라인 여러 곳에서 구할 수 있음.</p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

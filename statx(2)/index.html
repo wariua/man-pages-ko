@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/statx(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/statx%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Statx(2) - man-pages-ko</title>
+    <title>statx(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -156,18 +156,16 @@
 <h2 id="name">NAME</h2>
 <p>statx - 파일 상태 정보 얻기 (확장)</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;sys/types.h&gt;
-#include &lt;sys/stat.h&gt;
+<pre><code class="language-c">#include &lt;sys/stat.h&gt;
 #include &lt;unistd.h&gt;
 #include &lt;fcntl.h&gt;           /* AT_* 상수 정의 */
 
-int statx(int dirfd, const char *pathname, int flags,
-          unsigned int mask, struct statx *statxbuf);
+int statx(int dirfd, const char *restrict pathname, int flags,
+          unsigned int mask, struct statx *restrict statxbuf);
 </code></pre>
-
 <h2 id="description">DESCRIPTION</h2>
 <p>이 함수는 파일에 대한 정보를 <code>statxbuf</code>가 가리키는 버퍼에 저장해서 반환한다. 반환 버퍼의 구조는 다음과 같다.</p>
-<pre><code class="c">struct statx {
+<pre><code class="language-c">struct statx {
     __u32 stx_mask;        /* 채워진 필드들을 나타내는
                               비트 마스크 */
     __u32 stx_blksize;     /* 파일 시스템 I/O의 블록 크기 */
@@ -200,14 +198,12 @@ int statx(int dirfd, const char *pathname, int flags,
     __u32 stx_dev_minor;   /* 부 ID */
 };
 </code></pre>
-
 <p>파일 타임스탬프의 구조는 다음과 같다.</p>
-<pre><code class="c">struct statx_timestamp {
+<pre><code class="language-c">struct statx_timestamp {
     __s64 tv_sec;    /* 에포크 이후 초 (유닉스 시간) */
     __u32 tv_nsec;   /* tv_sec 이후 나노초 */
 };
 </code></pre>
-
 <p>(참고로 예비 공간과 패딩은 생략돼 있다.)</p>
 <h3 id="statx"><code>statx()</code> 호출하기</h3>
 <p>파일 상태 정보 접근 시 그 파일 자체에 대해선 어떤 권한도 필요치 않지만 경로명이 있는 <code>statx()</code>의 경우에는 <code>pathname</code>에서 그 파일까지 이어지는 디렉터리 모두에 대해 실행(탐색) 권한이 필요하다.</p>
@@ -226,7 +222,7 @@ int statx(int dirfd, const char *pathname, int flags,
 <dl>
 <dt><code>AT_EMPTY_PATH</code></dt>
 <dd>
-<p><code>pathname</code>이 빈 문자열이면 (<tt>[[open(2)]]</tt> <code>O_PATH</code> 플래그로 얻은 것일 수도 있는) <code>dirfd</code>가 가리키는 파일에 대해 동작한다. 이 경우에 <code>dirfd</code>는 디렉터리만이 아니라 임의 종류의 파일을 가리킬 수 있다.</p>
+<p><code>pathname</code>이 빈 문자열이면 (<tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt> <code>O_PATH</code> 플래그로 얻은 것일 수도 있는) <code>dirfd</code>가 가리키는 파일에 대해 동작한다. 이 경우에 <code>dirfd</code>는 디렉터리만이 아니라 임의 종류의 파일을 가리킬 수 있다.</p>
 <p><code>dirfd</code>가 <code>AT_FDCWD</code>이면 현재 작업 디렉터리에 대해 호출이 동작한다.</p>
 <p>이 플래그는 리눅스 전용이다. 이 정의를 얻으려면 <code>_GNU_SOURCE</code>를 정의해야 한다.</p>
 </dd>
@@ -238,7 +234,7 @@ int statx(int dirfd, const char *pathname, int flags,
 <p>또한 <code>flags</code>를 이용해 원격 파일 시스템의 파일을 질의할 때 커널에서 하게 되는 동기화 방식을 제어할 수 있다. 다음 값들 중 하나를 OR 한다.</p>
 <dl>
 <dt><code>AT_STATX_SYNC_AS_STAT</code></dt>
-<dd><tt>[[stat(2)]]</tt>과 똑같이 한다. 기본 방식이며 파일 시스템에 따라 달라진다.</dd>
+<dd><tt><a class="wikilink" href="/man-pages-ko/stat(2)/">stat(2)</a></tt>과 똑같이 한다. 기본 방식이며 파일 시스템에 따라 달라진다.</dd>
 <dt><code>AT_STATX_FORCE_SYNC</code></dt>
 <dd>속성들이 서버와 동기화되도록 한다. 이를 위해 네트워크 파일 시스템에서 타임스탬프를 올바로 처리하기 위해 데이터 전송을 수행해야 할 수도 있다.</dd>
 <dt><code>AT_STATX_DONT_SYNC</code></dt>
@@ -311,13 +307,13 @@ int statx(int dirfd, const char *pathname, int flags,
 </tr>
 </tbody>
 </table>
-<p>참고로 <code>mask</code>에 위와 다른 값이 있어도 커널이 거부하지 <em>않는다</em>. 대신 <code>statx.stx_mask</code> 필드를 통해 커널과 파일 시스템에서 지원하는 값들을 호출자에게 알려준다. 따라서 <code>mask</code>를 그냥 <code>UINT_MAX</code>로 설정(모든 비트 설정)해선 <em>안 된다</em>. 어떤 비트가 향후에 버퍼에 대한 확장을 나타내는 데 쓰일 수도 있기 때문이다.</p>
+<p>참고로 일반적으로 <code>mask</code>에 위와 다른 값이 있어도 커널이 거부하지 <em>않는다</em>. (예외는 오류 설명의 <code>EINVAL</code>을 보라.) 대신 <code>statx.stx_mask</code> 필드를 통해 커널과 파일 시스템에서 지원하는 값들을 호출자에게 알려준다. 따라서 <code>mask</code>를 그냥 <code>UINT_MAX</code>로 설정(모든 비트 설정)해선 <em>안 된다</em>. 어떤 비트가 향후에 버퍼에 대한 확장을 나타내는 데 쓰일 수도 있기 때문이다.</p>
 <h3 id="_1">반환되는 정보</h3>
 <p><code>statxbuf</code>가 가리키는 <code>statx</code> 구조체로 대상 파일의 상태 정보가 반환된다. 그 구조체에 <code>stx_mask</code>가 있어서 어떤 정보들이 반환되는지 나타낸다. <code>stx_mask</code>의 형식은 <code>mask</code> 인자와 같으며 거기 설정된 비트들이 어떤 필드가 채워졌는지를 나타낸다.</p>
 <p>기반 파일 시스템의 지원에 따라서 요청하지 않은 필드를 커널이 반환할 수도 있고 요청한 필드를 반환하지 못할 수도 있음에 유의해야 한다. (질의하지 않았는데 값을 받은 필드는 그냥 무시하면 된다.) 어느 경우든 <code>stx_mask</code>가 <code>mask</code>와 다르게 된다.</p>
 <p>파일 시스템에서 어떤 필드를 지원하지 않거나 그 값이 표현 불가능한 (예를 들어 특이한 타입의 파일) 경우에는 사용자가 요청했더라도 <code>stx_mask</code>에서 그 필드에 대응하는 마스크 비트가 비워지게 되며 가능한 경우에는 호환을 위해 더미 값을 채운다. (가령 어떤 경우에 마운트를 위해 더미 UID 및 GID를 지정했을 수 있다.)</p>
 <p>호출자가 요청하지 않았더라도 추가 비용 없이 값을 얻을 수 있는 경우에는 파일 시스템에서 필드를 채울 수도 있다. 이 경우 <code>stx_mask</code>에서 대응하는 비트가 설정된다.</p>
-<p><em>주의</em>: 성능과 단순성을 위해 <code>statx</code> 구조체의 필드들이 시스템 호출 실행 중의 상이한 시점의 상태 정보를 담을 수 있다. 예를 들어 다른 프로세스에서 <tt>[[chmod(2)]]</tt>나 <tt>[[chown(2)]]</tt>을 호출해서 <code>stx_mode</code>나 <code>stx_uid</code>를 바꾸는 경우에 <code>statx()</code>가 이전 <code>stx_mode</code>와 새 <code>stx_uid</code>를 반환할 수도 있고 이전 <code>stx_uid</code>와 새 <code>stx_mode</code>를 반환할 수도 있다.</p>
+<p><em>주의</em>: 성능과 단순성을 위해 <code>statx</code> 구조체의 필드들이 시스템 호출 실행 중의 상이한 시점의 상태 정보를 담을 수 있다. 예를 들어 다른 프로세스에서 <tt><a class="wikilink" href="/man-pages-ko/chmod(2)/">chmod(2)</a></tt>나 <tt><a class="wikilink" href="/man-pages-ko/chown(2)/">chown(2)</a></tt>을 호출해서 <code>stx_mode</code>나 <code>stx_uid</code>를 바꾸는 경우에 <code>statx()</code>가 이전 <code>stx_mode</code>와 새 <code>stx_uid</code>를 반환할 수도 있고 이전 <code>stx_uid</code>와 새 <code>stx_mode</code>를 반환할 수도 있다.</p>
 <p>(앞서 설명한) <code>stx_mask</code>를 빼고 <code>statx</code> 구조체의 필드들은 다음과 같다.</p>
 <dl>
 <dt><code>stx_blksize</code></dt>
@@ -331,7 +327,7 @@ int statx(int dirfd, const char *pathname, int flags,
 <dt><code>stx_gid</code></dt>
 <dd>이 필드는 파일 그룹 소유자의 ID를 담는다.</dd>
 <dt><code>stx_mode</code></dt>
-<dd>파일 종류와 모드. 자세한 내용은 <tt>[[inode(7)]]</tt> 참고.</dd>
+<dd>파일 종류와 모드. 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/inode(7)/">inode(7)</a></tt> 참고.</dd>
 <dt><code>stx_ino</code></dt>
 <dd>파일의 아이노드 번호.</dd>
 <dt><code>stx_size</code></dt>
@@ -353,7 +349,7 @@ int statx(int dirfd, const char *pathname, int flags,
 <dt><code>stx_rdev_major</code> 및 <code>stx_rdev_minor</code></dt>
 <dd>파일 종류가 블록 장치나 문자 장치인 경우 이 파일이 (아이노드가) 나타내는 장치.</dd>
 </dl>
-<p>위 필드들에 대한 더 자세한 내용은 <tt>[[inode(7)]]</tt>를 보라.</p>
+<p>위 필드들에 대한 더 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/inode(7)/">inode(7)</a></tt>를 보라.</p>
 <h3 id="_2">파일 속성</h3>
 <p><code>stx_attributes</code> 필드는 파일의 추가 속성을 나타내는 플래그들의 OR 집합을 담는다. 참고로 <code>stx_attributes_mask</code>에 지원되는 걸로 표시돼 있지 않은 속성은 여기 플래그를 사용할 수 없다. <code>stx_attributes_mask</code>의 비트들은 <code>stx_attributes</code>와 비트 대 비트로 대응한다.</p>
 <p>플래그들은 다음과 같다.</p>
@@ -361,20 +357,30 @@ int statx(int dirfd, const char *pathname, int flags,
 <dt><code>STATX_ATTR_COMPRESSED</code></dt>
 <dd>파일 시스템에서 파일을 압축했으며 접근에 자원이 추가로 필요할 수 있다.</dd>
 <dt><code>STATX_ATTR_IMMUTABLE</code></dt>
-<dd>파일을 수정할 수 없다. 즉 삭제하거나 이름을 바꿀 수 없고, 이 파일에 대한 하드 링크를 만들 수 없고, 파일에 데이터를 기록할 수 없다. <tt>[[chattr(1)]]</tt> 참고.</dd>
+<dd>파일을 수정할 수 없다. 즉 삭제하거나 이름을 바꿀 수 없고, 이 파일에 대한 하드 링크를 만들 수 없고, 파일에 데이터를 기록할 수 없다. <tt><a class="wikilink" href="/man-pages-ko/chattr(1)/">chattr(1)</a></tt> 참고.</dd>
 <dt><code>STATX_ATTR_APPEND</code></dt>
-<dd>파일을 덧붙이기 모드로 쓰기용으로만 열 수 있다. 임의 접근 쓰기가 허용되지 않는다. <tt>[[chattr(1)]]</tt> 참고.</dd>
+<dd>파일을 덧붙이기 모드로 쓰기용으로만 열 수 있다. 임의 접근 쓰기가 허용되지 않는다. <tt><a class="wikilink" href="/man-pages-ko/chattr(1)/">chattr(1)</a></tt> 참고.</dd>
 <dt><code>STATX_ATTR_NODUMP</code></dt>
-<dd><code>dump(8)</code> 같은 백업 프로그램이 돌 때 파일이 백업 대상이 아니다. <tt>[[chattr(1)]]</tt> 참고.</dd>
+<dd><code>dump(8)</code> 같은 백업 프로그램이 돌 때 파일이 백업 대상이 아니다. <tt><a class="wikilink" href="/man-pages-ko/chattr(1)/">chattr(1)</a></tt> 참고.</dd>
 <dt><code>STATX_ATTR_ENCRYPTED</code></dt>
 <dd>파일 시스템에서 파일을 암호화하기 위해선 키가 필요하다.</dd>
+<dt><code>STATX_ATTR_VERITY</code> (리눅스 5.5부터)</dt>
+<dd>파일에 fs-verity가 켜져 있다. 쓰기를 할 수 없으며 모든 읽기를 전체 파일에 대한 (가령 머클 트리를 통한) 암호학적 해시에 대해 검증하게 된다.</dd>
+<dt><code>STATX_ATTR_DAX</code> (리눅스 5.8부터)</dt>
+<dd>
+<p>파일이 DAX(CPU 직접 접근) 상태이다. DAX 상태에선 파일의 I/O와 메모리 매핑 모두에서 소프트웨어 캐시 효과를 최소하려고 한다. DAX를 지원하게 구성된 파일 시스템이 필요하다.</p>
+<p>DAX에선 일반적으로 모든 접근이 CPU 적재 / 저장 인스트럭션을 통해 이뤄진다고 상정하는데, 이는 소규모 접근에서 오버헤드를 최소화할 수 있지만 대규모 전송에서는 CPU 이용률에 부정적 영향을 줄 수 있다.</p>
+<p>사용자 공간 버퍼와 직접 파일 I/O가 이뤄지며 커널 페이지 캐시를 우회하는 직접 메모리 매핑으로 메모리 맵 I/O가 수행될 수도 있다.</p>
+<p>DAX 특성으로 인해 보통 데이터가 동기적으로 전송되긴 하지만, 데이터와 필요한 메타데이터가 함께 전송되는 <code>O_SYNC</code> 플래그(<tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt> 참고)와 같은 보장까지 해 주진 않는다.</p>
+<p>DAX 파일을 <code>MAP_SYNC</code> 플래그로 맵 하는 게 지원될 수도 있는데, 그러면 프로그램에서 명시적 <tt><a class="wikilink" href="/man-pages-ko/fsync(2)/">fsync(2)</a></tt> 없이 CPU 캐시 플러시 인스트럭션을 써서 CPU 저장 동작들을 영속화하는 게 가능해진다.</p>
+</dd>
 </dl>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 0을 반환한다. 오류 시 -1을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<p>성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EACCES</code></dt>
-<dd><code>pathname</code>의 경로 선두부의 한 디렉터리에 대해 탐색 권한이 거부되었다. (<tt>[[path_resolution(7)]]</tt> 참고.)</dd>
+<dd><code>pathname</code>의 경로 선두부의 한 디렉터리에 대해 탐색 권한이 거부되었다. (<tt><a class="wikilink" href="/man-pages-ko/path_resolution(7)/">path_resolution(7)</a></tt> 참고.)</dd>
 <dt><code>EBADF</code></dt>
 <dd><code>dirfd</code>가 유효한 열린 파일 디스크립터가 아니다.</dd>
 <dt><code>EFAULT</code></dt>
@@ -382,7 +388,7 @@ int statx(int dirfd, const char *pathname, int flags,
 <dt><code>EINVAL</code></dt>
 <dd><code>flags</code>에 유효하지 않은 플래그를 지정했다.</dd>
 <dt><code>EINVAL</code></dt>
-<dd><code>mask</code>에 예비 플래그를 지정했다.</dd>
+<dd><code>mask</code>에 예비 플래그를 지정했다. (현재 그런 플래그가 하나 있는데, 상수 <code>STATX__RESERVED</code>이고 값은 0x80000000U이다.)</dd>
 <dt><code>ELOOP</code></dt>
 <dd>경로명을 순회하는 동안 너무 많은 심볼릭 링크를 만났다.</dd>
 <dt><code>ENAMETOOLONG</code></dt>
@@ -399,9 +405,9 @@ int statx(int dirfd, const char *pathname, int flags,
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p><code>statx()</code>는 리눅스 전용이다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>ls(1)</code>, <code>stat(1)</code>, <tt>[[access(2)]]</tt>, <tt>[[chmod(2)]]</tt>, <tt>[[chown(2)]]</tt>, <tt>[[readlink(2)]]</tt>, <tt>[[stat(2)]]</tt>, <tt>[[utime(2)]]</tt>, <tt>[[capabilities(7)]]</tt>, <tt>[[inode(7)]]</tt>, <tt>[[symlink(7)]]</tt></p>
+<p><code>ls(1)</code>, <code>stat(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/access(2)/">access(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/chmod(2)/">chmod(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/chown(2)/">chown(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/readlink(2)/">readlink(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/stat(2)/">stat(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/utime(2)/">utime(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/capabilities(7)/">capabilities(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/inode(7)/">inode(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/symlink(7)/">symlink(7)</a></tt></p>
 <hr />
-<p>2019-03-06</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>

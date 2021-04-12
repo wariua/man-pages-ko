@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/membarrier(2)/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/membarrier%282%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>Membarrier(2) - man-pages-ko</title>
+    <title>membarrier(2) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -143,7 +143,7 @@
         <li class="first-level "><a href="#versions">VERSIONS</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-        <li class="first-level "><a href="#example">EXAMPLE</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
     </ul>
 </div></div>
         <div class="col-md-9" role="main">
@@ -151,18 +151,17 @@
 <h2 id="name">NAME</h2>
 <p>membarrier - 스레드 집합에 메모리 배리어 주기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="c">#include &lt;linux/membarrier.h&gt;
+<pre><code class="language-c">#include &lt;linux/membarrier.h&gt;
 
-int membarrier(int cmd, int flags);
+int membarrier(int cmd, unsigned int flags, int cpu_id);
 </code></pre>
-
+<p><em>주의</em>: 이 시스템 호출에 대한 glibc 래퍼가 없다. NOTES 참고.</p>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>membarrier()</code> 시스템 호출은 다중 코어 시스템에서 메모리 접근 순서 제어에 필요한 메모리 배리어 인스트럭션의 오버헤드를 줄일 수 있게 해 준다. 하지만 이 시스템 호출이 메모리 배리어보다 무거우며, 그래서 효과적으로 이용하려면 메모리 배리어를 이 시스템 호출로 교체하기만 하면 되는 것이 <em>아니라</em> 아래 세부 내용에 대한 이해가 필요하다.</p>
 <p>메모리 배리어를 사용할 때 고려해야 하는 것은 메모리 배리어에 항상 상대가 되는 메모리 배리어 짝이 있어야 할 수도 있고, 아키텍처 메모리 모델에서 그런 대응 배리어를 요구하지 않을 수도 있다는 점이다.</p>
 <p>대응 배리어 중 한쪽(이하 "빠른 쪽")이 다른 쪽(이하 "느린 쪽")보다 훨씬 자주 실행되는 경우가 있다. 그런 경우가 <code>membarrier()</code>를 사용할 주요 대상이다. 핵심 아이디어는 그런 대응 배리어에서 빠른 쪽 메모리 배리어를 다음과 같은 단순 컴파일러 배리어로 교체하고 느린 쪽 메모리 배리어를 <code>membarrier()</code> 호출로 교체하는 것이다.</p>
-<pre><code class="c">asm volatile (&quot;&quot; : : : &quot;memory&quot;)
+<pre><code class="language-c">asm volatile (&quot;&quot; : : : &quot;memory&quot;)
 </code></pre>
-
 <p>그러면 느린 쪽에 오버헤드를 더하고 빠른 쪽에서 오버헤드를 없애게 되어 <code>membarrier()</code> 호출 오버헤드가 빠른 쪽 성능 이득을 상회하지 않을 만큼 느린 쪽이 드물기만 하다면 결과적으로 전체 성능이 올라가게 된다.</p>
 <p><code>cmd</code> 인자는 다음 중 하나이다.</p>
 <dl>
@@ -184,7 +183,7 @@ int membarrier(int cmd, int flags);
 <p>호출 스레드와 같은 프로세스에 속한 실행 중인 스레드 각각에서 메모리 배리어를 실행한다.</p>
 <p>시스템 호출 반환 시에, 실행 중인 형제자매 스레드 모두가 사용자 공간 주소에 대한 모든 메모리 접근이 프로그램 순서와 일치하는 상태를 시스템 호출 진입과 반환 사이에서 거쳤다는 보장을 호출 스레드가 얻게 된다. (실행 중이 아닌 스레드는 실질적으로 그런 상태에 있는 것이다.) 호출 스레드와 같은 프로세스의 스레드에 대해서만 보장이 이뤄진다.</p>
 <p>"신속 처리" 명령은 그렇지 않은 명령보다 빨리 완료된다. 절대 블록 하지 않는다. 하지만 추가 오버헤드를 유발하는 단점이 있다.</p>
-<p>프로세스별 신속 처리 명령을 사용하려는 프로세스는 사용 전에 그 의도를 미리 알려야 한다.</p>
+<p>비공유 신속 처리 명령을 사용하려는 프로세스는 사용 전에 그 의도를 미리 알려야 한다.</p>
 </dd>
 <dt><code>MEMBARRIER_CMD_REGISTER_PRIVATE_EXPEDITED</code> (리눅스 4.14부터)</dt>
 <dd><code>MEMBARRIER_CMD_PRIVATE_EXPEDITED</code>를 사용하려는 프로세스의 의도를 알린다.</dd>
@@ -192,14 +191,23 @@ int membarrier(int cmd, int flags);
 <dd>
 <p><code>MEMBARRIER_CMD_PRIVATE_EXPEDITED</code>에서 기술한 메모리 순서 보장에 더해서, 시스템 호출 반환 시에 실행 중인 형제자매 스레드 모두가 코어 직렬화 인스트럭션을 실행했다는 보장을 호출 스레드가 얻게 된다. 호출 스레드와 같은 프로세스의 스레드에 대해서만 이 보장이 이뤄진다.</p>
 <p>"신속 처리" 명령은 그렇지 않은 명령보다 빨리 완료된다. 절대 블록 하지 않는다. 하지만 추가 오버헤드를 유발하는 단점이 있다.</p>
-<p>프로세스별 신속 처리 코어 동기화 명령을 사용하려는 프로세스는 사용 전에 그 의도를 미리 알려야 한다.</p>
+<p>비공유 신속 처리 코어 동기화 명령을 사용하려는 프로세스는 사용 전에 그 의도를 미리 알려야 한다.</p>
 </dd>
 <dt><code>MEMBARRIER_CMD_REGISTER_PRIVATE_EXPEDITED_SYNC_CORE</code> (리눅스 4.16부터)</dt>
 <dd><code>MEMBARRIER_CMD_PRIVATE_EXPEDITED_SYNC_CORE</code>를 사용하려는 프로세스의 의도를 알린다.</dd>
+<dt><code>MEMBARRIER_CMD_PRIVATE_EXPEDITED_RSEQ</code> (리눅스 5.10부터)</dt>
+<dd>
+<p><code>flags</code> 매개변수가 0인 경우, 시스템 호출 반환 시에 현재 실행 중인 형제자매 스레드 모두에서 현재 실행 중인 rseq 임계 영역이 있으면 재시작했다는 것을 호출 스레드에게 보장한다. <code>flags</code> 매개변수가 <code>MEMBARRIER_CMD_FLAG_CPU</code>이면 <code>cpu_id</code>가 나타내는 CPU에서만 이 동작을 수행한다. 호출 스레드와 같은 프로세스의 스레드에 대해서만 이 보장이 이뤄진다.</p>
+<p><code>RSEQ</code> 메모리 배리어는 "비공유 신속" 형태로만 사용 가능하다.</p>
+<p>비공유 신속 rseq 명령을 사용하려는 프로세스는 사용 전에 그 의도를 미리 알려야 한다.</p>
+</dd>
+<dt><code>MEMBARRIER_CMD_REGISTER_PRIVATE_EXPEDITED_RSEQ</code> (리눅스 5.10부터)</dt>
+<dd><code>MEMBARRIER_CMD_PRIVATE_EXPEDITED_RSEQ</code>를 사용하려는 프로세스의 의도를 알린다.</dd>
 <dt><code>MEMBARRIER_CMD_SHARED</code> (리눅스 4.3부터)</dt>
 <dd>헤더 하위 호환성을 위해 존재하는 <code>MEMBARRIER_CMD_GLOBAL</code>의 별칭이다.</dd>
 </dl>
-<p><code>flags</code> 인자는 현재 사용하지 않으며 0으로 지정해야 한다.</p>
+<p><code>flags</code> 인자는 명령이 <code>MEMBARRIER_CMD_PRIVATE_EXPEDITED_RSEQ</code>가 아니면 0으로 지정해야 한다. 해당하는 경우에는 <code>flags</code>가 0 또는 <code>MEMBARRIER_CMD_FLAG_CPU</code>일 수 있다.</p>
+<p><code>cpu_id</code> 인자는 <code>flags</code>가 <code>MEMBARRIER_CMD_FLAG_CPU</code>가 아니면 무시된다. 해당하는 경우에는 그 메모리 배리어 명령의 대상 CPU를 지정해야 한다.</p>
 <p>각 대상 스레드에서 프로그램 순서로 수행되는 모든 메모리 접근은 <code>membarrier()</code>에 대해서 순서가 지켜진다고(ordered) 보장된다.</p>
 <p>배리어 전후로 프로그램 순서에 따라 메모리 접근을 수행하게 강제하는 컴파일러 배리어를 의미론적 <code>barrier()</code>로 나타내고 배리어 전후로 완전한 메모리 접근 순서를 강제하는 명시적 메모리 배리어를 <code>smp_mb()</code>로 나타낸다면, <code>barrier()</code>, <code>membarrier()</code>, <code>smp_mb()</code>의 각 쌍에 대한 다음 순서 테이블을 얻는다. O는 순서가 지켜지는 것이고 X는 순서가 지켜지지 않는 것이다.</p>
 <table>
@@ -233,7 +241,7 @@ int membarrier(int cmd, int flags);
 </tbody>
 </table>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 <code>MEMBARRIER_CMD_QUERY</code> 동작은 지원 명령들의 비트 마스크를 반환하며, <code>MEMBARRIER_CMD_GLOBAL</code>, <code>MEMBARRIER_CMD_GLOBAL_EXPEDITED</code>, <code>MEMBARRIER_CMD_REGISTER_GLOBAL_EXPEDITED</code>, <code>MEMBARRIER_CMD_PRIVATE_EXPEDITED</code>, <code>MEMBARRIER_CMD_REGISTER_PRIVATE_EXPEDITED</code>, <code>MEMBARRIER_CMD_PRIVATE_EXPEDITED_SYNC_CORE</code>, <code>MEMBARRIER_CMD_REGISTER_PRIVATE_EXPEDITED_SYNC_CORE</code> 동작은 0을 반환한다. 오류 시 -1을 반환하며 <code>errno</code>를 적절히 설정한다.</p>
+<p>성공 시 <code>MEMBARRIER_CMD_QUERY</code> 동작은 지원 명령들의 비트 마스크를 반환하며, <code>MEMBARRIER_CMD_GLOBAL</code>, <code>MEMBARRIER_CMD_GLOBAL_EXPEDITED</code>, <code>MEMBARRIER_CMD_REGISTER_GLOBAL_EXPEDITED</code>, <code>MEMBARRIER_CMD_PRIVATE_EXPEDITED</code>, <code>MEMBARRIER_CMD_REGISTER_PRIVATE_EXPEDITED</code>, <code>MEMBARRIER_CMD_PRIVATE_EXPEDITED_SYNC_CORE</code>, <code>MEMBARRIER_CMD_REGISTER_PRIVATE_EXPEDITED_SYNC_CORE</code> 동작은 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <p>한 명령에 대해서 <code>flags</code>를 0으로 설정 시 이 시스템 호출이 재부팅 때까지 항상 같은 값을 반환한다고 보장된다. 즉, 같은 인자로 하는 이후 호출이 같은 결과를 낳는다. 따라서 <code>flags</code>를 0으로 설정 시 첫 번째 <code>membarrier()</code> 호출에서만 오류 처리가 필요하다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
@@ -242,19 +250,23 @@ int membarrier(int cmd, int flags);
 <dt><code>ENOSYS</code></dt>
 <dd><code>membarrier()</code> 시스템 호출이 이 커널에 구현되어 있지 않다.</dd>
 <dt><code>EPERM</code></dt>
-<dd>현재 프로세스가 프로세스별 신속 처리 명령 사용에 앞서 신고를 하지 않았다.</dd>
+<dd>현재 프로세스가 비공유 신속 처리 명령 사용에 앞서 신고를 하지 않았다.</dd>
 </dl>
 <h2 id="versions">VERSIONS</h2>
 <p>리눅스 4.3에서 <code>membarrier()</code> 시스템 호출이 추가되었다.</p>
+<p>리눅스 5.10 전에선 <code>membarrier()</code>의 원형이 다음과 같았다.</p>
+<pre><code class="language-c">int membarrier(int cmd, int flags);
+</code></pre>
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p><code>membarrier()</code>는 리눅스 전용이다.</p>
 <h2 id="notes">NOTES</h2>
-<p>메모리 모델이 약한 순서(weakly-ordered)인 아키텍처에서 인스트럭션 세트에 메모리 배리어 인스트럭션이 포함되어 있다. 다른 코어 상의 대응하는 배리어에 대해서 배리어 전 메모리 접근과 배리어 후 메모리 접근의 순서를 지켜 준다. 예를 들어 저장 fence로 순서를 유지하는 저장들에 대해서 적재 fence가 펜스 전 적재와 펜스 후 적재의 순서를 유지할 수 있다.</p>
+<p>메모리 모델이 약한 순서(weakly ordered)인 아키텍처에서 인스트럭션 세트에 메모리 배리어 인스트럭션이 포함되어 있다. 다른 코어 상의 대응하는 배리어에 대해서 배리어 전 메모리 접근과 배리어 후 메모리 접근의 순서를 지켜 준다. 예를 들어 저장 fence로 순서를 유지하는 저장들에 대해서 적재 fence가 펜스 전 적재와 펜스 후 적재의 순서를 유지할 수 있다.</p>
 <p>프로그램 순서란 프로그램 어셈블리 코드에서 인스트럭션이 배치되는 순서이다.</p>
 <p><code>membarrier()</code>가 유용할 수 있는 경우로 Read-Copy-Update 라이브러리나 가비지 컬렉터 구현 등이 있다.</p>
-<h2 id="example">EXAMPLE</h2>
+<p>glibc에서 이 시스템 호출의 래퍼를 제공하지 않는다. <tt><a class="wikilink" href="/man-pages-ko/syscall(2)/">syscall(2)</a></tt>을 이용해 호출해야 한다.</p>
+<h2 id="examples">EXAMPLES</h2>
 <p>"<code>fast_path()</code>"를 매우 자주 실행하고 "<code>slow_path()</code>"를 드물게 실행하는 다중 스레드 응용을 가정할 때 다음과 같은 (x86용) 코드를 <code>membarrier()</code>를 쓰도록 변형할 수 있다.</p>
-<pre><code class="c">#include &lt;stdlib.h&gt;
+<pre><code class="language-c">#include &lt;stdlib.h&gt;
 
 static volatile int a, b;
 
@@ -299,9 +311,8 @@ main(int argc, char **argv)
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <p>위 코드를 <code>membarrier()</code>를 쓰도록 변형하면 다음이 된다.</p>
-<pre><code class="c">#define _GNU_SOURCE
+<pre><code class="language-c">#define _GNU_SOURCE
 #include &lt;stdlib.h&gt;
 #include &lt;stdio.h&gt;
 #include &lt;unistd.h&gt;
@@ -311,9 +322,9 @@ main(int argc, char **argv)
 static volatile int a, b;
 
 static int
-membarrier(int cmd, int flags)
+membarrier(int cmd, unsigned int flags, int cpu_id)
 {
-    return syscall(__NR_membarrier, cmd, flags);
+    return syscall(__NR_membarrier, cmd, flags, cpu_id);
 }
 
 static int
@@ -323,7 +334,7 @@ init_membarrier(void)
 
     /* membarrier() 지원하는지 확인 */
 
-    ret = membarrier(MEMBARRIER_CMD_QUERY, 0);
+    ret = membarrier(MEMBARRIER_CMD_QUERY, 0, 0);
     if (ret &lt; 0) {
         perror(&quot;membarrier&quot;);
         return -1;
@@ -350,7 +361,7 @@ static void
 slow_path(int *read_a)
 {
     b = 1;
-    membarrier(MEMBARRIER_CMD_GLOBAL, 0);
+    membarrier(MEMBARRIER_CMD_GLOBAL, 0, 0);
     *read_a = a;
 }
 
@@ -382,9 +393,8 @@ main(int argc, char **argv)
     exit(EXIT_SUCCESS);
 }
 </code></pre>
-
 <hr />
-<p>2018-04-30</p></div>
+<p>2021-03-22</p></div>
         
         
     </div>
