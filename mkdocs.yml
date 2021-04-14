@@ -14,3 +14,11 @@ extra_css:
 markdown_extensions:
   - wikilinks
   - def_list
+
+plugins:
+  - search
+  - exclude-search:
+      exclude:
+        - '*.md'
+      ignore:
+        - '*.md#name'
