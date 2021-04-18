@@ -53,7 +53,7 @@ asm volatile ("" : : : "memory")
 
     "신속 처리" 명령은 그렇지 않은 명령보다 빨리 완료된다. 절대 블록 하지 않는다. 하지만 추가 오버헤드를 유발하는 단점이 있다.
 
-    프로세스별 신속 처리 명령을 사용하려는 프로세스는 사용 전에 그 의도를 미리 알려야 한다.
+    비공유 신속 처리 명령을 사용하려는 프로세스는 사용 전에 그 의도를 미리 알려야 한다.
 
 `MEMBARRIER_CMD_REGISTER_PRIVATE_EXPEDITED` (리눅스 4.14부터)
 :   `MEMBARRIER_CMD_PRIVATE_EXPEDITED`를 사용하려는 프로세스의 의도를 알린다.
@@ -63,7 +63,7 @@ asm volatile ("" : : : "memory")
 
     "신속 처리" 명령은 그렇지 않은 명령보다 빨리 완료된다. 절대 블록 하지 않는다. 하지만 추가 오버헤드를 유발하는 단점이 있다.
 
-    프로세스별 신속 처리 코어 동기화 명령을 사용하려는 프로세스는 사용 전에 그 의도를 미리 알려야 한다.
+    비공유 신속 처리 코어 동기화 명령을 사용하려는 프로세스는 사용 전에 그 의도를 미리 알려야 한다.
 
 `MEMBARRIER_CMD_REGISTER_PRIVATE_EXPEDITED_SYNC_CORE` (리눅스 4.16부터)
 :   `MEMBARRIER_CMD_PRIVATE_EXPEDITED_SYNC_CORE`를 사용하려는 프로세스의 의도를 알린다.
@@ -71,9 +71,9 @@ asm volatile ("" : : : "memory")
 `MEMBARRIER_CMD_PRIVATE_EXPEDITED_RSEQ` (리눅스 5.10부터)
 :   `flags` 매개변수가 0인 경우, 시스템 호출 반환 시에 현재 실행 중인 형제자매 스레드 모두에서 현재 실행 중인 rseq 임계 영역이 있으면 재시작했다는 것을 호출 스레드에게 보장한다. `flags` 매개변수가 `MEMBARRIER_CMD_FLAG_CPU`이면 `cpu_id`가 나타내는 CPU에서만 이 동작을 수행한다. 호출 스레드와 같은 프로세스의 스레드에 대해서만 이 보장이 이뤄진다.
 
-    `RSEQ` 메모리 배리어는 "프로세스별 신속" 형태로만 사용 가능하다.
+    `RSEQ` 메모리 배리어는 "비공유 신속" 형태로만 사용 가능하다.
 
-    프로세스별 신속 rseq 명령을 사용하려는 프로세스는 사용 전에 그 의도를 미리 알려야 한다.
+    비공유 신속 rseq 명령을 사용하려는 프로세스는 사용 전에 그 의도를 미리 알려야 한다.
 
 `MEMBARRIER_CMD_REGISTER_PRIVATE_EXPEDITED_RSEQ` (리눅스 5.10부터)
 :   `MEMBARRIER_CMD_PRIVATE_EXPEDITED_RSEQ`를 사용하려는 프로세스의 의도를 알린다.
@@ -110,7 +110,7 @@ asm volatile ("" : : : "memory")
 :   `membarrier()` 시스템 호출이 이 커널에 구현되어 있지 않다.
 
 `EPERM`
-:   현재 프로세스가 프로세스별 신속 처리 명령 사용에 앞서 신고를 하지 않았다.
+:   현재 프로세스가 비공유 신속 처리 명령 사용에 앞서 신고를 하지 않았다.
 
 ## VERSIONS
 
