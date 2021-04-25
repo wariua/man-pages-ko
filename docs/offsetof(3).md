@@ -26,7 +26,7 @@ size_t offsetof(type, member);
 
 POSIX.1-2001, POSIX.1-2008, C89, C99.
 
-## EXAMPLE
+## EXAMPLES
 
 리눅스/i386 시스템에서 `gcc(1)` 기본 옵션으로 컴파일 할 때 아래 프로그램이 다음 출력을 내놓는다.
 
@@ -55,10 +55,10 @@ main(void)
 
     /* 컴파일러에 따라 출력이 다름 */
 
-    printf("offsets: i=%zd; c=%zd; d=%zd a=%zd\n",
+    printf("offsets: i=%zu; c=%zu; d=%zu a=%zu\n",
             offsetof(struct s, i), offsetof(struct s, c),
             offsetof(struct s, d), offsetof(struct s, a));
-    printf("sizeof(struct s)=%zd\n", sizeof(struct s));
+    printf("sizeof(struct s)=%zu\n", sizeof(struct s));
 
     exit(EXIT_SUCCESS);
 }
@@ -66,4 +66,4 @@ main(void)
 
 ----
 
-2019-03-06
+2020-11-01

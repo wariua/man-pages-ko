@@ -8,7 +8,6 @@ mtrace, muntrace - malloc 추적
 #include <mcheck.h>
 
 void mtrace(void);
-
 void muntrace(void);
 ```
 
@@ -46,7 +45,7 @@ void muntrace(void);
 
 `mtrace(1)`가 내놓는 행 번호 정보가 항상 정확하지는 않다. 행 번호가 소스 코드에서 앞이나 뒤의 (비어 있지 않은) 행을 가리킬 수도 있다.
 
-## EXAMPLE
+## EXAMPLES
 
 아래의 셸 세션은 두 군데에 메모리 누수가 있는 프로그램으로 `mtrace()` 함수와 `mtrace(1)` 명령 사용 방식을 보여 준다. 다음 프로그램을 사용한다.
 
@@ -59,11 +58,9 @@ $ cat t_mtrace.c
 int
 main(int argc, char *argv[])
 {
-    int j;
-
     mtrace();
 
-    for (j = 0; j < 2; j++)
+    for (int j = 0; j < 2; j++)
         malloc(100);            /* free 안 함 - 메모리 누수 */
 
     calloc(16, 16);             /* free 안 함 - 메모리 누수 */
@@ -94,4 +91,4 @@ Memory not freed:
 
 ----
 
-2017-09-15
+2021-03-22

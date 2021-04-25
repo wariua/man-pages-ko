@@ -17,12 +17,12 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 `truncate()`:
 :   `_XOPEN_SOURCE >= 500`<br>
     `    || /* glibc 2.12부터: */ _POSIX_C_SOURCE >= 200809L`<br>
-    `    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE`
+    `    || /* glibc <= 2.19: */ _BSD_SOURCE`
 
 `ftruncate()`:
 :   `_XOPEN_SOURCE >= 500`<br>
     `    || /* glibc 2.3.5부터: */ _POSIX_C_SOURCE >= 200112L`<br>
-    `    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE`
+    `    || /* glibc <= 2.19: */ _BSD_SOURCE`
 
 ## DESCRIPTION
 
@@ -38,7 +38,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## RETURN VALUE
 
-성공 시 0을 반환한다. 오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -127,4 +127,4 @@ glibc 2.12에 헤더 파일 버그가 있어서 `ftruncate()` 선언을 노출�
 
 ----
 
-2019-03-06
+2021-03-22

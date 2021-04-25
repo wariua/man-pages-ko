@@ -90,6 +90,10 @@ ssize_t copy_file_range(int fd_in, off64_t *off_in,
 
 리눅스 4.5에서 `copy_file_range()` 시스템 호출이 처음 등장했다. 이용 가능하지 않은 경우 glibc 2.27에서 사용자 공간 에뮬레이션을 제공한다.
 
+5.3에서 커널 구현을 크게 고치는 작업이 이뤄졌다. API에서 명확하게 규정돼 있지 않던 부분을 명확히 하고 앞선 커널들보다 API 제한치를 훨씬 엄격하게 검사한다. 응용들에선 5.3 커널의 동작 방식과 요구 사항을 목표로 하는 게 좋다.
+
+리눅스 5.3에서 파일 시스템 간 복사를 지원하기 시작했다. 그 전 커널에선 파일 시스템 간 복사 시도 시 -EXDEV를 반환하게 된다.
+
 ## CONFORMING TO
 
 `copy_file_range()` 시스템 호출은 비표준 리눅스 및 GNU 확장이다.
@@ -100,7 +104,7 @@ ssize_t copy_file_range(int fd_in, off64_t *off_in,
 
 `copy_file_range()`는 파일 시스템에서 reflink(즉 여러 아이노드가 동일 copy-on-write 디스크 블록에 대한 포인터 공유)나 서버 측 복사(NFS인 경우) 사용 같은 "복사 가속" 기법을 적용할 기회를 준다.
 
-## EXAMPLE
+## EXAMPLES
 
 ```c
 #define _GNU_SOURCE
@@ -108,26 +112,14 @@ ssize_t copy_file_range(int fd_in, off64_t *off_in,
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
-#include <sys/syscall.h>
 #include <unistd.h>
-
-/* glibc 2.27 전 버전에서는 syscall(2)로 copy_file_range()를
-   호출해야 한다. */
-
-static loff_t
-copy_file_range(int fd_in, loff_t *off_in, int fd_out,
-                loff_t *off_out, size_t len, unsigned int flags)
-{
-    return syscall(__NR_copy_file_range, fd_in, off_in, fd_out,
-                   off_out, len, flags);
-}
 
 int
 main(int argc, char **argv)
 {
     int fd_in, fd_out;
     struct stat stat;
-    loff_t len, ret;
+    off64_t len, ret;
 
     if (argc != 3) {
         fprintf(stderr, "Usage: %s <source> <destination>\n", argv[0]);
@@ -161,7 +153,7 @@ main(int argc, char **argv)
         }
 
         len -= ret;
-    } while (len > 0);
+    } while (len > 0 && ret > 0);
 
     close(fd_in);
     close(fd_out);

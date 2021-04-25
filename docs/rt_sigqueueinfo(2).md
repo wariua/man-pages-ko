@@ -5,10 +5,8 @@ rt_sigqueueinfo, rt_tgsigqueueinfo - 시그널과 데이터를 큐에 넣기
 ## SYNOPSIS
 
 ```c
-int rt_sigqueueinfo(pid_t tgid, int sig, siginfo_t *uinfo);
-
-int rt_tgsigqueueinfo(pid_t tgid, pid_t tid, int sig,
-                      siginfo_t *uinfo);
+int rt_sigqueueinfo(pid_t tgid, int sig, siginfo_t *info);
+int rt_tgsigqueueinfo(pid_t tgid, pid_t tid, int sig, siginfo_t *info);
 ```
 
 *주의*: 이 시스템 호출들에 대한 glibc 래퍼가 없다. NOTES 참고.
@@ -21,10 +19,14 @@ int rt_tgsigqueueinfo(pid_t tgid, pid_t tid, int sig,
 
 `rt_sigqueueinfo()` 시스템 호출은 ID가 `tgid`인 스레드 그룹에게 시그널 `sig`를 보낸다. ("스레드 그룹"이라는 용어는 "프로세스"와 동의어이며 `tid`는 전통적인 유닉스 프로세스 ID에 해당한다.) 그 스레드 그룹의 임의 구성원에게 (즉 현재 그 시그널을 막고 있지 않은 스레드들 중 하나에게) 시그널이 전달된다.
 
-`uinfo` 인자는 시그널에 동반되는 데이터를 나타낸다. 이 인자는 <tt>[[sigaction(2)]]</tt>에 기술된 (그리고 `<sigaction.h>`를 포함시켜서 정의하는) `siginfo_t` 타입의 구조체에 대한 포인터이다. 호출자가 이 구조체의 다음 필드들을 설정해야 한다.
+`info` 인자는 시그널에 동반되는 데이터를 나타낸다. 이 인자는 <tt>[[sigaction(2)]]</tt>에 기술된 (그리고 `<sigaction.h>`를 포함시켜서 정의하는) `siginfo_t` 타입의 구조체에 대한 포인터이다. 호출자가 이 구조체의 다음 필드들을 설정해야 한다.
 
 `si_code`
-:   리눅스 커널 소스 파일 `include/asm-generic/siginfo.h`에 있는 `SI_*` 코드들 중 하나여야 하되 코드가 음수여야 하며 (즉 커널에서 <tt>[[kill(2)]]</tt>로 보낸 시그널을 나타내는 데 쓰는 `SI_USER`일 수 없으며) (리눅스 2.6.39부터) (커널에서 <tt>[[tgkill(2)]]</tt>로 보낸 시그널을 나타내는 데 쓰는) `SI_TKILL`일 수 없다는 제약이 있다.
+:   리눅스 커널 소스 파일 `include/asm-generic/siginfo.h`에 있는 `SI_*` 코드들 중 하나여야 한다. 호출자 자신이 아닌 프로세스로 시그널을 보내려는 경우 다음 제약이 적용된다.
+
+    * 코드가 0보다 크거나 같은 값일 수 없다. 특히 커널에서 <tt>[[kill(2)]]</tt>로 보낸 시그널을 나타내는 데 쓰는 `SI_USER`일 수 없고, 커널이 생성한 시그널을 나타내는 데 쓰는 `SI_KERNEL`일 수 없다.
+
+    * (리눅스 2.6.39부터) 코드가 커널에서 <tt>[[tgkill(2)]]</tt>로 보낸 시그널을 나타내는 데 쓰는 `SI_TKILL`일 수 없다.
 
 `si_pid`
 :   프로세스 ID로 설정해야 하는데, 보통은 송신자의 프로세스 ID이다.
@@ -52,7 +54,10 @@ int rt_tgsigqueueinfo(pid_t tgid, pid_t tid, int sig,
 :   `sig`나 `tgid`, `tid`가 유효하지 않다.
 
 `EPERM`
-:   호출자가 대상에게 시그널을 보낼 권한을 가지고 있지 않다. 필요한 권한에 대해선 <tt>[[kill(2)]]</tt>을 보라. 또는 `uinfo->si_code`가 유효하지 않다.
+:   호출자가 대상에게 시그널을 보낼 권한을 가지고 있지 않다. 필요한 권한에 대해선 <tt>[[kill(2)]]</tt>을 보라.
+
+`EPERM`
+:   `tgid`가 호출자 아닌 프로세스를 나타내며 `info->si_code`가 유효하지 않다.
 
 `ESRCH`
 :   `rt_sigqueueinfo()`: `tgid`에 일치하는 스레드 그룹을 찾을 수 없다.
@@ -75,8 +80,8 @@ int rt_tgsigqueueinfo(pid_t tgid, pid_t tid, int sig,
 
 ## SEE ALSO
 
-<tt>[[kill(2)]]</tt>, <tt>[[sigaction(2)]]</tt>, <tt>[[sigprocmask(2)]]</tt>, <tt>[[tgkill(2)]]</tt>, <tt>[[pthread_sigqueue(3)]]</tt>, <tt>[[sigqueue(3)]]</tt>, <tt>[[signal(7)]]</tt>
+<tt>[[kill(2)]]</tt>, <tt>[[pidfd_send_signal(2)]]</tt>, <tt>[[sigaction(2)]]</tt>, <tt>[[sigprocmask(2)]]</tt>, <tt>[[tgkill(2)]]</tt>, <tt>[[pthread_sigqueue(3)]]</tt>, <tt>[[sigqueue(3)]]</tt>, <tt>[[signal(7)]]</tt>
 
 ----
 
-2017-09-15
+2021-03-22

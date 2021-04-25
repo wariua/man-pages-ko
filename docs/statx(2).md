@@ -5,13 +5,12 @@ statx - 파일 상태 정보 얻기 (확장)
 ## SYNOPSIS
 
 ```c
-#include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <fcntl.h>           /* AT_* 상수 정의 */
 
-int statx(int dirfd, const char *pathname, int flags,
-          unsigned int mask, struct statx *statxbuf);
+int statx(int dirfd, const char *restrict pathname, int flags,
+          unsigned int mask, struct statx *restrict statxbuf);
 ```
 
 ## DESCRIPTION
@@ -127,7 +126,7 @@ struct statx_timestamp {
 | `STATX_BTIME`       | `stx_btime` 원함 |
 | `STATX_ALL`         | [현재 가용 필드들 모두] |
 
-참고로 `mask`에 위와 다른 값이 있어도 커널이 거부하지 *않는다*. 대신 `statx.stx_mask` 필드를 통해 커널과 파일 시스템에서 지원하는 값들을 호출자에게 알려준다. 따라서 `mask`를 그냥 `UINT_MAX`로 설정(모든 비트 설정)해선 *안 된다*. 어떤 비트가 향후에 버퍼에 대한 확장을 나타내는 데 쓰일 수도 있기 때문이다.
+참고로 일반적으로 `mask`에 위와 다른 값이 있어도 커널이 거부하지 *않는다*. (예외는 오류 설명의 `EINVAL`을 보라.) 대신 `statx.stx_mask` 필드를 통해 커널과 파일 시스템에서 지원하는 값들을 호출자에게 알려준다. 따라서 `mask`를 그냥 `UINT_MAX`로 설정(모든 비트 설정)해선 *안 된다*. 어떤 비트가 향후에 버퍼에 대한 확장을 나타내는 데 쓰일 수도 있기 때문이다.
 
 ### 반환되는 정보
 
@@ -214,9 +213,23 @@ struct statx_timestamp {
 `STATX_ATTR_ENCRYPTED`
 :   파일 시스템에서 파일을 암호화하기 위해선 키가 필요하다.
 
+`STATX_ATTR_VERITY` (리눅스 5.5부터)
+:   파일에 fs-verity가 켜져 있다. 쓰기를 할 수 없으며 모든 읽기를 전체 파일에 대한 (가령 머클 트리를 통한) 암호학적 해시에 대해 검증하게 된다.
+
+`STATX_ATTR_DAX` (리눅스 5.8부터)
+:   파일이 DAX(CPU 직접 접근) 상태이다. DAX 상태에선 파일의 I/O와 메모리 매핑 모두에서 소프트웨어 캐시 효과를 최소하려고 한다. DAX를 지원하게 구성된 파일 시스템이 필요하다.
+
+    DAX에선 일반적으로 모든 접근이 CPU 적재 / 저장 인스트럭션을 통해 이뤄진다고 상정하는데, 이는 소규모 접근에서 오버헤드를 최소화할 수 있지만 대규모 전송에서는 CPU 이용률에 부정적 영향을 줄 수 있다.
+
+    사용자 공간 버퍼와 직접 파일 I/O가 이뤄지며 커널 페이지 캐시를 우회하는 직접 메모리 매핑으로 메모리 맵 I/O가 수행될 수도 있다.
+
+    DAX 특성으로 인해 보통 데이터가 동기적으로 전송되긴 하지만, 데이터와 필요한 메타데이터가 함께 전송되는 `O_SYNC` 플래그(<tt>[[open(2)]]</tt> 참고)와 같은 보장까지 해 주진 않는다.
+
+    DAX 파일을 `MAP_SYNC` 플래그로 맵 하는 게 지원될 수도 있는데, 그러면 프로그램에서 명시적 <tt>[[fsync(2)]]</tt> 없이 CPU 캐시 플러시 인스트럭션을 써서 CPU 저장 동작들을 영속화하는 게 가능해진다.
+
 ## RETURN VALUE
 
-성공 시 0을 반환한다. 오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -233,7 +246,7 @@ struct statx_timestamp {
 :   `flags`에 유효하지 않은 플래그를 지정했다.
 
 `EINVAL`
-:   `mask`에 예비 플래그를 지정했다.
+:   `mask`에 예비 플래그를 지정했다. (현재 그런 플래그가 하나 있는데, 상수 `STATX__RESERVED`이고 값은 0x80000000U이다.)
 
 `ELOOP`
 :   경로명을 순회하는 동안 너무 많은 심볼릭 링크를 만났다.
@@ -264,4 +277,4 @@ struct statx_timestamp {
 
 ----
 
-2019-03-06
+2021-03-22

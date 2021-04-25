@@ -6,19 +6,22 @@ namespaces - 리눅스 네임스페이스 개요
 
 네임스페이스는 전역 시스템 자원을 어떤 추상화로 감싸서 네임스페이스 안의 프로세스들에게는 독립적인 전역 자원 인스턴스가 따로 있는 것처럼 보이도록 만든다. 그 전역 자원에 대한 변경 사항이 네임스페이스 일원인 다른 프로세스들에게는 보이지만 그 외의 프로세스들에게는 보이지 않는다. 네임스페이스의 용도 중 하나가 컨테이너 구현이다.
 
-리눅스에서 제공하는 네임스페이스는 다음과 같다.
+이 페이지에서는 다양한 네임스페이스 유형에 대한 정보를 ... ,관련 `/proc` 파일들을 설명하고, 네임스페이스를 다루기 위한 API들을 요약한다.
 
-| 네임스페이스 | 상수              | 격리 대상                       |
-| ------------ | ----------------- | ------------------------------- |
-| cgroup       | `CLONE_NEWCGROUP` | cgroup 루트 디렉터리            |
-| IPC          | `CLONE_NEWIPC`    | 시스템 V IPC, POSIX 메시지 큐   |
-| 네트워크     | `CLONE_NEWNET`    | 네트워크 장치, 스택, 포트 등    |
-| 마운트       | `CLONE_NEWNS`     | 마운트 포인트                   |
-| PID          | `CLONE_NEWPID`    | 프로세스 ID                     |
-| 사용자       | `CLONE_NEWUSER`   | 사용자 ID와 그룹 ID             |
-| UTS          | `CLONE_NEWUTS`    | 호스트명과 NIS 도메인 이름      |
+### 네임스페이스 유형
 
-이 페이지에서는 다양한 네임스페이스와 관련 `/proc` 파일들을 설명하고 네임스페이스를 다루기 위한 API들을 요약한다.
+다음 표는 리눅스에서 이용 가능한 네임스페이스 유형을 보여 준다. 표의 두 번째 열은 여러 API에서 그 네임스페이스를 지정하는 데 쓰는 플래그 값을 나타낸다. 세 번째 열은 그 네임스페이스에 대한 자세한 정보를 제공하는 매뉴얼 페이지를 나타낸다. 마지막 열은 그 네임스페이스가 격리하는 자원들을 요약한다.
+
+| 네임스페이스 | 플래그            | 페이지                             | 격리 대상                       |
+| ------------ | ----------------- | ---------------------------------- | ------------------------------- |
+| cgroup       | `CLONE_NEWCGROUP` | <tt>[[cgroup_namespaces(7)]]</tt>  | cgroup 루트 디렉터리            |
+| IPC          | `CLONE_NEWIPC`    | <tt>[[ipc_namespaces(7)]]</tt>     | 시스템 V IPC, POSIX 메시지 큐   |
+| 네트워크     | `CLONE_NEWNET`    | <tt>[[network_namespaces(7)]]</tt> | 네트워크 장치, 스택, 포트 등    |
+| 마운트       | `CLONE_NEWNS`     | <tt>[[mount_namespaces(7)]]</tt>   | 마운트 포인트                   |
+| PID          | `CLONE_NEWPID`    | <tt>[[pid_namespaces(7)]]</tt>     | 프로세스 ID                     |
+| 시간         | `CLONE_NEWTIME`   | <tt>[[time_namespaces(7)]]</tt>    | BOOT 및 MONOTONIC 클럭          |
+| 사용자       | `CLONE_NEWUSER`   | <tt>[[user_namespaces(7)]]</tt>    | 사용자 ID와 그룹 ID             |
+| UTS          | `CLONE_NEWUTS`    | <tt>[[uts_namespaces(7)]]</tt>     | 호스트명과 NIS 도메인 이름      |
 
 ### 네임스페이스 API
 
@@ -43,16 +46,18 @@ namespaces - 리눅스 네임스페이스 개요
 각 프로세스마다 서브디렉터리 `/proc/[pid]/ns/`가 있고 그 안에는 <tt>[[setns(2)]]</tt>를 통한 조작을 지원하는 네임스페이스마다 항목이 하나씩 있다.
 
 ```text
-$ ls -l /proc/$$/ns
+$ ls -l /proc/$$/ns | awk '{print $1, $9, $10, $11}'
 total 0
-lrwxrwxrwx. 1 mtk mtk 0 Apr 28 12:46 cgroup -> cgroup:[4026531835]
-lrwxrwxrwx. 1 mtk mtk 0 Apr 28 12:46 ipc -> ipc:[4026531839]
-lrwxrwxrwx. 1 mtk mtk 0 Apr 28 12:46 mnt -> mnt:[4026531840]
-lrwxrwxrwx. 1 mtk mtk 0 Apr 28 12:46 net -> net:[4026531969]
-lrwxrwxrwx. 1 mtk mtk 0 Apr 28 12:46 pid -> pid:[4026531836]
-lrwxrwxrwx. 1 mtk mtk 0 Apr 28 12:46 pid_for_children -> pid:[4026531834]
-lrwxrwxrwx. 1 mtk mtk 0 Apr 28 12:46 user -> user:[4026531837]
-lrwxrwxrwx. 1 mtk mtk 0 Apr 28 12:46 uts -> uts:[4026531838]
+lrwxrwxrwx. cgroup -> cgroup:[4026531835]
+lrwxrwxrwx. ipc -> ipc:[4026531839]
+lrwxrwxrwx. mnt -> mnt:[4026531840]
+lrwxrwxrwx. net -> net:[4026531969]
+lrwxrwxrwx. pid -> pid:[4026531836]
+lrwxrwxrwx. pid_for_children -> pid:[4026531834]
+lrwxrwxrwx. time -> time:[4026531834]
+lrwxrwxrwx. time_for_children -> time:[4026531834]
+lrwxrwxrwx. user -> user:[4026531837]
+lrwxrwxrwx. uts -> uts:[4026531838]
 ```
 
 이 디렉터리의 파일들 중 하나를 파일 시스템의 다른 어딘가로 결속 마운트(<tt>[[mount(2)]]</tt> 참고) 하면 `pid`로 지정한 프로세스의 해당 네임스페이스가 그 네임스페이스의 현재 프로세스가 모두 종료하더라도 유지된다.
@@ -86,6 +91,12 @@ uts:[4026531838]
 `/proc/[pid]/ns/pid_for_children` (리눅스 4.12부터)
 :   이 파일은 이 프로세스가 생성한 자식 프로세스들의 PID 네임스페이스에 대한 핸들이다. 이 네임스페이스는 <tt>[[unshare(2)]]</tt>와 <tt>[[setns(2)]]</tt> 호출의 결과로 바뀔 수 있으며 (<tt>[[pid_namespaces(7)]]</tt> 참고), 따라서 파일이 `/proc/[pid]/ns/pid`와 다를 수 있다. 그 네임스페이스에 첫 번째 자식 프로세스가 생성된 후에야 심볼릭 링크에 값이 들어간다. (그 전에는 심볼릭 링크를 <tt>[[readlink(2)]]</tt> 하면 빈 버퍼를 반환한다.)
 
+`/proc/[pid]/ns/time` (리눅스 5.6부터)
+:   이 파일은 프로세스의 시간 네임스페이스에 대한 핸들이다.
+
+`/proc/[pid]/ns/time_for_children` (리눅스 5.6부터)
+:   이 파일은 이 프로세스가 생성한 자식 프로세스들의 시간 네임스페이스에 대한 핸들이다. 이 네임스페이스는 <tt>[[unshare(2)]]</tt>와 <tt>[[setns(2)]]</tt> 호출의 결과로 바뀔 수 있으며 (<tt>[[time_namespaces(7)]]</tt> 참고), 따라서 파일이 `/proc/[pid]/ns/time`과 다를 수 있다.
+
 `/proc/[pid]/ns/user` (리눅스 3.8부터)
 :   이 파일은 프로세스의 사용자 네임스페이스에 대한 핸들이다.
 
@@ -112,6 +123,9 @@ uts:[4026531838]
 
 `max_pid_namespaces`
 :   이 파일의 값은 그 사용자 네임스페이스 내에 만들 수 있는 PID 네임스페이스 수의 사용자별 제한을 규정한다.
+
+`max_time_namespaces` (리눅스 5.7부터)
+:   이 파일의 값은 그 사용자 네임스페이스 내에 만들 수 있는 시간 네임스페이스 수의 사용자별 제한을 규정한다.
 
 `max_user_namespaces`
 :   이 파일의 값은 그 사용자 네임스페이스 내에 만들 수 있는 사용자 네임스페이스 수의 사용자별 제한을 규정한다.
@@ -143,52 +157,6 @@ uts:[4026531838]
 
   + 방금 언급한 점 때문에 사용자 네임스페이스를 새로 만드는 것이 현재 사용자 네임스페이스에 적용 중인 제한을 빠져나가는 방법이 될 수 없다.
 
-### cgroup 네임스페이스 (`CLONE_NEWCGROUP`)
-
-<tt>[[cgroup_namespaces(7)]]</tt>를 보라.
-
-### IPC 네임스페이스 (`CLONE_NEWIPC`)
-
-IPC 네임스페이스는 특정 IPC 자원들, 즉 시스템 V IPC 객체(<tt>[[sysvipc(7)]]</tt> 참고)와 (리눅스 2.6.30부터) POSIX 메시지 큐(<tt>[[mq_overview(7)]]</tt> 참고)를 격리한다. 이 IPC 메커니즘들의 공통 특징은 파일 시스템 경로명 외의 메커니즘으로 IPC 객체를 식별할 수 있다는 점이다.
-
-각 IPC 네임스페이스마다 자체 시스템 V IPC 식별자 집합과 자체 POSIX 메시지 큐 파일 시스템이 있다. IPC 네임스페이스 내에서 생성된 객체는 그 네임스페이스에 속한 다른 모든 프로세스에게 보이지만 다른 IPC 네임스페이스의 프로세스들에게는 보이지 않는다.
-
-IPC 네임스페이스마다 다음 `/proc` 인터페이스들이 별개로 있다.
-
-* `/proc/sys/fs/mqueue` 안의 POSIX 메시지 큐 인터페이스들.
-
-* `/proc/sys/kernel` 안의 시스템 V IPC 인터페이스들. 즉 `msgmax`, `msgmnb`, `msgmni`, `sem`, `shmall`, `shmmax`, `shmmni`, `shm_rmid_forced`.
-
-* `/proc/sysvipc` 안의 시스템 V IPC 인터페이스들.
-
-IPC 네임스페이스가 파기될 때 (즉 그 네임스페이스에 속한 마지막 프로세스가 종료할 때) 네임스페이스 내의 모든 IPC 객체들이 자동으로 파기된다.
-
-IPC 네임스페이스 사용을 위해선 커널이 `CONFIG_IPC_NS` 옵션으로 구성돼 있어야 한다.
-
-### 네트워크 네임스페이스 (`CLONE_NEWNET`)
-
-<tt>[[network_namespaces(7)]]</tt>를 보라.
-
-### 마운트 네임스페이스 (`CLONE_NEWNS`)
-
-<tt>[[mount_namespaces(7)]]</tt>를 보라.
-
-### PID 네임스페이스 (`CLONE_NEWPID`)
-
-<tt>[[pid_namespaces(7)]]</tt>를 보라.
-
-### 사용자 네임스페이스 (`CLONE_NEWUSER`)
-
-<tt>[[user_namespaces(7)]]</tt>를 보라.
-
-### UTS 네임스페이스 (`CLONE_NEWUTS`)
-
-UTS 네임스페이스는 두 가지 시스템 식별자, 즉 호스트명과 NIS 도메인 이름을 격리할 수 있게 해 준다. <tt>[[sethostname(2)]]</tt>과 <tt>[[setdomainname(2)]]</tt>으로 그 식별자들을 설정하며 <tt>[[uname(2)]]</tt>, <tt>[[gethostname(2)]]</tt>, <tt>[[getdomainname(2)]]</tt>으로 얻어 올 수 있다.
-
-프로세스에서 `CLONE_NEWUTS` 플래그를 쓴 <tt>[[clone(2)]]</tt>이나 <tt>[[unshare(2)]]</tt>로 새 UTS 네임스페이스를 만들 때 새 UTS 네임스페이스의 호스트명과 도메인 이름은 호출자의 UTS 네임스페이스의 해당 값을 복사한다.
-
-UTS 네임스페이스 사용을 위해선 커널이 `CONFIG_UTS_NS` 옵션으로 구성돼 있어야 한다.
-
 ### 네임스페이스의 수명
 
 다른 요인이 없을 때 네임스페이스는 그 안의 마지막 프로세스가 종료하거나 네임스페이스를 떠날 때 자동으로 해체된다. 하지만 참여 프로세스가 없는 경우에도 네임스페이스가 존재하도록 고정할 수 있는 다른 요인들이 몇 가지 있다. 다음이 거기에 포함된다.
@@ -201,18 +169,20 @@ UTS 네임스페이스 사용을 위해선 커널이 `CONFIG_UTS_NS` 옵션으�
 
 * PID 네임스페이스인데 심볼릭 링크 `/proc/[pid]/ns/pid_for_children`을 통해 그 네임스페이스를 가리키고 있는 프로세스가 있다.
 
+* 시간 네임스페이스인데 심볼릭 링크 `/proc/[pid]/ns/time_for_children`을 통해 그 네임스페이스를 가리키고 있는 프로세스가 있다.
+
 * IPC 네임스페이스인데 대응하는 `mqueue` 파일 시스템 마운트(<tt>[[mq_overview(7)]]</tt> 참고)가 그 네임스페이스를 가리키고 있다.
 
 * PID 네임스페이스인데 대응하는 <tt>[[proc(5)]]</tt> 파일 시스템 마운트가 그 네임스페이스를 가리키고 있다.
 
-## EXAMPLE
+## EXAMPLES
 
 <tt>[[clone(2)]]</tt> 및 <tt>[[user_namespaces(7)]]</tt> 참고.
 
 ## SEE ALSO
 
-`nsenter(1)`, `readlink(1)`, `unshare(1)`, <tt>[[clone(2)]]</tt>, <tt>[[ioctl_ns(2)]]</tt>, <tt>[[setns(2)]]</tt>, <tt>[[unshare(2)]]</tt>, <tt>[[proc(5)]]</tt>, <tt>[[capabilities(7)]]</tt>, <tt>[[cgroup_namespaces(7)]]</tt>, <tt>[[cgroups(7)]]</tt>, <tt>[[credentials(7)]]</tt>, <tt>[[network_namespaces(7)]]</tt>, <tt>[[pid_namespaces(7)]]</tt>, <tt>[[user_namespaces(7)]]</tt>, `lsns(8)`, `pam_namespace(8)`, `switch_root(8)`
+`nsenter(1)`, `readlink(1)`, `unshare(1)`, <tt>[[clone(2)]]</tt>, <tt>[[ioctl_ns(2)]]</tt>, <tt>[[setns(2)]]</tt>, <tt>[[unshare(2)]]</tt>, <tt>[[proc(5)]]</tt>, <tt>[[capabilities(7)]]</tt>, <tt>[[cgroup_namespaces(7)]]</tt>, <tt>[[cgroups(7)]]</tt>, <tt>[[credentials(7)]]</tt>, <tt>[[ipc_namespaces(7)]]</tt>, <tt>[[network_namespaces(7)]]</tt>, <tt>[[pid_namespaces(7)]]</tt>, <tt>[[user_namespaces(7)]]</tt>, <tt>[[uts_namespaces(7)]]</tt>, `lsns(8)`, `pam_namespace(8)`, `switch_root(8)`
 
 ----
 
-2019-08-02
+2021-03-22

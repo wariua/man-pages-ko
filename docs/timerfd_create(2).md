@@ -12,7 +12,6 @@ int timerfd_create(int clockid, int flags);
 int timerfd_settime(int fd, int flags,
                     const struct itimerspec *new_value,
                     struct itimerspec *old_value);
-
 int timerfd_gettime(int fd, struct itimerspec *curr_value);
 ```
 
@@ -40,6 +39,8 @@ int timerfd_gettime(int fd, struct itimerspec *curr_value);
 
 `CLOCK_BOOTTIME_ALARM` (리눅스 3.11부터)
 :   이 클럭은 `CLOCK_BOOTTIME`과 비슷하되 시스템이 절전 대기 상태이면 깨우게 된다. 이 클럭에 대해 타이머를 설정하기 위해선 호출자가 `CAP_WAKE_ALARM` 역능을 가지고 있어야 한다.
+
+위 클럭들에 대한 좀 더 자세한 내용은 <tt>[[clock_getres(2)]]</tt>를 보라.
 
 이 클럭들 각각의 현재 값은 <tt>[[clock_gettime(2)]]</tt>을 이용해 얻어 올 수 있다.
 
@@ -97,7 +98,7 @@ struct itimerspec {
 
 ### 타이머 파일 디스크립터 조작
 
-`timerfd_create()`가 반환하는 파일 디스크립터는 다음 작업을 지원한다.
+`timerfd_create()`가 반환하는 파일 디스크립터는 다음 추가 작업을 지원한다.
 
 `read(2)`
 :   `timerfd_settime()`을 이용해 마지막으로 설정을 변경한 이후로, 또는 마지막 `read(2)` 성공 이후로 타이머가 한 번 이상 만료되었으면 발생한 만료 횟수를 담은 부호 없는 8바이트 정수(`uint64_t`)를 `read(2)`에 준 버퍼로 반환한다. (반환되는 값은 호스트 바이트 순서, 즉 호스트 머신 자체의 정수 바이트 순서로 되어 있다.)
@@ -107,6 +108,8 @@ struct itimerspec {
     제공한 버퍼의 크기가 8바이트보다 작으면 `read(2)`가 `EINVAL` 오류로 실패한다.
 
     연계된 클럭이 `CLOCK_REALTIME`이나 `CLOCK_REALTIME_ALARM`이고, 타이머가 절대이고 (`TFD_TIMER_ABSTIME`), `timerfd_settime()` 호출 때 `TFD_TIMER_CANCEL_ON_SET` 플래그를 지정했다면 실제 시간 클럭이 불연속적 변경을 거치는 경우 `read(2)`가 `ECANCELED` 오류로 실패한다. (이를 통해 읽기를 하는 응용에서 클럭에 불연속적 변경이 일어났음을 알아챌 수 있다.)
+
+    연계된 클럭이 `CLOCK_REALTIME`이나 `CLOCK_REALTIME_ALARM`이고, 타이머가 절대이고 (`TFD_TIMER_ABSTIME`), `timerfd_settime()` 호출 때 `TFD_TIMER_CANCEL_ON_SET` 플래그를 지정하지 *않았다면* 시간 만료 후 파일 디스크립터에 대한 `read(2)` 전에 클럭에 (가령 <tt>[[clock_settime(2)]]</tt>으로) 불연속적 역방향 변경이 일어나면 `read(2)`가 블록 하지 않고 0값을 반환할 (즉 읽은 바이트가 없을) 수도 있다.
 
 <tt>[[poll(2)]]</tt>, <tt>[[select(2)]]</tt> (기타 유사 함수)
 :   타이머 만료가 한 번 이상 일어났을 때 파일 디스크립터가 읽기 가능하다. (<tt>[[select(2)]]</tt> `readfds` 인자, <tt>[[poll(2)]]</tt> `POLLIN` 플래그.)
@@ -141,7 +144,7 @@ struct itimerspec {
 `timerfd_create()`이 다음 오류로 실패할 수 있다.
 
 `EINVAL`
-:   `clockid` 인자가 `CLOCK_MONOTONIC`이나 `CLOCK_REALTIME`이 아니다.
+:   `clockid`가 유효하지 않다.
 
 `EINVAL`
 :   `flags`가 유효하지 않다. 또는 리눅스 2.6.26 또는 이전에서 `flags`가 0이 아니다.
@@ -158,6 +161,9 @@ struct itimerspec {
 `ENOMEM`
 :   타이머를 생성하기에 커널 메모리가 충분하지 않았다.
 
+`EPERM`
+:   `clockid`가 `CLOCK_REALTIME_ALARM` 또는 `CLOCK_BOOTTIME_ALARM`이었지만 호출자가 `CAP_WAKE_ALARM` 역능을 가지고 있지 않다.
+
 `timerfd_settime()`과 `timerfd_gettime()`이 다음 오류로 실패할 수 있다.
 
 `EBADF`
@@ -170,6 +176,9 @@ struct itimerspec {
 :   `fd`가 유효한 timerfd 파일 디스크립터가 아니다.
 
 `timerfd_settime()`이 다음 오류로 실패할 수도 있다.
+
+`ECANCELED`
+:   NOTES 절을 보라.
 
 `EINVAL`
 :   `new_value`가 올바로 초기화 되어 있지 않다. (한 `tv_nsec` 필드가 0에서 999,999,999까지 범위 밖에 있다.)
@@ -185,11 +194,27 @@ struct itimerspec {
 
 이 시스템 호출들은 리눅스 전용이다.
 
+## NOTES
+
+`timerfd_create()`로 생성한 `CLOCK_REALTIME` 내지 `CLOCK_REALTIME_ALARM` 타이머에 대한 다음 시나리오를 생각해 보자.
+
+(a) `TFD_TIMER_ABSTIME` 및 `TFD_TIMER_CANCEL_ON_SET` 플래그를 써서 타이머가 시작(`timerfd_settime()`)되었다.
+
+(b) 그 후에 `CLOCK_REALTIME` 클럭에 불연속적 변경(가령 <tt>[[settimeofday(2)]]</tt>)이 일어난다.
+
+(c) 호출자가 (파일 디스크립터를 먼저 `read(2)` 하지 않고) 한 번 더 `timerfd_settime()`을 호출해서 타이머를 재장전한다.
+
+이 경우에 다음처럼 된다.
+
+* `timerfd_settime()`이 `errno`를 `ECANCELED`로 해서 -1을 반환한다. (이를 통해 호출자는 앞선 타이머가 클럭의 불연속적 변경에 영향을 받았음을 알게 된다.)
+
+* 두 번째 `timerfd_settime()` 호출에서 준 설정대로 타이머가 *성공적으로 재장전된다*. (이는 아마 우발적인 구현이었을 것이다. 하지만 이 동작 방식에 의존하는 응용들이 있을 수 있으므로 현재 수정 계획이 없다.)
+
 ## BUGS
 
 현재 `timerfd_create()`가 지원하는 클럭 ID 종류가 <tt>[[timer_create(2)]]</tt>보다 적다.
 
-## EXAMPLE
+## EXAMPLES
 
 다음 프로그램은 타이머를 생성하고서 그 진행을 지켜본다. 프로그램은 세 개까지의 명령행 인자를 받는다. 첫 번째 인자는 타이머의 최초 만료까지의 초 수를 나타낸다. 두 번째 인자는 타이머의 초 단위 간격을 나타낸다. 세 번째 인자는 종료 전까지 프로그램에서 허용해야 하는 타이머 만료 횟수를 나타낸다. 두 번째와 세 번째 명령행 인자는 선택적이다.
 
@@ -214,6 +239,7 @@ a.out 3 1 100
 #include <sys/timerfd.h>
 #include <time.h>
 #include <unistd.h>
+#include <inttypes.h>      /* PRIu64 정의 */
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>        /* uint64_t 정의 */
@@ -266,7 +292,7 @@ main(int argc, char *argv[])
         handle_error("clock_gettime");
 
     /* 명령행에서 지정한 최초 만료 시간와 간격으로
-       CLOCK_REALTIME 절대 시간 타이머 생성 */
+       CLOCK_REALTIME 절대 시간 타이머 생성하기. */
 
     new_value.it_value.tv_sec = now.tv_sec + atoi(argv[1]);
     new_value.it_value.tv_nsec = now.tv_nsec;
@@ -296,9 +322,7 @@ main(int argc, char *argv[])
 
         tot_exp += exp;
         print_elapsed_time();
-        printf("read: %llu; total=%llu\n",
-                (unsigned long long) exp,
-                (unsigned long long) tot_exp);
+        printf("read: %" PRIu64 "; total=%" PRIu64 "\n", exp, tot_exp);
     }
 
     exit(EXIT_SUCCESS);
@@ -311,4 +335,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-03-06
+2021-03-22

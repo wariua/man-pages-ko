@@ -7,7 +7,7 @@ strsep - 문자열에서 토큰 추출하기
 ```c
 #include <string.h>
 
-char *strsep(char **stringp, const char *delim);
+char *strsep(char **restrict stringp, const char *restrict delim);
 ```
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
@@ -59,4 +59,4 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ----
 
-2019-03-06
+2021-03-22

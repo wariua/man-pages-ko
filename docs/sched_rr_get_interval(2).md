@@ -27,7 +27,7 @@ struct timespec {
 
 ## RETURN VALUE
 
-성공 시 `sched_rr_get_interval()`은 0을 반환한다. 오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+성공 시 `sched_rr_get_interval()`은 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -63,4 +63,4 @@ POSIX에서는 라운드 로빈 단위 시간의 크기를 제어하기 위한 �
 
 ----
 
-2017-09-15
+2021-03-22

@@ -8,20 +8,18 @@ hcreate, hdestroy, hsearch, hcreate_r, hdestroy_r, hsearch_r - 해시 테이블 
 #include <search.h>
 
 int hcreate(size_t nel);
+void hdestroy(void);
 
 ENTRY *hsearch(ENTRY item, ACTION action);
-
-void hdestroy(void);
 
 #define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
 #include <search.h>
 
 int hcreate_r(size_t nel, struct hsearch_data *htab);
+void hdestroy_r(struct hsearch_data *htab);
 
 int hsearch_r(ENTRY item, ACTION action, ENTRY **retval,
               struct hsearch_data *htab);
-
-void hdestroy_r(struct hsearch_data *htab);
 ```
 
 ## DESCRIPTION
@@ -55,9 +53,9 @@ typedef struct entry {
 
 ## RETURN VALUE
 
-`hcreate()`와 `hcreate_r()`은 성공 시 0 아닌 값을 반환한다. 오류 시 0을 반환하며 오류 원인을 나타내도록 `errno`를 설정한다.
+`hcreate()`와 `hcreate_r()`은 성공 시 0 아닌 값을 반환한다. 오류 시 0을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
-성공 시 `hsearch()`는 해시 테이블 내 항목에 대한 포인터를 반환한다. `hsearch()`는 오류 시에, 즉 `action`이 `ENTER`인데 해시 테이블이 가득 찼거나 `action`이 `FIND`인데 해시 테이블에서 `item`을 찾을 수 없는 경우에 NULL을 반환한다. `hsearch_r()`은 성공 시 0 아닌 값을 반환하고 오류 시 0을 반환한다. 오류 시에 이 두 함수는 오류 원인을 나타내도록 `errno`를 설정한다.
+성공 시 `hsearch()`는 해시 테이블 내 항목에 대한 포인터를 반환한다. `hsearch()`는 오류 시에, 즉 `action`이 `ENTER`인데 해시 테이블이 가득 찼거나 `action`이 `FIND`인데 해시 테이블에서 `item`을 찾을 수 없는 경우에 NULL을 반환한다. `hsearch_r()`은 성공 시 0 아닌 값을 반환하고 오류 시 0을 반환한다. 오류 시에 이 두 함수는 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -82,8 +80,8 @@ POSIX.1에서는 `ENOMEM` 오류만 명세하고 있다.
 
 | 인터페이스 | 속성 | 값 |
 | --- | --- | --- |
-| `hcreate()`, `hsearch()`,<br>`hdestroy()` | 스레드 안전성 | MT-Unsafe race:hsearch |
-| `hcreate_r()`, `hsearch_r()`<br>`hdestroy_r()` | 스레드 안전성 | MT-Safe race:htab |
+| `hcreate()`, `hsearch()`, `hdestroy()` | 스레드 안전성 | MT-Unsafe race:hsearch |
+| `hcreate_r()`, `hsearch_r()` `hdestroy_r()` | 스레드 안전성 | MT-Safe race:htab |
 
 ## CONFORMING TO
 
@@ -103,7 +101,7 @@ SVr4와 POSIX.1-2001에서는 탐색 실패 시에만 `action`이 의미가 있�
 
 개별 해시 테이블 항목들을 추가할 수 있지만 삭제할 수는 없다.
 
-## EXAMPLE
+## EXAMPLES
 
 다음 프로그램에서는 해시 테이블에 24개 항목을 삽입하고서 그 중 일부를 찍는다.
 
@@ -122,12 +120,12 @@ static char *data[] = { "alpha", "bravo", "charlie", "delta",
 int
 main(void)
 {
-    ENTRY e, *ep;
-    int i;
+    ENTRY e;
+    ENTRY *ep;
 
     hcreate(30);
 
-    for (i = 0; i < 24; i++) {
+    for (int i = 0; i < 24; i++) {
         e.key = data[i];
         /* data는 뭔가에 대한 포인터가 아니라
            그냥 정수임 */
@@ -140,7 +138,7 @@ main(void)
         }
     }
 
-    for (i = 22; i < 26; i++) {
+    for (int i = 22; i < 26; i++) {
         /* 테이블에 있는 항목 두 개를 찍고,
            테이블에 없는 항목 두 개 보이기 */
         e.key = data[i];
@@ -159,4 +157,4 @@ main(void)
 
 ----
 
-2019-03-06
+2021-03-22

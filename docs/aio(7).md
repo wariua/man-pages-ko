@@ -106,7 +106,7 @@ POSIX.1-2001, POSIX.1-2008.
 
 현재 리눅스의 POSIX AIO 구현은 사용자 공간에서 glibc가 제공한다. 그래서 여러 제약이 있는데, 가장 눈에 띄는 건 I/O 동작을 수행하기 위해 여러 스레드를 유지하는 게 비용이 크고 확장성이 떨어진다는 점이다. 얼마 전부터 커널에서 상태 머신 기반으로 비동기 I/O를 구현하는 작업이 진행 중이긴 한데 (<tt>[[io_submit(2)]]</tt>, <tt>[[io_setup(2)]]</tt>, <tt>[[io_cancel(2)]]</tt>, <tt>[[io_destroy(2)]]</tt>, <tt>[[io_getevents(2)]]</tt> 참고) 그 커널 시스템 호출들을 이용해 POSIX AIO 구현을 완전히 재구현할 수 있는 수준까지는 아직 오지 못했다.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 프로그램에서는 명령행 인자에 지명한 파일들 각각을 열어서 얻은 파일 디스크립터에 <tt>[[aio_read(3)]]</tt>로 요청을 넣는다. 그러고서 루프를 돌면서 아직 진행 중인 I/O 동작 각각을 <tt>[[aio_error(3)]]</tt>를 이용해 주기적으로 확인한다. I/O 요청 각각은 시그널 전달로 알림을 주도록 설정한다. 모든 I/O 요청이 완료된 후에 <tt>[[aio_return(3)]]</tt>으로 상태를 가져온다.
 
@@ -153,8 +153,6 @@ aio_return():
 
 #define errExit(msg) do { perror(msg); exit(EXIT_FAILURE); } while (0)
 
-#define errMsg(msg)  do { perror(msg); } while (0)
-
 struct ioRequest {      /* I/O 요청 추적을 위해 응용 자체에서
                            정의하는 구조체 */
     int           reqNum;
@@ -190,10 +188,8 @@ aioSigHandler(int sig, siginfo_t *si, void *ucontext)
 int
 main(int argc, char *argv[])
 {
-    struct ioRequest *ioList;
-    struct aiocb *aiocbList;
     struct sigaction sa;
-    int s, j;
+    int s;
     int numReqs;        /* 큐에 넣은 I/O 요청 총 개수 */
     int openReqs;       /* 아직 진행 중인 I/O 요청 개수 */
 
@@ -205,17 +201,17 @@ main(int argc, char *argv[])
 
     numReqs = argc - 1;
 
-    /* 배열 할당 */
+    /* 배열 할당하기. */
 
-    ioList = calloc(numReqs, sizeof(struct ioRequest));
+    struct ioRequest *ioList = calloc(numReqs, sizeof(*ioList));
     if (ioList == NULL)
         errExit("calloc");
 
-    aiocbList = calloc(numReqs, sizeof(struct aiocb));
+    struct aiocb *aiocbList = calloc(numReqs, sizeof(*aiocbList));
     if (aiocbList == NULL)
         errExit("calloc");
 
-    /* SIGQUIT 및 I/O 완료 시그널을 위한 핸들러 설정 */
+    /* SIGQUIT 및 I/O 완료 시그널을 위한 핸들러 설정하기. */
 
     sa.sa_flags = SA_RESTART;
     sigemptyset(&sa.sa_mask);
@@ -230,9 +226,9 @@ main(int argc, char *argv[])
         errExit("sigaction");
 
     /* 명령행에 지정한 파일 각각을 열고, 그렇게 얻은 파일
-       디스크립터에서 읽기 요청을 큐에 넣기 */
+       디스크립터에서 읽기 요청을 큐에 넣기. */
 
-    for (j = 0; j < numReqs; j++) {
+    for (int j = 0; j < numReqs; j++) {
         ioList[j].reqNum = j;
         ioList[j].status = EINPROGRESS;
         ioList[j].aiocbp = &aiocbList[j];
@@ -262,7 +258,7 @@ main(int argc, char *argv[])
 
     openReqs = numReqs;
 
-    /* 루프 돌면서 I/O 요청 상태 확인 */
+    /* 루프 돌면서 I/O 요청 상태 확인하기. */
 
     while (openReqs > 0) {
         sleep(3);       /* 확인 간격 */
@@ -270,11 +266,11 @@ main(int argc, char *argv[])
         if (gotSIGQUIT) {
 
             /* SIGQUIT 수신 시 미처리 I/O 요청 각각을 취소 시도하고,
-               취소 요청에서 반환 받은 상태를 표시 */
+               취소 요청에서 반환 받은 상태를 표시하기. */
 
             printf("got SIGQUIT; canceling I/O requests: \n");
 
-            for (j = 0; j < numReqs; j++) {
+            for (int j = 0; j < numReqs; j++) {
                 if (ioList[j].status == EINPROGRESS) {
                     printf("    Request %d on descriptor %d:", j,
                             ioList[j].aiocbp->aio_fildes);
@@ -287,17 +283,17 @@ main(int argc, char *argv[])
                     else if (s == AIO_ALLDONE)
                         printf("I/O all done\n");
                     else
-                        errMsg("aio_cancel");
+                        perror("aio_cancel");
                 }
             }
 
             gotSIGQUIT = 0;
         }
 
-        /* 아직 진행 중인 I/O 요청 각각의 상태 확인 */
+        /* 아직 진행 중인 I/O 요청 각각의 상태 확인하기. */
 
         printf("aio_error():\n");
-        for (j = 0; j < numReqs; j++) {
+        for (int j = 0; j < numReqs; j++) {
             if (ioList[j].status == EINPROGRESS) {
                 printf("    for request %d (descriptor %d): ",
                         j, ioList[j].aiocbp->aio_fildes);
@@ -314,7 +310,7 @@ main(int argc, char *argv[])
                     printf("Canceled\n");
                     break;
                 default:
-                    errMsg("aio_error");
+                    perror("aio_error");
                     break;
                 }
 
@@ -326,10 +322,10 @@ main(int argc, char *argv[])
 
     printf("All I/O requests completed\n");
 
-    /* 모든 I/O 요청의 상태 반환 값 확인 */
+    /* 모든 I/O 요청의 상태 반환 값 확인하기. */
 
     printf("aio_return():\n");
-    for (j = 0; j < numReqs; j++) {
+    for (int j = 0; j < numReqs; j++) {
         ssize_t s;
 
         s = aio_return(ioList[j].aiocbp);
@@ -349,4 +345,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-03-06
+2021-03-22

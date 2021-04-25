@@ -7,19 +7,23 @@ envz_add, envz_entry, envz_get, envz_merge, envz_remove, envz_strip - 환경 문
 ```c
 #include <envz.h>
 
-error_t envz_add(char **envz, size_t *envz_len,
-                 const char *name, const char *value);
+error_t envz_add(char **restrict envz, size_t *restrict envz_len,
+               const char *restrict name, const char *restrict value);
 
-char *envz_entry(const char *envz, size_t envz_len, const char *name);
+char *envz_entry(const char *restrict envz, size_t envz_len,
+               const char *restrict name);
 
-char *envz_get(const char *envz, size_t envz_len, const char *name);
+char *envz_get(const char *restrict envz, size_t envz_len,
+               const char *restrict name);
 
-error_t envz_merge(char **envz, size_t *envz_len,
-                   const char *envz2, size_t envz2_len, int override);
+error_t envz_merge(char **restrict envz, size_t *restrict envz_len,
+               const char *restrict envz2, size_t envz2_len,
+               int override);
 
-void envz_remove(char **envz, size_t *envz_len, const char *name);
+void envz_remove(char **restrict envz, size_t *restrict envz_len,
+               const char *restrict name);
 
-void envz_strip(char **envz, size_t *envz_len);
+void envz_strip(char **restrict envz, size_t *restrict envz_len);
 ```
 
 ## DESCRIPTION
@@ -44,7 +48,7 @@ argz 벡터는 문자 버퍼에 대한 포인터에 길이가 함께 있는 것�
 
 ## RETURN VALUE
 
-메모리 할당을 하는 envz 함수들은 모두 반환 타입이 `error_t`이며, 성공 시 0을 반환하고 할당 오류 발생 시 `ENOMEM`을 반환한다.
+메모리 할당을 하는 envz 함수들은 모두 반환 타입이 `error_t`(정수 타입)이며, 성공 시 0을 반환하고 할당 오류 발생 시 `ENOMEM`을 반환한다.
 
 ## ATTRIBUTES
 
@@ -52,13 +56,13 @@ argz 벡터는 문자 버퍼에 대한 포인터에 길이가 함께 있는 것�
 
 | 인터페이스 | 속성 | 값 |
 | --- | --- | --- |
-| `envz_add()`, `envz_entry()`,<br>`envz_get()`, `envz_merge()`,<br>`envz_remove()`, `envz_strip()` | 스레드 안전성 | MT-Safe |
+| `envz_add()`, `envz_entry()`, `envz_get()`,<br>`envz_merge()`, `envz_remove()`, `envz_strip()` | 스레드 안전성 | MT-Safe |
 
 ## CONFORMING TO
 
 이 함수들은 GNU 확장이다. 조심해서 써야 한다.
 
-## EXAMPLE
+## EXAMPLES
 
 ```c
 #include <stdio.h>
@@ -68,10 +72,10 @@ argz 벡터는 문자 버퍼에 대한 포인터에 길이가 함께 있는 것�
 int
 main(int argc, char *argv[], char *envp[])
 {
-    int i, e_len = 0;
+    int e_len = 0;
     char *str;
 
-    for (i = 0; envp[i] != NULL; i++)
+    for (int i = 0; envp[i] != NULL; i++)
         e_len += strlen(envp[i]) + 1;
 
     str = envz_entry(*envp, e_len, "HOME");
@@ -89,4 +93,4 @@ main(int argc, char *argv[], char *envp[])
 
 ----
 
-2017-09-15
+2021-03-22

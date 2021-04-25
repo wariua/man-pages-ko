@@ -8,9 +8,7 @@ rand, rand_r, srand - 유사 난수 생성기
 #include <stdlib.h>
 
 int rand(void);
-
 int rand_r(unsigned int *seedp);
-
 void srand(unsigned int seed);
 ```
 
@@ -57,7 +55,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 리눅스 C 라이브러리에 있는 `rand()` 및 `srand()` 버전은 <tt>[[random(3)]]</tt> 및 <tt>[[srandom(3)]]</tt>과 같은 난수 생성기를 사용하므로 하위 비트들이 상위 비트들만큼 임의적일 것이다. 하지만 오래된 `rand()` 구현들에서는, 그리고 다른 시스템들의 현행 구현에서는 하위 비트들이 상위 비트들보다 훨씬 덜 임의적이다. 이식성을 의도한 응용에서 좋은 난수성이 필요할 때는 이 함수를 사용하지 말아야 한다. (대신 <tt>[[random(3)]]</tt>을 사용하라.)
 
-## EXAMPLE
+## EXAMPLES
 
 POSIX.1-2001에서 `rand()` 및 `srand()`의 구현 예시로 다음을 제시하고 있다. 서로 다른 머신에서 동일한 수열이 필요할 때 유용할 수도 있을 것이다.
 
@@ -84,7 +82,7 @@ void mysrand(unsigned int seed) {
 int
 main(int argc, char *argv[])
 {
-    int j, r, nloops;
+    int j, nloops;
     unsigned int seed;
 
     if (argc != 3) {
@@ -96,7 +94,7 @@ main(int argc, char *argv[])
     nloops = atoi(argv[2]);
 
     srand(seed);
-    for (j = 0; j < nloops; j++) {
+    for (int j = 0; j < nloops; j++) {
         r =  rand();
         printf("%d\n", r);
     }
@@ -111,4 +109,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-03-06
+2021-03-22

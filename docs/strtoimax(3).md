@@ -7,8 +7,10 @@ strtoimax, strtoumax - 문자열을 정수로 변환하기
 ```c
 #include <inttypes.h>
 
-intmax_t strtoimax(const char *nptr, char **endptr, int base);
-uintmax_t strtoumax(const char *nptr, char **endptr, int base);
+intmax_t strtoimax(const char *restrict nptr, char **restrict endptr,
+                   int base);
+uintmax_t strtoumax(const char *restrict nptr, char **restrict endptr,
+                   int base);
 ```
 
 ## DESCRIPTION
@@ -37,4 +39,4 @@ POSIX.1-2001, POSIX.1-2008, C99.
 
 ----
 
-2015-08-08
+2021-03-22

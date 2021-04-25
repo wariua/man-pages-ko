@@ -7,8 +7,7 @@ pthread_cleanup_push_defer_np, pthread_cleanup_pop_restore_np - 스레드 취소
 ```c
 #include <pthread.h>
 
-void pthread_cleanup_push_defer_np(void (*routine)(void *),
-                                   void *arg);
+void pthread_cleanup_push_defer_np(void (*routine)(void *), void *arg);
 void pthread_cleanup_pop_restore_np(int execute);
 ```
 
@@ -58,4 +57,4 @@ pthread_cleanup_pop(execute);
 
 ----
 
-2017-09-15
+2021-03-22

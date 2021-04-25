@@ -9,8 +9,8 @@ dl_iterate_phdr - 공유 오브젝트 리스트 순회하기
 #include <link.h>
 
 int dl_iterate_phdr(
-          int (*callback) (struct dl_phdr_info *info,
-                           size_t size, void *data),
+          int (*callback)(struct dl_phdr_info *info,
+                          size_t size, void *data),
           void *data);
 ```
 
@@ -37,10 +37,10 @@ struct dl_phdr_info {
        전달되는 size 인자를 사용해서 이후 멤버 각각이 사용
        가능한지 여부를 확인해야 한다. */
 
-    unsigned long long int dlpi_adds;
+    unsigned long long dlpi_adds;
                     /* 새 오브젝트가 추가됐을 수도
 		       있을 때 증가됨 */
-    unsigned long long int dlpi_subs;
+    unsigned long long dlpi_subs;
                     /* 오브젝트가 제거됐을 수도
 		       있을 때 증가됨 */
     size_t dlpi_tls_modid;
@@ -121,7 +121,7 @@ C 라이브러리의 이후 버전에서 `dl_phdr_info` 구조체에 필드를 �
 
 `callback`이 방문하는 첫 번째 오브젝트는 메인 프로그램이다. 메인 프로그램에서 `dlpi_name` 필드는 빈 문자열이 된다.
 
-## EXAMPLE
+## EXAMPLES
 
 다음 프로그램에서는 적재한 공유 오브젝트들의 경로명 목록을 표시한다. 그리고 각 공유 오브젝트에 대해서 오브젝트의 각 ELF 세그먼트의 정보(가상 주소, 크기, 플래그, 타입)를 나열한다.
 
@@ -172,17 +172,18 @@ Name: "/lib64/ld-linux-x86-64.so.2" (7 segments)
 #include <link.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdint.h>
 
 static int
 callback(struct dl_phdr_info *info, size_t size, void *data)
 {
     char *type;
-    int p_type, j;
+    int p_type;
 
     printf("Name: \"%s\" (%d segments)\n", info->dlpi_name,
                info->dlpi_phnum);
 
-    for (j = 0; j < info->dlpi_phnum; j++) {
+    for (int j = 0; j < info->dlpi_phnum; j++) {
         p_type = info->dlpi_phdr[j].p_type;
         type =  (p_type == PT_LOAD) ? "PT_LOAD" :
                 (p_type == PT_DYNAMIC) ? "PT_DYNAMIC" :
@@ -195,14 +196,14 @@ callback(struct dl_phdr_info *info, size_t size, void *data)
                 (p_type == PT_GNU_STACK) ? "PT_GNU_STACK" :
                 (p_type == PT_GNU_RELRO) ? "PT_GNU_RELRO" : NULL;
 
-        printf("    %2d: [%14p; memsz:%7lx] flags: 0x%x; ", j,
+        printf("    %2d: [%14p; memsz:%7jx] flags: %#jx; ", j,
                 (void *) (info->dlpi_addr + info->dlpi_phdr[j].p_vaddr),
-                info->dlpi_phdr[j].p_memsz,
-                info->dlpi_phdr[j].p_flags);
+                (uintmax_t) info->dlpi_phdr[j].p_memsz,
+                (uintmax_t) info->dlpi_phdr[j].p_flags);
         if (type != NULL)
             printf("%s\n", type);
         else
-            printf("[other (0x%x)]\n", p_type);
+            printf("[other (%#x)]\n", p_type);
     }
 
     return 0;
@@ -225,4 +226,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-03-06
+2021-03-22

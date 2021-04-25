@@ -36,7 +36,7 @@ pkey 기능을 쓰려면 프로세서에서 이를 지원해야 하고 해당 �
 
 리눅스의 pkey 시스템 호출은 `CONFIG_X86_INTEL_MEMORY_PROTECTION_KEYS` 옵션으로 커널을 구성하여 빌드 한 경우에만 사용 가능하다.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 프로그램에서는 메모리 한 페이지를 읽기 및 쓰기 허가로 할당한다. 그러고서 메모리에 어떤 데이터를 써넣고 성공적으로 읽어들인다. 그 후에 보호 키를 할당하여 WRPKRU 인스트럭션으로 그 페이지에 대한 접근을 불허해 본다. 그러고서 페이지에 접근을 시도하는데, 이번에는 응용에 치명적 시그널을 일으키게 된다.
 
@@ -104,7 +104,7 @@ main(void)
     int *buffer;
 
     /*
-     * 메모리 페이지 한 개 할당
+     * 메모리 페이지 한 개 할당하기.
      */
     buffer = mmap(NULL, getpagesize(), PROT_READ | PROT_WRITE,
                   MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
@@ -112,7 +112,7 @@ main(void)
         errExit("mmap");
 
     /*
-     * 페이지에 적당한 임의 데이터 넣기 (아직 건드려도 괜찮음)
+     * 페이지에 적당한 임의 데이터 넣기. (아직 건드려도 괜찮음)
      */
     *buffer = __LINE__;
     printf("buffer contains: %d\n", *buffer);
@@ -125,7 +125,7 @@ main(void)
         errExit("pkey_alloc");
 
     /*
-     * "pkey"가 설정된 메모리(현재는 없음)에 대한 접근 끄기
+     * "pkey"가 설정된 메모리(현재는 없음)에 대한 접근 끄기.
      */
     status = pkey_set(pkey, PKEY_DISABLE_ACCESS, 0);
     if (status)
@@ -144,7 +144,7 @@ main(void)
     printf("about to read buffer again...\n");
 
     /*
-     * 접근을 불허했으므로 죽게 됨
+     * 접근을 불허했으므로 죽게 된다.
      */
     printf("buffer contains: %d\n", *buffer);
 
@@ -162,4 +162,4 @@ main(void)
 
 ----
 
-2019-03-06
+2021-03-22

@@ -14,6 +14,8 @@ seccomp - 프로세스의 안전 컴퓨팅 상태 조작하기
 int seccomp(unsigned int operation, unsigned int flags, void *args);
 ```
 
+*주의*: 이 시스템 호출에 대한 glibc 래퍼가 없다. NOTES 참고.
+
 ## DESCRIPTION
 
 `seccomp()` 시스템 호출은 호출 프로세스의 안전 컴퓨팅(Secure Computing; seccomp) 상태를 조작한다.
@@ -107,15 +109,17 @@ struct seccomp_data {
 
 아키텍처에 따라 시스템 호출 번호가 다르고 일부 아키텍처(가령 x86-64)에서는 사용자 코드가 여러 아키텍처의 호출 규약을 사용할 수 있기 때문에 (그리고 프로세스에서 <tt>[[execve(2)]]</tt>를 이용해 다른 규약을 쓰는 바이너리를 실행하는 경우 도중에 사용 규약이 달라질 수도 있기 때문에) 일반적으로 `arch` 필드의 값을 검사할 필요가 있다.
 
-가능하면 화이트리스트 방식을 사용하기를 강력히 권한다. 그 방식이 더 견고하고 단순하기 때문이다. 블랙리스트는 위험할 수 있는 시스템 호출이 (또는 위험한 플래그나 옵션이) 추가될 때마다 갱신해 주어야 하며, 어떤 값의 표현 방식을 의미 변경 없이 바꿔서 블랙리스트 우회로 이어질 수 있는 경우가 많다. 아래의 *경고* 절도 참고하라.
+가능하면 허용 목록 방식을 사용하기를 강력히 권한다. 그 방식이 더 견고하고 단순하기 때문이다. 거부 목록은 위험할 수 있는 시스템 호출이 (또는 위험한 플래그나 옵션이) 추가될 때마다 갱신해 주어야 하며, 어떤 값의 표현 방식을 의미 변경 없이 바꿔서 거부 목록 우회로 이어질 수 있는 경우가 많다. 아래의 *경고* 절도 참고하라.
 
 `arch` 필드가 호출 규약 모두에서 유일하지 않다. x86-64 ABI와 x32 ABI는 모두 `arch` 필드에 `AUDIT_ARCH_X86_64`를 사용하며 같은 프로세서 상에서 동작한다. 대신 시스템 호출 번호에 `__X32_SYSCALL_BIT`를 사용해 두 ABI를 구별한다.
 
-즉, x86-64 ABI에 걸쳐 동작하는 seccomp 기반 시스템 호출 블랙리스트를 만들기 위해선 `arch`가 `AUDIT_ARCH_X86_64`와 같은지 확인해야 할 뿐 아니라 `nr`에 `__X32_SYSCALL_BIT`를 담은 시스템 호출을 모두 명시적으로 거부하기도 해야 한다.
+즉, 정책에서 `__X32_SYSCALL_BIT` 있는 시스템 호출을 모두 거부하든지, 아니면 `__X32_SYSCALL_BIT`가 설정돼 있는 시스템 호출과 그렇지 않은 시스템 호출을 인식해야 한다. `nr` 값에 따라 거부할 시스템 호출들의 목록에 `__X32_SYSCALL_BIT`가 설정된 `nr` 값들이 들어 있지 않으면 악의적 프로그램에서 `__X32_SYSCALL_BIT`를 설정해서 그 목록을 우회할 수 있다.
+
+추가로 리눅스 5.4 전 커널에서는 512-547 범위의 `nr`과 그에 대응하는 `__X32_SYSCALL_BIT`와 OR 된 비-x32 시스템 호출들을 잘못 허용했다. 예를 들어 `nr == 521`이자 `nr == (101 | __X32_SYSCALL_BIT)`이면 커널에서 x32 대 x64_64 의미가 혼동될 수 있게 <tt>[[ptrace(2)]]</tt> 호출이 일어났다. 리눅스 5.4 전 커널에서 동작해야 하는 정책에선 이 시스템 호출들을 거부하든지 아니면 올바르게 처리해야 한다. 리눅스 5.4 이상에선 그런 시스템 호출들이 아무것도 하지 않고 `ENOSYS` 오류로 실패하게 된다.
 
 `instruction_pointer` 필드는 시스템 호출을 수행한 기계어 인스트럭션의 주소를 알려 준다. `/proc/[pid]/maps`와 함께 사용해서 프로그램의 어떤 영역(매핑)에서 시스템 호출을 수행했는지 검사하는 데 쓸모가 있을 수도 있다. (프로그램들이 그런 검사를 무력화하는 걸 막으려면 아마 <tt>[[mmap(2)]]</tt> 및 <tt>[[mprotect(2)]]</tt> 시스템 호출을 봉쇄하는 게 좋을 것이다.)
 
-`args`의 값들을 블랙리스트로 검사할 때는 인자들이 처리되기 전에, 하지만 seccomp 검사 후에 조용히 잘려나가는 경우가 많다는 것을 염두에 두어야 한다. 예를 들면 x86-64 커널에서 i386 ABI를 사용할 때 그런 경우가 발생한다. 커널은 보통 인자의 하위 32비트 위를 보지 않을 테지만 seccomp 데이터에는 전체 64비트 레지스터 값이 주어진다. 별로 놀랍지 않을 또 다른 예는 x86-64 ABI를 이용해 `int` 타입 인자를 받는 시스템 호출을 수행할 때이다. 인자 레지스터의 상위 절반이 시스템 호출에서는 무시되지만 seccomp 데이터에게는 보인다.
+`args`의 값들을 검사할 때는 인자들이 처리되기 전에, 하지만 seccomp 검사 후에 조용히 잘려나가는 경우가 많다는 것을 염두에 두어야 한다. 예를 들면 x86-64 커널에서 i386 ABI를 사용할 때 그런 경우가 발생한다. 커널은 보통 인자의 하위 32비트 위를 보지 않을 테지만 seccomp 데이터에는 전체 64비트 레지스터 값이 주어진다. 별로 놀랍지 않을 또 다른 예는 x86-64 ABI를 이용해 `int` 타입 인자를 받는 시스템 호출을 수행할 때이다. 인자 레지스터의 상위 절반이 시스템 호출에서는 무시되지만 seccomp 데이터에게는 보인다.
 
 seccomp 필터는 두 부분으로 이뤄진 32비트 값을 반환한다. (상수 `SECCOMP_RET_ACTION_FULL`이 규정하는 마스크에 대응하는) 상위 16비트는 아래 나열된 "행위" 값들 중 하나를 담는다. (상수 `SECCOMP_RET_DATA`가 규정하는) 하위 16비트는 그 반환 값과 관련된 "데이터"이다.
 
@@ -136,6 +140,8 @@ seccomp 필터가 반환할 수 있는 행위 값들을 우선도 역순으로 �
     리눅스 4.11 전에는 이 방식으로 종료되는 프로세스가 코어 덤프를 유발하지 않았다. (<tt>[[signal(7)]]</tt>에는 `SIGSYS`의 기본 행위가 코어 덤프 하는 종료라고 적혀 있다.) 리눅스 4.11부터는 단일 스레드 프로세스가 이 방식으로 종료되면 코어를 덤프 한다.
 
     리눅스 4.14에서 `SECCOMP_RET_KILL_PROCESS`가 추가되면서 두 행위를 명확히 구별할 수 있도록 `SECCOMP_RET_KILL`의 동의어로 `SECCOMP_RET_KILL_THREAD`가 추가되었다.
+
+    **주의**: `SECCOMP_RET_KILL_THREAD`를 써서 다중 스레드 프로세스의 한 스레드만 죽이면 그 프로세스가 영구히 무결성이 깨진, 그리고 어쩌면 망가진 상태가 될 가능성이 높다.
 
 `SECCOMP_RET_TRAP`
 :   이 값은 커널이 유발 프로세스에게 스레드 지향 `SIGSYS` 시그널을 보내게 한다. (시스템 호출은 실행되지 않는다.) `siginfo_t` 구조체(<tt>[[sigaction(2)]]</tt> 참고)의 시그널과 관련된 여러 필드들이 설정된다.
@@ -163,6 +169,8 @@ seccomp 필터가 반환할 수 있는 행위 값들을 우선도 역순으로 �
     추적자에서 시스템 호출 번호를 -1로 바꿔서 그 시스템 호출을 건너뛸 수 있다. 또는 추적자에서 시스템 호출을 유효한 시스템 호출 번호로 바꿔서 요청된 시스템 호출을 바꿀 수 있다. 시스템 호출을 건너뛰는 경우 추적자가 반환 값 레지스터에 넣은 값을 그 시스템 호출이 반환하는 것처럼 보이게 된다.
 
     커널 4.8 전에서, 추적자에게 알림을 준 후에는 seccomp 검사를 다시 실행하지 않는다. (따라서 이전 커널에서 seccomp 기반 샌드박스에서는 극히 주의하지 않는 한 <tt>[[ptrace(2)]]</tt> 사용을, 설령 다른 샌드박스 된 프로세스에서라 해도, **절대** 허용해서는 안 된다. ptrace 사용 프로세스가 이 메커니즘을 이용해 seccomp 샌드박스에서 탈출할 수 있다.)
+
+    다른 필터가 `SECCOMP_RET_TRACE`보다 높은 우선도의 행위 값을 반환하면 추적자 프로세스가 알림을 받지 않게 된다는 점에 유의하라.
 
 `SECCOMP_RET_LOG` (리눅스 4.14부터)
 :   이 값은 필터 반환 행위를 로그로 기록한 후 시스템 호출이 실행되게 한다. 관리자가 `/proc/sys/kernel/seccomp/actions_logged` 파일을 통해 이 행위의 기록 동작을 무시하게 할 수도 있다.
@@ -202,7 +210,7 @@ seccomp 필터가 반환할 수 있는 행위 값들을 우선도 역순으로 �
 
 ## RETURN VALUE
 
-성공 시 `seccomp()`는 0을 반환한다. 오류 시 `SECCOMP_FILTER_FLAG_TSYNC`를 사용했으면 반환 값은 동기화 실패를 유발한 스레드의 ID이다. (이 ID는 <tt>[[clone(2)]]</tt>이나 <tt>[[gettid(2)]]</tt>가 반환하는 종류의 커널 스레드 ID이다.) 다른 오류 시 -1을 반환하며 오류 원인을 나타내도록 `errno`를 설정한다.
+성공 시 `seccomp()`는 0을 반환한다. 오류 시 `SECCOMP_FILTER_FLAG_TSYNC`를 사용했으면 반환 값은 동기화 실패를 유발한 스레드의 ID이다. (이 ID는 <tt>[[clone(2)]]</tt>이나 <tt>[[gettid(2)]]</tt>가 반환하는 종류의 커널 스레드 ID이다.) 다른 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -272,6 +280,8 @@ seccomp 필터가 반환할 수 있는 행위 값들을 우선도 역순으로 �
 * Tile (리눅스 4.3부터)
 * PA-RISC (리눅스 4.6부터)
 
+glibc에서 이 시스템 호출의 래퍼를 제공하지 않는다. <tt>[[syscall(2)]]</tt>을 이용해 호출해야 한다.
+
 ### 경고
 
 프로그램에 seccomp 필터를 적용할 때 고려해야 하는 다음과 같은 미묘한 사항들이 있다.
@@ -300,7 +310,7 @@ seccomp 필터에 한정된 다음과 같은 BPF 세부 사항이 있다.
 
 * 주소 지정 모드 수식자 `BPF_LEN`이 즉시 모드 피연산자를 내놓으며 그 값은 `seccomp_data` 버퍼의 크기이다.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 프로그램은 4개 이상의 인자를 받는다. 처음 세 인자는 시스템 호출 번호, 숫자로 된 아키텍처 식별자, 오류 번호이다. 프로그램이 그 값들을 이용해 BPF 필터를 만들면 런타임에 다음 검사를 수행한다.
 
@@ -372,56 +382,57 @@ cecilia
 #include <sys/prctl.h>
 
 #define X32_SYSCALL_BIT 0x40000000
+#define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
 
 static int
 install_filter(int syscall_nr, int t_arch, int f_errno)
 {
     unsigned int upper_nr_limit = 0xffffffff;
 
-    /* AUDIT_ARCH_X86_64가 일반 x86-64 ABI를 뜻한다고 상정
+    /* AUDIT_ARCH_X86_64가 일반 x86-64 ABI를 뜻한다고 가정하자.
        (x32 ABI에서는 모든 시스템 호출의 'nr' 필드 30번 비트가
-       설정되어 있고, 그래서 숫자 값이 >= X32_SYSCALL_BIT임) */
+       설정되어 있고, 그래서 숫자 값이 >= X32_SYSCALL_BIT이다.) */
     if (t_arch == AUDIT_ARCH_X86_64)
         upper_nr_limit = X32_SYSCALL_BIT - 1;
 
     struct sock_filter filter[] = {
-        /* [0] 'seccomp_data' 버퍼에서 누산기로 아키텍처 적재 */
+        /* [0] 'seccomp_data' 버퍼에서 누산기로 아키텍처 적재하기. */
         BPF_STMT(BPF_LD | BPF_W | BPF_ABS,
                  (offsetof(struct seccomp_data, arch))),
 
         /* [1] 아키텍처가 't_arch'와 일치하지 않으면 5개 인스트럭션
-               후로 점프 */
+               후로 점프하기. */
         BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, t_arch, 0, 5),
 
         /* [2] 'seccomp_data' 버퍼에서 누산기로 시스템 호출 번호
-               적재 */
+               적재하기. */
         BPF_STMT(BPF_LD | BPF_W | BPF_ABS,
                  (offsetof(struct seccomp_data, nr))),
 
-        /* [3] ABI 확인 - x86-64에서 블랙리스트 방식으로 쓸 때만 필요.
-               syscall 번호 재적재를 피하기 위해서 비트 마스크로
-               검사하는 대신 BPF_JGT 사용. */
+        /* [3] ABI 확인 - x86-64에서 거절 목록 방식으로 쓸 때만
+               필요하다. syscall 번호 재적재를 피하기 위해서 비트
+               마스크로 검사하는 대신 BPF_JGT를 쓰자. */
         BPF_JUMP(BPF_JMP | BPF_JGT | BPF_K, upper_nr_limit, 3, 0),
 
         /* [4] 시스템 호출 번호가 'syscall_nr'과 일치하지 않으면
-               1개 인스트럭션 후로 점프 */
+               1개 인스트럭션 후로 점프하기. */
         BPF_JUMP(BPF_JMP | BPF_JEQ | BPF_K, syscall_nr, 0, 1),
 
         /* [5] 아키텍처와 시스템 호출 일치: 시스템 호출을 실행하지
-               말고 'errno'로 'f_errno' 반환 */
+               말고 'errno'로 'f_errno' 반환하기. */
         BPF_STMT(BPF_RET | BPF_K,
                  SECCOMP_RET_ERRNO | (f_errno & SECCOMP_RET_DATA)),
 
         /* [6] 시스템 호출 번호 불일치 점프 목적지: 다른 시스템 호출들
-               허용 */
+               허용하기. */
         BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_ALLOW),
 
-        /* [7] 아키텍처 불일치 점프 목적지: 태스크 죽이기 */
-        BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_KILL),
+        /* [7] 아키텍처 불일치 점프 목적지: 태스크 죽이기. */
+        BPF_STMT(BPF_RET | BPF_K, SECCOMP_RET_KILL_PROCESS),
     };
 
     struct sock_fprog prog = {
-        .len = (unsigned short) (sizeof(filter) / sizeof(filter[0])),
+        .len = ARRAY_SIZE(filter),
         .filter = filter,
     };
 
@@ -465,7 +476,7 @@ main(int argc, char **argv)
 
 `bpfc(1)`, <tt>[[strace(1)]]</tt>, <tt>[[bpf(2)]]</tt>, <tt>[[prctl(2)]]</tt>, <tt>[[ptrace(2)]]</tt>, <tt>[[sigaction(2)]]</tt>, <tt>[[proc(5)]]</tt>, <tt>[[signal(7)]]</tt>, <tt>[[socket(7)]]</tt>
 
-`libseccomp` 라이브러리에서 온 여러 페이지들: `scmp_sys_resolver(1)`, <tt>[[seccomp_init(3)]]</tt>, <tt>[[seccomp_load(3)]]</tt>, <tt>[[seccomp_rule_add(3)]]</tt>, <tt>[[seccomp_export_bpf(3)]]</tt>
+`libseccomp` 라이브러리에서 온 여러 페이지들: `scmp_sys_resolver(1)`, <tt>[[seccomp_export_bpf(3)]]</tt>, <tt>[[seccomp_init(3)]]</tt>, <tt>[[seccomp_load(3)]]</tt>, <tt>[[seccomp_rule_add(3)]]</tt>
 
 커널 소스 파일 `Documentation/networking/filter.txt`와 `Documentation/userspace-api/seccomp_filter.rst` (리눅스 4.13 전에선 `Documentation/prctl/seccomp_filter.txt`).
 
@@ -473,4 +484,4 @@ McCanne, S. and Jacobson, V. (1992) *The BSD Packet Filter: A New Architecture f
 
 ----
 
-2019-03-06
+2021-03-22

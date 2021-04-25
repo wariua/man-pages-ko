@@ -62,7 +62,7 @@ POSIX.1-2001, POSIX.1-2008.
 
 리눅스에서 지원하는 스레드 스케줄링 정책들의 목록은 <tt>[[pthread_attr_setschedpolicy(3)]]</tt>을 보라.
 
-## EXAMPLE
+## EXAMPLES
 
 <tt>[[pthread_setschedparam(3)]]</tt> 참고.
 
@@ -72,4 +72,4 @@ POSIX.1-2001, POSIX.1-2008.
 
 ----
 
-2017-09-15
+2021-03-22

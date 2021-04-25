@@ -8,7 +8,6 @@ basename, dirname - 경로명 요소 파싱 하기
 #include <libgen.h>
 
 char *dirname(char *path);
-
 char *basename(char *path);
 ```
 
@@ -72,7 +71,7 @@ glibc 구현에서 이 함수들의 POSIX 버전이 `path` 인자를 변경하�
 
 glibc 2.2.1 전에서 `dirname()`의 glibc 버전이 끝에 '/' 문자가 있는 경로명을 올바로 처리하지 못했으며 NULL 인자를 주면 세그멘테이션 폴트가 발생했다.
 
-## EXAMPLE
+## EXAMPLES
 
 다음 코드 조각은 `basename()` 및 `dirname()` 사용 방식을 보여 준다.
 
@@ -93,4 +92,4 @@ printf("dirname=%s, basename=%s\n", dname, bname);
 
 ----
 
-2019-03-06
+2021-03-22

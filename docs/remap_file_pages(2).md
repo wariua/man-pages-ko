@@ -36,7 +36,7 @@ int remap_file_pages(void *addr, size_t size, int prot,
 
 ## RETURN VALUE
 
-성공 시 `remap_file_pages()`는 0을 반환한다. 오류시 -1을 반환하며 `errno`를 적절히 설정한다.
+성공 시 `remap_file_pages()`는 0을 반환한다. 오류시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -64,4 +64,4 @@ int remap_file_pages(void *addr, size_t size, int prot,
 
 ----
 
-2017-09-15
+2021-03-22

@@ -23,9 +23,11 @@ GNU 동적 링커(런타임 링커)에서 감사 API를 제공하는데 이를 �
 unsigned int la_version(unsigned int version);
 ```
 
-감사 라이브러리에 *꼭 정의돼 있어야 하는* 유일한 함수이며 동적 링커와 감사 라이브러리 간의 첫인사를 수행한다. 동적 링커가 이 함수를 호출할 때 링커에서 지원하는 가장 높은 감사 인터페이스 버전을 `version`으로 전달한다. 필요 시 감사 라이브러리에서 자기 요건에 그 버전이 충분한지 확인할 수 있다.
+감사 라이브러리에 *꼭 정의돼 있어야 하는* 유일한 함수이며 동적 링커와 감사 라이브러리 간의 첫인사를 수행한다. 동적 링커가 이 함수를 호출할 때 링커에서 지원하는 가장 높은 감사 인터페이스 버전을 `version`으로 전달한다.
 
-함수 결과로 이 함수는 이 감사 라이브러리에서 사용을 기대하는 감사 인터페이스 버전을 반환해야 한다. (`version`을 반환하는 것도 가능하다.) 반환 값이 0이거나 동적 링커가 지원하는 것보다 큰 버전이면 그 감사 라이브러리를 무시한다.
+보통은 그냥 상수 `LAV_CURRENT`를 반환하게 구현하는데, 그 상수는 감사 모듈을 빌드하는 데 사용한 `<link.h>`의 버전을 나타낸다. 동적 링커가 이 감사 인터페이스 버전을 지원하지 않으면 감사 모듈을 활성화하지 않게 된다. 함수에서 0을 반환하는 경우에도 동적 링커가 이 감사 모듈을 활성화하지 않는다.
+
+오래된 동적 링커와의 하위 호환성을 위해서 감사 모듈에서 `version` 인자를 검사해서 `LAV_CURRENT`보다 앞선 버전을 반환할 수 있다. 물론 이전 감사 인터페이스 버전의 요구 사항에 맞게 구현 방식을 조정할 수 있어야 한다. `la_version` 함수에서 다른 검사 없이 `version` 값을 그대로 반환하지는 않는 게 좋다. 감사 모듈 빌드에 쓰인 `<link.h>` 정의들과 일치하지 않는 인터페이스에 대응하는 버전일 수 있기 때문이다.
 
 ### `la_objsearch()`
 
@@ -165,7 +167,7 @@ uintptr_t la_symbind64(Elf64_Sym *sym, unsigned int ndx,
 Elf32_Addr la_i86_gnu_pltenter(Elf32_Sym *sym, unsigned int ndx,
                  uintptr_t *refcook, uintptr_t *defcook,
                  La_i86_regs *regs, unsigned int *flags,
-                 const char *symname, long int *framesizep);
+                 const char *symname, long *framesizep);
 ```
 
 바인딩 알림을 받게 표시된 두 공유 오브젝트 간에서 PLT 항목이 호출되기 바로 전에 이 함수가 호출된다.
@@ -217,7 +219,7 @@ unsigned int la_i86_gnu_pltexit(Elf32_Sym *sym, unsigned int ndx,
 
 glibc 버전 2.9까지에서 `LD_AUDIT`에 감사 라이브러리를 여러 개 지정하면 런타임 크래시가 발생한다. glibc 2.10에서 고쳐졌다고 한다.
 
-## EXAMPLE
+## EXAMPLES
 
 ```c
 #include <link.h>
@@ -226,9 +228,10 @@ glibc 버전 2.9까지에서 `LD_AUDIT`에 감사 라이브러리를 여러 개 
 unsigned int
 la_version(unsigned int version)
 {
-    printf("la_version(): %d\n", version);
+    printf("la_version(): version = %d; LAV_CURRENT = %u\n",
+            version, LAV_CURRENT);
 
-    return version;
+    return LAV_CURRENT;
 }
 
 char *
@@ -290,7 +293,7 @@ la_symbind32(Elf32_Sym *sym, unsigned int ndx, uintptr_t *refcook,
 {
     printf("la_symbind32(): symname = %s; sym->st_value = %p\n",
             symname, sym->st_value);
-    printf("        ndx = %d; flags = 0x%x", ndx, *flags);
+    printf("        ndx = %u; flags = %#x", ndx, *flags);
     printf("; refcook = %p; defcook = %p\n", refcook, defcook);
 
     return sym->st_value;
@@ -302,7 +305,7 @@ la_symbind64(Elf64_Sym *sym, unsigned int ndx, uintptr_t *refcook,
 {
     printf("la_symbind64(): symname = %s; sym->st_value = %p\n",
             symname, sym->st_value);
-    printf("        ndx = %d; flags = 0x%x", ndx, *flags);
+    printf("        ndx = %u; flags = %#x", ndx, *flags);
     printf("; refcook = %p; defcook = %p\n", refcook, defcook);
 
     return sym->st_value;
@@ -311,7 +314,7 @@ la_symbind64(Elf64_Sym *sym, unsigned int ndx, uintptr_t *refcook,
 Elf32_Addr
 la_i86_gnu_pltenter(Elf32_Sym *sym, unsigned int ndx,
         uintptr_t *refcook, uintptr_t *defcook, La_i86_regs *regs,
-        unsigned int *flags, const char *symname, long int *framesizep)
+        unsigned int *flags, const char *symname, long *framesizep)
 {
     printf("la_i86_gnu_pltenter(): %s (%p)\n", symname, sym->st_value);
 
@@ -325,4 +328,4 @@ la_i86_gnu_pltenter(Elf32_Sym *sym, unsigned int ndx,
 
 ----
 
-2019-03-06
+2020-11-01

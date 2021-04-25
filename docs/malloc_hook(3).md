@@ -7,18 +7,18 @@
 ```c
 #include <malloc.h>
 
-void *(*__malloc_hook)(size_t size, const void *caller);
+void *(*volatile __malloc_hook)(size_t size, const void *caller);
 
-void *(*__realloc_hook)(void *ptr, size_t size, const void *caller);
+void *(*volatile __realloc_hook)(void *ptr, size_t size, const void *caller);
 
-void *(*__memalign_hook)(size_t alignment, size_t size,
+void *(*volatile __memalign_hook)(size_t alignment, size_t size,
                          const void *caller);
 
-void (*__free_hook)(void *ptr, const void *caller);
+void (*volatile __free_hook)(void *ptr, const void *caller);
 
 void (*__malloc_initialize_hook)(void);
 
-void (*__after_morecore_hook)(void);
+void (*volatile __after_morecore_hook)(void);
 ```
 
 ## DESCRIPTION
@@ -45,7 +45,7 @@ void (*__malloc_initialize_hook)(void) = my_init_hook;
 
 이 훅 함수들은 다중 스레드 프로그램에서 쓰기에 안전하지 않고, 그래서 현재 제거 예정 상태이다. glibc 2.24부터 API에서 `__malloc_initialize_hook`이 없어졌다. 프로그래머들은 대신 "malloc"이나 "free" 같은 함수를 정의해서 내보이는 방식으로 관련 함수 호출을 선점해야 한다.
 
-## EXAMPLE
+## EXAMPLES
 
 다음은 간단한 사용 예시이다.
 
@@ -61,7 +61,7 @@ static void *my_malloc_hook(size_t, const void *);
 static void *(*old_malloc_hook)(size_t, const void *);
 
 /* C 라이브러리의 초기화 훅 오버라이드 */
-void (*__malloc_initialize_hook) (void) = my_init_hook;
+void (*__malloc_initialize_hook)(void) = my_init_hook;
 
 static void
 my_init_hook(void)
@@ -85,8 +85,8 @@ my_malloc_hook(size_t size, const void *caller)
     old_malloc_hook = __malloc_hook;
 
     /* printf()에서도 malloc()을 호출할 수도 있으므로 보호 필요 */
-    printf("malloc(%u) called from %p returns %p\n",
-            (unsigned int) size, caller, result);
+    printf("malloc(%zu) called from %p returns %p\n",
+            size, caller, result);
 
     /* 우리 훅 복원 */
     __malloc_hook = my_malloc_hook;
@@ -101,4 +101,4 @@ my_malloc_hook(size_t size, const void *caller)
 
 ----
 
-2019-03-06
+2021-03-22

@@ -13,6 +13,8 @@ long move_pages(int pid, unsigned long count, void **pages,
 
 `-lnuma`로 링크.
 
+*주의*: 이 시스템 호출에 대한 glibc 래퍼가 없다. NOTES 참고.
+
 ## DESCRIPTION
 
 `move_pages()`는 프로세스 `pid`의 지정한 `pages`를 `nodes`로 지정한 메모리 노드들로 옮긴다. 이동 결과가 `status`에 반영된다. `flags`는 이동할 페이지들에 대한 제약을 나타낸다.
@@ -31,7 +33,7 @@ long move_pages(int pid, unsigned long count, void **pages,
 
 `nodes`는 각 페이지에 대해 원하는 위치를 지정한 정수들의 배열이다. 배열의 각 항목은 노드 번호이다. `nodes`가 NULL일 수도 있는데, 그 경우 `move_pages()`는 페이지를 옮기지 않고 대신 각 페이지가 현재 자리한 노드를 `status` 배열로 반환한다. 옮겨야 할 페이지들을 알아내기 위해 각 페이지의 상태를 얻어야 할 수 있다.
 
-`status`는 정수들의 배열이며 각 페이지의 상태를 반환한다. `move_pages()`가 오류를 반환하지 않은 경우에만 배열이 유효한 값들을 담고 있다.
+`status`는 정수들의 배열이며 각 페이지의 상태를 반환한다. `move_pages()`가 오류를 반환하지 않은 경우에만 배열이 유효한 값들을 담고 있다. 배열의 값을 실제 numa 노드를 나타낼 수 없는 값이나 유효한 상태 배열 오류 값으로 미리 초기화해 두면 이동한 페이지들을 알아내는 데 도움이 될 수 있다.
 
 `flags`는 옮길 페이지의 종류를 지정한다. `MPOL_MF_MOVE`는 프로세스에서 배타적으로 사용 중인 페이지들만 옮기라는 뜻이다. `MPOL_MF_MOVE_ALL`은 여러 프로세스들끼리 공유하는 페이지들도 옮길 수 있다는 뜻이다. `MPOL_MF_MOVE_ALL`을 쓰려면 프로세스가 특권(`CAP_SYS_NICE`)을 가지고 있어야 한다.
 
@@ -65,12 +67,15 @@ long move_pages(int pid, unsigned long count, void **pages,
 
 ## RETURN VALUE
 
-성공 시 `move_pages()`는 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
+성공 시 `move_pages()`는 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다. 양수 값을 반환하는 경우 그 값은 이동 안 된 페이지 개수이다.
 
 ## ERRORS
 
+양수 값
+:   중대하지 않은 원인으로 인한 것인 경우 이동 안 된 페이지들의 개수.
+
 `E2BIG`
-:   옮길 페이지가 너무 많다.
+:   옮길 페이지가 너무 많다. 리눅스 2.6.29부터는 커널에서 이 오류를 내놓지 않는다.
 
 `EACCES`
 :   한 대상 노드를 현재 cpuset에서 허용하지 않는다.
@@ -83,9 +88,6 @@ long move_pages(int pid, unsigned long count, void **pages,
 
 `ENODEV`
 :   한 대상 노드가 온라인이 아니다.
-
-`ENOENT`
-:   이동이 필요한 페이지를 찾지 못했다. 모든 페이지가 이미 대상 노드에 있거나, 존재하지 않거나, 주소가 유효하지 않거나, 여러 프로세스가 맵 하고 있어서 옮길 수 없다.
 
 `EPERM`
 :   호출자가 충분한 특권(`CAP_SYS_NICE`) 없이 `MPOL_MF_MOVE_ALL`을 지정했다. 또는 호출자가 다른 사용자에게 속한 프로세스의 페이지를 옮기려고 시도했는데 그렇게 하기 위한 특권(`CAP_SYS_NICE`)을 가지고 있지 않았다.
@@ -103,7 +105,7 @@ long move_pages(int pid, unsigned long count, void **pages,
 
 ## NOTES
 
-라이브러리 지원에 대한 정보는 <tt>[[numa(7)]]</tt>를 보라.
+glibc에서 이 시스템 호출의 래퍼를 제공하지 않는다. 라이브러리 지원에 대한 정보는 <tt>[[numa(7)]]</tt>를 보라.
 
 <tt>[[get_mempolicy(2)]]</tt>를 `MPOL_F_MEMS_ALLOWED` 플래그로 사용하면 현재 cpuset에서 허용하는 노드들의 집합을 얻을 수 있다. 참고로 그 정보는 수동 내지 자동으로 이뤄지는 cpuset 재구성으로 인해 언제든 바뀔 수 있다.
 
@@ -117,4 +119,4 @@ long move_pages(int pid, unsigned long count, void **pages,
 
 ----
 
-2017-09-15
+2021-03-22

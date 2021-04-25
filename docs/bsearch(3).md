@@ -34,7 +34,7 @@ void *bsearch(const void *key, const void *base,
 
 POSIX.1-2001, POSIX.1-2008, C89, C99, SVr4, 4.3BSD.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 예에서는 먼저 `qsort(3)`를 써서 구조체 배열을 정렬하고서 `bsearch()`를 써서 원하는 항목을 얻는다.
 
@@ -57,22 +57,22 @@ struct mi {
 static int
 compmi(const void *m1, const void *m2)
 {
-    struct mi *mi1 = (struct mi *) m1;
-    struct mi *mi2 = (struct mi *) m2;
+    const struct mi *mi1 = m1;
+    const struct mi *mi2 = m2;
     return strcmp(mi1->name, mi2->name);
 }
 
 int
 main(int argc, char **argv)
 {
-    int i;
+    qsort(months, nr_of_months, sizeof(months[0]), compmi);
+    for (int i = 1; i < argc; i++) {
+        struct mi key;
+        struct mi *res;
 
-    qsort(months, nr_of_months, sizeof(struct mi), compmi);
-    for (i = 1; i < argc; i++) {
-        struct mi key, *res;
         key.name = argv[i];
         res = bsearch(&key, months, nr_of_months,
-                      sizeof(struct mi), compmi);
+                      sizeof(months[0]), compmi);
         if (ret == NULL)
             printf("'%s': unknown month\n", argv[i]);
         else
@@ -88,4 +88,4 @@ main(int argc, char **argv)
 
 ----
 
-2017-09-15
+2021-03-22

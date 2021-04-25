@@ -8,11 +8,11 @@ kexec_load, kexec_file_load - 후에 실행할 새 커널 적재하기
 #include <linux/kexec.h>
 
 long kexec_load(unsigned long entry, unsigned long nr_segments,
-                struct kexec_segment *segments, unsigned long flags);
-
+                struct kexec_segment *segments,
+                unsigned long flags);
 long kexec_file_load(int kernel_fd, int initrd_fd,
-                     unsigned long cmdline_len, const char *cmdline,
-                     unsigned long flags);
+                unsigned long cmdline_len, const char *cmdline,
+                unsigned long flags);
 ```
 
 *주의*: 이 시스템 호출에 대한 glibc 래퍼가 없다. NOTES 참고.
@@ -128,7 +128,7 @@ struct kexec_segment {
 
 ## NOTES
 
-현재 이 시스템 호출들에 대한 glibc 지원이 없다. <tt>[[syscall(2)]]</tt>을 이용해 호출해야 한다.
+glibc에서 이 시스템 호출들의 래퍼를 제공하지 않는다. <tt>[[syscall(2)]]</tt>을 이용해 호출해야 한다.
 
 ## SEE ALSO
 
@@ -138,4 +138,4 @@ struct kexec_segment {
 
 ----
 
-2019-03-06
+2021-03-22

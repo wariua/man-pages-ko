@@ -32,7 +32,7 @@ int pkey_free(int pkey);
 
 ## RETURN VALUE
 
-성공 시 `pkey_alloc()`은 양수 보호 키 값을 반환한다. 성공 시 `pkey_free()`는 0을 반환한다. 오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+성공 시 `pkey_alloc()`은 양수 보호 키 값을 반환한다. 성공 시 `pkey_free()`는 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -58,7 +58,7 @@ int pkey_free(int pkey);
 
 커널에서는 할당된 보호 키들에 대해서만 하드웨어 권한 레지스터(PKRU)의 내용물이 보존된다고 보장한다. 키가 할당되어 있지 않을 때는 (`pkey_alloc()` 호출이 키를 반환하기 전이나 `pkey_free()`를 통해 키를 해제한 후에는) 언제든 그 키의 접근권에 영향을 주는 권한 레지스터의 내용을 커널이 임의로 바꿀 수도 있다.
 
-## EXAMPLE
+## EXAMPLES
 
 <tt>[[pkey(7)]]</tt> 참고.
 
@@ -68,4 +68,4 @@ int pkey_free(int pkey);
 
 ----
 
-2019-08-02
+2021-03-22

@@ -5,14 +5,12 @@ recv, recvfrom, recvmsg - 소켓에서 메시지 받기
 ## SYNOPSIS
 
 ```c
-#include <sys/types.h>
 #include <sys/socket.h>
 
 ssize_t recv(int sockfd, void *buf, size_t len, int flags);
-
-ssize_t recvfrom(int sockfd, void *buf, size_t len, int flags,
-                 struct sockaddr *src_addr, socklen_t *addrlen);
-
+ssize_t recvfrom(int sockfd, void *restrict buf, size_t len, int flags,
+                 struct sockaddr *restrict src_addr,
+                 socklen_t *restrict addrlen);
 ssize_t recvmsg(int sockfd, struct msghdr *msg, int flags);
 ```
 
@@ -34,7 +32,7 @@ recvfrom(sockfd, buf, len, flags, NULL, NULL);
 
 세 호출 모두 성공 완료 시 메시지 길이를 반환한다. 메시지가 너무 길어서 제공 버퍼에 들어가지 않는 경우 메시지를 받는 소켓의 종류에 따라선 넘치는 바이트들을 버릴 수도 있다.
 
-수신 호출들은 소켓에 메시지가 없으면 메시지가 도착하기를 기다린다. 단 소켓이 논블로킹이면 (<tt>[[fcntl(2)]]</tt> 참고) -1 값을 반환하고 외부 변수 `errno`를 `EAGAIN`이나 `EWOULDBLOCK`으로 설정한다. 수신 호출들은 보통 요청 받은 양 전체를 수신할 때까지 기다리기보다는 사용 가능한 데이터를 최대 요청 크기만큼 바로 반환한다.
+수신 호출들은 소켓에 메시지가 없으면 메시지가 도착하기를 기다린다. 단 소켓이 논블로킹이면 (<tt>[[fcntl(2)]]</tt> 참고) -1 값을 반환하고 `errno`를 `EAGAIN`이나 `EWOULDBLOCK`으로 설정한다. 수신 호출들은 보통 요청 받은 양 전체를 수신할 때까지 기다리기보다는 사용 가능한 데이터를 최대 요청 크기만큼 바로 반환한다.
 
 응용에서 <tt>[[select(2)]]</tt>, <tt>[[poll(2)]]</tt>, <tt>[[epoll(7)]]</tt>을 이용해 소켓에 데이터가 더 도착했는지 알아낼 수 있다.
 
@@ -148,7 +146,7 @@ struct cmsghdr {
 
 보조 데이터는 <tt>[[cmsg(3)]]</tt>에 정의된 매크로를 통해서만 접근해야 한다.
 
-예를 들어 리눅스에서는 이 보조 데이터 메커니즘을 이용해 확장 오류나 IP 옵션을, 그리고 유닉스 도메인 소켓 상으로 파일 디스크립터를 전달한다.
+예를 들어 리눅스에서는 이 보조 데이터 메커니즘을 이용해 확장 오류나 IP 옵션을, 그리고 유닉스 도메인 소켓 상으로 파일 디스크립터를 전달한다. 다양한 소켓 도메인에서 보조 데이터를 이용하는 방식에 대한 자세한 설명은 <tt>[[unix(7)]]</tt>와 <tt>[[ip(7)]]</tt>를 보라.
 
 `recvmsg()` 반환 시 `msghdr`의 `msg_flags` 필드가 설정된다. 여러 플래그가 담길 수 있다.
 
@@ -220,11 +218,11 @@ POSIX.1에서는 `MSG_OOB`, `MSG_PEEK`, `MSG_WAITALL` 플래그만 기술한다.
 
 `socklen_t` 타입은 POSIX에서 고안한 것이다. `accept(2)`도 참고.
 
-POSIX.1에 따르면 `msghdr` 구조체의 `msg_controllen` 필드가 `socklen_t` 타입이어야 하지만 glibc에서는 현재 `size_t` 타입으로 하고 있다.
+POSIX.1에 따르면 `msghdr` 구조체의 `msg_controllen` 필드가 `socklen_t` 타입이어야 하고 `msg_iovlen` 필드가 `int` 타입이어야 하지만 glibc에서는 현재 둘 모두 `size_t` 타입으로 하고 있다.
 
 호출 한 번에 여러 데이터그램을 수신할 수 있는 리눅스 전용 시스템 호출에 대한 내용은 <tt>[[recvmmsg(2)]]</tt>를 보라.
 
-## EXAMPLE
+## EXAMPLES
 
 <tt>[[getaddrinfo(3)]]</tt>에서 `recvfrom()` 사용례를 볼 수 있다.
 
@@ -234,4 +232,4 @@ POSIX.1에 따르면 `msghdr` 구조체의 `msg_controllen` 필드가 `socklen_t
 
 ----
 
-2017-09-15
+2021-03-22

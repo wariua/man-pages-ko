@@ -6,14 +6,12 @@ name_to_handle_at, open_by_handle_at - 경로명에 대한 핸들을 얻고 핸�
 
 ```c
 #define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
-#include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
 
 int name_to_handle_at(int dirfd, const char *pathname,
                       struct file_handle *handle,
                       int *mount_id, int flags);
-
 int open_by_handle_at(int mount_fd, struct file_handle *handle,
                       int flags);
 ```
@@ -37,7 +35,7 @@ struct file_handle {
 
 `f_handle`로 반환되는 핸들을 담기에 충분히 큰 구조체를 할당하는 건 호출자의 책임이다. 호출 전에 `f_handle`에 할당된 크기를 담도록 `handle_bytes` 필드를 초기화해야 한다. (`<fcntl.h>`에 정의된 상수 `MAX_HANDLE_SZ`가 파일 핸들 크기의 예상 최댓값을 나타낸다. 향후의 파일 시스템에서 더 큰 공간을 필요로 할 수 있으므로 보장된 상한은 아니다.) 성공 반환 시 실제 `f_handle`에 기록된 바이트 수를 담도록 `handle_bytes` 필드가 갱신된다.
 
-호출자가 `handle->handle_bytes`를 0으로 호출을 해서 `file_handle` 구조체에 필요한 크기를 알아낼 수 있다. 이 경우 호출이 `EOVERFLOW` 오류로 실패하며 `handle->handle_bytes`가 필요 크기로 설정된다. 그러면 호출자가 그 정보를 이용해 올바른 크기의 구조체를 할당할 수 있다. (아래 EXAMPLE 참고.) `EOVERFLOW` 오류가 파일 핸들 검색을 정상적으로 지원하는 파일 시스템에서 이 특정 이름에 대해 사용 가능한 파일 핸들이 없다는 뜻일 수도 있기 때문에 약간의 주의가 필요하다. `handle_bytes`가 증가하지 않고 `EOVERFLOW` 오류가 반환되는 것으로 이 경우를 알아낼 수 있다.
+호출자가 `handle->handle_bytes`를 0으로 호출을 해서 `file_handle` 구조체에 필요한 크기를 알아낼 수 있다. 이 경우 호출이 `EOVERFLOW` 오류로 실패하며 `handle->handle_bytes`가 필요 크기로 설정된다. 그러면 호출자가 그 정보를 이용해 올바른 크기의 구조체를 할당할 수 있다. (아래 EXAMPLES 참고.) `EOVERFLOW` 오류가 파일 핸들 검색을 정상적으로 지원하는 파일 시스템에서 이 특정 이름에 대해 사용 가능한 파일 핸들이 없다는 뜻일 수도 있기 때문에 약간의 주의가 필요하다. `handle_bytes`가 증가하지 않고 `EOVERFLOW` 오류가 반환되는 것으로 이 경우를 알아낼 수 있다.
 
 `handle_bytes` 필드를 이용하는 것 외에는 호출자가 `file_handle` 구조체를 불투명한 데이터 타입으로 다뤄야 한다. `handle_type` 및 `f_handle` 필드가 필요한 곳은 이어지는 `open_by_handle_at()` 호출뿐이다.
 
@@ -71,9 +69,9 @@ struct file_handle {
 
 ## RETURN VALUE
 
-성공 시 `name_to_handle_at()`은 0을 반환하며 `open_by_handle_at()`은 음수 아닌 파일 디스크립터를 반환한다.
+성공 시 `name_to_handle_at()`은 0을 반환하며 `open_by_handle_at()`은 파일 디스크립터(음수 아닌 정수)를 반환한다.
 
-오류 발생 시 두 시스템 호출은 -1을 반환하며 오류 원인을 나타내도록 `errno`를 설정한다.
+오류 발생 시 두 시스템 호출은 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -150,7 +148,7 @@ FreeBSD에 대략 비슷한 형태의 시스템 호출 쌍 `getfh()`와 `openfh(
 
 예를 들어 `mountinfo` 레코드의 다섯 번째 필드에 있는 장치 이름을 가지고 `/dev/disks/by-uuid` 내의 심볼릭 링크를 통해서 해당 장치의 UUID를 찾을 수 있다. (UUID를 얻는 더 편한 방법은 `libblkid(3)` 라이브러리를 이용하는 것이다.) 그러면 그 과정을 뒤집어서 UUID를 가지고 장치 이름을 찾아서 해당 마운트 지점을 얻고, 그래서 `open_by_handle_at()`에 쓸 `mount_fd` 인자를 만들어 낼 수 있다.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 두 프로그램이 `name_to_handle_at()`과 `open_by_handle_at()` 사용 방식을 보여 준다. 첫 번째 프로그램(`t_name_to_handle_at.c`)에서는 `name_to_handle_at()`을 사용해 명령행 인자로 지정한 파일에 대한 파일 핸들과 마운트 ID를 얻는다. 그리고 그 핸들과 마운트 ID를 표준 출력으로 찍는다.
 
@@ -201,7 +199,7 @@ int
 main(int argc, char *argv[])
 {
     struct file_handle *fhp;
-    int mount_id, fhsize, flags, dirfd, j;
+    int mount_id, fhsize, flags, dirfd;
     char *pathname;
 
     if (argc != 2) {
@@ -211,7 +209,7 @@ main(int argc, char *argv[])
 
     pathname = argv[1];
 
-    /* file_handle 구조체 할당 */
+    /* file_handle 구조체 할당하기. */
 
     fhsize = sizeof(*fhp);
     fhp = malloc(fhsize);
@@ -219,7 +217,7 @@ main(int argc, char *argv[])
         errExit("malloc");
 
     /* 첫 번째 name_to_handle_at() 호출로 파일 핸들에 필요한
-       크기 알아내기 */
+       크기 알아내기. */
 
     dirfd = AT_FDCWD;           /* name_to_handle_at() 호출에 사용 */
     flags = 0;                  /* name_to_handle_at() 호출에 사용 */
@@ -230,24 +228,24 @@ main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    /* 올바른 크기로 file_handle 구조체 재할당 */
+    /* 올바른 크기로 file_handle 구조체 재할당하기. */
 
-    fhsize = sizeof(struct file_handle) + fhp->handle_bytes;
+    fhsize = sizeof(*fhp) + fhp->handle_bytes;
     fhp = realloc(fhp, fhsize);         /* fhp->handle_bytes 복사됨 */
     if (fhp == NULL)
         errExit("realloc");
 
-    /* 명령행에서 받은 pathname을 가지고 파일 핸들 얻기 */
+    /* 명령행에서 받은 pathname을 가지고 파일 핸들 얻기. */
 
     if (name_to_handle_at(dirfd, pathname, fhp, &mount_id, flags) == -1)
         errExit("name_to_handle_at");
 
     /* 마운트 ID, 파일 핸들 크기, 파일 핸들을 stdout으로 출력.
-       이후 t_open_by_handle_at.c에서 사용함 */
+       이후 t_open_by_handle_at.c에서 사용한다. */
 
     printf("%d\n", mount_id);
-    printf("%d %d   ", fhp->handle_bytes, fhp->handle_type);
-    for (j = 0; j < fhp->handle_bytes; j++)
+    printf("%u %d   ", fhp->handle_bytes, fhp->handle_type);
+    for (int j = 0; j < fhp->handle_bytes; j++)
         printf(" %02x", fhp->f_handle[j]);
     printf("\n");
 
@@ -323,7 +321,7 @@ int
 main(int argc, char *argv[])
 {
     struct file_handle *fhp;
-    int mount_id, fd, mount_fd, handle_bytes, j;
+    int mount_id, fd, mount_fd, handle_bytes;
     ssize_t nread;
     char buf[1000];
 #define LINE_SIZE 100
@@ -351,9 +349,9 @@ main(int argc, char *argv[])
 
     handle_bytes = strtoul(line2, &nextp, 0);
 
-    /* handle_bytes가 주어져서 이제 file_handle 구조체를 할당할 수 있음 */
+    /* handle_bytes를 아니까 이제 file_handle 구조체를 할당할 수 있다. */
 
-    fhp = malloc(sizeof(struct file_handle) + handle_bytes);
+    fhp = malloc(sizeof(*fhp) + handle_bytes);
     if (fhp == NULL)
         errExit("malloc");
 
@@ -361,7 +359,7 @@ main(int argc, char *argv[])
 
     fhp->handle_type = strtoul(nextp, &nextp, 0);
 
-    for (j = 0; j < fhp->handle_bytes; j++)
+    for (int j = 0; j < fhp->handle_bytes; j++)
         fhp->f_handle[j] = strtoul(nextp, &nextp, 16);
 
     /* 마운트 지점에 대한 파일 디스크립터 얻기.
@@ -377,13 +375,13 @@ main(int argc, char *argv[])
     if (mount_fd == -1)
         errExit("opening mount fd");
 
-    /* 핸들과 마운트 지점으로 파일 열기 */
+    /* 핸들과 마운트 지점으로 파일 열기. */
 
     fd = open_by_handle_at(mount_fd, fhp, O_RDONLY);
     if (fd == -1)
         errExit("open_by_handle_at");
 
-    /* 파일에서 몇 바이트 읽어 보기 */
+    /* 파일에서 몇 바이트 읽어 보기. */
 
     nread = read(fd, buf, sizeof(buf));
     if (nread == -1)
@@ -403,4 +401,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-03-06
+2021-03-22

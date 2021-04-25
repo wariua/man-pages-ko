@@ -28,7 +28,7 @@ bswap_64(x);
 
 이 매크로들은 GNU 확장이다.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 프로그램에서는 명령행 인자로 받은 8바이트 정수의 바이트들을 뒤집는다. 다음 셸 세션이 프로그램 사용 방식을 보여 준다.
 
@@ -56,8 +56,8 @@ main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    x = strtoul(argv[1], NULL, 0);
-    printf("0x%" PRIx64 " ==> 0x%" PRIx64 "\n", x, bswap_64(x));
+    x = strtoull(argv[1], NULL, 0);
+    printf("%#" PRIx64 " ==> %#" PRIx64 "\n", x, bswap_64(x));
 
     exit(EXIT_SUCCESS);
 }
@@ -69,4 +69,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-03-06
+2020-11-01

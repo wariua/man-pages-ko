@@ -8,11 +8,9 @@ sigemptyset, sigfillset, sigaddset, sigdelset, sigismember - POSIX 시그널 집
 #include <signal.h>
 
 int sigemptyset(sigset_t *set);
-
 int sigfillset(sigset_t *set);
 
 int sigaddset(sigset_t *set, int signum);
-
 int sigdelset(sigset_t *set, int signum);
 
 int sigismember(const sigset_t *set, int signum);
@@ -43,7 +41,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 `sigismember()`는 `signum`이 `set`에 속하면 1을 반환하고 속하지 않으면 0을 반환하며 오류 시 -1을 반환한다.
 
-오류 시 이 함수들은 오류 원인을 나타내도록 `errno`를 설정한다.
+오류 시 이 함수들은 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -56,7 +54,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 | 인터페이스 | 속성 | 값
 | --- | --- | --- |
-| `sigemptyset()`, `sigfillset()`,<br>`sigaddset()`, `sigdelset()`,<br>`sigismember()`, `sigisemptyset()`,<br>`sigorset()`, `sigandset()` | 스레드 안전성 | MT-Safe |
+| `sigemptyset()`, `sigfillset()`, `sigaddset()`,<br>`sigdelset()`, `sigismember()`, `sigisemptyset()`,<br>`sigorset()`, `sigandset()` | 스레드 안전성 | MT-Safe |
 
 ## CONFORMING TO
 
@@ -90,4 +88,4 @@ int sigandset(sigset_t *dest, const sigset_t *left,
 
 ----
 
-2016-03-15
+2021-03-22

@@ -15,7 +15,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 `siginterrupt()`:
 :   `_XOPEN_SOURCE >= 500`<br>
     `    || /* glibc 2.12부터: */ _POSIX_C_SOURCE >= 200809L`<br>
-    `    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE`
+    `    || /* glibc <= 2.19: */ _BSD_SOURCE`
 
 ## DESCRIPTION
 
@@ -27,7 +27,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## RETURN VALUE
 
-`siginterrupt()` 함수는 성공 시 0을 반환한다. 시그널 번호 `sig`가 유효하지 않으면 -1을 반환하고 오류 원인을 나타내도록 `errno`를 설정한다.
+`siginterrupt()` 함수는 성공 시 0을 반환한다. 시그널 번호 `sig`가 유효하지 않으면 -1을 반환하고 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -52,4 +52,4 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ----
 
-2016-03-15
+2021-03-22

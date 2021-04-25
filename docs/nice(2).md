@@ -15,7 +15,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 `nice()`:
 :   `_XOPEN_SOURCE`<br>
     `    || /* glibc 2.19부터: */ _DEFAULT_SOURCE`<br>
-    `    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE || _SVID_SOURCE`
+    `    || /* glibc <= 2.19: */ _BSD_SOURCE || _SVID_SOURCE`
 
 ## DESCRIPTION
 
@@ -27,7 +27,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## RETURN VALUE
 
-성공 시 새 나이스 값을 반환한다. (하지만 아래 NOTES를 보라.) 오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+성공 시 새 나이스 값을 반환한다. (하지만 아래 NOTES를 보라.) 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 성공한 호출이 적법하게 -1을 반환할 수 있다. 오류를 탐지하려면 호출 전에 `errno`를 0으로 설정했다가 `nice()`가 -1을 반환한 후에 0이 아닌지 확인하면 된다.
 
@@ -58,4 +58,4 @@ glibc 2.2.4부터는 glibc 제공 래퍼 함수에서 <tt>[[getpriority(2)]]</tt
 
 ----
 
-2017-09-15
+2021-03-22

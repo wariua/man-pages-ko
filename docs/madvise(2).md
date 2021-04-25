@@ -16,7 +16,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 :   glibc 2.19부터:
     :   `_DEFAULT_SOURCE`
 
-    glibc 2.19 및 이전:
+    glibc 2.19까지:
     :   `_BSD_SOURCE`
 
 ## DESCRIPTION
@@ -94,10 +94,12 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
     이 기능이 주로 노리는 것은 큰 데이터 매핑을 사용하고 그 메모리의 큰 영역들에 일시에 접근하는 응용들(가령 QEMU 같은 가상화 시스템)이다. 이 기능은 메모리를 낭비하기가 아주 쉽다. (가령 2MB짜리 매핑에서 한 바이트만 접근하는 경우 4KB짜리 페이지 하나가 아니라 메모리 2MB가 연결된다.) 더 자세한 내용은 리눅스 커널 소스 파일 `Documentation/admin-guide/mm/transhuge.rst`를 보라.
 
+    흔히 만날 수 있는 커널 구성들에선 대부분 기본적으로 `MADV_HUGEPAGE` 같은 동작을 제공하며, 그래서 보통은 `MADV_HUGEPAGE`가 필요하지 않다. 주로 필요한 경우는 커널에서 `MADV_HUGEPAGE` 같은 동작이 기본적으로 켜져 있지 않을 수도 있는 임베디드 시스템에서다. 그런 시스템에서 이 플래그를 써서 선택적으로 THP를 켤 수 있다. `MADV_HUGEPAGE`를 사용한다면 반드시 자동 거대 페이지를 켰을 때의 접근 패턴이 응용의 메모리 사용 규모를 늘이지 않는다는 것을 개발자가 미리 알고 있는 메모리 영역에서여야 한다.
+
     `MADV_HUGEPAGE` 및 `MADV_NOHUGEPAGE` 동작은 커널을 `CONFIG_TRANSPARENT_HUGEPAGE`로 구성했을 때만 사용 가능하다.
 
 `MADV_NOHUGEPAGE` (리눅스 2.6.38부터)
-:   `addr`과 `length`로 지정한 주소 범위의 메모리가 거대 페이지로 뭉치지 않게 한다.
+:   `addr`과 `length`로 지정한 주소 범위의 메모리에 자동 거대 페이지를 쓰지 않게 한다.
 
 `MADV_DONTDUMP` (리눅스 3.4부터)
 :   `addr`과 `length`로 지정한 범위의 페이지들을 코어 덤프에서 제외한다. 코어 덤프에서 쓸모가 없는 커다란 메모리 영역을 가진 응용에 유용하다. `MADV_DONTDUMP`의 효과가 `/proc/[pid]/coredump_filter` 파일(<tt>[[core(5)]]</tt> 참고)로 설정한 비트 마스크보다 우선한다.
@@ -120,9 +122,15 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 `MADV_KEEPONFORK` (리눅스 4.14부터)
 :   앞선 `MADV_WIPEONFORK`의 효과를 되돌린다.
 
+`MADV_COLD` (리눅스 5.4부터)
+:   지정한 페이지 범위를 비활성화한다. 이렇게 하면 메모리 압박이 있을 때 그 페이지들이 회수 대상이 될 가능성이 더 높아지게 된다. 이는 비파괴적인 동작이다. 적용 가능하지 않은 경우 범위 내의 일부 페이지에 대해 조언이 무시될 수도 있다.
+
+`MADV_PAGEOUT` (리눅스 5.4부터)
+:   지정한 페이지 범위를 회수한다. 그렇게 해서 그 페이지들이 차지하는 메모리를 해제한다. 익명 페이지이면 스왑으로 내보낸다. 파일 기반 페이지이고 더러워져 있으면 기반 저장소로 기록한다. 적용 가능하지 않은 경우 범위 내의 일부 페이지에 대해 조언이 무시될 수도 있다.
+
 ## RETURN VALUE
 
-성공 시 `madvise()`는 0을 반환한다. 오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+성공 시 `madvise()`는 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -180,8 +188,8 @@ POSIX.1-2001에 기술하는 <tt>[[posix_madvise(3)]]</tt>에는 상수 `POSIX_M
 
 ## SEE ALSO
 
-<tt>[[getrlimit(2)]]</tt>, <tt>[[mincore(2)]]</tt>, <tt>[[mmap(2)]]</tt>, <tt>[[mprotect(2)]]</tt>, <tt>[[msync(2)]]</tt>, <tt>[[munmap(2)]]</tt>, <tt>[[prctl(2)]]</tt>, <tt>[[posix_madvise(3)]]</tt>, <tt>[[core(5)]]</tt>
+<tt>[[getrlimit(2)]]</tt>, <tt>[[mincore(2)]]</tt>, <tt>[[mmap(2)]]</tt>, <tt>[[mprotect(2)]]</tt>, <tt>[[msync(2)]]</tt>, <tt>[[munmap(2)]]</tt>, <tt>[[prctl(2)]]</tt>, <tt>[[process_madvise(2)]]</tt>, <tt>[[posix_madvise(3)]]</tt>, <tt>[[core(5)]]</tt>
 
 ----
 
-2019-03-06
+2021-03-22

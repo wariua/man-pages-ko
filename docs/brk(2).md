@@ -8,7 +8,6 @@ brk, sbrk - 데이터 세그먼트 크기 바꾸기
 #include <unistd.h>
 
 int brk(void *addr);
-
 void *sbrk(intptr_t increment);
 ```
 
@@ -16,14 +15,14 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 `brk()`, `sbrk()`:
 :   glibc 2.19부터:
-    :   `_DEFAULT_SOURCE ||`<br>
-        `    (_XOPEN_SOURCE >= 500) &&`<br>
-        `    ! (_POSIX_C_SOURCE >= 200112L)`
+    :   `_DEFAULT_SOURCE`<br>
+        `    || ((_XOPEN_SOURCE >= 500) &&`<br>
+        `        ! (_POSIX_C_SOURCE >= 200112L))`
 
     glibc 2.12부터 2.19까지:
-    :   `_BSD_SOURCE || _SVID_SOURCE ||`<br>
-        `    (_XOPEN_SOURCE >= 500) &&`<br>
-        `    ! (_POSIX_C_SOURCE >= 200112L)`
+    :   `_BSD_SOURCE || _SVID_SOURCE`<br>
+        `    || ((_XOPEN_SOURCE >= 500) &&`<br>
+        `        ! (_POSIX_C_SOURCE >= 200112L))`
 
     glibc 2.12 전:
     :   `_BSD_SOURCE || _SVID_SOURCE || _XOPEN_SOURCE >= 500`
@@ -64,4 +63,4 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ----
 
-2016-03-15
+2021-03-22

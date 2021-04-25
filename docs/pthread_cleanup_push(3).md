@@ -7,8 +7,7 @@ pthread_cleanup_push, pthread_cleanup_pop - 스레드 취소 정리 핸들러 �
 ```c
 #include <pthread.h>
 
-void pthread_cleanup_push(void (*routine)(void *),
-                          void *arg);
+void pthread_cleanup_push(void (*routine)(void *), void *arg);
 void pthread_cleanup_pop(int execute);
 ```
 
@@ -60,7 +59,7 @@ POSIX.1-2001, POSIX.1-2008.
 
 POSIX.1에서는 `pthread_cleanup_push()`와 `pthread_cleanup_pop()`으로 감싼 블록을 `return`, `break`, `continue`, `goto`를 이용해 도중에 빠져나가는 결과가 규정되어 있지 않다고 한다. 이식 가능한 응용에서는 그렇게 하는 것을 피해야 한다.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 프로그램은 이 페이지에서 기술하는 함수들의 간단한 사용 방식을 보여 준다. 프로그램에서 만드는 스레드에서 `pthread_cleanup_push()`와 `pthread_cleanup_pop()`으로 둘러싸인 루프를 실행한다. 그 루프에서는 전역 변수 `cnt`를 초당 한 번씩 증가시킨다. 어떤 명령행 인자를 주는가에 따라서 메인 스레드가 다른 스레드에게 취소 요청을 보내거나 다른 스레드가 루프를 빠져나가서 (`return`으로) 정상적으로 종료하도록 전역 변수를 설정한다.
 
@@ -194,4 +193,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-03-06
+2021-03-22

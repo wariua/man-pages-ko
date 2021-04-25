@@ -13,7 +13,7 @@ extern int getdate_err;
 
 #include <time.h>
 
-int getdate_r(const char *string, struct tm *res);
+int getdate_r(const char *restrict string, struct tm *restrict res);
 ```
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
@@ -96,7 +96,7 @@ POSIX.1-2001, POSIX.1-2008.
 
 POSIX.1의 <tt>[[strptime(3)]]</tt> 명세에는 `%E` 및 `%O` 수식자를 이용한 변환 지정 항목이 있지만 `getdate()`에는 그런 지정 항목이 없다. glibc에서는 <tt>[[getptime(3)]]</tt>으로 `getdate()`를 구현하고 있으며, 그래서 양쪽에서 정확히 같은 변환들을 지원한다.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 프로그램에서는 명령행 인자 각각에 대해 `getdate()`를 호출하고 각 호출마다 반환된 `tm` 구조체의 필드 값들을 표시한다. 다음 셸 세션은 프로그램 사용 방식을 보여 준다.
 
@@ -153,9 +153,8 @@ int
 main(int argc, char *argv[])
 {
     struct tm *tmp;
-    int j;
 
-    for (j = 1; j < argc; j++) {
+    for (int j = 1; j < argc; j++) {
         tmp = getdate(argv[j]);
 
         if (tmp == NULL) {
@@ -186,4 +185,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-03-06
+2021-03-22

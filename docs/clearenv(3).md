@@ -14,7 +14,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 `clearenv()`:
 :   `/* glibc 2.19부터: */ _DEFAULT_SOURCE`<br>
-    `    || /* glibc 버전 <= 2.19: */ _SVID_SOURCE || _BSD_SOURCE`
+    `    || /* glibc <= 2.19: */ _SVID_SOURCE || _BSD_SOURCE`
 
 ## DESCRIPTION
 
@@ -60,4 +60,4 @@ DG/UX 및 Tru64 맨 페이지에는 이렇게 적혀 있다: <tt>[[putenv(3)]]</
 
 ----
 
-2017-09-15
+2021-03-22

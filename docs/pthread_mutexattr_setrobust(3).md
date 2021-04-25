@@ -74,7 +74,7 @@ int pthread_mutexattr_setrobust_np(pthread_mutexattr_t *attr,
 
 이 GNU 전용 API는 glibc 2.4에서 처음 등장했으며, 현재는 구식이 되었으므로 새 프로그램에서 쓰지 말아야 한다.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 프로그램은 뮤텍스 속성 객체의 견고성 속성 사용 방식을 보여 준다. 이 프로그램에서는 뮤텍스를 잡은 스레드가 뮤텍스를 풀지 않고 일찍 죽는다. 이후 메인 스레드가 뮤텍스를 성공적으로 획득하고 `EOWNERDEAD` 오류를 얻으며, 다음으로 뮤텍스를 정상 상태로 만든다.
 
@@ -84,10 +84,10 @@ int pthread_mutexattr_setrobust_np(pthread_mutexattr_t *attr,
 $ ./a.out
 [original owner] Setting lock...
 [original owner] Locked. Now exiting without unlocking.
-[main thread] Attempting to lock the robust mutex.
-[main thread] pthread_mutex_lock() returned EOWNERDEAD
-[main thread] Now make the mutex consistent
-[main thread] Mutex is now consistent; unlocking
+[main] Attempting to lock the robust mutex.
+[main] pthread_mutex_lock() returned EOWNERDEAD
+[main] Now make the mutex consistent
+[main] Mutex is now consistent; unlocking
 ```
 
 ### 프로그램 소스
@@ -100,7 +100,7 @@ $ ./a.out
 #include <errno.h>
 
 #define handle_error_en(en, msg) \
-               do { errno = en; perror(msg); exit(EXIT_FAILURE); } while (0)
+        do { errno = en; perror(msg); exit(EXIT_FAILURE); } while (0)
 
 static pthread_mutex_t mtx;
 
@@ -120,37 +120,37 @@ main(int argc, char *argv[])
     pthread_mutexattr_t attr;
     int s;
 
-    pthread_mutexattr_init(&attr);  /* 속성 객체 초기화 */
-    pthread_mutexattr_setrobust(&attr, PTHREAD_MUTEX_ROBUST);
-                                    /* 견고성 설정 */
+    pthread_mutexattr_init(&attr);
 
-    pthread_mutex_init(&mtx, &attr);    /* 뮤텍스 초기화 */
+    pthread_mutexattr_setrobust(&attr, PTHREAD_MUTEX_ROBUST);
+
+    pthread_mutex_init(&mtx, &attr);
 
     pthread_create(&thr, NULL, original_owner_thread, NULL);
 
     sleep(2);
 
-    /* 지금쯤 "original_owner_thread"는 끝났을 것임 */
+    /* 지금쯤 "original_owner_thread"는 끝났을 것이다. */
 
-    printf("[main thread] Attempting to lock the robust mutex.\n");
+    printf("[main] Attempting to lock the robust mutex.\n");
     s = pthread_mutex_lock(&mtx);
     if (s == EOWNERDEAD) {
-        printf("[main thread] pthread_mutex_lock() returned EOWNERDEAD\n");
-        printf("[main thread] Now make the mutex consistent\n");
+        printf("[main] pthread_mutex_lock() returned EOWNERDEAD\n");
+        printf("[main] Now make the mutex consistent\n");
         s = pthread_mutex_consistent(&mtx);
         if (s != 0)
             handle_error_en(s, "pthread_mutex_consistent");
-        printf("[main thread] Mutex is now consistent; unlocking\n");
+        printf("[main] Mutex is now consistent; unlocking\n");
         s = pthread_mutex_unlock(&mtx);
         if (s != 0)
             handle_error_en(s, "pthread_mutex_unlock");
 
         exit(EXIT_SUCCESS);
     } else if (s == 0) {
-        printf("[main thread] pthread_mutex_lock() unexpectedly succeeded\n");
+        printf("[main] pthread_mutex_lock() unexpectedly succeeded\n");
         exit(EXIT_FAILURE);
     } else {
-        printf("[main thread] pthread_mutex_lock() unexpectedly failed\n");
+        printf("[main] pthread_mutex_lock() unexpectedly failed\n");
         handle_error_en(s, "pthread_mutex_lock");
     }
 }
@@ -158,8 +158,8 @@ main(int argc, char *argv[])
 
 ## SEE ALSO
 
-<tt>[[get_robust_list(2)]]</tt>, <tt>[[set_robust_list(2)]]</tt>, <tt>[[pthread_mutex_init(3)]]</tt>, <tt>[[pthread_mutex_consistent(3)]]</tt>, <tt>[[pthread_mutex_lock(3)]]</tt>, <tt>[[pthreads(7)]]</tt>
+<tt>[[get_robust_list(2)]]</tt>, <tt>[[set_robust_list(2)]]</tt>, <tt>[[pthread_mutex_consistent(3)]]</tt>, <tt>[[pthread_mutex_init(3)]]</tt>, <tt>[[pthread_mutex_lock(3)]]</tt>, <tt>[[pthreads(7)]]</tt>
 
 ----
 
-2019-03-06
+2021-03-22

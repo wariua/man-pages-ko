@@ -7,8 +7,8 @@ get_phys_pages, get_avphys_pages - 물리적 페이지 총개수와 가용 개�
 ```c
 #include <sys/sysinfo.h>
 
-long int get_phys_pages(void);
-long int get_avphys_pages(void);
+long get_phys_pages(void);
+long get_avphys_pages(void);
 ```
 
 ## DESCRIPTION
@@ -19,7 +19,7 @@ long int get_avphys_pages(void);
 
 ## RETURN VALUE
 
-성공 시 이 함수들은 DESCRIPTION의 설명처럼 음수 아닌 값을 반환한다. 실패 시 -1을 반환하며 오류 원인을 나타내도록 `errno`를 설정한다.
+성공 시 이 함수들은 DESCRIPTION의 설명처럼 음수 아닌 값을 반환한다. 실패 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -32,7 +32,7 @@ long int get_avphys_pages(void);
 
 ## NOTES
 
-이 함수들은 `/proc/meminfo`의 `MemTotal` 및 `MemFree` 필드를 읽어서 필요한 정보를 얻는다.
+glibc 2.23 전에서 이 함수들은 `/proc/meminfo`의 `MemTotal` 및 `MemFree` 필드를 읽어서 필요한 정보를 얻었다. glibc 2.23부터 이 함수들은 <tt>[[sysinfo(2)]]</tt>를 호출해서 필요한 정보를 얻는다.
 
 다음 <tt>[[sysconf(3)]]</tt> 호출은 이 페이지에서 기술하는 함수들과 같은 정보를 얻을 수 있는 이식성 있는 방법이다.
 
@@ -41,7 +41,7 @@ total_pages = sysconf(_SC_PHYS_PAGES);    /* 총 페이지 */
 avl_pages = sysconf(_SC_AVPHYS_PAGES);    /* 가용 페이지 */
 ```
 
-## EXAMPLE
+## EXAMPLES
 
 `get_phys_pages()`와 `get_avphys_pages()`를 어떻게 사용할 수 있는지 다음 예가 보여 준다.
 
@@ -66,4 +66,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-03-06
+2021-03-22

@@ -7,7 +7,7 @@ sigwait - 시그널 기다리기
 ```c
 #include <signal.h>
 
-int sigwait(const sigset_t *set, int *sig);
+int sigwait(const sigset_t *restrict set, int *restrict sig);
 ```
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
@@ -56,7 +56,7 @@ POSIX.1-2001, POSIX.1-2008.
 
 glibc의 `sigwait()` 구현에서는 NPTL 스레딩 구현 내부에서 쓰는 두 가지 실시간 시그널을 기다리려는 시도를 조용히 무시한다.
 
-## EXAMPLE
+## EXAMPLES
 
 <tt>[[pthread_sigmask(3)]]</tt> 참고.
 
@@ -66,4 +66,4 @@ glibc의 `sigwait()` 구현에서는 NPTL 스레딩 구현 내부에서 쓰는 �
 
 ----
 
-2017-07-13
+2021-03-22

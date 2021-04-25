@@ -10,8 +10,8 @@ setjmp, sigsetjmp, longjmp, siglongjmp - 비지역적 goto 수행하기
 int setjmp(jmp_buf env);
 int sigsetjmp(sigjmp_buf env, int savesigs);
 
-void longjmp(jmp_buf env, int val);
-void siglongjmp(sigjmp_buf env, int val);
+noreturn void longjmp(jmp_buf env, int val);
+noreturn void siglongjmp(sigjmp_buf env, int val);
 ```
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
@@ -101,4 +101,4 @@ POSIX.1-2008 기술 정오표 2에서 `longjmp()`와 `siglongjmp()`를 비동기
 
 ----
 
-2017-03-13
+2021-03-22

@@ -24,7 +24,7 @@ errno - 마지막 오류의 번호
 
 유효한 오류 번호들은 모두 양수 번호이다. `errno`에 등장할 수 있는 오류 번호 각각의 심볼 이름이 `<errno.h>` 헤더 파일에 정의돼 있다.
 
-POSIX.1에서 명세하는 오류 이름들은 모두 서로 다른 값을 가져야 한다. 단 예외로 `EAGAIN`과 `EWOULDBLOCK`은 같을 수도 있다.
+POSIX.1에서 명세하는 오류 이름들은 모두 서로 다른 값을 가져야 한다. 단 예외로 `EAGAIN`과 `EWOULDBLOCK`은 같을 수도 있다. 리눅스에서 이 둘은 모든 아키텍처에서 값이 같다.
 
 각 심볼 이름에 대응하는 오류 번호는 유닉스 시스템 종류에 따라 다르며 심지어 리눅스에서 아키텍처에 따라 다르기도 하다. 그래서 아래의 오류 이름 목록에는 번호 값이 포함돼 있지 않다. <tt>[[perror(3)]]</tt> 및 <tt>[[strerror(3)]]</tt> 함수를 사용하면 그 이름을 대응하는 텍스트 오류 메시지로 변환할 수 있다.
 
@@ -86,7 +86,7 @@ EACCES 13 Permission denied
 | `ECONNREFUSED` | 연결 거부됨. (POSIX.1-2001) |
 | `ECONNRESET` | 연결 리셋 됨. (POSIX.1-2001) |
 | `EDEADLK` | 자원 교착 회피했음. (POSIX.1-2001) |
-| `EDEADLOCK` | `EDEADLK`의 동의어. |
+| `EDEADLOCK` | 대부분 시스템에서 `EDEADLK`의 동의어. 일부 시스템(가령 리눅스의 MIPS, PowerPC, SPARC)에선 별도의 오류 코드 "File locking deadlock error"이다. |
 | `EDESTADDRREQ` | 목적 주소 필요함. (POSIX.1-2001) |
 | `EDOM` | 수학 인자가 함수 정의역을 벗어남. (POSIX.1, C99) |
 | `EDQUOT` | 디스크 쿼터 초과했음. (POSIX.1-2001) |
@@ -120,7 +120,7 @@ EACCES 13 Permission denied
 | `ELNRANGE` | 링크 개수가 범위를 초과. |
 | `ELOOP` | 너무 긴 심볼릭 링크 단계. (POSIX.1-2001) |
 | `EMEDIUMTYPE` | 잘못된 매체 유형. |
-| `EMFILE` | 열린 파일 너무 많음. (POSIX.1-2001) 보통 <tt>[[getrlimit(2)]]</tt>에 설명된 `RLIMIT_NOFILE` 자원 제한 초과 때문. |
+| `EMFILE` | 열린 파일 너무 많음. (POSIX.1-2001) 보통 <tt>[[getrlimit(2)]]</tt>에 설명된 `RLIMIT_NOFILE` 자원 제한 초과 때문이다. `/proc/sys/fs/nr_open`에 지정된 제한 초과 때문일 수도 있다. |
 | `EMLINK` | 링크 너무 많음. (POSIX.1-2001) |
 | `EMSGSIZE` | 메시지가 너무 긺. (POSIX.1-2001) |
 | `EMULTIHOP` | 멀티홉 시도했음. (POSIX.1-2001) |
@@ -212,6 +212,8 @@ if (somecall() == -1) {
 }
 ```
 
+POSIX 스레드 API에서는 오류 시 `errno`를 설정하지 *않는다는* 점에 유의하라. 실패 시 함수 결과로 오류 번호를 반환한다. 그 오류 번호는 다른 API에서 `errno`로 반환하는 오류 번호와 의미가 같다.
+
 일부 아주 오래된 시스템에서는 `<errno.h>`가 존재하지 않거나 `errno`를 선언해 주지 않았으며, 그래서 `errno`를 직접 선언(`extern int errno`)해야 했다. 지금은 **그렇게 해선 안 된다.** 오래 전부터 그럴 필요가 없게 됐으며 최근의 C 라이브러리 버전들에서 문제를 일으키게 된다.
 
 ## SEE ALSO
@@ -220,4 +222,4 @@ if (somecall() == -1) {
 
 ----
 
-2019-03-06
+2021-03-22

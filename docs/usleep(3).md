@@ -16,7 +16,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 :   glibc 2.12부터:
     :   `(_XOPEN_SOURCE >= 500) && ! (_POSIX_C_SOURCE >= 200809L)`<br>
         `    || /* glibc 2.19부터: */ _DEFAULT_SOURCE`<br>
-        `    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE`
+        `    || /* glibc <= 2.19: */ _BSD_SOURCE`
  
     glibc 2.12 전:
     :   `_BSD_SOURCE || _XOPEN_SOURCE >= 500`
@@ -27,7 +27,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## RETURN VALUE
 
-`usleep()` 함수는 성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류 원인을 나타내도록 `errno`를 설정한다.
+`usleep()` 함수는 성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -73,4 +73,4 @@ SUSv2 및 POSIX.1-2001에서는 `EINVAL` 오류만 기록돼 있다.
 
 ----
 
-2017-09-15
+2021-03-22

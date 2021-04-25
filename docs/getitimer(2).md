@@ -8,8 +8,8 @@ getitimer, setitimer - 간격 타이머 값 얻거나 설정하기
 #include <sys/time.h>
 
 int getitimer(int which, struct itimerval *curr_value);
-int setitimer(int which, const struct itimerval *new_value,
-              struct itimerval *old_value);
+int setitimer(int which, const struct itimerval *restrict new_value,
+              struct itimerval *restrict old_value);
 ```
 
 ## DESCRIPTION
@@ -63,7 +63,7 @@ struct timeval {
 
 ## RETURN VALUE
 
-성공 시 0을 반환한다. 오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -115,4 +115,4 @@ POSIX.1-2001에서는 `tv_usec` 값을 0에서 999999까지 범위를 벗어나�
 
 ----
 
-2017-09-15
+2021-03-22

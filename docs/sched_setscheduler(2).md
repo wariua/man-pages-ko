@@ -9,7 +9,6 @@ sched_setscheduler, sched_getscheduler - 스케줄링 정책/매개변수 설정
 
 int sched_setscheduler(pid_t pid, int policy,
                        const struct sched_param *param);
-
 int sched_getscheduler(pid_t pid);
 ```
 
@@ -58,7 +57,7 @@ struct sched_param {
 
 ## RETURN VALUE
 
-성공 시 `sched_setscheduler()`는 0을 반환한다. 성공 시 `sched_getscheduler()`는 스레드의 정책(음수 아닌 정수)을 반환한다. 오류 시 두 호출 모두 -1을 반환하며 `errno`를 적절히 설정한다.
+성공 시 `sched_setscheduler()`는 0을 반환한다. 성공 시 `sched_getscheduler()`는 스레드의 정책(음수 아닌 정수)을 반환한다. 오류 시 두 호출 모두 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -101,4 +100,4 @@ POSIX.1에서는 성공 시 `sched_setscheduler()`가 이전 스케줄링 정책
 
 ----
 
-2017-09-15
+2021-03-22

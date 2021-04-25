@@ -8,11 +8,9 @@ htonl, htons, ntohl, ntohs - 호스트 바이트 순서와 네트워크 바이�
 #include <arpa/inet.h>
 
 uint32_t htonl(uint32_t hostlong);
-
 uint16_t htons(uint16_t hostshort);
 
 uint32_t ntohl(uint32_t netlong);
-
 uint16_t ntohs(uint16_t netshort);
 ```
 
@@ -48,4 +46,4 @@ POSIX.1-2001, POSIX.1-2008.
 
 ----
 
-2017-09-15
+2021-03-22

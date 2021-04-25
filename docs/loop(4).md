@@ -36,17 +36,18 @@ $ sudo mount /dev/loop4 /myloopdev
 :   `ioctl(2)` (세 번째) 인자를 이용해 루프 장치의 상태를 설정한다. 그 인자는 `loop_info` 구조체에 대한 포인터인데 `<linux/loop.h>`에 다음처럼 구조체가 정의돼 있다.
 
         struct loop_info {
-            int           lo_number;            /* ioctl r/o */
-            dev_t         lo_device;            /* ioctl r/o */
-            unsigned long lo_inode;             /* ioctl r/o */
-            dev_t         lo_rdevice;           /* ioctl r/o */
+            int           lo_number;      /* ioctl r/o */
+            dev_t         lo_device;      /* ioctl r/o */
+            unsigned long lo_inode;       /* ioctl r/o */
+            dev_t         lo_rdevice;     /* ioctl r/o */
             int           lo_offset;
             int           lo_encrypt_type;
             int           lo_encrypt_key_size;  /* ioctl w/o */
-            int           lo_flags;             /* ioctl r/o */
+            int           lo_flags;       /* ioctl r/w
+                                             (리눅스 2.6.25 전에는 r/o) */
             char          lo_name[LO_NAME_SIZE];
             unsigned char lo_encrypt_key[LO_KEY_SIZE];
-                                                /* ioctl w/o */
+                                          /* ioctl w/o */
             unsigned long lo_init[2];
             char          reserved[4];
         };
@@ -64,6 +65,11 @@ $ sudo mount /dev/loop4 /myloopdev
     `LO_FLAGS_PARTSCAN` (리눅스 3.2부터)
     :   자동 파티션 탐색을 허용한다.
 
+    `LO_FLAGS_DIRECT_IO` (리눅스 4.10부터)
+    :   직접 I/O 모드를 써서 기반 파일에 접근한다.
+
+    `LOOPS_SET_STATUS`로 변경할 수 있는 `lo_flags`는 `LO_FLAGS_AUTOCLEAR`와 `LO_FLAGS_PARTSCAN`뿐이다.
+
 `LOOP_GET_STATUS`
 :   루프 장치의 상태를 얻는다. `ioctl(2)` (세 번째) 인자가 `struct loop_info`에 대한 포인터여야 한다.
 
@@ -73,21 +79,46 @@ $ sudo mount /dev/loop4 /myloopdev
 `LOOP_SET_CAPACITY` (리눅스 2.6.30부터)
 :   동작 중인 루프 장치의 크기를 바꾼다. 기반 저장소의 크기를 바꾼 다음에 이 동작을 써서 루프 드라이버가 새 크기를 알아내도록 할 수 있다. 이 동작에는 인자가 없다.
 
+`LOOP_SET_DIRECT_IO` (리눅스 4.10부터)
+:   루프 장치에 직접 I/O 모드를 설정해서 기반 파일을 열 때 그 모드를 쓸 수 있게 한다. `ioctl(2)` (세 번째) 인자가 unsigned long 값이다. 0 아닌 값이 직접 I/O 모드를 나타낸다.
+
+`LOOP_SET_BLOCK_SIZE` (리눅스 4.14부터)
+:   루프 장치의 블록 크기를 설정한다. `ioctl(3)` (세 번째) 인자가 unsigned long 값이다. 이 값은 [512,pagesize] 범위의 2의 거듭제곱이어야 한다. 아니면 `EINVAL` 오류가 나온다.
+
+`LOOP_CONFIGURE` (리눅스 5.8부터)
+:   `ioctl(2)` (세 번째) 인자를 써서 모든 루프 장치 매개변수를 한꺼번에 설정한다. 그 인자는 `loop_config` 구조체에 대한 포인터인데 `<linux/loop.h>`에 다음처럼 구조체가 정의돼 있다.
+
+        struct loop_config {
+            __u32               fd;
+            __u32               block_size;
+            struct loop_info64  info;
+            __u64               __reserved[8];
+        };
+
+    `LOOP_SET_STATUS`로 할 수 있는 것들에 더해서 `LOOP_CONFIGURE`를 써서 다음을 할 수 있다.
+
+    * `loop_config.block_size` 설정해서 올바른 블록 크기 즉시 설정하기.
+
+    * `loop_config.info.lo_flags`에 `LO_FLAGS_DIRECT_IO` 설정해서 직접 I/O 모드 명확히 요청하기.
+
+    * `loop_config.info.lo_flags`에 `LO_FLAGS_READ_ONLY` 설정해서 읽기 전용 모드 명확히 요청하기.
+
 리눅스 2.6부터 두 가지 새로운 `ioctl(2)` 동작이 있다.
 
 `LOOP_SET_STATUS64`, `LOOP_GET_STATUS64`
 :   위에서 설명한 `LOOP_SET_STATUS` 및 `LOOP_GET_STATUS`와 유사하되 필드가 몇 개 더 있고 일부 필드가 더 큰 `loop_info64` 구조체를 사용한다.
 
         struct loop_info64 {
-            uint64_t lo_device;                   /* ioctl r/o */
-            uint64_t lo_inode;                    /* ioctl r/o */
-            uint64_t lo_rdevice;                  /* ioctl r/o */
+            uint64_t lo_device;           /* ioctl r/o */
+            uint64_t lo_inode;            /* ioctl r/o */
+            uint64_t lo_rdevice;          /* ioctl r/o */
             uint64_t lo_offset;
-            uint64_t lo_sizelimit;/* 바이트 단위, 0 == 가능한 최대 */
-            uint32_t lo_number;                   /* ioctl r/o */
+            uint64_t lo_sizelimit;  /* 바이트 단위, 0 == 가능한 최대 */
+            uint32_t lo_number;           /* ioctl r/o */
             uint32_t lo_encrypt_type;
-            uint32_t lo_encrypt_key_size;         /* ioctl w/o */
-            uint32_t lo_flags;                    /* ioctl r/o */
+            uint32_t lo_encrypt_key_size; /* ioctl w/o */
+            uint32_t lo_flags;            /* ioctl r/w
+                                             (리눅스 2.6.25 전에는 r/o) */
             uint8_t  lo_file_name[LO_NAME_SIZE];
             uint8_t  lo_crypt_name[LO_NAME_SIZE];
             uint8_t  lo_encrypt_key[LO_KEY_SIZE]; /* ioctl w/o */
@@ -112,7 +143,7 @@ $ sudo mount /dev/loop4 /myloopdev
 `/dev/loop*`
 :   루프 블록 특수 장치 파일.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 프로그램에서는 `/dev/loop-control` 장치를 사용해 유휴 루프 장치를 찾아내고, 그 루프 장치를 열고, 장치의 기반 저장소로 사용할 파일을 열고, 루프 장치를 기반 저장소에 연계한다. 다음 셸 세션이 프로그램 사용 방식을 보여 준다.
 
@@ -182,4 +213,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-03-06
+2021-03-22

@@ -14,6 +14,8 @@ int io_destroy(aio_context_t ctx_id);
 
 ## DESCRIPTION
 
+*주의*: 이 페이지에선 리눅스 시스템 호출 인터페이스를 설명한다. `libaio`에서 제공하는 래퍼 함수에서는 `ctx_id` 인자에 다른 타입을 쓴다. NOTES 참고.
+
 `io_destroy()` 시스템 호출은 `ctx_id`에 대한 미처리 비동기 I/O 동작들을 모두 취소 시도하고, 취소할 수 없는 동작들이 모두 완료될 때까지 블록 하고, `ctx_id`를 파기한다.
 
 ## RETURN VALUE
@@ -51,4 +53,4 @@ glibc에서 이 시스템 호출의 래퍼를 제공하지 않는다. <tt>[[sysc
 
 ----
 
-2017-09-15
+2021-03-22

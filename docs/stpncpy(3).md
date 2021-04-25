@@ -7,7 +7,7 @@ stpncpy - 고정 크기 문자열을 복사하고 그 끝에 대한 포인터 �
 ```c
 #include <string.h>
 
-char *stpncpy(char *dest, const char *src, size_t n);
+char *stpncpy(char *restrict dest, const char *restrict src, size_t n);
 ```
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
@@ -49,4 +49,4 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ----
 
-2019-03-06
+2021-03-22

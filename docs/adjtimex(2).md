@@ -1,6 +1,6 @@
 ## NAME
 
-adjtimex, ntp_adjtime - 커널 클럭 조정
+adjtimex, clock_adjtime, ntp_adjtime - 커널 클럭 조정
 
 ## SYNOPSIS
 
@@ -8,6 +8,8 @@ adjtimex, ntp_adjtime - 커널 클럭 조정
 #include <sys/timex.h>
 
 int adjtimex(struct timex *buf);
+
+int clock_adjtime(clockid_t clk_id, struct timex *buf);
 
 int ntp_adjtime(struct timex *buf);
 ```
@@ -82,6 +84,13 @@ struct timex {
 `ADJ_SETOFFSET` (리눅스 2.6.39부터)
 :   현재 시간에 `buf.time` 더하기. `buf.status`에 `ADJ_NANO` 플래그가 포함돼 있으면 `buf.time.tv_usec`을 나노초 값으로 해석한다. 아니면 마이크로초로 해석한다.
 
+    `buf.time`의 값은 그 두 필드의 합이되, `buf.time.tv_usec` 필드가 음수가 아니어야 한다. 다음은 나노초 해상도로 `timeval`을 정규화 하는 방법을 보여 주는 예시다.
+
+        while (buf.time.tv_usec < 0) {
+            buf.time.tv_sec  -= 1;
+            buf.time.tv_usec += 1000000000;
+        }
+
 `ADJ_MICRO` (리눅스 2.6.26부터)
 :   마이크로초 정밀도 선택.
 
@@ -101,7 +110,7 @@ struct timex {
 또는 `modes`에 다음 (여러 비트로 된 마스크) 값들 중 하나를 지정할 수도 있으며, 그 경우 `modes`에 다른 비트들은 지정하지 말아야 한다.
 
 `ADJ_OFFSET_SINGLESHOT`
-:   구식 `adjtime()` 방식: `buf.offset`에 마이크로초 단위로 지정된 조정 값에 따라 시간을 (점진적으로) 조정한다.
+:   구식 <tt>[[adjtime(3)]]</tt> 방식: `buf.offset`에 마이크로초 단위로 지정된 조정 값에 따라 시간을 (점진적으로) 조정한다.
 
 `ADJ_OFFSET_SS_READ` (리눅스 2.6.28부터 동작)
 :   앞선 `ADJ_OFFSET_SINGLESHOT` 동작 후에 남은 조정 시간 양을 (`buf.offset`으로) 반환한다. 이 기능은 리눅스 2.6.24에서 추가되었는데 리눅스 2.6.28까지는 올바로 동작하지 않았다.
@@ -162,9 +171,13 @@ struct timex {
 
 읽기 전용인 `status` 비트를 설정하려고 시도하면 조용히 무시한다.
 
+### `clock_adjtime()`
+
+(리눅스 2.6.39에서 추가된) `clock_adjtime()` 시스템 호출은 `adjtimex()`처럼 동작하되, 동작을 수행할 클럭을 지정하는 `clk_id` 인자를 추가로 받는다.
+
 ### `ntp_adjtime()`
 
-(NTP "Kernel Application Program API", 즉 KAPI에 기술돼 있는) `ntp_adjtime()` 라이브러리 함수는 `adjtimex()`와 같은 일을 수행할 수 있는 더 이식성 좋은 인터페이스이다. 다음 사항들을 제외하면 `adjtime()`과 동일하다.
+(NTP "Kernel Application Program API", 즉 KAPI에 기술돼 있는) `ntp_adjtime()` 라이브러리 함수는 `adjtimex()`와 같은 일을 수행할 수 있는 더 이식성 좋은 인터페이스이다. 다음 사항들을 제외하면 `adjtimex()`와 동일하다.
 
 * `modes`에 쓰는 상수들이 "ADJ_" 대신 "MOD_"로 시작하고 뒷부분이 같다. (즉 `MOD_OFFSET`, `MOD_FREQUENCY` 등이다.) 단 아래 항목들은 예외이다.
 
@@ -208,7 +221,7 @@ struct timex {
 
 참고로 리눅스 3.4부터는 호출이 비동기적으로 동작하므로 일반적으로 반환 값이 그 호출 자체로 인한 상태 변화를 반영하지 않게 된다.
 
-실패 시 이 호출들은 -1을 반환하고 `errno`를 설정한다.
+실패 시 이 호출들은 -1을 반환하고 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -225,7 +238,16 @@ struct timex {
 :   `buf.status`를 위에 나열된 것 외의 값으로 설정하려 했다.
 
 `EINVAL`
+:   `clock_adjtime()`에 준 `clk_id`가 유효하지 않다. 시스템 V 방식의 하드코딩 된 양수 클럭 ID가 범위를 벗어났거나, 동적인 `clk_id`가 유효한 클럭 객체 인스턴스를 가리키고 있지 않다. 동적 클럭에 대한 설명은 <tt>[[clock_gettime(2)]]</tt>을 보라.
+
+`EINVAL`
 :   `buf.tick`을 `900000/HZ`에서 `1100000/HZ`까지 범위 밖의 값으로 설정하려 했다. 여기서 `HZ`는 시스템 타이머 인터럽트 빈도이다.
+
+`ENODEV`
+:   동적 `clk_id`가 나타내는 (예컨대 USB 같은) 핫플러그 장치가 문자 장치가 열린 후에 사라졌다. 동적 클럭에 대한 설명은 <tt>[[clock_gettime(2)]]</tt>을 보라.
+
+`EOPNOTSUPP`
+:   지정한 `clk_id`가 조정을 지원하지 않는다.
 
 `EPERM`
 :   `buf.modes`가 0이나 `ADJ_OFFSET_SS_READ`가 아니며 호출자에게 충분한 특권이 없다. 리눅스에서는 `CAP_SYS_TIME` 역능이 필요하다.
@@ -242,7 +264,7 @@ struct timex {
 
 이 인터페이스들 중 어느 것도 POSIX.1에 기술돼 있지 않다.
 
-`adjtimex()`는 리눅스 전용이므로 이식성이 있어야 하는 프로그램에서는 사용하지 말아야 한다.
+`adjtimex()`와 `clock_adjtime()`은 리눅스 전용이므로 이식성이 있어야 하는 프로그램에서는 사용하지 말아야 한다.
 
 NTP 데몬에게 적당한 API는 `ntp_adjtime()`이다.
 
@@ -254,10 +276,10 @@ NTP 데몬에게 적당한 API는 `ntp_adjtime()`이다.
 
 ## SEE ALSO
 
-<tt>[[settimeofday(2)]]</tt>, <tt>[[adjtime(3)]]</tt>, <tt>[[ntp_gettime(3)]]</tt>, <tt>[[capabilities(7)]]</tt>, <tt>[[time(7)]]</tt>, `adjtimex(8)`, `hwclock(8)`
+<tt>[[clock_gettime(2)]]</tt>, <tt>[[clock_settime(2)]]</tt>, <tt>[[settimeofday(2)]]</tt>, <tt>[[adjtime(3)]]</tt>, <tt>[[ntp_gettime(3)]]</tt>, <tt>[[capabilities(7)]]</tt>, <tt>[[time(7)]]</tt>, `adjtimex(8)`, `hwclock(8)`
 
 NTP "Kernel Application Program Interface" (<http://www.slac.stanford.edu/comp/unix/package/rtems/src/ssrlApps/ntpNanoclock/api.htm>)
 
 ----
 
-2019-03-06
+2021-03-22

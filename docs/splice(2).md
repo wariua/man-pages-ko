@@ -8,8 +8,8 @@ splice - 파이프에 데이터 이어 붙이기
 #define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
 #include <fcntl.h>
 
-ssize_t splice(int fd_in, loff_t *off_in, int fd_out,
-               loff_t *off_out, size_t len, unsigned int flags);
+ssize_t splice(int fd_in, off64_t *off_in, int fd_out,
+               off64_t *off_out, size_t len, unsigned int flags);
 ```
 
 ## DESCRIPTION
@@ -102,7 +102,7 @@ ssize_t splice(int fd_in, loff_t *off_in, int fd_out,
 
 리눅스 2.6.30 및 이전에서는 `fd_in`과 `fd_out` 중 한쪽만 파이프여야 했다. 리눅스 2.6.31부터 두 인자 모두 파이프를 가리킬 수 있다.
 
-## EXAMPLE
+## EXAMPLES
 
 <tt>[[tee(2)]]</tt> 참고.
 
@@ -112,4 +112,4 @@ ssize_t splice(int fd_in, loff_t *off_in, int fd_out,
 
 ----
 
-2019-05-09
+2021-03-22

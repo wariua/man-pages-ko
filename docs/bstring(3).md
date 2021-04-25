@@ -41,8 +41,8 @@ void *memset(void *s, int c, size_t n);
 
 ## SEE ALSO
 
-`bcmp(3)`, `bcopy(3)`, <tt>[[bzero(3)]]</tt>, <tt>[[memccpy(3)]]</tt>, <tt>[[memchr(3)]]</tt>, `memcmp(3)`, `memcpy(3)`, <tt>[[memfrob(3)]]</tt>, <tt>[[memmem(3)]]</tt>, `memmove(3)`, `memset(3)`
+`bcmp(3)`, `bcopy(3)`, <tt>[[bzero(3)]]</tt>, <tt>[[memccpy(3)]]</tt>, <tt>[[memchr(3)]]</tt>, `memcmp(3)`, `memcpy(3)`, <tt>[[memfrob(3)]]</tt>, <tt>[[memmem(3)]]</tt>, `memmove(3)`, `memset(3)`, <tt>[[string(3)]]</tt>
 
 ----
 
-2019-03-06
+2021-03-22

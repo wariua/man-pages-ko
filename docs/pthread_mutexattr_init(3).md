@@ -37,8 +37,8 @@ POSIX.1-2001, POSIX.1-2008.
 
 ## SEE ALSO
 
-<tt>[[pthread_mutex_init(3)]]</tt>, <tt>[[pthread_mutexattr_getrobust(3)]]</tt>, <tt>[[pthread_mutexattr_getpshared(3)]]</tt>, <tt>[[pthreads(7)]]</tt>
+<tt>[[pthread_mutex_init(3)]]</tt>, <tt>[[pthread_mutexattr_getpshared(3)]]</tt>, <tt>[[pthread_mutexattr_getrobust(3)]]</tt>, <tt>[[pthreads(7)]]</tt>
 
 ----
 
-2017-08-20
+2019-10-10

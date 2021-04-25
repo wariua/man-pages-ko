@@ -13,7 +13,7 @@ int getpagesize(void);
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
 `getpagesize()`:
-:   glibc 2.19부터:
+:   glibc 2.20부터:
     :   `_DEFAULT_SOURCE || ! (_POSIX_C_SOURCE >= 200112L)`
 
     glibc 2.12부터 2.19까지:
@@ -49,4 +49,4 @@ long sz = sysconf(_SC_PAGESIZE);
 
 ----
 
-2017-09-15
+2021-03-22

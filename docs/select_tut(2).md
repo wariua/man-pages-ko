@@ -1,80 +1,22 @@
 ## NAME
 
-select, pselect, FD_CLR, FD_ISSET, FD_SET, FD_ZERO - 동기적 I/O 다중화
+select, pselect - 동기적 I/O 다중화
 
 ## SYNOPSIS
 
-```c
-/* POSIX.1-2001, POSIX.1-2008에 따르면 */
-#include <sys/select.h>
-
-/* 이전 표준들에 따르면 */
-#include <sys/time.h>
-#include <sys/types.h>
-#include <unistd.h>
-
-int select(int nfds, fd_set *readfds, fd_set *writefds,
-           fd_set *exceptfds, struct timeval *utimeout);
-
-void FD_CLR(int fd, fd_set *set);
-int  FD_ISSET(int fd, fd_set *set);
-void FD_SET(int fd, fd_set *set);
-void FD_ZERO(fd_set *set);
-
-#include <sys/select.h>
-
-int pselect(int nfds, fd_set *readfds, fd_set *writefds,
-            fd_set *exceptfds, const struct timespec *ntimeout,
-            const sigset_t *sigmask);
-```
-
-glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
-
-`pselect()`:
-:   `_POSIX_C_SOURCE >= 200112L`
+<tt>[[select(2)]]</tt>를 보라.
 
 ## DESCRIPTION
 
-`select()`를 (또는 `pselect()`를) 이용해 여러 파일 디스크립터를 효율적으로 감시할 수 있다. 그 중 일부가 "준비" 상태가 됐는지, 즉 I/O가 가능해졌거나 그 중 일부에서 "예외적인 상황"이 발생했는지 알아볼 수 있다.
+`select()` 및 `pselect()` 시스템 호출을 이용해 여러 파일 디스크립터를 효율적으로 감시할 수 있다. 그 중 일부가 "준비" 상태가 됐는지, 즉 I/O가 가능해졌거나 그 중 일부에서 "예외적인 상황"이 발생했는지 알아볼 수 있다.
 
-주된 인자는 세 가지 파일 디스크립터 "집합"인 `readfds`, `writefds`, `exceptfds`이다. 각 집합은 `fd_set` 타입으로 선언하며 매크로 `FD_CLR()`, `FD_ISSET()`, `FD_SET()`, `FD_ZERO()`로 그 내용을 조작할 수 있다. 새로 집합을 선언하면 먼저 `FD_ZERO()`로 비우는 게 좋다. `select()`에서 아래에 기술하는 규칙에 따라 집합의 내용을 변경하며, `select()` 호출 후에 `FD_ISSET()` 매크로를 이용해 집합에 파일 디스크립터가 계속 있는지 확인할 수 있다. 지정한 파일 디스크립터가 집합 안에 있으면 `FD_ISSET()`이 0 아닌 값을 반환하고 없으면 0을 반환한다. `FD_CLR()`는 집합에서 파일 디스크립터를 뺀다.
-
-### 인자
-
-`readfds`
-:   파일 디스크립터들 중 하나라도 읽기 가능한 데이터가 있는지 보기 위해 이 집합을 감시한다. `select()` 반환 후에 `readfds`에는 즉시 읽기가 가능하지 않은 파일 디스크립터들이 모두 지워져 있게 된다.
-
-`writefds`
-:   파일 디스크립터들 중 하나라도 데이터를 쓸 공간이 있는지 보기 위해 이 집합을 감시한다. `select()` 반환 후에 `writefds`에는 즉시 쓰기가 가능하지 않은 파일 디스크립터들이 모두 지워져 있게 된다.
-
-`exceptfds`
-:   "예외적 상황"을 확인하기 위해 이 집합을 감시한다. 실무에서 유일한 그런 예외적 상황은 꽤 흔한데, 바로 TCP 소켓에서 *대역외*(OOB) 데이터를 읽을 수 있는 경우이다. OOB 데이터에 대한 자세한 내용은 <tt>[[recv(2)]]</tt>, <tt>[[send(2)]]</tt>, <tt>[[tcp(7)]]</tt>를 보라. (<tt>[[select(2)]]</tt>에서 예외 상황이라고 나타내는 덜 흔한 또 다른 경우는 패킷 모드 유사 터미널에서 발생한다. `ioctl_tty(2)` 참고.) `select()` 반환 후에 `exceptfds`에는 예외 상황이 발생하지 않은 파일 디스크립터들이 모두 지워져 있게 된다.
-
-`nfds`
-:   집합들에 있는 파일 디스크립터 중 가장 큰 값에 1을 더한 정수이다. 달리 말하면 집합 각각에 파일 디스크립터를 추가하면서 그 중 최대인 정수를 계산한 다음 1만큼 올린 값을 `nfds`로 전달하면 된다.
-
-`utimeout`
-:   뭔가 특별한 일이 일어나지 않더라도 `select()`가 반환 전에 최대 이 시간만큼 대기할 수 있다. 이 값을 NULL로 전달하면 파일 디스크립터가 준비 상태가 되기를 기다리며 `select()`가 무한정 블록 한다. `utimeout`을 0초로 설정할 수도 있는데, 그러면 `select()`가 호출 시점의 파일 디스크립터 준비 상태 정보를 가지고 즉시 반환한다. `struct timeval` 구조체는 다음과 같이 정의돼 있다.
-
-        struct timeval {
-            time_t tv_sec;    /* 초 */
-            long tv_usec;     /* 마이크로초 */
-        };
-
-`ntimeout`
-:   `pselect()`의 이 인자는 `utimeout`과 의미가 같되 다음과 같이 `struct timespec`의 정밀도가 나노초이다.
-
-        struct timespec {
-            long tv_sec;    /* 초 */
-            long tv_nsec;   /* 나노초 */
-        };
-
-`sigmask`
-:   이 인자는 호출자가 `pselect()` 호출 내에 블록 되어 있는 동안 커널에서 차단을 풀어야 하는 (즉 호출 스레드의 시그널 마스크에서 빼야 하는) 시그널들의 집합을 담는다. (<tt>[[sigaddset(3)]]</tt> 및 <tt>[[sigprocmask(2)]]</tt> 참고.) NULL일 수 있으며, 그때는 함수에 들어가고 나올 때 시그널 마스크를 변경하지 않는다. 이 경우 `pselect()`는 그냥 `select()`처럼 동작하게 된다.
+이 페이지는 이 시스템 호출들의 이용에 대한 배경 정보와 따라하기를 제공한다. `pselect()`와 `pselect()`의 인자 및 동작에 대한 자세한 내용은 <tt>[[select(2)]]</tt>를 보라.
 
 ### 시그널과 데이터 이벤트 병행하기
 
-파일 디스크립터가 I/O 준비가 되는 것뿐 아니라 시그널도 함께 기다릴 때 `pselect()`가 유용하다. 시그널을 받는 프로그램들은 보통 시그널 핸들러에서 전역 플래그에 표시만 해 둔다. 그 전역 플래그는 프로그램 메인 루프에서 이벤트를 처리해야 한다는 표시이다. 시그널이 전달되면 `select()` (또는 `pselect()`) 호출이 `errno`에 `EINTR`를 설정하고 반환하게 된다. 이렇게 동작하지 않는다면 `select()`가 무한정 블록 할 수도 있으므로 이 동작 방식은 프로그램 메인 루프에서 시그널을 처리하는 데 꼭 필요하다. 이제 메인 루프 내의 어딘가에 조건문이 있어서 그 전역 플래그를 확인할 것이다. 그런데 그 조건문 다음에, 그러면서 `select()` 호출 전에 시그널이 도착하면 어떻게 될까? 답은, 처리를 기다리는 이벤트가 분명 있는데도 `select()`가 무한정 블록 하게 된다는 것이다. 이 경쟁 조건을 해결해 주는 것이 `pselect()` 호출이다. 이 호출을 사용하면 `pselect()` 호출 내에서만 수신할 시그널들을 그 시그널 마스크에 설정할 수 있다. 예를 들어 문제의 이벤트가 자식 프로세스 종료라고 하자. 일단 메인 루프 시작 전에 <tt>[[sigprocmask(2)]]</tt>를 이용해 `SIGCHLD`를 막아 둔다. 그리고 빈 시그널 마스크를 사용하면 `pselect()`에서 `SIGCHLD`를 활성화한다. 다음과 같은 프로그램이 될 것이다.
+파일 디스크립터가 I/O 준비가 되는 것뿐 아니라 시그널도 함께 기다릴 때 `pselect()`가 유용하다. 시그널을 받는 프로그램들은 보통 시그널 핸들러에서 전역 플래그에 표시만 해 둔다. 그 전역 플래그는 프로그램 메인 루프에서 이벤트를 처리해야 한다는 표시이다. 시그널이 전달되면 `select()` (또는 `pselect()`) 호출이 `errno`에 `EINTR`를 설정하고 반환하게 된다. 이렇게 동작하지 않는다면 `select()`가 무한정 블록 할 수도 있으므로 이 동작 방식은 프로그램 메인 루프에서 시그널을 처리하는 데 꼭 필요하다.
+
+이제 메인 루프 내의 어딘가에 조건문이 있어서 그 전역 플래그를 확인할 것이다. 그런데 그 조건문 다음에, 그러면서 `select()` 호출 전에 시그널이 도착하면 어떻게 될까? 답은, 처리를 기다리는 이벤트가 분명 있는데도 `select()`가 무한정 블록 하게 된다는 것이다. 이 경쟁 조건을 해결해 주는 것이 `pselect()` 호출이다. 이 호출을 사용하면 `pselect()` 호출 내에서만 수신할 시그널들을 그 시그널 마스크에 설정할 수 있다. 예를 들어 문제의 이벤트가 자식 프로세스 종료라고 하자. 일단 메인 루프 시작 전에 <tt>[[sigprocmask(2)]]</tt>를 이용해 `SIGCHLD`를 막아 둔다. 그리고 빈 시그널 마스크를 사용하면 `pselect()`에서 `SIGCHLD`를 활성화한다. 다음과 같은 프로그램이 될 것이다.
 
 ```c
 static volatile sig_atomic_t got_SIGCHLD = 0;
@@ -162,26 +104,9 @@ main(int argc, char *argv[])
 
 11. `select()`에서 파일 디스크립터 집합들을 변경하므로 루프 안에서 호출을 하는 경우라면 호출 전에 매번 집합들을 다시 설정해야 한다.
 
-### usleep 에뮬레이션
-
-<tt>[[usleep(3)]]</tt> 함수가 없는 시스템에서는 다음처럼 파일 디스크립터 없이 정해진 타임아웃으로 `select()`를 호출할 수 있다.
-
-```c
-struct timeval tv;
-tv.tv_sec = 0;
-tv.tv_usec = 200000;  /* 0.2 초 */
-select(0, NULL, NULL, NULL, &tv);
-```
-
-다만 유닉스 시스템들에서만 동작이 보장된다.
-
 ## RETURN VALUE
 
-성공 시 `select()`는 파일 디스크립터 집합들에 아직 있는 파일 디스크립터들의 총개수를 반환한다.
-
-`select()`가 타임아웃 되면 반환 값이 0이 된다. 파일 디스크립터 집합이 모두 비어 있을 것이다. (하지만 어떤 시스템에서는 그렇지 않을 수도 있다.)
-
-반환 값 -1은 오류를 나타내며 `errno`가 적절히 설정된다. 오류 경우에 반환된 집합들의 내용과 `struct timeout`의 내용은 규정돼 있지 않으므로 사용하지 말아야 한다. 다만 `pselect()`에서는 절대 `ntimeout`을 변경하지 않는다.
+<tt>[[select(2)]]</tt>를 보라.
 
 ## NOTES
 
@@ -471,4 +396,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-03-06
+2021-03-22

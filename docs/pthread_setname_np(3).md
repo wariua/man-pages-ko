@@ -7,9 +7,9 @@ pthread_setname_np, pthread_getname_np - 스레드 이름 설정하기/얻기
 ```c
 #define _GNU_SOURCE             /* feature_test_macros(7) 참고 */
 #include <pthread.h>
+
 int pthread_setname_np(pthread_t thread, const char *name);
-int pthread_getname_np(pthread_t thread,
-                       char *name, size_t len);
+int pthread_getname_np(pthread_t thread, char *name, size_t len);
 ```
 
 `-pthread`로 컴파일 및 링크.
@@ -58,7 +58,7 @@ glibc 버전 2.12에 이 함수들이 처음 등장했다.
 
 내부적으로 `pthread_setname_np()`는 `/proc` 파일 시스템 내의 스레드별 `comm` 파일인 `/proc/self/task/[tid]/comm`에 쓰기를 한다. `pthread_getname_np()`는 같은 위치에서 이름을 가져온다.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 프로그램이 `pthread_setname_np()`와 `pthread_getname_np()` 사용 방식을 보여 준다.
 
@@ -94,8 +94,8 @@ THREADFOO
 #define NAMELEN 16
 
 #define errExitEN(en, msg) \
-            do { errno = en; perror(msg); exit(EXIT_FAILURE); \
-        } while (0)
+                        do { errno = en; perror(msg); \
+                             exit(EXIT_FAILURE); } while (0)
 
 static void *
 threadfunc(void *parm)
@@ -147,4 +147,4 @@ main(int argc, char **argv)
 
 ----
 
-2019-03-06
+2021-03-22

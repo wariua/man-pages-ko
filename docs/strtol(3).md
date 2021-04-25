@@ -7,28 +7,29 @@ strtol, strtoll, strtoq - 문자열을 long 정수로 변환하기
 ```c
 #include <stdlib.h>
 
-long int strtol(const char *nptr, char **endptr, int base);
-
-long long int strtoll(const char *nptr, char **endptr, int base);
+long strtol(const char *restrict nptr,
+            char **restrict endptr, int base);
+long long strtoll(const char *restrict nptr,
+            char **restrit endptr, int base);
 ```
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
 `strtoll()`:
 :   `_ISOC99_SOURCE`<br>
-    `    || /* glibc 버전 <= 2.19: */ _SVID_SOURCE || _BSD_SOURCE`
+    `    || /* glibc <= 2.19: */ _SVID_SOURCE || _BSD_SOURCE`
 
 ## DESCRIPTION
 
-`strtol()` 함수는 `nptr`에 있는 문자열의 처음 부분을 지정한 `base`에 따라 `long int` 값으로 변환한다. 기수는 2와 36 사이이거나 특수한 값 0이어야 한다.
+`strtol()` 함수는 `nptr`에 있는 문자열의 처음 부분을 지정한 `base`에 따라 `long` 정수 값으로 변환한다. 기수는 2와 36 사이이거나 특수한 값 0이어야 한다.
 
 문자열이 임의 개수의 공백(`isspace(3)`으로 판단)으로 시작할 수 있으며 그 다음에 선택적으로 '+' 내지 '-' 부호 한 개가 올 수 있다. `base`가 0이나 16이면 문자열에서 다음에 "0x" 내지 "0X" 접두부가 있을 수 있으며, 그러면 수를 16진수로 읽어 들인다. 그렇지 않고 다음 문자가 '0'이면 `base` 0을 8로 (8진수로) 받아들이며, 아니면 10으로 (10진수로) 받아들인다.
 
-문자열 나머지를 명백한 방식으로 `long int` 값으로 변환하며 해당 기수에서 유효 숫자가 아닌 첫 번째 문자에서 멈춘다. (기수가 10보다 큰 경우 대소문자 글자 'A'가 10을, 'B'가 11을 나타내며, 그런 식으로 'Z'가 35를 나타낸다.)
+문자열 나머지를 명백한 방식으로 `long` 값으로 변환하며 해당 기수에서 유효 숫자가 아닌 첫 번째 문자에서 멈춘다. (기수가 10보다 큰 경우 대소문자 글자 'A'가 10을, 'B'가 11을 나타내며, 그런 식으로 'Z'가 35를 나타낸다.)
 
 `endptr`이 NULL이 아니면 `strtol()`은 첫 번째 비유효 문자의 주소를 `*endptr`에 저장한다. 숫자가 전혀 없었으면 `strtol()`은 `nptr`의 원래 값을 `*endptr`에 저장한다. (그리고 0을 반환한다.) 특히 `*nptr`이 '\0'이 아닌데 반환 시 `**endptr`이 '\0'이면 문자열 전체가 유효한 것이다.
 
-`strtoll()` 함수는 `strtol()` 함수처럼 동작하되 `long long int` 값을 반환한다.
+`strtoll()` 함수는 `strtol()` 함수처럼 동작하되 `long long` 정수 값을 반환한다.
 
 ## RETURN VALUE
 
@@ -72,7 +73,7 @@ quad_t strtoq(const char *nptr, char **endptr, int base);
 
 현재 아키텍처의 워드 크기에 따라 `strtoll()`이나 `strtol()`과 동등할 수 있다.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 프로그램은 `strtol()` 사용 방식을 보여 준다. 첫 번째 명령행 인자는 `strtol()`이 수를 파싱 할 문자열을 지정한다. 두 번째 (선택적) 인자는 변환에 사용할 기수를 지정한다. (이 인자를 수로 변환하는 것은 <tt>[[atoi(3)]]</tt> 함수인데, 오류 검사를 하지 않으며 `strtol()`보다 인터페이스가 단순하다.) 다음은 이 프로그램이 내놓는 몇 가지 예시 결과들이다.
 
@@ -83,7 +84,7 @@ $ ./a.out '    123'
 strtol() returned 123
 $ ./a.out 123abc
 strtol() returned 123
-Further characters after number: abc
+Further characters after number: "abc"
 $ ./a.out 123abc 55
 strtol: Invalid argument
 $ ./a.out ''
@@ -113,15 +114,14 @@ main(int argc, char *argv[])
     }
 
     str = argv[1];
-    base = (argc > 2) ? atoi(argv[2]) : 10;
+    base = (argc > 2) ? atoi(argv[2]) : 0;
 
     errno = 0;    /* 호출 후 성공/실패 구별을 위해 */
     val = strtol(str, &endptr, base);
 
-    /* 가능한 여러 오류들 확인 */
+    /* 가능한 여러 오류들 확인하기. */
 
-    if ((errno == ERANGE && (val == LONG_MAX || val == LONG_MIN))
-            || (errno != 0 && val == 0)) {
+    if (errno != 0) {
         perror("strtol");
         exit(EXIT_FAILURE);
     }
@@ -131,12 +131,12 @@ main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    /* 여기까지 왔다면 strtol()에서 수를 성공적으로 파싱 한 것임 */
+    /* 여기까지 왔다면 strtol()에서 수를 성공적으로 파싱 한 것이다. */
 
     printf("strtol() returned %ld\n", val);
 
     if (*endptr != '\0')        /* 반드시 오류는 아님... */
-        printf("Further characters after number: %s\n", endptr);
+        printf("Further characters after number: \"%s\"\n", endptr);
 
     exit(EXIT_SUCCESS);
 }
@@ -144,8 +144,8 @@ main(int argc, char *argv[])
 
 ## SEE ALSO
 
-<tt>[[atof(3)]]</tt>, <tt>[[atoi(3)]]</tt>, <tt>[[atol(3)]]</tt>, <tt>[[strtod(3)]]</tt>, <tt>[[strtoul(3)]]</tt>, <tt>[[strtoimax(3)]]</tt>
+<tt>[[atof(3)]]</tt>, <tt>[[atoi(3)]]</tt>, <tt>[[atol(3)]]</tt>, <tt>[[strtod(3)]]</tt>, <tt>[[strtoimax(3)]]</tt>, <tt>[[strtoul(3)]]</tt>
 
 ----
 
-2019-03-06
+2021-03-22

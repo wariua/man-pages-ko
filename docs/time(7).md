@@ -22,6 +22,10 @@ time - 시간 및 타이머 소개
 
 <tt>[[times(2)]]</tt> 시스템 호출은 특별한 경우다. 이 호출은 커널 상수 `USER_HZ`에 의한 정밀도로 시간을 알려 준다. 사용자 공간 응용에서 `sysconf(_SC_CLK_TCK)`로 그 상수의 값을 알아낼 수 있다.
 
+### 시스템 클럭과 프로세스 클럭, 시간 네임스페이스
+
+다양한 종류의 경과 시간과 가상 (CPU 소모) 시간을 측정하는 여러 클럭들을 커널에서 지원한다. <tt>[[clock_gettime(2)]]</tt>에서 그 클럭들을 설명한다. 그 클럭들 중 일부를 <tt>[[clock_settime(2)]]</tt>을 써서 설정할 수 있다. 어떤 클럭 값들은 시간 네임스페이스를 통해 가상화된다. <tt>[[time_namespaces(7)]]</tt>를 보라.
+
 ### 고해상도 타이머
 
 리눅스 2.6.21 전에서 타이머 및 잠들기 시스템 호출(아래 참고)의 정밀도 한계도 지피 크기였다.
@@ -52,8 +56,8 @@ time - 시간 및 타이머 소개
 
 ## SEE ALSO
 
-`date(1)`, `time(1)`, `timeout(1)`, <tt>[[adjtimex(2)]]</tt>, <tt>[[alarm(2)]]</tt>, <tt>[[clock_gettime(2)]]</tt>, <tt>[[clock_nanosleep(2)]]</tt>, <tt>[[getitimer(2)]]</tt>, <tt>[[getrlimit(2)]]</tt>, <tt>[[getrusage(2)]]</tt>, <tt>[[gettimeofday(2)]]</tt>, <tt>[[nanosleep(2)]]</tt>, <tt>[[stat(2)]]</tt>, <tt>[[time(2)]]</tt>, <tt>[[timer_create(2)]]</tt>, <tt>[[timerfd_create(2)]]</tt>, <tt>[[times(2)]]</tt>, <tt>[[utime(2)]]</tt>, <tt>[[adjtime(3)]]</tt>, <tt>[[clock(3)]]</tt>, <tt>[[clock_getcpuclockid(3)]]</tt>, <tt>[[ctime(3)]]</tt>, <tt>[[ntp_adjtime(3)]]</tt>, <tt>[[ntp_gettime(3)]]</tt>, <tt>[[pthread_getcpuclockid(3)]]</tt>, <tt>[[sleep(3)]]</tt>, <tt>[[strftime(3)]]</tt>, <tt>[[strptime(3)]]</tt>, <tt>[[timeradd(3)]]</tt>, <tt>[[usleep(3)]]</tt>, <tt>[[rtc(4)]]</tt>, `hwclock(8)`
+`date(1)`, `time(1)`, `timeout(1)`, <tt>[[adjtimex(2)]]</tt>, <tt>[[alarm(2)]]</tt>, <tt>[[clock_gettime(2)]]</tt>, <tt>[[clock_nanosleep(2)]]</tt>, <tt>[[getitimer(2)]]</tt>, <tt>[[getrlimit(2)]]</tt>, <tt>[[getrusage(2)]]</tt>, <tt>[[gettimeofday(2)]]</tt>, <tt>[[nanosleep(2)]]</tt>, <tt>[[stat(2)]]</tt>, <tt>[[time(2)]]</tt>, <tt>[[timer_create(2)]]</tt>, <tt>[[timerfd_create(2)]]</tt>, <tt>[[times(2)]]</tt>, <tt>[[utime(2)]]</tt>, <tt>[[adjtime(3)]]</tt>, <tt>[[clock(3)]]</tt>, <tt>[[clock_getcpuclockid(3)]]</tt>, <tt>[[ctime(3)]]</tt>, <tt>[[ntp_adjtime(3)]]</tt>, <tt>[[ntp_gettime(3)]]</tt>, <tt>[[pthread_getcpuclockid(3)]]</tt>, <tt>[[sleep(3)]]</tt>, <tt>[[strftime(3)]]</tt>, <tt>[[strptime(3)]]</tt>, <tt>[[timeradd(3)]]</tt>, <tt>[[usleep(3)]]</tt>, <tt>[[rtc(4)]]</tt>, <tt>[[time_namespaces(7)]]</tt>, `hwclock(8)`
 
 ----
 
-2018-04-30
+2020-04-11

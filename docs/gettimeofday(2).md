@@ -7,9 +7,11 @@ gettimeofday, settimeofday - 시간 얻기/설정하기
 ```c
 #include <sys/time.h>
 
-int gettimeofday(struct timeval *tv, struct timezone *tz);
+int gettimeofday(struct timeval *restrict tv,
+                 struct timezone *restrict tz);
 
-int settimeofday(const struct timeval *tv, const struct timezone *tz);
+int settimeofday(const struct timeval *tv,
+                 const struct timezone *tz);
 ```
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
@@ -23,7 +25,9 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## DESCRIPTION
 
-`gettimeofday()` 및 `settimeofday()` 함수는 시간에 더해서 시간대를 얻거나 설정할 수 있다. `tv` 인자는 (`<sys/time.h>`에 있는) `struct timeval`이며,
+`gettimeofday()` 및 `settimeofday()` 함수는 시간에 더해서 시간대를 얻거나 설정할 수 있다.
+
+`tv` 인자는 (`<sys/time.h>`에 있는) `struct timeval`이며,
 
 ```c
 struct timeval {
@@ -32,7 +36,9 @@ struct timeval {
 };
 ```
 
-에포크(<tt>[[time(2)]]</tt> 참고) 이후의 초 및 마이크로초 수를 나타낸다. `tz` 인자는 `struct timezone`이다.
+에포크(<tt>[[time(2)]]</tt> 참고) 이후의 초 및 마이크로초 수를 나타낸다.
+
+`tz` 인자는 `struct timezone`이다.
 
 ```c
 struct timezone {
@@ -49,7 +55,7 @@ struct timezone {
 
 ## RETURN VALUE
 
-`gettimeofday()`와 `settimeofday()`는 성공 시 0을 반환하고 실패 시 -1을 반환한다. (실패 시 `errno`을 적절히 설정한다.)
+`gettimeofday()`와 `settimeofday()`는 성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -112,4 +118,4 @@ DST_AUSTALT  /* 오스트레일리아 1986년 변경 방식 */
 
 ----
 
-2019-03-06
+2021-03-22

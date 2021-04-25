@@ -57,7 +57,7 @@ POSIX.1-2001, POSIX.1-2008.
 
 리눅스에서는 시그널을 이용해 취소를 구현한다. NPTL 스레딩 구현에서는 첫 번째 실시간 시그널(즉 시그널 32)을 이 용도에 쓴다. LinuxThreads에서는 실시간 시그널이 사용 가능하면 두 번째 실시간 시그널을 쓰고 아니면 `SIGUSR2`를 쓴다.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 프로그램에서는 스레드를 생성했다가 취소한다. 메인 스레드가 취소된 스레드와 합류해서 종료 상태가 `PTHREAD_CANCELED`인지 확인한다. 다음 셸 세션은 프로그램 실행 시 어떻게 되는지 보여 준다.
 
@@ -87,7 +87,7 @@ thread_func(void *ignored_argument)
     int s;
 
     /* 취소를 잠시 비활성화해서 취소 요청에
-       즉시 반응하지 않도록 하기 */
+       즉시 반응하지 않도록 하기. */
 
     s = pthread_setcancelstate(PTHREAD_CANCEL_DISABLE, NULL);
     if (s != 0)
@@ -101,11 +101,11 @@ thread_func(void *ignored_argument)
     if (s != 0)
         handle_error_en(s, "pthread_setcancelstate");
 
-    /* sleep()은 취소점임 */
+    /* sleep()은 취소점이다. */
 
     sleep(1000);        /* 잠들어 있는 동안 취소됨 */
 
-    /* 절대 여기로 안 옴 */
+    /* 절대 여기까지 안 온다. */
 
     printf("thread_func(): not canceled!\n");
     return NULL;
@@ -118,7 +118,7 @@ main(void)
     void *res;
     int s;
 
-    /* 스레드 시작하고 취소 요청을 보내기 */
+    /* 스레드 시작하고 취소 요청을 보내기. */
 
     s = pthread_create(&thr, NULL, &thread_func, NULL);
     if (s != 0)
@@ -131,7 +131,7 @@ main(void)
     if (s != 0)
         handle_error_en(s, "pthread_cancel");
 
-    /* 스레드와 합류해서 종료 상태 보기 */
+    /* 스레드와 합류해서 종료 상태 보기. */
 
     s = pthread_join(thr, &res);
     if (s != 0)
@@ -151,4 +151,4 @@ main(void)
 
 ----
 
-2019-03-06
+2021-03-22

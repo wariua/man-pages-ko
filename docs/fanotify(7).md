@@ -4,7 +4,7 @@ fanotify - 파일 시스템 이벤트 감시하기
 
 ## DESCRIPTION
 
-fanotify API를 통해 파일 시스템 이벤트 알림을 받고 이벤트를 가로챌 수 있다. 사용례로는 바이러스 검사나 계층적 저장소 관리가 있을 수 있다. 현재는 제한된 종류의 이벤트들만 지원한다. 특히 생성, 삭제, 이동 이벤트를 지원하지 않는다. (이 이벤트들을 알려 주는 API에 대한 내용은 <tt>[[inotify(7)]]</tt>를 보라.)
+fanotify API를 통해 파일 시스템 이벤트 알림을 받고 이벤트를 가로챌 수 있다. 사용례로는 바이러스 검사나 계층적 저장소 관리가 있을 수 있다. 최초의 fanotify API에서는 제한된 종류의 이벤트들만 지원했다. 특히 생성, 삭제, 이동 이벤트를 지원하지 않았다. 리눅스 5.1에서 그 이벤트들에 대한 지원이 추가되었다. (리눅스 5.1 전에서 이 이벤트들을 알려 주던 API에 대한 설명은 <tt>[[inotify(7)]]</tt>를 보라.)
 
 <tt>[[inotify(7)]]</tt> API와 비교하자면 마운트 한 파일 시스템 내의 모든 객체들을 감시할 수 있고, 접근 허용 여부를 결정할 수 있으며, 다른 응용에서 접근하기 전에 파일을 읽거나 변경하는 게 가능하다.
 
@@ -28,7 +28,7 @@ fanotify 알림 그룹 안의 항목들은 아이노드를 통해 파일과 디�
 
 알림 그룹으로 감시하는 파일 시스템 객체들에서 이벤트가 생기면 fanotify 시스템에서 이벤트를 만들어서 큐에 모아 둔다. 그러면 <tt>[[fanotify_init(2)]]</tt>이 반환한 fanotify 파일 디스크립터에서 (`read(2)` 등으로) 그 이벤트들을 읽을 수 있다.
 
-생성되는 이벤트에는 두 가지 종류가 있는데 *알림* 이벤트와 *허가* 이벤트이다. 알림 이벤트는 정보를 줄 뿐이므로 범용 이벤트로 전달된 파일 디스크립터를 닫아 줘야 한다는 것 외에는 수신 측 응용에서 어떤 행동도 취할 필요가 없다. 이벤트마다 파일 디스크립터를 닫는 건 `FAN_REPORT_FID`(아래 참고)를 쓰지 않고 fanotify를 초기화 한 응용에만 해당된다. 허가 이벤트는 어떤 파일 접근을 승인할지 여부를 수신 측 응용에서 판단해 달라는 요청이다. 이 이벤트를 수신한 쪽에선 접근을 승인할지 여부를 결정하는 응답을 줘야 한다.
+생성되는 이벤트에는 두 가지 종류가 있는데 *알림* 이벤트와 *허가* 이벤트이다. 알림 이벤트는 정보를 줄 뿐이므로 수신 측 응용에서 어떤 행동도 취할 필요가 없다. 단, 범용 이벤트로 유효한 파일 디스크립터가 전달된 경우 그 파일 디스크립터를 닫아 줘야 한다. 이벤트마다 파일 디스크립터를 닫는 건 `FAN_REPORT_FID`(아래 참고)를 쓰지 않고 fanotify를 초기화 한 응용에만 해당된다. 허가 이벤트는 어떤 파일 접근을 승인할지 여부를 수신 측 응용에서 판단해 달라는 요청이다. 이 이벤트를 수신한 쪽에선 접근을 승인할지 여부를 결정하는 응답을 줘야 한다.
 
 이벤트를 읽어 들이면 fanotify 그룹의 이벤트 큐에서 그 이벤트가 제거된다. 읽기가 이뤄진 허가 이벤트는 fanotify 파일 디스크립터로 쓰기를 해서 허가 판단을 내리거나 fanotify 파일 디스크립터가 닫힐 때까지 fanotify 그룹의 내부 목록에 유지된다.
 
@@ -36,7 +36,9 @@ fanotify 알림 그룹 안의 항목들은 아이노드를 통해 파일과 디�
 
 <tt>[[fanotify_init(2)]]</tt>이 반환한 파일 디스크립터에 `read(2)`를 호출하면 (<tt>[[fanotify_init(2)]]</tt> 호출에서 `FAN_NONBLOCK` 플래그를 지정하지 않았다면) 파일 이벤트가 일어나거나 시그널에 의해 호출이 중단(<tt>[[signal(7)]]</tt> 참고)될 때까지 블록 한다.
 
-<tt>[[fanotify_init(2)]]</tt>에 `FAN_REPORT_FID` 플래그를 사용했는지 여부가 이벤트마다 이벤트 리스너로 반환되는 자료 구조에 영향을 준다. `read(2)` 성공 후에 읽기 버퍼에는 다음 구조체가 한 개 이상 담긴다.
+<tt>[[fanotify_init(2)]]</tt>에 `FAN_REPORT_FID`나 `FAN_REPORT_DIR_FID` 플래그를 사용했는지 여부가 이벤트마다 이벤트 리스너로 반환되는 자료 구조에 영향을 준다. 그 플래그들 중 하나로 초기화한 그룹으로 보고되는 이벤트에선 파일 시스템 객체를 식별하는 데 파일 디스크립터 대신 파일 핸들을 쓰게 된다.
+
+`read(2)` 성공 후에 읽기 버퍼에는 다음 구조체가 한 개 이상 담긴다.
 
 ```c
 struct fanotify_event_metadata {
@@ -50,9 +52,15 @@ struct fanotify_event_metadata {
 };
 ```
 
-<tt>[[fanotify_init(2)]]</tt>의 플래그 중 하나로 `FAN_REPORT_FID`를 준 경우에는 읽기 버퍼에서 각 범용 `fanotify_event_metadata` 구조체 다음에 아래 설명하는 구조체가 따라온다.
+파일 핸들로 파일 시스템 객체를 식별하는 fanotify 그룹인 경우에는 읽기 버퍼에서 범용 `fanotify_event_metadata` 구조체 다음에 아래 설명하는 구조체로 된 추가 정보 레코드가 한 개 이상 따라온다.
 
 ```c
+struct fanotify_event_info_header {
+    __u8 info_type;
+    __u8 pad;
+    __u16 len;
+};
+
 struct fanotify_event_info_fid {
     struct fanotify_event_info_header hdr;
     __kernel_fsid_t fsid;
@@ -67,7 +75,7 @@ struct fanotify_event_info_fid {
 `fanotify_event_metadata` 구조체의 필드들은 다음과 같다.
 
 `event_len`
-:   이 이벤트에 대한 데이터 길이이자 버퍼 내 다음 이벤트로의 오프셋이다. `FAN_REPORT_FID`를 안 쓰면 `event_len`의 값은 항상 `FAN_EVENT_METADATA_LEN`이다. `FAN_REPORT_FID`를 쓰면 `event_len`에 가변 길이 파일 식별자 크기까지 더해진다.
+:   이 이벤트에 대한 데이터 길이이자 버퍼 내 다음 이벤트로의 오프셋이다. 그룹에서 파일 핸들로 파일 시스템 객체를 식별하는 경우가 아니면 `event_len`의 값은 항상 `FAN_EVENT_METADATA_LEN`이다. 파일 핸들로 파일 시스템 객체를 식별하는 그룹에서는 `event_len`에 가변 길이 파일 식별자 레코드까지 포함된다.
 
 `vers`
 :   이 필드는 구조체의 버전 번호를 담는다. 그 번호를 `FANOTIFY_METADATA_VERSION`과 비교해서 런타임에 반환된 구조체가 컴파일 타임에 정의돼 있던 구조체와 일치하는지 검증해야 한다. 일치하지 않는 경우 응용에서 fanotify 파일 디스크립터 사용 시도를 포기하는 게 좋다.
@@ -82,7 +90,7 @@ struct fanotify_event_info_fid {
 :   이벤트를 기술하는 비트 마스크이다. (아래 참고.)
 
 `fd`
-:   접근이 이뤄지고 있는 객체에 대한 열린 파일 디스크립터이다. 큐 넘침이 일어난 경우에는 `FAN_NOFD`이다. 응용에서 `FAN_REPORT_FID`를 써서 fanotify 파일 디스크립터를 초기화 했다면 수신하는 이벤트마다 이 값이 `FAN_NOFD`로 설정돼 있게 된다. 이 파일 디스크립터를 사용해 감시하는 파일 내지 디렉터리의 내용에 접근할 수 있다. 읽는 쪽 응용에서 파일 디스크립터를 닫을 책임이 있다.
+:   접근이 이뤄지고 있는 객체에 대한 열린 파일 디스크립터이다. 큐 넘침이 일어난 경우에는 `FAN_NOFD`이다. 파일 핸들로 파일 시스템 객체를 식별하는 fanotify 그룹에서는 수신하는 이벤트마다 이 값이 `FAN_NOFD`로 설정돼 있게 된다. 이 파일 디스크립터를 사용해 감시하는 파일 내지 디렉터리의 내용에 접근할 수 있다. 읽는 쪽 응용에서 파일 디스크립터를 닫을 책임이 있다.
 
     <tt>[[fanotify_init(2)]]</tt> 호출 시에 (`event_f_flags` 인자를 통해) 이 파일 디스크립터에 대응하는 열린 파일 기술 항목에 설정할 다양한 파일 상태 플래그들을 지정할 수 있다. 더불어 그 열린 파일 기술 항목에는 (커널 내부용인) `FMODE_NONOTIFY` 파일 상태 플래그가 설정된다. 이 플래그는 fanotify 이벤트 생성을 막는다. 그래서 fanotify 이벤트 수신자가 이 파일 디스크립터를 이용해 알림 대상 파일 내지 디렉터리에 접근할 때 이벤트가 추가로 생기지 않게 된다.
 
@@ -160,16 +168,21 @@ struct fanotify_event_info_fid {
 
         FAN_MOVED_FROM | FAN_MOVED_TO
 
+다음 비트들이 다른 이벤트 유형 비트들과 결합해서 `mask`에 등장할 수 있다.
+
+`FAN_ONDIR`
+:   `mask`에 기술된 이벤트들이 디렉터리 객체에서 발생했다. 디렉터리에 대한 이벤트가 보고되게 하려면 표시 마스크에 이 플래그를 설정해야 한다. 자세한 내용은 <tt>[[fanotify_mark(2)]]</tt>를 보라. 파일 핸들로 파일 시스템 객체를 식별하는 fanotify 그룹인 경우에만 이벤트 마스크에 `FAN_ONDIR` 플래그가 보고된다.
+
 `fanotify_event_info_fid` 구조체의 필드들은 다음과 같다.
 
 `hdr`
-:   `fanotify_event_info_header` 타입 구조체다. 이벤트에 덧붙은 추가 정보를 기술하는 정보를 담은 범용 헤더다. 예를 들어 `FAN_REPORT_FID`를 써서 fanotify 파일 디스크립터를 생성했을 때 이 헤더의 `info_type` 필드가 `FAN_EVENT_INFO_TYPE_FID`로 설정된다. 이벤트 리스너에서는 이 필드를 이용해 이벤트에 대해 수신한 추가 정보가 올바른 종류인지 확인할 수 있다. 그리고 `fanotify_event_info_header`에는 `len` 필드가 있다. 현재 구현에서 `len`의 값은 항상 `(event_len - FAN_EVENT_METADATA_LEN)`이다.
+:   `fanotify_event_info_header` 타입 구조체다. 이벤트에 덧붙은 추가 정보 레코드를 기술하는 정보를 담은 범용 헤더다. 예를 들어 `FAN_REPORT_FID`를 써서 fanotify 파일 디스크립터를 생성했을 때는 `info_type` 필드 값이 `FAN_EVENT_INFO_TYPE_FID`인 정보 레코드 한 개가 이벤트에 붙게 된다. `FAN_REPORT_FID`와 `FAN_REPORT_DIR_FID`를 써서 fanotify 파일 디스크립터를 생성했을 때는 이벤트에 두 가지 정보 레코드가 붙어 있을 수 있는데, 하나는 `info_type` 필드 값이 `FAN_EVENT_INFO_TYPE_DFID`이고 부모 디렉터리 객체를 나타내며, 다른 하나는 `info_type` 필드 값이 `FAN_EVENT_INFO_TYPE_FID`이고 디렉터리 아닌 객체를 나타낸다. `fanotify_event_info_header`에는 `len` 필드가 있다. `len`의 값은 `fanotify_event_info_header` 자체를 포함한 추가 정보 레코드의 크기다. 모든 추가 정보 레코드의 총 크기가 ( `event_len` - `metadata_len` )보다 크지 않게 된다.
 
 `fsid`
 :   이벤트 연관 객체를 담은 파일 시스템의 고유 식별자다. `__kernel_fsid_t` 타입의 구조체이고 <tt>[[statfs(2)]]</tt> 호출 시의 `f_fsid`와 같은 값을 담고 있다.
 
 `file_handle`
-:   `file_handle` 타입의 가변 길이 구조체다. 파일 시스템 상의 특정 객체에 대응하는 불투명한 핸들이며 <tt>[[name_to_handle_at(2)]]</tt>이 반환하는 것과 같은 것이다. 이를 이용해 파일 시스템 상의 파일을 유일하게 식별할 수 있으며 <tt>[[open_by_handle_at(2)]]</tt>에 인자로 줄 수 있다. 참고로 `FAN_CREATE`, `FAN_DELETE`, `FAN_MOVE` 같은 디렉터리 항목 이벤트에서 `file_handle`은 생성/삭제/이동된 자식 객체가 아니라 변경된 디렉터리를 나타낸다. 자식 객체를 감시 중이라면 `FAN_ATTRIB`, `FAN_DELETE_SELF`, `FAN_MOVE_SELF` 이벤트가 자식 객체에 대한 `file_handle` 정보를 전달해 준다.
+:   `struct file_handle` 타입의 가변 길이 구조체다. 파일 시스템 상의 특정 객체에 대응하는 불투명한 핸들이며 <tt>[[name_to_handle_at(2)]]</tt>이 반환하는 것과 같은 것이다. 이를 이용해 파일 시스템 상의 파일을 유일하게 식별할 수 있으며 <tt>[[open_by_handle_at(2)]]</tt>에 인자로 줄 수 있다. 참고로 `FAN_CREATE`, `FAN_DELETE`, `FAN_MOVE` 같은 디렉터리 항목 변경 이벤트에서 `file_handle`은 생성/삭제/이동된 자식 객체가 아니라 변경된 디렉터리를 나타낸다. `info_type` 필드 값이 `FAN_EVENT_INFO_TYPE_DFID_NAME`인 경우 파일 핸들 다음에 생성/삭제/이동된 디렉터리 항목 이름을 나타내는 널 종료 문자열이 따라온다. `FAN_OPEN`, `FAN_ATTRIB`, `FAN_DELETE_SELF`, `FAN_MOVE_SELF` 같은 다른 이벤트에서 `info_type` 필드 값이 `FAN_EVENT_INFO_TYPE_FID`인 경우 `file_handle`은 그 이벤트와 연관된 객체를 나타낸다. `info_type` 필드 값이 `FAN_EVENT_INFO_TYPE_DFID`인 경우 `file_handle`은 그 이벤트와 연관된 디렉터리 객체를, 또는 그 이벤트와 연관된 디렉터리 아닌 객체의 부모 디렉터리를 나타낸다. `info_type` 필드 값이 `FAN_EVENT_INFO_TYPE_DFID_NAME`인 경우 `file_handle`은 `FAN_EVENT_INFO_TYPE_DFID`에서와 같은 디렉터리 객체를 나타내며, 그 파일 핸들 다음에 그 디렉터리 안의 디렉터리 항목 이름 또는 디렉터리 객체 자체를 나타내는 '.'이 따라온다.
 
 fanotify 파일 디스크립터에 대해 `read(2)`가 반환한 fanotify 이벤트 메타데이터들이 담긴 버퍼를 순회하기 위한 다음 매크로들이 있다.
 
@@ -207,7 +220,7 @@ struct fanotify_response {
 `response`
 :   이 필드는 동작을 인가할지 여부를 나타낸다. 파일 동작을 허용하는 `FAN_ALLOW`거나 파일 동작을 거부하는 `FAN_DENY`여야 한다.
 
-접근을 거부하면 요청 측 응용 호출이 `EPERM` 오류를 받게 된다.
+접근을 거부하면 요청 측 응용 호출이 `EPERM` 오류를 받게 된다. 그리고 `FAN_ENABLE_AUDIT` 플래그를 써서 알림 그룹을 만들었다면 `response` 필드에 `FAN_AUDIT` 플래그를 설정할 수 있다. 그 경우 감사 서브시스템에서 그 접근 결정에 대한 정보를 감사 로그로 기록하게 된다.
 
 ### fanotify 파일 디스크립터 닫기
 
@@ -261,7 +274,7 @@ fanotify API는 <tt>[[mmap(2)]]</tt>, <tt>[[msync(2)]]</tt>, <tt>[[munmap(2)]]</
 
 디렉터리에 대한 이벤트는 디렉터리 자체를 열고 읽고 닫는 경우에만 생긴다. 표시한 디렉터리의 자식을 추가하거나 제거하거나 변경해도 감시 대상 디렉터리 자체에 대한 이벤트가 생기지 않는다.
 
-fanotify에서의 디렉터리 감시는 재귀적이지 않다. 디렉터리 아래 서브디렉터리를 감시하려면 감시 항목을 추가로 만들어야 한다. (하지만 fanotify API에서는 표시한 디렉터리 아래에 서브디렉터리가 생긴 걸 탐지할 방법을 제공하지 않으므로 재귀적인 감시가 어렵다.) 마운트를 감시하면 디렉터리 트리 전체를 감시할 수 있다. 파일 시스템을 감시하면 파일 시스템의 모든 마운트 인스턴스에서 일어난 변경 사항을 감시할 수 있다.
+fanotify에서의 디렉터리 감시는 재귀적이지 않다. 디렉터리 아래 서브디렉터리를 감시하려면 감시 항목을 추가로 만들어야 한다. `FAN_CREATE` 이벤트를 사용하면 표시한 디렉터리 아래에 서브디렉터리가 생긴 걸 탐지할 수 있다. 이 방식에는 경쟁이 있는데, 새로 생긴 서브디렉터리에 표시를 추가하기 전에 그 서브디렉터리 안에서 발생한 이벤트들을 놓칠 수 있기 때문이다. 마운트를 감시하면 경쟁 없는 방식으로 디렉터리 트리 전체를 감시할 수 있다. 파일 시스템을 감시하면 파일 시스템의 모든 마운트 인스턴스에서 일어난 변경 사항을 경쟁 없는 방식으로 감시할 수 있다.
 
 이벤트 큐가 넘칠 수 있다. 이 경우 이벤트가 유실된다.
 
@@ -277,7 +290,7 @@ fanotify에서의 디렉터리 감시는 재귀적이지 않다. 디렉터리 �
 
 * `read(2)` 호출 내에서 fanotify 큐의 여러 이벤트를 꺼내 처리한 다음 오류가 발생한 경우에 반환 값은 오류 발생 전까지 사용자 공간 버퍼로 성공적으로 복사한 이벤트들의 총 길이가 된다. 즉 반환 값이 -1이 아니고 `errno`가 설정되지 않는다. 그래서 읽는 쪽 응용에서 오류를 탐지할 방법이 없다.
 
-## EXAMPLE
+## EXAMPLES
 
 아래의 두 예시 프로그램이 fanotify API 사용 방법을 보여 준다.
 
@@ -310,7 +323,7 @@ Listening for events stopped.
 #include <sys/fanotify.h>
 #include <unistd.h>
 
-/* 파일 디스크립터 'fd'에서 가용 fanotify 이벤트를 모두 읽어 들이기 */
+/* 파일 디스크립터 'fd'에서 가용 fanotify 이벤트를 모두 읽어 들인다. */
 
 static void
 handle_events(int fd)
@@ -323,32 +336,32 @@ handle_events(int fd)
     char procfd_path[PATH_MAX];
     struct fanotify_response response;
 
-    /* fanotify 파일 디스크립터에서 이벤트를 읽을 수 있는 동안 반복 */
+    /* fanotify 파일 디스크립터에서 이벤트를 읽을 수 있는 동안 반복하기. */
 
     for (;;) {
 
-        /* 이벤트 읽기 */
+        /* 이벤트 읽기. */
 
-        len = read(fd, (void *) &buf, sizeof(buf));
+        len = read(fd, buf, sizeof(buf));
         if (len == -1 && errno != EAGAIN) {
             perror("read");
             exit(EXIT_FAILURE);
         }
 
-        /* 가용 데이터 끝에 도달했는지 확인 */
+        /* 가용 데이터 끝에 도달했는지 확인하기. */
 
         if (len <= 0)
             break;
 
-        /* 버퍼의 첫 번째 이벤트 가리키기 */
+        /* 버퍼의 첫 번째 이벤트 가리키기. */
 
         metadata = buf;
 
-        /* 버퍼 내 모든 이벤트 돌기 */
+        /* 버퍼 내 모든 이벤트 돌기. */
 
         while (FAN_EVENT_OK(metadata, len)) {
 
-            /* 런타임 구조체와 컴파일 타임 구조체가 일치하는지 확인 */
+            /* 런타임 구조체와 컴파일 타임 구조체가 일치하는지 확인하기. */
 
             if (metadata->vers != FANOTIFY_METADATA_VERSION) {
                 fprintf(stderr,
@@ -357,30 +370,29 @@ handle_events(int fd)
             }
 
             /* metadata->fd는 큐 넘침을 나타내는 FAN_NOFD거나
-               파일 디스크립터(음수 아닌 정수)임. 여기서 큐 넘침은
-               그냥 무시함. */
+               파일 디스크립터(음수 아닌 정수)다. 여기서 큐 넘침은
+               그냥 무시한다. */
 
             if (metadata->fd >= 0) {
 
-                /* 열기 권한 이벤트 처리 */
+                /* 열기 권한 이벤트 처리하기. */
 
                 if (metadata->mask & FAN_OPEN_PERM) {
                     printf("FAN_OPEN_PERM: ");
 
-                    /* 파일 열기 허용 */
+                    /* 파일 열기 허용하기. */
 
                     response.fd = metadata->fd;
                     response.response = FAN_ALLOW;
-                    write(fd, &response,
-                          sizeof(struct fanotify_response));
+                    write(fd, &response, sizeof(response));
                 }
 
-                /* 쓰기 가능 파일 닫기 이벤트 처리 */
+                /* 쓰기 가능 파일 닫기 이벤트 처리하기. */
 
                 if (metadata->mask & FAN_CLOSE_WRITE)
                     printf("FAN_CLOSE_WRITE: ");
 
-                /* 접근 파일의 경로명 얻어서 찍기 */
+                /* 접근 파일의 경로명 얻어서 찍기. */
 
                 snprintf(procfd_path, sizeof(procfd_path),
                          "/proc/self/fd/%d", metadata->fd);
@@ -394,12 +406,12 @@ handle_events(int fd)
                 path[path_len] = '\0';
                 printf("File %s\n", path);
 
-                /* 이벤트의 파일 디스크립터 닫기 */
+                /* 이벤트의 파일 디스크립터 닫기. */
 
                 close(metadata->fd);
             }
 
-            /* 다음 이벤트로 */
+            /* 다음 이벤트로 진행. */
 
             metadata = FAN_EVENT_NEXT(metadata, len);
         }
@@ -413,7 +425,7 @@ int main(int argc, char *argv[])
     nfds_t nfds;
     struct pollfd fds[2];
 
-    /* 마운트 지점 주어졌는지 확인 */
+    /* 마운트 지점 주어졌는지 확인하기. */
 
     if (argc != 2) {
         fprintf(stderr, "Usage: %s MOUNT\n", argv[0]);
@@ -422,7 +434,7 @@ int main(int argc, char *argv[])
 
     printf("Press enter key to terminate.\n");
 
-    /* fanotify API 접근을 위한 파일 디스크립터 만들기 */
+    /* fanotify API 접근을 위한 파일 디스크립터 만들기. */
 
     fd = fanotify_init(FAN_CLOEXEC | FAN_CLASS_CONTENT | FAN_NONBLOCK,
                        O_RDONLY | O_LARGEFILE);
@@ -443,21 +455,17 @@ int main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    /* 폴링 준비 */
+    /* 폴링 준비하기. */
 
     nfds = 2;
 
-    /* 콘솔 입력 */
-
-    fds[0].fd = STDIN_FILENO;
+    fds[0].fd = STDIN_FILENO;       /* 콘솔 입력 */
     fds[0].events = POLLIN;
 
-    /* fanotify 입력 */
-
-    fds[1].fd = fd;
+    fds[1].fd = fd;                 /* fanotify 입력 */
     fds[1].events = POLLIN;
 
-    /* 이벤트 입력을 기다리는 루프 */
+    /* 이벤트 입력을 기다리는 루프다. */
 
     printf("Listening for events.\n");
 
@@ -474,7 +482,7 @@ int main(int argc, char *argv[])
         if (poll_num > 0) {
             if (fds[0].revents & POLLIN) {
 
-                /* 콘솔 입력 있음. stdin 비우고 끝내기 */
+                /* 콘솔 입력 있음. stdin 비우고 끝내기. */
 
                 while (read(STDIN_FILENO, &buf, 1) > 0 && buf != '\0')
                     continue;
@@ -483,7 +491,7 @@ int main(int argc, char *argv[])
 
             if (fds[1].revents & POLLIN) {
 
-                /* inotify 이벤트 있음 */
+                /* inotify 이벤트 있음. */
 
                 handle_events(fd);
             }
@@ -497,31 +505,34 @@ int main(int argc, char *argv[])
 
 ### 예시 프로그램: `fanotify_fid.c`
 
-두 번째 프로그램은 `FAN_REPORT_FID`를 켜서 fanotify를 쓰는 예시이다. 프로그램에서 명령행 인자로 받은 파일 시스템 객체에 표시를 하고서 `FAN_CREATE` 이벤트가 발생할 때까지 기다린다. 이벤트 마스크를 보면 어떤 종류의 (파일 또는 디렉터리) 파일 시스템 객체가 생성됐는지 알 수 있다. 버퍼에서 모든 이벤트를 읽어서 차례로 처리한 다음 프로그램을 그대로 종료한다.
+두 번째 프로그램은 파일 핸들로 객체를 식별하는 그룹을 쓰는 예시이다. 프로그램에서 명령행 인자로 받은 파일 시스템 객체에 표시를 하고서 `FAN_CREATE` 이벤트가 발생할 때까지 기다린다. 이벤트 마스크를 보면 어떤 종류의 (파일 또는 디렉터리) 파일 시스템 객체가 생성됐는지 알 수 있다. 버퍼에서 모든 이벤트를 읽어서 차례로 처리한 다음 프로그램을 그대로 종료한다.
 
 다음 두 번의 셸 세션은 감시 대상 객체에 다른 동작을 하면서 프로그램을 호출한 것이다.
 
-첫 번째 세션에선 `/home/user`에 표시가 이뤄지는 걸 볼 수 있다. 그 다음에 정규 파일 `/home/user/testfile.txt` 생성이 이뤄진다. 그러면 파일의 부모인 감시 대상 디렉터리 객체에 대해 `FAN_CREATE` 이벤트가 생겨서 보고된다. 그러고서 버퍼에 잡힌 이벤트를 모두 처리하고 나면 프로그램 실행이 끝난다.
+첫 번째 세션에선 `/home/user`에 표시가 이뤄지는 걸 볼 수 있다. 그 다음에 정규 파일 `/home/user/testfile.txt` 생성이 이뤄진다. 그러면 파일의 부모인 감시 대상 디렉터리 객체에 대해 `FAN_CREATE` 이벤트가 발생해서 생성된 파일 이름과 함께 보고된다.
 
 ```text
 # ./fanotify_fid /home/user
 Listening for events.
-FAN_CREATE (file created): Directory /home/user has been modified.
+FAN_CREATE (file created):
+        Directory /home/user has been modified.
+        Entry 'testfile.txt' is not a subdirectory.
 All events processed successfully. Program exiting.
 
-$ touch /home/user/testing              # 다른 터미널에서
+$ touch /home/user/testfile.txt              # 다른 터미널에서
 ```
 
-두 번째 세션에선 `/home/user`에 표시가 이뤄지는 걸 볼 수 있다. 그 다음에 디렉터리 `/home/user/testdir` 생성이 이뤄진다. 그러면 프로그램에서 `FAN_CREATE` 및 `FAN_ONDIR` 이벤트가 만들어진다.
+두 번째 세션에선 `/home/user`에 표시가 이뤄지는 걸 볼 수 있다. 그 다음에 디렉터리 `/home/user/testdir` 생성이 이뤄진다. 그러면 `FAN_CREATE` 이벤트가 발생해서 `FAN_ONDIR` 플래그를 설정된 채로 생성된 디렉터리 이름과 함께 보고된다.
 
 ```text
 # ./fanotify_fid /home/user
 Listening for events.
 FAN_CREATE | FAN_ONDIR (subdirectory created):
         Directory /home/user has been modified.
+        Entry 'textdir' is a subdirectory.
 All events processed successfully. Program exiting.
 
-$ mkdir -p /home/user/testing          # 다른 터미널에서
+$ mkdir -p /home/user/testdir          # 다른 터미널에서
 ```
 
 ### 프로그램 소스: `fanotify_fid.c`
@@ -543,7 +554,7 @@ $ mkdir -p /home/user/testing          # 다른 터미널에서
 int
 main(int argc, char **argv)
 {
-    int fd, ret, event_fd;
+    int fd, ret, event_fd, mount_fd;
     ssize_t len, path_len;
     char path[PATH_MAX];
     char procfd_path[PATH_MAX];
@@ -551,16 +562,25 @@ main(int argc, char **argv)
     struct file_handle *file_handle;
     struct fanotify_event_metadata *metadata;
     struct fanotify_event_info_fid *fid;
+    const char *file_name;
+    struct stat sb;
 
     if (argc != 2) {
         fprintf(stderr, "Invalid number of command line arguments.\n");
         exit(EXIT_FAILURE);
     }
 
-    /* FAN_REPORT_FID 플래그로 fanotify 파일 디스크립터를 만들어서
-       프로그램이 fid 이벤트를 받게 한다. */
+    mount_fd = open(argv[1], O_DIRECTORY | O_RDONLY);
+    if (mount_fd == -1) {
+        perror(argv[1]);
+        exit(EXIT_FAILURE);
+    }
 
-    fd = fanotify_init(FAN_CLASS_NOTIF | FAN_REPORT_FID, 0);
+    /* FAN_REPORT_DFID_NAME 플래그로 fanotify 파일 디스크립터를
+       만들어서 프로그램이 fid 이벤트를 디렉터리 항목 이름과 함께
+       받도록 한다. */
+
+    fd = fanotify_init(FAN_CLASS_NOTIF | FAN_REPORT_DFID_NAME, 0);
     if (fd == -1) {
         perror("fanotify_init");
         exit(EXIT_FAILURE);
@@ -578,15 +598,15 @@ main(int argc, char **argv)
 
     printf("Listening for events.\n");
 
-    /* 이벤트 큐에서 이벤트를 읽어서 버퍼로 */
+    /* 이벤트 큐에서 이벤트를 읽어서 버퍼에 넣기. */
 
-    len = read(fd, (void *) &events_buf, sizeof(events_buf));
+    len = read(fd, events_buf, sizeof(events_buf));
     if (len == -1 && errno != EAGAIN) {
         perror("read");
         exit(EXIT_FAILURE);
     }
 
-    /* 버퍼의 모든 이벤트 처리 */
+    /* 버퍼의 모든 이벤트 처리하기. */
 
     for (metadata = (struct fanotify_event_metadata *) events_buf;
             FAN_EVENT_OK(metadata, len);
@@ -594,28 +614,34 @@ main(int argc, char **argv)
         fid = (struct fanotify_event_info_fid *) (metadata + 1);
         file_handle = (struct file_handle *) fid->handle;
 
-        /* 이벤트 정보의 타입이 맞는지 확인 */
+        /* 이벤트 정보의 타입이 맞는지 확인하기. */
 
-        if (fid->hdr.info_type != FAN_EVENT_INFO_TYPE_FID) {
+        if (fid->hdr.info_type == FAN_EVENT_INFO_TYPE_FID ||
+            fid->hdr.info_type == FAN_EVENT_INFO_TYPE_DFID) {
+            file_name = NULL;
+        } else if (fid->hdr.info_type == FAN_EVENT_INFO_TYPE_DFID_NAME) {
+            file_name = file_handle->f_handle +
+                        file_handle->handle_bytes;
+        } else {
             fprintf(stderr, "Received unexpected event info type.\n");
             exit(EXIT_FAILURE);
         }
 
         if (metadata->mask == FAN_CREATE)
-            printf("FAN_CREATE (file created):");
+            printf("FAN_CREATE (file created):\n");
 
         if (metadata->mask == FAN_CREATE | FAN_ONDIR)
-            printf("FAN_CREATE | FAN_ONDIR (subdirectory created):");
+            printf("FAN_CREATE | FAN_ONDIR (subdirectory created):\n");
 
-        /* FAN_REPORT_FID가 켜져 있으면 metadata->fd가 FAN_NOFD로
-           설정돼 있다. 이벤트 관련 파일 객체에 대한 파일 디스크립터를
-           얻으려면 fanotify_event_info_fid 안에 있는 struct
-           file_handle을 open_by_handle_at(2) 시스템 호출과 함께
+        /* 그룹에서 파일 핸들로 객체를 식별하는 경우 metadata->fd가
+           FAN_NOFD로 설정돼 있다. 이벤트 관련 파일 객체에 대한 파일
+           디스크립터를 얻으려면 fanotify_event_info_fid 안에 있는
+           struct file_handle을 open_by_handle_at(2) 시스템 호출과 함께
            이용할 수 있다. 시스템 호출 전에 그 객체가 삭제되는 경우를
            대비해서 ESTALE 검사를 한다. */
 
-        event_fd = open_by_handle_at(AT_FDCWD, file_handle, O_RDONLY);
-        if (ret == -1) {
+        event_fd = open_by_handle_at(mount_fd, file_handle, O_RDONLY);
+        if (event_fd == -1) {
             if (errno == ESTALE) {
                 printf("File handle is no longer valid. "
                         "File has been deleted\n");
@@ -623,13 +649,13 @@ main(int argc, char **argv)
             } else {
                 perror("open_by_handle_at");
                 exit(EXIT_FAILURE);
-         }
+            }
         }
 
         snprintf(procfd_path, sizeof(procfd_path), "/proc/self/fd/%d",
                 event_fd);
 
-        /* 변경된 dentry의 경로 가져와서 찍기 */
+        /* 변경된 dentry의 경로 가져와서 찍기. */
 
         path_len = readlink(procfd_path, path, sizeof(path) - 1);
         if (path_len == -1) {
@@ -637,10 +663,26 @@ main(int argc, char **argv)
             exit(EXIT_FAILURE);
         }
 
-        path[path_len] = '\ ';
+        path[path_len] = '\0';
         printf("\tDirectory '%s' has been modified.\n", path);
 
-        /* 이 이벤트의 연관 파일 디스크립터 닫기 */
+        if (file_name) {
+            ret = fstatat(event_fd, file_name, &sb, 0);
+            if (ret == -1) {
+                if (errno != ENOENT) {
+                    perror("fstatat");
+                    exit(EXIT_FAILURE);
+                }
+                printf("\tEntry '%s' does not exist.\n", file_name);
+            } else if ((sb.st_mode & S_IFMT) == S_IFDIR) {
+                printf("\tEntry '%s' is a subdirectory.\n", file_name);
+            } else {
+                printf("\tEntry '%s' is not a subdirectory.\n",
+                        file_name);
+            }
+        }
+
+        /* 이 이벤트의 연관 파일 디스크립터 닫기. */
 
         close(event_fd);
     }
@@ -656,4 +698,4 @@ main(int argc, char **argv)
 
 ----
 
-2019-08-02
+2021-03-22

@@ -53,7 +53,7 @@ int pkey_mprotect(void *addr, size_t len, int prot, int pkey);
 
 ## RETURN VALUE
 
-성공 시 `mprotect()`와 `pkey_mprotect()`는 0을 반환한다. 오류 시 이 시스템 호출들은 -1을 반환하며 `errno`를 적절히 설정한다.
+성공 시 `mprotect()`와 `pkey_mprotect()`는 0을 반환한다. 오류 시 이 시스템 호출들은 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -108,7 +108,7 @@ POSIX.1에서는 구현에서 `prot`에 지정된 것 이외의 접근을 허용
 
 하드웨어에서 보호 키를 지원하지 않는 시스템에서도 `pkey_mprotect()`를 쓸 수는 있지만 `pkey`를 -1로 설정해야 한다. 그렇게 호출할 때 `pkey_mprotect()`의 동작은 `mprotect()`와 동등하다.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 프로그램은 `mprotect()` 사용 방식을 보여 준다. 프로그램에서 메모리 페이지 4개를 할당해서 그 중 세 번째를 읽기 전용으로 만든 다음 할당 영역을 위로 훑으면서 바이트를 변경하는 루프를 실행한다.
 
@@ -145,15 +145,13 @@ handler(int sig, siginfo_t *si, void *unused)
        signal-safety(7) 참고. 그럼에도 불구하고 핸들러가 호출된
        것을 간단히 보여 주기 위해 여기에 printf()를 사용한다. */
 
-    printf("Got SIGSEGV at address: 0x%lx\n",
-            (long) si->si_addr);
+    printf("Got SIGSEGV at address: %p\n", si->si_addr);
     exit(EXIT_FAILURE);
 }
 
 int
 main(int argc, char *argv[])
 {
-    char *p;
     int pagesize;
     struct sigaction sa;
 
@@ -168,19 +166,19 @@ main(int argc, char *argv[])
         handle_error("sysconf");
 
     /* 페이지 경계에 맞게 정렬된 버퍼 할당.
-       초기 보호 방식은 PROT_READ | PROT_WRITE */
+       초기 보호 방식은 PROT_READ | PROT_WRITE. */
 
     buffer = memalign(pagesize, 4 * pagesize);
     if (buffer == NULL)
         handle_error("memalign");
 
-    printf("Start of region:        0x%lx\n", (long) buffer);
+    printf("Start of region:        %p\n", buffer);
 
     if (mprotect(buffer + pagesize * 2, pagesize,
                 PROT_READ) == -1)
         handle_error("mprotect");
 
-    for (p = buffer ; ; )
+    for (char *p = buffer ; ; )
         *(p++) = 'a';
 
     printf("Loop completed\n");     /* 절대 여기까지 오지 않음 */
@@ -194,4 +192,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-08-02
+2021-03-22

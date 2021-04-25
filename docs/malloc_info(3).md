@@ -18,7 +18,7 @@ int malloc_info(int options, FILE *stream);
 
 ## RETURN VALUE
 
-성공 시 `malloc_info()`는 0을 반환한다. 오류 시 -1을 반환하며 원인을 나타내도록 `errno`를 설정한다.
+성공 시 `malloc_info()`는 0을 반환한다. 실패 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -49,7 +49,7 @@ glibc 버전 2.10에서 `malloc_info()`가 추가되었다.
 
 `malloc_info()` 함수는 <tt>[[malloc_stats(3)]]</tt>와 <tt>[[mallinfo(3)]]</tt>의 결점들을 해결하도록 설계되었다.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 프로그램은 4개까지의 명령행 인자를 받으며, 그 중 처음 3개는 필수이다. 첫 번째 인자는 프로그램이 생성해야 하는 스레드 수를 지정한다. 메인 스레드를 포함한 모든 스레드에서 두 번째 인자로 지정한 개수의 메모리 블록을 할당한다. 세 번째 인자는 할당할 블록의 크기를 제어한다. 메인 스레드는 이 크기의 블록을 만들고, 두 번째 스레드는 두 배 크기 블록을 할당하고, 세 번째 스레드는 세 배 크기 블록을 할당하고 하는 식이다.
 
@@ -130,25 +130,23 @@ static int numThreads, numBlocks;
 static void *
 thread_func(void *arg)
 {
-    int j;
     int tn = (int) arg;
 
     /* '(2 + tn)'을 곱해 주면 각 스레드(메인 스레드 포함)가
-       각기 다른 양의 메모리를 할당하게 된다 */
+       각기 다른 양의 메모리를 할당하게 된다. */
 
-    for (j = 0; j < numBlocks; j++)
+    for (int j = 0; j < numBlocks; j++)
         if (malloc(blockSize * (2 + tn)) == NULL)
             errExit("malloc-thread");
 
-    sleep(100);         /* 메인 스레드가 종료할 때까지 잠들기 */
+    sleep(100);         /* 메인 스레드가 종료할 때까지 잠들기. */
     return NULL;
 }
 
 int
 main(int argc, char *argv[])
 {
-    int j, tn, sleepTime;
-    pthread_t *thr;
+    int sleepTime;
 
     if (argc < 4) {
         fprintf(stderr,
@@ -162,16 +160,16 @@ main(int argc, char *argv[])
     blockSize = atoi(argv[3]);
     sleepTime = (argc > 4) ? atoi(argv[4]) : 0;
 
-    thr = calloc(numThreads, sizeof(pthread_t));
+    pthread_t *thr = calloc(numThreads, sizeof(*thr));
     if (thr == NULL)
         errExit("calloc");
 
     printf("============ Before allocating blocks ============\n");
     malloc_info(0, stdout);
 
-    /* 각기 다른 양의 메모리를 할당하는 스레드 생성 */
+    /* 각기 다른 양의 메모리를 할당하는 스레드 생성하기. */
 
-    for (tn = 0; tn < numThreads; tn++) {
+    for (int tn = 0; tn < numThreads; tn++) {
         errno = pthread_create(&thr[tn], NULL, thread_func,
                                (void *) tn);
         if (errno != 0)
@@ -185,13 +183,13 @@ main(int argc, char *argv[])
             sleep(sleepTime);
     }
 
-    /* 메인 스레드에서도 메모리를 좀 할당 */
+    /* 메인 스레드에서도 메모리를 좀 할당한다. */
 
-    for (j = 0; j < numBlocks; j++)
+    for (int j = 0; j < numBlocks; j++)
         if (malloc(blockSize) == NULL)
             errExit("malloc");
 
-    sleep(2);           /* 모든 스레드가 할당을 마칠 시간 주기 */
+    sleep(2);           /* 모든 스레드가 할당을 마칠 시간을 준다. */
 
     printf("\n============ After allocating blocks ============\n");
     malloc_info(0, stdout);
@@ -206,4 +204,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-03-06
+2021-03-22

@@ -27,7 +27,7 @@ DESCRIPTION의 내용 대로.
 
 | 인터페이스 | 속성 | 값 |
 | --- | --- | --- |
-| `get_nprocs()`,<br>`get_nprocs_conf()` | 스레드 안전성 | MT-Safe |
+| `get_nprocs()`, `get_nprocs_conf()` | 스레드 안전성 | MT-Safe |
 
 ## CONFORMING TO
 
@@ -44,7 +44,7 @@ np = sysconf(_SC_NPROCESSORS_CONF);     /* 구성된 프로세서들 */
 np = sysconf(_SC_NPROCESSORS_ONLN);     /* 사용 가능 프로세서들 */
 ```
 
-## EXAMPLE
+## EXAMPLES
 
 다음 예는 `get_nprocs()` 및 `get_nprocs_conf()` 사용 방식을 보여 준다.
 
@@ -69,4 +69,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-03-06
+2021-03-22

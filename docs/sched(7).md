@@ -316,7 +316,7 @@ $ echo 10 > /proc/self/autogroup
 
 ## SEE ALSO
 
-`chcpu(1)`, `chrt(1)`, `lscpu(1)`, `ps(1)`, `taskset(1)`, `top(1)`, <tt>[[getpriority(2)]]</tt>, <tt>[[mlock(2)]]</tt>, <tt>[[mlockall(2)]]</tt>, <tt>[[munlock(2)]]</tt>, <tt>[[munlockall(2)]]</tt>, <tt>[[nice(2)]]</tt>, <tt>[[sched_get_priority_max(2)]]</tt>, <tt>[[sched_get_priority_min(2)]]</tt>, <tt>[[sched_getaffinity(2)]]</tt>, <tt>[[sched_getparam(2)]]</tt>, <tt>[[sched_getscheduler(2)]]</tt>, <tt>[[sched_rr_get_interval(2)]]</tt>, <tt>[[sched_setaffinity(2)]]</tt>, <tt>[[sched_setparam(2)]]</tt>, <tt>[[sched_setscheduler(2)]]</tt>, <tt>[[sched_yield(2)]]</tt>, <tt>[[setpriority(2)]]</tt>, <tt>[[pthread_getschedparam(3)]]</tt>, <tt>[[pthread_getaffinity_np(3)]]</tt>, <tt>[[pthread_setaffinity_np(3)]]</tt>, <tt>[[sched_getcpu(3)]]</tt>, <tt>[[capabilities(7)]]</tt>, <tt>[[cpuset(7)]]</tt>
+`chcpu(1)`, `chrt(1)`, `lscpu(1)`, `ps(1)`, `taskset(1)`, `top(1)`, <tt>[[getpriority(2)]]</tt>, <tt>[[mlock(2)]]</tt>, <tt>[[mlockall(2)]]</tt>, <tt>[[munlock(2)]]</tt>, <tt>[[munlockall(2)]]</tt>, <tt>[[nice(2)]]</tt>, <tt>[[sched_get_priority_max(2)]]</tt>, <tt>[[sched_get_priority_min(2)]]</tt>, <tt>[[sched_getaffinity(2)]]</tt>, <tt>[[sched_getparam(2)]]</tt>, <tt>[[sched_getscheduler(2)]]</tt>, <tt>[[sched_rr_get_interval(2)]]</tt>, <tt>[[sched_setaffinity(2)]]</tt>, <tt>[[sched_setparam(2)]]</tt>, <tt>[[sched_setscheduler(2)]]</tt>, <tt>[[sched_yield(2)]]</tt>, <tt>[[setpriority(2)]]</tt>, <tt>[[pthread_getaffinity_np(3)]]</tt>, <tt>[[pthread_getschedparam(3)]]</tt>, <tt>[[pthread_setaffinity_np(3)]]</tt>, <tt>[[sched_getcpu(3)]]</tt>, <tt>[[capabilities(7)]]</tt>, <tt>[[cpuset(7)]]</tt>
 
 *Programming for the real world - POSIX.4* by Bill O. Gallmeister, O'Reilly & Associates, Inc., ISBN 1-56592-074-0.
 
@@ -324,4 +324,4 @@ $ echo 10 > /proc/self/autogroup
 
 ----
 
-2019-08-02
+2021-03-22

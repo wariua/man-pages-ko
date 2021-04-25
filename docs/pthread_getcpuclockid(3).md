@@ -8,14 +8,14 @@ pthread_getcpuclockid - 스레드의 CPU 시간 클럭의 ID 얻기
 #include <pthread.h>
 #include <time.h>
 
-int pthread_getcpuclockid(pthread_t thread, clockid_t *clock_id);
+int pthread_getcpuclockid(pthread_t thread, clockid_t *clockid);
 ```
 
 `-pthread`로 컴파일 및 링크.
 
 ## DESCRIPTION
 
-`pthread_getcpuclockid()` 함수는 스레드 `thread`의 CPU 시간 클럭에 대한 클럭 ID를 반환한다.
+`pthread_getcpuclockid()` 함수는 `thread`로 ID를 지정한 스레드의 CPU 시간 클럭의 ID를 얻어서 `clockid`가 가리키는 위치로 반환한다.
 
 ## RETURN VALUE
 
@@ -49,7 +49,7 @@ POSIX.1-2001, POSIX.1-2008.
 
 `thread`가 호출 스레드를 가리킬 때 이 함수가 반환하는 식별자가 가리키는 클럭은 클럭 ID로 `CLOCK_THREAD_CPUTIME_ID`를 주어 <tt>[[clock_gettime(2)]]</tt> 및 <tt>[[clock_settime(2)]]</tt>으로 조작하는 것과 같은 클럭이다.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 프로그램은 스레드를 생성한 다음 <tt>[[clock_gettime(2)]]</tt>을 써서 총 프로세스 CPU 시간을 얻고서 두 스레드가 소모한 스레드별 CPU 시간을 얻는다. 다음 셸 세션이 실행 예를 보여 준다.
 
@@ -70,6 +70,7 @@ Subthread CPU time:        0.992
 
 #include <time.h>
 #include <stdio.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <pthread.h>
@@ -98,7 +99,7 @@ pclock(char *msg, clockid_t cid)
     printf("%s", msg);
     if (clock_gettime(cid, &ts) == -1)
         handle_error("clock_gettime");
-    printf("%4ld.%03ld\n", ts.tv_sec, ts.tv_nsec / 1000000);
+    printf("%4jd.%03ld\n", (intmax_t) ts.tv_sec, ts.tv_nsec / 1000000);
 }
 
 int
@@ -106,7 +107,7 @@ main(int argc, char *argv[])
 {
     pthread_t thread;
     clockid_t cid;
-    int j, s;
+    int s;
 
     s = pthread_create(&thread, NULL, thread_start, NULL);
     if (s != 0)
@@ -116,7 +117,7 @@ main(int argc, char *argv[])
     sleep(1);
 
     printf("Main thread consuming some CPU time...\n");
-    for (j = 0; j < 2000000; j++)
+    for (int j = 0; j < 2000000; j++)
         getppid();
 
     pclock("Process total CPU time: ", CLOCK_PROCESS_CPUTIME_ID);
@@ -144,4 +145,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-03-06
+2021-03-22

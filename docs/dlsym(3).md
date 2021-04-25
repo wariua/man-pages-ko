@@ -7,12 +7,13 @@ dlsym, dlvsym - 공유 오브젝트나 실행 파일 내 심볼의 주소 얻기
 ```c
 #include <dlfcn.h>
 
-void *dlsym(void *handle, const char *symbol);
+void *dlsym(void *restrict handle, const char *restrict symbol);
 
 #define _GNU_SOURCE
 #include <dlfcn.h>
 
-void *dlvsym(void *handle, char *symbol, char *version);
+void *dlvsym(void *restrict handle, const char *restrict symbol,
+             const char *restrict version);
 ```
 
 `-ldl`로 링크.
@@ -57,13 +58,13 @@ POSIX.1-2001에서 `dlsym()`을 기술한다. `dlvsym()` 함수는 GNU 확장이
 
 ## NOTES
 
-정상적인 컴파일 결과로 나온 공유 오브젝트라면 `dlsym()`이 반환하는 심볼의 값이 절대 NULL이 아닐 것이다. 전역 심볼을 절대 NULL 주소에 위치시키지 않기 때문이다. 그렇지만 `dlsym()`을 이용한 검색 결과 심볼 값으로 NULL이 반환될 수도 있다. 예를 들어 GNU 간접 함수(IFUNC) 결정 함수가 결정 결과로 NULL을 반환해서 그게 심볼 값이 될 수 있다.
+전역 심볼의 주소가 NULL일 수 있는 경우가 여러 가지 있다. 예를 들어 링커 스크립트나 명령행 옵션 `--defsym`을 통해 링커가 0 주소에 심볼을 두게 할 수 있다. 또, 정의 안 된 약한 심볼도 NULL 값을 가진다. 그리고 GNU 간접 함수(IFUNC) 결정 함수가 결정 결과로 NULL을 반환해서 그게 심볼 값이 될 수도 있다. 마지막 경우에 `dlsym()`은 오류 없이 NULL을 반환한다. 하지만 앞의 두 경우에서 GNU 동적 링커의 동작은 비일관적이다. 재배치 과정이 성공하고 심볼이 NULL 값을 가지는 걸 관찰할 수 있지만 `dlsym()`은 실패하고 `dlerror()`는 검색 오류를 알린다.
 
 ### 역사
 
 `dlsym()` 함수가 포함된 dlopen API는 SunOS에서 유래한 것이다. 그 시스템에 `dlvsym()`은 없다.
 
-## EXAMPLE
+## EXAMPLES
 
 <tt>[[dlopen(3)]]</tt> 참고.
 
@@ -73,4 +74,4 @@ POSIX.1-2001에서 `dlsym()`을 기술한다. `dlvsym()` 함수는 GNU 확장이
 
 ----
 
-2019-03-06
+2021-03-22

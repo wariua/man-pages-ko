@@ -8,7 +8,6 @@ ntp_gettime, ntp_gettimex - 시간 매개변수 얻기 (NTP 데몬 인터페이�
 #include <sys/timex.h>
 
 int ntp_gettime(struct ntptimeval *ntv);
-
 int ntp_gettimex(struct ntptimeval *ntv);
 ```
 
@@ -18,10 +17,10 @@ int ntp_gettimex(struct ntptimeval *ntv);
 
 ```c
 struct ntptimeval {
-    struct timeval time;        /* 현재 시간 */
-    long int maxerror;          /* 최대 오차 */
-    long int esterror;          /* 추정 오차 */
-    long int tai;               /* TAI 오프셋 */
+    struct timeval time;    /* 현재 시간 */
+    long maxerror;          /* 최대 오차 */
+    long esterror;          /* 추정 오차 */
+    long tai;               /* TAI 오프셋 */
 
     /* 향후 확장을 위한 추가 패딩 바이트 */
 };
@@ -78,4 +77,4 @@ NTP "Kernel Application Program Interface" (<http://www.slac.stanford.edu/comp/u
 
 ----
 
-2017-09-15
+2021-03-22

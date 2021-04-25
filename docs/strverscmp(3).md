@@ -35,7 +35,7 @@ int strverscmp(const char *s1, const char *s2);
 
 이 함수는 GNU 확장이다.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 프로그램을 이용해 `strverscmp()`의 동작 방식을 볼 수 있다. `strverscmp()`를 사용해 명령행 인자로 받은 두 문자열을 비교한다. 용례는 다음과 같다.
 
@@ -77,4 +77,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-03-06
+2021-03-22

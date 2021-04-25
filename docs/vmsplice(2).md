@@ -10,7 +10,7 @@ vmsplice - 사용자 페이지를 파이프와 연결하기
 #include <sys/uio.h>
 
 ssize_t vmsplice(int fd, const struct iovec *iov,
-                 unsigned long nr_segs, unsigned int flags);
+                 size_t nr_segs, unsigned int flags);
 ```
 
 ## DESCRIPTION
@@ -78,4 +78,4 @@ struct iovec {
 
 ----
 
-2019-03-06
+2021-03-22

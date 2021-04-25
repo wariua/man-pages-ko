@@ -13,7 +13,7 @@ int epoll_create1(int flags);
 
 ## DESCRIPTION
 
-`epoll_create()`는 새 <tt>[[epoll(7)]]</tt> 인스턴스를 만든다. 리눅스 2.6.8부터는 `size` 인자를 무시하되 0보다는 커야 한다. 아래 NOTES 참고.
+`epoll_create()`는 새 <tt>[[epoll(7)]]</tt> 인스턴스를 만든다. 리눅스 2.6.8부터는 `size` 인자를 무시하되 0보다는 커야 한다. NOTES 참고.
 
 `epoll_create()`는 새 epoll 인스턴스를 가리키는 파일 디스크립터를 반환한다. 이후의 **epoll** 인터페이스 호출 모두에 이 파일 디스크립터가 쓰인다. `epoll_create()`가 반환한 파일 디스크립터가 더 이상 필요치 않으면 <tt>[[close(2)]]</tt>로 닫아야 한다. epoll 인스턴스를 가리키는 모든 파일 디스크립터가 닫혔을 때 커널에서 그 인스턴스를 파기하고 관련 자원을 재사용할 수 있게 해제한다.
 
@@ -26,7 +26,7 @@ int epoll_create1(int flags);
 
 ## RETURN VALUE
 
-성공 시 이 시스템 호출들은 음수 아닌 파일 디스크립터를 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
+성공 시 이 시스템 호출들은 파일 디스크립터(음수 아닌 정수)를 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -56,7 +56,7 @@ int epoll_create1(int flags);
 
 ## CONFORMING TO
 
-`epoll_create()`은 리눅스 전용이다.
+`epoll_create()`와 `epoll_create1()`은 리눅스 전용이다.
 
 ## NOTES
 
@@ -68,4 +68,4 @@ int epoll_create1(int flags);
 
 ----
 
-2017-09-15
+2021-03-22

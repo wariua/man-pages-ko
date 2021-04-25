@@ -7,10 +7,11 @@ pthread_mutexattr_getpshared, pthread_mutexattr_setpshared - 프로세스 공유
 ```c
 #include <pthread.h>
 
-int pthread_mutexattr_getpshared(const pthread_mutexattr_t *attr,
-                                 int *pshared);
+int pthread_mutexattr_getpshared(
+                      const pthread_mutexattr_t *restrict attr,
+                      int *restrict pshared);
 int pthread_mutexattr_setpshared(pthread_mutexattr_t *attr,
-                                 int pshared);
+                      int pshared);
 ```
 
 `-pthread`로 컴파일 및 링크.
@@ -55,4 +56,4 @@ POSIX.1-2001, POSIX.1-2008.
 
 ----
 
-2017-09-13
+2021-03-22

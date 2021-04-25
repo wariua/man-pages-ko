@@ -9,7 +9,6 @@ dladdr, dladdr1 - 주소를 심볼 정보로 변환하기
 #include <dlfcn.h>
 
 int dladdr(void *addr, Dl_info *info);
-
 int dladdr1(void *addr, Dl_info *info, void **extra_info, int flags);
 ```
 
@@ -132,4 +131,4 @@ glibc 2.0 및 이후에 `dladdr()`이 있다. glibc 2.3.3에서 `dladdr1()`이 �
 
 ----
 
-2017-09-15
+2021-03-22

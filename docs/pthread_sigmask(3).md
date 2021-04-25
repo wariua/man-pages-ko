@@ -49,7 +49,7 @@ POSIX.1-2001, POSIX.1-2008.
 
 glibc의 `pthread_sigmask()` 함수에서는 NPTL 스레딩 구현 내부에서 쓰는 두 가지 실시간 시그널을 막으려는 시도를 조용히 무시한다. 자세한 내용은 <tt>[[nptl(7)]]</tt>을 보라.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 프로그램에서는 주 스레드에서 몇 가지 시그널들을 막고 나서 <tt>[[sigwait(3)]]</tt>을 통해 그 시그널들을 가져오는 전용 스레드를 만든다. 다음 셸 세션이 사용 방식을 보여 준다.
 
@@ -110,12 +110,12 @@ main(int argc, char *argv[])
     if (s != 0)
         handle_error_en(s, "pthread_sigmask");
 
-    s = pthread_create(&thread, NULL, &sig_thread, (void *) &set);
+    s = pthread_create(&thread, NULL, &sig_thread, &set);
     if (s != 0)
         handle_error_en(s, "pthread_create");
 
     /* 주 스레드에서 계속해서 다른 스레드들을 만들거나 다른
-       작업 수행 */
+       작업 수행. */
 
     pause();            /* 프로그램 테스트를 위한 중지 */
 }
@@ -123,8 +123,8 @@ main(int argc, char *argv[])
 
 ## SEE ALSO
 
-<tt>[[sigaction(2)]]</tt>, <tt>[[sigpending(2)]]</tt>, <tt>[[sigprocmask(2)]]</tt>, <tt>[[pthread_create(3)]]</tt>, <tt>[[pthread_kill(3)]]</tt>, <tt>[[sigsetops(3)]]</tt>, <tt>[[pthreads(7)]]</tt>, <tt>[[signal(7)]]</tt>
+<tt>[[sigaction(2)]]</tt>, <tt>[[sigpending(2)]]</tt>, <tt>[[sigprocmask(2)]]</tt>, <tt>[[pthread_attr_setsigmask_np(3)]]</tt>, <tt>[[pthread_create(3)]]</tt>, <tt>[[pthread_kill(3)]]</tt>, <tt>[[sigsetops(3)]]</tt>, <tt>[[pthreads(7)]]</tt>, <tt>[[signal(7)]]</tt>
 
 ----
 
-2019-03-06
+2021-03-22

@@ -8,11 +8,8 @@ mkstemp, mkostemp, mkstemps, mkostemps - 유일한 임시 파일 만들기
 #include <stdlib.h>
 
 int mkstemp(char *template);
-
 int mkostemp(char *template, int flags);
-
 int mkstemps(char *template, int suffixlen);
-
 int mkostemps(char *template, int suffixlen, int flags);
 ```
 
@@ -21,14 +18,14 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 `mkstemp()`:
 :   `_XOPEN_SOURCE >= 500`<br>
     `    || /* glibc 2.12부터: */ _POSIX_C_SOURCE >= 200809L`<br>
-    `    || /* glibc 버전 <= 2.19: */ _SVID_SOURCE || _BSD_SOURCE`
+    `    || /* glibc <= 2.19: */ _SVID_SOURCE || _BSD_SOURCE`
 
 `mkostemp()`:
 :   `_GNU_SOURCE`
 
 `mkstemps()`:
 :   `/* glibc 2.19부터: */ _DEFAULT_SOURCE`<br>
-    `    || /* glibc 버전 <= 2.19: */ _SVID_SOURCE || _BSD_SOURCE`
+    `    || /* glibc <= 2.19: */ _SVID_SOURCE || _BSD_SOURCE`
 
 `mkostemps()`:
 :   `_GNU_SOURCE`
@@ -49,7 +46,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## RETURN VALUE
 
-성공 시 이 함수들은 임시 파일의 파일 디스크립터를 반환한다. 오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+성공 시 이 함수들은 임시 파일의 파일 디스크립터를 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -72,7 +69,7 @@ glibc 2.7부터 `mkostemp()`가 사용 가능하다. glibc 2.11부터 `mkstemps(
 
 | 인터페이스 | 속성 | 값 |
 | --- | --- | --- |
-| `mkstemp()`, `mkostemp()`,<br>`mkstemps()`, `mkostemps()` | 스레드 안전성 | MT-Safe |
+| `mkstemp()`, `mkostemp()`, `mkstemps()`, `mkostemps()` | 스레드 안전성 | MT-Safe |
 
 ## CONFORMING TO
 
@@ -94,4 +91,4 @@ glibc 버전 2.06 및 이전에서는 0666 권한, 즉 모든 사용자 읽기 �
 
 ----
 
-2017-09-15
+2021-03-22

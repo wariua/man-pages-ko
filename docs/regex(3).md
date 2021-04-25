@@ -5,17 +5,15 @@ regcomp, regexec, regerror, regfree - POSIX 정규 표현식 함수
 ## SYNOPSIS
 
 ```c
-#include <sys/types.h>
 #include <regex.h>
 
-int regcomp(regex_t *preg, const char *regex, int cflags);
+int regcomp(regex_t *restrict preg, const char *restrict regex,
+            int cflags);
+int regexec(const regex_t *restrict preg, const char *restrict string,
+            size_t nmatch, regmatch_t pmatch[restrict], int eflags);
 
-int regexec(const regex_t *preg, const char *string, size_t nmatch,
-            regmatch_t pmatch[], int eflags);
-
-size_t regerror(int errcode, const regex_t *preg, char *errbuf,
-                size_t errbuf_size);
-
+size_t regerror(int errcode, const regex_t *restrict preg,
+            char *restrict errbuf, size_t errbuf_size);
 void regfree(regex_t *preg);
 ```
 
@@ -29,7 +27,7 @@ void regfree(regex_t *preg);
 
 모든 정규 표현식 검색은 컴파일 된 패턴 버퍼를 통해 이뤄져야 한다. 따라서 `regexec()`에는 항상 `regcomp()`로 초기화 한 패턴 버퍼의 주소를 줘야 한다.
 
-`cflags`에는 다음을 0개 이상 비트 OR 할 수 있다.
+`cflags`는 다음을 0개 이상 비트 OR 한 것이다.
 
 `REG_EXTENDED`
 :   `regex`를 해석할 때 **POSIX** 확장 정규 표현식 문법을 쓴다. 설정돼 있지 않으면 **POSIX** 기본 정규 표현식 문법을 쓴다.
@@ -51,13 +49,16 @@ void regfree(regex_t *preg);
 
 ### POSIX 정규 표현식 일치 검사
 
-`regexec()`를 사용해 미리 컴파일 한 패턴 버퍼 `preg`에 널 종료 문자열을 맞춰 본다. `nmatch`와 `pmatch`를 통해 일치 위치들에 대한 정보를 제공한다. `eflags`에는 `REG_NOTBOL`과 `REG_NOTEOL`을 비트 OR 할 수 있는데 일치 방식이 아래 설명처럼 바뀐다.
+`regexec()`를 사용해 미리 컴파일 한 패턴 버퍼 `preg`에 널 종료 문자열을 맞춰 본다. `nmatch`와 `pmatch`를 통해 일치 위치들에 대한 정보를 제공한다. `eflags`는 다음 플래그를 0개 이상 비트 OR 한 것이다.
 
 `REG_NOTBOL`
 :   행 시작 일치 연산자가 항상 일치에 실패한다. (하지만 위의 컴파일 플래그 `REG_NEWLINE` 참고.) 문자열을 부분 부분씩 `regexec()`로 전달하기 때문에 문자열 시작을 행의 시작으로 해석하지 말아야 할 때 이 플래그를 쓸 수 있다.
 
 `REG_NOTEOL`
 :   행 종료 일치 연산자가 항상 일치에 실패한다. (하지만 위의 컴파일 플래그 `REG_NEWLINE` 참고.)
+
+`REG_STARTEND`
+:   입력 문자열에서 `pmatch[0]`에 해당하는 부분, 즉 `pmatch[0].rm_so` 번째 바이트부터 `pmatch[0].rm_eo` 번째 바이트 전까지를 사용한다. 이를 이용하면 문자열에 내장된 널 바이트를 맞춰 볼 수 있으며 긴 문자열에 대한 `strlen(3)`을 피하게 된다. `nmatch`를 입력으로 쓰지 않으며, `REG_NOTBOL`이나 `REG_NEWLINE` 처리 방식을 바꾸지 않는다. 이 플래그는 BSD 확장이며 POSIX에는 없다.
 
 ### 바이트 위치
 
@@ -150,6 +151,51 @@ typedef struct {
 
 POSIX.1-2001, POSIX.1-2008.
 
+## EXAMPLES
+
+```c
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <regex.h>
+
+#define ARRAY_SIZE(arr) (sizeof((arr)) / sizeof((arr)[0]))
+
+static const char *const str =
+        "1) John Driverhacker;\n2) John Doe;\n3) John Foo;\n";
+static const char *const re = "John.*o";
+
+int main(void)
+{
+    static const char *s = str;
+    regex_t     regex;
+    regmatch_t  pmatch[1];
+    regoff_t    off, len;
+
+    if (regcomp(&regex, re, REG_NEWLINE))
+        exit(EXIT_FAILURE);
+
+    printf("String = \"%s\"\n", str);
+    printf("Matches:\n");
+
+    for (int i = 0; ; i++) {
+        if (regexec(&regex, s, ARRAY_SIZE(pmatch), pmatch, 0))
+            break;
+
+        off = pmatch[0].rm_so + (s - str);
+        len = pmatch[0].rm_eo - pmatch[0].rm_so;
+        printf("#%d:\n", i);
+        printf("offset = %jd; length = %jd\n", (intmax_t) off,
+                (intmax_t) len);
+        printf("substring = \"%.*s\"\n", len, s + pmatch[0].rm_so);
+
+        s += pmatch[0].rm_eo;
+    }
+
+    exit(EXIT_SUCCESS);
+}
+```
+
 ## SEE ALSO
 
 `grep(1)`, <tt>[[regex(7)]]</tt>
@@ -158,4 +204,4 @@ glibc 매뉴얼 *Regular Expressions* 절
 
 ----
 
-2019-03-06
+2021-03-22

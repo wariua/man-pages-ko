@@ -22,7 +22,7 @@ unsigned long getauxval(unsigned long type);
 :   프로그램 인터프리터(일반적으로 동적 링커)의 기준 주소.
 
 `AT_BASE_PLATFORM`
-:   실제 플랫폼을 나타내는 문자열. `AT_PLATFORM`과 다를 수도 있음 (PowerPC 한정).
+:   문자열에 대한 포인터. (PowerPC 및 MIPS 한정.) PowerPC에서는 실제 플랫폼을 나타내며 `AT_PLATFORM`과 다를 수도 있다. MIPS에서는 (리눅스 5.7부터) ISA 레벨을 나타낸다.
 
 `AT_CLKTCK`
 :   <tt>[[times(2)]]</tt>의 카운트 빈도. `sysconf(_SC_CLK_TCK)`로도 이 값을 얻을 수 있다.
@@ -43,7 +43,7 @@ unsigned long getauxval(unsigned long type);
 :   프로그램의 파일 디스크립터.
 
 `AT_EXECFN`
-:   프로그램 실행에 쓰인 경로명.
+:   프로그램 실행에 쓰인 경로명을 담은 문자열에 대한 포인터.
 
 `AT_FLAGS`
 :   플래그 (사용 안 함).
@@ -62,6 +62,30 @@ unsigned long getauxval(unsigned long type);
 
 `AT_ICACHEBSIZE`
 :   인스트럭션 캐시 블록 크기.
+
+`AT_L1D_CACHEGEOMETRY`
+:   L1 데이터 캐시 구조. 하위 16비트에 바이트 단위의 캐시 라인 크기가 들어가고 다음 16비트에 캐시 연관도가 들어간다. 그 16비트 연관도 값이 N이면 N-way 집합 연관인 캐시다.
+
+`AT_L1D_CACHESIZE`
+:   L1 데이터 캐시 크기.
+
+`AT_L1I_CACHEGEOMETRY`
+:   L1 인스트럭션 캐시 구조. `AT_L1D_CACHEGEOMETRY`처럼 인코딩 되어 있음.
+
+`AT_L1I_CACHESIZE`
+:   L1 인스트럭션 캐시 크기.
+
+`AT_L2_CACHEGEOMETRY`
+:   L2 캐시 구조. `AT_L1D_CACHEGEOMETRY`처럼 인코딩 되어 있음.
+
+`AT_L2_CACHESIZE`
+:   L2 캐시 크기.
+
+`AT_L3_CACHEGEOMETRY`
+:   L3 캐시 구조. `AT_L1D_CACHEGEOMETRY`처럼 인코딩 되어 있음.
+
+`AT_L3_CACHESIZE`
+:   L3 캐시 크기.
 
 `AT_PAGESZ`
 :   시스템 페이지 크기. (`sysconf(_SC_PAGESIZE)`가 반환하는 값과 동일.)
@@ -143,4 +167,4 @@ glibc 2.19에서 `ENOENT` 오류가 추가되기 전에는 `type`을 찾을 수 
 
 ----
 
-2017-09-15
+2021-03-22

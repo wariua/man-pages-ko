@@ -7,7 +7,7 @@ getopt, getopt_long, getopt_long_only, optarg, optind, opterr, optopt - 명령�
 ```c
 #include <unistd.h>
 
-int getopt(int argc, char * const argv[],
+int getopt(int argc, char *const argv[],
            const char *optstring);
 
 extern char *optarg;
@@ -15,11 +15,11 @@ extern int optind, opterr, optopt;
 
 #include <getopt.h>
 
-int getopt_long(int argc, char * const argv[],
+int getopt_long(int argc, char *const argv[],
            const char *optstring,
            const struct option *longopts, int *longindex);
 
-int getopt_long_only(int argc, char * const argv[],
+int getopt_long_only(int argc, char *const argv[],
            const char *optstring,
            const struct option *longopts, int *longindex);
 ```
@@ -114,7 +114,7 @@ struct option {
 ## CONFORMING TO
 
 `getopt()`:
-:   환경 변수 `POSIXLY_CORRECT`가 설정돼 있다면 POSIX.1-2001, POSIX.1-2008, POSIX.2. 아니라면 `argv`의 항목들을 교환이 가능해야 하므로 진짜 `const`가 아니다. 다른 시스템과의 호환성을 위해 원형에서는 `const`인 것처럼 한다.
+:   환경 변수 `POSIXLY_CORRECT`가 설정돼 있다면 POSIX.1-2001, POSIX.1-2008, POSIX.2. 아니라면 이 함수들에서 `argv`의 항목들을 교환하므로 사실 `const`가 아니다. 그렇지만 다른 시스템과의 호환성을 위해 원형에 `const`를 쓴다.
 
     `optstring`에 '+' 및 '-'를 쓰는 것은 GNU 확장이다.
 
@@ -127,7 +127,7 @@ struct option {
 
 여러 인자 벡터를 훑거나 같은 벡터를 여러 번 다시 훑는 프로그램에서 `optstring` 선두의 '+'와 '-' 같은 GNU 확장을 쓰고 싶거나 탐색 사이에 `POSIXLY_CORRECT`의 값을 바꾸고 싶은 경우에는 `optind`를 (전통적 값인 1 대신) 0으로 재설정해서 `getopt()`를 재초기화 해야 한다. (0으로 재설정하면 내부 초기화 루틴이 호출돼서 `POSIXLY_CORRECT`를 재확인하고 `optstring`의 GNU 확장을 확인한다.)
 
-## EXAMPLE
+## EXAMPLES
 
 ### `getopt()`
 
@@ -268,4 +268,4 @@ int main(int argc, char **argv) {
 
 ----
 
-2019-03-06
+2021-03-22

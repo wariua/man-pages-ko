@@ -8,10 +8,10 @@ lfind, lsearch - 배열 순차 탐색
 #include <search.h>
 
 void *lfind(const void *key, const void *base, size_t *nmemb,
-         size_t size, int(*compar)(const void *, const void *));
+            size_t size, int(*compar)(const void *, const void *));
 
 void *lsearch(const void *key, void *base, size_t *nmemb,
-         size_t size, int(*compar)(const void *, const void *));
+            size_t size, int(*compar)(const void *, const void *));
 ```
 
 ## DESCRIPTION
@@ -46,4 +46,4 @@ POSIX.1-2001, POSIX.1-2008, SVr4, 4.3BSD. libc-4.6.27부터 libc에 있음.
 
 ----
 
-2017-09-15
+2021-03-22

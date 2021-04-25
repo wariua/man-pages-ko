@@ -23,7 +23,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## RETURN VALUE
 
-성공 시 `pthread_mutex_consistent()`는 0을 반환한다. 아니면 오류 원인을 나타내는 양수 오류 번호를 반환한다.
+성공 시 `pthread_mutex_consistent()`는 0을 반환한다. 아니면 오류를 나타내는 양수 오류 번호를 반환한다.
 
 ## ERRORS
 
@@ -50,14 +50,14 @@ int pthread_mutex_consistent_np(const pthread_mutex_t *mutex);
 
 이 GNU 전용 API는 glibc 2.4에서 처음 등장했으며, 현재는 구식이 되었으므로 새 프로그램에서 쓰지 말아야 한다.
 
-## EXAMPLE
+## EXAMPLES
 
 <tt>[[pthread_mutexattr_setrobust(3)]]</tt> 참고.
 
 ## SEE ALSO
 
-<tt>[[pthread_mutexattr_init(3)]]</tt>, <tt>[[pthread_mutex_lock(3)]]</tt>, <tt>[[pthread_mutexattr_setrobust(3)]]</tt>, <tt>[[pthread_mutexattr_getrobust(3)]]</tt>, <tt>[[pthreads(7)]]</tt>
+<tt>[[pthread_mutex_lock(3)]]</tt>, <tt>[[pthread_mutexattr_init(3)]]</tt>, <tt>[[pthread_mutexattr_getrobust(3)]]</tt>, <tt>[[pthread_mutexattr_setrobust(3)]]</tt>, <tt>[[pthreads(7)]]</tt>
 
 ----
 
-2017-08-20
+2021-03-22

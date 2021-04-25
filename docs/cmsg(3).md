@@ -46,7 +46,7 @@ struct cmsghdr {
 
 * `CMSG_SPACE()`는 전달받은 데이터 길이의 페이로드를 가진 보조 항목이 차지하는 바이트 수를 반환한다. 상수 식이다.
 
-* `CMSG_DATA()`는 `cmsghdr`의 데이터 부분에 대한 포인터를 반환한다.
+* `CMSG_DATA()`는 `cmsghdr`의 데이터 부분에 대한 포인터를 반환한다. 반환되는 포인터가 어떤 페이로드 데이터 타입이든 접근하기 적합하도록 정렬돼 있다고 상정할 수 없다. 응용에서 이를 페이로드에 해당하는 포인터 타입으로 캐스팅 하지 않는 게 좋다. 그보다는 적절히 선언된 객체와 `memcpy(3)`로 데이터를 복사하는 게 좋다.
 
 * `CMSG_LEN()`은 `cmsghdr` 구조체의 `cmsg_len` 멤버에 저장할 값을 반환하는데, 필요한 정렬까지 고려한 값이다. 데이터 길이를 인자로 받는다. 상수 식이다.
 
@@ -54,7 +54,9 @@ struct cmsghdr {
 
 ## CONFORMING TO
 
-이 보조 데이터 모델은 POSIX.1g 초안, 4.4BSD-Lite, RFC 2292에서 기술하는 IPv6 고급 API, SUSv2를 따른다. `CMSG_ALIGN()`은 리눅스 확장이다.
+이 보조 데이터 모델은 POSIX.1g 초안, 4.4BSD-Lite, RFC 2292에서 기술하는 IPv6 고급 API, SUSv2를 따른다. `CMSG_FIRSTHDR()`, `CMSG_NXTHDR()`, `CMSG_DATA()`는 POSIX-1.2008에 명세되어 있다. `CMSG_SPACE()`와 `CMSG_LEN()`은 다음 POSIX 릴리스(Issue 8)에 포함될 예정이다.
+
+`CMSG_ALIGN()`은 리눅스 확장이다.
 
 ## NOTES
 
@@ -62,14 +64,13 @@ struct cmsghdr {
 
 리눅스에서 `CMSG_LEN()`, `CMSG_DATA()`, `CMSG_ALIGN()`은 (인자가 상수라고 가정 시) 상수 식이고, 따라서 전역 변수 크기를 선언하는 데 그 값을 쓸 수 있다. 하지만 이식성이 없을 수 있다.
 
-## EXAMPLE
+## EXAMPLES
 
 다음 코드에서는 받은 보조 버퍼에서 `IP_TTL` 옵션을 찾는다.
 
 ```c
 struct msghdr msgh;
 struct cmsghdr *cmsg;
-int *ttlptr;
 int received_ttl;
 
 /* msgh에 보조 데이터 받기 */
@@ -78,8 +79,7 @@ for (cmsg = CMSG_FIRSTHDR(&msgh); cmsg != NULL;
         cmsg = CMSG_NXTHDR(&msgh, cmsg)) {
     if (cmsg->cmsg_level == IPPROTO_IP
             && cmsg->cmsg_type == IP_TTL) {
-        ttlptr = (int *) CMSG_DATA(cmsg);
-        received_ttl = *ttlptr;
+        memcpy(&receive_ttl, CMSG_DATA(cmsg), sizeof(receive_ttl));
         break;
     }
 }
@@ -113,8 +113,8 @@ msg.msg_controllen = sizeof(u.buf);
 cmsg = CMSG_FIRSTHDR(&msg);
 cmsg->cmsg_level = SOL_SOCKET;
 cmsg->cmsg_type = SCM_RIGHTS;
-cmsg->cmsg_len = CMSG_LEN(sizeof(int) * NUM_FD);
-memcpy(CMSG_DATA(cmsg), myfds, NUM_FD * sizeof(int));
+cmsg->cmsg_len = CMSG_LEN(sizeof(myfds));
+memcpy(CMSG_DATA(cmsg), myfds, sizeof(myfds));
 ```
 
 ## SEE ALSO
@@ -125,4 +125,4 @@ RFC 2292
 
 ----
 
-2019-03-06
+2021-03-22

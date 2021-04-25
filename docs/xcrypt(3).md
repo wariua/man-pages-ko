@@ -10,7 +10,6 @@ xencrypt, xdecrypt, passwd2des - RFS 패스워드 암호화
 void passwd2des(char *passwd, char *key);
 
 int xencrypt(char *secret, char *passwd);
-
 int xdecrypt(char *secret, char *passwd);
 ```
 
@@ -50,4 +49,4 @@ glibc 2.1 및 이후에서 이 함수들이 사용 가능하다.
 
 ----
 
-2019-03-06
+2021-03-22

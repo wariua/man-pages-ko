@@ -9,7 +9,6 @@ wait, waitpid, waitid - 프로세스 상태 변경 기다리기
 #include <sys/wait.h>
 
 pid_t wait(int *wstatus);
-
 pid_t waitpid(pid_t pid, int *wstatus, int options);
 
 int waitid(idtype_t idtype, id_t id, siginfo_t *infop, int options);
@@ -21,13 +20,12 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 `waitid()`:
 :   glibc 2.26부터:
-    :   `_XOPEN_SOURCE >= 500 ||`<br>
-        `    _POSIX_C_SOURCE >= 200809L`
+    :   `_XOPEN_SOURCE >= 500 || _POSIX_C_SOURCE >= 200809L`
  
     glibc 2.25 및 이전:
     :   `_XOPEN_SOURCE`<br>
         `    || /* glibc 2.12부터: */ _POSIX_C_SOURCE >= 200809L`<br>
-        `    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE`
+        `    || /* glibc <= 2.19: */ _BSD_SOURCE`
 
 ## DESCRIPTION
 
@@ -54,7 +52,7 @@ waitpid(-1, &wstatus, 0);
 :   아무 자식 프로세스나 기다리기
 
 `0`
-:   프로세스 그룹 ID가 호출 프로세스의 프로세스 그룹 ID와 같은 아무 자식 프로세스나 기다리기
+:   `waitpid()` 호출 시점에 프로세스 그룹 ID가 호출 프로세스의 프로세스 그룹 ID와 같은 아무 자식 프로세스나 기다리기
 
 `> 0`
 :   프로세스 ID가 `pid` 값과 같은 자식 기다리기
@@ -109,8 +107,11 @@ waitpid(-1, &wstatus, 0);
 `idtype == P_PID`
 :   프로세스 ID가 `id`와 일치하는 자식 기다리기.
 
+`idtype == P_PIDFD` (리눅스 5.4부터)
+:   `id`로 지정한 PID 파일 디스크립터가 나타내는 자식을 기다리기. (PID 파일 디스크립터에 대한 추가 설명은 <tt>[[pidfd_open(2)]]</tt>을 보라.)
+
 `idtype == P_PGID`
-:   프로세스 그룹 ID가 `id`와 일치하는 아무 자식이나 기다리기.
+:   프로세스 그룹 ID가 `id`와 일치하는 아무 자식이나 기다리기. 리눅스 5.4부터, `id`가 0이면 호출 시점에 호출자의 프로세스 그룹과 같은 프로세스 그룹에 있는 아무 자식이나 기다린다.
 
 `idtype == P_ALL`
 :   아무 자식이나 기다리기. `id`는 무시.
@@ -157,13 +158,13 @@ POSIX.1-2008 기술 정오표 1(2013년)에서는 `options`에 `WNOHANG`을 지�
 
 ## RETURN VALUE
 
-`wait()`: 성공 시 종료한 자식의 프로세스 ID를 반환한다. 오류 시 -1을 반환한다.
+`wait()`: 성공 시 종료한 자식의 프로세스 ID를 반환한다. 실패 시 -1을 반환한다.
 
-`waitpid()`: 성공 시 상태가 바뀐 자식의 프로세스 ID를 반환한다. `WNOHANG`을 지정했고 `pid`로 지정한 자식이 하나 이상 존재하지만 그 자식(들)이 아직 상태를 바꾸지 않았으면 0을 반환한다. 오류 시 -1을 반환한다.
+`waitpid()`: 성공 시 상태가 바뀐 자식의 프로세스 ID를 반환한다. `WNOHANG`을 지정했고 `pid`로 지정한 자식이 하나 이상 존재하지만 그 자식(들)이 아직 상태를 바꾸지 않았으면 0을 반환한다. 실패 시 -1을 반환한다.
 
-`waitid()`: 성공 시, 또는 `WNOHANG`을 지정했고 `id`로 지정한 어느 자식도 아직 상태를 바꾸지 않았으면 0을 반환한다. 오류 시 -1을 반환한다.
+`waitid()`: 성공 시, 또는 `WNOHANG`을 지정했고 `id`로 지정한 어느 자식도 아직 상태를 바꾸지 않았으면 0을 반환한다. 실패 시 -1을 반환한다.
 
-이 호출들 각각은 오류 시에 `errno`를 적절한 값으로 설정한다.
+실패 시 이 호출들 각각은 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -220,7 +221,7 @@ POSIX.1-2001에서는 `SIGCHLD` 처리 방식을 `SIG_IGN`로 설정하거나 `S
 
 POSIX.1-2008에 따르면 `waitid()`를 호출하는 응용에서 `infop`가 `siginfo_t` 구조체를 가리키도록 (즉 널 포인터가 아니도록) 보장해야 한다. 리눅스에서는 `infop`가 NULL이어도 `waitid()`가 성공하여 기다린 자식의 프로세스 ID를 반환한다. 응용에서는 일관성 없고 비표준이며 불필요한 이 동작 방식에 의지하는 것을 피해야 한다.
 
-## EXAMPLE
+## EXAMPLES
 
 다음 프로그램은 <tt>[[fork(2)]]</tt>와 `waitpid()` 사용 방식을 보여 준다. 프로그램에서 자식 프로세스를 만든다. 프로그램에 명령행 인자를 주지 않으면 자식이 <tt>[[pause(2)]]</tt>를 이용해 실행을 멈추는데, 그때 사용자가 자식에게 시그널을 보낼 수 있다. 명령행 인자가 있으면 명령행에서 준 정수를 종료 상태로 사용해서 자식이 즉시 종료한다. 부모 프로세스는 루프를 돌면서 `waitpid()`로 자식을 감시하며, 위에서 설명한 `W*()` 매크로들을 이용해 종료 상태 값을 분석한다.
 
@@ -244,6 +245,7 @@ $
 
 ```c
 #include <sys/wait.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
@@ -261,7 +263,7 @@ main(int argc, char *argv[])
     }
 
     if (cpid == 0) {            /* 자식이 실행하는 코드 */
-        printf("Child PID is %ld\n", (long) getpid());
+        printf("Child PID is %jd\n", (intmax_t) getpid());
         if (argc == 1)
             pause();                    /* 시그널 기다리기 */
         _exit(atoi(argv[1]));
@@ -295,4 +297,4 @@ main(int argc, char *argv[])
 
 ----
 
-2018-04-30
+2021-03-22

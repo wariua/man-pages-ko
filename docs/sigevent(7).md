@@ -7,21 +7,25 @@ sigevent - 비동기 루틴으로부터의 알림을 위한 구조체
 ```c
 #include <signal.h>
 
-union sigval {          /* 알림과 함께 전달되는 데이터 */
-    int     sival_int;         /* 정수 값 */
-    void   *sival_ptr;         /* 포인터 값 */
+union sigval {            /* 알림과 함께 전달되는 데이터 */
+    int     sival_int;    /* 정수 값 */
+    void   *sival_ptr;    /* 포인터 값 */
 };
 
 struct sigevent {
-    int          sigev_notify; /* 알림 방법 */
-    int          sigev_signo;  /* 알림 시그널 */
-    union sigval sigev_value;  /* 알림과 함께 전달되는 데이터 */
-    void       (*sigev_notify_function) (union sigval);
-                     /* 스레드 알림에 쓰는 함수 (SIGEV_THREAD) */
-    void        *sigev_notify_attributes;
-                     /* 알림 스레드의 속성 (SIGEV_THREAD) */
-    pid_t        sigev_notify_thread_id;
-                     /* 신호를 받을 스레드의 ID (SIGEV_THREAD_ID) */
+    int    sigev_notify;  /* 알림 방법 */
+    int    sigev_signo;   /* 알림 시그널 */
+    union sigval sigev_value;
+                          /* 알림과 함께 전달되는 데이터 */
+    void (*sigev_notify_function) (union sigval);
+                          /* 스레드 알림에 쓰는 함수
+                             (SIGEV_THREAD) */
+    void  *sigev_notify_attributes;
+                          /* 알림 스레드의 속성
+                             (SIGEV_THREAD) */
+    pid_t  sigev_notify_thread_id;
+                          /* 신호를 받을 스레드의 ID
+                             (SIGEV_THREAD_ID), 리눅스 전용 */
 };
 ```
 
@@ -66,4 +70,4 @@ SYNOPSIS에서 보여준 정의는 대략적인 것이다. `sigevent` 구조체�
 
 ----
 
-2017-07-13
+2021-03-22

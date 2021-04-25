@@ -37,7 +37,7 @@ POSIX.1에서는 `pthread_attr_init()`에 `ENOMEM` 오류도 적고 있다. 리�
 
 | 인터페이스 | 속성 | 값 |
 | --- | --- | --- |
-| `pthread_attr_init()`,<br>`pthread_attr_destroy()` | 스레드 안전성 | MT-Safe |
+| `pthread_attr_init()`, `pthread_attr_destroy()` | 스레드 안전성 | MT-Safe |
 
 ## CONFORMING TO
 
@@ -47,7 +47,7 @@ POSIX.1-2001, POSIX.1-2008.
 
 `pthread_attr_t` 타입을 불투명한 것으로 취급해야 한다. pthreads 함수를 통하지 않은 방식으로 객체에 접근하는 것은 이식성이 없으며 규정되지 않은 결과를 유발한다.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 프로그램에서는 선택적으로 `pthread_attr_init()`과 여러 관련 함수들을 이용해 스레드 속성 객체를 초기화하고 스레드 한 개를 생성한다. 생성된 스레드는 <tt>[[pthread_getattr_np(3)]]</tt> 함수(비표준 GNU 확장)로 스레드의 속성을 얻어 와서 그 속성들을 표시한다.
 
@@ -152,7 +152,7 @@ display_pthread_attr(pthread_attr_t *attr, char *prefix)
     if (s != 0)
         handle_error_en(s, "pthread_attr_getstack");
     printf("%sStack address       = %p\n", prefix, stkaddr);
-    printf("%sStack size          = 0x%zx bytes\n", prefix, v);
+    printf("%sStack size          = %#zx bytes\n", prefix, v);
 }
 
 static void *
@@ -162,7 +162,7 @@ thread_start(void *arg)
     pthread_attr_t gattr;
 
     /* pthread_getattr_np()는 비표준 GNU 확장이며
-       첫 번째 인자에 지정한 스레드의 속성들을 가져옴 */
+       첫 번째 인자에 지정한 스레드의 속성들을 가져온다. */
 
     s = pthread_getattr_np(pthread_self(), &gattr);
     if (s != 0)
@@ -186,10 +186,10 @@ main(int argc, char *argv[])
 
     /* 명령행 인자가 있으면 그 값으로 스택 크기 속성을 설정하고
        다른 몇 가지 스레드 속성들을 설정한 다음 attrp가 그
-       스레드 속성 객체를 가리키도록 설정 */
+       스레드 속성 객체를 가리키도록 설정한다. */
 
     if (argc > 1) {
-        int stack_size;
+        size_t stack_size;
         void *sp;
 
         attrp = &attr;
@@ -235,8 +235,8 @@ main(int argc, char *argv[])
 
 ## SEE ALSO
 
-<tt>[[pthread_attr_setaffinity_np(3)]]</tt>, <tt>[[pthread_attr_setdetachstate(3)]]</tt>, <tt>[[pthread_attr_setguardsize(3)]]</tt>, <tt>[[pthread_attr_setinheritsched(3)]]</tt>, <tt>[[pthread_attr_setschedparam(3)]]</tt>, <tt>[[pthread_attr_setschedpolicy(3)]]</tt>, <tt>[[pthread_attr_setscope(3)]]</tt>, <tt>[[pthread_attr_setstack(3)]]</tt>, <tt>[[pthread_attr_setstackaddr(3)]]</tt>, <tt>[[pthread_attr_setstacksize(3)]]</tt>, <tt>[[pthread_create(3)]]</tt>, <tt>[[pthread_getattr_np(3)]]</tt>, <tt>[[pthread_setattr_default_np(3)]]</tt>, <tt>[[pthreads(7)]]</tt>
+<tt>[[pthread_attr_setaffinity_np(3)]]</tt>, <tt>[[pthread_attr_setdetachstate(3)]]</tt>, <tt>[[pthread_attr_setguardsize(3)]]</tt>, <tt>[[pthread_attr_setinheritsched(3)]]</tt>, <tt>[[pthread_attr_setschedparam(3)]]</tt>, <tt>[[pthread_attr_setschedpolicy(3)]]</tt>, <tt>[[pthread_attr_setscope(3)]]</tt>, <tt>[[pthread_attr_setsigmask_np(3)]]</tt>, <tt>[[pthread_attr_setstack(3)]]</tt>, <tt>[[pthread_attr_setstackaddr(3)]]</tt>, <tt>[[pthread_attr_setstacksize(3)]]</tt>, <tt>[[pthread_create(3)]]</tt>, <tt>[[pthread_getattr_np(3)]]</tt>, <tt>[[pthread_setattr_default_np(3)]]</tt>, <tt>[[pthreads(7)]]</tt>
 
 ----
 
-2019-03-06
+2021-03-22

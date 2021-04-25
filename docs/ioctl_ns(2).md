@@ -37,7 +37,7 @@ new_fd = ioctl(fd, request);
 `EINVAL`
 :   `fd`가 비계층적 네임스페이스를 가리키고 있다.
 
-이 동작들의 사용 예시는 EXAMPLE 절 참고.
+이 동작들의 사용 예시는 EXAMPLES 절 참고.
 
 ### 네임스페이스 종류 알아내기
 
@@ -80,7 +80,7 @@ ioctl(fd, NS_GET_OWNER_UID, &uid);
 
 이 페이지에서 설명하는 네임스페이스 및 동작들은 리눅스 전용이다.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 있는 예시 프로그램에서는 위에 설명한 `ioctl(2)` 동작들을 사용해 간단한 네임스페이스 관계 탐색을 수행한다. 다음 셸 세션들은 이 프로그램의 다양한 사용 방식을 보여 준다.
 
@@ -128,6 +128,7 @@ The owning user namespace is outside your namespace scope
 
    Licensed under the GNU General Public License v2 or later.
 */
+#include <stdint.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
@@ -161,7 +162,7 @@ main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    /* argv[1]에 지정된 'ns' 파일에 대한 파일 디스크립터 얻기 */
+    /* argv[1]에 지정된 'ns' 파일에 대한 파일 디스크립터 얻기. */
 
     fd = open(argv[1], O_RDONLY);
     if (fd == -1) {
@@ -170,7 +171,7 @@ main(int argc, char *argv[])
     }
 
     /* 소유 사용자 네임스페이스에 대한 파일 디스크립터를 얻고
-       그 네임스페이스의 아이노드 번호를 얻어서 표시 */
+       그 네임스페이스의 아이노드 번호를 얻어서 표시. */
 
     if (argc < 3 || strchr(argv[2], 'u')) {
         userns_fd = ioctl(fd, NS_GET_USERNS);
@@ -189,15 +190,16 @@ main(int argc, char *argv[])
             exit_EXIT_FAILURE);
         }
         printf("Device/Inode of owning user namespace is: "
-                "[%lx,%lx] / %ld\n",
-                (long) major(sb.st_dev), (long) minor(sb.st_dev),
-                (long) sb.st_ino);
+                "[%jx,%jx] / %ju\n",
+                (uintmax_t) major(sb.st_dev),
+                (uintmax_t) minor(sb.st_dev),
+                (uintmax_t) sb.st_ino);
 
         close(userns_fd);
     }
 
     /* 부모 네임스페이스에 대한 파일 디스크립터를 얻고
-       그 네임스페이스의 아이노드 번호를 얻어서 표시 */
+       그 네임스페이스의 아이노드 번호를 얻어서 표시하기. */
 
     if (argc > 2 && strchr(argv[2], 'p')) {
         parent_fd = ioctl(fd, NS_GET_PARENT);
@@ -218,9 +220,10 @@ main(int argc, char *argv[])
             perror("fstat-parentns");
             exit_EXIT_FAILURE);
         }
-        printf("Device/Inode of parent namespace is: [%lx,%lx] / %ld\n",
-                (long) major(sb.st_dev), (long) minor(sb.st_dev),
-                (long) sb.st_ino);
+        printf("Device/Inode of parent namespace is: [%jx,%jx] / %ju\n",
+                (uintmax_t) major(sb.st_dev),
+                (uintmax_t) minor(sb.st_dev),
+                (uintmax_t) sb.st_ino);
 
         close(parent_fd);
     }
@@ -235,4 +238,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-03-06
+2021-03-22

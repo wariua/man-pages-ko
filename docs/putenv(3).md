@@ -15,7 +15,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 `putenv()`
 :   `_XOPEN_SOURCE`<br>
     `|| /* glibc 2.19부터: */ _DEFAULT_SOURCE`<br>
-    `|| /* glibc 버전 <= 2.19: */ _SVID_SOURCE`
+    `|| /* glibc <= 2.19: */ _SVID_SOURCE`
 
 ## DESCRIPTION
 
@@ -23,7 +23,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## RETURN VALUE
 
-`putenv()` 함수는 성공 시 0을 반환하고 오류 발생 시 0 아닌 값을 반환한다. 오류 발생 시 원인을 나타내도록 `errno`를 설정한다.
+`putenv()` 함수는 성공 시 0을 반환한다. 실패 시 0 아닌 값을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -64,4 +64,4 @@ putenv("NAME");
 
 ----
 
-2019-03-06
+2021-03-22

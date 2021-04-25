@@ -8,7 +8,8 @@ pthread_attr_setguardsize, pthread_attr_getguardsize - 스레드 속성 객체�
 #include <pthread.h>
 
 int pthread_attr_setguardsize(pthread_attr_t *attr, size_t guardsize);
-int pthread_attr_getguardsize(const pthread_attr_t *attr, size_t *guardsize);
+int pthread_attr_getguardsize(const pthread_attr_t *restrict attr,
+                              size_t *restrict guardsize);
 ```
 
 `-pthread`로 컴파일 및 링크.
@@ -65,7 +66,7 @@ glibc 2.8 기준으로 NPTL 스레딩 구현에서는 POSIX.1의 요구대로 �
 
 구식 LinuxThreads 구현에서는 올바로 스택 끝에 방호 구역을 위한 추가 공간을 할당한다.
 
-## EXAMPLE
+## EXAMPLES
 
 <tt>[[pthread_getattr_np(3)]]</tt> 참고.
 
@@ -75,4 +76,4 @@ glibc 2.8 기준으로 NPTL 스레딩 구현에서는 POSIX.1의 요구대로 �
 
 ----
 
-2017-09-15
+2021-03-22

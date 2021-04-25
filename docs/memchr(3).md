@@ -8,9 +8,7 @@ memchr, memrchr, rawmemchr - 메모리에서 문자 탐색하기
 #include <string.h>
 
 void *memchr(const void *s, int c, size_t n);
-
 void *memrchr(const void *s, int c, size_t n);
-
 void *rawmemchr(const void *s, int c);
 ```
 
@@ -65,4 +63,4 @@ glibc 버전 2.2에서 `memrchr()`이 처음 등장했다.
 
 ----
 
-2019-03-06
+2021-03-22

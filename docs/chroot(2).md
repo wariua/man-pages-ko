@@ -16,7 +16,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 :   glibc 2.2.2부터:
     :   `_XOPEN_SOURCE && ! (_POSIX_C_SOURCE >= 200112L)`<br>
         `    || /* glibc 2.20부터: */ _DEFAULT_SOURCE`<br>
-        `    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE`
+        `    || /* glibc <= 2.19: */ _BSD_SOURCE`
 
     glibc 2.2.2 전:
     :   없음
@@ -41,7 +41,7 @@ mkdir foo; chroot foo; cd ..
 
 ## RETURN VALUE
 
-성공 시 0을 반환한다. 오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -92,4 +92,4 @@ FreeBSD에는 더 강력한 `jail()` 시스템 호출이 있다.
 
 ----
 
-2019-03-06
+2021-03-22

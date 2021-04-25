@@ -154,7 +154,7 @@ glibc 2.16부터 `fmtmsg()` 함수는 락을 사용해 그 정적 변수를 보�
 
 시스템 V 및 UnixWare 맨 페이지에서는 이 함수들이 "`pfmt` 및 `addsev()`" 내지 "`pfmt()`, `vpfmt()`, `lfmt()`, `vlfmt()`"으로 대체되었으며 나중에 제거될 것이라고 얘기한다.
 
-## EXAMPLE
+## EXAMPLES
 
 ```c
 #include <stdio.h>
@@ -215,4 +215,4 @@ TO FIX: See mount(8).
 
 ----
 
-2017-09-15
+2021-03-22

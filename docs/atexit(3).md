@@ -52,7 +52,7 @@ POSIX.1에 따르면 `atexit()`로 등록한 함수의 실행을 <tt>[[longjmp(3
 
 glibc 2.2.3부터 공유 라이브러리 내에서 `atexit()`를 (그리고 <tt>[[on_exit(3)]]</tt>를) 사용해 그 공유 라이브러리가 내려갈 때 호출될 함수를 설정할 수 있다.
 
-## EXAMPLE
+## EXAMPLES
 
 ```c
 #include <stdio.h>
@@ -90,4 +90,4 @@ main(void)
 
 ----
 
-2017-09-15
+2021-03-22

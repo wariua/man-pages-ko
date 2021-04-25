@@ -16,6 +16,10 @@ int creat(const char *pathname, mode_t mode);
 
 int openat(int dirfd, const char *pathname, int flags);
 int openat(int dirfd, const char *pathname, int flags, mode_t mode);
+
+/* openat2(2)에서 따로 설명: */
+int openat2(int dirfd, const char *pathname,
+            const struct open_how *how, size_t size);
 ```
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
@@ -61,9 +65,13 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
     새 파일의 소유자(사용자 ID)는 프로세스의 실효 사용자 ID로 설정한다.
 
-    새 파일의 그룹 소유(그룹 ID)는 프로세스의 실효 그룹 ID(시스템 V 방식)나 부모 디렉터리의 그룹 ID(BSD 방식) 중 하나로 설정한다. 리눅스에서는 부모 디렉터리에 set-group-ID 모드 비트가 설정돼 있는지 여부에 따라 동작이 다르다. 그 비트가 설정돼 있으면 BSD 방식을 따르고, 아니면 시스템 V 방식을 적용한다. 일부 파일 시스템에서는 (<tt>[[mount(8)]]</tt>에서 설명하는) 마운트 옵션 `bsdgroups` 및 `sysvgroups`에 따라서도 동작이 달라진다.
+    새 파일의 그룹 소유(그룹 ID)는 프로세스의 실효 그룹 ID(시스템 V 방식)나 부모 디렉터리의 그룹 ID(BSD 방식) 중 하나로 설정한다. 리눅스에서는 부모 디렉터리에 set-group-ID 모드 비트가 설정돼 있는지 여부에 따라 동작이 다르다. 그 비트가 설정돼 있으면 BSD 방식을 따르고, 아니면 시스템 V 방식을 적용한다. 일부 파일 시스템에서는 <tt>[[mount(8)]]</tt>에서 설명하는 마운트 옵션 `bsdgroups` 및 `sysvgroups`에 따라서도 동작이 달라진다.
 
-    `mode` 인자는 새 파일 생성 시 적용할 파일 모드 비트를 나타낸다. `flags`에 `O_CREAT`이나 `O_TMPFILE`를 지정할 때는 이 인자를 제공해야 한다. `O_CREAT`과 `O_TMPFILE` 어느 쪽도 지정하지 않은 경우에는 `mode`가 무시된다. 실효 모드는 프로세스의 `umask`를 일반적 방식으로 사용해 변경한 값이다. 즉 기본 ACL이 없는 경우 생성 파일의 모드는 `(mode & ~umask)`이다. 참고로 이 모드는 새로 생성되는 파일의 향후 접근에만 적용된다. 즉 읽기 전용 파일을 생성하게 돼 있는 `open()` 호출이 읽기/쓰기 가능한 파일 디스크립터를 반환하는 것도 충분히 가능하다.
+    `mode` 인자는 새 파일 생성 시 적용할 파일 모드 비트를 나타낸다. `flags`에 `O_CREAT`과 `O_TMPFILE` 어느 쪽도 지정하지 않은 경우에는 `mode`가 무시된다. (따라서 0으로 지정할 수도 있고, 그냥 생략할 수도 있다.) `flags`에 `O_CREAT`이나 `O_TMPFILE`를 지정할 때는 `mode` 인자를 **반드시** 제공해야 한다. 주지 않으면 스택에 있는 임의의 바이트들이 파일 모드로 적용된다.
+
+    실제 적용되는 모드는 프로세스의 `umask`를 일반적 방식으로 써서 변경한 값이다. 즉 기본 ACL이 없는 경우 생성 파일의 모드는 `(mode & ~umask)`이다.
+
+    참고로 `mode`는 새로 생성되는 파일의 향후 접근에만 적용된다. 즉 읽기 전용 파일을 생성하게 돼 있는 `open()` 호출이 읽기/쓰기 가능한 파일 디스크립터를 반환하는 것도 충분히 가능하다.
 
     `mode`를 위한 다음 상수 심볼들이 제공된다.
 
@@ -130,7 +138,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 :   `pathname`이 터미널 장치(<tt>[[tty(4)]]</tt> 참고)를 가리키는 경우에 프로세스에 제어 터미널이 없더라도 그 장치가 프로세스의 제어 터미널이 되지 않게 한다.
 
 `O_NOFOLLOW`
-:   `pathname`이 심볼릭 링크이면 열기가 `ELOOP` 오류로 실패한다. 경로명 앞쪽 부분의 심볼릭 링크는 여전히 따라간다. (참고로 이 경우 발생할 수 있는 `ELOOP` 오류는 경로명 선두부 구성 항목들을 해석하는 과정에서 너무 많은 심볼릭 링크를 발견해서 열기가 실패하는 경우와 구별이 불가능하다.)
+:   `pathname`의 마지막 부분(즉 basename)이 심볼릭 링크이면 열기가 `ELOOP` 오류로 실패한다. 경로명 앞쪽 부분의 심볼릭 링크는 여전히 따라간다. (참고로 이 경우 발생할 수 있는 `ELOOP` 오류는 경로명 선두부 구성 항목들을 해석하는 과정에서 너무 많은 심볼릭 링크를 발견해서 열기가 실패하는 경우와 구별이 불가능하다.)
 
     이 플래그는 FreeBSD 확장이며 리눅스에는 버전 2.1.126에 추가되었다. 그 뒤 POSIX.1-2008에서 표준화되었다.
 
@@ -201,9 +209,17 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
         /* 'fd'에서 파일 I/O... */
 
+        linkat(fd, NULL, AT_FDCWD, "/path/for/file", AT_EMPTY_PATH);
+
+        /* 호출자에게 (linkat(2)에 AT_EMPTY_PATH를 쓰려면 필요한)
+           CAP_DAC_READ_SEARCH 역능이 없고 proc(5) 파일 시스템이
+           마운트 되어 있다면 위의 linkat(2) 호출을 다음으로
+           대체할 수 있다.
+
         snprintf(path, PATH_MAX, "/proc/self/fd/%d", fd);
         linkat(AT_FDCWD, path, AT_FDCWD, "/path/for/file",
                                 AT_SYMLINK_FOLLOW);
+        */
 
     이 경우 `open()`의 `mode` 인자가 `O_CREAT`에서처럼 파일 권한 모드를 결정한다.
 
@@ -215,7 +231,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
     * 처음에는 안 보이는 파일을 만들고서 데이터를 채우고 적절한 파일 시스템 속성을 갖도록 조정(<tt>[[fchown(2)]]</tt>, <tt>[[fchmod(2)]]</tt>, <tt>[[fsetxattr(2)]]</tt> 등)한 다음에 (위에 설명한 것처럼 <tt>[[linkat(2)]]</tt>을 써서) 완전한 상태로 파일 시스템 내로 원자적으로 링크 하기.
 
-    `O_TMPFILE`에는 기반 파일 시스템의 지원이 필요하다. 리눅스 파일 시스템들 중 일부만 지원을 제공한다. 최초 구현에서는 ext2, ext3, ext4, UDF, Minix, shmem 파일 시스템에서 지원을 제공했다. 이어서 XFS (리눅스 3.15), Btrfs (리눅스 3.16), F2FS (리눅스 3.16), ubifs (리눅스 4.9) 파일 시스템 지원이 추가되었다.
+    `O_TMPFILE`에는 기반 파일 시스템의 지원이 필요하다. 리눅스 파일 시스템들 중 일부만 지원을 제공한다. 최초 구현에서는 ext2, ext3, ext4, UDF, Minix, tmpfs 파일 시스템에서 지원을 제공했다. 이어서 XFS (리눅스 3.15), Btrfs (리눅스 3.16), F2FS (리눅스 3.16), ubifs (리눅스 4.9) 파일 시스템 지원이 추가되었다.
 
 `O_TRUNC`
 :   파일이 이미 존재하고 정규 파일이며 접근 모드에서 쓰기를 허용(즉 `O_RDWR`나 `O_WRONLY`)하면 파일을 길이 0으로 잘라낸다. 파일이 FIFO나 터미널 장치 파일이면 `O_TRUNC` 플래그를 무시한다. 그 외 경우에 `O_TRUNC`의 효과는 명세돼 있지 않다.
@@ -234,9 +250,13 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 `pathname`이 절대 경로이면 `dirfd`를 무시한다.
 
+### <tt>[[openat2(2)]]</tt>
+
+<tt>[[openat2(2)]]</tt> 시스템 호출은 `openat()`의 확장판이며 `openat()`을 포괄하는 기능을 제공한다. <tt>[[openat2(2)]]</tt>에서 따로 설명한다.
+
 ## RETURN VALUE
 
-`open()`, `openat()`, `creat()`은 새 파일 디스크립터를 반환한다. 오류가 발생하면 -1을 반환한다. (그 경우 `errno`를 적절히 설정한다.)
+성공 시 `open()`, `openat()`, `creat()`은 새 파일 디스크립터(음수 아닌 정수)를 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -244,6 +264,12 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 `EACCES`
 :   파일에 요청한 접근 방식이 허용되지 않거나, `pathname` 경로 선두부의 한 디렉터리에 대해 탐색 권한이 거부되었거나, 파일이 아직 존재하지 않고 부모 디렉터리에 대한 쓰기 접근이 허용되지 않는다. (<tt>[[path_resolution(7)]]</tt>도 참고.)
+
+`EACCES`
+:   `O_CREAT`을 지정했는데, sysctl 항목 `protected_fifos`나 `protected_regular`가 켜져 있고, 파일이 이미 존재하며 FIFO 또는 정규 파일이고, 파일 소유자가 현재 사용자도 아니고 그 파일을 담은 디렉터리의 소유자도 아니며, 담은 디렉터리가 기타 또는 그룹이 쓰기 가능이면서 스티키이다. 자세한 내용은 <tt>[[proc(5)]]</tt>의 `/proc/sys/fs/protected_fifos`와 `/proc/sys/fs/protected_regular` 설명을 보라.
+
+`EBUSY`
+:   `flags`에 `O_EXCL`을 지정했는데 `pathname`이 시스템에서 사용 중인 (가령 마운트 되어 있는) 블록 장치를 가리킨다.
 
 `EDQUOT`
 :   `O_CREAT`를 지정한 경우에서 파일이 존재하지 않으며 그 파일 시스템 상에서 사용자의 디스크 블록 내지 아이노드 쿼터가 고갈되었다.
@@ -271,6 +297,9 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 `EINVAL`
 :   `flags`에 `O_CREAT`을 지정했는데 새 파일 `pathname`의 마지막 부분("basename")이 유효하지 않다. (가령 기반 파일 시스템에서 허용하지 않는 문자를 담고 있다.)
+
+`EINVAL`
+:   `pathname`의 마지막 부분("basename")이 유효하지 않다. (가령 기반 파일 시스템에서 허용하지 않는 문자를 담고 있다.)
 
 `EISDIR`
 :   `pathname`이 디렉터리를 가리키는데 요청한 접근 방식에 쓰기가 수반된다. (즉 `O_WRONLY`나 `O_RDWR`를 설정했다.)
@@ -371,6 +400,8 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 `openat()`: POSIX.1-2008.
 
+<tt>[[openat2(2)]]</tt>는 리눅스 전용이다.
+
 `O_DIRECT`, `O_NOATIME`, `O_PATH`, `O_TMPFILE` 플래그는 리눅스 전용이다. 그 정의를 이용할 수 있으려면 `_GNU_SOURCE`를 정의해야 한다.
 
 `O_CLOEXEC`, `O_DIRECTORY`, `O_NOFOLLOW` 플래그는 POSIX.1-2001에는 명세돼 있지 않고 POSIX-1.2008에는 명세돼 있다. glibc 2.12부터 200809L과 같거나 그보다 큰 값으로 `_POSIX_C_SOURCE`를 정의하거나 700과 같거나 그보다 큰 값으로 `_XOPEN_SOURCE`를 정의하면 그 정의들을 이용할 수 있다.
@@ -437,7 +468,7 @@ FIFO의 읽기 쪽 내지 쓰기 쪽을 여는 동작은 (다른 프로세스나
 
 ### `openat()` 및 기타 디렉터리 파일 디스크립터 API의 배경
 
-`openat()`과 디렉터리 파일 디스크립터 인자를 받는 여타 시스템 호출 및 라이브러리 함수들(즉 <tt>[[fexecveat(2)]]</tt>, <tt>[[faccessat(2)]]</tt>, <tt>[[fanotify_mark(2)]]</tt>, <tt>[[fchmodat(2)]]</tt>, <tt>[[fchownat(2)]]</tt>, <tt>[[fstatat(2)]]</tt>, <tt>[[futimesat(2)]]</tt>, <tt>[[linkat(2)]]</tt>, <tt>[[mkdirat(2)]]</tt>, <tt>[[mknodat(2)]]</tt>, <tt>[[name_to_handle_at(2)]]</tt>, <tt>[[readlinkat(2)]]</tt>, <tt>[[renameat(2)]]</tt>, <tt>[[statx(2)]]</tt>, <tt>[[symlinkat(2)]]</tt>, <tt>[[unlinkat(2)]]</tt>, <tt>[[utimensat(2)]]</tt>, <tt>[[mkfifoat(3)]]</tt>, <tt>[[scandirat(3)]]</tt>)은 선행 인터페이스에 있는 두 가지 문제를 다룬다. 여기선 `openat()` 호출을 가지고 설명하지만 다른 인터페이스들의 근거도 비슷하다.
+`openat()`과 디렉터리 파일 디스크립터 인자를 받는 여타 시스템 호출 및 라이브러리 함수들(즉 <tt>[[fexecveat(2)]]</tt>, <tt>[[faccessat(2)]]</tt>, <tt>[[fanotify_mark(2)]]</tt>, <tt>[[fchmodat(2)]]</tt>, <tt>[[fchownat(2)]]</tt>, <tt>[[fspick(2)]]</tt>, <tt>[[fstatat(2)]]</tt>, <tt>[[futimesat(2)]]</tt>, <tt>[[linkat(2)]]</tt>, <tt>[[mkdirat(2)]]</tt>, <tt>[[move_mount(2)]]</tt>, <tt>[[mknodat(2)]]</tt>, <tt>[[name_to_handle_at(2)]]</tt>, <tt>[[open_tree(2)]]</tt>, <tt>[[openat2(2)]]</tt>, <tt>[[readlinkat(2)]]</tt>, <tt>[[renameat(2)]]</tt>, <tt>[[statx(2)]]</tt>, <tt>[[symlinkat(2)]]</tt>, <tt>[[unlinkat(2)]]</tt>, <tt>[[utimensat(2)]]</tt>, <tt>[[mkfifoat(3)]]</tt>, <tt>[[scandirat(3)]]</tt>)은 선행 인터페이스에 있는 두 가지 문제를 다룬다. 여기선 `openat()` 호출을 가지고 설명하지만 다른 인터페이스들의 근거도 비슷하다.
 
 첫째로, 응용에서 `openat()`을 쓰면 현재 작업 디렉터리 아닌 디렉터리의 파일을 `open()`으로 열 때 발생할 수 있는 경쟁 조건을 피할 수 있다. 그 경쟁 조건은 `open()`에 준 디렉터리 선두부의 어느 구성 요소가 `open()` 호출과 동시에 바뀔 수도 있다는 사실에서 온다. 예를 들어 `dir1/dir2/xxx`라는 파일이 존재하면 `dir1/dir2/xxx.dep`라는 파일을 만들고 싶다고 해 보자. 문제는 존재 여부 검사 단계와 파일 생성 단계 사이에 (심볼릭 링크일 수도 있을) `dir1`이나 `dir2`가 다른 위치를 가리키게 변경될 수도 있다는 것이다. 대상 디렉터리에 대한 파일 디스크립터를 연 다음 그 파일 디스크립터를 (가령) <tt>[[fstatat(2)]]</tt>과 `openat()`의 `dirfd` 인자로 지정한다면 그런 경쟁을 피할 수 있다. `dirfd` 파일 디스크립터 사용에는 다른 이득도 있다.
 
@@ -447,11 +478,15 @@ FIFO의 읽기 쪽 내지 쓰기 쪽을 여는 동작은 (다른 프로세스나
 
 둘째로, `openat()`을 쓰면 응용에서 파일 디스크립터(들)을 유지하며 스레드별 "현재 작업 디렉터리"를 구현할 수 있다. (`/proc/self/fd/dirfd`를 이용하는 기법으로도 같은 기능성을 얻을 수 있지만 덜 효율적이다.)
 
+이 API들에 쓸 `dirfd` 인자는 `open()`이나 `openat()`으로 (`O_RDONLY` 또는 `O_PATH` 플래그를 써서) 디렉터리를 열어서 얻을 수 있다. 또는 <tt>[[opendir(3)]]</tt>로 만든 디렉터리 스트림에 <tt>[[dirfd(3)]]</tt>를 적용해서 얻을 수도 있다.
+
+이 API들에 `dirfd` 인자로 `AT_FDCWD`를 주거나 경로명이 절대 경로이면 대응하는 전통적 API와 같은 방식으로 경로명 인자를 다룬다. 하지만 이 경우에도 여러 API에는 `flags` 인자가 있어서 대응하는 전통적 API에서 이용할 수 없는 기능들에 접근할 수 있다.
+
 ### `O_DIRECT`
 
 `O_DIRECT` 플래그 사용 시 사용자 공간 버퍼의 길이와 주소, 그리고 I/O의 파일 오프셋에 정렬 제약이 있을 수 있다. 리눅스의 정렬 제약은 파일 시스템과 커널 버전에 따라 다르며 아예 없을 수도 있다. 하지만 응용에서 어떤 파일이나 파일 시스템에 대해 그런 제약을 알아낼 수 있는 파일 시스템 독립적 인터페이스는 현재 없다. 어떤 파일 시스템에서는 이를 위한 자체 인터페이스를 제공하기도 하는데, 예를 들어 `xfsctl(3)`의 `XFS_IOC_DIOINFO`가 있다.
 
-리눅스 2.4에서는 전송 크기, 그리고 사용자 버퍼 및 파일 오프셋의 정렬이 모두 파일 시스템의 논리적 블록 크기의 배수여야 한다. 리눅스 2.6.0부터는 기반 저장소의 논리적 블록 크기(보통 512바이트)에 정렬된 것으로 충분하다. `ioctl(2)` `BLKSSZGET` 동작을 이용하거나 셸에서 다음 명령을 사용해 그 논리적 블록 크기를 알아낼 수 있다.
+리눅스 2.4에서는 전송 크기, 사용자 버퍼의 정렬, 파일 오프셋이 모두 파일 시스템의 논리적 블록 크기의 배수여야 한다. 리눅스 2.6.0부터는 기반 저장소의 논리적 블록 크기(보통 512바이트)에 정렬된 것으로 충분하다. `ioctl(2)` `BLKSSZGET` 동작을 이용하거나 셸에서 다음 명령을 사용해 그 논리적 블록 크기를 알아낼 수 있다.
 
 ```c
 blockdev --getss
@@ -479,8 +514,8 @@ NFS에서 `O_DIRECT`의 동작 방식은 로컬 파일 시스템에서와 다르
 
 ## SEE ALSO
 
-<tt>[[chmod(2)]]</tt>, <tt>[[chown(2)]]</tt>, <tt>[[close(2)]]</tt>, <tt>[[dup(2)]]</tt>, <tt>[[fcntl(2)]]</tt>, <tt>[[link(2)]]</tt>, <tt>[[lseek(2)]]</tt>, <tt>[[mknod(2)]]</tt>, <tt>[[mmap(2)]]</tt>, <tt>[[mount(2)]]</tt>, <tt>[[open_by_handle_at(2)]]</tt>, `read(2)`, <tt>[[socket(2)]]</tt>, <tt>[[stat(2)]]</tt>, <tt>[[umask(2)]]</tt>, <tt>[[unlink(2)]]</tt>, `write(2)`, <tt>[[fopen(3)]]</tt>, `acl(5)`, <tt>[[fifo(7)]]</tt>, <tt>[[inode(7)]]</tt>, <tt>[[path_resolution(7)]]</tt>, <tt>[[symlink(7)]]</tt>
+<tt>[[chmod(2)]]</tt>, <tt>[[chown(2)]]</tt>, <tt>[[close(2)]]</tt>, <tt>[[dup(2)]]</tt>, <tt>[[fcntl(2)]]</tt>, <tt>[[link(2)]]</tt>, <tt>[[lseek(2)]]</tt>, <tt>[[mknod(2)]]</tt>, <tt>[[mmap(2)]]</tt>, <tt>[[mount(2)]]</tt>, <tt>[[open_by_handle_at(2)]]</tt>, <tt>[[openat2(2)]]</tt>, `read(2)`, <tt>[[socket(2)]]</tt>, <tt>[[stat(2)]]</tt>, <tt>[[umask(2)]]</tt>, <tt>[[unlink(2)]]</tt>, `write(2)`, <tt>[[fopen(3)]]</tt>, `acl(5)`, <tt>[[fifo(7)]]</tt>, <tt>[[inode(7)]]</tt>, <tt>[[path_resolution(7)]]</tt>, <tt>[[symlink(7)]]</tt>
 
 ----
 
-2018-04-30
+2021-03-22

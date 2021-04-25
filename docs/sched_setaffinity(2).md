@@ -10,7 +10,6 @@ sched_setaffinity, sched_getaffinity - 스레드의 CPU 친화성 마스크 설�
 
 int sched_setaffinity(pid_t pid, size_t cpusetsize,
                       const cpu_set_t *mask);
-
 int sched_getaffinity(pid_t pid, size_t cpusetsize,
                       cpu_set_t *mask);
 ```
@@ -29,7 +28,7 @@ int sched_getaffinity(pid_t pid, size_t cpusetsize,
 
 ## RETURN VALUE
 
-성공 시 `sched_setaffinity()`와 `sched_getaffinity()`는 0을 반환한다. 오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+성공 시 `sched_setaffinity()`와 `sched_getaffinity()`는 0을 반환한다. (하지만 기반 `sched_getaffinity()`의 반환 값 차이를 다루는 아래 "C 라이브러리/커널 차이"를 보라.) 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -90,7 +89,7 @@ sched_getaffinity(pid, sizeof(cpu_set_t), &mask);
 
 <tt>[[CPU_ALLOC(3)]]</tt>이 요청한 것보다 살짝 큰 CPU 세트를 할당할 수도 있음에 유의하라. (CPU 세트가 `sizeof(long)` 단위로 할당된 비트 마스크로 구현되어 있기 때문이다.) 그로 인해 `sched_getaffinity()`가 요청한 할당 크기 너머에서 비트를 설정할 수 있는데, 커널은 그 몇 개의 추가 비트를 보기 때문이다. 따라서 호출자가 (할당 요청을 했던 비트 수만큼 순회하는 것이 아니라) 반환된 세트의 비트들을 순회하며 설정된 비트 수를 세다가 <tt>[[CPU_COUNT(3)]]</tt>가 반환한 값에 도달했을 때 멈춰야 한다.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 프로그램에서는 자식 프로세스를 만든다. 그리고 부모와 자식은 각각 지정한 CPU에 자기를 할당하고 동일한 루프를 실행해서 CPU 시간을 좀 소모한다. 종료 전에 부모는 자식 프로세스가 끝나기를 기다린다. 프로그램에서 명령 행 인자를 세 개 받는다. 부모용 CPU 번호, 자식용 CPU 번호, 그리고 두 프로세스가 수행해야 할 루프 반복 횟수이다.
 
@@ -140,7 +139,7 @@ main(int argc, char *argv[])
 {
     cpu_set_t set;
     int parentCPU, childCPU;
-    int nloops, j;
+    int nloops;
 
     if (argc != 4) {
         fprintf(stderr, "Usage: %s parent-cpu child-cpu num-loops\n",
@@ -164,7 +163,7 @@ main(int argc, char *argv[])
         if (sched_setaffinity(getpid(), sizeof(set), &set) == -1)
             errExit("sched_setaffinity");
 
-        for (j = 0; j < nloops; j++)
+        for (int j = 0; j < nloops; j++)
             getppid();
 
         exit(EXIT_SUCCESS);
@@ -175,7 +174,7 @@ main(int argc, char *argv[])
         if (sched_setaffinity(getpid(), sizeof(set), &set) == -1)
             errExit("sched_setaffinity");
 
-        for (j = 0; j < nloops; j++)
+        for (int j = 0; j < nloops; j++)
             getppid();
 
         wait(NULL);     /* 자식 종료 기다리기 */
@@ -190,4 +189,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-03-06
+2021-03-22

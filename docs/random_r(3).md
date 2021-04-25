@@ -7,21 +7,21 @@ random_r, srandom_r, initstate_r, setstate_r - 재진입 가능한 난수 생성
 ```c
 #include <stdlib.h>
 
-int random_r(struct random_data *buf, int32_t *result);
-
+int random_r(struct random_data *restrict buf,
+             int32_t *restrict result);
 int srandom_r(unsigned int seed, struct random_data *buf);
 
-int initstate_r(unsigned int seed, char *statebuf,
-                size_t statelen, struct random_data *buf);
-
-int setstate_r(char *statebuf, struct random_data *buf);
+int initstate_r(unsigned int seed, char *restrict statebuf,
+             size_t statelen, struct random_data *restrict buf);
+int setstate_r(char *restrict statebuf,
+             struct random_data *restrict buf);
 ```
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
 `random_r()`, `srandom_r()`, `initstate_r()`, `setstate_r()`:
 :   `/* glibc 2.19부터: */ _DEFAULT_SOURCE`<br>
-    `    || /* glibc 버전 <= 2.19: */ _SVID_SOURCE || _BSD_SOURCE`
+    `    || /* glibc <= 2.19: */ _SVID_SOURCE || _BSD_SOURCE`
 
 ## DESCRIPTION
 
@@ -37,7 +37,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## RETURN VALUE
 
-이 함수들은 모두 성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류 원인을 나타내도록 `errno`를 설정한다.
+이 함수들은 모두 성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -72,4 +72,4 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ----
 
-2017-09-15
+2021-03-22

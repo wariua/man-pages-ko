@@ -16,7 +16,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 :   glibc 2.12부터:
     :   `(_XOPEN_SOURCE >= 500) && ! (_POSIX_C_SOURCE >= 200809L)`<br>
         `    || /* glibc 2.19부터: */ _DEFAULT_SOURCE`<br>
-        `    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE`
+        `    || /* glibc <= 2.19: */ _BSD_SOURCE`
  
     glibc 2.12 전:
     :   `_BSD_SOURCE || _XOPEN_SOURCE >= 500`
@@ -69,4 +69,4 @@ POSIX.1-2001에서는 `usecs` 인자가 0일 때 어떻게 되는지 명세하�
 
 ----
 
-2017-09-15
+2021-03-22

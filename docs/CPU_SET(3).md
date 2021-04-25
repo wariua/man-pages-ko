@@ -145,7 +145,7 @@ SYNOPSIS에 나와 있는 인자와 반환 값의 데이터 타입은 각 경우
 
 glibc가 2.8 이전인 32비트 플랫폼에서 `CPU_ALLOC()`이 필요한 크기 두 배로 공간을 할당하며 `CPU_ALLOC_SIZE()`가 두 배로 값을 반환한다. 이 버그가 프로그램의 동작 결과에 영향을 주지는 않겠지만 메모리가 낭비되며 동적 할당 CPU 세트에 동작하는 매크로들이 덜 효율적으로 동작하게 된다. glibc 2.9에서 이 버그들이 수정되었다.
 
-## EXAMPLE
+## EXAMPLES
 
 다음 프로그램은 동적 할당 CPU 세트에 쓰는 매크로 몇 가지의 사용 방식을 보여 준다.
 
@@ -162,7 +162,7 @@ main(int argc, char *argv[])
 {
     cpu_set_t *cpusetp;
     size_t size;
-    int num_cpus, cpu;
+    int num_cpus;
 
     if (argc < 2) {
         fprintf(stderr, "Usage: %s <num-cpus>\n", argv[0]);
@@ -180,7 +180,7 @@ main(int argc, char *argv[])
     size = CPU_ALLOC_SIZE(num_cpus);
 
     CPU_ZERO_S(size, cpusetp);
-    for (cpu = 0; cpu < num_cpus; cpu += 2)
+    for (int cpu = 0; cpu < num_cpus; cpu += 2)
         CPU_SET_S(cpu, size, cpusetp);
 
     printf("CPU_COUNT() of set:    %d\n", CPU_COUNT_S(size, cpusetp));
@@ -196,4 +196,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-03-06
+2021-03-22

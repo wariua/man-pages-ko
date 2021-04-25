@@ -8,20 +8,17 @@ readv, writev, preadv, pwritev, preadv2, pwritev2 - 여러 버퍼로 데이터 �
 #include <sys/uio.h>
 
 ssize_t readv(int fd, const struct iovec *iov, int iovcnt);
-
 ssize_t writev(int fd, const struct iovec *iov, int iovcnt);
 
 ssize_t preadv(int fd, const struct iovec *iov, int iovcnt,
-               off_t offset);
-
+                off_t offset);
 ssize_t pwritev(int fd, const struct iovec *iov, int iovcnt,
                 off_t offset);
 
 ssize_t preadv2(int fd, const struct iovec *iov, int iovcnt,
                 off_t offset, int flags);
-
 ssize_t pwritev2(int fd, const struct iovec *iov, int iovcnt,
-                 off_t offset, int flags);
+                off_t offset, int flags);
 ```
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
@@ -93,7 +90,7 @@ struct iovec {
 
 성공한 호출에서 요청보다 적은 바이트를 이동한 것이 오류가 아니라는 점에 유의하라. (`read(2)` 및 `write(2)` 참고.)
 
-오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -142,7 +139,7 @@ unsigned long pos_l, unsigned long pos
 
 리눅스 2.2 및 이후부터는 glibc 래퍼 함수에서 이런 추가 작업이 필요 없게 되었다. 하지만 glibc는 버전 2.10까지 이 동작을 계속 제공했다. glibc 버전 2.9부터는 시스템이 리눅스 커널 2.6.18(임의로 선정한 커널 버전)보다 오래 된 버전에서 동작 중임을 라이브러리에서 탐지한 경우에만 래퍼 함수가 이 동작을 제공한다. (최소로 요구하는 리눅스 커널 버전이 2.6.32인) glibc 2.20부터는 언제나 glibc 래퍼 함수에서 시스템 호출을 바로 부른다.
 
-## EXAMPLE
+## EXAMPLES
 
 다음 코드 샘플이 `writev()` 사용 방식을 보여 준다.
 

@@ -8,7 +8,6 @@ sched_setparam, sched_getparam - 스케줄링 매개변수를 설정하고 얻�
 #include <sched.h>
 
 int sched_setparam(pid_t pid, const struct sched_param *param);
-
 int sched_getparam(pid_t pid, struct sched_param *param);
 
 struct sched_param {
@@ -32,7 +31,7 @@ struct sched_param {
 
 ## RETURN VALUE
 
-성공 시 `sched_setparam()`과 `sched_getparam()`은 0을 반환한다. 오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+성공 시 `sched_setparam()`과 `sched_getparam()`은 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -54,8 +53,8 @@ POSIX.1-2001, POSIX.1-2008.
 
 ## SEE ALSO
 
-<tt>[[gettid(2)]]</tt>, <tt>[[getpriority(2)]]</tt>, <tt>[[nice(2)]]</tt>, <tt>[[sched_get_priority_max(2)]]</tt>, <tt>[[sched_get_priority_min(2)]]</tt>, <tt>[[sched_getaffinity(2)]]</tt>, <tt>[[sched_getscheduler(2)]]</tt>, <tt>[[sched_setaffinity(2)]]</tt>, <tt>[[sched_setattr(2)]]</tt>, <tt>[[sched_setscheduler(2)]]</tt>, <tt>[[setpriority(2)]]</tt>, <tt>[[capabilities(7)]]</tt>, <tt>[[sched(7)]]</tt>
+<tt>[[getpriority(2)]]</tt>, <tt>[[gettid(2)]]</tt>, <tt>[[nice(2)]]</tt>, <tt>[[sched_get_priority_max(2)]]</tt>, <tt>[[sched_get_priority_min(2)]]</tt>, <tt>[[sched_getaffinity(2)]]</tt>, <tt>[[sched_getscheduler(2)]]</tt>, <tt>[[sched_setaffinity(2)]]</tt>, <tt>[[sched_setattr(2)]]</tt>, <tt>[[sched_setscheduler(2)]]</tt>, <tt>[[setpriority(2)]]</tt>, <tt>[[capabilities(7)]]</tt>, <tt>[[sched(7)]]</tt>
 
 ----
 
-2019-03-06
+2021-03-22

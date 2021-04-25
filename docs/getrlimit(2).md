@@ -52,7 +52,7 @@ struct rlimit {
 `RLIMIT_FSIZE`
 :   프로세스가 생성할 수 있는 파일의 바이트 단위 최대 크기이다. 이 제한을 넘겨서 파일을 확장하려고 하면 `SIGXFSZ` 시그널을 받는다. 기본적으로 이 시그널은 프로세스를 종료시킨다. 하지만 프로세스에서 시그널을 잡을 수 있으며 그 경우 해당 시스템 호출(가령 `write(2)`, <tt>[[truncate(2)]]</tt>)이 `EFBIG` 오류로 실패하게 된다.
 
-`RLIMIT_LOCKS` (초기 리눅스 2.4에서만)
+`RLIMIT_LOCKS` (리눅스 2.4.0에서 2.4.24까지)
 :   프로세스에서 설정할 수 있는 <tt>[[flock(2)]]</tt> 락 개수와 <tt>[[fcntl(2)]]</tt> 리스 수를 합친 것에 대한 제한이다.
 
 `RLIMIT_MEMLOCK`
@@ -135,7 +135,7 @@ struct rlimit {
 
 ## RETURN VALUE
 
-성공 시 이 시스템 호출들은 0을 반환한다. 오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+성공 시 이 시스템 호출들은 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -221,13 +221,14 @@ glibc의 `getrlimit()` 및 `setrlimit()` 래퍼 함수는 32비트 플랫폼에�
 
 버전 2.13부터 glibc에서는 `getrlimit()` 및 `setrlimit()` 시스템 호출의 한계를 피하기 위해 `prlimit()`를 호출하는 래퍼 함수 형태로 `setrlimit()` 및 `getrlimit()`를 구현한다.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 프로그램은 `prlimit()` 사용 방식을 보여 준다.
 
 ```c
 #define _GNU_SOURCE
 #define _FILE_OFFSET_BITS 64
+#include <stdint.h>
 #include <stdio.h>
 #include <time.h>
 #include <stdlib.h>
@@ -264,15 +265,15 @@ main(int argc, char *argv[])
 
     if (prlimit(pid, RLIMIT_CPU, newp, &old) == -1)
         errExit("prlimit-1");
-    printf("Previous limits: soft=%lld; hard=%lld\n",
-            (long long) old.rlim_cur, (long long) old.rlim_max);
+    printf("Previous limits: soft=%jd; hard=%jd\n",
+            (intmax_t) old.rlim_cur, (intmax_t) old.rlim_max);
 
     /* 새 CPU 시간 제한 얻어 와서 표시. */
 
     if (prlimit(pid, RLIMIT_CPU, NULL, &old) == -1)
         errExit("prlimit-2");
-    printf("New limits: soft=%lld; hard=%lld\n",
-            (long long) old.rlim_cur, (long long) old.rlim_max);
+    printf("New limits: soft=%jd; hard=%jd\n",
+            (intmax_t) old.rlim_cur, (intmax_t) old.rlim_max);
 
     exit(EXIT_SUCCESS);
 }
@@ -284,4 +285,4 @@ main(int argc, char *argv[])
 
 ----
 
-2018-04-30
+2021-03-22

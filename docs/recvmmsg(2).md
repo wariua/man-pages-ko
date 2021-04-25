@@ -69,7 +69,7 @@ BUGS도 참고.
 
 최소 한 개 메시지를 받은 후에 오류가 발생하면 호출이 성공하고 받은 메시지 수를 반환한다. 오류 코드는 이어지는 `recvmmsg()`에서 반환되도록 돼 있다. 하지만 현재 구현에서는 소켓에서의 관련 없는 네트워크 이벤트(가령 ICMP 패킷 입력) 때문에 그 사이에 오류 코드가 덮어 써질 수 있다.
 
-## EXAMPLE
+## EXAMPLES
 
 다음 프로그램에서는 `recvmmsg()`를 사용해 소켓에서 여러 메시지를 받아서 여러 버퍼에 저장한다. 모든 버퍼가 차거나 지정한 타임아웃이 만료된 경우에 호출이 반환한다.
 
@@ -108,7 +108,7 @@ main(void)
 #define VLEN 10
 #define BUFSIZE 200
 #define TIMEOUT 1
-    int sockfd, retval, i;
+    int sockfd, retval;
     struct sockaddr_in addr;
     struct mmsghdr msgs[VLEN];
     struct iovec iovecs[VLEN];
@@ -130,7 +130,7 @@ main(void)
     }
 
     memset(msgs, 0, sizeof(msgs));
-    for (i = 0; i < VLEN; i++) {
+    for (int i = 0; i < VLEN; i++) {
         iovecs[i].iov_base         = bufs[i];
         iovecs[i].iov_len          = BUFSIZE;
         msgs[i].msg_hdr.msg_iov    = &iovecs[i];
@@ -147,7 +147,7 @@ main(void)
     }
 
     printf("%d messages received\n", retval);
-    for (i = 0; i < retval; i++) {
+    for (int i = 0; i < retval; i++) {
         bufs[i][msgs[i].msg_len] = 0;
         printf("%d %s", i+1, bufs[i]);
     }
@@ -161,4 +161,4 @@ main(void)
 
 ----
 
-2019-03-06
+2020-11-01

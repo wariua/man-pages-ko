@@ -8,7 +8,6 @@ insque, remque - 큐에 항목 삽입하기/제거하기
 #include <search.h>
 
 void insque(void *elem, void *prev);
-
 void remque(void *elem);
 ```
 
@@ -17,7 +16,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 `insque()`, `remque()`:
 :   `_XOPEN_SOURCE >= 500`<br>
     `    || /* Glibc 2.19부터: */ _DEFAULT_SOURCE`<br>
-    `    || /* Glibc 버전 <= 2.19: */ _SVID_SOURCE`
+    `    || /* Glibc <= 2.19: */ _SVID_SOURCE`
 
 ## DESCRIPTION
 
@@ -63,7 +62,7 @@ struct qelem {
 
 glibc 2.4 및 이전에서는 `prev`에 NULL을 지정하는 게 불가능했다. 그래서 선형 리스트를 만들려면 호출자가 순방향 및 역방향 포인터를 적절히 초기화 한 리스트의 처음 두 항목으로 최초 호출을 해서 리스트를 만들어야 했다.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 프로그램은 `insque()` 사용 방식을 보여 준다. 다음은 프로그램 실행 예이다.
 
@@ -93,9 +92,7 @@ struct element {
 static struct element *
 new_element(void)
 {
-    struct element *e;
-
-    e = malloc(sizeof(struct element));
+    struct element *e = malloc(sizeof(*e));
     if (e == NULL) {
         fprintf(stderr, "malloc() failed\n");
         exit(EXIT_FAILURE);
@@ -131,7 +128,7 @@ main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    /* 첫 번째 항목을 만들어서 연결 리스트에 넣기 */
+    /* 첫 번째 항목을 만들어서 연결 리스트에 넣기. */
 
     elem = new_element();
     first = elem;
@@ -146,7 +143,7 @@ main(int argc, char *argv[])
         insque(elem, NULL);
     }
 
-    /* 나머지 명령행 인자들을 리스트 항목으로 추가하기 */
+    /* 나머지 명령행 인자들을 리스트 항목으로 추가하기. */
 
     while (++optind < argc) {
         prev = elem;
@@ -156,7 +153,7 @@ main(int argc, char *argv[])
         insque(elem, prev);
     }
 
-    /* 리스트를 처음부터 순회하면서 항목 이름 찍기 */
+    /* 리스트를 처음부터 순회하면서 항목 이름 찍기. */
 
     printf("Traversing completed list:\n");
     elem = first;
@@ -174,8 +171,8 @@ main(int argc, char *argv[])
 
 ## SEE ALSO
 
-<tt>[[queue(3)]]</tt>
+<tt>[[queue(7)]]</tt>
 
 ----
 
-2019-03-06
+2021-03-22

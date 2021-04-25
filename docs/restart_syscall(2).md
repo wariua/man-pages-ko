@@ -5,7 +5,7 @@ restart_syscall - 정지 시그널로 중단된 후 시스템 호출 재시작 �
 ## SYNOPSIS
 
 ```c
-int restart_syscall(void);
+long restart_syscall(void);
 ```
 
 *주의*: 이 시스템 호출에 대한 glibc 래퍼가 없다. NOTES 참고.
@@ -46,4 +46,4 @@ int restart_syscall(void);
 
 ----
 
-2017-09-15
+2021-03-22

@@ -42,7 +42,7 @@ POSIX.1-2001.
 
 이 함수가 포함된 dlopen API는 SunOS에서 유래한 것이다.
 
-## EXAMPLE
+## EXAMPLES
 
 <tt>[[dlopen(3)]]</tt> 참고.
 
@@ -52,4 +52,4 @@ POSIX.1-2001.
 
 ----
 
-2017-09-15
+2021-03-22

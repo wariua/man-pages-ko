@@ -73,7 +73,7 @@ glibc 2.3.3에 한해 제공됐던 버전에 `cpusetsize` 인자가 없었다. �
 
 <tt>[[pthread_create(3)]]</tt>로 생성한 신규 스레드는 자기를 생성한 스레드의 CPU 친화성 마스크 사본을 물려받는다.
 
-## EXAMPLE
+## EXAMPLES
 
 다음 프로그램에서 주 스레드는 `pthread_setaffinity_np()`를 이용해 CPU 0에서 7까지를 (시스템에서 모두 사용 가능하지는 않을 수도 있음) 포함하도록 자기 CPU 친화성 마스크를 설정하고서 `pthread_getaffinity_np()`를 호출해 그렇게 바꾼 스레드의 CPU 친화성 마스크를 확인한다.
 
@@ -90,30 +90,30 @@ glibc 2.3.3에 한해 제공됐던 버전에 `cpusetsize` 인자가 없었다. �
 int
 main(int argc, char *argv[])
 {
-    int s, j;
+    int s;
     cpu_set_t cpuset;
     pthread_t thread;
 
     thread = pthread_self();
 
-    /* CPU 0에서 7까지 포함하도록 친화성 마스크 설정 */
+    /* CPU 0에서 7까지 포함하도록 친화성 마스크 설정하기. */
 
     CPU_ZERO(&cpuset);
-    for (j = 0; j < 8; j++)
+    for (int j = 0; j < 8; j++)
         CPU_SET(j, &cpuset);
 
-    s = pthread_setaffinity_np(thread, sizeof(cpu_set_t), &cpuset);
+    s = pthread_setaffinity_np(thread, sizeof(cpuset), &cpuset);
     if (s != 0)
         handle_error_en(s, "pthread_setaffinity_np");
 
-    /* 스레드에 친화성 마스크가 실제 부여되었는지 확인 */
+    /* 스레드에 친화성 마스크가 실제 부여되었는지 확인하기. */
 
-    s = pthread_getaffinity_np(thread, sizeof(cpu_set_t), &cpuset);
+    s = pthread_getaffinity_np(thread, sizeof(cpuset), &cpuset);
     if (s != 0)
         handle_error_en(s, "pthread_getaffinity_np");
 
     printf("Set returned by pthread_getaffinity_np() contained:\n");
-    for (j = 0; j < CPU_SETSIZE; j++)
+    for (int j = 0; j < CPU_SETSIZE; j++)
         if (CPU_ISSET(j, &cpuset))
             printf("    CPU %d\n", j);
 
@@ -127,4 +127,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-03-06
+2021-03-22

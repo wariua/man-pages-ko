@@ -21,11 +21,11 @@ char *rindex(const char *s, int c);
 
 #include <string.h>
 
-char *stpcpy(char *dest, const char *src);
+char *stpcpy(char *restrict dest, const char *restrict src);
     // src에서 dest로 문자열을 복사하며, dest에 있는 결과 문자열 끝에
     // 대한 포인터를 반환한다.
 
-char *strcat(char *dest, const char *src);
+char *strcat(char *restrict dest, const char *restrict src);
     // 문자열 dest에 문자열 src를 덧붙이며, 포인터 dest를 반환한다.
 
 char *strchr(const char *s, int c);
@@ -34,7 +34,7 @@ char *strchr(const char *s, int c);
 int strcmp(const char *s1, const char *s2);
     // 문자열 s1과 s2를 비교한다.
 
-char *strcpy(char *dest, const char *src);
+char *strcpy(char *restrict dest, const char *restrict src);
     // 문자열 src를 dest로 복사하며, dest 시작점에 대한 포인터를
     // 반환한다.
 
@@ -51,14 +51,14 @@ char *strfry(char *string);
 size_t strlen(const char *s);
     // 문자열 s의 길이를 반환한다.
 
-char *strncat(char *dest, const char *src, size_t n);
+char *strncat(char *restrict dest, const char *restrict src, size_t n);
     // 문자열 dest에 문자열 src를 최대 n 바이트까지 덧붙이며, 포인터
     // dest를 반환한다.
 
 int strncmp(const char *s1, const char *s2, size_t n);
     // 문자열 s1과 s2를 최대 n 바이트까지 비교한다.
 
-char *strncpy(char *dest, const char *src, size_t n);
+char *strncpy(char *restrict dest, const char *restrict src, size_t n);
     // 문자열 src를 dest로 최대 n 바이트까지 복사하며, dest 시작점에
     // 대한 포인터를 반환한다.
 
@@ -69,7 +69,7 @@ char *strpbrk(const char *s, const char *accept);
 char *strrchr(const char *s, int c);
     // 문자열 s에서 문자 c의 마지막 등장 위치에 대한 포인터를 반환한다.
 
-char *strsep(char **stringp, const char *delim);
+char *strsep(char **restrict stringp, const char *restrict delim);
     // stringp에서 delim의 바이트들 중 하나로 구분된 첫 토큰을
     // 추출한다.
 
@@ -81,12 +81,12 @@ char *strstr(const char *haystack, const char *needle);
     // 문자열 haystack에서 부분열 needle의 첫 등장 위치를 찾으며,
     // 발견한 부분열에 대한 포인터를 반환한다.
 
-char *strtok(char *s, const char *delim);
+char *strtok(char *restrict s, const char *restrict delim);
     // 문자열 s에서 delim의 바이트들 중 하나로 구분된 토큰들을
     // 추출한다.
 
-size_t strxfrm(char *dest, const char *src, size_t n);
-    // src를 현재 로캘로 변형시켜서 처음 n 바이트를 dest로 복사한다.
+size_t strxfrm(char *restrict dest, const char *restrict src, size_t n);
+    // src를 현재 로캘로 변형시켜서 처음 n 바이트를 dst로 복사한다.
 ```
 
 ## DESCRIPTION
@@ -95,8 +95,8 @@ size_t strxfrm(char *dest, const char *src, size_t n);
 
 ## SEE ALSO
 
-`index(3)`, `rindex(3)`, <tt>[[stpcpy(3)]]</tt>, `strcasecmp(3)`, `strcat(3)`, `strchr(3)`, `strcmp(3)`, <tt>[[strcoll(3)]]</tt>, `strcpy(3)`, `strcspn(3)`, `strdup(3)`, <tt>[[strfry(3)]]</tt>, `strlen(3)`, `strncasecmp(3)`, `strncat(3)`, `strncmp(3)`, `strncpy(3)`, `strpbrk(3)`, `strrchr(3)`, <tt>[[strsep(3)]]</tt>, `strspn(3)`, `strstr(3)`, <tt>[[strtok(3)]]</tt>, <tt>[[strxfrm(3)]]</tt>
+<tt>[[bstring(3)]]</tt>, `index(3)`, `rindex(3)`, <tt>[[stpcpy(3)]]</tt>, `strcasecmp(3)`, `strcat(3)`, `strchr(3)`, `strcmp(3)`, <tt>[[strcoll(3)]]</tt>, `strcpy(3)`, `strcspn(3)`, `strdup(3)`, <tt>[[strfry(3)]]</tt>, `strlen(3)`, `strncasecmp(3)`, `strncat(3)`, `strncmp(3)`, `strncpy(3)`, `strpbrk(3)`, `strrchr(3)`, <tt>[[strsep(3)]]</tt>, `strspn(3)`, `strstr(3)`, <tt>[[strtok(3)]]</tt>, <tt>[[strxfrm(3)]]</tt>
 
 ----
 
-2019-03-06
+2021-03-22

@@ -8,9 +8,7 @@ mcheck, mcheck_check_all, mcheck_pedantic, mprobe - 힙 일관성 검사
 #include <mcheck.h>
 
 int mcheck(void (*abortfunc)(enum mcheck_status mstatus));
-
 int mcheck_pedantic(void (*abortfunc)(enum mcheck_status mstatus));
-
 void mcheck_check_all(void);
 
 enum mcheck_status mprobe(void *ptr);
@@ -71,7 +69,7 @@ glibc 2.2부터 `mcheck_pedantic()` 및 `mcheck_check_all()` 함수가 사용 �
 
 프로그램을 `-lmcheck`로 링크 하는 방식과 `MALLOC_CHECK_` 환경 변수(<tt>[[mallopt(3)]]</tt>에서 설명)를 쓰는 방식에서 탐지하는 오류 종류는 같다. 하지만 `MALLOC_CHECK_` 방식에서는 응용을 다시 링크할 필요가 없다.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 프로그램은 NULL 인자로 `mcheck()`를 호출하고서 같은 메모리 블록을 두 번 해제한다. 다음 셸 세션은 프로그램이 돌 때 어떻게 되는지 보여 준다.
 
@@ -119,4 +117,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-03-06
+2021-03-22

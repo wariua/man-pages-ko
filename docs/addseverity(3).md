@@ -53,4 +53,4 @@ X/Open Portability Guide에 <tt>[[fmtmsg(3)]]</tt> 함수는 명세되어 있지
 
 ----
 
-2016-03-15
+2021-03-22

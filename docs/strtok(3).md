@@ -7,16 +7,16 @@ strtok, strtok_r - 문자열에서 토큰 뽑아내기
 ```c
 #include <string.h>
 
-char *strtok(char *str, const char *delim);
-
-char *strtok_r(char *str, const char *delim, char **saveptr);
+char *strtok(char *restrict str, const char *restrict delim);
+char *strtok_r(char *restrict str, const char *restrict delim,
+               char **restrict saveptr);
 ```
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
 `strtok_r()`:
 :   `_POSIX_C_SOURCE`<br>
-    `    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE || _SVID_SOURCE`
+    `    || /* glibc <= 2.19: */ _BSD_SOURCE || _SVID_SOURCE`
 
 ## DESCRIPTION
 
@@ -34,7 +34,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 `strtok_r()` 함수는 `strtok()`의 재진입 가능 버전이다. `saveptr` 인자는 `char *` 변수에 대한 포인터이다. 같은 문자열을 분해하는 연이은 호출들에서 문맥을 유지하기 위해 `strtok_r()` 내부에서 그 변수를 사용한다.
 
-첫 번째 `strtok_r()` 호출에서 `str`은 분해할 문자열을 가리켜야 하며 `saveptr`의 값은 무시된다. 후속 호출에서 `str`은 NULL이어야 하며 `saveptr`은 이전 호출 이후 바뀌지 않았어야 한다.
+첫 번째 `strtok_r()` 호출에서 `str`은 분해할 문자열을 가리켜야 하며 `*saveptr`의 값은 무시된다. (하지만 NOTES 참고.) 후속 호출에서 `str`은 NULL이어야 하며 `saveptr`은 (그리고 가리키는 버퍼는) 이전 호출 이후 바뀌지 않았어야 한다.
 
 `saveptr` 인자를 다르게 지정한 `strtok_r()` 호출들을 이용해 여러 문자열을 동시에 분해할 수 있다.
 
@@ -59,6 +59,10 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 `strtok_r()`
 :   POSIX.1-2001, POSIX.1-2008.
 
+## NOTES
+
+일부 구현체들에선 `str` 파싱을 위해 `strtok_r()`을 처음 호출할 때 `*saveptr`이 NULL이기를 요구한다.
+
 ## BUGS
 
 이 함수들을 사용할 때는 조심해야 한다. 꼭 사용하겠다면 다음에 유념해야 한다.
@@ -71,7 +75,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 * `strtok()` 함수는 분해하는 동안 정적 버퍼를 사용하며, 따라서 스레드 안전하지 않다. 이게 문제가 된다면 `strtok_r()`을 사용하라.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 프로그램에서는 `strtok_r()`을 쓰는 중첩 루프를 이용해 문자열을 두 단계의 토큰들로 나눈다. 첫 번째 명령행 인자는 분해할 문자열을 나타낸다. 두 번째 인자는 문자열을 "큰" 토큰으로 분리하는 데 쓸 구분자 바이트(들)을 나타낸다. 세 번째 인자는 "큰" 토큰을 하위 토큰으로 분리하는 데 쓸 구분자 바이트(들)을 나타낸다.
 
@@ -101,7 +105,6 @@ main(int argc, char *argv[])
 {
     char *str1, *str2, *token, *subtoken;
     char *saveptr1, *saveptr2;
-    int j;
 
     if (argc != 4) {
         fprintf(stderr, "Usage: %s string delim subdelim\n",
@@ -109,7 +112,7 @@ main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    for (j = 1, str1 = argv[1]; ; j++, str1 = NULL) {
+    for (int j = 1, str1 = argv[1]; ; j++, str1 = NULL) {
         token = strtok_r(str1, argv[2], &saveptr1);
         if (token == NULL)
             break;
@@ -135,4 +138,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-03-06
+2021-03-22

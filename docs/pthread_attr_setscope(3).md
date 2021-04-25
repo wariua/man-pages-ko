@@ -8,7 +8,8 @@ pthread_attr_setscope, pthread_attr_getscope - 스레드 속성 객체의 경합
 #include <pthread.h>
 
 int pthread_attr_setscope(pthread_attr_t *attr, int scope);
-int pthread_attr_getscope(const pthread_attr_t *attr, int *scope);
+int pthread_attr_getscope(const pthread_attr_t *restrict attr,
+                          int *restrict scope);
 ```
 
 `-pthread`로 컴파일 및 링크.
@@ -67,4 +68,4 @@ POSIX.1에서는 기본 경합 범위를 구현에서 정의하는 것으로 명
 
 ----
 
-2017-09-15
+2021-03-22

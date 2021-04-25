@@ -30,7 +30,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## DESCRIPTION
 
-이 시스템 호출들을 이용해 현재 프로세서의 호스트명에 접근하거나 변경한다.
+이 시스템 호출들을 이용해 시스템 호스트명에 접근하거나 변경한다. 정확하게는 호출 프로세스의 UTS 네임스페이스에 연계된 호스트명에 대해 동작한다.
 
 `sethostname()`은 호스트명을 문자 배열 `name`에 준 값으로 설정한다. `len` 인자는 `name`의 바이트 수를 나타낸다. (즉 `name`에 종료용 널 바이트가 필요치 않다.)
 
@@ -38,7 +38,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## RETURN VALUE
 
-성공 시 0을 반환한다. 오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -70,8 +70,8 @@ glibc 버전 2.2 전에서는 `nodename` 길이가 `len`과 같거나 그보다 
 
 ## SEE ALSO
 
-`hostname(1)`, <tt>[[getdomainname(2)]]</tt>, <tt>[[uname(2)]]</tt>
+`hostname(1)`, <tt>[[getdomainname(2)]]</tt>, <tt>[[uname(2)]]</tt>, <tt>[[uts_namespaces(7)]]</tt>
 
 ----
 
-2017-09-15
+2021-03-22

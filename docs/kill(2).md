@@ -5,7 +5,6 @@ kill - 프로세스에게 시그널 보내기
 ## SYNOPSIS
 
 ```c
-#include <sys/types.h>
 #include <signal.h>
 
 int kill(pid_t pid, int sig);
@@ -34,7 +33,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## RETURN VALUE
 
-성공 시 (시그널을 최소 하나 보냈으면) 0을 반환한다. 오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+성공 시 (시그널을 최소 하나 보냈으면) 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -42,10 +41,10 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 :   유효하지 않은 시그널을 지정했다.
 
 `EPERM`
-:   프로세스에게 대상 프로세스들 중 어느 것에도 시그널을 보낼 권한이 없다.
+:   호출 프로세스에게 대상 프로세스들 중 어느 것에도 시그널을 보낼 권한이 없다.
 
 `ESRCH`
-:   프로세스 내지 프로세스 그룹이 존재하지 않는다. 참고로 존재하는 프로세스가 실행을 마쳤지만 아직 <tt>[[wait(2)]]</tt> 되지 않은 좀비일 수도 있다.
+:   대상 프로세스 내지 프로세스 그룹이 존재하지 않는다. 참고로 존재하는 프로세스가 실행을 마쳤지만 아직 <tt>[[wait(2)]]</tt> 되지 않은 좀비일 수도 있다.
 
 ## CONFORMING TO
 
@@ -69,8 +68,8 @@ POSIX.1에서는 프로세스가 스스로에게 시그널을 보내는데 송�
 
 ## SEE ALSO
 
-`kill(1)`, <tt>[[_exit(2)]]</tt>, <tt>[[signal(2)]]</tt>, <tt>[[tkill(2)]]</tt>, <tt>[[exit(3)]]</tt>, <tt>[[killpg(3)]]</tt>, <tt>[[sigqueue(3)]]</tt>, <tt>[[capabilities(7)]]</tt>, <tt>[[credentials(7)]]</tt>, <tt>[[signal(7)]]</tt>
+`kill(1)`, <tt>[[_exit(2)]]</tt>, <tt>[[pidfd_send_signal(2)]]</tt>, <tt>[[signal(2)]]</tt>, <tt>[[tkill(2)]]</tt>, <tt>[[exit(3)]]</tt>, <tt>[[killpg(3)]]</tt>, <tt>[[sigqueue(3)]]</tt>, <tt>[[capabilities(7)]]</tt>, <tt>[[credentials(7)]]</tt>, <tt>[[signal(7)]]</tt>
 
 ----
 
-2017-09-15
+2021-03-22

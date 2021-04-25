@@ -19,7 +19,8 @@ struct utsname {
     char sysname[];    /* 운영 체제 이름 (가령 "Linux") */
     char nodename[];   /* "구현에서 규정하는 어떤 망"
                           내에서의 이름 */
-    char release[];    /* 운영 체제 릴리스 (가령 "2.6.28") */
+    char release[];    /* 운영 체제 릴리스
+                          (가령 "2.6.28") */
     char version[];    /* 운영 체제 버전 */
     char machine[];    /* 하드웨어 식별자 */
 #ifdef _GNU_SOURCE
@@ -32,7 +33,7 @@ struct utsname {
 
 ## RETURN VALUE
 
-성공 시 0을 반환한다. 오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -61,8 +62,8 @@ POSIX.1-2001, POSIX.1-2008, SVr4. 4.3BSD에는 `uname()` 호출이 없다.
 
 ## SEE ALSO
 
-`uname(1)`, <tt>[[getdomainname(2)]]</tt>, <tt>[[gethostname(2)]]</tt>, <tt>[[namespaces(7)]]</tt>
+`uname(1)`, <tt>[[getdomainname(2)]]</tt>, <tt>[[gethostname(2)]]</tt>, <tt>[[uts_namespaces(7)]]</tt>
 
 ----
 
-2019-03-06
+2021-03-22

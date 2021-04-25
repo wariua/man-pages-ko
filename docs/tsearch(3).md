@@ -11,13 +11,10 @@ typedef enum { preorder, postorder, endorder, leaf } VISIT;
 
 void *tsearch(const void *key, void **rootp,
                 int (*compar)(const void *, const void *));
-
 void *tfind(const void *key, void *const *rootp,
                 int (*compar)(const void *, const void *));
-
-void *tdelete(const void *key, void **rootp,
+void *tdelete(const void *restrict key, void **restrict rootp,
                 int (*compar)(const void *, const void *));
-
 void twalk(const void *root,
                 void (*action)(const void *nodep, VISIT which,
                                int depth));
@@ -29,7 +26,6 @@ void twalk_r(const void *root,
                 void (*action)(const void *nodep, VISIT which,
                                void *closure),
                 void *closure);
-
 void tdestroy(void *root, void (*free_node)(void *nodep));
 ```
 
@@ -69,7 +65,7 @@ glibc 버전 2.30부터 `tralk_r()`이 사용 가능하다.
 
 | 인터페이스 | 속성 | 값 |
 | --- | --- | --- |
-| `tsearch()`, `tfind()`,<br>`tdelete()` | 스레드 안전성 | MT-Safe race:rootp |
+| `tsearch()`, `tfind()`, `tdelete()` | 스레드 안전성 | MT-Safe race:rootp |
 | `twalk()` | 스레드 안전성 | MT-Safe race:root |
 | `twalk_r()` | 스레드 안전성 | MT-Safe race:root |
 | `tdestroy()` | 스레드 안전성 | MT-Safe |
@@ -86,13 +82,14 @@ POSIX.1-2001, POSIX.1-2008, SVr4. `tdestroy()` 및 `twalk_r()` 함수는 GNU 확
 
 아래 예시 프로그램에서는 `twalk()`에서 `endorder` 내지 `leaf` 인자로 사용자 함수를 호출한 후에 더는 그 노드를 참조하지 않는다는 점에 기댄다. GNU 라이브러리 구현에서는 동작하지만 시스템 V 문서에서는 그렇지 않다.
 
-## EXAMPLE
+## EXAMPLES
 
 다음 프로그램에서는 중복을 없애며 이진 트리에 난수 열두 개를 삽입한 다음 그 수들을 차례로 찍는다.
 
 ```c
 #define _GNU_SOURCE     /* tdestroy() 선언 드러내기 */
 #include <search.h>
+#include <stddef.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
@@ -100,7 +97,7 @@ POSIX.1-2001, POSIX.1-2008, SVr4. `tdestroy()` 및 `twalk_r()` 함수는 GNU 확
 static void *root = NULL;
 
 static void *
-xmalloc(unsigned n)
+xmalloc(size_t n)
 {
     void *p;
     p = malloc(n);
@@ -144,17 +141,16 @@ action(const void *nodep, VISIT which, int depth)
 int
 main(void)
 {
-    int i, *ptr;
-    void *val;
+    int **val;
 
     srand(time(NULL));
-    for (i = 0; i < 12; i++) {
-        ptr = xmalloc(sizeof(int));
+    for (int i = 0; i < 12; i++) {
+        int *ptr = xmalloc(sizeof(*ptr));
         *ptr = rand() & 0xff;
-        val = tsearch((void *) ptr, &root, compare);
+        val = tsearch(ptr, &root, compare);
         if (val == NULL)
             exit(EXIT_FAILURE);
-        else if ((*(int **) val) != ptr)
+        else if (*val != ptr)
             free(ptr);
     }
     twalk(root, action);
@@ -169,4 +165,4 @@ main(void)
 
 ----
 
-2019-05-09
+2021-03-22

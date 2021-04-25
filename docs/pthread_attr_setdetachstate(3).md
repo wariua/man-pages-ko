@@ -8,7 +8,8 @@ pthread_attr_setdetachstate, pthread_attr_getdetachstate - 스레드 속성 객�
 #include <pthread.h>
 
 int pthread_attr_setdetachstate(pthread_attr_t *attr, int detachstate);
-int pthread_attr_getdetachstate(const pthread_attr_t *attr, int *detachstate);
+int pthread_attr_getdetachstate(const pthread_attr_t *attr,
+                                int *detachstate);
 ```
 
 `-pthread`로 컴파일 및 링크.
@@ -60,7 +61,7 @@ POSIX.1-2001, POSIX.1-2008.
 
 분리 상태로 생성한 스레드의 ID를 이후의 <tt>[[pthread_detach(3)]]</tt> 내지 <tt>[[pthread_join(3)]]</tt> 호출에서 지정하는 것은 오류이다.
 
-## EXAMPLE
+## EXAMPLES
 
 <tt>[[pthread_attr_init(3)]] 참고.
 
@@ -70,4 +71,4 @@ POSIX.1-2001, POSIX.1-2008.
 
 ----
 
-2017-09-15
+2021-03-22

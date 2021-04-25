@@ -11,9 +11,8 @@ int ffs(int i);
 
 #include <string.h>
 
-int ffsl(long int i);
-
-int ffsll(long long int i);
+int ffsl(long i);
+int ffsll(long long i);
 ```
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
@@ -23,7 +22,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
     :   `    _XOPEN_SOURCE >= 700`<br>
         `    || ! (_POSIX_C_SOURCE >= 200809L)`<br>
         `    || /* Glibc 2.19부터: */ _DEFAULT_SOURCE`<br>
-        `    || /* Glibc 버전 <= 2.19: */ _BSD_SOURCE || _SVID_SOURCE`
+        `    || /* Glibc <= 2.19: */ _BSD_SOURCE || _SVID_SOURCE`
 
     glibc 2.12 전:
     :   없음
@@ -67,4 +66,4 @@ BSD 시스템에서는 `<string.h>`에 원형이 있다.
 
 ----
 
-2017-09-15
+2021-03-22

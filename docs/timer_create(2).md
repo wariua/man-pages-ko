@@ -8,8 +8,8 @@ timer_create - POSIX 프로세스별 타이머 만들기
 #include <signal.h>
 #include <time.h>
 
-int timer_create(clockid_t clockid, struct sigevent *sevp,
-                 timer_t *timerid);
+int timer_create(clockid_t clockid, struct sigevent *restrict sevp,
+                 timer_t *restrict timerid);
 ```
 
 `-lrt`로 링크.
@@ -46,6 +46,11 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 `CLOCK_BOOTTIME_ALARM` (리눅스 3.0부터)
 :   이 클럭은 `CLOCK_BOOTTIME`과 비슷하되 시스템이 절전 대기 상태이면 깨우게 된다. 이 클럭에 대해 타이머를 설정하기 위해선 호출자가 `CAP_WAKE_ALARM` 역능을 가지고 있어야 한다.
 
+`CLOCK_TAI` (리눅스 3.10부터)
+:   벽시계 시간에서 파생되었고 윤초를 무시하는 시스템 전역 클럭.
+
+위 클럭들에 대한 좀 더 자세한 내용은 <tt>[[clock_getres(2)]]</tt>를 보라.
+
 위 값들뿐만 아니라 <tt>[[clock_getcpuclockid(3)]]</tt> 내지 <tt>[[pthread_getcpuclockid(3)]]</tt> 호출이 반환한 `clockid`로도 `clockid`를 지정할 수 있다.
 
 `sevp` 인자는 타이머가 만료될 때 호출자가 알림 받는 방법을 나타내는 `sigevent` 구조체를 가리킨다. 이 구조체의 정의와 일반적 세부 내용은 <tt>[[sigevent(7)]]</tt>를 보라.
@@ -80,6 +85,12 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 `ENOMEM`
 :   메모리를 할당할 수 없다.
+
+`ENOTSUP`
+:   커널에서 이 `clockid`에 대한 타이머 만들기를 지원하지 않는다.
+
+`EPERM`
+:   `clockid`가 `CLOCK_REALTIME_ALARM` 또는 `CLOCK_BOOTTIME_ALARM`이었지만 호출자가 `CAP_WAKE_ALARM` 역능을 가지고 있지 않다.
 
 ## VERSIONS
 
@@ -125,7 +136,7 @@ POSIX 타이머 API의 구현 일부를 glibc에서 제공한다. 구체적으�
 
 리눅스 2.6에서 POSIX 타이머 시스템 호출이 처음 등장했다. 그 전에 glibc에서 POSIX 스레드를 이용해 불완전한 사용자 공간 구현을 (`CLOCK_REALTIME` 타이머만) 제공하였으며 glibc 버전 2.17 전의 구현에서는 2.6 전 리눅스 커널을 돌리는 시스템에서 이 기법에 의지한다.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 프로그램은 두 가지 인자를 받는다. 초 단위의 sleep 주기와 나노초 단위의 타이머 빈도이다. 프로그램이 타이머에 사용하는 시그널의 핸들러를 설정하고, 그 시그널을 차단하고, 주어진 빈도로 만료되는 타이머를 만들어서 장전하고, 지정한 초 동안 잠들고, 마지막으로 타이머 시그널 차단을 푼다. 프로그램이 잠들었던 동안 타이머가 최소 한 번은 만료되었다고 하면 시그널 핸들러가 호출될 것이고 핸들러에서 타이머 알림에 대한 몇 가지 정보를 표시한다. 시그널 핸들러가 한 번 호출된 후에는 프로그램이 종료된다.
 
@@ -146,6 +157,7 @@ Caught signal 34
 ### 프로그램 소스
 
 ```c
+#include <stdint.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
@@ -167,7 +179,7 @@ print_siginfo(siginfo_t *si)
     tidp = si->si_value.sival_ptr;
 
     printf("    sival_ptr = %p; ", si->si_value.sival_ptr);
-    printf("    *sival_ptr = 0x%lx\n", (long) *tidp);
+    printf("    *sival_ptr = %#jx\n", (uintmax_t) *tidp);
 
     or = timer_getoverrun(*tidp);
     if (or == -1)
@@ -206,7 +218,7 @@ main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    /* 타이머 시그널 핸들러 설정 */
+    /* 타이머 시그널 핸들러 설정하기. */
 
     printf("Establishing handler for signal %d\n", SIG);
     sa.sa_flags = SA_SIGINFO;
@@ -215,7 +227,7 @@ main(int argc, char *argv[])
     if (sigaction(SIG, &sa, NULL) == -1)
         errExit("sigaction");
 
-    /* 잠시 타이머 시그널 차단 */
+    /* 잠시 타이머 시그널 차단하기. */
 
     printf("Blocking signal %d\n", SIG);
     sigemptyset(&mask);
@@ -223,7 +235,7 @@ main(int argc, char *argv[])
     if (sigprocmask(SIG_SETMASK, &mask, NULL) == -1)
         errExit("sigprocmask");
 
-    /* 타이머 생성 */
+    /* 타이머 생성하기. */
 
     sev.sigev_notify = SIGEV_SIGNAL;
     sev.sigev_signo = SIG;
@@ -231,9 +243,9 @@ main(int argc, char *argv[])
     if (timer_create(CLOCKID, &sev, &timerid) == -1)
         errExit("timer_create");
 
-    printf("timer ID is 0x%lx\n", (long) timerid);
+    printf("timer ID is %#jx\n", (uintmax_t) timerid);
 
-    /* 타이머 시작 */
+    /* 타이머 시작하기. */
 
     freq_nanosecs = atoll(argv[2]);
     its.it_value.tv_sec = freq_nanosecs / 1000000000;
@@ -245,13 +257,13 @@ main(int argc, char *argv[])
          errExit("timer_settime");
 
     /* 잠깐 눈 붙이기. 그 동안 타이머가 여러 번
-       만료될 수 있음 */
+       만료될 수 있다. */
 
     printf("Sleeping for %d seconds\n", atoi(argv[1]));
     sleep(atoi(argv[1]));
 
     /* 타이머 시그널 차단을 풀어서 타이머 알림이
-       전달될 수 있게 함 */
+       전달될 수 있게 하기. */
 
     printf("Unblocking signal %d\n", SIG);
     if (sigprocmask(SIG_UNBLOCK, &mask, NULL) == -1)
@@ -267,4 +279,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-03-06
+2021-03-22

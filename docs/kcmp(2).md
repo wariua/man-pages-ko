@@ -68,7 +68,7 @@ int kcmp(pid_t pid1, pid_t pid2, int type,
 | 2 | `v1`이 `v2`보다 크다. |
 | 3 | `v1`이 `v2`와 같지 않되, 순서에 대한 정보가 없다. |
 
-오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 `kcmp()`는 정렬에 적합한 값을 반환하도록 설계되었다. 많은 수의 파일 디스크립터를 비교해야 할 때 이 점이 특히 편리하다.
 
@@ -77,20 +77,20 @@ int kcmp(pid_t pid1, pid_t pid2, int type,
 `EBADF`
 :   `type`이 `KCMP_FILE`이며 `fd1`이나 `fd2`가 열린 파일 디스크립터가 아니다.
 
+`EFAULT`
+:   `idx2`가 가리키는 epoll 슬롯이 사용자의 주소 공간 밖에 있다.
+
 `EINVAL`
 :   `type`이 유효하지 않다.
+
+`ENOENT`
+:   <tt>[[epoll(7)]]</tt> 인스턴스에 대상 파일이 존재하지 않는다.
 
 `EPERM`
 :   프로세스 자원을 조사할 권한이 부족하다. 소유하고 있지 않은 프로세스를 조사하려면 `CAP_SYS_PTRACE` 역능이 필요하다. 그리고 다른 ptrace 제약이 적용될 수도 있다. 가령 `CONFIG_SECURITY_YAMA`에서는 `/proc/sys/kernel/yama/ptrace_scope`가 2일 때 `kcmp()`를 자식 프로세스들로 제한한다. <tt>[[ptrace(2)]]</tt> 참고.
 
 `ESRCH`
 :   프로세스 `pid1`이나 `pid2`가 존재하지 않는다.
-
-`EFAULT`
-:   `idx2`가 가리키는 epoll 슬롯이 사용자의 주소 공간 밖에 있다.
-
-`ENOENT`
-:   <tt>[[epoll(7)]]</tt> 인스턴스에 대상 파일이 존재하지 않는다.
 
 ## VERSIONS
 
@@ -104,11 +104,11 @@ int kcmp(pid_t pid1, pid_t pid2, int type,
 
 glibc에서 이 시스템 호출의 래퍼를 제공하지 않는다. <tt>[[syscall(2)]]</tt>을 이용해 호출해야 한다.
 
-커널을 `CONFIG_CHECKPOINT_RESTORE`로 구성한 경우에만 이 시스템 호출이 사용 가능하다. 이 시스템 호출의 주 사용처는 사용자 공간 체크포인트/복원(CRIU) 기능이다. 이 시스템 호출의 대안으로는 <tt>[[proc(5)]]</tt> 파일 시스템을 통해 적절한 프로세스 정보를 노출하는 것이 있을 텐데, 보안적 이유로 적절하지 않다고 보았다.
+리눅스 5.12 전에선 커널을 `CONFIG_CHECKPOINT_RESTORE`로 구성한 경우에만 이 시스템 호출이 사용 가능하다. 이 시스템 호출의 주 사용처가 사용자 공간 체크포인트/복원(CRIU) 기능이었기 때문이다. (이 시스템 호출의 대안으로는 <tt>[[proc(5)]]</tt> 파일 시스템을 통해 적절한 프로세스 정보를 노출하는 것이 있을 텐데, 보안적 이유로 적절하지 않다고 보았다.) 리눅스 5.12부터 이 시스템 호출이 무조건 사용 가능해졌다.
 
 이 페이지에서 언급하는 공유 자원들에 대한 배경 정보는 <tt>[[clone(2)]]</tt>을 보라.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 프로그램은 `kcmp()`를 이용해 파일 디스크립터 쌍들이 같은 열린 파일 기술 항목을 가리키는지 검사한다. 프로그램 출력에 나와 있는 것처럼 다양한 파일 디스크립터 쌍 경우들을 검사한다. 프로그램 실행 예는 다음과 같다.
 
@@ -135,6 +135,7 @@ Child duplicated FD 3 to create FD 5
 #include <sys/syscall.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -152,11 +153,11 @@ kcmp(pid_t pid1, pid_t pid2, int type,
 }
 
 static void
-test_kcmp(char *msg, id_t pid1, pid_t pid2, int fd_a, int fd_b)
+test_kcmp(char *msg, pid_t pid1, pid_t pid2, int fd_a, int fd_b)
 {
     printf("\t%s\n", msg);
-    printf("\t\tkcmp(%ld, %ld, KCMP_FILE, %d, %d) ==> %s\n",
-            (long) pid1, (long) pid2, fd_a, fd_b,
+    printf("\t\tkcmp(%jd, %jd, KCMP_FILE, %d, %d) ==> %s\n",
+            (intmax_t) pid1, (intmax_t) pid2, fd_a, fd_b,
             (kcmp(pid1, pid2, KCMP_FILE, fd_a, fd_b) == 0) ?
                         "same" : "different");
 }
@@ -171,7 +172,7 @@ main(int argc, char *argv[])
     if (fd1 == -1)
         errExit("open");
 
-    printf("Parent PID is %ld\n", (long) getpid());
+    printf("Parent PID is %jd\n", (intmax_t) getpid());
     printf("Parent opened file on FD %d\n\n", fd1);
 
     switch (fork()) {
@@ -179,7 +180,7 @@ main(int argc, char *argv[])
         errExit("fork");
 
     case 0:
-        printf("PID of child of fork() is %ld\n", (long) getpid());
+        printf("PID of child of fork() is %jd\n", (intmax_t) getpid());
 
         test_kcmp("Compare duplicate FDs from different processes:",
                 getpid(), getppid(), fd1, fd1);
@@ -215,4 +216,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-03-06
+2021-03-22

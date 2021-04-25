@@ -8,7 +8,8 @@ realpath - 정규화 된 절대 경로명 반환
 #include <limits.h>
 #include <stdlib.h>
 
-char *realpath(const char *path, char *resolved_path);
+char *realpath(const char *restrict path,
+               char *restrict resolved_path);
 ```
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
@@ -16,7 +17,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 `realpath()`:
 :   `_XOPEN_SOURCE >= 500`<br>
     `    || /* glibc 2.19부터: */ _DEFAULT_SOURCE`<br>
-    `    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE`
+    `    || /* glibc <= 2.19: */ _BSD_SOURCE`
 
 ## DESCRIPTION
 
@@ -100,4 +101,4 @@ POSIX.1-2001에서는 `resolved_path`가 NULL일 때의 동작을 구현에서 �
 
 ----
 
-2017-09-15
+2021-03-22

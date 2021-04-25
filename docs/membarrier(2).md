@@ -7,8 +7,10 @@ membarrier - 스레드 집합에 메모리 배리어 주기
 ```c
 #include <linux/membarrier.h>
 
-int membarrier(int cmd, int flags);
+int membarrier(int cmd, unsigned int flags, int cpu_id);
 ```
+
+*주의*: 이 시스템 호출에 대한 glibc 래퍼가 없다. NOTES 참고.
 
 ## DESCRIPTION
 
@@ -66,10 +68,22 @@ asm volatile ("" : : : "memory")
 `MEMBARRIER_CMD_REGISTER_PRIVATE_EXPEDITED_SYNC_CORE` (리눅스 4.16부터)
 :   `MEMBARRIER_CMD_PRIVATE_EXPEDITED_SYNC_CORE`를 사용하려는 프로세스의 의도를 알린다.
 
+`MEMBARRIER_CMD_PRIVATE_EXPEDITED_RSEQ` (리눅스 5.10부터)
+:   `flags` 매개변수가 0인 경우, 시스템 호출 반환 시에 현재 실행 중인 형제자매 스레드 모두에서 현재 실행 중인 rseq 임계 영역이 있으면 재시작했다는 것을 호출 스레드에게 보장한다. `flags` 매개변수가 `MEMBARRIER_CMD_FLAG_CPU`이면 `cpu_id`가 나타내는 CPU에서만 이 동작을 수행한다. 호출 스레드와 같은 프로세스의 스레드에 대해서만 이 보장이 이뤄진다.
+
+    `RSEQ` 메모리 배리어는 "프로세스별 신속" 형태로만 사용 가능하다.
+
+    프로세스별 신속 rseq 명령을 사용하려는 프로세스는 사용 전에 그 의도를 미리 알려야 한다.
+
+`MEMBARRIER_CMD_REGISTER_PRIVATE_EXPEDITED_RSEQ` (리눅스 5.10부터)
+:   `MEMBARRIER_CMD_PRIVATE_EXPEDITED_RSEQ`를 사용하려는 프로세스의 의도를 알린다.
+
 `MEMBARRIER_CMD_SHARED` (리눅스 4.3부터)
 :   헤더 하위 호환성을 위해 존재하는 `MEMBARRIER_CMD_GLOBAL`의 별칭이다.
 
-`flags` 인자는 현재 사용하지 않으며 0으로 지정해야 한다.
+`flags` 인자는 명령이 `MEMBARRIER_CMD_PRIVATE_EXPEDITED_RSEQ`가 아니면 0으로 지정해야 한다. 해당하는 경우에는 `flags`가 0 또는 `MEMBARRIER_CMD_FLAG_CPU`일 수 있다.
+
+`cpu_id` 인자는 `flags`가 `MEMBARRIER_CMD_FLAG_CPU`가 아니면 무시된다. 해당하는 경우에는 그 메모리 배리어 명령의 대상 CPU를 지정해야 한다.
 
 각 대상 스레드에서 프로그램 순서로 수행되는 모든 메모리 접근은 `membarrier()`에 대해서 순서가 지켜진다고(ordered) 보장된다.
 
@@ -83,7 +97,7 @@ asm volatile ("" : : : "memory")
 
 ## RETURN VALUE
 
-성공 시 `MEMBARRIER_CMD_QUERY` 동작은 지원 명령들의 비트 마스크를 반환하며, `MEMBARRIER_CMD_GLOBAL`, `MEMBARRIER_CMD_GLOBAL_EXPEDITED`, `MEMBARRIER_CMD_REGISTER_GLOBAL_EXPEDITED`, `MEMBARRIER_CMD_PRIVATE_EXPEDITED`, `MEMBARRIER_CMD_REGISTER_PRIVATE_EXPEDITED`, `MEMBARRIER_CMD_PRIVATE_EXPEDITED_SYNC_CORE`, `MEMBARRIER_CMD_REGISTER_PRIVATE_EXPEDITED_SYNC_CORE` 동작은 0을 반환한다. 오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+성공 시 `MEMBARRIER_CMD_QUERY` 동작은 지원 명령들의 비트 마스크를 반환하며, `MEMBARRIER_CMD_GLOBAL`, `MEMBARRIER_CMD_GLOBAL_EXPEDITED`, `MEMBARRIER_CMD_REGISTER_GLOBAL_EXPEDITED`, `MEMBARRIER_CMD_PRIVATE_EXPEDITED`, `MEMBARRIER_CMD_REGISTER_PRIVATE_EXPEDITED`, `MEMBARRIER_CMD_PRIVATE_EXPEDITED_SYNC_CORE`, `MEMBARRIER_CMD_REGISTER_PRIVATE_EXPEDITED_SYNC_CORE` 동작은 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 한 명령에 대해서 `flags`를 0으로 설정 시 이 시스템 호출이 재부팅 때까지 항상 같은 값을 반환한다고 보장된다. 즉, 같은 인자로 하는 이후 호출이 같은 결과를 낳는다. 따라서 `flags`를 0으로 설정 시 첫 번째 `membarrier()` 호출에서만 오류 처리가 필요하다.
 
@@ -102,19 +116,27 @@ asm volatile ("" : : : "memory")
 
 리눅스 4.3에서 `membarrier()` 시스템 호출이 추가되었다.
 
+리눅스 5.10 전에선 `membarrier()`의 원형이 다음과 같았다.
+
+```c
+int membarrier(int cmd, int flags);
+```
+
 ## CONFORMING TO
 
 `membarrier()`는 리눅스 전용이다.
 
 ## NOTES
 
-메모리 모델이 약한 순서(weakly-ordered)인 아키텍처에서 인스트럭션 세트에 메모리 배리어 인스트럭션이 포함되어 있다. 다른 코어 상의 대응하는 배리어에 대해서 배리어 전 메모리 접근과 배리어 후 메모리 접근의 순서를 지켜 준다. 예를 들어 저장 fence로 순서를 유지하는 저장들에 대해서 적재 fence가 펜스 전 적재와 펜스 후 적재의 순서를 유지할 수 있다.
+메모리 모델이 약한 순서(weakly ordered)인 아키텍처에서 인스트럭션 세트에 메모리 배리어 인스트럭션이 포함되어 있다. 다른 코어 상의 대응하는 배리어에 대해서 배리어 전 메모리 접근과 배리어 후 메모리 접근의 순서를 지켜 준다. 예를 들어 저장 fence로 순서를 유지하는 저장들에 대해서 적재 fence가 펜스 전 적재와 펜스 후 적재의 순서를 유지할 수 있다.
 
 프로그램 순서란 프로그램 어셈블리 코드에서 인스트럭션이 배치되는 순서이다.
 
 `membarrier()`가 유용할 수 있는 경우로 Read-Copy-Update 라이브러리나 가비지 컬렉터 구현 등이 있다.
 
-## EXAMPLE
+glibc에서 이 시스템 호출의 래퍼를 제공하지 않는다. <tt>[[syscall(2)]]</tt>을 이용해 호출해야 한다.
+
+## EXAMPLES
 
 "`fast_path()`"를 매우 자주 실행하고 "`slow_path()`"를 드물게 실행하는 다중 스레드 응용을 가정할 때 다음과 같은 (x86용) 코드를 `membarrier()`를 쓰도록 변형할 수 있다.
 
@@ -178,9 +200,9 @@ main(int argc, char **argv)
 static volatile int a, b;
 
 static int
-membarrier(int cmd, int flags)
+membarrier(int cmd, unsigned int flags, int cpu_id)
 {
-    return syscall(__NR_membarrier, cmd, flags);
+    return syscall(__NR_membarrier, cmd, flags, cpu_id);
 }
 
 static int
@@ -190,7 +212,7 @@ init_membarrier(void)
 
     /* membarrier() 지원하는지 확인 */
 
-    ret = membarrier(MEMBARRIER_CMD_QUERY, 0);
+    ret = membarrier(MEMBARRIER_CMD_QUERY, 0, 0);
     if (ret < 0) {
         perror("membarrier");
         return -1;
@@ -217,7 +239,7 @@ static void
 slow_path(int *read_a)
 {
     b = 1;
-    membarrier(MEMBARRIER_CMD_GLOBAL, 0);
+    membarrier(MEMBARRIER_CMD_GLOBAL, 0, 0);
     *read_a = a;
 }
 
@@ -252,4 +274,4 @@ main(int argc, char **argv)
 
 ----
 
-2018-04-30
+2021-03-22

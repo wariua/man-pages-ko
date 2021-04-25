@@ -56,7 +56,7 @@ glibc 버전 2.2.3부터 이 함수가 사용 가능하다.
 
 이 함수들은 비표준 GNU 확장이다. 그래서 이름 뒤에 "\_np"(nonportable: 이식성 없음)가 붙어 있다.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 프로그램은 `pthread_getattr_np()` 사용 방식을 보여 준다. 프로그램에서 스레드를 생성한 다음 `pthread_getattr_np()`를 이용해 방호 구역 크기, 스택 주소, 스택 크기 속성을 가져와 표시한다. 명령행 인자를 이용해 스레드 생성 시 기본과 다른 값으로 이 속성들을 설정할 수 있다. 아래 셸 세션은 프로그램 사용 방식을 보여 준다.
 
@@ -127,7 +127,7 @@ display_stack_related_attributes(pthread_attr_t *attr, char *prefix)
     s = pthread_attr_getguardsize(attr, &guard_size);
     if (s != 0)
         handle_error_en(s, "pthread_attr_getguardsize");
-    printf("%sGuard size          = %d bytes\n", prefix, guard_size);
+    printf("%sGuard size          = %zu bytes\n", prefix, guard_size);
 
     s = pthread_attr_getstack(attr, &stack_addr, &stack_size);
     if (s != 0)
@@ -136,7 +136,7 @@ display_stack_related_attributes(pthread_attr_t *attr, char *prefix)
     if (stack_size > 0)
         printf(" (EOS = %p)", (char *) stack_addr + stack_size);
     printf("\n");
-    printf("%sStack size          = 0x%x (%d) bytes\n",
+    printf("%sStack size          = %#zx (%zu) bytes\n",
             prefix, stack_size, stack_size);
 }
 
@@ -182,7 +182,7 @@ get_thread_attributes_from_cl(int argc, char *argv[],
                               pthread_attr_t *attrp)
 {
     int s, opt, allocate_stack;
-    long stack_size, guard_size;
+    size_t stack_size, guard_size;
     void *stack_addr;
     pthread_attr_t *ret_attr_p = NULL;   /* 스레드 속성 객체를 초기화
                                             하는 경우 attrp로 설정 */
@@ -277,4 +277,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-03-06
+2021-03-22

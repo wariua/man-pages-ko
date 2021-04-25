@@ -88,8 +88,8 @@ attributes - POSIX 안전성 개념
 
 ## SEE ALSO
 
-<tt>[[pthreads(7)]]</tt>
+<tt>[[pthreads(7)]]</tt>, <tt>[[signal-safety(7)]]</tt>
 
 ----
 
-2015-03-02
+2021-03-22

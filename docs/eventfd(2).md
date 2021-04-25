@@ -129,7 +129,7 @@ int eventfd_write(int fd, eventfd_t value);
 
 이 함수들은 eventfd 파일 디스크립터에 읽기 및 쓰기 동작을 수행하며, 정확한 수의 바이트를 전송했으면 0을 반환하고 아니면 -1을 반환한다.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 프로그램은 eventfd 파일 디스크립터를 만들고서 분기하여 자식 프로세스를 만든다. 부모가 잠시 잠드는 동안 자식이 프로그램 명령행 인자로 받은 정수들 각각을 eventfd 파일 디스크립터에 쓴다. 그리고 잠에서 깬 부모가 eventfd 파일 디스크립터에서 읽기를 한다.
 
@@ -152,6 +152,7 @@ Parent read 28 (0x1c) from efd
 ```c
 #include <sys/eventfd.h>
 #include <unistd.h>
+#include <inttypes.h>           /* PRIu64 및 PRIx64 정의 */
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>             /* uint64_t 정의 */
@@ -162,7 +163,7 @@ Parent read 28 (0x1c) from efd
 int
 main(int argc, char *argv[])
 {
-    int efd, j;
+    int efd;
     uint64_t u;
     ssize_t s;
 
@@ -177,7 +178,7 @@ main(int argc, char *argv[])
 
     switch (fork()) {
     case 0:
-        for (j = 1; j < argc; j++) {
+        for (int j = 1; j < argc; j++) {
             printf("Child writing %s to efd\n", argv[j]);
             u = strtoull(argv[j], NULL, 0);
                     /* strtoull()에 다양한 기수 가능 */
@@ -196,8 +197,7 @@ main(int argc, char *argv[])
         s = read(efd, &u, sizeof(uint64_t));
         if (s != sizeof(uint64_t))
             handle_error("read");
-        printf("Parent read %llu (0x%llx) from efd\n",
-                (unsigned long long) u, (unsigned long long) u);
+        printf("Parent read %"PRIu64" (%#"PRIx64") from efd\n", u, u);
         exit(EXIT_SUCCESS);
 
     case -1:
@@ -212,4 +212,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-03-06
+2021-03-22

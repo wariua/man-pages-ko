@@ -38,4 +38,4 @@ NPTL 스레딩 구현에는 `pthread_kill_other_threads_np()`가 존재하기는
 
 ----
 
-2017-09-15
+2021-03-22

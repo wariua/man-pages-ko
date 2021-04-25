@@ -60,7 +60,7 @@ glibc 버전 2.9에서 이 함수들이 추가되었다.
 
 <tt>[[byteorder(3)]]</tt> 함수들의 장점은 표준 함수라서 모든 유닉스 시스템에서 사용 가능하다는 점이다. 하지만 TCP/IP 맥락에서 쓰려고 설계한 것이기 때문에 이 페이지에 기술된 64비트 형태와 리틀 엔디언 형태가 빠져 있다.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 프로그램에서는 정수를 호스트 바이트 순서에서 리틀 엔디언 및 빅 엔디언 바이트 순서로 변환한 결과를 보여 준다. 호스트 바이트 순서가 리틀 엔디언 아니면 빅 엔디언이므로 변환 중 한쪽만 효과가 있게 된다. 이 프로그램을 x86-32 같은 리틀 엔디언 시스템에서 돌리면 다음을 보게 된다.
 
@@ -92,9 +92,9 @@ main(int argc, char *argv[])
     x.arr[2] = 0x33;
     x.arr[3] = 0x44;    /* 최상위 주소 바이트 */
 
-    printf("x.u32 = 0x%x\n", x.u32);
-    printf("htole32(x.u32) = 0x%x\n", htole32(x.u32));
-    printf("htobe32(x.u32) = 0x%x\n", htobe32(x.u32));
+    printf("x.u32 = %#x\n", x.u32);
+    printf("htole32(x.u32) = %#x\n", htole32(x.u32));
+    printf("htobe32(x.u32) = %#x\n", htobe32(x.u32));
 
     exit(EXIT_SUCCESS);
 }
@@ -106,4 +106,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-03-06
+2021-03-22

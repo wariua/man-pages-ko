@@ -93,6 +93,10 @@ struct signalfd_siginfo {
 
 다중 스레드 프로그램에서 signalfd 파일 디스크립터의 동작 방식은 시그널의 표준 동작 방식을 반영한다. 다시 말해 스레드가 signalfd 파일 디스크립터에서 읽기를 하면 그 스레드를 향한 시그널과 프로세스(즉 스레드 그룹 전체)를 향한 시그널을 읽게 된다. (스레드가 프로세스 내 다른 스레드를 향한 시그널을 읽을 수는 없다.)
 
+### <tt>[[epoll(7)]]</tt> 동작 방식
+
+프로세스에서 (<tt>[[epoll_ctl(2)]]</tt>을 통해) signalfd 파일 디스크립터를 <tt>[[epoll(7)]]</tt> 인스턴스에 추가한 경우에는 그 프로세스로 전송되는 시그널에 대해서만  <tt>[[epoll_wait(2)]]</tt>이 이벤트를 반환한다. 특히 그러고서 프로세스가 <tt>[[fork(2)]]</tt>로 자식 프로세스를 만들게 되면 자식에서 signalfd 파일 디스크립터를 써서 자기에게 온 시그널을 `read(2)` 할 수는 있지만 <tt>[[epoll_wait(2)]]</tt>은 signalfd 파일 디스크립터가 준비 상태라고 표시하지 **않게** 된다. 그런 경우에 쓸 수 있는 방법은 <tt>[[fork(2)]]</tt> 후 자식 프로세스에서 부모에게 물려받은 signalfd 파일 디스크립터를 닫고서 다른 signalfd 파일 디스크립터를 만들어 epoll 인스턴스에 추가하는 것이다. 아니면 부모와 자식에서 (따로) signalfd 파일 디스크립터를 만들고 epoll 인스턴스에 추가하는 걸 <tt>[[fork(2)]]</tt> 호출 후로 미룰 수도 있다.
+
 ## RETURN VALUE
 
 성공 시 `signalfd()`는 signalfd 파일 디스크립터를 반환한다. `fd`가 -1이었으면 새 파일 디스크립터이고, `fd`가 유효한 파일 디스크립터였으면 `fd`이다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
@@ -152,7 +156,7 @@ struct signalfd_siginfo {
 
 2.6.25 전의 커널에서는 <tt>[[sigqueue(3)]]</tt>로 보낸 시그널 동반 데이터가 `ssi_ptr` 및 `ssi_int` 필드에 채워지지 않는다.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 프로그램은 signalfd 파일 디스크립터를 통해 시그널 `SIGINT`와 `SIGQUIT`을 받는다. `SIGQUIT` 시그널을 받은 후에 프로그램이 종료한다. 다음 셸 세션이 프로그램 사용 방식을 보여 준다.
 
@@ -192,7 +196,7 @@ main(int argc, char *argv[])
     sigaddset(&mask, SIGQUIT);
 
     /* 시그널을 막아서 기본 처리 방식에 따라
-       처리되지 않도록 함 */
+       처리되지 않도록 한다. */
 
     if (sigprocmask(SIG_BLOCK, &mask, NULL) == -1)
         handle_error("sigprocmask");
@@ -202,8 +206,8 @@ main(int argc, char *argv[])
         handle_error("signalfd");
 
     for (;;) {
-        s = read(sfd, &fdsi, sizeof(struct signalfd_siginfo));
-        if (s != sizeof(struct signalfd_siginfo))
+        s = read(sfd, &fdsi, sizeof(fdsi));
+        if (s != sizeof(fdsi))
             handle_error("read");
 
         if (fdsi.ssi_signo == SIGINT) {
@@ -224,4 +228,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-03-06
+2021-03-22

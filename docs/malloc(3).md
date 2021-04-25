@@ -1,6 +1,6 @@
 ## NAME
 
-malloc, free, calloc, realloc - 동적 메모리 할당하고 해제하기
+malloc, free, calloc, realloc, reallocarray - 동적 메모리 할당하고 해제하기
 
 ## SYNOPSIS
 
@@ -35,7 +35,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 malloc(nmemb * size);
 ```
 
-`realloc()` 함수는 `ptr`이 가리키는 메모리 블록의 크기를 `size` 바이트로 바꾼다. 시작점부터 이전 크기와 새 크기 중 작은 값까지의 범위에서는 내용물이 바뀌지 않는다. 새 크기가 이전 크기보다 큰 경우 추가되는 메모리가 초기화 되지 *않는다*. `ptr`이 NULL이면 그 호출은 모든 `size` 값에 대해 `malloc(size)`와 동등하다. `size`가 0이고 `ptr`이 NULL이 아니면 그 호출은 `free(ptr)`과 동등하다. `ptr`이 NULL이 아니라면 그 값은 이전의 `malloc()`, `calloc()`, `realloc()` 호출이 반환한 것이어야 한다. 가리키는 영역이 옮겨지는 경우 `free(ptr)`를 한다.
+`realloc()` 함수는 `ptr`이 가리키는 메모리 블록의 크기를 `size` 바이트로 바꾼다. 시작점부터 이전 크기와 새 크기 중 작은 값까지의 범위에서는 내용물이 바뀌지 않는다. 새 크기가 이전 크기보다 큰 경우 추가되는 메모리가 초기화 되지 *않는다*. `ptr`이 NULL이면 그 호출은 모든 `size` 값에 대해 `malloc(size)`와 동등하다. `size`가 0이고 `ptr`이 NULL이 아니면 그 호출은 `free(ptr)`과 동등하다. (이 동작은 이식성이 없다. NOTES 참고.) `ptr`이 NULL이 아니라면 그 값은 이전의 `malloc()`, `calloc()`, `realloc()` 호출이 반환한 것이어야 한다. 가리키는 영역이 옮겨지는 경우 `free(ptr)`를 한다.
 
 `reallocarray()` 함수는 `ptr`이 가리키는 메모리 블록의 크기를 각 `size` 바이트인 원소 `nmemb` 개의 배열에 충분하도록 바꾼다. 다음 호출과 동등하다.
 
@@ -51,7 +51,7 @@ realloc(ptr, nmemb * size);
 
 `free()` 함수는 아무 값도 반환하지 않는다.
 
-`realloc()` 함수는 새로 할당한 메모리에 대한 포인터를 반환한다. 그 메모리는 어떤 내장 타입에도 적합하도록 정렬되어 있으며 `ptr`과 다를 수도 있다. 그리고 요청이 실패한 경우 NULL을 반환한다. `size`가 0이면 NULL이나 `free()`에 전달하기 적합한 포인터를 반환한다. `realloc()`이 실패한 경우 원래 블록은 바뀌지 않고 그대로이다. 즉, 해제되거나 이동하지 않는다.
+`realloc()` 함수는 새로 할당한 메모리에 대한 포인터를 반환하는데, 어떤 내장 타입에도 적합하도록 정렬되어 있다. 요청이 실패한 경우 NULL을 반환한다. 할당이 이동하지 않았다면 (가령 할당을 제자리에서 확장할 공간이 있었다면) 반환되는 포인터가 `ptr`과 같을 수도 있고, 할당이 다른 주소로 이동했다면 `ptr`과 다를 수도 있다. `size`가 0이면 NULL이나 `free()`에 전달하기 적합한 포인터를 반환한다. `realloc()`이 실패한 경우 원래 블록은 바뀌지 않고 그대로이다. 즉, 해제되거나 이동하지 않는다.
 
 성공 시 `reallocarray()` 함수는 새로 할당한 메모리에 대한 포인터를 반환한다. 실패 시 NULL을 반환하며 원래 메모리 블록은 바뀌지 않는다.
 
@@ -62,13 +62,17 @@ realloc(ptr, nmemb * size);
 `ENOMEM`
 :   메모리 부족. 아마 응용이 <tt>[[getrlimit(2)]]</tt>에 기술된 `RLIMIT_AS`나 `RLIMIT_DATA` 제한에 걸렸을 것이다.
 
+## VERSIONS
+
+glibc 버전 2.26에서 `reallocarray()`가 처음 등장했다.
+
 ## ATTRIBUTES
 
 이 절에서 사용하는 용어들에 대한 설명은 <tt>[[attributes(7)]]</tt>를 보라.
 
 | 인터페이스 | 속성 | 값 |
 | --- | --- | --- |
-| `malloc()`, `free()`,<br>`calloc()`, `realloc()` | 스레드 안전성 | MT-Safe |
+| `malloc()`, `free()`, `calloc()`, `realloc()` | 스레드 안전성 | MT-Safe |
 
 ## CONFORMING TO
 
@@ -90,6 +94,10 @@ SUSv2에서는 `malloc()`, `calloc()`, `realloc()`이 실패 시에 `errno`를 `
 
 환경 변수를 통해 `malloc()` 구현을 튜닝 할 수 있다. 자세한 내용은 <tt>[[mallopt(3)]]</tt>를 보라.
 
+### 이식성 없는 동작
+
+`size`가 0과 같고 `ptr`이 NULL이 아닐 때 `realloc()`의 동작 방식은 glibc 한정이다. 다른 구현체에서는 NULL을 반환하고 `errno`를 설정할 수 있다. 이식 가능한 POSIX 프로그램에서는 이를 피해야 한다. `realloc(3p)` 참고.
+
 ## SEE ALSO
 
 <tt>[[valgrind(1)]]</tt>, <tt>[[brk(2)]]</tt>, <tt>[[mmap(2)]]</tt>, <tt>[[alloca(3)]]</tt>, <tt>[[malloc_get_state(3)]]</tt>, <tt>[[malloc_info(3)]]</tt>, <tt>[[malloc_trim(3)]]</tt>, <tt>[[malloc_usable_size(3)]]</tt>, <tt>[[mallopt(3)]]</tt>, <tt>[[mcheck(3)]]</tt>, <tt>[[mtrace(3)]]</tt>, <tt>[[posix_memalign(3)]]</tt>
@@ -98,4 +106,4 @@ GNU C 라이브러리 구현에 대한 자세한 내용은 <https://sourceware.o
 
 ----
 
-2019-03-06
+2021-03-22

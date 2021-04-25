@@ -56,7 +56,7 @@ POSIX.1에서는 스택뿐 아니라 여러 다른 속성들이 스레드별로 
 
 ### pthreads 함수 반환 값
 
-pthreads 함수 대부분은 성공 시 0을 반환하고 실패 시 오류 번호를 반환한다. pthreads 함수들이 `errno`를 설정하지 않는다는 점에 유의해야 한다. 오류를 반환할 수 있는 pthreads 함수 각각에 대해 POSIX.1-2001에서는 그 함수가 절대 `EINTR` 오류로 실패할 수 없다고 명세하고 있다.
+pthreads 함수 대부분은 성공 시 0을 반환하고 실패 시 오류 번호를 반환한다. 반환될 수 있는 오류 번호들은 전통적 시스템 호출 및 C 라이브러리 함수들에서 `errno`로 반환하는 오류 번호와 의미가 같다. pthreads 함수들이 `errno`를 설정하지 않는다는 점에 유의해야 한다. 오류를 반환할 수 있는 pthreads 함수 각각에 대해 POSIX.1-2001에서는 그 함수가 절대 `EINTR` 오류로 실패할 수 없다고 명세하고 있다.
 
 ### 스레드 ID
 
@@ -107,8 +107,7 @@ getgrent()
 getgrgid()
 getgrnam()
 gethostbyaddr() [POSIX.1-2001 한정 (POSIX.1-2008에서 제거)]
-gethostbyname() 
-[POSIX.1-2001 한정 (POSIX.1-2008에서 제거)]
+gethostbyname() [POSIX.1-2001 한정 (POSIX.1-2008에서 제거)]
 gethostent()
 getlogin()
 getnetbyaddr()
@@ -327,8 +326,8 @@ getgrgid()
 getgrgid_r()
 getgrnam()
 getgrnam_r()
-gethostbyaddr() [SUSv3 한정 (POSIX.1-2008에서 제거)]
-gethostbyname() [SUSv3 한정 (POSIX.1-2008에서 제거)]
+gethostbyaddr() [POSIX.1-2001 한정 (POSIX.1-2008에서 제거)]
+gethostbyname() [POSIX.1-2001 한정 (POSIX.1-2008에서 제거)]
 gethostent()
 gethostid()
 gethostname()
@@ -357,7 +356,7 @@ getutxid()
 getutxline()
 getwc()
 getwchar()
-getwd() [SUSv3 한정 (POSIX.1-2008에서 제거)]
+getwd() [POSIX.1-2001 한정 (POSIX.1-2008에서 제거)]
 glob()
 iconv_close()
 iconv_open()
@@ -478,6 +477,8 @@ wscanf()
 
 표준에서 명세하지 않은 다른 함수들을 구현에서 취소점으로 둘 수도 있다. 특히 블록 할 수 있는 비표준 함수가 있다면 아마 구현에서 취소점으로 둘 것이다. (파일을 건드릴 수 있는 함수들 대부분이 여기 포함된다.)
 
+응용에서 비동기 취소를 이용하지 않고 있더라도 위 목록에 있는 함수를 비동기 시그널 핸들러에서 호출하면 비동기 취소와 동등한 결과를 유발할 수 있다는 점에 유의할 필요가 있다. 사용자 코드에서 비동기 취소를 고려하지 않고 있을 수 있고, 그래서 사용자 데이터 상태의 무결성이 깨질 수 있다. 따라서 취소 연기 구간에 진입할 때는 시그널을 조심해서 이용해야 한다.
+
 ### 리눅스에서 컴파일 하기
 
 리눅스에서 Pthreads API를 사용하는 프로그램은 `cc -pthread`라고 컴파일 해야 한다.
@@ -595,4 +596,4 @@ bash$ $( LD_ASSUME_KERNEL=2.2.5 ldd /bin/ls | grep libc.so | \
 
 ----
 
-2019-03-06
+2021-03-22

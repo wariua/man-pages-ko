@@ -8,7 +8,6 @@ pread, pwrite - 파일 디스크립터의 지정한 오프셋에서 읽거나 �
 #include <unistd.h>
 
 ssize_t pread(int fd, void *buf, size_t count, off_t offset);
-
 ssize_t pwrite(int fd, const void *buf, size_t count, off_t offset);
 ```
 
@@ -32,7 +31,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 성공한 호출에서 요청보다 적은 바이트를 이동한 것이 오류가 아니라는 점에 유의하라. (`read(2)` 및 `write(2)` 참고.)
 
-오류 시 -1을 반환하며 오류 원인을 나타내도록 `errno`를 설정한다.
+오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -66,4 +65,4 @@ POSIX에서는 파일을 `O_APPEND` 플래그로 여는 것이 `pwrite()`에서 
 
 ----
 
-2017-09-15
+2021-03-22

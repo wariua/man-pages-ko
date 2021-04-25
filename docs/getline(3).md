@@ -7,9 +7,10 @@ getline, getdelim - 구분자 사용 문자열 입력
 ```c
 #include <stdio.h>
 
-ssize_t getline(char **lineptr, size_t *n, FILE *stream);
-
-ssize_t getdelim(char **lineptr, size_t *n, int delim, FILE *stream);
+ssize_t getline(char **restrict lineptr, size_t *restrict n,
+                FILE *restrict stream);
+ssize_t getdelim(char **restrict lineptr, size_t *restrict n,
+                int delim, FILE *restrict stream);
 ```
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
@@ -37,7 +38,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 성공 시 `getline()`과 `getdelim()`은 읽은 문자 수를 반환하는데, 구문 문자는 포함하고 종료용 널 바이트(`'\0'`)는 제외한다. 이 값을 이용하면 읽은 행에 널 바이트가 포함된 경우를 다룰 수 있다.
 
-두 함수 모두 행을 읽는 데 실패하면 (파일 끝 상태 포함) -1을 반환한다. 오류 발생 시 오류 원인을 나타내도록 `errno`를 설정한다.
+두 함수 모두 행을 읽는 데 실패하면 (파일 끝 상태 포함) -1을 반환한다. 실패 시 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -59,7 +60,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 `getline()`과 `getdelim()` 모두 원래는 GNU 확장이었다. POSIX.1-2008에서 표준화되었다.
 
-## EXAMPLE
+## EXAMPLES
 
 ```c
 #define _GNU_SOURCE
@@ -86,7 +87,7 @@ main(int argc, char *argv[])
     }
 
     while ((nread = getline(&line, &len, stream)) != -1) {
-        printf("Retrieved line of length %zu:\n", nread);
+        printf("Retrieved line of length %zd:\n", nread);
         fwrite(line, nread, 1, stdout);
     }
 
@@ -102,4 +103,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-03-06
+2021-03-22

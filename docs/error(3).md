@@ -8,15 +8,13 @@ error, error_at_line, error_message_count, error_one_per_line, error_print_progn
 #include <error.h>
 
 void error(int status, int errnum, const char *format, ...);
-
 void error_at_line(int status, int errnum, const char *filename,
                    unsigned int linenum, const char *format, ...);
 
 extern unsigned int error_message_count;
-
 extern int error_one_per_line;
 
-extern void (*error_print_progname) (void);
+extern void (*error_print_progname)(void);
 ```
 
 ## DESCRIPTION
@@ -25,7 +23,7 @@ extern void (*error_print_progname) (void);
 
 `error()`에서 찍는 프로그램 이름은 전역 변수 <tt>[[program_invocation_name(3)]]</tt>의 값이다. `program_invocation_name`은 처음에는 `main()`의 `argv[0]`과 같은 값을 가지고 있다. 이 변수의 값을 바꾸면 `error()` 출력도 바뀐다.
 
-`status`가 0 아닌 값이면 `error()`에서 그 값을 종료 상태로 해서 <tt>[[exit(3)]]</tt>를 호출해서 프로그램을 종료시킨다.
+`status`가 0 아닌 값이면 `error()`에서 그 값을 종료 상태로 해서 <tt>[[exit(3)]]</tt>를 호출해서 프로그램을 종료시킨다. 아니면 오류 메시지를 찍고서 반환한다.
 
 `error_at_line()` 함수는 `error()`와 동일하되 추가로 `filename` 및 `linenum` 인자가 있다. 내놓는 출력이 `error()`와 마찬가지이되 프로그램 이름 다음에 콜론, `filename`의 값, 콜론, `linenum`의 값이 들어간다. `error_at_line()` 호출 시에 전처리기의 값 `__LINE__`과 `__FILE__`이 유용하긴 하지만 다른 값도 쓸 수 있다. 예를 들어 이 인자들로 입력 파일 내의 위치를 나타낼 수도 있을 것이다.
 
@@ -56,4 +54,4 @@ extern void (*error_print_progname) (void);
 
 ----
 
-2017-09-15
+2021-03-22

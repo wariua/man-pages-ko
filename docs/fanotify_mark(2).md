@@ -41,7 +41,7 @@ fanotify API에 대한 소개는 <tt>[[fanotify(7)]]</tt>를 보라.
 :   표시할 파일 시스템 객체가 디렉터리가 아니면 `ENOTDIR` 오류를 제기한다.
 
 `FAN_MARK_MOUNT`
-:   `pathname`으로 지정한 마운트 지점에 표시를 한다. `pathname` 자체가 마운트 지점이 아니면 `pathname`을 담은 마운트 지점에 표시를 하게 된다. 마운트 지점의 모든 디렉터리와 서브디렉터리, 그리고 거기 담긴 파일들을 감시한다. 파일 디스크립터 `fanotify_fd`를 `FAN_REPORT_FID` 플래그로 초기화 했거나 `mask`에 새 디렉터리 변경 이벤트를 하나라도 준 경우에는 이 값을 쓸 수 없다. 그렇게 해서 시도하면 오류 `EINVAL`이 반환된다.
+:   `pathname`으로 지정한 마운트 지점에 표시를 한다. `pathname` 자체가 마운트 지점이 아니면 `pathname`을 담은 마운트 지점에 표시를 하게 된다. 마운트 지점의 모든 디렉터리와 서브디렉터리, 그리고 거기 담긴 파일들을 감시한다. `flags`에 `FAN_MARK_MOUNT`가 있을 때는 `FAN_CREATE`, `FAN_ATTRIB`, `FAN_MOVE`, `FAN_DELETE_SELF`처럼 파일 핸들로 파일 시스템 객체를 식별해야 하는 이벤트를 줄 수 없다. 그렇게 해서 시도하면 오류 `EINVAL`이 반환된다.
 
 `FAN_MARK_FILESYSTEM` (리눅스 4.20부터)
 :   `pathname`으로 지정한 파일 시스템에 표시를 한다. `pathname`을 담은 파일 시스템에 표시를 하게 된다. 마운트 지점이 어디든 그 파일 시스템에 담긴 모든 파일과 디렉터리를 감시한다.
@@ -72,26 +72,26 @@ fanotify API에 대한 소개는 <tt>[[fanotify(7)]]</tt>를 보라.
 `FAN_OPEN_EXEC` (리눅스 5.0부터)
 :   파일이 실행하려는 의도로 열리면 이벤트 생성. NOTES의 추가 설명 참고.
 
-`FAN_ATTRIB`
-:   파일이나 디렉터리의 메타데이터가 바뀌었을 때 이벤트 생성.
+`FAN_ATTRIB` (리눅스 5.1부터)
+:   파일이나 디렉터리의 메타데이터가 바뀌었을 때 이벤트 생성. 파일 핸들로 파일 시스템 객체를 식별하는 fanotify 그룹이 필요하다.
 
-`FAN_CREATE`
-:   표시된 부모 디렉터리 내에서 파일이나 디렉터리가 생성됐을 때 이벤트 생성.
+`FAN_CREATE` (리눅스 5.1부터)
+:   표시된 부모 디렉터리 내에서 파일이나 디렉터리가 생성됐을 때 이벤트 생성. 파일 핸들로 파일 시스템 객체를 식별하는 fanotify 그룹이 필요하다.
 
-`FAN_DELETE`
-:   표시된 부모 디렉터리 내에서 파일이나 디렉터리가 삭제됐을 때 이벤트 생성.
+`FAN_DELETE` (리눅스 5.1부터)
+:   표시된 부모 디렉터리 내에서 파일이나 디렉터리가 삭제됐을 때 이벤트 생성. 파일 핸들로 파일 시스템 객체를 식별하는 fanotify 그룹이 필요하다.
 
-`FAN_DELETE_SELF`
-:   표시된 파일이나 디렉터리 자체가 삭제됐을 때 이벤트 생성.
+`FAN_DELETE_SELF` (리눅스 5.1부터)
+:   표시된 파일이나 디렉터리 자체가 삭제됐을 때 이벤트 생성. 파일 핸들로 파일 시스템 객체를 식별하는 fanotify 그룹이 필요하다.
 
-`FAN_MOVED_FROM`
-:   표시된 부모 디렉터리에 있던 파일이나 디렉터리가 이동됐을 때 이벤트 생성.
+`FAN_MOVED_FROM` (리눅스 5.1부터)
+:   표시된 부모 디렉터리에 있던 파일이나 디렉터리가 이동됐을 때 이벤트 생성. 파일 핸들로 파일 시스템 객체를 식별하는 fanotify 그룹이 필요하다.
 
-`FAN_MOVED_TO`
-:   표시된 부모 디렉터리로 파일이나 디렉터리가 이동됐을 때 이벤트 생성.
+`FAN_MOVED_TO` (리눅스 5.1부터)
+:   표시된 부모 디렉터리로 파일이나 디렉터리가 이동됐을 때 이벤트 생성. 파일 핸들로 파일 시스템 객체를 식별하는 fanotify 그룹이 필요하다.
 
-`FAN_Q_OVERFLOW`
-:   이벤트 큐 넘침이 발생하면 이벤트 생성. <tt>[[fanotify_init(2)]]</tt>에서 `FAN_UNLIMITED_QUEUE`를 설정하지 않으면 이벤트 큐 크기가 16384개 항목으로 제한된다.
+`FAN_MOVE_SELF` (리눅스 5.1부터)
+:   표시된 파일이나 디렉터리 자체가 이동됐을 때 이벤트 생성. 파일 핸들로 파일 시스템 객체를 식별하는 fanotify 그룹이 필요하다.
 
 `FAN_OPEN_PERM`
 :   파일이나 디렉터리 열기 요청이 있으면 이벤트 생성. `FAN_CLASS_PRE_CONTENT`나 `FAN_CLASS_CONTENT`로 생성한 fanotify 파일 디스크립터가 필요하다.
@@ -103,10 +103,10 @@ fanotify API에 대한 소개는 <tt>[[fanotify(7)]]</tt>를 보라.
 :   파일이나 디렉터리 읽기 요청이 있으면 이벤트 생성. `FAN_CLASS_PRE_CONTENT`나 `FAN_CLASS_CONTENT`로 생성한 fanotify 파일 디스크립터가 필요하다.
 
 `FAN_ONDIR`
-:   디렉터리에 대해 (가령 <tt>[[opendir(3)]]</tt>, <tt>[[readdir(3)]]</tt> (단 BUGS 참고), <tt>[[closedir(3)]]</tt>이 호출될 때) 이벤트 생성. 이 플래그가 없으면 파일에 대한 이벤트만 생긴다. 파일 디스크립터 `fanotify_fd`를 `FAN_REPORT_FID` 플래그로 초기화 했을 때만 `FAN_ONDIR` 플래그를 보고한다. `FAN_CREATE`, `FAN_DELETE`, `FAN_MOVED_FROM`, `FAN_MOVED_TO` 같은 디렉터리 항목 이벤트 맥락에서 서브디렉터리 항목들이 변경(즉 <tt>[[mkdir(2)]]</tt>/<tt>[[rmdir(2)]]</tt>)될 때 이벤트가 생성되게 하려면 `FAN_ONDIR` 플래그를 지정해야 한다. 이 플래그는 이벤트에서 단독으로 보고되는 일이 절대 없으며 항상 다른 종류의 이벤트와 함께 제공된다.
+:   디렉터리에 대해 (가령 <tt>[[opendir(3)]]</tt>, <tt>[[readdir(3)]]</tt> (단 BUGS 참고), <tt>[[closedir(3)]]</tt>이 호출될 때) 이벤트 생성. 이 플래그가 없으면 파일에 대해서만 이벤트가 생긴다. `FAN_CREATE`, `FAN_DELETE`, `FAN_MOVED_FROM`, `FAN_MOVED_TO` 같은 디렉터리 항목 이벤트 맥락에서 서브디렉터리 항목들이 변경(즉 <tt>[[mkdir(2)]]</tt>/<tt>[[rmdir(2)]]</tt>)될 때 이벤트가 생성되게 하려면 `FAN_ONDIR` 플래그를 지정해야 한다.
 
 `FAN_EVENT_ON_CHILD`
-:   표시한 디렉터리의 직접 자식들에 대한 이벤트를 생성한다. 마운트 및 파일 시스템에 표시할 때는 이 플래그에 아무 효과가 없다. 참고로 표시한 디렉터리의 서브디렉터리의 자식들에 대해선 이벤트가 생성되지 않는다. 디렉터리 트리 전체를 감시하려면 적절한 마운트에 표시를 해야 한다.
+:   표시한 디렉터리의 직접 자식들에 대한 이벤트를 생성한다. 마운트 및 파일 시스템에 표시할 때는 이 플래그에 아무 효과가 없다. 표시된 디렉터리의 서브디렉터리의 자식들에 대해 이벤트가 생성되지 않는다는 점에 유의하라. 구체적으로 표시된 디렉터리의 서브디렉터리 내에서 수행된 항목 변경에 대해 디렉터리 항목 변경 이벤트인 `FAN_CREATE`, `FAN_DELETE`, `FAN_MOVED_FROM`, `FAN_MOVED_TO`가 생성되지 않는다. 표시된 디렉터리의 자식들에 대해 `FAN_DELETE_SELF` 및 `FAN_MOVE_SELF` 이벤트가 생성되지 않는다는 점에 유의하라. 디렉터리 트리 전체를 감시하려면 적절한 마운트 내지 파일 시스템에 표시를 해야 한다.
 
 다음 조합 값이 정의돼 있다.
 
@@ -141,7 +141,10 @@ fanotify API에 대한 소개는 <tt>[[fanotify(7)]]</tt>를 보라.
 :   `flags`나 `mask`에 유효하지 않은 값을 줬다. 또는 `fanotify_fd`가 fanotify 파일 디스크립터가 아니다.
 
 `EINVAL`
-:   fanotify 파일 디스크립터를 `FAN_CLASS_NOTIF`나 `FAN_REPORT_FID`로 열였는데 `mask`에 허가 이벤트를 위한 플래그(`FAN_OPEN_PERM`이나 `FAN_ACCESS_PERM`)가 있다.
+:   `FAN_CLASS_NOTIF`로, 또는 파일 핸들로 파일 시스템 객체를 식별하는 fanotify 그룹으로 fanotify 파일 디스크립터를 열였는데 `mask`에 허가 이벤트를 위한 플래그(`FAN_OPEN_PERM`이나 `FAN_ACCESS_PERM`)가 있다.
+
+`ENODEV`
+:   `pathname`이 가리키는 파일 시스템 객체가 `fsid`를 지원하는 파일 시스템에 연계돼 있지 않다. (예를 들면 <tt>[[tmpfs(5)]]</tt>.) 파일 핸들로 파일 시스템 객체를 식별하는 fanotify 그룹에서만 이 오류가 반환될 수 있다.
 
 `ENOENT`
 :   `dirfd`와 `pathname`으로 나타낸 파일 시스템 객체가 존재하지 않는다. 표시 안 된 객체에서 표시를 제거하려 할 때도 이 오류가 생긴다.
@@ -158,14 +161,11 @@ fanotify API에 대한 소개는 <tt>[[fanotify(7)]]</tt>를 보라.
 `ENOTDIR`
 :   `flags`에 `FAN_MARK_ONLYDIR`이 있는데 `dirfd`와 `pathname`이 디렉터리를 나타내지 않는다.
 
-`EXDEV`
-:   `pathname`이 가리키는 파일 시스템 객체가 루트 수퍼블록과 다른 `fsid`를 쓰는 파일 시스템 서브볼륨에 위치해 있다. (예를 들면 `btrfs(5)`.) <tt>[[fanotify_init(2)]]</tt>이 반환한 fanotify 파일 디스크립터를 `FAN_REPORT_FID`로 생성했을 때만 이 오류가 반환될 수 있다.
-
-`ENODEV`
-:   `pathname`이 가리키는 파일 시스템 객체가 `fsid`를 지원하는 파일 시스템에 연계돼 있지 않다. (예를 들면 <tt>[[tmpfs(5)]]</tt>.) <tt>[[fanotify_init(2)]]</tt>이 반환한 fanotify 파일 디스크립터를 `FAN_REPORT_FID`로 생성했을 때만 이 오류가 반환될 수 있다.
-
 `EOPNOTSUPP`
-:   `pathname`이 가리키는 객체가 파일 핸들 인코딩을 지원하지 않는 파일 시스템에 연계돼 있다. <tt>[[fanotify_init(2)]]</tt>이 반환한 fanotify 파일 디스크립터를 `FAN_REPORT_FID`로 생성했을 때만 이 오류가 반환될 수 있다.
+:   `pathname`이 가리키는 객체가 파일 핸들 인코딩을 지원하지 않는 파일 시스템에 연계돼 있다. 파일 핸들로 파일 시스템 객체를 식별하는 fanotify 그룹에서만 이 오류가 반환될 수 있다.
+
+`EXDEV`
+:   `pathname`이 가리키는 파일 시스템 객체가 루트 수퍼블록과 다른 `fsid`를 쓰는 파일 시스템 서브볼륨에 위치해 있다. (예를 들면 `btrfs(5)`.) 파일 핸들로 파일 시스템 객체를 식별하는 fanotify 그룹에서만 이 오류가 반환될 수 있다.
 
 ## VERSIONS
 
@@ -179,7 +179,7 @@ fanotify API에 대한 소개는 <tt>[[fanotify(7)]]</tt>를 보라.
 
 ### `FAN_OPEN_EXEC`와 `FAN_OPEN_EXEC_PERM`
 
-`mask`에 `FAN_OPEN_EXEC`나 `FAN_OPEN_EXEC_PERM`를 사용 시에는 프로그램 직접 실행이 이뤄질 때만 그 이벤트들이 반환된다. 구체적으로 말해 <tt>[[execve(2)]]</tt>나 <tt>[[execveat(2)]]</tt>, <tt>[[uselib(2)]]</tt>로 열리는 파일에 대해 그 이벤트들이 생성된다. 인터프리터가 스크립트 파일을 전달받는 (또는 읽어 들이는) 경우에는 그 이벤트들이 생기지 않는다.
+`mask`에 `FAN_OPEN_EXEC`나 `FAN_OPEN_EXEC_PERM`를 사용 시에는 프로그램 직접 실행이 이뤄질 때만 그 이벤트들이 반환된다. 구체적으로 말해 <tt>[[execve(2)]]</tt>나 <tt>[[execveat(2)]]</tt>, <tt>[[uselib(2)]]</tt>로 열리는 파일에 대해 그 이벤트들이 생성된다. 인터프리터가 파일을 전달받는 (또는 읽어 들이는) 경우에는 그 이벤트들이 생기지 않는다.
 
 그리고 리눅스 동적 링커에도 표시가 돼 있다면 <tt>[[execve(2)]]</tt>나 <tt>[[execveat(2)]]</tt>을 이용해 성공적으로 ELF 오브젝트가 열릴 때도 이벤트를 받을 걸 예상해야 한다.
 
@@ -212,4 +212,4 @@ $ /bin/echo foo
 
 ----
 
-2019-08-02
+2021-03-22

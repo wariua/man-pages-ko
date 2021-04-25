@@ -40,12 +40,17 @@ struct sockaddr_vm {
 	unsigned short svm_reserved1;
 	unsigned int   svm_port;       /* 포트 번호, 호스트 바이트 순서 */
 	unsigned int   svm_cid;        /* 주소, 호스트 바이트 순서 */
+    unsigned char  svm_zero[sizeof(struct sockaddr) -
+                            sizeof(sa_family_t) -
+                            sizeof(unsigned short) -
+                            sizeof(unsigned int) -
+                            sizeof(unsigned int)];
 };
 ```
 
-`svm_family`는 항상 `AF_VSOCK`으로 설정한다. `svm_reserved1`은 항상 0으로 설정한다. `svn_port`는 포트 번호를 호스트 바이트 순서로 담는다. 1024 아래의 포트 번호를 *특권 포트*라고 한다. `CAP_NET_BIND_SERVICE` 역능을 가진 프로세스만 그 포트 번호에 `bind(2)` 할 수 있다.
+`svm_family`는 항상 `AF_VSOCK`으로 설정한다. `svm_reserved1`은 항상 0으로 설정한다. `svn_port`는 포트 번호를 호스트 바이트 순서로 담는다. 1024 아래의 포트 번호를 *특권 포트*라고 한다. `CAP_NET_BIND_SERVICE` 역능을 가진 프로세스만 그 포트 번호에 `bind(2)` 할 수 있다. `svm_zero`를 0으로 채워야 한다.
 
-특수 주소들이 여러 가지 있다. `VMADDR_CID_ANY`(-1U)는 아무 주소에 결속하라는 뜻이다. `VMADDR_CID_HYPERVISOR`(0)는 하이퍼바이저에 내장된 서비스를 위해 예약된 것이다. `VMADDR_CID_RESERVED`(1)는 사용해서는 안 된다. `VMADDR_CID_HOST`(2)는 호스트의 잘 알려진 주소이다.
+특수 주소들이 여러 가지 있다. `VMADDR_CID_ANY`(-1U)는 아무 주소에 결속하라는 뜻이다. `VMADDR_CID_HYPERVISOR`(0)는 하이퍼바이저에 내장된 서비스를 위해 예약된 것이다. `VMADDR_CID_LOCAL`(1)은 로컬 통신을 위한 잘 알려진 주소(루프백)다. `VMADDR_CID_HOST`(2)는 호스트의 잘 알려진 주소이다.
 
 특수 상수 `VMADDR_PORT_ANY`(-1U)는 아무 포트 번호에 결속하라는 뜻이다.
 
@@ -63,6 +68,12 @@ struct sockaddr_vm {
         ioctl(socket, IOCTL_VM_SOCKETS_GET_LOCAL_CID, &cid);
 
     결속 시 `IOCTL_VM_SOCKETS_GET_LOCAL_CID`로 로컬 CID를 얻을 필요 없이 `VMADDR_CID_ANY`를 사용할 수 있다.
+
+### 로컬 통신
+
+`VMADDR_CID_LOCAL`(1)은 패킷을 생성한 바로 그 호스트로 패킷이 향하게 한다. 한 호스트에서 응용을 테스트 할 때나 디버깅 시에 유용하다.
+
+`IOCTL_VM_SOCKETS_GET_LOCAL_CID`로 얻은 로컬 CID를 같은 용도로 사용할 수 있다. 하지만 `VMADDR_CID_LOCAL`을 쓰는 게 낫다.
 
 ## ERRORS
 
@@ -97,10 +108,12 @@ struct sockaddr_vm {
 
 리눅스 3.9부터 VMware(VMCI) 지원을 이용 가능하다. 리눅스 4.8부터 KVM(virtio)을 지원한다. 리눅스 4.14부터 Hyper-V를 지원한다.
 
+리눅스 5.6부터 `VMADDR_CID_LOCAL`을 지원한다. 리눅스 5.6부터 게스트 및 호스트에서의 로컬 통신을 이용할 수 있다. 이전 버전에서는 게스트에서만 (호스트에서는 불가능), 그리고 일부 전송 방식(VMCI 및 virtio)으로만 로컬 통신을 지원했다.
+
 ## SEE ALSO
 
 `bind(2)`, `connect(2)`, `listen(2)`, <tt>[[recv(2)]]</tt>, <tt>[[send(2)]]</tt>, <tt>[[socket(2)]]</tt>, <tt>[[capabilities(7)]]</tt>
 
 ----
 
-2017-11-30
+2021-03-22

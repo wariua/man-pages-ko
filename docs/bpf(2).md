@@ -190,6 +190,14 @@ enum bpf_map_type {
     BPF_MAP_TYPE_DEVMAP,
     BPF_MAP_TYPE_SOCKMAP,
     BPF_MAP_TYPE_CPUMAP,
+    BPF_MAP_TYPE_XSKMAP,
+    BPF_MAP_TYPE_SOCKHASH,
+    BPF_MAP_TYPE_CGROUP_STORAGE,
+    BPF_MAP_TYPE_REUSEPORT_SOCKARRAY,
+    BPF_MAP_TYPE_PERCPU_CGROUP_STORAGE,
+    BPF_MAP_TYPE_QUEUE,
+    BPF_MAP_TYPE_STACK,
+    /* 전체 목록은 /usr/include/linux/bpf.h를 보라. */
 };
 ```
 
@@ -381,6 +389,25 @@ enum bpf_prog_type {
     BPF_PROG_TYPE_KPROBE,
     BPF_PROG_TYPE_SCHED_CLS,
     BPF_PROG_TYPE_SCHED_ACT,
+    BPF_PROG_TYPE_TRACEPOINT,
+    BPF_PROG_TYPE_XDP,
+    BPF_PROG_TYPE_PERF_EVENT,
+    BPF_PROG_TYPE_CGROUP_SKB,
+    BPF_PROG_TYPE_CGROUP_SOCK,
+    BPF_PROG_TYPE_LWT_IN,
+    BPF_PROG_TYPE_LWT_OUT,
+    BPF_PROG_TYPE_LWT_XMIT,
+    BPF_PROG_TYPE_SOCK_OPS,
+    BPF_PROG_TYPE_SK_SKB,
+    BPF_PROG_TYPE_CGROUP_DEVICE,
+    BPF_PROG_TYPE_SK_MSG,
+    BPF_PROG_TYPE_RAW_TRACEPOINT,
+    BPF_PROG_TYPE_CGROUP_SOCK_ADDR,
+    BPF_PROG_TYPE_LWT_SEG6LOCAL,
+    BPF_PROG_TYPE_LIRC_MODE2,
+    BPF_PROG_TYPE_SK_REUSEPORT,
+    BPF_PROG_TYPE_FLOW_DISSECTOR,
+    /* 전체 목록은 /usr/include/linux/bpf.h를 보라. */
 };
 ```
 
@@ -452,6 +479,102 @@ setsockopt(sockfd, SOL_SOCKET, SO_ATTACH_BPF,
 ioctl(event_fd, PERF_EVENT_IOC_SET_BPF, prog_fd);
 ```
 
+## RETURN VALUE
+
+성공 호출 시 반환 값은 작업에 따라 다르다.
+
+`BPF_MAP_CREATE`
+:   eBPF 맵에 연계된 새 파일 디스크립터.
+
+`BPF_PROG_LOAD`
+:   eBPF 프로그램에 연계된 새 파일 디스크립터.
+
+다른 명령들
+:   0.
+
+오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
+
+## ERRORS
+
+`E2BIG`
+:   eBPF 프로그램이 너무 크거나 맵이 `max_entries` 제한(최대 항목 수)에 도달했다.
+
+`EACCES`
+:   `BPF_PROG_LOAD`에서, 모든 프로그램 인스트럭션이 유효하지만 프로그램이 안전하지 않아 보여서 거부되었다. 허용 안 된 메모리 영역이나 초기화 안 된 스택/레지스터에 접근해서일 수도 있고 함수 제약이 실제 종류와 일치하지 않아서일 수도 있고 정렬 안 된 메모리 접근이 있어서일 수도 있다. 이 경우 `log_level = 1`로 `bpf()`를 다시 호출해서 검증기가 제시한 구체적 이유를 `log_buf`에서 확인해 보는 게 좋다.
+
+`EBADF`
+:   `fd`가 열린 파일 디스크립터가 아니다.
+
+`EFAULT`
+:   포인터들(`key`, `value`, `log_buf`, `insns`) 중 하나가 접근 가능한 주소 공간 밖이다.
+
+`EINVAL`
+:   `cmd`에 지정한 값을 이 커널이 알지 못한다.
+
+`EINVAL`
+:   `BPF_MAP_CREATE`에서, `map_type`이나 속성이 유효하지 않다.
+
+`EINVAL`
+:   `BPF_MAP_*_ELEM` 명령들에서, `union bpf_attr`의 필드들 중 일부를 이 명령에서 사용하지 않는데 0으로 설정돼 있지 않다.
+
+`EINVAL`
+:   `BPF_PROG_LOAD`에서, 유효하지 않은 프로그램 적재 시도를 나타낸다. 인식 불가능한 인스트럭션, 예약된 필드 사용, 범위 밖으로의 점프, 무한 루프, 알 수 없는 함수 호출 때문에 eBPF 프로그램이 유효하지 않다고 볼 수 있다.
+
+`ENOENT`
+:   `BPF_MAP_LOOKUP_ELEM`이나 `BPF_MAP_DELETE_ELEM`에서, 해당 `key`를 가진 항목을 찾을 수 없음을 나타낸다.
+
+`ENOMEM`
+:   충분한 메모리를 할당할 수 없다.
+
+`EPERM`
+:   충분한 특권 없이 (`CAP_SYS_ADMIN` 역능 없이) 호출을 했다.
+
+## VERSIONS
+
+리눅스 3.18에서 `bpf()` 시스템 호출이 처음 등장했다.
+
+## CONFORMING TO
+
+`bpf()` 시스템 호출은 리눅스 전용이다.
+
+## NOTES
+
+리눅스 4.4 전에선 모든 `bpf()` 명령에서 호출자에게 `CAP_SYS_ADMIN` 역능이 필요하다. 리눅스 4.4부터는 비특권 사용자가 `BPF_PROG_TYPE_SOCKET_FILTER` 타입의 제한된 프로그램과 연관 맵을 만들 수 있다. 하지만 그 맵에 커널 포인터를 저장할 수 없으며 현재 다음 헬퍼 함수들만 이용할 수 있다.
+
+* `get_random`
+* `get_smp_processor_id`
+* `tail_call`
+* `ktime_get_ns`
+
+`/proc/sys/kernel/unprivileged_bpf_disabled` 파일에 1 값을 써넣어서 비특권 접근을 막을 수 있다.
+
+eBPF 객체(맵, 프로그램)를 프로세스들 간에 공유할 수 있다. 예를 들면 <tt>[[fork(2)]]</tt> 후에 자식이 같은 eBPF 객체들을 가리키는 파일 디스크립터들을 물려받는다. 더불어 eBPF 객체를 가리키는 파일 디스크립터를 유닉스 도메인 소켓을 통해 전달할 수 있다. 그리고 eBPF 객체를 가리키는 파일 디스크립터를 평상시처럼 <tt>[[dup(2)]]</tt>이나 비슷한 호출을 이용해 복제할 수 있다. eBPF 객체를 가리키는 모든 파일 디스크립터가 닫힌 후에만 그 객체가 할당 해제된다.
+
+eBPF 프로그램을 제약된 C로 작성해서 (`clang` 컴파일러를 이용해) eBPF 바이트코드로 컴파일 할 수 있다. 그 제약된 C에는 루프, 전역 변수, 가변 인자 함수, 부동 소수점, 함수 인자로 구조체 전달하기 같은 여러 기능들이 빠져 있다. 커널 소스 트리의 `samples/bpf/*_kern.c` 파일들에서 예를 볼 수 있다.
+
+커널에는 성능 향상을 위해 eBPF 바이트코드를 네이티브 머신 코드로 변환하는 JIT(just-in-time) 컴파일러가 포함돼 있다. 리눅스 4.15 전의 커널에서는 JIT 컴파일러가 기본적으로 꺼져 있으며 `/proc/sys/net/core/bpf_jit_enable` 파일에 다음 정수 문자열 중 하나를 써넣어서 동작 방식을 제어할 수 있다.
+
+| | |
+| --- | --- |
+| 0 | JIT 컴파일 끄기. (기본값) |
+| 1 | 일반 컴파일. |
+| 2 | 디버깅 모드. 생성된 명령 코드를 십육진수로 커널 로그로 찍는다. 그러면 커널 소스 트리에서 제공하는 `tools/net/bpf_jit_disasm.c` 프로그램을 이용해 그 명령 코드를 역어셈블 할 수 있다. |
+
+리눅스 4.15부터 커널 구성에 `CONFIG_BPF_JIT_ALWAYS_ON` 옵션을 쓸 수 있다. 그렇게 하면 JIT 컴파일러가 항상 켜지며 `bpf_jit_enable`은 1로 초기화 되고 변경 불가능하다. (이 커널 구성 옵션은 BPF 인터프리터를 대상으로 하는 어느 스펙터 공격에 대한 완화책으로 나온 것이다.)
+
+현재 다음 아키텍처들에서 eBPF JIT 컴파일러가 사용 가능하다.
+
+* x86-64 (리눅스 3.18부터, cBPF는 리눅스 3.0부터)
+* ARM32 (리눅스 3.18부터, cBPF는 리눅스 3.4부터)
+* SPARC 32 (리눅스 3.18부터, cBPF는 리눅스 3.5부터)
+* ARM-64 (리눅스 3.18부터)
+* s390 (리눅스 4.1부터, cBPF는 리눅스 3.7부터)
+* PowerPC 64 (리눅스 4.8부터, cBPF는 리눅스 3.1부터)
+* SPARC 64 (리눅스 4.12부터)
+* x86-32 (리눅스 4.18부터)
+* MIPS 64 (리눅스 4.18부터, cBPF는 리눅스 3.16부터)
+* riscv (리눅스 5.1부터)
+
 ## EXAMPLES
 
 ```c
@@ -520,95 +643,6 @@ main(int argc, char **argv)
 
 커널 소스 트리의 `samples/bpf` 디렉터리에 완전한 동작 코드들이 좀 있다.
 
-## RETURN VALUE
-
-성공 호출 시 반환 값은 작업에 따라 다르다.
-
-`BPF_MAP_CREATE`
-:   eBPF 맵에 연계된 새 파일 디스크립터.
-
-`BPF_PROG_LOAD`
-:   eBPF 프로그램에 연계된 새 파일 디스크립터.
-
-다른 명령들
-:   0.
-
-오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
-
-## ERRORS
-
-`E2BIG`
-:   eBPF 프로그램이 너무 크거나 맵이 `max_entries` 제한(최대 항목 수)에 도달했다.
-
-`EACCES`
-:   `BPF_PROG_LOAD`에서, 모든 프로그램 인스트럭션이 유효하지만 프로그램이 안전하지 않아 보여서 거부되었다. 허용 안 된 메모리 영역이나 초기화 안 된 스택/레지스터에 접근해서일 수도 있고 함수 제약이 실제 종류와 일치하지 않아서일 수도 있고 정렬 안 된 메모리 접근이 있어서일 수도 있다. 이 경우 `log_level = 1`로 `bpf()`를 다시 호출해서 검증기가 제시한 구체적 이유를 `log_buf`에서 확인해 보는 게 좋다.
-
-`EBADF`
-:   `fd`가 열린 파일 디스크립터가 아니다.
-
-`EFAULT`
-:   포인터들(`key`, `value`, `log_buf`, `insns`) 중 하나가 접근 가능한 주소 공간 밖이다.
-
-`EINVAL`
-:   `cmd`에 지정한 값을 이 커널이 알지 못한다.
-
-`EINVAL`
-:   `BPF_MAP_CREATE`에서, `map_type`이나 속성이 유효하지 않다.
-
-`EINVAL`
-:   `BPF_MAP_*_ELEM` 명령들에서, `union bpf_attr`의 필드들 중 일부를 이 명령에서 사용하지 않는데 0으로 설정돼 있지 않다.
-
-`EINVAL`
-:   `BPF_PROG_LOAD`에서, 유효하지 않은 프로그램 적재 시도를 나타낸다. 인식 불가능한 인스트럭션, 예약된 필드 사용, 범위 밖으로의 점프, 무한 루프, 알 수 없는 함수 호출 때문에 eBPF 프로그램이 유효하지 않다고 볼 수 있다.
-
-`ENOENT`
-:   `BPF_MAP_LOOKUP_ELEM`이나 `BPF_MAP_DELETE_ELEM`에서, 해당 `key`를 가진 항목을 찾을 수 없음을 나타낸다.
-
-`ENOMEM`
-:   충분한 메모리를 할당할 수 없다.
-
-`EPERM`
-:   충분한 특권 없이 (`CAP_SYS_ADMIN` 역능 없이) 호출을 했다.
-
-## VERSIONS
-
-리눅스 3.18에서 `bpf()` 시스템 호출이 처음 등장했다.
-
-## CONFORMING TO
-
-`bpf()` 시스템 호출은 리눅스 전용이다.
-
-## NOTES
-
-현재 구현에서는 모든 `bpf()` 명령에서 호출자에게 `CAP_SYS_ADMIN` 역능이 필요하다.
-
-eBPF 객체(맵, 프로그램)를 프로세스들 간에 공유할 수 있다. 예를 들면 <tt>[[fork(2)]]</tt> 후에 자식이 같은 eBPF 객체들을 가리키는 파일 디스크립터들을 물려받는다. 더불어 eBPF 객체를 가리키는 파일 디스크립터를 유닉스 도메인 소켓을 통해 전달할 수 있다. 그리고 eBPF 객체를 가리키는 파일 디스크립터를 평상시처럼 <tt>[[dup(2)]]</tt>이나 비슷한 호출을 이용해 복제할 수 있다. eBPF 객체를 가리키는 모든 파일 디스크립터가 닫힌 후에만 그 객체가 할당 해제된다.
-
-eBPF 프로그램을 제약된 C로 작성해서 (`clang` 컴파일러를 이용해) eBPF 바이트코드로 컴파일 할 수 있다. 그 제약된 C에는 루프, 전역 변수, 가변 인자 함수, 부동 소수점, 함수 인자로 구조체 전달하기 같은 여러 기능들이 빠져 있다. 커널 소스 트리의 `samples/bpf/*_kern.c` 파일들에서 예를 볼 수 있다.
-
-커널에는 성능 향상을 위해 eBPF 바이트코드를 네이티브 머신 코드로 변환하는 JIT(just-in-time) 컴파일러가 포함돼 있다. 리눅스 4.15 전의 커널에서는 JIT 컴파일러가 기본적으로 꺼져 있으며 `/proc/sys/net/core/bpf_jit_enable` 파일에 다음 정수 문자열 중 하나를 써넣어서 동작 방식을 제어할 수 있다.
-
-| | |
-| --- | --- |
-| 0 | JIT 컴파일 끄기. (기본값) |
-| 1 | 일반 컴파일. |
-| 2 | 디버깅 모드. 생성된 명령 코드를 십육진수로 커널 로그로 찍는다. 그러면 커널 소스 트리에서 제공하는 `tools/net/bpf_jit_disasm.c` 프로그램을 이용해 그 명령 코드를 역어셈블 할 수 있다. |
-
-리눅스 4.15부터 커널 구성에 `CONFIG_BPF_JIT_ALWAYS_ON` 옵션을 쓸 수 있다. 그렇게 하면 JIT 컴파일러가 항상 켜지며 `bpf_jit_enable`은 1로 초기화 되고 변경 불가능하다. (이 커널 구성 옵션은 BPF 인터프리터를 대상으로 하는 어느 스펙터 공격에 대한 완화책으로 나온 것이다.)
-
-현재 다음 아키텍처들에서 eBPF JIT 컴파일러가 사용 가능하다.
-
-* x86-64 (리눅스 3.18부터, cBPF는 리눅스 3.0부터)
-* ARM32 (리눅스 3.18부터, cBPF는 리눅스 3.4부터)
-* SPARC 32 (리눅스 3.18부터, cBPF는 리눅스 3.5부터)
-* ARM-64 (리눅스 3.18부터)
-* s390 (리눅스 4.1부터, cBPF는 리눅스 3.7부터)
-* PowerPC 64 (리눅스 4.8부터, cBPF는 리눅스 3.1부터)
-* SPARC 64 (리눅스 4.12부터)
-* x86-32 (리눅스 4.18부터)
-* MIPS 64 (리눅스 4.18부터, cBPF는 리눅스 3.16부터)
-* riscv (리눅스 5.1부터)
-
 ## SEE ALSO
 
 <tt>[[seccomp(2)]]</tt>, <tt>[[bpf-helpers(7)]]</tt>, <tt>[[socket(7)]]</tt>, `tc(8)`, <tt>[[tc-bpf(8)]]</tt>
@@ -617,4 +651,4 @@ eBPF 프로그램을 제약된 C로 작성해서 (`clang` 컴파일러를 이용
 
 ----
 
-2019-08-02
+2021-03-22

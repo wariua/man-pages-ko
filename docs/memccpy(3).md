@@ -7,7 +7,8 @@ memccpy - 메모리 영역 복사하기
 ```c
 #include <string.h>
 
-void *memccpy(void *dest, const void *src, int c, size_t n);
+void *memccpy(void *restrict dest, const void *restrict src,
+              int c, size_t n);
 ```
 
 ## DESCRIPTION
@@ -38,4 +39,4 @@ POSIX.1-2001, POSIX.1-2008, SVr4, 4.3BSD.
 
 ----
 
-2017-09-15
+2021-03-22

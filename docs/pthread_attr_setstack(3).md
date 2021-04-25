@@ -9,8 +9,9 @@ pthread_attr_setstack, pthread_attr_getstack - 스레드 속성 객체의 스택
 
 int pthread_attr_setstack(pthread_attr_t *attr,
                           void *stackaddr, size_t stacksize);
-int pthread_attr_getstack(const pthread_attr_t *attr,
-                          void **stackaddr, size_t *stacksize);
+int pthread_attr_getstack(const pthread_attr_t *restrict attr,
+                          void **restrict stackaddr,
+                          size_t *restrict stacksize);
 ```
 
 `-pthread`로 컴파일 및 링크.
@@ -67,7 +68,7 @@ POSIX.1-2001, POSIX.1-2008.
 
 `attr`을 사용해 여러 스레드를 생성하는 경우에 호출자는 <tt>[[pthread_create(3)]]</tt> 호출들 간에 스택 주소 속성을 바꿔 주어야 한다. 안 그러면 여러 스레드가 같은 메모리 구역을 스택으로 쓰려고 하면서 혼란이 뒤따를 것이다.
 
-## EXAMPLE
+## EXAMPLES
 
 <tt>[[pthread_attr_init(3)]]</tt> 참고.
 
@@ -77,4 +78,4 @@ POSIX.1-2001, POSIX.1-2008.
 
 ----
 
-2017-09-15
+2021-03-22

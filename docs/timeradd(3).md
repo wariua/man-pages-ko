@@ -9,12 +9,10 @@ timeradd, timersub, timercmp, timerclear, timerisset - timeval 연산
 
 void timeradd(struct timeval *a, struct timeval *b,
               struct timeval *res);
-
 void timersub(struct timeval *a, struct timeval *b,
               struct timeval *res);
 
 void timerclear(struct timeval *tvp);
-
 int timerisset(struct timeval *tvp);
 
 int timercmp(struct timeval *a, struct timeval *b, CMP);
@@ -74,4 +72,4 @@ POSIX.1에는 없다. 대부분의 BSD 파생 시스템에 존재한다.
 
 ----
 
-2017-09-15
+2021-03-22

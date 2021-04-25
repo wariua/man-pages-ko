@@ -16,6 +16,8 @@ int io_getevents(aio_context_t ctx_id, long min_nr, long nr,
 
 ## DESCRIPTION
 
+*주의*: 이 페이지에선 리눅스 시스템 호출 인터페이스를 설명한다. `libaio`에서 제공하는 래퍼 함수에서는 `ctx_id` 인자에 다른 타입을 쓴다. NOTES 참고.
+
 `io_getevents()` 시스템 호출은 `ctx_id`로 지정한 AIO 문맥의 완료 큐에서 최소 `min_nr` 개에서 최대 `nr` 개까지 이벤트를 읽어 들이려고 시도한다.
 
 `timeout`은 이벤트를 기다릴 시간 길이를 나타내며 다음 구조체로 상대적 타임아웃으로 지정한다.
@@ -75,4 +77,4 @@ glibc에서 이 시스템 호출의 래퍼를 제공하지 않는다. <tt>[[sysc
 
 ----
 
-2017-09-15
+2021-03-22

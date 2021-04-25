@@ -161,6 +161,9 @@ ptrace(PTRACE_foo, pid, ...)
 `PTRACE_SYSCALL`, `PTRACE_SINGLESTEP`
 :   `PTRACE_CONT`처럼 정지된 피추적 프로세스를 재시작하되 다음 번 시스템 호출 진입이나 퇴장에서 또는 한 인스트럭션 실행 후에 피추적자가 멈추도록 해 놓는다. (평상시와 마찬가지로 시그널 수신 시에도 피추적자가 멈추게 된다.) 추적자 관점에서는 피추적자가 `SIGTRAP`을 수신해서 멈춘 것으로 보이게 된다. 그래서 예를 들어 `PTRACE_SYSCALL`의 경우 첫 번째 정지 때 시스템 호출의 인자를 검사하고서 다시 `PTRACE_SYSCALL`을 해서 두 번째 정지 때 그 시스템 호출의 반환 값을 검사할 수 있다. `data` 인자는 `PTRACE_CONT`에서처럼 처리한다.
 
+`PTRACE_SET_SYSCALL` (리눅스 2.6.16부터)
+:   시스템-호출-진입-정지(syscall-enter-stop) 내에 있을 때 실행되려는 시스템 호출의 번호를 `data` 인자에 지정된 번호로 바꾼다. `addr` 인자는 무시한다. 이 요청은 현재 arm에서만 (그리고 하위 호환성 때문에 arm64에서도) 지원하지만 대부분의 다른 아키텍처에도 그렇게 할 수 있는 다른 수단이 있다. (일반적으로 사용자 공간에서 시스템 호출 번호를 집어넣는 레지스터를 바꾼다.)
+
 `PTRACE_SYSEMU`, `PTRACE_SYSEMU_SINGLESTEP` (리눅스 2.6.14부터)
 :   `PTRACE_SYSEMU`의 경우 속행 후 다음 시스템 호출 진입에서 정지하며, 그 시스템 호출은 실행되지 않게 된다. 아래의 시스템-호출-정지(syscall-stop)에 대한 내용을 보라. `PTRACE_SYSEMU_SINGLESTEP`의 경우 똑같이 하되 시스템 호출이 아니면 단계 실행(singlestep)을 한다. 피추적자의 모든 시스템 호출을 에뮬레이트 하려 하는 사용자 모드 리눅스(User Mode Linux) 같은 프로그램에서 이 호출을 사용한다. `data` 인자는 `PTRACE_CONT`에서처럼 처리한다. `addr`은 무시한다. 현재 x86에서만 이 요청들을 지원한다.
 
@@ -206,6 +209,54 @@ ptrace(PTRACE_foo, pid, ...)
 
 `PTRACE_SET_THREAD_AREA` (리눅스 2.6.0부터)
 :   이 동작은 <tt>[[set_thread_area(2)]]</tt>와 비슷한 일을 수행한다. GDT에서 인덱스가 `addr`인 TLS 항목을 `data`가 가리키는 `struct user_desc`에 준 데이터로 설정한다. (<tt>[[set_thread_area(2)]]</tt>와 달리 `struct user_desc`의 `entry_number`를 무시한다. 다시 말해 이 ptrace 동작을 사용해 빈 TLS 항목을 할당할 수는 없다.)
+
+`PTRACE_GET_SYSCALL_INFO` (리눅스 5.3부터)
+:   정지를 유발한 시스템 호출에 대한 정보를 가져온다. `data` 인자가 가리키는 버퍼로 정보가 들어가는데, 그 인자는 `struct ptrace_syscall_info` 타입 버퍼에 대한 포인터여야 한다. `addr` 인자는 `data` 인자가 가리키는 버퍼의 크기(즉 `sizeof(struct ptrace_syscall_info)`)를 담는다. 반환 값에는 커널에서 더 써넣었을 수 있었을 바이트 수가 들어간다. 커널에서 써넣으려 한 데이터의 크기가 `addr` 인자에 지정된 크기를 넘는 경우 데이터가 잘려서 출력된다.
+
+    `ptrace_syscall_info` 구조체는 다음 필드들을 담고 있다.
+
+        struct ptrace_syscall_info {
+            __u8 op;        /* 시스템 호출 정지 종류 */
+            __u32 arch;     /* AUDIT_ARCH_* 값. seccomp(2) 참고. */
+            __u64 instruction_pointer; /* CPU 인스트럭션 포인터 */
+            __u64 stack_pointer;    /* CPU 스택 포인터 */
+            union {
+                struct {    /* op == PTRACE_SYSCALL_INFO_ENTRY */
+                    __u64 nr;       /* 시스템 호출 번호 */
+                    __u64 args[6];  /* 시스템 호출 인자들 */
+                } entry;
+                struct {    /* op == PTRACE_SYSCALL_INFO_EXIT */
+                    __s64 rval;     /* 시스템 호출 반환 값 */
+                    __u8 is_error;  /* 시스템 호출 오류 플래그.
+                                       불리언: rval이 오류 값
+                                       (-ERRCODE)을 담고 있는가,
+                                       아니면 비오류 반환 값을
+                                       담고 있는가? */
+                } exit;
+                struct {    /* op == PTRACE_SYSCALL_INFO_SECCOMP */
+                    __u64 nr;       /* 시스템 호출 번호 */
+                    __u64 args[6];  /* 시스템 호출 인자들 */
+                    __u32 ret_data; /* SECCOMP_RET_TRACE 반환 값의
+                                       SECCOMP_RET_DATA 부분 */
+                } seccomp;
+            };
+        };
+
+    `op`, `arch`, `instruction_pointer`, `stack_pointer` 필드는 모든 ptrace 시스템 호출 정지들에 대해 정의돼 있다. 구조체의 나머지 필드들은 공용체다. 따라서 `op` 필드에 지정된 시스템 호출 정지 종류에서 의미가 있는 필드들만 읽어야 한다.
+
+    `op` 필드는 (`<linux/ptrace.h>`에 정의돼 있는) 다음 값들 중 하나이다. 어떤 종류의 정지가 발생했고 공용체의 어느 부분이 채워져 있는지 나타낸다.
+
+    `PTRACE_SYSCALL_INFO_ENTRY`
+    :   공용체의 `entry` 항목이 시스템 호출 진입 정지와 관련된 정보를 담고 있다.
+
+    `PTRACE_SYSCALL_INFO_EXIT`
+    :   공용체의 `exit` 항목이 시스템 호출 퇴장 정지와 관련된 정보를 담고 있다.
+
+    `PTRACE_SYSCALL_INFO_SECCOMP`
+    :   공용체의 `seccomp` 항목이 `PTRACE_EVENT_SECCOMP` 정지와 관련된 정보를 담고 있다.
+
+    `PTRACE_SYSCALL_INFO_NONE`
+    :   공용체의 어느 항목에도 유의미한 정보가 없다.
 
 ### ptrace 하의 죽음
 
@@ -321,7 +372,7 @@ ptrace(PTRACE_GETSIGINFO, pid, 0, &siginfo)
 
 추적자가 `PTRACE_O_TRACE_*` 옵션을 설정하면 피추적자가 `PTRACE_EVENT` 정지라고 하는 ptrace 정지에 들어가게 된다.
 
-<tt>[[waitpid(2)]]</tt>가 `WIFSTOPPED(status)`를 반환하는 것으로 추적자가 그룹-정지를 목격하며, `WSTOPSIG(status)`는 `SIGTRAP`을 반환한다. 상태 워드의 상위 바이트에 비트가 추가로 설정되어 `status>>8` 값이 다음과 같이 된다.
+<tt>[[waitpid(2)]]</tt>가 `WIFSTOPPED(status)`를 반환하는 것으로 추적자가 그룹-정지를 목격하며, `WSTOPSIG(status)`는 `SIGTRAP`을 (또는 `PTRAE_EVENT_STOP`인 경우 피추적자가 그룹-정지에 있다면 정지시킨 시그널을)  반환한다. 상태 워드의 상위 바이트에 비트가 추가로 설정되어 `status>>8` 값이 다음과 같이 된다.
 
 ```c
 ((PTRACE_EVENT_foo<<8) | SIGTRAP)
@@ -737,4 +788,4 @@ epoll_wait(4,_
 
 ----
 
-2018-04-30
+2021-03-22

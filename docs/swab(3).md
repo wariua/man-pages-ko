@@ -8,7 +8,7 @@ swab - 이웃한 바이트 교환하기
 #define _XOPEN_SOURCE       /* feature_test_macros(7) 참고 */
 #include <unistd.h>
 
-void swab(const void *from, void *to, ssize_t n);
+void swab(const void *restrict from, void *restrict to, ssize_t n);
 ```
 
 ## DESCRIPTION
@@ -39,4 +39,4 @@ POSIX.1-2001, POSIX.1-2008, SVr4, 4.3BSD.
 
 ----
 
-2015-08-08
+2021-03-22

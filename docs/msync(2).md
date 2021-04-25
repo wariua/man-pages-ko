@@ -27,7 +27,7 @@ int msync(void *addr, size_t length, int flags);
 
 ## RETURN VALUE
 
-성공 시 0을 반환한다. 오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -46,8 +46,6 @@ POSIX.1-2001, POSIX.1-2008.
 
 리눅스 1.3.21에서 이 호출이 도입했을 때는 `ENOMEM` 대신 `EFAULT`를 썼다. 리눅스 2.4.19에서 POSIX 값인 `ENOMEM`으로 바뀌었다.
 
-## AVAILABILITY
-
 `msync()`가 사용 가능한 POSIX 시스템에는 `<unistd.h>`에 `_POSIX_MAPPED_FILES`와 `_POSIX_SYNCHRONIZED_IO`가 0보다 큰 값으로 정의되어 있다. (<tt>[[sysconf(3)]]</tt>도 참고.)
 
 ## NOTES
@@ -62,4 +60,4 @@ B.O. Gallmeister, POSIX.4, O.Reilly, 128-129쪽 및 389-391쪽.
 
 ----
 
-2017-09-15
+2021-03-22

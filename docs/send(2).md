@@ -5,14 +5,11 @@ send, sendto, sendmsg - 소켓으로 메시지 보내기
 ## SYNOPSIS
 
 ```c
-#include <sys/types.h>
 #include <sys/socket.h>
 
 ssize_t send(int sockfd, const void *buf, size_t len, int flags);
-
 ssize_t sendto(int sockfd, const void *buf, size_t len, int flags,
                const struct sockaddr *dest_addr, socklen_t addrlen);
-
 ssize_t sendmsg(int sockfd, const struct msghdr *msg, int flags);
 ```
 
@@ -91,13 +88,13 @@ struct msghdr {
 
 `msg_iov` 및 `msg_iovlen` 필드는 <tt>[[writev(2)]]</tt>에서처럼 스캐터-개더 위치들을 지정한다.
 
-`msg_control` 및 `msg_controllen` 멤버를 이용해 제어 정보를 보낼 수 있다. 커널에서 처리할 수 있는 소켓별 제어 버퍼 최대 길이를 `/proc/sys/net/core/optmem_max` 값이 제한한다. <tt>[[socket(7)]]</tt> 참고.
+`msg_control` 및 `msg_controllen` 멤버를 이용해 제어 정보(보조 데이터)를 보낼 수 있다. 커널에서 처리할 수 있는 소켓별 제어 버퍼 최대 길이를 `/proc/sys/net/core/optmem_max` 값이 제한한다. <tt>[[socket(7)]]</tt> 참고. 다양한 소켓 도메인에서 보조 데이터를 이용하는 방식에 대한 자세한 설명은 <tt>[[unix(7)]]</tt>와 <tt>[[ip(7)]]</tt>를 보라.
 
 `msg_flags` 필드는 무시한다.
 
 ## RETURN VALUE
 
-성공 시 이 호출들은 보낸 바이트 수를 반환한다. 오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+성공 시 이 호출들은 보낸 바이트 수를 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -167,7 +164,7 @@ POSIX.1-2001에서는 `MSG_OOB` 및 `MSG_EOR` 플래그만 기술한다. POSIX.1
 
 ## NOTES
 
-POSIX.1-2001에 따르면 `msghdr` 구조체의 `msg_controllen` 필드가 `socklen_t` 타입이어야 하지만 glibc에서는 현재 `size_t` 타입으로 하고 있다.
+POSIX.1-2001에 따르면 `msghdr` 구조체의 `msg_controllen` 필드가 `socklen_t` 타입이어야 하고 `msg_iovlen` 필드가 `int` 타입이어야 하지만 glibc에서는 현재 둘 모두 `size_t` 타입으로 하고 있다.
 
 호출 한 번에 여러 데이터그램을 전송할 수 있는 리눅스 전용 시스템 호출에 대한 내용은 <tt>[[sendmmsg(2)]]</tt>를 보라.
 
@@ -175,7 +172,7 @@ POSIX.1-2001에 따르면 `msghdr` 구조체의 `msg_controllen` 필드가 `sock
 
 리눅스에서 `ENOTCONN` 대신 `EPIPE`를 반환할 수도 있다.
 
-## EXAMPLE
+## EXAMPLES
 
 <tt>[[getaddrinfo(3)]]</tt>에서 `sendto()` 사용례를 볼 수 있다.
 
@@ -185,4 +182,4 @@ POSIX.1-2001에 따르면 `msghdr` 구조체의 `msg_controllen` 필드가 `sock
 
 ----
 
-2017-09-15
+2021-03-22

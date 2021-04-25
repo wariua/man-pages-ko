@@ -15,7 +15,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 `killpg()`:
 :   `_XOPEN_SOURCE >= 500`<br>
     `    || /* glibc 2.19부터: */ _DEFAULT_SOURCE`<br>
-    `    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE`
+    `    || /* glibc <= 2.19: */ _BSD_SOURCE`
 
 ## DESCRIPTION
 
@@ -27,7 +27,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## RETURN VALUE
 
-성공 시 0을 반환한다. 오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -49,7 +49,7 @@ POSIX.1-2001, POSIX.1-2008, SVr4, 4.4BSD (4BSD에서 `killpg()`가 처음 등장
 
 ## NOTES
 
-BSD 계열 시스템과 시스템 V 계열 시스템 간에는 권한 검사에 다양한 차이점이 있다. POSIX의 `kill()`에 대한 rationale를 보라. POSIX에서 언급하지 않은 차이점은 반환 값 `EPERM`에 대한 것이다. BSD에서는 최소 한 개의 대상 프로세스에 대해 권한 검사가 실패했을 때 시그널을 보내지 않고 `EPERM`을 반환한다고 적고 있다. 반면 POSIX에서는 모든 대상 프로세스들에 대해 권한 검사가 실패했을 때만 `EPERM`이라고 적고 있다.
+BSD 계열 시스템과 시스템 V 계열 시스템 간에는 권한 검사에 다양한 차이점이 있다. POSIX의 `kill(3p)`에 대한 rationale를 보라. POSIX에서 언급하지 않은 차이점은 반환 값 `EPERM`에 대한 것이다. BSD에서는 최소 한 개의 대상 프로세스에 대해 권한 검사가 실패했을 때 시그널을 보내지 않고 `EPERM`을 반환한다고 적고 있다. 반면 POSIX에서는 모든 대상 프로세스들에 대해 권한 검사가 실패했을 때만 `EPERM`이라고 적고 있다.
 
 ### C 라이브러리/커널 차이
 
@@ -61,4 +61,4 @@ BSD 계열 시스템과 시스템 V 계열 시스템 간에는 권한 검사에 
 
 ----
 
-2017-09-15
+2021-03-22

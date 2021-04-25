@@ -8,7 +8,8 @@ pthread_attr_setstacksize, pthread_attr_getstacksize - 스레드 속성 객체�
 #include <pthread.h>
 
 int pthread_attr_setstacksize(pthread_attr_t *attr, size_t stacksize);
-int pthread_attr_getstacksize(const pthread_attr_t *attr, size_t *stacksize);
+int pthread_attr_getstacksize(const pthread_attr_t *restrict attr,
+                              size_t *restrict stacksize);
 ```
 
 `-pthread`로 컴파일 및 링크.
@@ -62,7 +63,7 @@ POSIX.1-2001, POSIX.1-2008.
 
 glibc 2.8 기준으로 지정한 `stacksize`가 `STACK_ALIGN`(대부분 아키텍처에서 16바이트)의 배수가 아니면 크기가 *내림* 될 수 있다. 이는 할당되는 스택이 최소 `stacksize` 바이트가 된다고 하는 POSIX.1을 위반하는 것이다.
 
-## EXAMPLE
+## EXAMPLES
 
 <tt>[[pthread_create(3)]]</tt> 참고.
 
@@ -72,4 +73,4 @@ glibc 2.8 기준으로 지정한 `stacksize`가 `STACK_ALIGN`(대부분 아키�
 
 ----
 
-2017-09-15
+2021-03-22

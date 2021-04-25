@@ -8,18 +8,17 @@ process_vm_readv, process_vm_writev - 프로세스 주소 공간들 간에 데�
 #include <sys/uio.h>
 
 ssize_t process_vm_readv(pid_t pid,
-                         const struct iovec *local_iov,
-                         unsigned long liovcnt,
-                         const struct iovec *remote_iov,
-                         unsigned long riovcnt,
-                         unsigned long flags);
-
+                       const struct iovec *local_iov,
+                       unsigned long liovcnt,
+                       const struct iovec *remote_iov,
+                       unsigned long riovcnt,
+                       unsigned long flags);
 ssize_t process_vm_writev(pid_t pid,
-                          const struct iovec *local_iov,
-                          unsigned long liovcnt,
-                          const struct iovec *remote_iov,
-                          unsigned long riovcnt,
-                          unsigned long flags);
+                       const struct iovec *local_iov,
+                       unsigned long liovcnt,
+                       const struct iovec *remote_iov,
+                       unsigned long riovcnt,
+                       unsigned long flags);
 ```
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
@@ -64,7 +63,7 @@ struct iovec {
 
 성공 시 `process_vm_readv()`는 읽은 바이트 수를 반환하고 `process_vm_writev()`는 쓴 바이트 수를 반환한다. 불완전 읽기/쓰기가 일어난 경우 반환 값이 요청한 바이트 총수보다 작을 수 있다. (불완전 전송은 `iovec` 항목 단위로 이뤄진다. 이 시스템 호출들은 `iovec` 항목 하나를 쪼개는 불완전 전송을 수행하지 않는다.) 호출자는 반환 값을 확인해서 불완전 읽기/쓰기가 일어났는지 여부를 알아보는 게 좋다.
 
-오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -106,7 +105,7 @@ struct iovec {
 
 이 시스템 호출들은 한 번의 복사 동작으로 메시지를 교환할 수 있게 하여 빠른 메시지 전달을 가능케 하도록 설계되었다. (예를 들어 공유 메모리나 파이프를 사용한다면 두 번의 복사가 필요할 것이다.)
 
-## EXAMPLE
+## EXAMPLES
 
 다음 코드 샘플이 `process_vm_readv()` 사용 방식을 보여 준다. PID가 10인 프로세스로부터 주소 0x10000에 있는 20바이트를 읽어서 처음 10바이트를 `buf1`에 쓰고 두 번째 10바이트를 `buf2`에 쓴다.
 
@@ -144,4 +143,4 @@ main(void)
 
 ----
 
-2017-09-15
+2021-03-22

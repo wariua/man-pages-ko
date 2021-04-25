@@ -86,7 +86,7 @@ va_end(aq);
 
 과거의 **varargs** 매크로와 달리 **stdarg** 매크로에서는 고정 인자 없는 함수를 작성하는 것이 불가능하다. 이 문제가 일을 만드는 건 주로 **varargs** 코드를 **stdarg** 코드로 변환할 때지만 `va_list` 인자를 받는 <tt>[[vfprintf(3)]]</tt> 같은 함수로 모든 인자를 전달하려 하는 가변 인자 함수에서도 어려움이 생긴다.
 
-## EXAMPLE
+## EXAMPLES
 
 함수 `foo`는 서식 문자열을 받아서 타입에 따라 각 서식 문자에 연계된 인자를 찍는다.
 
@@ -99,7 +99,8 @@ foo(char *fmt, ...)   /* '...'은 C의 가변 함수 문법 */
 {
     va_list ap;
     int d;
-    char c, *s;
+    char c;
+    char *s;
 
     va_start(ap, fmt);
     while (*fmt)
@@ -123,6 +124,10 @@ foo(char *fmt, ...)   /* '...'은 C의 가변 함수 문법 */
 }
 ```
 
+## SEE ALSO
+
+<tt>[[vprintf(3)]]</tt>, <tt>[[vscanf(3)]]</tt>, <tt>[[vsyslog(3)]]</tt>
+
 ----
 
-2019-05-09
+2021-03-22

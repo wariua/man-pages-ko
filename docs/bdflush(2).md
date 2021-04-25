@@ -11,6 +11,8 @@ int bdflush(int func, long *address);
 int bdflush(int func, long data);
 ```
 
+*주의*: 이 시스템 호출에 대한 glibc 래퍼가 없다. VERSIONS 참고.
+
 ## DESCRIPTION
 
 *주의*: 이 시스템 호출은 리눅스 2.6부터 제거 예정으로 표시되었으며 아무것도 하지 않는다. 향후 커널 릴리스에서 완전히 사라질 것 같다. `bdflush()`가 수행하던 작업을 요즘은 커널 스레드 `pdflush`가 맡고 있다.
@@ -59,4 +61,4 @@ glibc 버전 2.23부터 이 구식 시스템 호출을 더 이상 지원하지 �
 
 ----
 
-2016-10-08
+2021-03-22

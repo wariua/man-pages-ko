@@ -62,7 +62,7 @@ POSIX.1-2001, POSIX.1-2008.
 
 glibc 2.8 기준으로 <tt>[[pthread_attr_init(3)]]</tt>으로 스케줄링 속성 객체를 초기화 하면 속성 객체의 스케줄링 정책이 `SCHED_OTHER`로 설정되고 스케줄링 우선순위가 0으로 설정된다. 그런데 그 상태에서 스케줄러 상속 속성을 `PTHREAD_EXPLICIT_SCHED`로 설정하면 그 속성 객체로 생성된 스레드가 생성을 하는 스레드로부터 스케줄링 속성들을 물려받는다. <tt>[[pthread_create(3)]]</tt> 호출 전에 명시적으로 스레드 속성의 스케줄링 정책이나 스케줄링 우선순위를 설정하면 이 버그가 발생하지 않는다.
 
-## EXAMPLE
+## EXAMPLES
 
 <tt>[[pthread_setschedparam(3)]]</tt> 참고.
 
@@ -72,4 +72,4 @@ glibc 2.8 기준으로 <tt>[[pthread_attr_init(3)]]</tt>으로 스케줄링 속�
 
 ----
 
-2017-09-15
+2021-03-22

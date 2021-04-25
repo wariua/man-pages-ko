@@ -7,7 +7,8 @@ getsubopt - 문자열에서 하위 옵션 인자 파싱
 ```c
 #include <stdlib.h>
 
-int getsubopt(char **optionp, char * const *tokens, char **valuep);
+int getsubopt(char **restrict optionp, char *const *restrict tokens,
+              char **restrict valuep);
 ```
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
@@ -54,7 +55,7 @@ POSIX.1-2001, POSIX.1-2008.
 
 문자열 `*optionp`에서 찾은 쉼표를 `getsubopt()`에서 덮어 쓰기 때문에 그 문자열이 쓰기 가능해야 한다. 즉 문자열 상수일 수 없다.
 
-## EXAMPLE
+## EXAMPLES
 
 다음 프로그램은 "-o" 옵션 다음의 하위 옵션을 받는다.
 
@@ -151,4 +152,4 @@ main(int argc, char **argv)
 
 ----
 
-2019-03-06
+2021-03-22

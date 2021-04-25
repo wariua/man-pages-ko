@@ -34,16 +34,16 @@ void encrypt_r(char *block, int edflag, struct crypt_data *data);
 
 ```c
 struct crypt_data {
-    char     keysched[16 * 8];
-    char     sb0[32768];
-    char     sb1[32768];
-    char     sb2[32768];
-    char     sb3[32768];
-    char     crypt_3_buf[14];
-    char     current_salt[2];
-    long int current_saltbits;
-    int      direction;
-    int      initialized;
+    char keysched[16 * 8];
+    char sb0[32768];
+    char sb1[32768];
+    char sb2[32768];
+    char sb3[32768];
+    char crypt_3_buf[14];
+    char current_salt[2];
+    long current_saltbits;
+    int  direction;
+    int  initialized;
 };
 ```
 
@@ -55,7 +55,7 @@ struct crypt_data {
 
 ## ERRORS
 
-위 함수들을 호출하기 전에 `errno`를 0으로 설정해야 한다. 성공 시에는 바뀌지 않는다.
+위 함수들을 호출하기 전에 `errno`를 0으로 설정해야 한다. 성공 시에는 `errno`가 바뀌지 않는다.
 
 `ENOSYS`
 :   함수가 제공되지 않는다. (예를 들어 과거의 미국 수출 규제 때문에.)
@@ -89,7 +89,7 @@ struct crypt_data {
 
 glibc 2.2에서 이 함수들은 DES 알고리듬을 사용한다.
 
-## EXAMPLE
+## EXAMPLES
 
 ```c
 #define _XOPEN_SOURCE
@@ -104,14 +104,13 @@ main(void)
     char orig[9] = "eggplant";
     char buf[64];
     char txt[9];
-    int i, j;
 
-    for (i = 0; i < 64; i++) {
+    for (int i = 0; i < 64; i++) {
         key[i] = rand() & 1;
     }
 
-    for (i = 0; i < 8; i++) {
-        for (j = 0; j < 8; j++) {
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
             buf[i * 8 + j] = orig[i] >> j & 1;
         }
         setkey(key);
@@ -119,8 +118,8 @@ main(void)
     printf("Before encrypting: %s\n", orig);
 
     encrypt(buf, 0);
-    for (i = 0; i < 8; i++) {
-        for (j = 0, txt[i] = '\0'; j < 8; j++) {
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0, txt[i] = '\0'; j < 8; j++) {
             txt[i] |= buf[i * 8 + j] << j;
         }
         txt[8] = '\0';
@@ -128,8 +127,8 @@ main(void)
     printf("After encrypting:  %s\n", txt);
 
     encrypt(buf, 1);
-    for (i = 0; i < 8; i++) {
-        for (j = 0, txt[i] = '\0'; j < 8; j++) {
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0, txt[i] = '\0'; j < 8; j++) {
             txt[i] |= buf[i * 8 + j] << j;
         }
         txt[8] = '\0';
@@ -145,4 +144,4 @@ main(void)
 
 ----
 
-2018-04-30
+2021-03-22

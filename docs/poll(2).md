@@ -19,7 +19,7 @@ int ppoll(struct pollfd *fds, nfds_t nfds,
 
 ## DESCRIPTION
 
-`poll()`은 <tt>[[select(2)]]</tt>와 비슷한 작업을 한다. 즉 한 파일 디스크립터라도 I/O를 수행할 수 있는 상태가 되기를 기다린다.
+`poll()`은 <tt>[[select(2)]]</tt>와 비슷한 작업을 한다. 즉 한 파일 디스크립터라도 I/O를 수행할 수 있는 상태가 되기를 기다린다. 리눅스 전용인 <tt>[[epoll(7)]]</tt> API도 비슷한 작업을 하며 `poll()`에서 볼 수 있는 것 이상의 기능을 제공한다.
 
 감시할 파일 디스크립터들의 집합을 `fds` 인자에서 지정하는데, 다음과 같은 구조체의 배열이다.
 
@@ -138,7 +138,9 @@ struct timespec {
 
 ## RETURN VALUE
 
-성공 시 양수를 반환한다. 이는 `revents` 필드가 0이 아닌 구조체들의 (달리 말해 이벤트나 오류가 보고된 디스크립터들의) 수이다. 0 값은 호출이 타임아웃 되었고 어떤 파일 디스크립터도 준비 상태가 아니었음을 나타낸다. 오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+성공 시 `poll()`은 음수 아닌 값을 반환하는데, 이는 `revents` 필드가 (이벤트나 오류를 나타내는) 0 아닌 값으로 설정된 `pollfds` 내 항목 개수다. 반환 값 0은 파일 디스크립터가 준비 상태가 되기 전에 호출이 타임아웃 되었음을 나타낸다.
+
+오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -155,11 +157,11 @@ struct timespec {
 :   (`ppoll()`) `*ip`에 있는 타임아웃 값이 유효하지 않다 (음수다).
 
 `ENOMEM`
-:   파일 디스크립터 테이블을 할당할 공간이 없다.
+:   커널 자료 구조를 위한 메모리를 할당할 수 없다.
 
 ## VERSIONS
 
-리눅스 2.1.23에서 `poll()` 시스템 호출이 도입되었다. 이 시스템 호출이 없는 더 전 커널에서는 glibc의 (그리고 구식 리눅스 libc의) `poll()` 래퍼 함수에서 <tt>[[select(2)]]</tt>를 써서 에뮬레이션을 제공한다.
+리눅스 2.1.23에서 `poll()` 시스템 호출이 도입되었다. 이 시스템 호출이 없는 더 전 커널에서는 glibc의 래퍼 함수에서 <tt>[[select(2)]]</tt>를 써서 에뮬레이션을 제공한다.
 
 리눅스 커널 2.6.16에서 `ppoll()` 시스템 호출이 추가되었다. glibc 2.4에서 `ppoll()` 라이브러리 호출이 추가되었다.
 
@@ -187,10 +189,151 @@ struct timespec {
 
 <tt>[[select(2)]]</tt>의 BUGS 절에 있는 준비 상태 거짓 알림 논의를 보라.
 
+## EXAMPLES
+
+아래 프로그램은 명령행 인자로 받은 파일 각각을 열어서 파일 디스크립터가 읽기 준비(`POLLIN`)가 되는지 감시한다. 루프를 돌며 `poll()`을 반복 사용해서 파일 디스크립터들을 감시하고, 준비 상태인 파일 디스크립터 수를 찍는다. 그리고 준비 상태인 파일 디스크립터 각각에 대해 다음을 수행한다.
+
+* 반환된 `revents` 필드를 사람이 읽을 수 있는 형태로 표시.
+
+* 파일 디스크립터가 읽기 가능이면 데이터를 좀 읽어서 표준 출력으로 표시.
+
+* 파일 디스크립터가 읽기 가능이 아니고 어떤 다른 이벤트(아마 `POLLHUP`)가 발생했으면 파일 디스크립터 닫기.
+
+한 터미널에서 프로그램을 실행해서 FIFO를 열게 한다고 하자.
+
+```text
+$ mkfifo myfifo
+$ ./poll_input myfifo
+```
+
+그리고 두 번째 터미널 창에서 그 FIFO를 쓰기용으로 열어서 데이터를 좀 써넣은 다음 닫자.
+
+```text
+$ echo aaaaabbbbbccccc > myfifo
+```
+
+그러면 프로그램이 도는 터미널에서 다음을 보게 된다.
+
+```text
+Opened "myfifo" on fd 3
+About to poll()
+Ready: 1
+  fd=3; events: POLLIN POLLHUP
+    read 10 bytes: aaaaabbbbb
+About to poll()
+Ready: 1
+  fd=3; events: POLLIN POLLHUP
+    read 6 bytes: ccccc
+
+About to poll()
+Ready: 1
+  fd=3; events: POLLHUP
+    closing fd 3
+All file descriptors closed; bye
+```
+
+위 출력을 보면 `poll()`이 세 번 반환한 것을 알 수 있다.
+
+* 첫 번째 반환 시 `revents` 필드로 반환된 비트는 파일 디스크립터가 읽기 가능이라는 뜻의 `POLLIN`과 FIFO 맞은편이 닫혔음을 나타내는 `POLLHUP`이었다. 가용 입력 일부를 프로그램에서 읽었다.
+
+* 두 번째 `poll()` 반환에서도 `POLLIN`과 `POLLHUP`이 표시됐다. 가용 입력 나머지를 프로그램에서 읽었다.
+
+* 마지막 반환에서 `poll()`은 FIFO에 `POLLHUP`만 표시했고, 그 시점에서 파일 디스크립터를 닫고 프로그램이 종료했다.
+
+### 프로그램 소스
+
+```c
+/* poll_input.c
+
+   Licensed under GNU General Public License v2 or later.
+*/
+#include <poll.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+#define errExit(msg)    do { perror(msg); exit(EXIT_FAILURE); \
+                        } while (0)
+
+int
+main(int argc, char *argv[])
+{
+    int nfds, num_open_fds;
+    struct pollfd *pfds;
+
+    if (argc < 2) {
+       fprintf(stderr, "Usage: %s file...\n", argv[0]);
+       exit(EXIT_FAILURE);
+    }
+
+    num_open_fds = nfds = argc - 1;
+    pfds = calloc(nfds, sizeof(struct pollfd));
+    if (pfds == NULL)
+        errExit("malloc");
+
+    /* 명령행의 각 파일을 열어서 `pfds` 배열에 추가하기. */
+
+    for (int j = 0; j < nfds; j++) {
+        pfds[j].fd = open(argv[j + 1], O_RDONLY);
+        if (pfds[j].fd == -1)
+            errExit("open");
+
+        printf("Opened \"%s\" on fd %d\n", argv[j + 1], pfds[j].fd);
+
+        pfds[j].events = POLLIN;
+    }
+
+    /* 파일 디스크립터가 하나라도 열려 있는 동안 계속 poll()
+       호출하기. */
+
+    while (num_open_fds > 0) {
+        int ready;
+
+        printf("About to poll()\n");
+        ready = poll(pfds, nfds, -1);
+        if (ready == -1)
+            errExit("poll");
+
+        printf("Ready: %d\n", ready);
+
+        /* poll()이 반환한 배열 다루기. */
+
+        for (int j = 0; j < nfds; j++) {
+            char buf[10];
+
+            if (pfds[j].revents != 0) {
+                printf("  fd=%d; events: %s%s%s\n", pfds[j].fd,
+                        (pfds[j].revents & POLLIN)  ? "POLLIN "  : "",
+                        (pfds[j].revents & POLLHUP) ? "POLLHUP " : "",
+                        (pfds[j].revents & POLLERR) ? "POLLERR " : "");
+
+                if (pfds[j].revents & POLLIN) {
+                    ssize_t s = read(pfds[j].fd, buf, sizeof(buf));
+                    if (s == -1)
+                        errExit("read");
+                    printf("    read %zd bytes: %.*s\n",
+                            s, (int) s, buf);
+                } else {                /* POLLERR | POLLHUP */
+                    printf("    closing fd %d\n", pfds[j].fd);
+                    if (close(pfds[j].fd) == -1)
+                        errExit("close");
+                    num_open_fds--;
+                }
+            }
+        }
+    }
+
+    printf("All file descriptors closed; bye\n");
+    exit(EXIT_SUCCESS);
+}
+```
+
 ## SEE ALSO
 
 <tt>[[restart_syscall(2)]]</tt>, <tt>[[select(2)]]</tt>, <tt>[[select_tut(2)]]</tt>, <tt>[[epoll(7)]]</tt>, <tt>[[time(7)]]</tt>
 
 ----
 
-2019-08-02
+2021-03-22

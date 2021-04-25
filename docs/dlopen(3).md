@@ -14,7 +14,7 @@ int dlclose(void *handle);
 #define _GNU_SOURCE
 #include <dlfcn.h>
 
-void *dlmopen (Lmid_t lmid, const char *filename, int flags);
+void *dlmopen(Lmid_t lmid, const char *filename, int flags);
 ```
 
 `-ldl`로 링크.
@@ -27,11 +27,11 @@ void *dlmopen (Lmid_t lmid, const char *filename, int flags);
 
 `filename`이 NULL이면 주 프로그램에 대한 핸들을 반환한다. `filename`에 슬래시("/")가 있으면 (상대 또는 절대) 경로명으로 해석한다. 아니면 동적 링커가 다음처럼 오브젝트를 탐색한다. (더 자세한 내용은 <tt>[[ld.so(8)]]</tt> 참고.)
 
-* (ELF 한정) 호출하는 프로그램의 실행 파일에 DT_RPATH 태그가 있으면서 DT_RUNPATH 태그는 없으면 그 DT_RPATH 태그에 나열된 디렉터리들을 탐색한다.
+* (ELF 한정) 호출 오브젝트(즉 `dlopen()`을 호출한 공유 라이브러리 또는 실행 파일)에 DT_RPATH 태그가 있으면서 DT_RUNPATH 태그는 없으면 그 DT_RPATH 태그에 나열된 디렉터리들을 탐색한다.
 
 * 프로그램 시작 시점에 콤마 구분 디렉터리 목록을 담은 환경 변수 `LD_LIBRARY_PATH`가 정의돼 있었으면 그 디렉터리들을 탐색한다. (보안을 위해 set-user-ID 및 set-group-ID 프로그램에 대해선 이 변수를 무시한다.)
 
-* (ELF 한정) 호출하는 프로그램의 실행 파일에 DT_RUNPATH가 있으면 그 태그에 나열된 디렉터리들을 탐색한다.
+* (ELF 한정) 호출 오브젝트에 DT_RUNPATH가 있으면 그 태그에 나열된 디렉터리들을 탐색한다.
 
 * (`ldconfig(8)`로 관리하는) 캐시 파일 `/etc/ld.so.cache`를 확인해서 `filename`에 대한 항목이 있는지 본다.
 
@@ -160,7 +160,7 @@ glibc 2.2.3부터 <tt>[[atexit(3)]]</tt>를 이용해 공유 오브젝트가 내
 
 glibc 2.24 현재 `dlmopen()` 호출 시 `RTLD_GLOBAL` 플래그를 지정하면 오류가 발생한다. 또한 최초 네임스페이스 아닌 네임스페이스에 적재된 오브젝트에서 `dlopen()`을 호출하면서 `RTLD_GLOBAL`을 지정하면 프로그램 크래시(`SIGSEGV`)가 발생한다.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 프로그램은 (glibc) 수학 라이브러리를 적재한 다음 `cos(3)` 함수 주소를 알아내서 코사인 2.0을 찍는다. 다음은 프로그램 빌드 및 실행 예이다.
 
@@ -204,11 +204,11 @@ main(void)
        이 (어색한) 캐스팅은 ISO C 표준을 준수하는 것이면서
        컴파일러 경고가 나오지 않게 해 준다.
 
-       POSIX.1-2008의 2013년판 기술 정오표(소위 POSIX.1-2013)에서는
-       준수 구현체가 'void *'와 함수 포인터 사이 캐스팅을 지원해야
-       한다고 요구하는 것으로 상황을 개선했다. 그럼에도 불구하고
-       일부 컴파일러들은 (가령 gcc에 '-pedantic' 옵션을 쓰면)
-       이 프로그램에서 쓴 캐스팅에 대해 뭐라 뭐라 할 수도 있다. */
+       POSIX.1-2008의 2013년판 기술 정오표 1에서는 준수 구현체가
+       'void *'와 함수 포인터 사이 캐스팅을 지원해야 한다고
+       요구하는 것으로 상황을 개선했다. 그럼에도 불구하고 일부
+       컴파일러들은 (가령 gcc에 '-pedantic' 옵션을 쓰면) 이
+       프로그램에서 쓴 캐스팅에 대해 뭐라 뭐라 할 수도 있다. */
 
     error = dlerror();
     if (error != NULL) {
@@ -230,4 +230,4 @@ gcc info 페이지, ld info 페이지
 
 ----
 
-2019-08-02
+2021-03-22

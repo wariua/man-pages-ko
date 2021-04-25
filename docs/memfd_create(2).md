@@ -94,7 +94,7 @@ int memfd_create(const char *name, unsigned int flags);
 
 2. 첫 번째 프로세스가 앞서 생성한 파일 크기를 <tt>[[ftruncate(2)]]</tt>로 조정하고 <tt>[[mmap(2)]]</tt>으로 맵 한 다음 그 공유 메모리를 원하는 데이터로 채운다.
 
-3. 첫 번째 프로세스가 파일에 대한 추가 변경을 제약하기 위해 <tt>[[fcntl(2)]]</tt> `F_ADD_SEALS` 동작을 이용해 파일에 한 개 이상의 봉인을 한다. (`F_SEAL_WRITE` 봉인을 하는 경우에는 앞 단계에서 만든 쓰기 가능한 공유 매핑을 먼저 해제해야 할 것이다.)
+3. 첫 번째 프로세스가 파일에 대한 추가 변경을 제약하기 위해 <tt>[[fcntl(2)]]</tt> `F_ADD_SEALS` 동작을 이용해 파일에 한 개 이상의 봉인을 한다. (`F_SEAL_WRITE` 봉인을 하는 경우에는 앞 단계에서 만든 쓰기 가능한 공유 매핑을 먼저 해제해야 할 것이다. 또는 `F_SEAL_FUTURE_WRITE`를 써서 `F_SEAL_WRITE`와 비슷한 동작 결과를 얻을 수도 있는데, 기존의 쓰기 가능한 공유 매핑을 유지하면서도 <tt>[[mmap(2)]]</tt>과 `write(2)`를 통한 향후의 쓰기가 성공하지 못하게 막는다.)
 
 4. 두 번째 프로세스가 그 <tt>[[tmpfs(5)]]</tt> 파일에 대한 파일 디스크립터를 얻어서 맵 한다. 다음을 포함한 여러 방식으로 그렇게 할 수 있다.
 
@@ -106,7 +106,7 @@ int memfd_create(const char *name, unsigned int flags);
 
 5. 두 번째 프로세스가 <tt>[[fcntl(2)]]</tt> `F_GET_SEALS` 동작을 써서 그 파일에 적용된 봉인들의 비트 마스크를 가져온다. 이 비트 마스크를 살펴보면 파일 변경 방식에 어떤 제약이 가해졌는지 알아낼 수 있다. 원한다면 두 번째 프로세스에서 봉인을 더 적용해서 제약을 추가로 가할 수 있다. (단 `F_SEAL_SEAL` 봉인이 적용되지 않았어야 한다.)
 
-## EXAMPLE
+## EXAMPLES
 
 `memfd_create()`와 파일 봉인 API 사용 방식을 보여 주는 두 가지 예시 프로그램이 아래에 있다.
 
@@ -135,6 +135,7 @@ Existing seals: WRITE SHRINK
 
 ```c
 #define _GNU_SOURCE
+#include <stdint.h>
 #include <sys/mman.h>
 #include <fcntl.h>
 #include <stdlib.h>
@@ -161,6 +162,7 @@ main(int argc, char *argv[])
         fprintf(stderr, "\t\tg - F_SEAL_GROW\n");
         fprintf(stderr, "\t\ts - F_SEAL_SHRINK\n");
         fprintf(stderr, "\t\tw - F_SEAL_WRITE\n");
+        fprintf(stderr, "\t\tW - F_SEAL_FUTURE_WRITE\n");
         fprintf(stderr, "\t\tS - F_SEAL_SEAL\n");
         exit(EXIT_FAILURE);
     }
@@ -169,23 +171,23 @@ main(int argc, char *argv[])
     len = atoi(argv[2]);
     seals_arg = argv[3];
 
-    /* tmpfs에 익명 파일 생성. 파일에 봉인 할 수 있게 하기 */
+    /* tmpfs에 익명 파일 생성하기. 파일에 봉인 할 수 있게 하기. */
 
     fd = memfd_create(name, MFD_ALLOW_SEALING);
     if (fd == -1)
         errExit("memfd_create");
 
-    /* 명령행에서 지정한 대로 파일 크기 조정 */
+    /* 명령행에서 지정한 대로 파일 크기 조정하기. */
 
     if (ftruncate(fd, len) == -1)
         errExit("truncate");
 
-    printf("PID: %ld; fd: %d; /proc/%ld/fd/%d\n",
-            (long) getpid(), fd, (long) getpid(), fd);
+    printf("PID: %jd; fd: %d; /proc/%jd/fd/%d\n",
+            (intmax_t) getpid(), fd, (intmax_t) getpid(), fd);
 
-    /* 파일을 맵 하고 그 매핑에 데이터를 채우는 코드는 생략 */
+    /* 파일을 맵 하고 그 매핑에 데이터를 채우는 코드는 생략한다. */
 
-    /* 명령행 인자 'seals'를 받았으면 파일에 봉인 설정 */
+    /* 명령행 인자 'seals'를 받았으면 파일에 봉인 설정한다. */
 
     if (seals_arg != NULL) {
         seals = 0;
@@ -196,6 +198,8 @@ main(int argc, char *argv[])
             seals |= F_SEAL_SHRINK;
         if (strchr(seals_arg, 'w') != NULL)
             seals |= F_SEAL_WRITE;
+        if (strchr(seals_arg, 'W') != NULL)
+            seals |= F_SEAL_FUTURE_WRITE;
         if (strchr(seals_arg, 'S') != NULL)
             seals |= F_SEAL_SEAL;
 
@@ -204,7 +208,7 @@ main(int argc, char *argv[])
     }
 
     /* memfd_create()로 생성한 파일이 계속 존재하도록
-       실행을 계속 */
+       실행을 계속한다. */
 
     pause();
 
@@ -252,11 +256,13 @@ main(int argc, char *argv[])
         printf(" GROW");
     if (seals & F_SEAL_WRITE)
         printf(" WRITE");
+    if (seals & F_SEAL_FUTURE_WRITE)
+        printf(" FUTURE_WRITE");
     if (seals & F_SEAL_SHRINK)
         printf(" SHRINK");
     printf("\n");
 
-    /* 파일을 맵 하고 결과 매핑 내용에 접근하는 코드는 생략 */
+    /* 파일을 맵 하고 결과 매핑 내용에 접근하는 코드는 생략한다. */
 
     exit(EXIT_SUCCESS);
 }
@@ -268,4 +274,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-03-06
+2021-03-22

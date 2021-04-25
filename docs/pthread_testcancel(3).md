@@ -38,7 +38,7 @@ void pthread_testcancel(void);
 
 POSIX.1-2001, POSIX.1-2008.
 
-## EXAMPLE
+## EXAMPLES
 
 <tt>[[pthread_cleanup_push(3)]]</tt> 참고.
 
@@ -48,4 +48,4 @@ POSIX.1-2001, POSIX.1-2008.
 
 ----
 
-2017-09-15
+2021-03-22

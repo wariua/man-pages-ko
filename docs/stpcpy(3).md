@@ -7,7 +7,7 @@ stpcpy - 문자열을 복사하고 그 끝에 대한 포인터 반환하기
 ```c
 #include <string.h>
 
-char *stpcpy(char *dest, const char *src);
+char *stpcpy(char *restrict dest, const char *restrict src);
 ```
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
@@ -43,7 +43,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 이 함수는 버퍼 `dest`를 넘치게 할 수 있다.
 
-## EXAMPLE
+## EXAMPLES
 
 예를 들어 이 프로그램은 `stpcpy()`으로 **foo**와 **bar**를 이어 붙여서 **foobar**를 만들어 낸 다음 출력한다.
 
@@ -70,4 +70,4 @@ main(void)
 
 ----
 
-2019-03-06
+2021-03-22

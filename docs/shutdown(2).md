@@ -16,7 +16,7 @@ int shutdown(int sockfd, int how);
 
 ## RETURN VALUE
 
-성공 시 0을 반환한다. 오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -50,4 +50,4 @@ POSIX.1-2001, POSIX.1-2008, 4.4BSD (4.2BSD에서 `shutdown()`이 처음 등장).
 
 ----
 
-2018-04-30
+2021-03-22

@@ -39,7 +39,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## RETURN VALUE
 
-성공 시 이 시스템 호출들은 0을 반환한다. 오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+성공 시 이 시스템 호출들은 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -62,8 +62,6 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 POSIX.1-2001, POSIX.1-2008, 4.3BSD.
 
-## AVAILABILITY
-
 `fdatasync()`가 사용 가능한 POSIX 시스템에는 `<unistd.h>`에 `_POSIX_SYNCHRONIZED_IO`가 0보다 큰 값으로 정의되어 있다. (<tt>[[sysconf(3)]]</tt>도 참고.)
 
 ## NOTES
@@ -80,4 +78,4 @@ POSIX.1-2001, POSIX.1-2008, 4.3BSD.
 
 ----
 
-2019-03-06
+2021-03-22

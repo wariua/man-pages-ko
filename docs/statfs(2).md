@@ -23,8 +23,8 @@ struct statfs {
     fsblkcnt_t f_bfree;   /* 파일 시스템 내 유휴 블록 */
     fsblkcnt_t f_bavail;  /* 비특권 사용자가 사용 가능한
                              유휴 블록 */
-    fsfilcnt_t f_files;   /* 파일 시스템 내 총 파일 노드 */
-    fsfilcnt_t f_ffree;   /* 파일 시스템 내 유휴 파일 노드 */
+    fsfilcnt_t f_files;   /* 파일 시스템 내 총 아이노드 */
+    fsfilcnt_t f_ffree;   /* 파일 시스템 내 유휴 아이노드 */
     fsid_t     f_fsid;    /* 파일 시스템 ID */
     __fsword_t f_namelen; /* 파일명 최대 길이 */
     __fsword_t f_frsize;  /* 단편 크기 (리눅스 2.6부터) */
@@ -107,6 +107,7 @@ SECURITYFS_MAGIC      0x73636673
 SELINUX_MAGIC         0xf97cff8c
 SMACK_MAGIC           0x43415d53
 SMB_SUPER_MAGIC       0x517b
+SMB2_MAGIC_NUMBER     0xfe534d42
 SOCKFS_MAGIC          0x534f434b
 SQUASHFS_MAGIC        0x73717368
 SYSFS_MAGIC           0x62656572
@@ -156,6 +157,9 @@ _XIAFS_SUPER_MAGIC    0x012fd16d /* 리눅스 2.0 및 이전 */
 `ST_SYNCHRONOUS`
 :   쓰기를 파일 시스템으로 즉시 동기화한다. (<tt>[[open(2)]]</tt>의 `O_SYNC` 설명 참고.)
 
+`ST_NOSYMFOLLOW` (리눅스 5.10부터)
+:   경로를 해석할 때 심볼릭 링크를 따라가지 않는다. <tt>[[mount(2)]]</tt> 참고.
+
 `f_fsid`에 뭐가 들어가야 하는지는 아무도 모른다. (하지만 아래 참고.)
 
 해당 파일 시스템에서 규정돼 있지 않은 필드는 0으로 설정된다.
@@ -164,7 +168,7 @@ _XIAFS_SUPER_MAGIC    0x012fd16d /* 리눅스 2.0 및 이전 */
 
 ## RETURN VALUE
 
-성공 시 0을 반환한다. 오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -216,7 +220,7 @@ _XIAFS_SUPER_MAGIC    0x012fd16d /* 리눅스 2.0 및 이전 */
 
 어떤 시스템에는 `<sys/vfs.h>`만 있고 다른 시스템에는 `<sys/statfs.h>`가 있으며 전자가 후자를 포함한다. 따라서 전자를 포함하는 게 최선일 것 같다.
 
-LSB에서는 라이브러리 호출 `statfs()` 및 `fstatfs()`를 쓰지 말고 대신 <tt>[[statvfs(2)]]</tt> 및 <tt>[[fstatvfs(2)]]</tt>를 쓰라고 한다.
+LSB에서는 라이브러리 호출 `statfs()` 및 `fstatfs()`를 쓰지 말고 대신 <tt>[[statvfs(3)]]</tt> 및 <tt>[[fstatvfs(3)]]</tt>를 쓰라고 한다.
 
 ### `f_fsid` 필드
 
@@ -236,4 +240,4 @@ LSB에서는 라이브러리 호출 `statfs()` 및 `fstatfs()`를 쓰지 말고 
 
 ----
 
-2017-09-15
+2021-03-22

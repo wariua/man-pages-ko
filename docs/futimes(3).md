@@ -8,7 +8,6 @@ futimes, lutimes - 파일 타임스탬프 바꾸기
 #include <sys/time.h>
 
 int futimes(int fd, const struct timeval tv[2]);
-
 int lutimes(const char *filename, const struct timeval tv[2]);
 ```
 
@@ -29,7 +28,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## RETURN VALUE
 
-성공 시 0을 반환한다. 오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -68,4 +67,4 @@ glibc 2.3부터 `futimes()`가 사용 가능하다. glibc 2.6부터 `lutimes()`�
 
 ----
 
-2017-09-15
+2021-03-22

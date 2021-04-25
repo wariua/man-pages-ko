@@ -8,7 +8,6 @@ malloc_get_state, malloc_set_state - malloc 구현의 상태를 기록하고 복
 #include <malloc.h>
 
 void *malloc_get_state(void);
-
 int malloc_set_state(void *state);
 ```
 
@@ -50,4 +49,4 @@ int malloc_set_state(void *state);
 
 ----
 
-2017-09-15
+2021-03-22

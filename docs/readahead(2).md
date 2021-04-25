@@ -19,7 +19,7 @@ ssize_t readahead(int fd, off64_t offset, size_t count);
 
 ## RETURN VALUE
 
-성공 시 `readahead()`는 0을 반환한다. 실패 시 -1을 반환하며 오류 원인을 나타내도록 `errno`를 설정한다.
+성공 시 `readahead()`는 0을 반환한다. 실패 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -51,4 +51,4 @@ ssize_t readahead(int fd, off64_t offset, size_t count);
 
 ----
 
-2019-03-06
+2021-03-22

@@ -5,7 +5,8 @@ gettid - 스레드 식별자 얻기
 ## SYNOPSIS
 
 ```c
-#include <sys/types.h>
+#define _GNU_SOURCE
+#include <unistd.h>
 
 pid_t gettid(void);
 ```
@@ -38,8 +39,8 @@ pid_t gettid(void);
 
 ## SEE ALSO
 
-<tt>[[capget(2)]]</tt>, <tt>[[clone(2)]]</tt>, <tt>[[fcntl(2)]]</tt>, <tt>[[fork(2)]]</tt>, <tt>[[getpid(2)]]</tt>, <tt>[[get_robust_list(2)]]</tt>, <tt>[[ioprio_set(2)]]</tt>, <tt>[[perm_event_open(2)]]</tt>, <tt>[[sched_setaffinity(2)]]</tt>, <tt>[[sched_setparam(2)]]</tt>, <tt>[[sched_setscheduler(2)]]</tt>, <tt>[[tgkill(2)]]</tt>, <tt>[[timer_create(2)]]</tt>
+<tt>[[capget(2)]]</tt>, <tt>[[clone(2)]]</tt>, <tt>[[fcntl(2)]]</tt>, <tt>[[fork(2)]]</tt>, <tt>[[get_robust_list(2)]]</tt>, <tt>[[getpid(2)]]</tt>, <tt>[[ioprio_set(2)]]</tt>, <tt>[[perm_event_open(2)]]</tt>, <tt>[[sched_setaffinity(2)]]</tt>, <tt>[[sched_setparam(2)]]</tt>, <tt>[[sched_setscheduler(2)]]</tt>, <tt>[[tgkill(2)]]</tt>, <tt>[[timer_create(2)]]</tt>
 
 ----
 
-2019-03-06
+2021-03-22

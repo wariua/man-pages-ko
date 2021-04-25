@@ -8,7 +8,6 @@ timegm, timelocal - gmtime 및 localtime의 반대 동작
 #include <time.h>
 
 time_t timelocal(struct tm *tm);
-
 time_t timegm(struct tm *tm);
 ```
 
@@ -27,7 +26,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## RETURN VALUE
 
-성공 시 이 함수들은 `time_t` 타입 값으로 표현한 달력 시간(에포크 이후 초)을 반환한다. 오류 시 `(time_t) -1` 값을 반환하며 오류 원인을 나타내도록 `errno`를 설정한다.
+성공 시 이 함수들은 `time_t` 타입 값으로 표현한 달력 시간(에포크 이후 초)을 반환한다. 오류 시 `(time_t) -1` 값을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -56,4 +55,4 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ----
 
-2016-12-12
+2021-03-22

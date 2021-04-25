@@ -7,8 +7,10 @@ pthread_create - 새 스레드 만들기
 ```c
 #include <pthread.h>
 
-int pthread_create(pthread_t *thread, const pthread_attr_t *attr,
-                   void *(*start_routine) (void *), void *arg);
+int pthread_create(pthread_t *restrict thread,
+                   const pthread_attr_t *restrict attr,
+                   void *(*start_routine)(void *),
+                   void *restrict arg);
 ```
 
 `-pthread`로 링크.
@@ -93,7 +95,7 @@ NPTL 스레딩 구현에서 *프로그램 시작 시점에* 연성 자원 제한
 
 구식이 된 LinuxThreads 구현에서는 프로세스 내의 각 스레드가 서로 다른 프로세스 ID를 가진다. 이는 POSIX 스레드 명세 위반이며 다른 여러 표준 비준수 사항들의 원천이다. <tt>[[pthreads(7)]]</tt> 참고.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 프로그램은 `pthread_create()` 및 pthreads API의 다른 여러 함수들의 사용 방식을 보여 준다.
 
@@ -147,22 +149,22 @@ struct thread_info {    /* thread_start() 인자로 사용 */
 };
 
 /* 스레드 시작 함수: 스택 상단 근처의 주소를 표시하고
-   argv_string을 대문자로 바꾼 사본을 반환 */
+   argv_string을 대문자로 바꾼 사본을 반환한다. */
 
 static void *
 thread_start(void *arg)
 {
     struct thread_info *tinfo = arg;
-    char *uargv, *p;
+    char *uargv;
 
     printf("Thread %d: top of stack near %p; argv_string=%s\n",
-            tinfo->thread_num, &p, tinfo->argv_string);
+            tinfo->thread_num, (void *) &tinfo, tinfo->argv_string);
 
     uargv = strdup(tinfo->argv_string);
     if (uargv == NULL)
         handle_error("strdup");
 
-    for (p = uargv; *p != '\0'; p++)
+    for (char *p = uargv; *p != '\0'; p++)
         *p = toupper(*p);
 
     return uargv;
@@ -171,13 +173,12 @@ thread_start(void *arg)
 int
 main(int argc, char *argv[])
 {
-    int s, tnum, opt, num_threads;
-    struct thread_info *tinfo;
+    int s, opt, num_threads;
     pthread_attr_t attr;
-    int stack_size;
+    ssize_t stack_size;
     void *res;
 
-    /* "-s" 옵션은 스레드의 스택 크기를 나타냄 */
+    /* "-s" 옵션은 스레드의 스택 크기를 나타낸다. */
 
     stack_size = -1;
     while ((opt = getopt(argc, argv, "s:")) != -1) {
@@ -195,7 +196,7 @@ main(int argc, char *argv[])
 
     num_threads = argc - optind;
 
-    /* 스레드 생성 속성 초기화 */
+    /* 스레드 생성 속성 초기화. */
 
     s = pthread_attr_init(&attr);
     if (s != 0)
@@ -207,20 +208,20 @@ main(int argc, char *argv[])
             handle_error_en(s, "pthread_attr_setstacksize");
     }
 
-    /* pthread_create() 인자를 위한 메모리 할당 */
+    /* pthread_create() 인자를 위한 메모리 할당하기. */
 
-    tinfo = calloc(num_threads, sizeof(struct thread_info));
+    struct thread_info *tinfo = calloc(num_threads, sizeof(*tinfo));
     if (tinfo == NULL)
         handle_error("calloc");
 
-    /* 명령행 인자마다 하나씩 스레드 생성 */
+    /* 명령행 인자마다 하나씩 스레드 생성하기. */
 
-    for (tnum = 0; tnum < num_threads; tnum++) {
+    for (int tnum = 0; tnum < num_threads; tnum++) {
         tinfo[tnum].thread_num = tnum + 1;
         tinfo[tnum].argv_string = argv[optind + tnum];
 
         /* pthread_create() 호출이 tinfo[]의 해당 항목에
-           스레드 ID를 저장함 */
+           스레드 ID를 저장한다. */
 
         s = pthread_create(&tinfo[tnum].thread_id, &attr,
                            &thread_start, &tinfo[tnum]);
@@ -228,15 +229,15 @@ main(int argc, char *argv[])
             handle_error_en(s, "pthread_create");
     }
 
-    /* 더는 필요치 않으므로 스레드 속성 객체 파기 */
+    /* 더는 필요치 않으므로 스레드 속성 객체 파기하기. */
 
     s = pthread_attr_destroy(&attr);
     if (s != 0)
         handle_error_en(s, "pthread_attr_destroy");
 
-    /* 이제 각 스레드와 합류하고 반환 값을 표시 */
+    /* 이제 각 스레드와 합류하고 반환 값을 표시하기. */
 
-    for (tnum = 0; tnum < num_threads; tnum++) {
+    for (int tnum = 0; tnum < num_threads; tnum++) {
         s = pthread_join(tinfo[tnum].thread_id, &res);
         if (s != 0)
             handle_error_en(s, "pthread_join");
@@ -257,4 +258,4 @@ main(int argc, char *argv[])
 
 ----
 
-2018-04-30
+2021-03-22

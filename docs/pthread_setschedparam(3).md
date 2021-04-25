@@ -9,8 +9,8 @@ pthread_setschedparam, pthread_getschedparam - 스레드의 스케줄링 정책 
 
 int pthread_setschedparam(pthread_t thread, int policy,
                           const struct sched_param *param);
-int pthread_getschedparam(pthread_t thread, int *policy,
-                          struct sched_param *param);
+int pthread_getschedparam(pthread_t thread, int *restrict policy,
+                          struct sched_param *restrict param);
 ```
 
 `-pthread`로 컴파일 및 링크.
@@ -70,7 +70,7 @@ POSIX.1-2001, POSIX.1-2008.
 
 스레드의 스케줄링 우선순위를 바꾸는 데 필요한 권한과 그 효과, 각 스케줄링 정책에서 허용하는 우선순위 범위에 대한 설명은 <tt>[[sched(7)]]</tt>를 보라.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 프로그램은 `pthread_setschedparam()`과 `pthread_getschedparam()`의 사용 방식뿐 아니라 여러 다른 스케줄링 관련 pthreads 함수들의 사용 방식도 보여 준다.
 
@@ -203,7 +203,7 @@ main(int argc, char *argv[])
     char *attr_sched_str, *main_sched_str, *inheritsched_str;
     struct sched_param param;
 
-    /* 명령행 옵션 처리 */
+    /* 명령행 옵션 처리하기. */
 
     use_null_attrib = 0;
     attr_sched_str = NULL;
@@ -225,7 +225,7 @@ main(int argc, char *argv[])
         usage(argv[0], "Can't specify -A with -i or -a\n");
 
     /* 선택적으로 주 스레드의 스케줄링 속성을 설정하고
-       속성을 표시 */
+       속성을 표시하기. */
 
     if (main_sched_str != NULL) {
         if (!get_policy(main_sched_str[0], &policy))
@@ -240,7 +240,7 @@ main(int argc, char *argv[])
     display_thread_sched_attr("Scheduler settings of main thread");
     printf("\n");
 
-    /* 옵션에 따라 스레드 속성 객체 초기화 */
+    /* 옵션에 따라 스레드 속성 객체 초기화하기. */
 
     attrp = NULL;
 
@@ -279,7 +279,7 @@ main(int argc, char *argv[])
     }
 
     /* 스레드 속성 객체를 초기화 했으면 객체에 설정된
-       스케줄링 속성들을 표시 */
+       스케줄링 속성들을 표시하기. */
 
     if (attrp != NULL) {
         s = pthread_attr_getschedparam(&attr, &param);
@@ -300,13 +300,13 @@ main(int argc, char *argv[])
         printf("\n");
     }
 
-    /* 자기 스케줄링 속성을 표시하는 스레드 생성 */
+    /* 자기 스케줄링 속성을 표시하는 스레드 생성하기. */
 
     s = pthread_create(&thread, attrp, &thread_start, NULL);
     if (s != 0)
         handle_error_en(s, "pthread_create");
 
-    /* 필요 없는 속성 객체 파기 */
+    /* 필요 없는 속성 객체 파기하기. */
 
     if (!use_null_attrib) {
       s = pthread_attr_destroy(&attr);
@@ -328,4 +328,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-03-06
+2021-03-22

@@ -7,8 +7,8 @@ lio_listio - 여러 I/O 요청 개시하기
 ```c
 #include <aio.h>
 
-int lio_listio(int mode, struct aiocb *const aiocb_list[],
-               int nitems, struct sigevent *sevp);
+int lio_listio(int mode, struct aiocb *restrict const aiocb_list[restrict],
+               int nitems, struct sigevent *restrict sevp);
 ```
 
 `-lrt`로 링크.
@@ -97,4 +97,4 @@ POSIX.1-2001, POSIX.1-2008.
 
 ----
 
-2017-09-15
+2021-03-22

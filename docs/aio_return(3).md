@@ -20,7 +20,7 @@ ssize_t aio_return(struct aiocb *aiocbp);
 
 ## RETURN VALUE
 
-비동기 I/O 동작이 완료된 경우에 이 함수는 동기적인 `read(2)`, `write(2)`, `fsync(2)`, `fdatasync(2)` 호출이 반환했을 값을 반환한다. 오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+비동기 I/O 동작이 완료된 경우에 이 함수는 동기적인 `read(2)`, `write(2)`, `fsync(2)`, `fdatasync(2)` 호출이 반환했을 값을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 비동기 I/O 동작이 아직 완료되지 않은 경우에 `aio_return()`의 반환 값과 영향은 규정돼 있지 않다.
 
@@ -48,7 +48,7 @@ glibc 2.1부터 `aio_return()` 함수가 사용 가능하다.
 
 POSIX.1-2001, POSIX.1-2008.
 
-## EXAMPLE
+## EXAMPLES
 
 <tt>[[aio(7)]] 참고.
 
@@ -58,4 +58,4 @@ POSIX.1-2001, POSIX.1-2008.
 
 ----
 
-2017-09-15
+2021-03-22

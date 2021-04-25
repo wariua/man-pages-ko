@@ -14,6 +14,8 @@ int io_submit(aio_context_t ctx_id, long nr, struct iocb **iocbpp);
 
 ## DESCRIPTION
 
+*주의*: 이 페이지에선 리눅스 시스템 호출 인터페이스를 설명한다. `libaio`에서 제공하는 래퍼 함수에서는 `ctx_id` 인자에 다른 타입을 쓴다. NOTES 참고.
+
 `io_submit()` 시스템 호출은 AIO 문맥 `ctx_id`에서 처리 큐에 `nr` 개 I/O 요청 블록을 넣는다. `iocbpp` 인자는 `nr` 개 AIO 제어 블록의 배열이어야 하며 이를 문맥 `ctx_id`로 제출하게 된다.
 
 `linux/aio_abi.h`에 정의돼 있는 `iocb`(I/O 제어 블록) 구조체에 I/O 동작을 제어하는 매개변수들이 있다.
@@ -50,16 +52,16 @@ struct iocb {
     `RWF_APPEND` (리눅스 4.16부터)
     :   파일 끝에 데이터를 덧붙임. <tt>[[pwritev2(2)]]</tt>에 있는 같은 이름의 플래그 설명과 <tt>[[open(2)]]</tt>의 `O_APPEND` 설명 참고.
 
-    `RWF_DSYNC` (리눅스 4.7부터)
+    `RWF_DSYNC` (리눅스 4.13부터)
     :   동기화 I/O 데이터 무결성 요건에 따라 쓰기 동작이 완료됨. <tt>[[pwritev2(2)]]</tt>에 있는 같은 이름의 플래그 설명과 <tt>[[open(2)]]</tt>의 `O_DSYNC` 설명 참고.
 
-    `RWF_HIPRI` (리눅스 4.6부터)
+    `RWF_HIPRI` (리눅스 4.13부터)
     :   높은 우선도 요청. 가능하면 폴링.
 
     `RWF_NOWAIT` (리눅스 4.14부터)
     :   커널 내에서 파일 블록 할당이나 변경 페이지 플러싱, 뮤텍스 락 같은 동작이나 혼잡한 블록 장치 때문에 I/O가 블록 되려는 경우에 대기하지 않는다. 이 중 한 조건이라도 해당하면 `io_event` 구조체의 `res` 필드에 반환 값 `-EAGAIN`을 담아서 제어 블록을 즉시 반환한다. (<tt>[[io_getevents(2)]]</tt> 참고.)
 
-    `RWF_SYNC` (리눅스 4.7부터)
+    `RWF_SYNC` (리눅스 4.13부터)
     :   동기화 I/O 파일 무결성 요건에 따라 쓰기 동작이 완료됨. <tt>[[pwritev2(2)]]</tt>에 있는 같은 이름의 플래그 설명과 <tt>[[open(2)]]</tt>의 `O_SYNC` 설명 참고.
 
 `aio_opcode`
@@ -70,6 +72,7 @@ struct iocb {
             IOCB_CMD_PWRITE = 1,
             IOCB_CMD_FSYNC = 2,
             IOCB_CMD_FDSYNC = 3,
+            IOCB_CMD_POLL = 5,
             IOCB_CMD_NOOP = 6,
             IOCB_CMD_PREADV = 7,
             IOCB_CMD_PWRITEV = 8,
@@ -146,4 +149,4 @@ glibc에서 이 시스템 호출의 래퍼를 제공하지 않는다. <tt>[[sysc
 
 ----
 
-2018-04-30
+2021-03-22

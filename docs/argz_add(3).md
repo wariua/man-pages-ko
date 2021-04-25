@@ -7,33 +7,38 @@ argz_add, argz_add_sep, argz_append, argz_count, argz_create, argz_create_sep, a
 ```c
 #include <argz.h>
 
-error_t argz_add(char **argz, size_t *argz_len, const char *str);
+error_t argz_add(char **restrict argz, size_t *restrict argz_len,
+                const char *restrict str);
 
-error_t argz_add_sep(char **argz, size_t *argz_len,
-                     const char *str, int delim);
+error_t argz_add_sep(char **restrict argz, size_t *restritc argz_len,
+                const char *restrict str, int delim);
 
-error_t argz_append(char **argz, size_t *argz_len,
-                    const char *buf, size_t buf_len);
+error_t argz_append(char **restrict argz, size_t *restrict argz_len,
+                const char *restrict buf, size_t buf_len);
 
 size_t argz_count(const char *argz, size_t argz_len);
 
-error_t argz_create(char * const argv[], char **argz,
-                    size_t *argz_len);
+error_t argz_create(char *const argv[], char **restrict argz,
+                size_t *restrict argz_len);
 
-error_t argz_create_sep(const char *str, int sep, char **argz,
-                        size_t *argz_len);
+error_t argz_create_sep(const char *restrit str, int sep,
+                char **restrict argz, size_t *restrict argz_len);
 
-void argz_delete(char **argz, size_t *argz_len, char *entry);
+void argz_delete(char **restrict argz, size_t *restrict argz_len,
+                char *restrict entry);
 
-void argz_extract(const char *argz, size_t argz_len, char **argv);
+void argz_extract(const char *restrict argz, size_t argz_len,
+                char **restrict argv);
 
-error_t argz_insert(char **argz, size_t *argz_len, char *before,
-                    const char *entry);
+error_t argz_insert(char **restrict argz, size_t *restrict argz_len,
+                char *restrict before, const char *restrict entry);
 
-char *argz_next(const char *argz, size_t argz_len, const char *entry);
+char *argz_next(const char *restrict argz, size_t argz_len,
+                const char *restrict entry);
 
-error_t argz_replace(char **argz, size_t *argz_len, const char *str,
-                     const char *with, unsigned int *replace_count);
+error_t argz_replace(char **restrict argz, size_t *restrict argz_len,
+                const char *restrict str, const char *restrict with,
+                unsigned int *restrict replace_count);
 
 void argz_stringify(char *argz, size_t len, int sep);
 ```
@@ -72,7 +77,7 @@ argz 벡터는 문자 버퍼에 대한 포인터에 길이가 함께 있는 것�
 
 ## RETURN VALUE
 
-메모리 할당을 하는 argz 함수들은 모두 반환 타입이 `error_t`이며, 성공 시 0을 반환하고 할당 오류 발생 시 `ENOMEM`을 반환한다.
+메모리 할당을 하는 argz 함수들은 모두 반환 타입이 `error_t`(정수 타입)이며, 성공 시 0을 반환하고 할당 오류 발생 시 `ENOMEM`을 반환한다.
 
 ## ATTRIBUTES
 
@@ -80,11 +85,11 @@ argz 벡터는 문자 버퍼에 대한 포인터에 길이가 함께 있는 것�
 
 | 인터페이스 | 속성 | 값 |
 | --- | --- | --- |
-| `argz_add()`, `argz_add_sep()`,<br>`argz_append()`, `argz_count()`,<br>`argz_create()`, `argz_create_sep()`,<br>`argz_delete()`, `argz_extract()`,<br>`argz_insert()`, `argz_next()`,<br>`argz_replace()`, `argz_stringify()` | 스레드 안전성 | MT-Safe |
+| `argz_add()`, `argz_add_sep()`, `argz_append()`,<br>`argz_count()`, `argz_create()`, `argz_create_sep()`,<br>`argz_delete()`, `argz_extract()`, `argz_insert()`,<br>`argz_next()`, `argz_replace()`, `argz_stringify()` | 스레드 안전성 | MT-Safe |
 
 ## CONFORMING TO
 
-이 함수들은 GNU 확장이다. 조심해서 써야 한다.
+이 함수들은 GNU 확장이다.
 
 ## BUGS
 
@@ -96,4 +101,4 @@ argz 벡터는 문자 버퍼에 대한 포인터에 길이가 함께 있는 것�
 
 ----
 
-2019-03-06
+2021-03-22

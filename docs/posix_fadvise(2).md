@@ -74,7 +74,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## CONFORMING TO
 
-POSIX.1-2001, POSIX.1-2008. 참고로 POSIX.1-2003 TC1에서 `len` 인자의 타입이 `size_t`에서 `off_t`로 바뀌었다.
+POSIX.1-2001, POSIX.1-2008. 참고로 POSIX.1-2001 TC1에서 `len` 인자의 타입이 `size_t`에서 `off_t`로 바뀌었다.
 
 ## NOTES
 
@@ -112,4 +112,4 @@ long arm_fadvise64_64(int fd, int advice,
 
 ----
 
-2018-03-06
+2021-03-22

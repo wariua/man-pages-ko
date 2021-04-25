@@ -14,7 +14,11 @@ int sethostid(long hostid);
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
 `gethostid()`:
-:   `_BSD_SOURCE || _XOPEN_SOURCE >= 500`
+:   glibc 2.20부터:
+    :   `_DEFAULT_SOURCE || _XOPEN_SOURCE >= 500`
+
+    glibc 2.19까지:
+    :   `_BSD_SOURCE || _XOPEN_SOURCE >= 500`
 
 `sethostid()`:
 :   glibc 2.21부터:
@@ -28,7 +32,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## DESCRIPTION
 
-`gethostid()`와 `sethostid()`는 현재 머신의 고유한 32비트 식별자를 얻거나 설정한다. 그 32비트 식별자는 존재하는 모든 유닉스 시스템 중에서 유일하게 되어 있다. 보통 로컬 머신의 인터넷 주소를 따라가며, 그래서 대개는 설정해 줄 필요가 전혀 없다.
+`gethostid()`와 `sethostid()`는 현재 머신의 고유한 32비트 식별자를 얻거나 설정한다. 그 32비트 식별자가 존재하는 모든 유닉스 시스템 내에서 유일할 것으로 보았다. 보통 로컬 머신의 인터넷 주소를 따라가며, 그래서 대개는 설정해 줄 필요가 전혀 없다.
 
 `sethostid()` 호출은 수퍼유저에게로 제한돼 있다.
 
@@ -79,4 +83,4 @@ glibc 구현에서 `gethostid()`가 호스트 ID를 담은 파일을 열 수 없
 
 ----
 
-2017-09-15
+2021-03-22

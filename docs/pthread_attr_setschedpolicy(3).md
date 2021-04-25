@@ -8,7 +8,8 @@ pthread_attr_setschedpolicy, pthread_attr_getschedpolicy - 스레드 속성 객�
 #include <pthread.h>
 
 int pthread_attr_setschedpolicy(pthread_attr_t *attr, int policy);
-int pthread_attr_getschedpolicy(const pthread_attr_t *attr, int *policy);
+int pthread_attr_getschedpolicy(const pthread_attr_t *restrict attr,
+                                int *restrict policy);
 ```
 
 `-pthread`로 컴파일 및 링크.
@@ -48,7 +49,7 @@ POSIX.1에서는 `pthread_attr_setschedpolicy()`에서 선택적인 `ENOTSUP` �
 
 POSIX.1-2001, POSIX.1-2008.
 
-## EXAMPLE
+## EXAMPLES
 
 <tt>[[pthread_setschedparam(3)]]</tt> 참고.
 
@@ -58,4 +59,4 @@ POSIX.1-2001, POSIX.1-2008.
 
 ----
 
-2017-09-15
+2021-03-22

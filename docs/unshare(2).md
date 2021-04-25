@@ -40,6 +40,9 @@ int unshare(int flags);
 `CLONE_NEWPID` (리눅스 3.8부터)
 :   이 플래그는 <tt>[[clone(2)]]</tt> `CLONE_NEWPID` 플래그와 효과가 같다. PID 네임스페이스를 공유 해제해서 호출 프로세스가 기존 어느 프로세스와도 공유하지 않는 자식들을 위한 새 PID 네임스페이스를 가지도록 한다. 호출 프로세스가 새 네임스페이스로 이동하지 *않는다*. 호출 프로세스가 생성하는 첫 번째 자식이 프로세스 ID 1을 가지게 되어 그 새 네임스페이스에서 `init(1)`의 역할을 맡는다. `CLONE_NEWPID`는 자동으로 `CLONE_THREAD`까지 함의한다. `CLONE_NEWPID`를 사용하려면 `CAP_SYS_ADMIN` 역능이 필요하다. 추가 내용은 <tt>[[pid_namespaces(7)]]</tt> 참고.
 
+`CLONE_NEWTIME` (리눅스 5.6부터)
+:   시간 네임스페이스 공유를 해제해서 호출 프로세스가 기존 어느 프로세스와도 공유하지 않는 자식 프로세스들을 위한 새 시간 네임스페이스를 가지도록 한다. 호출 프로세스는 새 네임스페이스로 이동하지 *않는다*. `CLONE_NEWTIME`을 사용하려면 `CAP_SYS_ADMIN` 역능이 필요하다. 추가 내용은 <tt>[[time_namespaces(7)]]</tt> 참고.
+
 `CLONE_NEWUSER` (리눅스 3.8부터)
 :   이 플래그는 <tt>[[clone(2)]]</tt> `CLONE_NEWUSER` 플래그와 효과가 같다. 사용자 네임스페이스를 공유 해제해서 호출 프로세스가 기존 어느 프로세스와도 공유하지 않는 새 사용자 네임스페이스로 이동하게 한다. `CLONE_NEWUSER` 플래그를 쓴 <tt>[[clone(2)]]</tt>으로 생성하는 자식 프로세스에서처럼 호출자가 새 네임스페이스에서 완전한 역능 집합을 얻는다.
 
@@ -125,7 +128,7 @@ int unshare(int flags);
 
 <tt>[[clone(2)]]</tt>으로 새 프로세스를 생성할 때 공유할 수 있는 프로세스 속성들을 모두 `unshare()`로 공유 해제할 수 있는 건 아니다. 구체적으로 커널 3.8 현재 `unshare()`는 `CLONE_SIGHAND`, `CLONE_THREAD`, `CLONE_VM`의 효과를 뒤집는 플래그를 구현하고 있지 않다. 필요하면 향후 그런 기능이 추가될 수도 있다.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 프로그램은 `unshare(1)` 명령을 간단하게 구현한 것이다. 네임스페이스 한 가지 또는 그 이상을 공유 해제하고 명령행 인자로 받은 명령을 실행한다. 다음은 이 프로그램 사용 예시인데, 새 마운트 네임스페이스에서 셸을 실행하고서 원래 셸과 새 셸이 분리된 마운트 네임스페이스에 있는지 확인한다.
 
@@ -154,7 +157,7 @@ mnt:[4026532325]
 #include <stdio.h>
 
 /* 간단한 오류 처리 함수: 'errno'의 값에 따라 오류 메시지를
-   찍고 호출 프로세스 종료 */
+   찍고 호출 프로세스를 종료한다. */
 #define errExit(msg)    do { perror(msg); exit(EXIT_FAILURE); \
                         } while (0)
 
@@ -163,10 +166,12 @@ usage(char *pname)
 {
     fprintf(stderr, "Usage: %s [options] program [arg...]\n", pname);
     fprintf(stderr, "Options can be:\n");
+    fprintf(stderr, "    -C   unshare cgroup namespace\n");
     fprintf(stderr, "    -i   unshare IPC namespace\n");
     fprintf(stderr, "    -m   unshare mount namespace\n");
     fprintf(stderr, "    -n   unshare network namespace\n");
     fprintf(stderr, "    -p   unshare PID namespace\n");
+    fprintf(stderr, "    -t   unshare time namespace\n");
     fprintf(stderr, "    -u   unshare UTS namespace\n");
     fprintf(stderr, "    -U   unshare user namespace\n");
     exit(EXIT_FAILURE);
@@ -179,12 +184,14 @@ main(int argc, char *argv[])
 
     flags = 0;
 
-    while ((opt = getopt(argc, argv, "imnpuU")) != -1) {
+    while ((opt = getopt(argc, argv, "CimnptuU")) != -1) {
         switch (opt) {
+        case 'C': flags |= CLONE_NEWCGROUP;     break;
         case 'i': flags |= CLONE_NEWIPC;        break;
         case 'm': flags |= CLONE_NEWNS;         break;
         case 'n': flags |= CLONE_NEWNET;        break;
         case 'p': flags |= CLONE_NEWPID;        break;
+        case 't': flags |= CLONE_NEWTIME;       break;
         case 'u': flags |= CLONE_NEWUTS;        break;
         case 'U': flags |= CLONE_NEWUSER;       break;
         default:  usage(argv[0]);
@@ -210,4 +217,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-03-06
+2021-03-22

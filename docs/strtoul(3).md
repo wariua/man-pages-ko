@@ -7,29 +7,29 @@ strtoul, strtoull, strtouq - 문자열을 부호 없는 long 정수로 변환하
 ```c
 #include <stdlib.h>
 
-unsigned long int strtoul(const char *nptr, char **endptr, int base);
-
-unsigned long long int strtoull(const char *nptr, char **endptr,
-                                int base);
+unsigned long strtoul(const char *restrict nptr,
+                      char **restrict endptr, int base);
+unsigned long long strtoull(const char *restrict nptr,
+                      char **restrict endptr, int base);
 ```
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
 `strtoull()`:
 :   `_ISOC99_SOURCE`<br>
-    `    || /* glibc 버전 <= 2.19: */ _SVID_SOURCE || _BSD_SOURCE`
+    `    || /* glibc <= 2.19: */ _SVID_SOURCE || _BSD_SOURCE`
 
 ## DESCRIPTION
 
-`strtoul()` 함수는 `nptr`에 있는 문자열의 처음 부분을 지정한 `base`에 따라 `unsigned long int` 값으로 변환한다. 기수는 2와 36 사이이거나 특수한 값 0이어야 한다.
+`strtoul()` 함수는 `nptr`에 있는 문자열의 처음 부분을 지정한 `base`에 따라 `unsigned long` 값으로 변환한다. 기수는 2와 36 사이이거나 특수한 값 0이어야 한다.
 
 문자열이 임의 개수의 공백(`isspace(3)`으로 판단)으로 시작할 수 있으며 그 다음에 선택적으로 '+' 내지 '-' 부호 한 개가 올 수 있다. `base`가 0이나 16이면 문자열에서 다음에 "0x" 접두부가 있을 수 있으며, 그러면 수를 16진수로 읽어 들인다. 그렇지 않고 다음 문자가 '0'이면 `base` 0을 8로 (8진수로) 받아들이며, 아니면 10으로 (10진수로) 받아들인다.
 
-문자열 나머지를 명백한 방식으로 `unsigned long int` 값으로 변환하며 해당 기수에서 유효 숫자가 아닌 첫 번째 문자에서 멈춘다. (기수가 10보다 큰 경우 대소문자 글자 'A'가 10을, 'B'가 11을 나타내며, 그런 식으로 'Z'가 35를 나타낸다.)
+문자열 나머지를 명백한 방식으로 `unsigned long` 값으로 변환하며 해당 기수에서 유효 숫자가 아닌 첫 번째 문자에서 멈춘다. (기수가 10보다 큰 경우 대소문자 글자 'A'가 10을, 'B'가 11을 나타내며, 그런 식으로 'Z'가 35를 나타낸다.)
 
 `endptr`이 NULL이 아니면 `strtoul()`은 첫 번째 비유효 문자의 주소를 `*endptr`에 저장한다. 숫자가 전혀 없었으면 `strtoul()`은 `nptr`의 원래 값을 `*endptr`에 저장한다. (그리고 0을 반환한다.) 특히 `*nptr`이 '\0'이 아닌데 반환 시 `**endptr`이 '\0'이면 문자열 전체가 유효한 것이다.
 
-`strtoull()` 함수는 `strtoul()` 함수처럼 동작하되 `unsigned long long int` 값을 반환한다.
+`strtoull()` 함수는 `strtoul()` 함수처럼 동작하되 `unsigned long long` 값을 반환한다.
 
 ## RETURN VALUE
 
@@ -73,9 +73,9 @@ u_quad_t strtouq(const char *nptr, char **endptr, int base);
 
 현재 아키텍처의 워드 크기에 따라 `strtoull()`이나 `strtoul()`과 동등할 수 있다.
 
-음수 값을 유효한 것으로 보아 조용히 동등한 `unsigned long int` 값으로 변환한다.
+음수 값을 유효한 것으로 보아 조용히 동등한 `unsigned long` 값으로 변환한다.
 
-## EXAMPLE
+## EXAMPLES
 
 <tt>[[strtol(3)]]</tt> 매뉴얼 페이지의 예를 참고하라. 이 매뉴얼 페이지에서 기술하는 함수들과 사용 방식이 비슷하다.
 
@@ -85,4 +85,4 @@ u_quad_t strtouq(const char *nptr, char **endptr, int base);
 
 ----
 
-2019-03-06
+2021-03-22

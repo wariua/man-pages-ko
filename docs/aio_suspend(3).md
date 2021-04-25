@@ -7,8 +7,8 @@ aio_suspend - 비동기 I/O 동작 또는 타임아웃 기다리기
 ```c
 #include <aio.h>
 
-int aio_suspend(const struct aiocb * const aiocb_list[],
-                int nitems, const struct timespec *timeout);
+int aio_suspend(const struct aiocb *const aiocb_list[], int nitems,
+                const struct timespec *restrict timeout);
 ```
 
 `-lrt`로 링크.
@@ -25,7 +25,7 @@ int aio_suspend(const struct aiocb * const aiocb_list[],
 
 `nitems` 인자는 `aiocb_list` 내 항목 개수를 나타낸다. `aiocb_list`가 가리키는 목록의 각 항목은 NULL이거나 (그러면 무시함) <tt>[[aio_read(3)]]</tt>, <tt>[[aio_write(3)]]</tt>, <tt>[[lio_listio(3)]]</tt>로 개시한 I/O의 제어 블록에 대한 포인터여야 한다. (`aiocb` 구조체에 대한 설명은 <tt>[[aio(7)]]</tt> 참고.)
 
-`CLOCK_MONOTONIC`이 지원되면 그 클럭을 타임아웃 시간 측정에 사용한다. (<tt>[[clock_gettime(3)]]</tt> 참고.)
+`CLOCK_MONOTONIC`이 지원되면 그 클럭을 타임아웃 시간 측정에 사용한다. (<tt>[[clock_gettime(2)]]</tt> 참고.)
 
 ## RETURN VALUE
 
@@ -58,6 +58,8 @@ glibc 2.1부터 `aio_suspend()` 함수가 사용 가능하다.
 
 POSIX.1-2001, POSIX.1-2008.
 
+POSIX에서는 매개변수가 `restrict`여야 한다고 명세하고 있지 않다. glibc 한정이다.
+
 ## NOTES
 
 NULL 아닌 `timeout`에 시간을 0으로 지정하면 폴링이 가능하다.
@@ -76,4 +78,4 @@ glibc의 `aio_suspend()` 구현은 비동기 시그널 안전이 아니며, 이�
 
 ----
 
-2017-09-15
+2021-03-22

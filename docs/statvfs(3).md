@@ -7,7 +7,7 @@ statvfs, fstatvfs - 파일 시스템 통계 얻기
 ```c
 #include <sys/statvfs.h>
 
-int statvfs(const char *path, struct statvfs *buf);
+int statvfs(const char *restrict path, struct statvfs *restrict buf);
 int fstatvfs(int fd, struct statvfs *buf);
 ```
 
@@ -70,7 +70,7 @@ struct statvfs {
 
 ## RETURN VALUE
 
-성공 시 0을 반환한다. 오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -144,4 +144,4 @@ pathconf(path, _PC_REC_MIN_XFER_SIZE);
 
 ----
 
-2017-09-15
+2021-03-22

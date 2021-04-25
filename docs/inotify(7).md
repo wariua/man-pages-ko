@@ -255,7 +255,7 @@ inotify 파일 디스크립터에서 이벤트 스트림을 읽어 들일 때 �
 
 그래서 <tt>[[rename(2)]]</tt>으로 생성되는 `IN_MOVED_FROM` 및 `IN_MOVED_TO` 이벤트의 짝을 맞추는 데는 기본적으로 경쟁 요소가 있다. (게다가 객체의 이름이 감시 대상 디렉터리 밖으로 바뀌면 `IN_MOVED_TO` 이벤트가 없을 수도 있다.) 경험적 접근 방식(가령 이벤트가 항상 연속돼 있다고 가정하기)을 쓰면 대부분 경우에서 짝을 맞출 수 있지만 불가피하게 일부 경우를 놓치게 되어 응용에서 어떤 `IN_MOVED_FROM` 및 `IN_MOVED_TO` 이벤트 쌍이 서로 무관하다고 인식하게 된다. 그래서 감시 디스크립터를 파기하고 다시 만들면 그 감시 디스크립터가 미처리 이벤트의 감시 디스크립터와 일치하지 않게 된다. (이런 경우에는 inotify 파일 디스크립터를 다시 만들고 캐시를 재구축하는 게 도움이 될 수 있다.)
 
-또한 응용에서는 이번 `read(2)` 호출이 반환하는 버퍼에 `IN_MOVED_FROM` 이벤트까지만 들어갈 수 있어서 딸린 `IN_MOVED_TO` 이벤트를 다음 `read(2)`로만 읽을 수 있을 가능성을 감안해야 한다. 이때 (작은) 타임아웃을 주는 게 좋은데, `IN_MOVED_FROM`-`IN_MOVED_TO` 이벤트 쌍 삽입이 원자적이지 않으며 `IN_MOVED_TO` 이벤트가 없을 가능성도 있기 때문이다.
+또한 응용에서는 이번 `read(2)` 호출이 반환하는 버퍼에 `IN_MOVED_FROM` 이벤트까지만 들어갈 수 있어서 딸린 `IN_MOVED_TO` 이벤트를 다음 `read(2)`로만 읽을 수 있을 가능성을 감안해야 한다. 이때 (작은) 타임아웃을 주는 게 좋은데, `IN_MOVED_FROM`+`IN_MOVED_TO` 이벤트 쌍 삽입이 원자적이지 않으며 `IN_MOVED_TO` 이벤트가 없을 가능성도 있기 때문이다.
 
 ## BUGS
 
@@ -269,7 +269,7 @@ inotify 파일 디스크립터에서 이벤트 스트림을 읽어 들일 때 �
 
 <tt>[[inotify_rm_watch(2)]]</tt> 호출로 (또는 감시 대상 파일이 삭제되거나 파일을 담은 파일 시스템이 마운트 해제돼서) 감시 디스크립터가 제거될 때 그 감시 디스크립터에 대한 안 읽은 미처리 이벤트가 있으면 계속 읽을 수 있는 상태로 남는다. 이어서 <tt>[[inotify_add_watch(2)]]</tt>로 감시 디스크립터를 할당하면 커널에서는 가능한 감시 디스크립터 범위(0에서 `INT_MAX`까지)를 차례로 돈다. 그런데 유휴 감시 디스크립터를 할당할 때 그 디스크립터에 대한 안 읽은 미처리 이벤트가 inotify 큐에 있는지 확인하지 않는다. 그래서 감시 디스크립터 번호의 이전 사용 때 안 읽은 미처리 이벤트가 존재하는데도 감시 디스크립터가 재할당되는 경우가 생길 수 있으며, 그 결과로 응용에서 그 이벤트들을 읽어서는 새로 재사용하는 감시 디스크립터에 연계된 파일에 속한 이벤트로 해석하게 될 수 있다. 실질적으로 이 버그가 발생할 가능성은 극히 낮은데, 응용에서 `INT_MAX` 개의 감시 디스크립터를 거쳐야 하며 큐에 안 읽은 이벤트를 남겨둔 채로 감시 디스크립터를 해제했다가 그 감시 디스크립터를 재사용해야 하기 때문이다. 그런 이유로, 그리고 실환경 응용에서 그 버그가 발생했다는 보고가 없었기 때문에 리눅스 3.15 기준으로 이 잠재적 버그를 제거하기 위한 어떤 커널 변경 작업도 이뤄지지 않았다.
 
-## EXAMPLE
+## EXAMPLES
 
 다음 프로그램은 inotify API 사용 방식을 보여 준다. 명령행 인자로 받은 디렉터리들에 표시를 하고 `IN_OPEN`, `IN_CLOSE_NOWRITE`, `IN_CLOSE_WRITE` 이벤트를 기다린다.
 
@@ -298,6 +298,7 @@ Listening for events stopped.
 #include <stdlib.h>
 #include <sys/inotify.h>
 #include <unistd.h>
+#include <string.h>
 
 /* 파일 디스크립터 'fd'에서 가용 inotify 이벤트를 모두 읽어 들인다.
    wd는 argv 내 디렉터리들에 대한 감시 디스크립터들의 테이블이다.
@@ -316,17 +317,15 @@ handle_events(int fd, int *wd, int argc, char *argv[])
     char buf[4096]
         __attribute__ ((aligned(__alignof__(struct inotify_event))));
     const struct inotify_event *event;
-    int i;
     ssize_t len;
-    char *ptr;
 
-    /* inotify 파일 디스크립터에서 이벤트를 읽을 수 있는 동안 반복. */
+    /* inotify 파일 디스크립터에서 이벤트를 읽을 수 있는 동안 반복하기. */
 
     for (;;) {
 
         /* 이벤트 읽기 */
 
-        len = read(fd, buf, sizeof buf);
+        len = read(fd, buf, sizeof(buf));
         if (len == -1 && errno != EAGAIN) {
             perror("read");
             exit(EXIT_FAILURE);
@@ -338,14 +337,14 @@ handle_events(int fd, int *wd, int argc, char *argv[])
         if (len <= 0)
             break;
 
-        /* 버퍼 내 모든 이벤트 돌기 */
+        /* 버퍼 내 모든 이벤트 돌기. */
 
-        for (ptr = buf; ptr < buf + len;
+        for (char *ptr = buf; ptr < buf + len;
                 ptr += sizeof(struct inotify_event) + event->len) {
 
             event = (const struct inotify_event *) ptr;
 
-            /* 이벤트 타입 찍기 */
+            /* 이벤트 타입 찍기. */
 
             if (event->mask & IN_OPEN)
                 printf("IN_OPEN: ");
@@ -354,21 +353,21 @@ handle_events(int fd, int *wd, int argc, char *argv[])
             if (event->mask & IN_CLOSE_WRITE)
                 printf("IN_CLOSE_WRITE: ");
 
-            /* 감시 대상 디렉터리 이름 찍기 */
+            /* 감시 대상 디렉터리 이름 찍기. */
 
-            for (i = 1; i < argc; ++i) {
+            for (int i = 1; i < argc; ++i) {
                 if (wd[i] == event->wd) {
                     printf("%s/", argv[i]);
                     break;
                 }
             }
 
-            /* 파일 이름 찍기 */
+            /* 파일 이름 찍기. */
 
             if (event->len)
                 printf("%s", event->name);
 
-            /* 파일 시스템 객체 종류 찍기 */
+            /* 파일 시스템 객체 종류 찍기. */
 
             if (event->mask & IN_ISDIR)
                 printf(" [directory]\n");
@@ -394,7 +393,7 @@ main(int argc, char *argv[])
 
     printf("Press ENTER key to terminate.\n");
 
-    /* inotify API 접근을 위한 파일 디스크립터 만들기 */
+    /* inotify API 접근을 위한 파일 디스크립터 만들기. */
 
     fd = inotify_init1(IN_NONBLOCK);
     if (fd == -1) {
@@ -402,7 +401,7 @@ main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    /* 감시 디스크립터를 위한 메모리 할당 */
+    /* 감시 디스크립터를 위한 메모리 할당하기. */
 
     wd = calloc(argc, sizeof(int));
     if (wd == NULL) {
@@ -418,27 +417,23 @@ main(int argc, char *argv[])
         wd[i] = inotify_add_watch(fd, argv[i],
                                   IN_OPEN | IN_CLOSE);
         if (wd[i] == -1) {
-            fprintf(stderr, "Cannot watch '%s'\n", argv[i]);
-            perror("inotify_add_watch");
+            fprintf(stderr, "Cannot watch '%s': %s\n",
+                    argv[i], strerror(errno));
             exit(EXIT_FAILURE);
         }
     }
 
-    /* 폴링 준비 */
+    /* 폴링 준비하기. */
 
     nfds = 2;
 
-    /* 콘솔 입력 */
-
-    fds[0].fd = STDIN_FILENO;
+    fds[0].fd = STDIN_FILENO;       /* 콘솔 입력 */
     fds[0].events = POLLIN;
 
-    /* inotify 입력 */
-
-    fds[1].fd = fd;
+    fds[1].fd = fd;                 /* inotify 입력 */
     fds[1].events = POLLIN;
 
-    /* 이벤트 및/또는 터미널 입력 기다리기 */
+    /* 이벤트 및/또는 터미널 입력 기다리기. */
 
     printf("Listening for events.\n");
     while (1) {
@@ -454,7 +449,7 @@ main(int argc, char *argv[])
 
             if (fds[0].revents & POLLIN) {
 
-                /* 콘솔 입력 있음. stdin 비우고 끝내기 */
+                /* 콘솔 입력 있음. stdin 비우고 끝내기. */
 
                 while (read(STDIN_FILENO, &buf, 1) > 0 && buf != '\n')
                     continue;
@@ -463,7 +458,7 @@ main(int argc, char *argv[])
 
             if (fds[1].revents & POLLIN) {
 
-                /* inotify 이벤트 있음 */
+                /* inotify 이벤트 있음. */
 
                 handle_events(fd, wd, argc, argv);
             }
@@ -472,7 +467,7 @@ main(int argc, char *argv[])
 
     printf("Listening for events stopped.\n");
 
-    /* inotify 파일 디스크립터 닫기 */
+    /* inotify 파일 디스크립터 닫기. */
 
     close(fd);
 
@@ -489,4 +484,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-03-06
+2021-03-22

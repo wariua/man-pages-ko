@@ -52,7 +52,7 @@ _syscallX(type,name,type1,arg1,type2,arg2,...)
 
 시스템 호출을 정의할 때 인자 타입들은 값 전달이나 (구조체 같은 집합 타입의 경우) 포인터 전달이어야 한다.
 
-## EXAMPLE
+## EXAMPLES
 
 ```c
 #include <stdio.h>
@@ -103,4 +103,4 @@ Number of processes = 40
 
 ----
 
-2019-03-06
+2021-03-22

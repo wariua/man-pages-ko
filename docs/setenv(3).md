@@ -8,7 +8,6 @@ setenv - 환경 변수 바꾸거나 추가하기
 #include <stdlib.h>
 
 int setenv(const char *name, const char *value, int overwrite);
-
 int unsetenv(const char *name);
 ```
 
@@ -16,7 +15,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 `setenv()`, `unsetenv()`
 :   `_POSIX_C_SOURCE >= 200112L`<br>
-    `    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE`
+    `    || /* glibc <= 2.19: */ _BSD_SOURCE`
 
 ## DESCRIPTION
 
@@ -26,9 +25,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## RETURN VALUE
 
-`setenv()` 함수는 성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류 원인을 나타내도록 `errno`를 설정한다.
-
-`unsetenv()` 함수는 성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류 원인을 나타내도록 `errno`를 설정한다.
+`setenv()` 및 `unsetenv()` 함수는 성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -66,4 +63,4 @@ POSIX.1에서는 `name`에 '=' 문자가 있으면 `setenv()`가 `EINVAL` 오류
 
 ----
 
-2017-09-15
+2021-03-22

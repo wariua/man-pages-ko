@@ -9,7 +9,7 @@ dlinfo - 동적 적재 오브젝트에 대한 정보 얻기
 #include <link.h>
 #include <dlfcn.h>
 
-int dlinfo(void *handle, int request, void *info);
+int dlinfo(void *restrict handle, int request, void *restrict info);
 ```
 
 `-ldl`로 링크.
@@ -105,7 +105,7 @@ glibc 2.3.3에서 `dlinfo()`가 처음 등장했다.
 
 이 함수는 같은 이름의 솔라리스 함수에서 유래한 것이며 몇몇 다른 시스템에도 있다. 다양한 구현들에서 지원하는 요청 세트들은 일부만 서로 겹친다.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 프로그램에서는 <tt>[[dlopen(3)]]</tt>을 써서 공유 오브젝트를 연 다음 `RTLD_DI_SERINFOSIZE` 및 `RTLD_DI_SERINFO` 요청을 이용해 그 라이브러리에 대한 라이브러리 탐색 경로 목록을 얻는다. 다음은 프로그램 실행 시 볼 수 있는 출력의 예이다.
 
@@ -130,14 +130,13 @@ main(int argc, char *argv[])
     void *handle;
     Dl_serinfo serinfo;
     Dl_serinfo *sip;
-    int j;
 
     if (argc != 2) {
         fprintf(stderr, "Usage: %s <libpath>\n", argv[0]);
         exit(EXIT_FAILURE);
     }
 
-    /* 명령행에 지정된 공유 오브젝트에 대한 핸들 얻기 */
+    /* 명령행에 지정된 공유 오브젝트에 대한 핸들 얻기. */
 
     handle = dlopen(argv[1], RTLD_NOW);
     if (handle == NULL) {
@@ -145,14 +144,14 @@ main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    /* RTLD_DI_SERINFO에 줘야 하는 버퍼 크기 알아내기 */
+    /* RTLD_DI_SERINFO에 줘야 하는 버퍼 크기 알아내기. */
 
     if (dlinfo(handle, RTLD_DI_SERINFOSIZE, &serinfo) == -1) {
         fprintf(stderr, "RTLD_DI_SERINFOSIZE failed: %s\n", dlerror());
         exit(EXIT_FAILURE);
     }
 
-    /* RTLD_DI_SERINFO에 쓸 버퍼 할당하기 */
+    /* RTLD_DI_SERINFO에 쓸 버퍼 할당하기. */
 
     sip = malloc(serinfo.dls_size);
     if (sip == NULL) {
@@ -160,21 +159,21 @@ main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    /* 새로 할당된 버퍼의 'dls_size' 및 'dls_cnt' 필드 설정하기 */
+    /* 새로 할당된 버퍼의 'dls_size' 및 'dls_cnt' 필드 설정하기. */
 
     if (dlinfo(handle, RTLD_DI_SERINFOSIZE, sip) == -1) {
         fprintf(stderr, "RTLD_DI_SERINFOSIZE failed: %s\n", dlerror());
         exit(EXIT_FAILURE);
     }
 
-    /* 라이브러리 탐색 경로 목록 얻어 와서 찍기 */
+    /* 라이브러리 탐색 경로 목록 얻어 와서 찍기. */
 
     if (dlinfo(handle, RTLD_DI_SERINFO, sip) == -1) {
         fprintf(stderr, "RTLD_DI_SERINFO failed: %s\n", dlerror());
         exit(EXIT_FAILURE);
     }
 
-    for (j = 0; j < serinfo.dls_cnt; j++)
+    for (int j = 0; j < serinfo.dls_cnt; j++)
         printf("dls_serpath[%d].dls_name = %s\n",
                 j, sip->dls_serpath[j].dls_name);
 
@@ -188,4 +187,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-03-06
+2021-03-22

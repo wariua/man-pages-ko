@@ -7,8 +7,9 @@ mmap2 - 파일이나 장치를 메모리로 맵 하기
 ```c
 #include <sys/mman.h>
 
-void *mmap2(void *addr, size_t length, int prot,
-            int flags, int fd, off_t pgoffset);
+void *mmap2(unsigned long addr, unsigned long length,
+            unsigned long prot, unsigned long flags,
+            unsigned long fd, unsigned long pgoffset);
 ```
 
 ## DESCRIPTION
@@ -19,7 +20,7 @@ void *mmap2(void *addr, size_t length, int prot,
 
 ## RETURN VALUE
 
-성공 시 `mmap2()`는 맵 한 영역에 대한 포인터를 반환한다. 오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+성공 시 `mmap2()`는 맵 한 영역에 대한 포인터를 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -53,4 +54,4 @@ ia64에서는 `offset`의 단위가 실제로는 4096바이트가 아니라 시�
 
 ----
 
-2017-09-15
+2021-03-22

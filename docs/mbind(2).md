@@ -9,10 +9,12 @@ mbind - 메모리 범위에 메모리 정책 설정하기
 
 long mbind(void *addr, unsigned long len, int mode,
            const unsigned long *nodemask, unsigned long maxnode,
-           unsigned flags);
+           unsigned int flags);
 ```
 
 `-lnuma`로 링크.
+
+*주의*: 이 시스템 호출에 대한 glibc 래퍼가 없다. NOTES 참고.
 
 ## DESCRIPTION
 
@@ -92,7 +94,7 @@ long mbind(void *addr, unsigned long len, int mode,
 
 ## NOTES
 
-라이브러리 지원에 대한 정보는 <tt>[[numa(7)]]</tt>를 보라.
+glibc에서 이 시스템 호출의 래퍼를 제공하지 않는다. 라이브러리 지원에 대한 정보는 <tt>[[numa(7)]]</tt>를 보라.
 
 `MAP_SHARED` 플래그로 맵 한 메모리 맵 파일 범위에서는 NUMA 정책을 지원하지 않는다.
 
@@ -100,7 +102,7 @@ long mbind(void *addr, unsigned long len, int mode,
 
 거대 페이지 정책 지원은 2.6.16에서 추가되었다. 거대 페이지 매핑에서 교대 정책이 효과가 있으려면 정책 대상 메모리가 수십 메가바이트 이상이 되어야 한다.
 
-거대 페이지 매핑에서는 `MPOL_MF_STRICT`를 무시한다.
+리눅스 5.7 전에는 거대 페이지 매핑에서 `MPOL_MF_STRICT`를 무시했다.
 
 `MPOL_MF_MOVE`와 `MPOL_MF_MOVE_ALL`은 리눅스 2.6.16 및 이후에서만 사용 가능하다.
 
@@ -110,4 +112,4 @@ long mbind(void *addr, unsigned long len, int mode,
 
 ----
 
-2017-09-15
+2021-03-22

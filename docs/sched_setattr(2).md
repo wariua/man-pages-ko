@@ -9,10 +9,11 @@ sched_setattr, sched_getattr - 스케줄링 정책과 속성 설정하고 얻기
 
 int sched_setattr(pid_t pid, struct sched_attr *attr,
                   unsigned int flags);
-
 int sched_getattr(pid_t pid, struct sched_attr *attr,
                   unsigned int size, unsigned int flags);
 ```
+
+*주의*: 이 시스템 호출에 대한 glibc 래퍼가 없다. NOTES 참고.
 
 ## DESCRIPTION
 
@@ -62,7 +63,7 @@ struct sched_attr {
 };
 ```
 
-이 구조체의 필드들은 다음과 같다.
+`sched_attr` 구조체의 필드들은 다음과 같다.
 
 `size`
 :   이 필드는 `sizeof(struct sched_attr)`처럼 해서 구조체의 바이트 단위 크기로 설정해야 한다. 제공한 구조체가 커널 구조체보다 작으면 추가 필드들이 '0'인 것으로 상정한다. 제공한 구조체가 커널 구조체보다 크면 커널에서는 모든 추가 필드들이 0인지 검사한다. 0이 아니면 `sched_setattr()`이 `E2BIG` 오류로 실패하며 커널 구조체의 크기를 담도록 `size`를 갱신한다.
@@ -111,13 +112,13 @@ struct sched_attr {
 
 얻어 낸 스케줄링 속성들이 `attr`이 가리키는 `sched_attr` 구조체의 필드들로 간다. 그리고 커널에서 `attr.size`를 자기 `sched_attr` 구조체의 크기로 설정한다.
 
-호출자가 제공한 `attr` 버퍼가 커널의 `sched_attr` 구조체보다 크면 사용자 공간 구조체의 추가 바이트들을 건드리지 않는다. 호출자가 제공한 구조체가 커널의 `sched_attr` 구조체보다 작고 제공된 범위 밖에서 커널이 값을 반환해야 하면 `sched_getattr()`이 `E2BIG` 오류로 실패한다. `sched_setattr()`에서처럼 이런 동작 방식을 통해 향후 인터페이스 확장이 가능하다.
+호출자가 제공한 `attr` 버퍼가 커널의 `sched_attr` 구조체보다 크면 사용자 공간 구조체의 추가 바이트들을 건드리지 않는다. 호출자가 제공한 구조체가 커널의 `sched_attr` 구조체보다 작으면 제공된 공간 밖에 저장되었을 값들을 제외하고 조용히 반환한다. `sched_setattr()`에서처럼 이런 동작 방식을 통해 향후 인터페이스 확장이 가능하다.
 
 `flags` 인자는 향후 인터페이스 확장을 위한 것이다. 현재 구현에서는 0으로 지정해야 한다.
 
 ## RETURN VALUE
 
-성공 시 `sched_setattr()`과 `sched_getattr()`은 0을 반환한다. 오류 시 -1을 반환하며 오류 원인을 나타내도록 `errno`를 설정한다.
+성공 시 `sched_setattr()`과 `sched_getattr()`은 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -164,11 +165,15 @@ struct sched_attr {
 
 ## NOTES
 
+glibc에서 이 시스템 호출의 래퍼를 제공하지 않는다. <tt>[[syscall(2)]]</tt>을 이용해 호출해야 한다.
+
 `sched_setattr()`은 <tt>[[sched_setscheduler(2)]]</tt>, <tt>[[sched_setparam(2)]]</tt>, <tt>[[nice(2)]]</tt>, 그리고 (특정 사용자에게 속한 모든 프로세스나 특정 그룹의 모든 프로세스들의 우선순위를 설정하는 것을 제외하고) <tt>[[setpriority(2)]]</tt>의 상위집합 기능을 제공한다. 유사하게 `sched_getattr()`은 <tt>[[sched_getscheduler(2)]]</tt>, <tt>[[sched_getparam(2)]]</tt>, 그리고 (부분적으로) <tt>[[getpriority(2)]]</tt>의 상위집합 기능을 제공한다.
 
 ## BUGS
 
 리눅스 버전 3.15까지에서 ERRORS 절에서 기술하는 경우에 `sched_setattr()`이 `E2BIG` 대신 `EFAULT` 오류로 실패했다.
+
+리눅스 버전 5.3까지에서 커널 내 `sched_attr` 구조체가 사용자 공간에서 준 `size`보다 큰 경우 `sched_getattr()`이 `EFBIG` 오류로 실패했다.
 
 ## SEE ALSO
 
@@ -176,4 +181,4 @@ struct sched_attr {
 
 ----
 
-2019-03-06
+2021-03-22

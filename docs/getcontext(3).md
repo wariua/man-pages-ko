@@ -31,7 +31,7 @@ typedef struct ucontext_t {
 
 `getcontext()` 함수는 `ucp`가 가리키는 구조체를 현재의 활성 문맥으로 초기화 한다.
 
-`setcontext()` 함수는 `ucp`가 가리키는 사용자 문맥을 복원한다. 호출 성공 시 반환하지 않는다. 그 문맥은 `getcontext()`나 <tt>[[makecontext(3)]]</tt> 호출로 얻은 것이거나 시그널 핸들러에 세 번째 인자로 전달된 것이어야 한다.
+`setcontext()` 함수는 `ucp`가 가리키는 사용자 문맥을 복원한다. 호출 성공 시 반환하지 않는다. 그 문맥은 `getcontext()`나 <tt>[[makecontext(3)]]</tt> 호출로 얻은 것이거나 시그널 핸들러에서 세 번째 인자로 받은 것이어야 한다. (<tt>[[sigaction(2)]]</tt>의 `SA_SIGINFO` 플래그 설명 참고.)
 
 `getcontext()` 호출로 얻은 문맥인 경우 그 호출이 방금 반환한 것처럼 프로그램 실행이 이어진다.
 
@@ -41,7 +41,7 @@ typedef struct ucontext_t {
 
 ## RETURN VALUE
 
-성공 시 `getcontext()`는 0을 반환하며 `setcontext()`는 반환하지 않는다. 오류 시 둘 모두 -1을 반환하며 `errno`를 적절히 설정한다.
+성공 시 `getcontext()`는 0을 반환하며 `setcontext()`는 반환하지 않는다. 오류 시 둘 모두 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -67,8 +67,8 @@ SUSv2, POSIX.1-2001, POSIX.1-2008에서 이식성 문제를 이유로 `getcontex
 
 ## SEE ALSO
 
-<tt>[[sigaction(2)]]</tt>, <tt>[[sigaltstack(2)]]</tt>, <tt>[[sigprocmask(2)]]</tt>, <tt>[[longjmp(3)]]</tt>, <tt>[[makecontext(3)]]</tt>, <tt>[[sigsetjmp(3)]]</tt>
+<tt>[[sigaction(2)]]</tt>, <tt>[[sigaltstack(2)]]</tt>, <tt>[[sigprocmask(2)]]</tt>, <tt>[[longjmp(3)]]</tt>, <tt>[[makecontext(3)]]</tt>, <tt>[[sigsetjmp(3)]]</tt>, <tt>[[signal(7)]]</tt>
 
 ----
 
-2017-09-15
+2021-03-22

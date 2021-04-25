@@ -5,9 +5,8 @@ tkill, tgkill - 스레드로 시그널 보내기
 ## SYNOPSIS
 
 ```c
-int tkill(int tid, int sig);
-
-int tgkill(int tgid, int tid, int sig);
+int tkill(pid_t tid, int sig);
+int tgkill(pid_t tgid, pid_t tid, int sig);
 ```
 
 *주의*: `tkill()`에 대한 glibc 래퍼가 없다. NOTES 참고.
@@ -22,9 +21,15 @@ int tgkill(int tgid, int tid, int sig);
 
 ## RETURN VALUE
 
-성공 시 0을 반환한다. 오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
+
+`EAGAIN`
+:   `RLIMIT_SIGPENDING` 자원 한계에 도달했고 `sig`가 실시간 시그널이다.
+
+`EAGAIN`
+:   사용 가능한 커널 메모리가 불충분했고 `sig`가 실시간 시그널이다.
 
 `EINVAL`
 :   지정한 스레드 ID나 스레드 그룹 ID, 시그널이 유효하지 않다.
@@ -34,12 +39,6 @@ int tgkill(int tgid, int tid, int sig);
 
 `ESRCH`
 :   지정한 스레드 ID를 (스레드 그룹 ID를) 가진 프로세스가 존재하지 않는다.
-
-`EAGAIN`
-:   `RLIMIT_SIGPENDING` 자원 한계에 도달했고 `sig`가 실시간 시그널이다.
-
-`EAGAIN`
-:   사용 가능한 커널 메모리가 불충분했고 `sig`가 실시간 시그널이다.
 
 ## VERSIONS
 
@@ -63,4 +62,4 @@ glibc에서 `tkill()`의 래퍼를 제공하지 않는다. <tt>[[syscall(2)]]</t
 
 ----
 
-2019-08-02
+2021-03-22

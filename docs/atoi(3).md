@@ -16,7 +16,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 `atoll()`:
 :   `_ISOC99_SOURCE`<br>
-    `    || /* glibc 버전 <= 2.19: */ _BSD_SOURCE || _SVID_SOURCE`
+    `    || /* glibc <= 2.19: */ _BSD_SOURCE || _SVID_SOURCE`
 
 ## DESCRIPTION
 
@@ -30,7 +30,7 @@ strtol(nptr, NULL, 10);
 
 ## RETURN VALUE
 
-변환한 값.
+변환한 값, 또는 오류 시 0.
 
 ## ATTRIBUTES
 
@@ -46,7 +46,11 @@ POSIX.1-2001, POSIX.1-2008, C99, SVr4, 4.3BSD. C89와 POSIX.1-1996에는 함수 
 
 ## NOTES
 
-리눅스 libc에서 `atoll()`의 구식 이름인 `atoq()`를 제공했다. glibc에서는 `atoq()`를 제공하지 않는다.
+POSIX.1에서 오류 시 `atoi()`의 반환 값을 명세하지 않은 채 남겨 두었다. glibc, musl libc, uClibc에서는 오류 시 0을 반환한다.
+
+## BUGS
+
+오류 시 `errno`를 설정하지 않으므로 0이 오류인지 변환된 값인지 구별할 방법이 없다. 오버플로우나 언더플로우 검사를 전혀 하지 않는다. 기수 10인 입력만 변환할 수 있다. 새 프로그램에서는 `strtol()` 및 `strtoul()` 함수를 쓰기를 권장한다.
 
 ## SEE ALSO
 
@@ -54,4 +58,4 @@ POSIX.1-2001, POSIX.1-2008, C99, SVr4, 4.3BSD. C89와 POSIX.1-1996에는 함수 
 
 ----
 
-2016-03-15
+2021-03-22

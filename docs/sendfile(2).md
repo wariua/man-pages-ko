@@ -30,7 +30,7 @@ ssize_t sendfile(int out_fd, int in_fd, off_t *offset, size_t count);
 
 성공적으로 복사했으면 `out_fd`에 써넣은 바이트 수를 반환한다. `sendfile()` 호출이 성공하는 경우에도 요청보다 적은 바이트를 쓸 수도 있다. 호출자는 미전송 바이트가 있으면 호출을 재시도할 준비가 되어 있어야 한다. NOTES 참고.
 
-오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -59,7 +59,7 @@ ssize_t sendfile(int out_fd, int in_fd, off_t *offset, size_t count);
 :   `count`가 너무 커서 입력 파일이나 출력 파일의 최대 크기를 초과하게 됨.
 
 `ESPIPE`
-:   `offset`이 NULL이 아닌데 입력 파일이 `seek(2)` 가능하지 않다.
+:   `offset`이 NULL이 아닌데 입력 파일에서 seek 동작이 가능하지 않다.
 
 ## VERSIONS
 
@@ -93,4 +93,4 @@ POSIX.1-2001이나 다른 표준에 명세되어 있지 않다.
 
 ----
 
-2017-09-15
+2021-03-22

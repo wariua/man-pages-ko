@@ -10,7 +10,6 @@ backtrace, backtrace_symbols, backtrace_symbols_fd - 응용 셀프 디버깅 지
 int backtrace(void **buffer, int size);
 
 char **backtrace_symbols(void *const *buffer, int size);
-
 void backtrace_symbols_fd(void *const *buffer, int size, int fd);
 ```
 
@@ -34,7 +33,7 @@ void backtrace_symbols_fd(void *const *buffer, int size, int fd);
 
 | 인터페이스 | 속성 | 값 |
 | --- | --- | --- |
-| `backtrace()`,<br>`backtrace_symbols()`,<br>`backtrace_symbols_fd()` | 스레드 안전성 | MT-Safe |
+| `backtrace()`, `backtrace_symbols()`,<br>`backtrace_symbols_fd()` | 스레드 안전성 | MT-Safe |
 
 ## CONFORMING TO
 
@@ -54,7 +53,7 @@ void backtrace_symbols_fd(void *const *buffer, int size, int fd);
 
 특별한 링커 옵션을 쓰지 않으면 심볼 이름을 얻지 못할 수도 있다. GNU 링커를 사용하는 시스템에서는 `-rdynamic` 링커 옵션을 써야 한다. 참고로 "static" 함수의 이름은 노출되지 않으므로 백트레이스에 나오지 않는다.
 
-## EXAMPLE
+## EXAMPLES
 
 아래 프로그램은 `backtrace()` 및 `backtrace_symbols()`의 사용 방식을 보여 준다. 다음 셸 세션은 프로그램 실행 시 볼 수 있는 결과이다.
 
@@ -85,7 +84,7 @@ backtrace() returned 8 addresses
 void
 myfunc3(void)
 {
-    int j, nptrs;
+    int nptrs;
     void *buffer[BT_BUF_SIZE];
     char **strings;
 
@@ -101,7 +100,7 @@ myfunc3(void)
         exit(EXIT_FAILURE);
     }
 
-    for (j = 0; j < nptrs; j++)
+    for (int j = 0; j < nptrs; j++)
         printf("%s\n", strings[j]);
 
     free(strings);
@@ -141,4 +140,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-03-06
+2021-03-22

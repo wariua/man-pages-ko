@@ -12,6 +12,8 @@ long migrate_pages(int pid, unsigned long maxnode,
                    const unsigned long *new_nodes);
 ```
 
+*주의*: 이 시스템 호출에 대한 glibc 래퍼가 없다. NOTES 참고.
+
 `-lnuma`로 링크.
 
 ## DESCRIPTION
@@ -52,7 +54,7 @@ long migrate_pages(int pid, unsigned long maxnode,
 
 ## NOTES
 
-라이브러리 지원에 대한 정보는 <tt>[[numa(7)]]</tt>를 보라.
+glibc에서 이 시스템 호출의 래퍼를 제공하지 않는다. 라이브러리 지원에 대한 정보는 <tt>[[numa(7)]]</tt>를 보라.
 
 <tt>[[get_mempolicy(2)]]</tt>를 `MPOL_F_MEMS_ALLOWED` 플래그로 사용하면 호출 프로세스의 cpuset에서 허용하는 노드들의 집합을 얻을 수 있다. 참고로 그 정보는 수동 내지 자동으로 이뤄지는 cpuset 재구성으로 인해 언제든 바뀔 수 있다.
 
@@ -68,4 +70,4 @@ long migrate_pages(int pid, unsigned long maxnode,
 
 ----
 
-2019-03-06
+2021-03-22

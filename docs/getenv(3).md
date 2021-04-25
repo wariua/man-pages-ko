@@ -8,7 +8,6 @@ getenv, secure_getenv - 환경 변수 얻기
 #include <stdlib.h>
 
 char *getenv(const char *name);
-
 char *secure_getenv(const char *name);
 ```
 
@@ -71,4 +70,4 @@ glibc 2.17에서 `secure_getenv()`가 처음 등장했다.
 
 ----
 
-2017-09-15
+2021-03-22

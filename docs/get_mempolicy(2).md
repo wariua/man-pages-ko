@@ -14,6 +14,8 @@ long get_mempolicy(int *mode, unsigned long *nodemask,
 
 `-lnuma`로 링크.
 
+*주의*: 이 시스템 호출에 대한 glibc 래퍼가 없다. NOTES 참고.
+
 ## DESCRIPTION
 
 `get_mempolicy()`는 `flags` 설정에 따라서 호출 스레드 또는 메모리 주소의 NUMA 정책을 가져온다.
@@ -58,7 +60,7 @@ NUMA 머신에는 CPU들과 거리가 다른 여러 개의 메모리 컨트롤�
 
 ## NOTES
 
-라이브러리 지원에 대한 정보는 <tt>[[numa(7)]]</tt>를 보라.
+glibc에서 이 시스템 호출의 래퍼를 제공하지 않는다. 라이브러리 지원에 대한 정보는 <tt>[[numa(7)]]</tt>를 보라.
 
 ## SEE ALSO
 
@@ -66,4 +68,4 @@ NUMA 머신에는 CPU들과 거리가 다른 여러 개의 메모리 컨트롤�
 
 ----
 
-2017-09-15
+2021-03-22

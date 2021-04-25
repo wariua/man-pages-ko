@@ -7,12 +7,10 @@ random, srandom, initstate, setstate - 난수 생성기
 ```c
 #include <stdlib.h>
 
-long int random(void);
-
+long random(void);
 void srandom(unsigned int seed);
 
 char *initstate(unsigned int seed, char *state, size_t n);
-
 char *setstate(char *state);
 ```
 
@@ -21,11 +19,11 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 `random()`, `srandom()`, `initstate()`, `setstate()`:
 :   `_XOPEN_SOURCE >= 500`<br>
     `    || /* glibc 2.19부터: */ _DEFAULT_SOURCE`<br>
-    `    || /* glibc 버전 <= 2.19: */ _SVID_SOURCE || _BSD_SOURCE`
+    `    || /* glibc <= 2.19: */ _SVID_SOURCE || _BSD_SOURCE`
 
 ## DESCRIPTION
 
-`random()` 함수는 비선형 가산 피드백 난수 생성기를 사용하여 0에서 `RAND_MAX`까지 범위에서 연속으로 유사 난수를 반환한다. 생성기에서는 기본적으로 31개 정수 크기의 테이블을 사용한다. 이 난수 생성기의 주기는 아주 길다. 대략 `16 * ((2^31) - 1)`이다.
+`random()` 함수는 비선형 가산 피드백 난수 생성기를 사용하여 0에서 `2^31 - 1`까지 범위에서 연속으로 유사 난수를 반환한다. 생성기에서는 기본적으로 31개 정수 크기의 테이블을 사용한다. 이 난수 생성기의 주기는 아주 길다. 대략 `16 * ((2^31) - 1)`이다.
 
 `srandom()` 함수는 그 인자를 `random()`이 새로 반환할 유사 난수 정수 열의 시드로 설정한다. 같은 시드 값으로 `srandom()`을 호출하여 그 정수 열을 반복할 수 있다. 시드 값을 제공하지 않으면 `random()` 함수에서 자동으로 1 값을 시드로 삼는다.
 
@@ -35,11 +33,11 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## RETURN VALUE
 
-`random()` 함수는 0에서 `RAND_MAX` 사이의 값을 반환한다. `srandom()` 함수는 아무 값도 반환하지 않는다.
+`random()` 함수는 0에서 `2^31 - 1` 사이의 값을 반환한다. `srandom()` 함수는 아무 값도 반환하지 않는다.
 
-`initstate()` 함수는 이전 상태 배열에 대한 포인터를 반환한다. 오류 시 원인을 나타내도록 `errno`를 설정한다.
+`initstate()` 함수는 이전 상태 배열에 대한 포인터를 반환한다. 실패 시 NULL을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
-성공 시 `setstate()`는 이전 상태 배열에 대한 포인터를 반환한다. 오류 시 NULL을 반환하며 오류 원인을 나타내도록 `errno`를 설정한다.
+성공 시 `setstate()`는 이전 상태 배열에 대한 포인터를 반환한다. 실패 시 NULL을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -55,7 +53,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 | 인터페이스 | 속성 | 값 |
 | --- | --- | --- |
-| `random()`, `srandom()`,<br>`initstate()`, `setstate()` | 스레드 안전성 | MT-Safe |
+| `random()`, `srandom()`, `initstate()`, `setstate()` | 스레드 안전성 | MT-Safe |
 
 ## CONFORMING TO
 
@@ -79,4 +77,4 @@ POSIX에 따르면 `initstate()`가 오류 시 NULL을 반환해야 한다. glib
 
 ----
 
-2019-03-06
+2021-03-22

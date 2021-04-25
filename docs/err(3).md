@@ -7,22 +7,18 @@ err, verr, errx, verrx, warn, vwarn, warnx, vwarnx - 형식 있는 오류 메시
 ```c
 #include <err.h>
 
-void err(int eval, const char *fmt, ...);
-
-void errx(int eval, const char *fmt, ...);
+noreturn void err(int eval, const char *fmt, ...);
+noreturn void errx(int eval, const char *fmt, ...);
 
 void warn(const char *fmt, ...);
-
 void warnx(const char *fmt, ...);
 
 #include <stdarg.h>
 
-void verr(int eval, const char *fmt, va_list args);
-
-void verrx(int eval, const char *fmt, va_list args);
+noreturn void verr(int eval, const char *fmt, va_list args);
+noreturn void verrx(int eval, const char *fmt, va_list args);
 
 void vwarn(const char *fmt, va_list args);
-
 void vwarnx(const char *fmt, va_list args);
 ```
 
@@ -42,30 +38,31 @@ void vwarnx(const char *fmt, va_list args);
 
 | 인터페이스 | 속성 | 값 |
 | --- | --- | --- |
-| `err()`, `errx()`,<br>`warn()`, `warnx()`,<br>`verr()`, `verrx()`,<br>`vwarn()`, `vwarnx()` | 스레드 안전성 | MT-Safe locale |
+| `err()`, `errx()`, `warn()`, `warnx()`,<br>`verr()`, `verrx()`, `vwarn()`, `vwarnx()` | 스레드 안전성 | MT-Safe locale |
 
 ## CONFORMING TO
 
 이 함수들은 비표준 BSD 확장이다.
 
-## EXAMPLE
+## EXAMPLES
 
 현재 `errno` 정보 문자열을 표시하고 끝내기:
 
 ```c
 p = malloc(size);
 if (p == NULL)
-    err(1, NULL);
+    err(EXIT_FAILURE, NULL);
 fd = open(file_name, O_RDONLY, 0);
 if (fd == -1)
-    err(1, "%s", file_name);
+    err(EXIT_FAILURE, "%s", file_name);
 ```
 
 오류 메시지 표시하고 끝내기:
 
 ```c
 if (tm.tm_hour < START_TIME)
-    errx(1, "too early, wait until %s", start_time_string);
+    errx(EXIT_FAILURE, "too early, wait until %s",
+            start_time_string);
 ```
 
 문제 경고하기:
@@ -77,7 +74,7 @@ if (fd == -1)
             raw_device, strerror(errno));
 fd = open(block_device, O_RDONLY, 0);
 if (fd == -1)
-    err(1, "%s", block_device);
+    err(EXIT_FAILURE "%s", block_device);
 ```
 
 ## SEE ALSO
@@ -86,4 +83,4 @@ if (fd == -1)
 
 ----
 
-2017-09-15
+2021-03-22

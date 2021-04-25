@@ -7,12 +7,14 @@ io_setup - 비동기 I/O 문맥 만들기
 ```c
 #include <linux/aio_abi.h>          /* 필요한 타입 정의 */
 
-int io_setup(unsigned nr_events, aio_context_t *ctx_idp);
+long io_setup(unsigned int nr_events, aio_context_t *ctx_idp);
 ```
 
 *주의*: 이 시스템 호출에 대한 glibc 래퍼가 없다. NOTES 참고.
 
 ## DESCRIPTION
+
+*주의*: 이 페이지에선 리눅스 시스템 호출 인터페이스를 설명한다. `libaio`에서 제공하는 래퍼 함수에서는 `ctx_idp` 인자에 다른 타입을 쓴다. NOTES 참고.
 
 `io_setup()` 시스템 호출은 `nr_events` 개 동작을 동시에 처리하기에 적합한 비동기 I/O 문맥을 생성한다. `ctx_idp` 인자가 이미 존재하는 AIO 문맥을 가리켜선 안 되며 호출 전에 문맥을 0으로 초기화 해야 한다. AIO 문맥을 성공적으로 생성했을 때 `*ctx_idp`에 새 핸들이 들어간다.
 
@@ -23,7 +25,7 @@ int io_setup(unsigned nr_events, aio_context_t *ctx_idp);
 ## ERRORS
 
 `EAGAIN`
-:   지정한 `nr_events`가 `/proc/sys/fs/aio-max-nr`에 규정된 사용자의 가용 이벤트 제한을 초과한다.
+:   지정한 `nr_events`가 `/proc/sys/fs/aio-max-nr`에 규정된 가용 이벤트 제한을 초과한다. (<tt>[[proc(5)]]</tt> 참고.)
 
 `EFAULT`
 :   `ctx_idp`에 유효하지 않은 포인터를 전달했다.
@@ -57,4 +59,4 @@ glibc에서 이 시스템 호출의 래퍼를 제공하지 않는다. <tt>[[sysc
 
 ----
 
-2017-09-15
+2021-03-22

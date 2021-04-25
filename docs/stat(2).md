@@ -7,26 +7,27 @@ stat, fstat, lstat, fstatat - 파일 상태 정보 얻기
 ```c
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <unistd.h>
 
-int stat(const char *pathname, struct stat *statbuf);
+int stat(const char *restrict pathname,
+         struct stat *restrict statbuf);
 int fstat(int fd, struct stat *statbuf);
-int lstat(const char *pathname, struct stat *statbuf);
+int lstat(const char *restrict pathname,
+         struct stat *restrict statbuf);
 
 #include <fcntl.h>           /* AT_* 상수 정의 */
 #include <sys/stat.h>
 
-int fstatat(int dirfd, const char *pathname, struct stat *statbuf,
-            int flags);
+int fstatat(int dirfd, const char *restrict pathname,
+         struct stat *restrict statbuf, int flags);
 ```
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
 
 `lstat()`:
-:   `/* glibc 2.19 및 이전: */ _BSD_SOURCE`<br>
-    `    || /* glibc 2.20부터 */ _DEFAULT_SOURCE`<br>
+:   `/* glibc 2.20부터 */ _DEFAULT_SOURCE`<br>
     `    || _XOPEN_SOURCE >= 500`<br>
-    `    || /* glibc 2.10부터: */ _POSIX_C_SOURCE >= 200112L`
+    `    || /* glibc 2.10부터: */ _POSIX_C_SOURCE >= 200112L`<br>
+    `    || /* glibc 2.19 및 이전: */ _BSD_SOURCE`
 
 `fstatat()`:
 :   glibc 2.10부터:
@@ -41,7 +42,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 `stat()`과 `fstatat()`은 `pathname`이 가리키는 파일에 대한 정보를 가져온다. `fstatat()`의 차이점을 아래에서 설명한다.
 
-`lstat()`은 `stat()`과 동일하되 `pathname`이 심볼릭 링크인 경우에는 대상 파일이 아니라 링크 자체에 대한 정보를 반환한다.
+`lstat()`은 `stat()`과 동일하되 `pathname`이 심볼릭 링크인 경우에는 링크가 가리키는 파일이 아니라 링크 자체에 대한 정보를 반환한다.
 
 `fstat()`은 `stat()`과 동일하되 어떤 파일에 대한 정보를 가져올지를 파일 디스크립터 `fd`로 지정한다.
 
@@ -113,13 +114,13 @@ struct stat {
 :   이 필드는 파일에 할당된 512바이트 단위 블록 수를 나타낸다. (파일에 구멍이 있을 때는 `st_size`/512보다 작을 수도 있다.
 
 `st_atime`
-:   파일의 최근 접근 타임스탬프다.
+:   파일 데이터의 최근 접근 시간이다.
 
 `st_mtime`
-:   파일의 최근 수정 타임스탬프다.
+:   파일 데이터의 최근 수정 시간이다.
 
 `st_ctime`
-:   파일의 최근 상태 변경 타임스탬프다.
+:   파일의 최근 상태 변경 타임스탬프(아이노드 최근 변경 시간)이다.
 
 위 필드들에 대한 더 자세한 내용은 <tt>[[inode(7)]]</tt>를 보라.
 
@@ -139,7 +140,13 @@ struct stat {
 :   `pathname`이 빈 문자열이면 (<tt>[[open(2)]]</tt> `O_PATH` 플래그로 얻은 것일 수도 있는) `dirfd`가 가리키는 파일에 대해 동작한다. 이 경우에 `dirfd`는 디렉터리만이 아니라 임의 종류의 파일을 가리킬 수 있으며 `fstatat()`의 동작 방식은 `fstat()`과 비슷하다. `dirfd`가 `AT_FDCWD`이면 현재 작업 디렉터리에 대해 호출이 동작한다. 이 플래그는 리눅스 전용이다. 이 정의를 얻으려면 `_GNU_SOURCE`를 정의해야 한다.
 
 `AT_NO_AUTOMOUNT` (리눅스 2.6.38부터)
-:   `pathname`의 마지막 요소("basename")가 자동 마운트 지점인 디렉터리인 경우에 자동 마운트를 하지 않는다. 이를 통해 (마운트 될 위치가 아니라) 자동 마운트 지점의 속성들을 호출자가 얻을 수 있다. 또한 리눅스 4.14부터는 automounter 간접 맵 등에 쓰이는 on-demand 디렉터리에 실재하지 않는 이름을 만들어 내지 않는다. 디렉터리들을 훑는 도구들에서 이 플래그를 사용해서 자동 마운트 지점인 디렉터리를 잔뜩 자동 마운트 하는 걸 방지할 수 있다. 마운트 지점에 이미 마운트가 됐으면 `AT_NO_AUTOMOUNT` 플래그에 아무 효력이 없다. 이 플래그는 리눅스 전용이다. 이 정의를 얻으려면 `_GNU_SOURCE`를 정의해야 한다. `stat()`과 `lstat()` 모두 `AT_NO_AUTOMOUNT`가 설정된 것처럼 동작한다.
+:   `pathname`의 마지막 요소("basename")가 자동 마운트 지점인 디렉터리인 경우에 자동 마운트를 하지 않는다. 이를 통해 (마운트 될 위치가 아니라) 자동 마운트 지점의 속성들을 호출자가 얻을 수 있다. 또한 리눅스 4.14부터는 automounter 간접 맵 등에 쓰이는 on-demand 디렉터리에 실재하지 않는 이름을 만들어 내지 않는다. 마운트 지점에 이미 마운트가 됐으면 이 플래그가 아무 효력이 없다.
+
+    `stat()`과 `lstat()` 모두 `AT_NO_AUTOMOUNT`가 설정된 것처럼 동작한다.
+
+    디렉터리들을 훑는 도구들에서 `AT_NO_AUTOMOUNT` 플래그를 사용해서 자동 마운트 지점인 디렉터리를 잔뜩 자동 마운트 하는 걸 방지할 수 있다.
+
+    이 플래그는 리눅스 전용이다. 그 정의를 얻으려면 `_GNU_SOURCE`를 정의해야 한다.
 
 `AT_SYMLINK_NOFOLLOW`
 :   `pathname`이 심볼릭 링크인 경우 역참조를 하지 않는다. 대신 `lstat()`처럼 링크 자체에 대한 정보를 반환한다. (기본적으로 `fstatat()`은 `stat()`처럼 심볼릭 링크를 역참조 한다.)
@@ -148,7 +155,7 @@ struct stat {
 
 ## RETURN VALUE
 
-성공 시 0을 반환한다. 오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -236,13 +243,14 @@ glibc의 `stat()` 래퍼 함수에서 이런 세부 사항을 응용에게 감�
 
 glibc의 `fstatat()` 래퍼 함수에서 이용하는 기반 시스템 호출의 실제 이름이 `fstatat64()`이고 일부 아키텍처에서는 `newfstatat()`이다.
 
-## EXAMPLE
+## EXAMPLES
 
 다음 프로그램에서는 `lstat()`을 호출해서 반환된 `stat` 구조체의 주요 필드들을 표시한다.
 
 ```c
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <stdint.h>
 #include <time.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -263,8 +271,9 @@ main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    printf("ID of containing device:  [%lx,%lx]\n",
-         (long) major(sb.st_dev), (long) minor(sb.st_dev));
+    printf("ID of containing device:  [%jx,%jx]\n",
+            (uintmax_t) major(sb.st_dev),
+            (uintmax_t) minor(sb.st_dev));
 
     printf("File type:                ");
 
@@ -279,21 +288,21 @@ main(int argc, char *argv[])
     default:       printf("unknown?\n");                break;
     }
 
-    printf("I-node number:            %ld\n", (long) sb.st_ino);
+    printf("I-node number:            %ju\n", (uintmax_t) sb.st_ino);
 
-    printf("Mode:                     %lo (octal)\n",
-            (unsigned long) sb.st_mode);
+    printf("Mode:                     %jo (octal)\n",
+            (uintmax_t) sb.st_mode);
 
-    printf("Link count:               %ld\n", (long) sb.st_nlink);
-    printf("Ownership:                UID=%ld   GID=%ld\n",
-            (long) sb.st_uid, (long) sb.st_gid);
+    printf("Link count:               %ju\n", (uintmax_t) sb.st_nlink);
+    printf("Ownership:                UID=%ju   GID=%ju\n",
+            (uintmax_t) sb.st_uid, (uintmax_t) sb.st_gid);
 
-    printf("Preferred I/O block size: %ld bytes\n",
-            (long) sb.st_blksize);
-    printf("File size:                %lld bytes\n",
-            (long long) sb.st_size);
-    printf("Blocks allocated:         %lld\n",
-            (long long) sb.st_blocks);
+    printf("Preferred I/O block size: %jd bytes\n",
+            (intmax_t) sb.st_blksize);
+    printf("File size:                %jd bytes\n",
+            (intmax_t) sb.st_size);
+    printf("Blocks allocated:         %jd\n",
+            (intmax_t) sb.st_blocks);
 
     printf("Last status change:       %s", ctime(&sb.st_ctime));
     printf("Last file access:         %s", ctime(&sb.st_atime));
@@ -309,4 +318,4 @@ main(int argc, char *argv[])
 
 ----
 
-2019-03-06
+2021-03-22

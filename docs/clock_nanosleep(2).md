@@ -7,7 +7,7 @@ clock_nanosleep - 클럭 지정이 가능한 고해상도 sleep
 ```c
 #include <time.h>
 
-int clock_nanosleep(clockid_t clock_id, int flags,
+int clock_nanosleep(clockid_t clockid, int flags,
                     const struct timespec *request,
                     struct timespec *remain);
 ```
@@ -32,22 +32,28 @@ struct timespec {
 };
 ```
 
-`clock_id` 인자는 잠드는 시간을 측정할 클럭을 나타낸다. 다음 값들 중 하나를 이 인자에 쓸 수 있다.
+`clockid` 인자는 잠드는 시간을 측정할 클럭을 나타낸다. 다음 값들 중 하나를 이 인자에 쓸 수 있다.
 
 `CLOCK_REALTIME`
 :   설정 가능한 시스템 전역 실제 시간 클럭.
 
+`CLOCK_TAI` (리눅스 3.10부터)
+:   벽시계 시간에서 파생되었고 윤초를 무시하는 시스템 전역 클럭.
+
 `CLOCK_MONOTONIC`
 :   시스템 시동 후 바뀌지 않는 과거 어떤 불특정 시점부터의 시간을 측정하는 설정 불가능한 단조 증가 클럭.
+
+`CLOCK_BOOTTIME` (리눅스 2.6.39부터)
+:   `CLOCK_MONOTONIC`과 동일하되 시스템이 절전 대기 상태인 시간도 포함한다.
 
 `CLOCK_PROCESS_CPUTIME_ID` (리눅스 2.6.12부터.)
 :   프로세스의 모든 스레드가 소모한 CPU 시간을 측정하는 설정 가능한 프로세스별 클럭.
 
-이 클럭들에 대한 더 자세한 내용은 <tt>[[clock_getres(2)]]</tt>를 보라. 또한 <tt>[[clock_getcpuclockid(3)]]</tt> 및 <tt>[[pthread_getcpuclockid(3)]]</tt>가 반환한 CPU 클럭 ID도 `clock_id`에 줄 수 있다.
+이 클럭들에 대한 더 자세한 내용은 <tt>[[clock_getres(2)]]</tt>를 보라. 또한 <tt>[[clock_getcpuclockid(3)]]</tt> 및 <tt>[[pthread_getcpuclockid(3)]]</tt>가 반환한 CPU 클럭 ID도 `clockid`에 줄 수 있다.
 
-`flags`가 0이면 `request`에 지정한 값을 `clock_id`에 지정한 클럭의 현재 값에 대한 상대적 시간으로 해석한다.
+`flags`가 0이면 `request`에 지정한 값을 `clockid`에 지정한 클럭의 현재 값에 대한 상대적 시간으로 해석한다.
 
-`flags`가 `TIMER_ABSTIME`이면 `request`를 `clock_id` 클럭으로 측정한 절대 시간으로 해석한다. `request`가 클럭의 현재 값보다 작거나 값으면 호출 스레드가 멈추지 않고 `clock_nanosleep()`이 즉시 반환한다.
+`flags`가 `TIMER_ABSTIME`이면 `request`를 `clockid` 클럭으로 측정한 절대 시간으로 해석한다. `request`가 클럭의 현재 값보다 작거나 값으면 호출 스레드가 멈추지 않고 `clock_nanosleep()`이 즉시 반환한다.
 
 `clock_nanosleep()`은 적어도 `request`에 지정한 시간이 지날 때까지, 또는 핸들러 호출을 유발하거나 프로세스를 종료시키는 시그널이 전달될 때까지 호출 스레드의 실행을 멈춘다.
 
@@ -69,7 +75,10 @@ struct timespec {
 :   `tv_nsec` 필드의 값이 0에서 999999999까지 범위 안이 아니거나 `tv_sec`이 음수이다.
 
 `EINVAL`
-:   `clock_id`가 유효하지 않다. (`CLOCK_THREAD_CPUTIME_ID`는 `clock_id`에 가능한 값이 아니다.)
+:   `clockid`가 유효하지 않다. (`CLOCK_THREAD_CPUTIME_ID`는 `clockid`에 가능한 값이 아니다.)
+
+`ENOTSUP`
+:   이 `clockid`로 잠드는 것을 커널에서 지원하지 않는다.
 
 ## VERSIONS
 
@@ -101,4 +110,4 @@ POSIX.1에서는 <tt>[[clock_settime(2)]]</tt>을 통해 `CLOCK_REALTIME`의 값
 
 ----
 
-2017-09-15
+2021-03-22

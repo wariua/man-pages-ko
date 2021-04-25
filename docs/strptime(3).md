@@ -8,7 +8,8 @@ strptime - 시간 문자열 표현을 시간 tm 구조체로 변환하기
 #define _XOPEN_SOURCE       /* feature_test_macros(7) 참고 */
 #include <time.h>
 
-char *strptime(const char *s, const char *format, struct tm *tm);
+char *strptime(const char *restrict s, const char *restrict format,
+               struct tm *restrict tm);
 ```
 
 ## DESCRIPTION
@@ -140,7 +141,7 @@ POSIX.1-2001, POSIX.1-2008, SUSv2.
 
 glibc 구현에서는 두 필드 기술 항목 사이에 공백이 있기를 요구하지 않는다.
 
-## EXAMPLE
+## EXAMPLES
 
 다음 예는 `strptime()` 및 <tt>[[strftime(3)]]</tt> 사용 방식을 보여 준다.
 
@@ -157,7 +158,7 @@ main(void)
     struct tm tm;
     char buf[255];
 
-    memset(&tm, 0, sizeof(struct tm));
+    memset(&tm, 0, sizeof(tm));
     strptime("2001-11-12 18:31:01", "%Y-%m-%d %H:%M:%S", &tm);
     strftime(buf, sizeof(buf), "%d %b %Y %H:%M", &tm);
     puts(buf);
@@ -171,4 +172,4 @@ main(void)
 
 ----
 
-2017-09-15
+2021-03-22

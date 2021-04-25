@@ -10,7 +10,6 @@ utimensat, futimens - 나노초 정밀도로 파일 타임스탬프 바꾸기
 
 int utimensat(int dirfd, const char *pathname,
               const struct timespec times[2], int flags);
-
 int futimens(int fd, const struct timespec times[2]);
 ```
 
@@ -83,11 +82,7 @@ struct timespec {
 ## ERRORS
 
 `EACCES`
-:   `times`가 NULL이거나 두 `tv_nsec` 값이 모두 `UTIME_NOW`이며, 다음 중 하나이다.
-
-    * 호출자의 실효 사용자 ID가 파일 소유자와 일치하지 않으며, 호출자가 파일에 쓰기 접근권을 가지고 있지 않으며, 호출자에게 특권이 없다 (리눅스: `CAP_FOWNER` 역능이나 `CAP_DAC_OVERRIDE` 역능을 가지고 있지 않다).
-
-    * 파일이 불변으로 표시되어 있다. (<tt>[[chattr(1)]]</tt> 참고)
+:   `times`가 NULL이거나 두 `tv_nsec` 값이 모두 `UTIME_NOW`이며, 호출자의 실효 사용자 ID가 파일 소유자와 일치하지 않고 호출자가 파일에 쓰기 접근권을 가지고 있지 않으며 호출자에게 특권이 없다 (리눅스: `CAP_FOWNER` 역능이나 `CAP_DAC_OVERRIDE` 역능을 가지고 있지 않다).
 
 `EBADF`
 :   (`futimens()`) `fd`가 유효한 파일 디스크립터가 아니다.
@@ -184,4 +179,4 @@ utimensat(fd, NULL, times, 0);
 
 ----
 
-2017-09-15
+2021-03-22

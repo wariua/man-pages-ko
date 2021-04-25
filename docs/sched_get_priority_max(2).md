@@ -8,7 +8,6 @@ sched_get_priority_max, sched_get_priority_min - 고정 우선순위 범위 얻�
 #include <sched.h>
 
 int sched_get_priority_max(int policy);
-
 int sched_get_priority_min(int policy);
 ```
 
@@ -26,7 +25,7 @@ int sched_get_priority_min(int policy);
 
 ## RETURN VALUE
 
-성공 시 `sched_get_priority_max()`와 `sched_get_priority_min()`은 지정한 스케줄링 정책에서의 최대/최소 우선순위 값을 반환한다. 오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+성공 시 `sched_get_priority_max()`와 `sched_get_priority_min()`은 지정한 스케줄링 정책에서의 최대/최소 우선순위 값을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -43,4 +42,4 @@ POSIX.1-2001, POSIX.1-2008.
 
 ----
 
-2017-09-15
+2021-03-22

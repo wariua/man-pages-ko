@@ -7,7 +7,7 @@ pthread_exit - 호출 스레드 종료하기
 ```c
 #include <pthread.h>
 
-void pthread_exit(void *retval);
+return void pthread_exit(void *retval);
 ```
 
 `-pthread`로 링크.
@@ -60,4 +60,4 @@ POSIX.1-2001, POSIX.1-2008.
 
 ----
 
-2017-09-15
+2021-03-22

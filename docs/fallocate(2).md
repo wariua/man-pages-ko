@@ -47,6 +47,8 @@ int fallocate(int fd, int mode, off_t offset, off_t len);
 
 * <tt>[[tmpfs(5)]]</tt> (리눅스 3.5부터)
 
+* `gfs2(5)` (리눅스 4.16부터)
+
 ### 파일 공간 압착하기
 
 `mode`에 (리눅스 3.15부터 사용 가능한) `FALLOC_FL_COLLAPSE_RANGE` 플래그를 지정하면 파일에서 어떤 바이트 범위를 구멍을 남기지 않고 제거한다. 압착할 바이트 범위가 `offset`부터 `len` 바이트만큼 이어진다. 동작이 완료되면 `offset+len` 위치부터의 파일 내용물이 `offset` 위치에 붙으며 파일이 `len` 바이트만큼 작아진다.
@@ -167,4 +169,4 @@ int fallocate(int fd, int mode, off_t offset, off_t len);
 
 ----
 
-2018-04-30
+2019-11-19

@@ -8,7 +8,8 @@ pthread_attr_setstackaddr, pthread_attr_getstackaddr - 스레드 속성 객체�
 #include <pthread.h>
 
 int pthread_attr_setstackaddr(pthread_attr_t *attr, void *stackaddr);
-int pthread_attr_getstackaddr(const pthread_attr_t *attr, void **stackaddr);
+int pthread_attr_getstackaddr(const pthread_attr_t *restrict attr,
+                              void **restrict stackaddr);
 ```
 
 `-pthread`로 컴파일 및 링크.
@@ -57,4 +58,4 @@ POSIX.1-2001에서 이 함수들을 명세하되 구식으로 표시하였다. P
 
 ----
 
-2017-09-15
+2021-03-22

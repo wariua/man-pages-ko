@@ -7,9 +7,9 @@ strtod, strtof, strtold - ASCII 문자열을 부동소수점수로 변환하기
 ```c
 #include <stdlib.h>
 
-double strtod(const char *nptr, char **endptr);
-float strtof(const char *nptr, char **endptr);
-long double strtold(const char *nptr, char **endptr);
+double strtod(const char *restrict nptr, char **restrict endptr);
+float strtof(const char *restrict nptr, char **restrict endptr);
+long double strtold(const char *restrict nptr, char **restrict endptr);
 ```
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
@@ -39,7 +39,9 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 어떤 변환도 수행하지 않았으면 0을 반환하며 (`endptr`이 널이 아니면) `nptr`의 값을 `endptr`이 가리키는 위치에 저장한다.
 
-값이 오버플로우를 일으키게 되면 (그 값의 부호에 따라) 양수 또는 음수 `HUGE_VAL`(`HUGE_VALF`, `HUGE_VALL`)을 반환하며 `errno`에 `ERANGE`를 저장한다. 값이 언더플로우를 일으키게 되면 0을 반환하며 `errno`에 `ERANGE`를 저장한다.
+값이 오버플로우를 일으키게 되면 (그 값의 반환 타입과 부호에 따라) 양수 또는 음수인 `HUGE_VAL`, `HUGE_VALF`, `HUGE_VALL`을 반환하며 `errno`에 `ERANGE`를 저장한다.
+
+값이 언더플로우를 일으키게 되면 크기가 `DBL_MIN`, `FLT_MIN`, `LDBL_MIN`보다 크지 않은 값을 반환하며 `errno`에 `ERANGE`를 저장한다.
 
 ## ERRORS
 
@@ -66,7 +68,7 @@ POSIX.1-2001, POSIX.1-2008, C99.
 
 glibc 구현에서는 "NAN" 뒤에 선택적으로 오는 `n-char-sequence`를 정수로 해석하여 (선택적으로 앞에 '0'이나 '0x'를 붙여서 8진법이나 16진법 선택) 반환 값의 가수 부분에 집어넣는다.
 
-## EXAMPLE
+## EXAMPLES
 
 <tt>[[strtol(3)]]</tt> 매뉴얼 페이지의 예를 참고하라. 이 매뉴얼 페이지에서 기술하는 함수들과 사용 방식이 비슷하다.
 
@@ -76,4 +78,4 @@ glibc 구현에서는 "NAN" 뒤에 선택적으로 오는 `n-char-sequence`를 �
 
 ----
 
-2017-09-15
+2021-03-22

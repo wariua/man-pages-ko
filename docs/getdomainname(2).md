@@ -25,7 +25,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## DESCRIPTION
 
-이 함수들을 이용해 호스트 시스템의 NIS 도메인 이름에 접근하거나 변경한다.
+이 함수들을 이용해 호스트 시스템의 NIS 도메인 이름에 접근하거나 변경한다. 정확하게는 호출 프로세스의 UTS 네임스페이스에 연계된 NIS 도메인 이름에 대해 동작한다.
 
 `setdomainname()`은 도메인 이름을 문자 배열 `name`에 준 값으로 설정한다. `len` 인자는 `name`의 바이트 수를 나타낸다. (즉 `name`에 종료용 널 바이트가 필요치 않다.)
 
@@ -33,7 +33,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## RETURN VALUE
 
-성공 시 0을 반환한다. 오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -65,8 +65,8 @@ POSIX에 이 호출들이 명세되어 있지 않다.
 
 ## SEE ALSO
 
-<tt>[[gethostname(2)]]</tt>, <tt>[[sethostname(2)]]</tt>, <tt>[[uname(2)]]</tt>
+<tt>[[gethostname(2)]]</tt>, <tt>[[sethostname(2)]]</tt>, <tt>[[uname(2)]]</tt>, <tt>[[uts_namespaces(7)]]</tt>
 
 ----
 
-2017-09-15
+2021-03-22

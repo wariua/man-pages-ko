@@ -1,6 +1,6 @@
 ## NAME
 
-access, faccessat - 파일에 대한 사용자의 권한 확인하기
+access, faccessat, faccessat2 - 파일에 대한 사용자의 권한 확인하기
 
 ## SYNOPSIS
 
@@ -13,6 +13,9 @@ int access(const char *pathname, int mode);
 #include <unistd.h>
 
 int faccessat(int dirfd, const char *pathname, int mode, int flags);
+                /* 아래 C 라이브러리/커널 차이 참고 */
+
+int faccessat2(int dirfd, const char *pathname, int mode, int flags);
 ```
 
 glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고):
@@ -38,7 +41,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ### `faccessat()`
 
-`faccessat()` 시스템 호출은 여기 설명하는 차이점을 빼면 `access()`와 똑같이 동작한다.
+`faccessat()`은 여기 설명하는 차이점을 빼면 `access()`와 똑같이 동작한다.
 
 `pathname`에 준 경로명이 상대 경로이면 (상대 경로명에 대해 `access()`에서 하듯 호출 프로세스의 현재 작업 디렉터리를 기준으로 하는 게 아니라) 파일 디스크립터 `dirfd`가 가리키는 디렉터리를 기준으로 경로명을 해석한다.
 
@@ -56,9 +59,13 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 `faccessat()`의 필요성에 대한 설명은 <tt>[[openat(2)]]</tt>을 보라.
 
+### `faccessat2()`
+
+위의 `faccessat()` 설명은 POSIX.1 및 glibc 제공 구현체와 부합한다. 하지만 glibc의 구현은 리눅스의 `faccessat()` 시스템 호출에 `flags`가 없는 문제를 땜질하는 불완전한 에뮬레이션이었다. (BUGS 참고.) 올바른 구현이 가능하도록 리눅스 5.8에서 `faccessat2()` 시스템 호출이 추가되었는데, `flags` 인자를 지원하여 `faccessat()` 래퍼 함수를 올바르게 구현할 수 있게 되었다.
+
 ## RETURN VALUE
 
-성공 시 (모든 요청 권한이 허가됨, 또는 `mode`가 `F_OK`이고 파일이 존재함) 0을 반환한다. 오류 시 (권한을 묻는 `mode`의 비트 중 최소 하나가 거부됨, 또는 `mode`가 `F_OK`이고 파일이 존재하지 않음, 또는 어떤 다른 오류 발생) -1을 반환하며 `errno`를 적절히 설정한다.
+성공 시 (모든 요청 권한이 허가됨, 또는 `mode`가 `F_OK`이고 파일이 존재함) 0을 반환한다. 오류 시 (권한을 묻는 `mode`의 비트 중 최소 하나가 거부됨, 또는 `mode`가 `F_OK`이고 파일이 존재하지 않음, 또는 어떤 다른 오류 발생) -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -114,11 +121,15 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 리눅스 커널 2.6.16에서 `faccessat()`이 추가되었다. glibc 버전 2.4에서 라이브러리 지원이 추가되었다.
 
+리눅스 버전 5.8에서 `faccessat2()`가 추가되었다.
+
 ## CONFORMING TO
 
 `access()`: SVr4, 4.3BSD, POSIX.1-2001, POSIX.1-2008.
 
 `faccessat()`: POSIX.1-2008.
+
+`faccessat2()`: 리눅스 전용.
 
 ## NOTES
 
@@ -132,19 +143,21 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 `pathname` 경로 선두부의 디렉터리 각각에 대해 권한이 탐색(즉 실행) 접근을 허가하는 경우에만 그 파일이 접근 가능하다. 한 디렉터리라도 접근 불가능이면 파일 자체에 대한 권한은 상관없이 `access()` 호출이 실패한다.
 
-접근 비트만 확인할 뿐 파일 종류나 내용은 보지 않는다. 따라서 디렉터리가 쓰기 가능하다고 나온다면 그건 그 디렉터리에 파일을 만들 수 있다는 뜻이지 파일처럼 그 디렉터리에 뭔가를 기록할 수 있다는 뜻은 아닐 것이다. 마찬가지로 DOS 파일이 "실행 가능"이라고 나올 수 있지만 그래도 <tt>[[execve(2)]]</tt> 호출은 실패하게 된다.
+접근 비트만 확인할 뿐 파일 종류나 내용은 보지 않는다. 따라서 디렉터리가 쓰기 가능하다고 나온다면 그건 그 디렉터리에 파일을 만들 수 있다는 뜻이지 파일처럼 그 디렉터리에 뭔가를 기록할 수 있다는 뜻은 아닐 것이다. 마찬가지로 DOS 파일이 실행 가능이라고 나올 수 있지만 그래도 <tt>[[execve(2)]]</tt> 호출은 실패하게 된다.
 
 이 호출들은 UID 매핑이 켜진 NFSv2 파일 시스템에서는 올바로 동작하지 않을 수도 있다. UID 매핑이 서버에서 이뤄지며 권한을 검사하는 클라이언트에게는 감춰져 있기 때문이다. (NFS 버전 3 및 이후에서는 서버에서 검사를 수행한다.) FUSE 마운트에도 비슷한 문제가 생길 수 있다.
 
 ### C 라이브러리/커널 차이
 
-진짜 `faccessat()` 시스템 호출은 처음 세 인자만 받는다. `AT_EACCESS`와 `AT_SYMLINK_NOFOLLOW` 플래그는 사실 `faccessat()`의 glibc 래퍼 함수 안에 구현돼 있다. 그 플래그들 중 하나라도 지정한 경우에는 래퍼 함수에서 <tt>[[fstatat(2)]]</tt>을 이용해 접근 권한을 알아낸다.
+진짜 `faccessat()` 시스템 호출은 처음 세 인자만 받는다. `AT_EACCESS`와 `AT_SYMLINK_NOFOLLOW` 플래그는 사실 `faccessat()`의 glibc 래퍼 함수 안에 구현돼 있다. 그 플래그들 중 하나라도 지정한 경우에는 래퍼 함수에서 <tt>[[fstatat(2)]]</tt>을 이용해 접근 권한을 알아낸다. 하지만 BUGS를 보라.
 
 ### glibc 참고 사항
 
 `faccessat()`이 없는 구식 커널에서는 (그리고 `AT_EACCESS`와 `AT_SYMLINK_NOFOLLOW` 플래그가 지정돼 있지 않을 때) glibc 래퍼 함수가 `access()`를 사용하는 걸로 후퇴한다. `pathname`이 상대 경로명일 때 glibc에서는 `/proc/self/fd` 안의 `dirfd` 인자에 대응하는 심볼릭 링크를 가지고 경로명을 만든다.
 
 ## BUGS
+
+리눅스 커널의 `faccessat()` 시스템 호출에서 `flags` 인자를 지원하지 않기 때문에 glibc 2.32 및 이전에서 제공한 `faccessat()` 래퍼 함수에서는 `faccessat()` 시스템 호출과 <tt>[[fstatat(2)]]</tt>을 조합해서 필요한 기능을 흉내낸다. 하지만 그 에뮬레이션에서 ACL을 고려하지 않는다. glibc 2.33부터는 기반 커널에서 제공하는 경우 래퍼 함수에서 `faccessat2()` 시스템 호출을 활용하여 이 버그를 피한다.
 
 커널 2.4(및 이전)에는 수퍼유저에 대한 `X_OK` 검사 처리에 좀 이상한 점이 있다. 디렉터리 아닌 파일에서 모든 부문의 실행 권한이 꺼져 있는 경우에 `access()` 검사가 -1을 반환하는 건 `mode`에 `X_OK`만 지정돼 있을 때이다. `mode`에 `R_OK`나 `W_OK`도 지정돼 있으면 그런 파일에 대해 `access()`가 0을 반환한다. 2.6 초기 (2.6.3까지의) 커널들도 커널 2.4와 같은 식으로 동작했다.
 
@@ -156,4 +169,4 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ----
 
-2016-03-15
+2021-03-22

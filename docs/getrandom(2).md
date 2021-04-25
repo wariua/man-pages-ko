@@ -32,7 +32,7 @@ ssize_t getrandom(void *buf, size_t buflen, unsigned int flags);
 
 성공 시 `getrandom()`은 버퍼 `buf`로 복사된 바이트 수를 반환한다. `flags`에 `GRND_RANDOM`을 지정했는데 `random` 원천에 충분한 엔트로피가 있지 않았거나 시스템 호출이 시그널에 의해 중단되었다면 이 값이 `buflen`을 통해 요청한 바이트 수보다 작을 수도 있다.
 
-오류 시 -1을 반환하며 `errno`를 적절히 설정한다.
+오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -99,4 +99,4 @@ ssize_t getrandom(void *buf, size_t buflen, unsigned int flags);
 
 ----
 
-2017-09-15
+2021-03-22
