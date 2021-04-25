@@ -190,7 +190,7 @@ int eaccess(const char *pathname, int mode);
 <p>이 함수들은 비표준이다. 일부 다른 시스템에 <code>eaccess()</code> 함수가 있다.</p>
 <h2 id="notes">NOTES</h2>
 <p><em>경고</em>: 이 함수를 사용해 파일에 대한 프로세스의 권한을 확인한 다음 그 정보에 따라 어떤 동작을 수행하는 방식은 경쟁 조건으로 이어진다. 두 단계 사이에서 파일 권한이 바뀔 수도 있기 때문이다. 일반적으로 그냥 원하는 동작을 시도하고서 권한 오류가 발생하면 그걸 처리하는 방식이 더 안전하다.</p>
-<p>이 함수는 항상 심볼릭 링크를 역참조한다. 심볼릭 링크에 대한 권한을 확인하려면 <code>AT_EACCESS</code> 및 <code>AT_SYMLINK_NOFOLLOW</code> 플래그와 함께 <tt><a class="wikilink" href="/man-pages-ko/faccessat(2)/">faccessat(2)</a></tt>을 사용하면 된다.</p>
+<p>이 함수는 항상 심볼릭 링크를 따라간다. 심볼릭 링크에 대한 권한을 확인하려면 <code>AT_EACCESS</code> 및 <code>AT_SYMLINK_NOFOLLOW</code> 플래그와 함께 <tt><a class="wikilink" href="/man-pages-ko/faccessat(2)/">faccessat(2)</a></tt>을 사용하면 된다.</p>
 <h2 id="see-also">SEE ALSO</h2>
 <p><tt><a class="wikilink" href="/man-pages-ko/access(2)/">access(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/chmod(2)/">chmod(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/chown(2)/">chown(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/faccessat(2)/">faccessat(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/setgid(2)/">setgid(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/setuid(2)/">setuid(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/stat(2)/">stat(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/credentials(7)/">credentials(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/path_resolution(7)/">path_resolution(7)</a></tt></p>
 <hr />

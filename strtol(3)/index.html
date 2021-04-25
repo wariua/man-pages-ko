@@ -174,7 +174,7 @@ long long strtoll(const char *restrict nptr,
 <p><code>endptr</code>이 NULL이 아니면 <code>strtol()</code>은 첫 번째 비유효 문자의 주소를 <code>*endptr</code>에 저장한다. 숫자가 전혀 없었으면 <code>strtol()</code>은 <code>nptr</code>의 원래 값을 <code>*endptr</code>에 저장한다. (그리고 0을 반환한다.) 특히 <code>*nptr</code>이 '\0'이 아닌데 반환 시 <code>**endptr</code>이 '\0'이면 문자열 전체가 유효한 것이다.</p>
 <p><code>strtoll()</code> 함수는 <code>strtol()</code> 함수처럼 동작하되 <code>long long</code> 정수 값을 반환한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>값이 언더플로우나 오버플로우 되지 않으면 <code>strtol()</code> 함수는 변환 결과를 반환한다. 언더플로우가 일어나면 <code>strtol()</code>은 <code>LONG_MIN</code>을 반환한다. 오버플로우가 일어나면 <code>strtol()</code>은 <code>LONG_MAX</code>를 반환한다. 두 경우 모두에서 <code>errno</code>를 <code>ERANGE</code>로 설정한다. 같은 내용이 <code>strtoll()</code>에 (<code>LONG_MIN</code>과 <code>LONG_MAX</code> 대신 <code>LLONG_MIN</code>과 <code>LLONG_MAX</code>로) 적용된다.</p>
+<p>값이 언더플로나 오버플로 되지 않으면 <code>strtol()</code> 함수는 변환 결과를 반환한다. 언더플로가 일어나면 <code>strtol()</code>은 <code>LONG_MIN</code>을 반환한다. 오버플로가 일어나면 <code>strtol()</code>은 <code>LONG_MAX</code>를 반환한다. 두 경우 모두에서 <code>errno</code>를 <code>ERANGE</code>로 설정한다. 같은 내용이 <code>strtoll()</code>에 (<code>LONG_MIN</code>과 <code>LONG_MAX</code> 대신 <code>LLONG_MIN</code>과 <code>LLONG_MAX</code>로) 적용된다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EINVAL</code></dt>

@@ -248,8 +248,8 @@ lrwxrwxrwx. time_for_children -&gt; time:[4026531834]
 lrwxrwxrwx. user -&gt; user:[4026531837]
 lrwxrwxrwx. uts -&gt; uts:[4026531838]
 </code></pre>
-<p>이 디렉터리의 파일들 중 하나를 파일 시스템의 다른 어딘가로 결속 마운트(<tt><a class="wikilink" href="/man-pages-ko/mount(2)/">mount(2)</a></tt> 참고) 하면 <code>pid</code>로 지정한 프로세스의 해당 네임스페이스가 그 네임스페이스의 현재 프로세스가 모두 종료하더라도 유지된다.</p>
-<p>이 디렉터리의 파일들 중 하나를 (또는 그 파일들 중 하나를 결속 마운트 한 파일을) 열면 <code>pid</code>로 지정한 프로세스의 해당 네임스페이스의 파일 핸들이 반환된다. 그 파일 디스크립터가 열려 있는 동안에는 그 네임스페이스의 프로세스가 모두 종료하더라도 네임스페이스가 계속 살아 있게 된다. 그 파일 디스크립터를 <tt><a class="wikilink" href="/man-pages-ko/setns(2)/">setns(2)</a></tt>에 줄 수 있다.</p>
+<p>이 디렉터리의 파일들 중 하나를 파일 시스템의 다른 어딘가로 바인드 마운트(<tt><a class="wikilink" href="/man-pages-ko/mount(2)/">mount(2)</a></tt> 참고) 하면 <code>pid</code>로 지정한 프로세스의 해당 네임스페이스가 그 네임스페이스의 현재 프로세스가 모두 종료하더라도 유지된다.</p>
+<p>이 디렉터리의 파일들 중 하나를 (또는 그 파일들 중 하나를 바인드 마운트 한 파일을) 열면 <code>pid</code>로 지정한 프로세스의 해당 네임스페이스의 파일 핸들이 반환된다. 그 파일 디스크립터가 열려 있는 동안에는 그 네임스페이스의 프로세스가 모두 종료하더라도 네임스페이스가 계속 살아 있게 된다. 그 파일 디스크립터를 <tt><a class="wikilink" href="/man-pages-ko/setns(2)/">setns(2)</a></tt>에 줄 수 있다.</p>
 <p>리눅스 3.7 및 이전에서는 이 파일들이 하드 링크처럼 보였다. 리눅스 3.8부터는 심볼릭 링크로 보인다. 두 프로세스가 같은 네임스페이스에 있으면 그 <code>/proc/[pid]/ns/xxx</code> 심볼릭 링크의 장치 ID와 아이노드 번호가 동일하게 된다. 응용에서는 <tt><a class="wikilink" href="/man-pages-ko/stat(2)/">stat(2)</a></tt>이 반환하는 <code>stat.st_dev</code> 및 <code>stat.st_ino</code> 필드를 이용해 확인할 수 있다. 이 심볼릭 링크의 내용물은 다음처럼 네임스페이스 유형과 아이노드 번호를 담은 문자열이다.</p>
 <pre><code class="language-text">$ readlink /proc/$$/ns/uts
 uts:[4026531838]
@@ -277,7 +277,7 @@ uts:[4026531838]
 <dt><code>/proc/[pid]/ns/uts</code> (리눅스 3.0부터)</dt>
 <dd>이 파일은 프로세스의 UTS 네임스페이스에 대한 핸들이다.</dd>
 </dl>
-<p>이 심볼릭 링크들을 역참조하거나 읽을 수 있는 권한은 ptrace 접근 모드 <code>PTRACE_MODE_READ_FSCREDS</code> 검사에 따라 결정된다. <tt><a class="wikilink" href="/man-pages-ko/ptrace(2)/">ptrace(2)</a></tt> 참고.</p>
+<p>이 심볼릭 링크들을 따라가거나 읽을 수 있는 권한은 ptrace 접근 모드 <code>PTRACE_MODE_READ_FSCREDS</code> 검사에 따라 결정된다. <tt><a class="wikilink" href="/man-pages-ko/ptrace(2)/">ptrace(2)</a></tt> 참고.</p>
 <h3 id="procsysuser"><code>/proc/sys/user</code> 디렉터리</h3>
 <p><code>/proc/sys/user</code> 디렉터리(리눅스 4.9부터 존재)의 파일들은 여러 유형의 네임스페이스들을 몇 개까지 만들 수 있는지 보여 준다.</p>
 <dl>

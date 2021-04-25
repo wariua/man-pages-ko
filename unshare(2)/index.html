@@ -165,9 +165,9 @@ int unshare(int flags);
 <p><code>flags</code> 인자는 실행 문맥의 어느 요소들을 공유 해제할지 지정하는 비트 마스크이다. 다음 상수들을 0개 이상 OR 해서 인자를 지정한다.</p>
 <dl>
 <dt><code>CLONE_FILES</code></dt>
-<dd><tt><a class="wikilink" href="/man-pages-ko/clone(2)/">clone(2)</a></tt> <code>CLONE_FILES</code> 플래그의 효과를 뒤집는다. 파일 디스크립터 테이블을 공유 해제해서 호출 프로세스가 더 이상 다른 프로세스와 파일 디스크립터를 공유하지 않게 한다.</dd>
+<dd><tt><a class="wikilink" href="/man-pages-ko/clone(2)/">clone(2)</a></tt> <code>CLONE_FILES</code> 플래그의 효과를 뒤집는다. 파일 디스크립터 테이블을 공유 해제해서 호출 프로세스가 더이상 다른 프로세스와 파일 디스크립터를 공유하지 않게 한다.</dd>
 <dt><code>CLONE_FS</code></dt>
-<dd><tt><a class="wikilink" href="/man-pages-ko/clone(2)/">clone(2)</a></tt> <code>CLONE_FS</code> 플래그의 효과를 뒤집는다. 파일 시스템 속성들을 공유 해제해서 호출 프로세스가 더 이상 다른 프로세스와 루트 디렉터리(<tt><a class="wikilink" href="/man-pages-ko/chroot(2)/">chroot(2)</a></tt>), 현재 디렉터리(<code>chdir(2)</code>), umask(<tt><a class="wikilink" href="/man-pages-ko/umask(2)/">umask(2)</a></tt>) 속성을 공유하지 않게 한다.</dd>
+<dd><tt><a class="wikilink" href="/man-pages-ko/clone(2)/">clone(2)</a></tt> <code>CLONE_FS</code> 플래그의 효과를 뒤집는다. 파일 시스템 속성들을 공유 해제해서 호출 프로세스가 더이상 다른 프로세스와 루트 디렉터리(<tt><a class="wikilink" href="/man-pages-ko/chroot(2)/">chroot(2)</a></tt>), 현재 디렉터리(<code>chdir(2)</code>), umask(<tt><a class="wikilink" href="/man-pages-ko/umask(2)/">umask(2)</a></tt>) 속성을 공유하지 않게 한다.</dd>
 <dt><code>CLONE_NEWCGROUP</code> (리눅스 4.6부터)</dt>
 <dd>이 플래그는 <tt><a class="wikilink" href="/man-pages-ko/clone(2)/">clone(2)</a></tt> <code>CLONE_NEWCGROUP</code> 플래그와 효과가 같다. cgroup 네임스페이스를 공유 해제한다. <code>CLONE_NEWCGROUP</code>을 사용하려면 <code>CAP_SYS_ADMIN</code> 역능이 필요하다.</dd>
 <dt><code>CLONE_NEWIPC</code> (리눅스 2.6.19부터)</dt>
@@ -231,7 +231,7 @@ int unshare(int flags);
 <dt><code>EPERM</code> (리눅스 3.9부터)</dt>
 <dd><code>flags</code>에 <code>CLONE_NEWUSER</code>를 지정했는데 호출자가 chroot 환경 안에 있다. (즉, 호출자의 루트 디렉터리가 호출자가 위치한 마운트 네임스페이스의 루트 디렉터리와 일치하지 않는다.)</dd>
 <dt><code>EUSERS</code> (리눅스 3.11부터 리눅스 4.8까지)</dt>
-<dd><code>flags</code>에 <code>CLONE_NEWUSER</code>를 지정했는데 중첩 사용자 네임스페이스 수 제한을 초과하게 되었다. 위의 <code>ENOSPC</code> 오류 논의 참고.</dd>
+<dd><code>flags</code>에 <code>CLONE_NEWUSER</code>를 지정했는데 중첩 사용자 네임스페이스 수 제한을 초과하게 되었다. 위의 <code>ENOSPC</code> 오류 설명 참고.</dd>
 </dl>
 <h2 id="versions">VERSIONS</h2>
 <p>리눅스 커널 2.6.16에서 <code>unshare()</code> 시스템 호출이 추가되었다.</p>

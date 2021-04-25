@@ -243,7 +243,7 @@ int munmap(void *addr, size_t length);
 <dt><code>MAP_NONBLOCK</code> (리눅스 2.5.46부터)</dt>
 <dd>이 플래그는 <code>MAP_POPULATE</code>와 함께 쓸 때만 의미가 있다. 미리 읽기를 수행하지 않는다. 즉 이미 램 내에 있는 페이지에만 페이지 테이블 항목을 만든다. 리눅스 2.6.23부터는 이 플래그를 쓰면 <code>MAP_POPULATE</code>가 아무것도 하지 않게 된다. 언젠가 <code>MAP_POPULATE</code>와 <code>MAP_NONBLOCK</code>의 조합이 재구현될 수도 있다.</dd>
 <dt><code>MAP_NORESERVE</code></dt>
-<dd>이 매핑을 위한 스왑 공간을 예비해 두지 않는다. 스왑 공간이 예비돼 있을 때는 매핑을 변경하는 게 가능하다고 보장된다. 스왑 공간이 예비돼 있지 않을 때는 사용 가능한 물리적 메모리가 없으면 쓰기 시 <code>SIGSEGV</code>를 받을 수도 있다. <tt><a class="wikilink" href="/man-pages-ko/proc(5)/">proc(5)</a></tt>의 <code>/proc/sys/vm/overcommit_memory</code> 파일 논의도 참고하라. 2.6 전의 커널에서는 비공유 쓰기 가능 매핑에만 이 플래그가 효과가 있었다.</dd>
+<dd>이 매핑을 위한 스왑 공간을 예비해 두지 않는다. 스왑 공간이 예비돼 있을 때는 매핑을 변경하는 게 가능하다고 보장된다. 스왑 공간이 예비돼 있지 않을 때는 사용 가능한 물리적 메모리가 없으면 쓰기 시 <code>SIGSEGV</code>를 받을 수도 있다. <tt><a class="wikilink" href="/man-pages-ko/proc(5)/">proc(5)</a></tt>의 <code>/proc/sys/vm/overcommit_memory</code> 파일 설명도 참고하라. 2.6 전의 커널에서는 비공유 쓰기 가능 매핑에만 이 플래그가 효과가 있었다.</dd>
 <dt><code>MAP_POPULATE</code> (리눅스 2.5.46부터)</dt>
 <dd>매핑에 대한 페이지 테이블을 채운다 (미리 폴트). 파일 매핑인 경우 파일에서 미리 읽기를 하게 한다. 이후 페이지 폴트에서 막히는 걸 줄이는 데 도움이 될 것이다. 비공유 매핑에는 리눅스 2.6.23부터 <code>MAP_POPULATE</code>를 지원한다.</dd>
 <dt><code>MAP_STACK</code> (리눅스 2.6.27부터)</dt>

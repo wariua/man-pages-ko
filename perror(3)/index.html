@@ -179,7 +179,7 @@ int errno;       /* 실제 이렇게 선언돼 있지 않음. errno(3) 참고 */
 <p>전역 오류 목록 <code>sys_errlist[]</code>는 <code>errno</code>를 인덱스로 사용해서 개행 없는 오류 메시지를 얻을 수 있다. 이 테이블에서 제공하는 가장 높은 메시지 번호는 <code>sys_nerr-1</code>이다. 새 오류 값이 <code>sys_errlist[]</code>에 추가되지 않았을 수도 있으므로 이 목록에 직접 접근할 때는 조심해야 한다. 요즘은 <code>sys_errlist[]</code>를 쓰지 않는 게 좋다. 대신 <tt><a class="wikilink" href="/man-pages-ko/strerror(3)/">strerror(3)</a></tt>를 사용하라.</p>
 <p>시스템 호출이 실패하면 보통 -1을 반환하면서 <code>errno</code>에다가 뭐가 잘못됐는지 설명하는 값을 설정한다. (이 값들을 <code>&lt;errno.h&gt;</code>에서 볼 수 있다.) 여러 라이브러리 함수들도 비슷하다. <code>perror()</code> 함수는 그 오류 코드를 사람이 읽을 수 있는 형태로 바꿔 주는 역할을 한다. 참고로 시스템 호출이나 라이브러리 함수 호출이 성공한 후의 <code>errno</code>는 규정돼 있지 않다. 성공하는 경우에도 호출에서 그 변수를 바꿀 수 있는데, 예를 들어 내부적으로 이용한 어떤 다른 라이브러리 함수가 실패해서일 수 있다. 따라서 실패한 호출 바로 다음에서 <code>perror()</code>를 호출하는 게 아닌 경우에는 <code>errno</code> 값을 저장해 두는 게 좋다.</p>
 <h2 id="versions">VERSIONS</h2>
-<p>glibc 버전 2.32부터 <code>&lt;stdio.h&gt;</code>에서 더 이상 <code>sys_errlist</code>와 <code>sys_nerr</code> 선언을 드러내지 않는다.</p>
+<p>glibc 버전 2.32부터 <code>&lt;stdio.h&gt;</code>에서 더이상 <code>sys_errlist</code>와 <code>sys_nerr</code> 선언을 드러내지 않는다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
 <p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>

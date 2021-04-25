@@ -173,13 +173,13 @@ int nice(int inc);
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EPERM</code></dt>
-<dd>호출 프로세스가 음수 <code>inc</code>를 제공하여 자기 우선순위를 높이려고 시도했지만 충분한 특권을 가지고 있지 않다. 리눅스에서는 <code>CAP_SYS_NICE</code> 역능이 필요하다. (하지만 <tt><a class="wikilink" href="/man-pages-ko/setrlimit(2)/">setrlimit(2)</a></tt>에 있는 <code>RLIMIT_NICE</code> 자원 제한에 대한 논의를 보라.)</dd>
+<dd>호출 프로세스가 음수 <code>inc</code>를 제공하여 자기 우선순위를 높이려고 시도했지만 충분한 특권을 가지고 있지 않다. 리눅스에서는 <code>CAP_SYS_NICE</code> 역능이 필요하다. (하지만 <tt><a class="wikilink" href="/man-pages-ko/setrlimit(2)/">setrlimit(2)</a></tt>에 있는 <code>RLIMIT_NICE</code> 자원 제한 설명을 보라.)</dd>
 </dl>
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008, SVr4, 4.3BSD. 하지만 시스템 호출과 (glibc 2.2.4 전의) (g)libc의 반환 값이 비표준이다. 아래 참고.</p>
 <h2 id="notes">NOTES</h2>
 <p>나이스 값에 대한 더 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/sched(7)/">sched(7)</a></tt>를 보라.</p>
-<p><em>주의</em>: 리눅스 2.6.38에 "autogroup" 기능이 추가되면서 많은 경우에서 나이스 값이 더 이상 전통적 효과를 주지 않게 되었다. 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/sched(7)/">sched(7)</a></tt>를 보라.</p>
+<p><em>주의</em>: 리눅스 2.6.38에 "autogroup" 기능이 추가되면서 많은 경우에서 나이스 값이 더이상 전통적 효과를 주지 않게 되었다. 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/sched(7)/">sched(7)</a></tt>를 보라.</p>
 <h3 id="c">C 라이브러리/커널 차이</h3>
 <p>POSIX.1에서는 <code>nice()</code>가 새 나이스 값을 반환해야 한다고 명세한다. 하지만 리눅스 시스템 호출은 성공 시 0을 반환한다. 마찬가지로 glibc 2.2.3 이전에서 제공하는 <code>nice()</code> 래퍼 함수는 성공 시 0을 반환한다.</p>
 <p>glibc 2.2.4부터는 glibc 제공 래퍼 함수에서 <tt><a class="wikilink" href="/man-pages-ko/getpriority(2)/">getpriority(2)</a></tt> 호출로 새 나이스 값을 얻어서 호출자에게 반환함으로써 POSIX.1을 준수한다.</p>

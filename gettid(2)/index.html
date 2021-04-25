@@ -157,7 +157,7 @@
 pid_t gettid(void);
 </code></pre>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>gettid()</code>는 호출자의 스레드 ID(TID)를 반환한다. 단일 스레드인 프로세스에서 스레드 ID는 프로세스 ID(<tt><a class="wikilink" href="/man-pages-ko/getpid(2)/">getpid(2)</a></tt>가 반환하는 PID)와 같다. 다중 스레드인 프로세스에서 모든 스레드는 PID가 같지만 각각 유일한 TID를 가진다. 더 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/clone(2)/">clone(2)</a></tt>의 <code>CLONE_THREAD</code> 논의를 보라.</p>
+<p><code>gettid()</code>는 호출자의 스레드 ID(TID)를 반환한다. 단일 스레드인 프로세스에서 스레드 ID는 프로세스 ID(<tt><a class="wikilink" href="/man-pages-ko/getpid(2)/">getpid(2)</a></tt>가 반환하는 PID)와 같다. 다중 스레드인 프로세스에서 모든 스레드는 PID가 같지만 각각 유일한 TID를 가진다. 더 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/clone(2)/">clone(2)</a></tt>의 <code>CLONE_THREAD</code> 설명을 보라.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 호출 스레드의 스레드 ID를 반환한다.</p>
 <h2 id="errors">ERRORS</h2>

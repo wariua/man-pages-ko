@@ -256,7 +256,7 @@ int getrusage(int who, struct rusage *usage);
 <p><code>&lt;sys/time.h&gt;</code>를 포함시키는 게 요즘에는 필요치 않지만 이식성을 높여 준다. (사실 <code>struct timeval</code>이 <code>&lt;sys/time.h&gt;</code>에 정의돼 있다.)</p>
 <p>리눅스 커널 버전 2.6.9 전에서는 <code>SIGCHLD</code> 처리 방식이 <code>SIG_IGN</code>으로 설정돼 있는 경우에 자식 프로세스의 자원 사용량이 자동으로 <code>RUSAGE_CHILDREN</code> 반환 값에 포함된다. 하지만 POSIX.1-2001에서는 이를 명확히 금지한다. 리눅스 2.6.9 및 이후에서는 이 불일치가 시정돼 있다.</p>
 <p>이 페이지 앞에 나온 구조체 정의는 4.3BSD Reno에서 가져온 것이다.</p>
-<p>아주 옛날 시스템들에선 <code>getrusage()</code>와 용도가 비슷한 <code>vtimes()</code> 함수를 제공했다. 하위 호환성을 위해 glibc에서도 (버전 2.32까지) <code>vtimes()</code>를 제공한다. 새로 작성하는 응용은 모두 <code>getrusage()</code>를 쓰도록 작성해야 한다. (버전 2.33부터 glibc에서 <code>vtimes()</code> 구현체를 더 이상 제공하지 않는다.)</p>
+<p>아주 옛날 시스템들에선 <code>getrusage()</code>와 용도가 비슷한 <code>vtimes()</code> 함수를 제공했다. 하위 호환성을 위해 glibc에서도 (버전 2.32까지) <code>vtimes()</code>를 제공한다. 새로 작성하는 응용은 모두 <code>getrusage()</code>를 쓰도록 작성해야 한다. (버전 2.33부터 glibc에서 <code>vtimes()</code> 구현체를 더이상 제공하지 않는다.)</p>
 <p><tt><a class="wikilink" href="/man-pages-ko/proc(5)/">proc(5)</a></tt>의 <code>/proc/[pid]/stat</code> 설명도 참고.</p>
 <h2 id="see-also">SEE ALSO</h2>
 <p><tt><a class="wikilink" href="/man-pages-ko/clock_gettime(2)/">clock_gettime(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/getrlimit(2)/">getrlimit(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/times(2)/">times(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/wait(2)/">wait(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/wait4(2)/">wait4(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/clock(3)/">clock(3)</a></tt></p>

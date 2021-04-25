@@ -172,7 +172,7 @@ int fmtmsg(long classification, const char *label,
 <p><code>action</code> 인자는 오류를 복구하기 위해 할 수 있는 조치를 기술한다. 이를 찍는 경우 앞에 "TO FIX: "가 붙는다.</p>
 <p><code>tag</code> 인자는 추가 정보를 찾을 수 있는 온라인 문서에 대한 참조이다. <code>label</code>의 값과 고유한 식별 번호를 담아야 할 것이다.</p>
 <h3 id="_1">더미 인자</h3>
-<p>인자 각각이 더미 값을 가질 수 있다. 더미 분류 값인 <code>MM_NULLMC</code>(<code>0L</code>)는 어떤 출력도 나타내지 않고, 그래서 아무 것도 찍히지 않는다. 더미 심각도 값인 <code>NO_SEV</code>(<code>0</code>)는 어떤 심각도도 제공하지 않는다는 말이다. <code>MM_NULLLBL</code>, <code>MM_NULLTXT</code>, <code>MM_NULLACT</code>, <code>MM_NULLTAG</code>는 <code>((char *) 0)</code>, 즉 빈 문자열과 동의어이며 <code>MM_NULLSEV</code>는 <code>NO_SEV</code>와 동의어이다.</p>
+<p>인자 각각이 더미 값을 가질 수 있다. 더미 분류 값인 <code>MM_NULLMC</code>(<code>0L</code>)는 어떤 출력도 나타내지 않고, 그래서 아무것도 찍히지 않는다. 더미 심각도 값인 <code>NO_SEV</code>(<code>0</code>)는 어떤 심각도도 제공하지 않는다는 말이다. <code>MM_NULLLBL</code>, <code>MM_NULLTXT</code>, <code>MM_NULLACT</code>, <code>MM_NULLTAG</code>는 <code>((char *) 0)</code>, 즉 빈 문자열과 동의어이며 <code>MM_NULLSEV</code>는 <code>NO_SEV</code>와 동의어이다.</p>
 <h3 id="classification"><code>classification</code> 인자</h3>
 <p><code>classification</code> 인자는 4가지 종류의 정보를 기술하는 값들을 합친 것이다.</p>
 <p>첫 번째 값은 출력 채널을 규정한다.</p>

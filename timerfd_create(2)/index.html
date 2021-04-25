@@ -200,7 +200,7 @@ int timerfd_gettime(int fd, struct itimerspec *curr_value);
 <dt><code>TFD_NONBLOCK</code></dt>
 <dd>새 파일 디스크립터가 가리키는 열린 파일 기술 항목(<tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt> 참고)에 <code>O_NONBLOCK</code> 파일 상태 플래그를 설정한다. 이 플래그를 사용하면 같은 결과를 얻기 위해 <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt>을 추가로 호출하지 않아도 된다.</dd>
 <dt><code>TFD_CLOEXEC</code></dt>
-<dd>새 파일 디스크립터에 'exec에서 닫기'(<code>FD_CLOEXEC</code>) 플래그를 설정한다. 이게 유용할 수 있는 이유에 대해선 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>의 <code>O_CLOEXEC</code> 플래그 설명을 보라.</dd>
+<dd>새 파일 디스크립터에 exec에서 닫기(<code>FD_CLOEXEC</code>) 플래그를 설정한다. 이게 유용할 수 있는 이유에 대해선 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>의 <code>O_CLOEXEC</code> 플래그 설명을 보라.</dd>
 </dl>
 <p>리눅스 버전 2.6.26까지에서는 <code>flags</code>를 0으로 지정해야 한다.</p>
 <h3 id="timerfd_settime"><code>timerfd_settime()</code></h3>
@@ -256,7 +256,7 @@ struct itimerspec {
 </dl>
 </dd>
 <dt><tt><a class="wikilink" href="/man-pages-ko/close(2)/">close(2)</a></tt></dt>
-<dd>파일 디스크립터가 더 이상 필요하지 않으면 닫아야 한다. 동일 타이머 객체에 연계된 모든 파일 디스크립터가 닫혔을 때 커널이 타이머를 해제하고 그 자원을 해제한다.</dd>
+<dd>파일 디스크립터가 더이상 필요하지 않으면 닫아야 한다. 동일 타이머 객체에 연계된 모든 파일 디스크립터가 닫혔을 때 커널이 타이머를 해제하고 그 자원을 해제한다.</dd>
 </dl>
 <h3 id="fork2"><tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt> 동작 방식</h3>
 <p><code>timerfd_create()</code>으로 생성한 파일 디스크립터의 사본을 <tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt> 후에 자식이 물려받는다. 그 파일 디스크립터는 부모에서의 대응하는 파일 디스크립터와 같은 기반 타이머 객체를 가리키며, 자식에서 <code>read(2)</code> 하면 그 타이머의 만료에 대한 정보를 반환하게 된다.</p>

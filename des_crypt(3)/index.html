@@ -178,7 +178,7 @@ int DES_FAILED(int status);
 <p>결과 상태 <code>stat</code>이 있을 때 처음 두 가지 상태에 대해서만 매크로 <code>DES_FAILED(stat)</code>이 거짓이다.</p>
 <h2 id="versions">VERSIONS</h2>
 <p>glibc 버전 2.1에서 이 함수들이 추가되었다.</p>
-<p>더 이상 안전하지 않다고 보는 DES 블록 암호를 이용하기 때문에 <code>ecb_crypt()</code>, <code>cbc_crypt()</code>, <code>crypt_r()</code>, <code>des_setparity()</code>가 glibc 2.28에서 제거되었다. 응용들은 <code>libgcrypt</code> 같은 현대적인 암호 라이브러리로 전환하는 게 좋다.</p>
+<p>더이상 안전하지 않다고 보는 DES 블록 암호를 이용하기 때문에 <code>ecb_crypt()</code>, <code>cbc_crypt()</code>, <code>crypt_r()</code>, <code>des_setparity()</code>가 glibc 2.28에서 제거되었다. 응용들은 <code>libgcrypt</code> 같은 현대적인 암호 라이브러리로 전환하는 게 좋다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
 <p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>

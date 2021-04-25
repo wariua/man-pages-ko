@@ -256,7 +256,7 @@
 <p><tt><a class="wikilink" href="/man-pages-ko/inotify_add_watch(2)/">inotify_add_watch(2)</a></tt>를 호출할 때 <code>mask</code> 인자에 다음 비트들을 추가로 지정할 수 있다.</p>
 <dl>
 <dt><code>IN_DONT_FOLLOW</code> (리눅스 2.6.16부터)</dt>
-<dd><code>pathname</code>이 심볼릭 링크이면 역참조를 하지 않는다.</dd>
+<dd><code>pathname</code>이 심볼릭 링크인 경우 따라가지 않는다.</dd>
 <dt><code>IN_EXCL_UNLINK</code> (리눅스 2.6.36부터)</dt>
 <dd>기본적으로 디렉터리의 자식들에 대해 이벤트를 감시할 때는 그 디렉터리에서 자식들을 링크 제거(unlink)한 후에도 자식들에 대한 이벤트가 생성된다. 어떤 응용에서는 (가령 여러 응용들이 임시 파일을 만들고 그 이름을 즉시 링크 제거하는 <code>/tmp</code>를 감시할 때) 이로 인해 관심 없는 이벤트가 매우 많이 생겨날 수 있다. <code>IN_EXCL_UNLINK</code>를 지정해서 기본 동작을 바꾸면 감시 대상 디렉터리에서 자식이 링크 제거된 후에는 이벤트가 생성되지 않는다.</dd>
 <dt><code>IN_MASK_ADD</code></dt>

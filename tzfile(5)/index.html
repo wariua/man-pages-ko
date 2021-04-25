@@ -198,7 +198,7 @@
      unsigned char  tt_desigidx;
 };
 </code></pre>
-<p>각 구조체는 네트워크 바이트 순서로 된 4바이트 부호 있는 정수 값 <code>tt_utoff</code>, 1바이트 불리언 값 <code>tt_isdst</code>, 1바이트 값 <code>tt_desigidx</code>로 이뤄진다. 각 구조체에서 <code>tt_utoff</code>는 UT에 더해야 할 초 수이고, <code>tt_isdst</code>는 <tt><a class="wikilink" href="/man-pages-ko/localtime(3)/">localtime(3)</a></tt>에서 <code>tm_isdst</code>를 설정해야 하는지 여부를 나타내며, <code>tt_desigidx</code>는 파일에서 <code>ttinfo</code> 구조체(들) 다음에 오는 시간대 축약명 문자열 배열에서의 인덱스 역할을 한다. 32비트 클라이언트에서 오버플로우 없이 부호를 바꿀 수 있도록 하기 위해 <code>tt_utoff</code> 값은 절대 -2**31과 같지 않다. 그리고 현실적으로 쓰일 때 <code>tt_utoff</code>는 [-89999, 93599] 범위에 있다. (즉, -25시간보다 크고 26시간보다 작다.) 그래서 POSIX에서 요구하는 범위인 [-24:59:59, 25:59:59]를 이미 지원하는 구현체라면 쉽게 지원할 수 있다.</p>
+<p>각 구조체는 네트워크 바이트 순서로 된 4바이트 부호 있는 정수 값 <code>tt_utoff</code>, 1바이트 불리언 값 <code>tt_isdst</code>, 1바이트 값 <code>tt_desigidx</code>로 이뤄진다. 각 구조체에서 <code>tt_utoff</code>는 UT에 더해야 할 초 수이고, <code>tt_isdst</code>는 <tt><a class="wikilink" href="/man-pages-ko/localtime(3)/">localtime(3)</a></tt>에서 <code>tm_isdst</code>를 설정해야 하는지 여부를 나타내며, <code>tt_desigidx</code>는 파일에서 <code>ttinfo</code> 구조체(들) 다음에 오는 시간대 축약명 문자열 배열에서의 인덱스 역할을 한다. 32비트 클라이언트에서 오버플로 없이 부호를 바꿀 수 있도록 하기 위해 <code>tt_utoff</code> 값은 절대 -2**31과 같지 않다. 그리고 현실적으로 쓰일 때 <code>tt_utoff</code>는 [-89999, 93599] 범위에 있다. (즉, -25시간보다 크고 26시간보다 작다.) 그래서 POSIX에서 요구하는 범위인 [-24:59:59, 25:59:59]를 이미 지원하는 구현체라면 쉽게 지원할 수 있다.</p>
 </li>
 <li>
 <p>네트워크 바이트 순서로 된 4바이트 값 <code>tzh_leapcnt</code> 쌍. 각 쌍의 첫 번째 값은 윤초가 일어나는 음수 아닌 시간이고 (<tt><a class="wikilink" href="/man-pages-ko/time(2)/">time(2)</a></tt> 반환 값으로 나타냄), 두 번째는 그 시간부터의 기간 동안에 적용할 윤초 <em>총</em> 개수를 나타내는 부호 있는 정수다. 시간 오름차순으로 쌍들이 저장돼 있다. 각 전이는 양수 또는 음수 1초 만큼의 윤초이며, 전이 간에는 항상 최소 28일 빼기 1초만큼의 간격을 둔다.</p>

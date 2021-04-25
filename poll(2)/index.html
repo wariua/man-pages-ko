@@ -289,12 +289,12 @@ pthread_sigmask(SIG_SETMASK, &amp;origmask, NULL);
 <p><code>poll()</code> 및 <code>ppoll()</code>의 동작은 <code>O_NONBLOCK</code> 플래그에 영향을 받지 않는다.</p>
 <p>일부 다른 유닉스 시스템에서는 커널 내부 자원을 할당하지 못했을 때 리눅스의 <code>ENOMEM</code>이 아니라 <code>EAGAIN</code> 오류로 실패할 수 있다. POSIX에서 그런 동작을 허용한다. 이식 가능한 프로그램에서는 <code>EAGAIN</code>을 확인해서 <code>EINTR</code> 경우처럼 루프를 계속 도는 게 좋을 수 있다.</p>
 <p>어떤 구현들에서는 <code>poll()</code>에서 <code>timeout</code>에 쓸 수 있는 비표준 상수 <code>INFTIM</code>을 -1 값으로 정의하고 있다. glibc에서는 이 상수를 제공하지 않는다.</p>
-<p><code>poll()</code>로 감시 중인 파일 디스크립터를 다른 스레드에서 닫으면 어떻게 될 수 있는지에 대한 논의는 <tt><a class="wikilink" href="/man-pages-ko/select(2)/">select(2)</a></tt>를 보라.</p>
+<p><code>poll()</code>로 감시 중인 파일 디스크립터를 다른 스레드에서 닫으면 어떻게 될 수 있는지에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/select(2)/">select(2)</a></tt>를 보라.</p>
 <h3 id="c">C 라이브러리/커널 차이</h3>
 <p>리눅스의 <code>ppoll()</code> 시스템 호출에서는 <code>tmo_p</code> 인자를 변경한다. 하지만 glibc 래퍼 함수에서 타임아웃 인자에 대한 지역 변수를 쓰고 그 변수를 시스템 호출로 전달하여 그 동작 방식을 감춘다. 그리하여 glibc의 <code>ppoll()</code> 함수는 <code>tmo_p</code> 인자를 변경하지 않는다.</p>
 <p>진짜 <code>ppoll()</code> 시스템 호출에는 다섯 번째 인자 <code>size_t sigsetsize</code>가 있는데, 이는 <code>sigmask</code> 인자의 바이트 단위 크기를 나타낸다. glibc의 <code>ppoll()</code> 래퍼 함수에서 이 인자를 고정된 값(<code>sizeof(kernel_sigset_t)</code>)으로 지정한다. 커널과 libc에서의 시그널 집합 개념 차이에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/sigprocmask(2)/">sigprocmask(2)</a></tt>를 보라.</p>
 <h2 id="bugs">BUGS</h2>
-<p><tt><a class="wikilink" href="/man-pages-ko/select(2)/">select(2)</a></tt>의 BUGS 절에 있는 준비 상태 거짓 알림 논의를 보라.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/select(2)/">select(2)</a></tt>의 BUGS 절에 있는 준비 상태 거짓 알림 설명을 보라.</p>
 <h2 id="examples">EXAMPLES</h2>
 <p>아래 프로그램은 명령행 인자로 받은 파일 각각을 열어서 파일 디스크립터가 읽기 준비(<code>POLLIN</code>)가 되는지 감시한다. 루프를 돌며 <code>poll()</code>을 반복 사용해서 파일 디스크립터들을 감시하고, 준비 상태인 파일 디스크립터 수를 찍는다. 그리고 준비 상태인 파일 디스크립터 각각에 대해 다음을 수행한다.</p>
 <ul>

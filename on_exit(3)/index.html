@@ -191,7 +191,7 @@ int on_exit(void (*function)(int, void *), void *arg);
 </tbody>
 </table>
 <h2 id="conforming-to">CONFORMING TO</h2>
-<p>이 함수는 SunOS 4에서 생긴 것이지만 glibc에도 있다. 솔라리스(SunOS 5)에는 더 이상 존재하지 않는다. 이식 가능한 응용에서는 이 함수를 피하고 대신 표준인 <tt><a class="wikilink" href="/man-pages-ko/atexit(3)/">atexit(3)</a></tt>를 사용해야 한다.</p>
+<p>이 함수는 SunOS 4에서 생긴 것이지만 glibc에도 있다. 솔라리스(SunOS 5)에는 더이상 존재하지 않는다. 이식 가능한 응용에서는 이 함수를 피하고 대신 표준인 <tt><a class="wikilink" href="/man-pages-ko/atexit(3)/">atexit(3)</a></tt>를 사용해야 한다.</p>
 <h2 id="notes">NOTES</h2>
 <p><code>function</code>이 실행될 때 스택(<em>자동</em>) 변수들이 이미 스코프를 벗어났을 수 있다. 따라서 <code>arg</code>가 스택 변수에 대한 포인터여선 안 된다. 대신 힙 변수나 전역 변수에 대한 포인터일 수 있다.</p>
 <h2 id="see-also">SEE ALSO</h2>

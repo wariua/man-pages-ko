@@ -180,7 +180,7 @@ int perf_event_open(struct perf_event_attr *attr,
 <h2 id="description">DESCRIPTION</h2>
 <p>매개변수 목록을 받은 <code>perf_event_open()</code>은 후속 시스템 호출(<code>read(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/prctl(2)/">prctl(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt> 등)에 사용할 파일 디스크립터를 반환한다.</p>
 <p><code>perf_event_open()</code> 호출은 성능 정보를 계측하기 위한 파일 디스크립터를 생성한다. 각 파일 디스크립터가 측정하는 한 이벤트에 대응한다. 이를 한데 묶어서 여러 이벤트를 동시에 측정할 수 있다.</p>
-<p><code>ioctl(2)</code>이나 <tt><a class="wikilink" href="/man-pages-ko/prctl(2)/">prctl(2)</a></tt>을 통해서 이벤트를 켜고 끌 수 있다. 이벤트가 꺼져 있을 때에는 수를 세거나 오버플로우를 생성하지 않는다. 하지만 계속 존재하면서 그 수 값을 유지한다.</p>
+<p><code>ioctl(2)</code>이나 <tt><a class="wikilink" href="/man-pages-ko/prctl(2)/">prctl(2)</a></tt>을 통해서 이벤트를 켜고 끌 수 있다. 이벤트가 꺼져 있을 때에는 수를 세거나 오버플로가 발생하지 않는다. 하지만 계속 존재하면서 그 수 값을 유지한다.</p>
 <p>이벤트에는 계수 방식과 샘플 방식이 있다. <em>계수(counting)</em> 이벤트는 발생한 이벤트 총수를 세기 위한 것이다. 계수 이벤트 결과는 일반적으로 <code>read(2)</code> 호출로 수집한다. <em>샘플(sampled)</em> 이벤트는 주기적으로 측정치를 어떤 버퍼에 기록하고, <tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt>을 통해 거기 접근할 수 있다.</p>
 <h3 id="_1">인자</h3>
 <p><code>pid</code>와 <code>cpu</code> 인자를 통해 감시할 프로세스와 CPU를 지정할 수 있다.</p>

@@ -170,7 +170,7 @@ int lutimes(const char *filename, const struct timeval tv[2]);
 </dl>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>futimes()</code>는 <tt><a class="wikilink" href="/man-pages-ko/utimes(2)/">utimes(2)</a></tt>와 같은 방식으로 파일의 접근 시간과 수정 시간을 바꾼다. 차이는 경로명이 아니라 파일 디스크립터를 통해 타임스탬프를 바꿀 파일을 지정한다는 점이다.</p>
-<p><code>lutimes()</code>는 <tt><a class="wikilink" href="/man-pages-ko/utimes(2)/">utimes(2)</a></tt>와 같은 방식으로 파일의 접근 시간과 수정 시간을 바꾼다. 차이는 <code>filename</code>이 심볼릭 링크를 가리키는 경우 그 링크를 역참조하지 않는다는 점이다. 대신 그 심볼릭 링크의 타임스탬프를 바꾼다.</p>
+<p><code>lutimes()</code>는 <tt><a class="wikilink" href="/man-pages-ko/utimes(2)/">utimes(2)</a></tt>와 같은 방식으로 파일의 접근 시간과 수정 시간을 바꾼다. 차이는 <code>filename</code>이 심볼릭 링크를 가리키는 경우 그 링크를 따라가지 않는다는 점이다. 대신 그 심볼릭 링크의 타임스탬프를 바꾼다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>

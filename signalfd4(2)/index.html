@@ -184,7 +184,7 @@ int signalfd(int fd, const sigset_t *mask, int flags);
 <dt><code>SFD_NONBLOCK</code></dt>
 <dd>새 파일 디스크립터가 가리키는 열린 파일 기술 항목(<tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt> 참고)에 <code>O_NONBLOCK</code> 파일 상태 플래그를 설정한다. 이 플래그를 사용하면 같은 결과를 얻기 위해 <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt>을 추가로 호출하지 않아도 된다.</dd>
 <dt><code>SFD_CLOEXEC</code></dt>
-<dd>새 파일 디스크립터에 'exec에서 닫기'(<code>FD_CLOEXEC</code>) 플래그를 설정한다. 이게 유용할 수 있는 이유에 대해선 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>의 <code>O_CLOEXEC</code> 플래그 설명을 보라.</dd>
+<dd>새 파일 디스크립터에 exec에서 닫기(<code>FD_CLOEXEC</code>) 플래그를 설정한다. 이게 유용할 수 있는 이유에 대해선 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>의 <code>O_CLOEXEC</code> 플래그 설명을 보라.</dd>
 </dl>
 <p>리눅스 버전 2.6.26까지는 <code>flags</code> 인자를 사용하지 않으며 0으로 지정해야 한다.</p>
 <p><code>signalfd()</code>가 반환하는 파일 디스크립터는 다음 작업을 지원한다.</p>
@@ -192,7 +192,7 @@ int signalfd(int fd, const sigset_t *mask, int flags);
 <dt><code>read(2)</code></dt>
 <dd>
 <p><code>mask</code>에 지정한 시그널들이 하나 이상 프로세스에 미처리 상태이면 <code>read(2)</code>에 준 버퍼를 이용해 시그널을 기술하는 <code>signalfd_siginfo</code> 구조체(아래 참고)를 하나 이상 반환한다. 미처리 시그널에 대한 정보를 버퍼에 가급적 많이 채워서 <code>read(2)</code>가 반환한다. 버퍼가 최소 <code>sizeof(struct signalfd_siginfo)</code> 바이트여야 한다. <code>read(2)</code>의 반환 값은 읽은 바이트 총수이다.</p>
-<p><code>read(2)</code>의 결과로 시그널이 소비되며, 그래서 더 이상 그 프로세스에 미처리인 시그널이 아니게 된다. (즉, 시그널 핸들러에 잡히지 않으며 <tt><a class="wikilink" href="/man-pages-ko/sigwaitinfo(2)/">sigwaitinfo(2)</a></tt>로 받을 수 없다.)</p>
+<p><code>read(2)</code>의 결과로 시그널이 소비되며, 그래서 더이상 그 프로세스에 미처리인 시그널이 아니게 된다. (즉, 시그널 핸들러에 잡히지 않으며 <tt><a class="wikilink" href="/man-pages-ko/sigwaitinfo(2)/">sigwaitinfo(2)</a></tt>로 받을 수 없다.)</p>
 <p><code>mask</code> 내의 시그널 어느 것도 프로세스에 미처리 상태가 아니면 <code>mask</code> 내의 시그널들 중 하나가 프로세스에게 생성될 때까지 <code>read(2)</code>가 블록 한다. 파일 디스크립터를 논블록으로 만들었으면 <code>EAGAIN</code> 오류로 실패한다.</p>
 </dd>
 <dt><tt><a class="wikilink" href="/man-pages-ko/poll(2)/">poll(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/select(2)/">select(2)</a></tt> (기타 유사 함수)</dt>
@@ -201,7 +201,7 @@ int signalfd(int fd, const sigset_t *mask, int flags);
 <p>signalfd 파일 디스크립터는 <tt><a class="wikilink" href="/man-pages-ko/pselect(2)/">pselect(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ppoll(2)/">ppoll(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/epoll(7)/">epoll(7)</a></tt> 같은 다른 파일 디스크립터 다중화 API도 지원한다.</p>
 </dd>
 <dt><tt><a class="wikilink" href="/man-pages-ko/close(2)/">close(2)</a></tt></dt>
-<dd>파일 디스크립터가 더 이상 필요하지 않으면 닫아야 한다. 동일 signalfd 객체에 연계된 모든 파일 디스크립터가 닫혔을 때 커널이 그 객체의 자원을 해제한다.</dd>
+<dd>파일 디스크립터가 더이상 필요하지 않으면 닫아야 한다. 동일 signalfd 객체에 연계된 모든 파일 디스크립터가 닫혔을 때 커널이 그 객체의 자원을 해제한다.</dd>
 </dl>
 <h3 id="signalfd_siginfo"><code>signalfd_siginfo</code> 구조체</h3>
 <p>signalfd 파일 디스크립터에서 <code>read(2)</code>가 반환하는 <code>signalfd_siginfo</code> 구조체의 형식은 다음과 같다.</p>
@@ -235,7 +235,7 @@ int signalfd(int fd, const sigset_t *mask, int flags);
 <h3 id="_1">파일 디스크립터 전달 동작 방식</h3>
 <p>다른 파일 디스크립터들과 마찬가지로 유닉스 도메인 소켓을 통해 signalfd 파일 디스크립터를 다른 프로세스로 전달할 수 있다. (<tt><a class="wikilink" href="/man-pages-ko/unix(7)/">unix(7)</a></tt> 참고.) 수신 쪽 프로세스에서 수신한 파일 디스크립터에 <code>read(2)</code> 하면 그 프로세스의 큐에 있는 시그널에 대한 정보를 반환하게 된다.</p>
 <h3 id="execve2"><tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt> 동작 방식</h3>
-<p>다른 파일 디스크립터들과 마찬가지로 'exec에서 닫기' 플래그(<tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt> 참고) 표시를 하지 않았으면 <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>를 거치면서 signalfd 파일 디스크립터가 열린 채로 유지된다. <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt> 전에 읽기가 가능했던 시그널이 있으면 새로 적재된 프로그램에게 읽기 가능하게 유지된다. (미처리인 차단 시그널이 <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>를 거치면서 미처리로 유지되는 전통적 시그널 동작 방식과 유사하다.)</p>
+<p>다른 파일 디스크립터들과 마찬가지로 exec에서 닫기 플래그(<tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt> 참고) 표시를 하지 않았으면 <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>를 거치면서 signalfd 파일 디스크립터가 열린 채로 유지된다. <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt> 전에 읽기가 가능했던 시그널이 있으면 새로 적재된 프로그램에게 읽기 가능하게 유지된다. (미처리인 차단 시그널이 <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>를 거치면서 미처리로 유지되는 전통적 시그널 동작 방식과 유사하다.)</p>
 <h3 id="_2">스레드 동작 방식</h3>
 <p>다중 스레드 프로그램에서 signalfd 파일 디스크립터의 동작 방식은 시그널의 표준 동작 방식을 반영한다. 다시 말해 스레드가 signalfd 파일 디스크립터에서 읽기를 하면 그 스레드를 향한 시그널과 프로세스(즉 스레드 그룹 전체)를 향한 시그널을 읽게 된다. (스레드가 프로세스 내 다른 스레드를 향한 시그널을 읽을 수는 없다.)</p>
 <h3 id="epoll7"><tt><a class="wikilink" href="/man-pages-ko/epoll(7)/">epoll(7)</a></tt> 동작 방식</h3>

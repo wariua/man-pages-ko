@@ -176,7 +176,7 @@ double difftime(time_t time1, time_t time0);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008, C89, C99, SVr4, 4.3BSD.</p>
 <h2 id="notes">NOTES</h2>
-<p>POSIX 시스템에서 <code>time_t</code>는 산술 타입이고, 그래서 뺄셈 오버플로우를 신경쓰지 않아도 되는 경우에는 그냥 다음처럼 정의할 수도 있다.</p>
+<p>POSIX 시스템에서 <code>time_t</code>는 산술 타입이고, 그래서 뺄셈 오버플로를 신경쓰지 않아도 되는 경우에는 그냥 다음처럼 정의할 수도 있다.</p>
 <pre><code class="language-c">#define difftime(t1,t0) (double)(t1 - t0)
 </code></pre>
 <h2 id="see-also">SEE ALSO</h2>

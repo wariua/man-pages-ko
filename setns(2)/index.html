@@ -263,7 +263,7 @@ setns(fd, CLONE_NEWUSER | CLONE_NEWNET | CLONE_NEWUTS);
 <dt><code>EPERM</code></dt>
 <dd>호출 스레드가 이 동작에 필요한 역능을 가지고 있지 않다.</dd>
 <dt><code>ESRCH</code></dt>
-<dd><code>fd</code>가 PID 파일 디스크립터인데 가리키는 프로세스가 더 이상 존재하지 않는다. (즉 종료되어 wait이 이뤄졌다.)</dd>
+<dd><code>fd</code>가 PID 파일 디스크립터인데 가리키는 프로세스가 더이상 존재하지 않는다. (즉 종료되어 wait이 이뤄졌다.)</dd>
 </dl>
 <h2 id="versions">VERSIONS</h2>
 <p>리눅스 커널 3.0에서 <code>setns()</code> 시스템 호출이 처음 등장했다. glibc 버전 2.14에서 라이브러리 지원이 추가되었다.</p>

@@ -182,7 +182,7 @@ int seccomp(unsigned int operation, unsigned int flags, void *args);
 <dt><code>SECCOMP_SET_MODE_STRICT</code></dt>
 <dd>
 <p>호출 스레드에게 허용되는 시스템 호출이 <code>read(2)</code>, <code>write(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/_exit(2)/">_exit(2)</a></tt> (<tt><a class="wikilink" href="/man-pages-ko/exit_group(2)/">exit_group(2)</a></tt>은 안 됨), <tt><a class="wikilink" href="/man-pages-ko/sigreturn(2)/">sigreturn(2)</a></tt>뿐이다. 다른 시스템 호출은 <code>SIGKILL</code> 시그널 전달을 일으킨다. 엄격한 안전 컴퓨팅 모드는 파이프나 소켓 등을 읽어서 얻은 비신뢰 바이트 코드를 실행해야 하는 계산 위주 응용에 유용하다.</p>
-<p>참고로 호출 스레드에서 더 이상 <tt><a class="wikilink" href="/man-pages-ko/sigprocmask(2)/">sigprocmask(2)</a></tt>를 호출할 수 없기는 하지만 <tt><a class="wikilink" href="/man-pages-ko/sigreturn(2)/">sigreturn(2)</a></tt>을 이용해 <code>SIGKILL</code>과 <code>SIGSTOP</code>을 제외한 모든 시그널들을 차단할 수 있다. 따라서 (예를 들어) 프로세스의 실행 시간을 제약하는 데 <tt><a class="wikilink" href="/man-pages-ko/alarm(2)/">alarm(2)</a></tt>으로는 충분치 않다. 확실하게 프로세스를 끝내려면 대신 <code>SIGKILL</code>을 사용해야 한다. <tt><a class="wikilink" href="/man-pages-ko/timer_create(2)/">timer_create(2)</a></tt>을 <code>SIGEV_SIGNAL</code>로 하고 <code>sigev_signo</code>를 <code>SIGKILL</code>로 설정해서 사용하거나 <tt><a class="wikilink" href="/man-pages-ko/setrlimit(2)/">setrlimit(2)</a></tt>를 이용해 <code>RLIMIT_CPU</code>에 경성 제한을 설정하면 된다.</p>
+<p>참고로 호출 스레드에서 더이상 <tt><a class="wikilink" href="/man-pages-ko/sigprocmask(2)/">sigprocmask(2)</a></tt>를 호출할 수 없기는 하지만 <tt><a class="wikilink" href="/man-pages-ko/sigreturn(2)/">sigreturn(2)</a></tt>을 이용해 <code>SIGKILL</code>과 <code>SIGSTOP</code>을 제외한 모든 시그널들을 차단할 수 있다. 따라서 (예를 들어) 프로세스의 실행 시간을 제약하는 데 <tt><a class="wikilink" href="/man-pages-ko/alarm(2)/">alarm(2)</a></tt>으로는 충분치 않다. 확실하게 프로세스를 끝내려면 대신 <code>SIGKILL</code>을 사용해야 한다. <tt><a class="wikilink" href="/man-pages-ko/timer_create(2)/">timer_create(2)</a></tt>을 <code>SIGEV_SIGNAL</code>로 하고 <code>sigev_signo</code>를 <code>SIGKILL</code>로 설정해서 사용하거나 <tt><a class="wikilink" href="/man-pages-ko/setrlimit(2)/">setrlimit(2)</a></tt>를 이용해 <code>RLIMIT_CPU</code>에 경성 제한을 설정하면 된다.</p>
 <p>이 동작은 커널 구성에 <code>CONFIG_SECCOMP</code>가 켜져 있는 경우에만 사용 가능하다.</p>
 <p><code>flags</code>의 값이 0이어야 하고 <code>args</code>가 NULL이어야 한다.</p>
 <p>이 동작은 다음 호출과 기능적으로 동일하다.</p>
@@ -259,7 +259,7 @@ int seccomp(unsigned int operation, unsigned int flags, void *args);
 <dl>
 <dt><code>SECCOMP_RET_KILL_PROCESS</code> (리눅스 4.14부터)</dt>
 <dd>
-<p>이 값은 프로세스가 코어 덤프와 함께 즉시 종료되게 한다. 시스템 호출은 실행되지 않는다. 아래의 <code>SECCOMP_RET_KILL_THREAD</code>와 달리 스레드 그룹의 모든 스레드가 종료된다. (스레드 그룹에 대한 논의는 <tt><a class="wikilink" href="/man-pages-ko/clone(2)/">clone(2)</a></tt>의 <code>CLONE_THREAD</code> 플래그 설명을 보라.)</p>
+<p>이 값은 프로세스가 코어 덤프와 함께 즉시 종료되게 한다. 시스템 호출은 실행되지 않는다. 아래의 <code>SECCOMP_RET_KILL_THREAD</code>와 달리 스레드 그룹의 모든 스레드가 종료된다. (스레드 그룹에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/clone(2)/">clone(2)</a></tt>의 <code>CLONE_THREAD</code> 플래그 설명을 보라.)</p>
 <p><code>SIGSYS</code> 시그널에 의해 죽은 <em>것처럼</em> 프로세스를 종료시킨다. <code>SIGSYS</code>에 시그널 핸들러를 등록해 두어도 이 경우에는 그 핸들러를 무시하고 항상 프로세스를 종료시킨다. 이 프로세스를 (<tt><a class="wikilink" href="/man-pages-ko/waitpid(2)/">waitpid(2)</a></tt> 등으로) 기다리고 있는 부모 프로세스에게 반환되는 <code>wstatus</code>는 자식이 <code>SIGSYS</code> 시그널로 종료된 것처럼 표시된다.</p>
 </dd>
 <dt><code>SECCOMP_RET_KILL_THREAD</code> (또는 <code>SECCOMP_RET_KILL</code>)</dt>

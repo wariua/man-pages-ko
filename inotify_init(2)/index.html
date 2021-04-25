@@ -163,7 +163,7 @@ int inotify_init1(int flags);
 <dt><code>IN_NONBLOCK</code></dt>
 <dd>새 파일 디스크립터가 가리키는 열린 파일 기술 항목(<tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt> 참고)에 <code>O_NONBLOCK</code> 파일 상태 플래그를 설정한다. 이 플래그를 사용하면 같은 결과를 얻기 위해 <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt>을 추가로 호출하지 않아도 된다.</dd>
 <dt><code>IN_CLOEXEC</code></dt>
-<dd>새 파일 디스크립터에 'exec에서 닫기'(<code>FD_CLOEXEC</code>) 플래그를 설정한다. 이게 유용할 수 있는 이유에 대해선 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>의 <code>O_CLOEXEC</code> 플래그 설명을 보라.</dd>
+<dd>새 파일 디스크립터에 exec에서 닫기(<code>FD_CLOEXEC</code>) 플래그를 설정한다. 이게 유용할 수 있는 이유에 대해선 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>의 <code>O_CLOEXEC</code> 플래그 설명을 보라.</dd>
 </dl>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 이 시스템 호출들은 새 파일 디스크립터를 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>

@@ -161,7 +161,7 @@ int getcpu(unsigned int *cpu, unsigned int *node)
 <p><em>주의</em>: 이 시스템 호출에 대한 glibc 래퍼가 없다. NOTES 참고.</p>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>getcpu()</code> 시스템 호출은 호출 스레드 내지 프로세스가 현재 돌고 있는 프로세서 및 노드를 확인하여 이를 <code>cpu</code> 및 <code>node</code> 인자가 가리키는 정수들에 써넣는다. 프로세서는 CPU를 식별해 주는 유일한 작은 정수이다. 노드는 NUMA 노드를 식별해 주는 유일한 작은 식별자이다. <code>cpu</code>나 <code>node</code> 중 한쪽이 NULL이면 해당 포인터로는 써넣지 않는다.</p>
-<p><code>cpu</code>에 들어가는 정보가 최신이라고 보장되는 것은 호출 시점만이다. <tt><a class="wikilink" href="/man-pages-ko/sched_setaffinity(2)/">sched_setaffinity(2)</a></tt>를 이용해 CPU 친화성을 고정하지 않았다면 커널이 언제든 CPU를 바꾸었을 수 있다. (스케줄러에서 캐시 온도 유지를 위해 CPU 사이 이동을 최소화하려 하기 때문에 보통은 그런 일이 일어나지 않는다. 하지만 가능하다.) 호출자는 <code>cpu</code> 및 <code>node</code>로 반환된 정보가 호출 반환 시점에는 더 이상 최신이 아닐 가능성을 감안해야 한다.</p>
+<p><code>cpu</code>에 들어가는 정보가 최신이라고 보장되는 것은 호출 시점만이다. <tt><a class="wikilink" href="/man-pages-ko/sched_setaffinity(2)/">sched_setaffinity(2)</a></tt>를 이용해 CPU 친화성을 고정하지 않았다면 커널이 언제든 CPU를 바꾸었을 수 있다. (스케줄러에서 캐시 온도 유지를 위해 CPU 사이 이동을 최소화하려 하기 때문에 보통은 그런 일이 일어나지 않는다. 하지만 가능하다.) 호출자는 <code>cpu</code> 및 <code>node</code>로 반환된 정보가 호출 반환 시점에는 더이상 최신이 아닐 가능성을 감안해야 한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>

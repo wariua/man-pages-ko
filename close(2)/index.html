@@ -159,7 +159,7 @@
 int close(int fd);
 </code></pre>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>close()</code>는 파일 디스크립터를 닫아서 더 이상 어떤 파일도 가리키지 않으며 재사용할 수 있게 만든다. 연계된 파일에 레코드 락(<tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt> 참고)이 잡힌 게 있고 그 프로세스 소유이면 (그 락을 얻는 데 어떤 파일 디스크립터를 썼는지 상관없이) 그 락을 제거한다.</p>
+<p><code>close()</code>는 파일 디스크립터를 닫아서 더이상 어떤 파일도 가리키지 않으며 재사용할 수 있게 만든다. 연계된 파일에 레코드 락(<tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt> 참고)이 잡힌 게 있고 그 프로세스 소유이면 (그 락을 얻는 데 어떤 파일 디스크립터를 썼는지 상관없이) 그 락을 제거한다.</p>
 <p><code>fd</code>가 하위 열린 파일 기술 항목(<tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt> 참고)을 가리키는 마지막 파일 디스크립터이면 그 열린 파일 기술 항목 관련 자원들이 해제된다. 또 그 파일 디스크립터가 <tt><a class="wikilink" href="/man-pages-ko/unlink(2)/">unlink(2)</a></tt>로 제거된 파일에 대한 마지막 참조이면 파일이 삭제된다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 <code>close()</code>가 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
@@ -179,7 +179,7 @@ int close(int fd);
 <p>POSIX.1-2001, POSIX.1-2008, SVr4, 4.3BSD.</p>
 <h2 id="notes">NOTES</h2>
 <p>닫기에 성공했다는 게 데이터가 성공적으로 디스크에 저장됐다는 걸 보장하지는 않는다. 커널에서 버퍼 캐시를 써서 쓰기를 연기하기 때문이다. 일반적으로 파일 시스템에서는 파일이 닫힐 때 버퍼를 플러시 하지 않는다. 기반 디스크에 데이터가 물리적으로 저장되게 해야 한다면 <tt><a class="wikilink" href="/man-pages-ko/fsync(2)/">fsync(2)</a></tt>를 써라. (그 다음부터는 디스크 하드웨어에게 달렸다.)</p>
-<p>'exec에서 닫기' 파일 디스크립터 플래그를 쓰면 <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt> 성공 시 파일 디스크립터가 자동으로 닫히도록 할 수 있다. 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt> 참고.</p>
+<p>exec에서 닫기 플래그를 쓰면 <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt> 성공 시 파일 디스크립터가 자동으로 닫히도록 할 수 있다. 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt> 참고.</p>
 <h3 id="close">다중 스레드 프로세스와 <code>close()</code></h3>
 <p>같은 프로세스의 다른 스레드에서 시스템 호출로 사용 중일 수도 있는 동안에 파일 디스크립터를 닫는 건 그리 현명한 일이 아니다. 파일 디스크립터가 재사용될 수도 있기 때문에 의도치 않은 부작용을 유발하는 잡아내기 힘든 경쟁 조건이 있을 수 있다.</p>
 <p>그리고 한 파일 디스크립터에 두 스레드가 동작을 수행하는 다음 시나리오를 생각해 보자.</p>

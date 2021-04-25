@@ -316,7 +316,7 @@ int prlimit(pid_t pid, int resource, const struct rlimit *new_limit,
 <p>리눅스 2.6.24부터 <code>/proc/[pid]/limits</code>를 통해 모든 프로세스의 자원 제한값을 들여다볼 수 있다. <tt><a class="wikilink" href="/man-pages-ko/proc(5)/">proc(5)</a></tt> 참고.</p>
 <p>아주 옛날 시스템에선 <code>setrlimit()</code>과 용도가 비슷한 <code>vlimit()</code> 함수를 제공했다. 하위 호환성을 위해 glibc에서도 <code>vlimit()</code>를 제공한다. 새로 작성하는 응용은 모두 <code>setrlimit()</code>을 쓰도록 작성해야 한다.</p>
 <h3 id="c-abi">C 라이브러리/커널 ABI 차이</h3>
-<p>버전 2.12부터 glibc의 <code>getrlimit()</code> 및 <code>setrlimit()</code> 래퍼 함수에서는 더 이상 대응하는 시스템 호출을 부르지 않고 대신 <code>prlimit()</code>을 이용한다. 이는 BUGS에서 설명하는 이유들 때문이다.</p>
+<p>버전 2.12부터 glibc의 <code>getrlimit()</code> 및 <code>setrlimit()</code> 래퍼 함수에서는 더이상 대응하는 시스템 호출을 부르지 않고 대신 <code>prlimit()</code>을 이용한다. 이는 BUGS에서 설명하는 이유들 때문이다.</p>
 <p>glibc 래퍼 함수의 이름이 <code>prlimit()</code>이다. 기반 시스템 호출은 <code>prlimit64()</code>이다.</p>
 <h2 id="bugs">BUGS</h2>
 <p>구식 리눅스 커널들에서는 프로세스가 연성 및 경성 <code>RLIMIT_CPU</code> 제한을 만났을 때 (CPU 사용 시간으로) 일 초 늦게 <code>SIGXCPU</code> 및 <code>SIGKILL</code> 시그널이 전달된다. 커널 2.6.8에서 수정됐다.</p>

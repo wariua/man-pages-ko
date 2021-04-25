@@ -173,7 +173,7 @@ noreturn void _Exit(int status);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008, SVr4, 4.3BSD. <code>_Exit()</code> 함수는 C99에서 도입되었다.</p>
 <h2 id="notes">NOTES</h2>
-<p>종료의 효과, 종료 상태의 전달, 좀비 프로세스, 전송 시그널 등에 대한 논의는 <tt><a class="wikilink" href="/man-pages-ko/exit(3)/">exit(3)</a></tt>을 보라.</p>
+<p>종료의 효과, 종료 상태의 전달, 좀비 프로세스, 전송 시그널 등에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/exit(3)/">exit(3)</a></tt>을 보라.</p>
 <p><code>_exit()</code> 함수는 <tt><a class="wikilink" href="/man-pages-ko/exit(3)/">exit(3)</a></tt>과 비슷하되 <tt><a class="wikilink" href="/man-pages-ko/atexit(3)/">atexit(3)</a></tt>이나 <tt><a class="wikilink" href="/man-pages-ko/on_exit(3)/">on_exit(3)</a></tt>으로 등록해 둔 함수들을 호출하지 않는다. 그리고 열린 <tt><a class="wikilink" href="/man-pages-ko/stdio(3)/">stdio(3)</a></tt> 스트림들을 플러시 하지 않는다. 한편으로 <code>_exit()</code>는 열린 파일 디스크립터들은 확실히 닫는다. 이로 인해 미처리 출력이 끝나기를 기다리면서 알 수 없는 지연이 생길 수도 있다. 그런 지연을 원치 않는다면 <code>_exit()</code> 호출 전에 <tt><a class="wikilink" href="/man-pages-ko/tcflush(3)/">tcflush(3)</a></tt> 같은 함수를 호출해 볼 수도 있다. <code>_exit()</code>에서 미처리 I/O를 취소하는지, 그리고 어떤 미처리 I/O를 취소할 수 있는지는 구현에 따라 다르다.</p>
 <h3 id="c">C 라이브러리/커널 차이</h3>
 <p>glibc 버전 2.3 전까지는 <code>_exit()</code> 래퍼 함수가 같은 이름의 커널 시스템 호출을 불렀다. glibc 2.3부터는 프로세스 내의 모든 스레드들을 종료시키도록 래퍼 함수가 <tt><a class="wikilink" href="/man-pages-ko/exit_group(2)/">exit_group(2)</a></tt>을 부른다. (<code>_exit()</code> 시스템 호출은 호출 스레드만을 종료시킨다.)</p>

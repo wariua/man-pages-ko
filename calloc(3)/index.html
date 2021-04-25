@@ -177,14 +177,14 @@ void *reallocarray(void *ptr, size_t nmemb, size_t size);
 <h2 id="description">DESCRIPTION</h2>
 <p><code>malloc()</code> 함수는 <code>size</code> 바이트를 할당하여 할당한 메모리에 대한 포인터를 반환한다. <em>그 메모리는 초기화 되어 있지 않다.</em> <code>size</code>가 0이면 <code>malloc()</code>은 NULL을 반환하거나, 이후 <code>free()</code>에 무사히 전달할 수 있는 고유한 포인터 값을 반환한다.</p>
 <p><code>free()</code> 함수는 <code>ptr</code>이 가리키는 메모리 공간을 해제하는데 <code>ptr</code>은 이전의 <code>malloc()</code>, <code>calloc()</code>, <code>realloc()</code> 호출이 반환한 것이어야 한다. 그렇지 않으면, 또는 이미 <code>free(ptr)</code>을 호출했으면 규정되어 있지 않은 동작이 일어난다. <code>ptr</code>이 NULL이면 어떤 동작도 수행하지 않는다.</p>
-<p><code>calloc()</code> 함수는 각 <code>size</code> 바이트인 원소 <code>nmemb</code> 개의 배열을 위한 배열을 할당하여 할당한 메모리에 대한 포인터를 반환한다. 그 메모리는 0으로 채워져 있다. <code>nmemb</code>나 <code>size</code>가 0이면 <code>calloc()</code>은 NULL을 반환하거나, 이후 <code>free()</code>에 무사히 전달할 수 있는 고유한 포인터 값을 반환한다. <code>nmemb</code>와 <code>size</code>의 곱이 정수 오버플로우를 일으킬 경우 <code>calloc()</code>은 오류를 반환한다. 반면 다음 <code>malloc()</code> 호출은 정수 오버플로우를 탐지하지 않으며, 그래서 잘못된 크기의 블록이 할당되는 결과를 낳을 수 있다.</p>
+<p><code>calloc()</code> 함수는 각 <code>size</code> 바이트인 원소 <code>nmemb</code> 개의 배열을 위한 배열을 할당하여 할당한 메모리에 대한 포인터를 반환한다. 그 메모리는 0으로 채워져 있다. <code>nmemb</code>나 <code>size</code>가 0이면 <code>calloc()</code>은 NULL을 반환하거나, 이후 <code>free()</code>에 무사히 전달할 수 있는 고유한 포인터 값을 반환한다. <code>nmemb</code>와 <code>size</code>의 곱이 정수 오버플로를 일으킬 경우 <code>calloc()</code>은 오류를 반환한다. 반면 다음 <code>malloc()</code> 호출은 정수 오버플로를 탐지하지 않으며, 그래서 잘못된 크기의 블록이 할당되는 결과를 낳을 수 있다.</p>
 <pre><code class="language-c">malloc(nmemb * size);
 </code></pre>
 <p><code>realloc()</code> 함수는 <code>ptr</code>이 가리키는 메모리 블록의 크기를 <code>size</code> 바이트로 바꾼다. 시작점부터 이전 크기와 새 크기 중 작은 값까지의 범위에서는 내용물이 바뀌지 않는다. 새 크기가 이전 크기보다 큰 경우 추가되는 메모리가 초기화 되지 <em>않는다</em>. <code>ptr</code>이 NULL이면 그 호출은 모든 <code>size</code> 값에 대해 <code>malloc(size)</code>와 동등하다. <code>size</code>가 0이고 <code>ptr</code>이 NULL이 아니면 그 호출은 <code>free(ptr)</code>과 동등하다. (이 동작은 이식성이 없다. NOTES 참고.) <code>ptr</code>이 NULL이 아니라면 그 값은 이전의 <code>malloc()</code>, <code>calloc()</code>, <code>realloc()</code> 호출이 반환한 것이어야 한다. 가리키는 영역이 옮겨지는 경우 <code>free(ptr)</code>를 한다.</p>
 <p><code>reallocarray()</code> 함수는 <code>ptr</code>이 가리키는 메모리 블록의 크기를 각 <code>size</code> 바이트인 원소 <code>nmemb</code> 개의 배열에 충분하도록 바꾼다. 다음 호출과 동등하다.</p>
 <pre><code class="language-c">realloc(ptr, nmemb * size);
 </code></pre>
-<p>하지만 <code>realloc()</code> 호출과 달리 <code>reallocarray()</code>는 곱셈이 넘치게 될 경우에 안전하게 실패한다. 그런 오버플로우가 일어나는 경우 <code>reallocarray()</code>는 NULL을 반환하고 <code>errno</code>를 <code>ENOMEM</code>으로 설정하며, 원래 메모리 블록을 그대로 남겨둔다.</p>
+<p>하지만 <code>realloc()</code> 호출과 달리 <code>reallocarray()</code>는 곱셈이 넘치게 될 경우에 안전하게 실패한다. 그런 오버플로가 일어나는 경우 <code>reallocarray()</code>는 NULL을 반환하고 <code>errno</code>를 <code>ENOMEM</code>으로 설정하며, 원래 메모리 블록을 그대로 남겨둔다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p><code>malloc()</code> 및 <code>calloc()</code> 함수는 할당한 메모리에 대한 포인터를 반환한다. 그 메모리는 어떤 내장 타입에도 적합하도록 정렬되어 있다. 오류 시 이 함수들은 NULL을 반환한다. <code>size</code>가 0인 <code>malloc()</code> 성공 호출이, 또는 <code>nmemb</code>나 <code>size</code>가 0인 <code>calloc()</code> 성공 호출이 NULL을 반환할 수도 있다.</p>
 <p><code>free()</code> 함수는 아무 값도 반환하지 않는다.</p>

@@ -173,7 +173,7 @@ int userfaultfd(int flags);
 <p><code>flags</code>에 다음 값들을 비트 OR 해서 <code>userfaultfd()</code>의 동작 방식을 바꿀 수 있다.</p>
 <dl>
 <dt><code>O_CLOEXEC</code></dt>
-<dd>새 userfaultfd 파일 디스크립터에 'exec에서 닫기' 플래그를 켠다. <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>의 <code>O_CLOEXEC</code> 플래그 설명을 보라.</dd>
+<dd>새 userfaultfd 파일 디스크립터에 exec에서 닫기 플래그를 켠다. <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>의 <code>O_CLOEXEC</code> 플래그 설명을 보라.</dd>
 <dt><code>O_NONBLOCK</code></dt>
 <dd>userfaultfd 객체에 논블로킹 동작을 켠다. <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>의 <code>O_NONBLOCK</code> 플래그 설명을 보라.</dd>
 </dl>

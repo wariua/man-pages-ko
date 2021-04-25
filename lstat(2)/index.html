@@ -273,7 +273,7 @@ int fstatat(int dirfd, const char *restrict pathname,
 <p>이 플래그는 리눅스 전용이다. 그 정의를 얻으려면 <code>_GNU_SOURCE</code>를 정의해야 한다.</p>
 </dd>
 <dt><code>AT_SYMLINK_NOFOLLOW</code></dt>
-<dd><code>pathname</code>이 심볼릭 링크인 경우 역참조를 하지 않는다. 대신 <code>lstat()</code>처럼 링크 자체에 대한 정보를 반환한다. (기본적으로 <code>fstatat()</code>은 <code>stat()</code>처럼 심볼릭 링크를 역참조 한다.)</dd>
+<dd><code>pathname</code>이 심볼릭 링크인 경우 따라가지 않는다. 대신 <code>lstat()</code>처럼 링크 자체에 대한 정보를 반환한다. (기본적으로 <code>fstatat()</code>은 <code>stat()</code>처럼 심볼릭 링크를 따라간다.)</dd>
 </dl>
 <p><code>fstatat()</code>의 필요성에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/openat(2)/">openat(2)</a></tt>을 보라.</p>
 <h2 id="return-value">RETURN VALUE</h2>

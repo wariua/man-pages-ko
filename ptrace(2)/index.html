@@ -406,7 +406,7 @@ long ptrace(enum __ptrace_request request, pid_t pid,
 <p>피추적자가 <em>항상</em> <code>WIFEXITED(status)</code>나 <code>WIFSIGNALED(status)</code>를 알려주며 인생을 끝낸다고 추적자가 가정할 수 없다. 그러지 않는 경우들이 있다. 예를 들어 스레드 그룹 리더가 아닌 스레드가 <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>를 하면 그 스레드가 사라진다. 그 PID가 다시는 보이지 않게 되며 이후 발생하는 ptrace 정지는 스레드 그룹 리더의 PID로 보고된다.</p>
 <h3 id="_1">정지 상태</h3>
 <p>피추적자는 동작 또는 정지 중 한 상태에 있을 수 있다. ptrace에 있어서 (<code>read(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/pause(2)/">pause(2)</a></tt> 등의) 시스템 호출 내에 블록 돼 있는 피추적자는 설령 긴 시간 동안 블록 되어 있는 경우에도 실행 중인 것으로 본다. <code>PTRACE_LISTEN</code> 이후 피추적자의 상태는 다소 애매하다. 어떤 ptrace 정지에도 있지 않으며 (ptrace 명령이 먹히지 않으며 <tt><a class="wikilink" href="/man-pages-ko/waitpid(2)/">waitpid(2)</a></tt> 알림을 전달하게 된다.), 그러면서도 인스트럭션을 실행하고 있지 않으므로 (스케줄 되지 않으므로) "정지" 상태로 볼 수도 있다. 그리고 <code>PTRACE_LISTEN</code> 전에 그룹 정지에 있었으면 <code>SIGCONT</code>를 수신할 때까지는 시그널에 응답하지 않게 된다.</p>
-<p>피추적자가 멈춰 있을 때의 상태가 여러 가지 있는데 ptrace 논의에서 이를 뭉뚱그려 말하는 경우가 많다. 따라서 정확한 용어를 사용하는 것이 중요하다.</p>
+<p>피추적자가 멈춰 있을 때의 상태가 여러 가지 있는데 ptrace 설명에서 이를 뭉뚱그려 말하는 경우가 많다. 따라서 정확한 용어를 사용하는 것이 중요하다.</p>
 <p>이 매뉴얼 페이지에서는 피추적자가 추적자로부터 ptrace 명령을 받아들일 준비가 되어 있는 모든 정지 상태를 <em>ptrace-정지(ptrace-stop)</em>라고 한다. ptrace-정지를 다시 <em>시그널-전달-정지(signal-delivery-stop)</em>, <em>그룹-정지(group-stop)</em>, <em>시스템-호출-정지(syscall-stop)</em>, <em><code>PTRACE_EVENT</code> 정지(<code>PTRACE_EVENT</code> stop)</em> 등으로 나눌 수 있다. 이 정지 상태들을 아래에서 자세히 설명한다.</p>
 <p>동작 중인 피추적자가 ptrace-정지에 들어가면 <tt><a class="wikilink" href="/man-pages-ko/waitpid(2)/">waitpid(2)</a></tt>를 (또는 다른 "wait" 시스템 호출들 중 하나를) 하고 있는 추적자에게 알림을 보낸다. 이 매뉴얼 페이지 대부분에서는 추적자가 다음과 같이 기다린다고 가정한다.</p>
 <pre><code class="language-c">pid = waitpid(pid_or_minus_1, &amp;status, __WALL);
@@ -505,7 +505,7 @@ if (errno == ESRCH) {
 <p><code>SECCOMP_RET_TRACE</code> 규칙이 걸릴 때마다 <code>PTRACE_EVENT_SECCOMP</code> 정지가 일어난다. 어떤 방법으로 시스템 호출을 재시작했는지와는 무관하다. 특히 <code>PTRACE_SYSEMU</code>로 피추적자를 재시작해서 이 시스템 호출을 무조건 건너뛰는 경우에도 seccomp가 동작한다.</p>
 <p>이 정지에서 재시작하면 해당 시스템 호출 바로 전에서 정지가 일어났던 것처럼 동작하게 된다. 특히 <code>PTRACE_SYSCALL</code>과 <code>PTRACE_SYSEMU</code> 모두 정상적으로 이어지는 시스템-호출-진입-정지를 일으키게 된다. 하지만 <code>PTRACE_EVENT_SECCOMP</code> 후에 시스템 호출 번호가 음수이면 시스템-호출-진입-정지와 시스템 호출 자체를 건너뛰게 된다. 즉, <code>PTRACE_EVENT_SECCOMP</code> 후에 시스템 호출 번호가 음수이고 <code>PTRACE_SYSCALL</code>로 피추적자를 재시작하는 경우에 다음으로 목격하는 정지는 어쩌면 예상했을 시스템-호출-진입-정지가 아니라 시스템-호출-퇴장-정지가 된다.</p>
 <h3 id="ptrace_event_seccomp-48"><code>PTRACE_EVENT_SECCOMP</code> 정지 (리눅스 4.8부터)</h3>
-<p>리눅스 4.8부터는 <code>PTRACE_EVENT_SECCOMP</code> 정지가 시스템-호출-진입-정지와 시스템-호출-퇴장-정지 사이에서 일어나도록 순서가 바뀌었다. 그래서 <code>PTRACE_SYSEMU</code> 때문에 시스템 호출을 건너뛰는 경우 seccomp이 더 이상 돌지 않는다. (그래서 <code>PTRACE_EVENT_SECCOMP</code>가 보고되지 않는다.)</p>
+<p>리눅스 4.8부터는 <code>PTRACE_EVENT_SECCOMP</code> 정지가 시스템-호출-진입-정지와 시스템-호출-퇴장-정지 사이에서 일어나도록 순서가 바뀌었다. 그래서 <code>PTRACE_SYSEMU</code> 때문에 시스템 호출을 건너뛰는 경우 seccomp이 더이상 돌지 않는다. (그래서 <code>PTRACE_EVENT_SECCOMP</code>가 보고되지 않는다.)</p>
 <p>기능적으로 <code>PTRACE_EVENT_SECCOMP</code> 정지는 시스템-호출-진입-정지와 비슷하게 기능한다. (즉, <code>PTRACE_SYSCALL</code>로 속행시키면 시스템-호출-퇴장-정지가 발생하고, 시스템 호출 번호를 바꿀 수 있으며, 다른 레지스터를 변경하면 그 내용 역시 실행될 시스템 호출에게 보인다.) 참고로 선행 시스템-호출-진입-정지가 있을 수도 있지만 꼭 있어야 하는 것은 아니다.</p>
 <p><code>PTRACE_EVENT_SECCOMP</code> 정지 후에 <code>SECCOMP_RET_ALLOW</code>와 같은 기능을 하는 <code>SECCOMP_RET_TRACE</code> 규칙으로 seccomp를 다시 돌리게 된다. 이게 분명하게 뜻하는 바는 <code>PTRACE_EVENT_SECCOMP</code> 정지 중 레지스터들을 변경하지 않으면 시스템 호출이 허용된다는 것이다.</p>
 <h3 id="ptrace_singlestep"><code>PTRACE_SINGLESTEP</code> 정지</h3>
@@ -680,7 +680,7 @@ PID0 &lt;... execve resumed&gt; )             = 0
 </ul>
 </li>
 <li>
-<p>대상 프로세스의 "덤프 가능" 속성이 1 아닌 값을 가지고 있으며 (<code>SUID_DUMP_USER</code>. <tt><a class="wikilink" href="/man-pages-ko/prctl(2)/">prctl(2)</a></tt>의 <code>PR_SET_DUMPABLE</code> 논의 참고) 호출자가 대상 프로세스의 사용자 네임스페이스에서 <code>CAP_SYS_PTRACE</code> 역능을 가지고 있지 않으면 접근을 거부한다.</p>
+<p>대상 프로세스의 "덤프 가능" 속성이 1 아닌 값을 가지고 있으며 (<code>SUID_DUMP_USER</code>. <tt><a class="wikilink" href="/man-pages-ko/prctl(2)/">prctl(2)</a></tt>의 <code>PR_SET_DUMPABLE</code> 설명 참고) 호출자가 대상 프로세스의 사용자 네임스페이스에서 <code>CAP_SYS_PTRACE</code> 역능을 가지고 있지 않으면 접근을 거부한다.</p>
 </li>
 <li>
 <p>커널 LSM <code>security_ptrace_access_check()</code> 인터페이스를 호출해서 ptrace 접근이 허용되는지 알아본다. 결과는 LSM(들)에 달려 있다. commoncap LSM의 이 인터페이스 구현에서는 다음 단계들을 수행한다.</p>

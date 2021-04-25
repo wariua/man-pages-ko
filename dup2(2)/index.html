@@ -169,7 +169,7 @@ int dup3(int oldfd, int newfd, int flags);
 <h2 id="description">DESCRIPTION</h2>
 <p><code>dup()</code> 시스템 호출은 파일 디스크립터 <code>oldfd</code>의 사본을 만든다. 안 쓰는 가장 낮은 파일 디스크립터 번호를 새 디스크립터에 쓴다.</p>
 <p>성공 반환 후에는 이전 파일 디스크립터와 새 파일 디스크립터를 서로 바꿔 가며 사용할 수도 있다. 같은 열린 파일 기술 항목(<tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt> 참고)을 가리키기 때문에 오프셋과 파일 상태를 공유한다. 예를 들어 한쪽 파일 디스크립터에서 <tt><a class="wikilink" href="/man-pages-ko/lseek(2)/">lseek(2)</a></tt>으로 파일 오프셋을 변경하면 다른 쪽에서도 오프셋이 바뀐다.</p>
-<p>두 파일 디스크립터가 파일 디스크립터 플래그('exec에서 닫기' 플래그)는 공유하지 않는다. 복제 디스크립터에서는 'exec에서 닫기'(<code>FD_CLOEXEC</code>, <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt> 참고) 플래그가 꺼져 있다.</p>
+<p>두 파일 디스크립터가 파일 디스크립터 플래그(exec에서 닫기 플래그)는 공유하지 않는다. 복제 디스크립터에서는 exec에서 닫기(<code>FD_CLOEXEC</code>, <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt> 참고) 플래그가 꺼져 있다.</p>
 <h3 id="dup2"><code>dup2()</code></h3>
 <p><code>dup2()</code> 시스템 호출은 <code>dup()</code>과 같은 일을 하되 안 쓰는 가장 낮은 파일 디스크립터 번호를 쓰는 게 아니라 <code>newfd</code>에 지정한 파일 디스크립터 번호를 쓴다. 파일 디스크립터 <code>newfd</code>가 이미 열려 있으면 조용히 닫고서 재사용한다.</p>
 <p>파일 디스크립터 <code>newfd</code>를 닫고 재사용하는 단계를 <em>원자적으로</em> 수행한다. 이 점이 중요한 건 <tt><a class="wikilink" href="/man-pages-ko/close(2)/">close(2)</a></tt>와 <code>dup()</code>을 이용해 동등한 기능성을 구현하려 하면 <code>newfd</code>가 두 단계 사이에서 재사용될 수도 있는 경쟁 조건에 직면하게 되기 때문이다. 메인 프로그램을 중단시킨 시그널 핸들러에서 파일 디스크립터를 할당하거나 병렬 스레드에서 파일 디스크립터를 할당하여 그런 재사용이 일어날 수 있을 것이다.</p>
@@ -186,7 +186,7 @@ int dup3(int oldfd, int newfd, int flags);
 <p><code>dup3()</code>는 다음 사항을 제외하면 <code>dup2()</code>와 같다.</p>
 <ul>
 <li>
-<p>호출자가 <code>flags</code>에 <code>O_CLOEXEC</code>를 지정해서 새 파일 디스크립터에 'exec에서 닫기' 플래그가 설정되게 할 수 있다. 이게 유용할 수 있는 이유에 대해선 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>의 해당 플래그 설명을 보라.</p>
+<p>호출자가 <code>flags</code>에 <code>O_CLOEXEC</code>를 지정해서 새 파일 디스크립터에 exec에서 닫기 플래그가 설정되게 할 수 있다. 이게 유용할 수 있는 이유에 대해선 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>의 해당 플래그 설명을 보라.</p>
 </li>
 <li>
 <p><code>oldfd</code>가 <code>newfd</code>와 같은 경우에 <code>dup3()</code>는 <code>EINVAL</code> 오류로 실패한다.</p>

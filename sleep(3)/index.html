@@ -181,7 +181,7 @@ unsigned int sleep(unsigned int seconds);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008.</p>
 <h2 id="notes">NOTES</h2>
-<p>리눅스에서는 <tt><a class="wikilink" href="/man-pages-ko/nanosleep(2)/">nanosleep(2)</a></tt>을 통해 <code>sleep()</code>이 구현돼 있다. <tt><a class="wikilink" href="/man-pages-ko/nanosleep(2)/">nanosleep(2)</a></tt> 맨 페이지의 사용 클럭에 대한 논의를 보라.</p>
+<p>리눅스에서는 <tt><a class="wikilink" href="/man-pages-ko/nanosleep(2)/">nanosleep(2)</a></tt>을 통해 <code>sleep()</code>이 구현돼 있다. <tt><a class="wikilink" href="/man-pages-ko/nanosleep(2)/">nanosleep(2)</a></tt> 맨 페이지의 사용 클럭에 대한 설명을 보라.</p>
 <h3 id="_1">이식성 관련 사항</h3>
 <p>일부 시스템에서는 <tt><a class="wikilink" href="/man-pages-ko/alarm(2)/">alarm(2)</a></tt>과 <code>SIGALRM</code>을 사용해 <code>sleep()</code>이 구현돼 있을 수 있다. (POSIX.1에서 이를 허용한다.) <tt><a class="wikilink" href="/man-pages-ko/alarm(2)/">alarm(2)</a></tt>과 <code>sleep()</code>을 섞어서 호출하는 건 안 좋은 생각이다.</p>
 <p>잠이 들어 있는 동안 시그널 핸들러에서 <tt><a class="wikilink" href="/man-pages-ko/longjmp(3)/">longjmp(3)</a></tt>를 쓰거나 <code>SIGALRM</code> 처리 방식을 변경하면 규정 안 된 결과가 일어난다.</p>

@@ -202,7 +202,7 @@ int bpf(int cmd, union bpf_attr *attr, unsigned int size);
 <p><code>cmd</code>로 주는 값은 다음 중 하나이다.</p>
 <dl>
 <dt><code>BPF_MAP_CREATE</code></dt>
-<dd>맵을 생성하고 그 맵을 가리키는 파일 디스크립터를 반환한다. 새 파일 디스크립터에는 'exec에서 닫기' 파일 디스크립터 플래그(<tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt> 참고)가 자동으로 켜진다.</dd>
+<dd>맵을 생성하고 그 맵을 가리키는 파일 디스크립터를 반환한다. 새 파일 디스크립터에는 exec에서 닫기 플래그(<tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt> 참고)가 자동으로 켜진다.</dd>
 <dt><code>BPF_MAP_LOOKUP_ELEM</code></dt>
 <dd>지정한 맵에서 키로 항목을 찾아서 그 값을 반환한다.</dd>
 <dt><code>BPF_MAP_UPDATE_ELEM</code></dt>
@@ -212,7 +212,7 @@ int bpf(int cmd, union bpf_attr *attr, unsigned int size);
 <dt><code>BPF_MAP_GET_NEXT_KEY</code></dt>
 <dd>지정한 맵에서 키로 항목을 찾아서 다음 항목의 키를 반환한다.</dd>
 <dt><code>BPF_PROG_LOAD</code></dt>
-<dd>eBPF 프로그램을 검증 및 적재하고 프로그램과 연계된 새 파일 디스크립터를 반환한다. 새 파일 디스크립터에는 'exec에서 닫기' 파일 디스크립터 플래그(<tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt> 참고)가 자동으로 켜진다.</dd>
+<dd>eBPF 프로그램을 검증 및 적재하고 프로그램과 연계된 새 파일 디스크립터를 반환한다. 새 파일 디스크립터에는 exec에서 닫기 플래그(<tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt> 참고)가 자동으로 켜진다.</dd>
 </dl>
 <p><code>bpf_attr</code> 공용체는 여러 <code>bpf()</code> 명령에서 쓰는 다양한 익명 구조체들로 이뤄져 있다.</p>
 <pre><code class="language-c">union bpf_attr {
@@ -463,7 +463,7 @@ bpf_get_next_key(int fd, const void *key, void *next_key)
 <pre><code>void bpf_tail_call(void *context, void *prog_map,
                    unsigned int index);
 </code></pre>
-<p>이 배열을 다른 eBPF 프로그램으로 가는 일종의 점프 테이블로 볼 수 있다. 그렇게 호출된 프로그램은 같은 스택을 재사용하게 된다. 새 프로그램으로 점프를 수행하고 나면 이전 프로그램으로는 더 이상 돌아오지 않는다.</p>
+<p>이 배열을 다른 eBPF 프로그램으로 가는 일종의 점프 테이블로 볼 수 있다. 그렇게 호출된 프로그램은 같은 스택을 재사용하게 된다. 새 프로그램으로 점프를 수행하고 나면 이전 프로그램으로는 더이상 돌아오지 않는다.</p>
 <p>(맵 슬롯에 유효한 프로그램 파일 디스크립터가 없거나, 지정한 검색 색인/키가 범위 밖이거나, 호출 깊이 제한 32번을 초과해서) 프로그램 배열의 주어진 색인에서 eBPF 프로그램을 찾을 수 없으면 현재 eBPF 프로그램 실행을 계속한다. 이 동작 방식을 이용해 기본 경우로 떨어지는 것을 구현할 수 있다.</p>
 <p>프로그램 배열 맵이 유용한 경우로 추적이나 네트워킹이 있는데, 개별 시스템 호출이나 프로토콜을 별개의 하위 프로그램에서 다루고 식별자를 맵 색인으로 사용할 수 있다. 이 방식으로 인해 성능이 향상될 수도 있으며 단일 eBPF 프로그램의 최대 인스트럭션 수 제한을 넘어설 수 있기도 한다. 가변적인 환경에서 사용자 공간 데몬이 예를 들어 전역 정책이 바뀌었을 때 런타임에 원자적으로 개별 하위 프로그램들을 새 버전으로 교체하여 전체 프로그램 동작을 바꿀 수도 있을 것이다.</p>
 </dd>

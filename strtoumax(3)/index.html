@@ -159,7 +159,7 @@ uintmax_t strtoumax(const char *restrict nptr, char **restrict endptr,
 <h2 id="description">DESCRIPTION</h2>
 <p>이 함수들은 <tt><a class="wikilink" href="/man-pages-ko/strtol(3)/">strtol(3)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/strtoul(3)/">strtoul(3)</a></tt>과 같되, 각각 <code>intmax_t</code> 및 <code>uintmax_t</code> 타입 값을 반환한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 변환한 값을 반환한다. 변환할 것이 없으면 0을 반환한다. 오버플로우나 언더플로우 시에는 <code>INTMAX_MAX</code>나 <code>INTMAX_MIN</code>, 또는 <code>UINTMAX_MAX</code>를 반환하며 <code>errno</code>를 <code>ERANGE</code>로 설정한다.</p>
+<p>성공 시 변환한 값을 반환한다. 변환할 것이 없으면 0을 반환한다. 오버플로나 언더플로 시에는 <code>INTMAX_MAX</code>나 <code>INTMAX_MIN</code>, 또는 <code>UINTMAX_MAX</code>를 반환하며 <code>errno</code>를 <code>ERANGE</code>로 설정한다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
 <p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>

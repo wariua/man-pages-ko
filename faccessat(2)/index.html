@@ -185,7 +185,7 @@ int faccessat2(int dirfd, const char *pathname, int mode, int flags);
 </dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>access()</code>는 호출 프로세스가 파일 <code>pathname</code>에 접근할 수 있는지 여부를 확인한다. <code>pathname</code>이 심볼릭 링크이면 역참조를 한다.</p>
+<p><code>access()</code>는 호출 프로세스가 파일 <code>pathname</code>에 접근할 수 있는지 여부를 확인한다. <code>pathname</code>이 심볼릭 링크이면 따라간다.</p>
 <p><code>mode</code>는 수행할 접근 가능 검사(들)을 나타내는데, <code>F_OK</code> 값이거나 <code>R_OK</code>, <code>W_OK</code>, <code>X_OK</code> 중 하나 이상을 비트 OR 해서 만든 마스크이다. <code>F_OK</code>는 파일 존재 여부를 검사한다. <code>R_OK</code>, <code>W_OK</code>, <code>X_OK</code>는 파일이 존재하며 각각 읽기, 쓰기, 실행 권한을 허가하는지 여부를 검사한다.</p>
 <p>호출 프로세스의 <em>실제</em> UID 및 GID로 검사를 수행한다. 즉 파일에 대한 동작(가령 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>)을 실제 시도할 때처럼 실효 ID로 하는 게 아니다. 마찬가지로 루트 사용자에 대해 실효 역능 집합이 아니라 허용 역능 집합을 검사에 사용한다. 루트 아닌 사용자에 대해선 검사에 빈 역능 집합을 쓴다.</p>
 <p>이 때문에 set-user-ID 프로그램과 역능을 부여받은 프로그램에서 자기를 호출한 사용자의 권한을 쉽게 판단할 수 있다. 달리 말하자면 <code>access()</code>는 "내가 이 파일을 읽을/쓸/실행할 수 있는가?"라는 질문에 답하지 않는다. 살짝 다른 질문, 즉 "(내가 setuid 바이너리라고 하고) <em>나를 호출한 사용자가</em> 이 파일을 읽을/쓸/실행할 수 있는가?"에 답한다. 그래서 set-user-ID 프로그램인 경우에, 악의적 사용자가 읽을 수 없어야 되는 파일을 읽게끔 만드는 걸 막을 수 있게 된다.</p>
@@ -200,7 +200,7 @@ int faccessat2(int dirfd, const char *pathname, int mode, int flags);
 <dt><code>AT_EACCESS</code></dt>
 <dd>실효 사용자 및 그룹 ID로 접근 검사를 수행한다. 기본적으로 <code>faccessat()</code>에서는 (<code>access()</code>처럼) 실제 ID를 사용한다.</dd>
 <dt><code>AT_SYMLINK_NOFOLLOW</code></dt>
-<dd><code>pathname</code>이 심볼릭 링크인 경우 역참조를 하지 않는다. 대신 링크 자체에 대한 정보를 반환한다.</dd>
+<dd><code>pathname</code>이 심볼릭 링크인 경우 따라가지 않는다. 대신 링크 자체에 대한 정보를 반환한다.</dd>
 </dl>
 <p><code>faccessat()</code>의 필요성에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/openat(2)/">openat(2)</a></tt>을 보라.</p>
 <h3 id="faccessat2"><code>faccessat2()</code></h3>
@@ -254,7 +254,7 @@ int faccessat2(int dirfd, const char *pathname, int mode, int flags);
 <p><code>faccessat2()</code>: 리눅스 전용.</p>
 <h2 id="notes">NOTES</h2>
 <p><strong>경고</strong>: 예를 들어 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>으로 실제 파일을 열기 전에 이 호출들을 사용해서 파일을 열 권한이 사용자에게 있는지 검사하는 방식은 보안상의 구멍을 만든다. 검사 시점과 파일을 열어서 조작하는 시점 사이의 짧은 간격을 사용자가 악용할 수도 있기 때문이다. <strong>그런 이유로 이 시스템 호출 사용을 피하는 게 좋다.</strong> (방금 서술한 예에서 안전한 대안은 프로세스의 실효 사용자 ID를 실제 ID로 잠시 전환하고서 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>을 호출하는 것이다.)</p>
-<p><code>access()</code>는 항상 심볼릭 링크를 역참조한다. 심볼릭 링크에 대해 권한을 검사해야 하면 <code>faccessat()</code>를 <code>AT_SYMLINK_NOFOLLOW</code> 플래그로 사용하면 된다.</p>
+<p><code>access()</code>는 항상 심볼릭 링크를 따라간다. 심볼릭 링크에 대해 권한을 검사해야 하면 <code>faccessat()</code>를 <code>AT_SYMLINK_NOFOLLOW</code> 플래그로 사용하면 된다.</p>
 <p>이 호출들은 <code>mode</code>의 접근 방식들 중 하나라도 거부되면 <code>mode</code>의 나머지 접근 방식 일부가 허용되는 경우라도 오류를 반환한다.</p>
 <p>호출 프로세스에게 적절한 특권이 있는 경우에 (즉 수퍼유저인 경우) POSIX.1-2001에서는 실행 권한 비트가 전혀 설정돼 있지 않더라도 구현에서 <code>X_OK</code> 검사에 대해 성공을 표시하는 걸 허용한다. 리눅스에서는 그렇게 하지 않는다.</p>
 <p><code>pathname</code> 경로 선두부의 디렉터리 각각에 대해 권한이 탐색(즉 실행) 접근을 허가하는 경우에만 그 파일이 접근 가능하다. 한 디렉터리라도 접근 불가능이면 파일 자체에 대한 권한은 상관없이 <code>access()</code> 호출이 실패한다.</p>

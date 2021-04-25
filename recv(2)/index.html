@@ -182,7 +182,7 @@ ssize_t recvmsg(int sockfd, struct msghdr *msg, int flags);
 <p><code>flags</code> 인자는 다음 값들을 1개 이상 OR 해서 구성한다.</p>
 <dl>
 <dt><code>MSG_CMSG_CLOEXEC</code> (<code>recvmsg()</code> 전용, 리눅스 2.6.23부터)</dt>
-<dd>(<tt><a class="wikilink" href="/man-pages-ko/unix(7)/">unix(7)</a></tt>에서 기술하는) <code>SCM_RIGHTS</code> 동작으로 유닉스 도메인 파일 디스크립터를 통해 수신하는 파일 디스크립터에 'exec에서 닫기' 플래그를 설정한다. <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>의 <code>O_CLOEXEC</code> 플래그와 같은 이유로 이 플래그가 유용하다.</dd>
+<dd>(<tt><a class="wikilink" href="/man-pages-ko/unix(7)/">unix(7)</a></tt>에서 기술하는) <code>SCM_RIGHTS</code> 동작으로 유닉스 도메인 파일 디스크립터를 통해 수신하는 파일 디스크립터에 exec에서 닫기 플래그를 설정한다. <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>의 <code>O_CLOEXEC</code> 플래그와 같은 이유로 이 플래그가 유용하다.</dd>
 <dt><code>MSG_DONTWAIT</code> (리눅스 2.2부터)</dt>
 <dd>논블로킹 동작을 켠다. 동작이 블록 되려는 경우 호출이 <code>EAGAIN</code>이나 <code>EWOULDBLOCK</code>으로 실패한다. (<tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt> <code>F_SETFL</code> 동작을 통해) <code>O_NONBLOCK</code> 플래그를 설정한 경우와 비슷한 동작 방식인데, <code>MSG_DONTWAIT</code>이 호출별 옵션인 반면 <code>O_NONBLOCK</code>은 열린 파일 기술 항목에 대한 설정이어서 (<tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt> 참고) 호출 프로세스 내 모든 스레드뿐 아니라 같은 열린 파일 기술 항목을 가리키는 파일 디스크립터를 가진 다른 프로세스에도 영향을 끼치게 된다.</dd>
 <dt><code>MSG_ERRQUEUE</code> (리눅스 2.2부터)</dt>
