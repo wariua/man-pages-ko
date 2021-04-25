@@ -33,7 +33,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## RETURN VALUE
 
-값이 언더플로우나 오버플로우 되지 않으면 `strtol()` 함수는 변환 결과를 반환한다. 언더플로우가 일어나면 `strtol()`은 `LONG_MIN`을 반환한다. 오버플로우가 일어나면 `strtol()`은 `LONG_MAX`를 반환한다. 두 경우 모두에서 `errno`를 `ERANGE`로 설정한다. 같은 내용이 `strtoll()`에 (`LONG_MIN`과 `LONG_MAX` 대신 `LLONG_MIN`과 `LLONG_MAX`로) 적용된다.
+값이 언더플로나 오버플로 되지 않으면 `strtol()` 함수는 변환 결과를 반환한다. 언더플로가 일어나면 `strtol()`은 `LONG_MIN`을 반환한다. 오버플로가 일어나면 `strtol()`은 `LONG_MAX`를 반환한다. 두 경우 모두에서 `errno`를 `ERANGE`로 설정한다. 같은 내용이 `strtoll()`에 (`LONG_MIN`과 `LONG_MAX` 대신 `LLONG_MIN`과 `LLONG_MAX`로) 적용된다.
 
 ## ERRORS
 

@@ -29,7 +29,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 `free()` 함수는 `ptr`이 가리키는 메모리 공간을 해제하는데 `ptr`은 이전의 `malloc()`, `calloc()`, `realloc()` 호출이 반환한 것이어야 한다. 그렇지 않으면, 또는 이미 `free(ptr)`을 호출했으면 규정되어 있지 않은 동작이 일어난다. `ptr`이 NULL이면 어떤 동작도 수행하지 않는다.
 
-`calloc()` 함수는 각 `size` 바이트인 원소 `nmemb` 개의 배열을 위한 배열을 할당하여 할당한 메모리에 대한 포인터를 반환한다. 그 메모리는 0으로 채워져 있다. `nmemb`나 `size`가 0이면 `calloc()`은 NULL을 반환하거나, 이후 `free()`에 무사히 전달할 수 있는 고유한 포인터 값을 반환한다. `nmemb`와 `size`의 곱이 정수 오버플로우를 일으킬 경우 `calloc()`은 오류를 반환한다. 반면 다음 `malloc()` 호출은 정수 오버플로우를 탐지하지 않으며, 그래서 잘못된 크기의 블록이 할당되는 결과를 낳을 수 있다.
+`calloc()` 함수는 각 `size` 바이트인 원소 `nmemb` 개의 배열을 위한 배열을 할당하여 할당한 메모리에 대한 포인터를 반환한다. 그 메모리는 0으로 채워져 있다. `nmemb`나 `size`가 0이면 `calloc()`은 NULL을 반환하거나, 이후 `free()`에 무사히 전달할 수 있는 고유한 포인터 값을 반환한다. `nmemb`와 `size`의 곱이 정수 오버플로를 일으킬 경우 `calloc()`은 오류를 반환한다. 반면 다음 `malloc()` 호출은 정수 오버플로를 탐지하지 않으며, 그래서 잘못된 크기의 블록이 할당되는 결과를 낳을 수 있다.
 
 ```c
 malloc(nmemb * size);
@@ -43,7 +43,7 @@ malloc(nmemb * size);
 realloc(ptr, nmemb * size);
 ```
 
-하지만 `realloc()` 호출과 달리 `reallocarray()`는 곱셈이 넘치게 될 경우에 안전하게 실패한다. 그런 오버플로우가 일어나는 경우 `reallocarray()`는 NULL을 반환하고 `errno`를 `ENOMEM`으로 설정하며, 원래 메모리 블록을 그대로 남겨둔다.
+하지만 `realloc()` 호출과 달리 `reallocarray()`는 곱셈이 넘치게 될 경우에 안전하게 실패한다. 그런 오버플로가 일어나는 경우 `reallocarray()`는 NULL을 반환하고 `errno`를 `ENOMEM`으로 설정하며, 원래 메모리 블록을 그대로 남겨둔다.
 
 ## RETURN VALUE
 

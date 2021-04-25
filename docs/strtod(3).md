@@ -39,14 +39,14 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 어떤 변환도 수행하지 않았으면 0을 반환하며 (`endptr`이 널이 아니면) `nptr`의 값을 `endptr`이 가리키는 위치에 저장한다.
 
-값이 오버플로우를 일으키게 되면 (그 값의 반환 타입과 부호에 따라) 양수 또는 음수인 `HUGE_VAL`, `HUGE_VALF`, `HUGE_VALL`을 반환하며 `errno`에 `ERANGE`를 저장한다.
+값이 오버플로를 일으키게 되면 (그 값의 반환 타입과 부호에 따라) 양수 또는 음수인 `HUGE_VAL`, `HUGE_VALF`, `HUGE_VALL`을 반환하며 `errno`에 `ERANGE`를 저장한다.
 
-값이 언더플로우를 일으키게 되면 크기가 `DBL_MIN`, `FLT_MIN`, `LDBL_MIN`보다 크지 않은 값을 반환하며 `errno`에 `ERANGE`를 저장한다.
+값이 언더플로를 일으키게 되면 크기가 `DBL_MIN`, `FLT_MIN`, `LDBL_MIN`보다 크지 않은 값을 반환하며 `errno`에 `ERANGE`를 저장한다.
 
 ## ERRORS
 
 `ERANGE`
-:   오버플로우나 언더플로우가 발생했다.
+:   오버플로나 언더플로가 발생했다.
 
 ## ATTRIBUTES
 

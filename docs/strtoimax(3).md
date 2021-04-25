@@ -19,7 +19,7 @@ uintmax_t strtoumax(const char *restrict nptr, char **restrict endptr,
 
 ## RETURN VALUE
 
-성공 시 변환한 값을 반환한다. 변환할 것이 없으면 0을 반환한다. 오버플로우나 언더플로우 시에는 `INTMAX_MAX`나 `INTMAX_MIN`, 또는 `UINTMAX_MAX`를 반환하며 `errno`를 `ERANGE`로 설정한다.
+성공 시 변환한 값을 반환한다. 변환할 것이 없으면 0을 반환한다. 오버플로나 언더플로 시에는 `INTMAX_MAX`나 `INTMAX_MIN`, 또는 `UINTMAX_MAX`를 반환하며 `errno`를 `ERANGE`로 설정한다.
 
 ## ATTRIBUTES
 

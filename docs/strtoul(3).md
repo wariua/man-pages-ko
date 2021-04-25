@@ -33,7 +33,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## RETURN VALUE
 
-원래 값이 오버플로우 되지 않으면 `strtoul()` 함수는 변환 결과를, 또는 앞에 음수 부호가 있었으면 부호 없는 값으로 표현한 변환 결과의 반수를 반환한다. 오버플로우가 일어나면 `strtoul()`은 `ULONG_MAX`를 반환하며 `errno`를 `ERANGE`로 설정한다. 같은 내용이 `strtoull()`에 (`ULONG_MAX` 대신 `ULLONG_MAX`로) 적용된다.
+원래 값이 오버플로 되지 않으면 `strtoul()` 함수는 변환 결과를, 또는 앞에 음수 부호가 있었으면 부호 없는 값으로 표현한 변환 결과의 반수를 반환한다. 오버플로가 일어나면 `strtoul()`은 `ULONG_MAX`를 반환하며 `errno`를 `ERANGE`로 설정한다. 같은 내용이 `strtoull()`에 (`ULONG_MAX` 대신 `ULLONG_MAX`로) 적용된다.
 
 ## ERRORS
 
