@@ -39,7 +39,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## VERSIONS
 
-glibc 버전 2.32부터 `<stdio.h>`에서 더 이상 `sys_errlist`와 `sys_nerr` 선언을 드러내지 않는다.
+glibc 버전 2.32부터 `<stdio.h>`에서 더이상 `sys_errlist`와 `sys_nerr` 선언을 드러내지 않는다.
 
 ## ATTRIBUTES
 

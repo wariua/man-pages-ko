@@ -18,7 +18,7 @@ int pthread_key_delete(pthread_key_t key);
 
 `pthread_key_delete()` 함수는 앞서 `pthread_key_create()`가 반환한 스레드별 데이터 키를 삭제한다. `pthread_key_delete()`를 호출하는 시점에 `key`에 연계된 스레드별 데이터 값들이 NULL일 필요는 없다. 삭제되는 키 내지 연계된 스레드별 데이터와 관련된 자료 구조를 위한 응용 저장 공간을 해제하거나 정리 동작을 수행할 책임은 응용에게 있다. 그 정리는 `pthread_key_delete()` 호출 전에 이뤄질 수도 있고 후에 이뤄질 수도 있다. `pthread_key_delete()` 호출 후에 `key`를 사용하려는 시도가 유발하는 동작은 규정되어 있지 않다.
 
-소멸자 함수 내에서 `pthread_key_delete()` 함수를 호출할 수 있다. `pthread_key_delete()`에서는 어떤 소멸자 함수도 호출하지 않는다. `key`에 연계된 소멸자 함수가 있었다면 스레드 종료 때 더 이상 호출되지 않는다.
+소멸자 함수 내에서 `pthread_key_delete()` 함수를 호출할 수 있다. `pthread_key_delete()`에서는 어떤 소멸자 함수도 호출하지 않는다. `key`에 연계된 소멸자 함수가 있었다면 스레드 종료 때 더이상 호출되지 않는다.
 
 ## RETURN VALUE
 

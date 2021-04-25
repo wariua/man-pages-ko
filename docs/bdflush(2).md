@@ -49,7 +49,7 @@ int bdflush(int func, long data);
 
 ## VERSIONS
 
-glibc 버전 2.23부터 이 구식 시스템 호출을 더 이상 지원하지 않는다.
+glibc 버전 2.23부터 이 구식 시스템 호출을 더이상 지원하지 않는다.
 
 ## CONFORMING TO
 

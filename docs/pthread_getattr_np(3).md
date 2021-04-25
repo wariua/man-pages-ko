@@ -27,7 +27,7 @@ int pthread_getattr_np(pthread_t thread, pthread_attr_t *attr);
 
 여기에 더해서, 스레드 생성에 쓰인 스레드 속성 객체에 스택 주소 속성이 설정돼 있지 않았다면 구현에서 그 스레드에 골라 준 실제 스택 주소를 반환되는 스레드 속성 객체가 알려 주게 된다.
 
-`pthread_getattr_np()`가 반환한 스레드 속성 객체가 더 이상 필요하지 않으면 <tt>[[pthread_attr_destroy(3)]]</tt>로 파기하는 게 좋다.
+`pthread_getattr_np()`가 반환한 스레드 속성 객체가 더이상 필요하지 않으면 <tt>[[pthread_attr_destroy(3)]]</tt>로 파기하는 게 좋다.
 
 ## RETURN VALUE
 

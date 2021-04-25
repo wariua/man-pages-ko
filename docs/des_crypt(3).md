@@ -43,7 +43,7 @@ int DES_FAILED(int status);
 
 glibc 버전 2.1에서 이 함수들이 추가되었다.
 
-더 이상 안전하지 않다고 보는 DES 블록 암호를 이용하기 때문에 `ecb_crypt()`, `cbc_crypt()`, `crypt_r()`, `des_setparity()`가 glibc 2.28에서 제거되었다. 응용들은 `libgcrypt` 같은 현대적인 암호 라이브러리로 전환하는 게 좋다.
+더이상 안전하지 않다고 보는 DES 블록 암호를 이용하기 때문에 `ecb_crypt()`, `cbc_crypt()`, `crypt_r()`, `des_setparity()`가 glibc 2.28에서 제거되었다. 응용들은 `libgcrypt` 같은 현대적인 암호 라이브러리로 전환하는 게 좋다.
 
 ## ATTRIBUTES
 

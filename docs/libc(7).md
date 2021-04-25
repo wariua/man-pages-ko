@@ -18,7 +18,7 @@ libc - 리눅스의 표준 C 라이브러리들 소개
 
 하지만 Linux libc 활동의 원래 동기에도 불구하고 (1997년에) glibc 2.0이 출시됐을 때 그게 Linux libc보다 낫다는 게 분명했고, Linux libc를 쓰던 주요 리눅스 배포판들이 모두 이내 glibc로 되돌아갔다. Linux libc 버전들과의 혼동을 피하기 위해 glibc 2.0 및 이후에서는 공유 라이브러리 soname으로 `libc.so.6`을 사용했다.
 
-오래전 일어난 Linux libc에서 glibc 2.0으로의 전환 이후로 *man-pages*에서는 더 이상 Linux libc에 대한 내용을 신경써서 기록하지 않는다. 그럼에도 불구하고 몇몇 매뉴얼 페이지에 *libc4* 및 *libc5*를 언급하는 형태로 남아있는 Linux libc에 대한 정보들의 흔적을 볼 수 있다.
+오래전 일어난 Linux libc에서 glibc 2.0으로의 전환 이후로 *man-pages*에서는 더이상 Linux libc에 대한 내용을 신경써서 기록하지 않는다. 그럼에도 불구하고 몇몇 매뉴얼 페이지에 *libc4* 및 *libc5*를 언급하는 형태로 남아있는 Linux libc에 대한 정보들의 흔적을 볼 수 있다.
 
 ### 기타 C 라이브러리들
 

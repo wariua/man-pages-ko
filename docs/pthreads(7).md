@@ -488,7 +488,7 @@ wscanf()
 그간 리눅스의 GNU C 라이브러리에서 두 가지 스레딩 구현을 제공했다.
 
 LinuxThreads
-:   원래 Pthreads 구현이다. glibc 2.4부터는 이 구현을 더 이상 지원하지 않는다.
+:   원래 Pthreads 구현이다. glibc 2.4부터는 이 구현을 더이상 지원하지 않는다.
 
 NPTL (Native POSIX Threads Library)
 :   신식 Pthreads 구현이다. LinuxThreads와 비교할 때 NPTL은 POSIX.1 명세 요구 사항들을 더 가깝게 준수하며 스레드를 다수 생성할 때 성능이 더 좋다. glibc 2.3.2부터 NPTL을 사용할 수 있으며 리눅스 2.6 커널에 있는 기능들을 필요로 한다.

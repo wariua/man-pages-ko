@@ -193,7 +193,7 @@ struct rlimit {
 
 ### C 라이브러리/커널 ABI 차이
 
-버전 2.12부터 glibc의 `getrlimit()` 및 `setrlimit()` 래퍼 함수에서는 더 이상 대응하는 시스템 호출을 부르지 않고 대신 `prlimit()`을 이용한다. 이는 BUGS에서 설명하는 이유들 때문이다.
+버전 2.12부터 glibc의 `getrlimit()` 및 `setrlimit()` 래퍼 함수에서는 더이상 대응하는 시스템 호출을 부르지 않고 대신 `prlimit()`을 이용한다. 이는 BUGS에서 설명하는 이유들 때문이다.
 
 glibc 래퍼 함수의 이름이 `prlimit()`이다. 기반 시스템 호출은 `prlimit64()`이다.
 

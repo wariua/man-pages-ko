@@ -449,7 +449,7 @@ ptrace(PTRACE_GETSIGINFO, pid, 0, &siginfo)
 
 ### `PTRACE_EVENT_SECCOMP` 정지 (리눅스 4.8부터)
 
-리눅스 4.8부터는 `PTRACE_EVENT_SECCOMP` 정지가 시스템-호출-진입-정지와 시스템-호출-퇴장-정지 사이에서 일어나도록 순서가 바뀌었다. 그래서 `PTRACE_SYSEMU` 때문에 시스템 호출을 건너뛰는 경우 seccomp이 더 이상 돌지 않는다. (그래서 `PTRACE_EVENT_SECCOMP`가 보고되지 않는다.)
+리눅스 4.8부터는 `PTRACE_EVENT_SECCOMP` 정지가 시스템-호출-진입-정지와 시스템-호출-퇴장-정지 사이에서 일어나도록 순서가 바뀌었다. 그래서 `PTRACE_SYSEMU` 때문에 시스템 호출을 건너뛰는 경우 seccomp이 더이상 돌지 않는다. (그래서 `PTRACE_EVENT_SECCOMP`가 보고되지 않는다.)
 
 기능적으로 `PTRACE_EVENT_SECCOMP` 정지는 시스템-호출-진입-정지와 비슷하게 기능한다. (즉, `PTRACE_SYSCALL`로 속행시키면 시스템-호출-퇴장-정지가 발생하고, 시스템 호출 번호를 바꿀 수 있으며, 다른 레지스터를 변경하면 그 내용 역시 실행될 시스템 호출에게 보인다.) 참고로 선행 시스템-호출-진입-정지가 있을 수도 있지만 꼭 있어야 하는 것은 아니다.
 

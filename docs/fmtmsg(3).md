@@ -26,7 +26,7 @@ int fmtmsg(long classification, const char *label,
 
 ### 더미 인자
 
-인자 각각이 더미 값을 가질 수 있다. 더미 분류 값인 `MM_NULLMC`(`0L`)는 어떤 출력도 나타내지 않고, 그래서 아무 것도 찍히지 않는다. 더미 심각도 값인 `NO_SEV`(`0`)는 어떤 심각도도 제공하지 않는다는 말이다. `MM_NULLLBL`, `MM_NULLTXT`, `MM_NULLACT`, `MM_NULLTAG`는 `((char *) 0)`, 즉 빈 문자열과 동의어이며 `MM_NULLSEV`는 `NO_SEV`와 동의어이다.
+인자 각각이 더미 값을 가질 수 있다. 더미 분류 값인 `MM_NULLMC`(`0L`)는 어떤 출력도 나타내지 않고, 그래서 아무것도 찍히지 않는다. 더미 심각도 값인 `NO_SEV`(`0`)는 어떤 심각도도 제공하지 않는다는 말이다. `MM_NULLLBL`, `MM_NULLTXT`, `MM_NULLACT`, `MM_NULLTAG`는 `((char *) 0)`, 즉 빈 문자열과 동의어이며 `MM_NULLSEV`는 `NO_SEV`와 동의어이다.
 
 ### `classification` 인자
 

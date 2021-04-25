@@ -41,7 +41,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## CONFORMING TO
 
-이 함수는 SunOS 4에서 생긴 것이지만 glibc에도 있다. 솔라리스(SunOS 5)에는 더 이상 존재하지 않는다. 이식 가능한 응용에서는 이 함수를 피하고 대신 표준인 <tt>[[atexit(3)]]</tt>를 사용해야 한다.
+이 함수는 SunOS 4에서 생긴 것이지만 glibc에도 있다. 솔라리스(SunOS 5)에는 더이상 존재하지 않는다. 이식 가능한 응용에서는 이 함수를 피하고 대신 표준인 <tt>[[atexit(3)]]</tt>를 사용해야 한다.
 
 ## NOTES
 
