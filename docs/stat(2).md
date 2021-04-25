@@ -149,7 +149,7 @@ struct stat {
     이 플래그는 리눅스 전용이다. 그 정의를 얻으려면 `_GNU_SOURCE`를 정의해야 한다.
 
 `AT_SYMLINK_NOFOLLOW`
-:   `pathname`이 심볼릭 링크인 경우 역참조를 하지 않는다. 대신 `lstat()`처럼 링크 자체에 대한 정보를 반환한다. (기본적으로 `fstatat()`은 `stat()`처럼 심볼릭 링크를 역참조 한다.)
+:   `pathname`이 심볼릭 링크인 경우 따라가지 않는다. 대신 `lstat()`처럼 링크 자체에 대한 정보를 반환한다. (기본적으로 `fstatat()`은 `stat()`처럼 심볼릭 링크를 따라간다.)
 
 `fstatat()`의 필요성에 대한 설명은 <tt>[[openat(2)]]</tt>을 보라.
 

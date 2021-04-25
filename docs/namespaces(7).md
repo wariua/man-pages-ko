@@ -103,7 +103,7 @@ uts:[4026531838]
 `/proc/[pid]/ns/uts` (리눅스 3.0부터)
 :   이 파일은 프로세스의 UTS 네임스페이스에 대한 핸들이다.
 
-이 심볼릭 링크들을 역참조하거나 읽을 수 있는 권한은 ptrace 접근 모드 `PTRACE_MODE_READ_FSCREDS` 검사에 따라 결정된다. <tt>[[ptrace(2)]]</tt> 참고.
+이 심볼릭 링크들을 따라가거나 읽을 수 있는 권한은 ptrace 접근 모드 `PTRACE_MODE_READ_FSCREDS` 검사에 따라 결정된다. <tt>[[ptrace(2)]]</tt> 참고.
 
 ### `/proc/sys/user` 디렉터리
 

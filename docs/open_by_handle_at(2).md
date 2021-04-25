@@ -53,7 +53,7 @@ struct file_handle {
 
 `mount_id` 인자는 `pathname`에 부합하는 파일 시스템 마운트에 대한 식별자를 반환한다. 이는 `/proc/self/mountinfo`에 있는 한 레코드의 첫 번째 필드에 대응한다. 그 레코드의 다섯 번째 필드에 있는 경로명을 열면 그 마운트 지점에 대한 파일 디스크립터가 나오고, 그 파일 디스크립터를 이어지는 `open_by_handle_at()` 호출에 사용할 수 있다. 성공 호출과 `EOVERFLOW` 오류가 난 호출 모두에서 `mount_id`가 반환된다.
 
-기본적으로 `name_to_handle_at()`에서는 `pathname`이 심볼릭 링크인 경우 역참조를 하지 않고 그 링크 자체에 대한 핸들을 반환한다. `flags`에 `AT_SYMLINK_FOLLOW`를 지정하면 `pathname`이 심볼릭 링크인 경우 역참조를 한다. (그래서 그 링크가 가리키는 파일에 대한 핸들을 반환한다.)
+기본적으로 `name_to_handle_at()`에서는 `pathname`이 심볼릭 링크인 경우 따라가지 않고 그 링크 자체에 대한 핸들을 반환한다. `flags`에 `AT_SYMLINK_FOLLOW`를 지정하면 `pathname`이 심볼릭 링크면 따라간다. (그래서 그 링크가 가리키는 파일에 대한 핸들을 반환한다.)
 
 경로명의 마지막 구성 요소가 automount 지점일 때는 `name_to_handle_at()`이 마운트를 유발하지 않는다. 파일 시스템에서 파일 핸들과 automount 지점 모두를 지원할 때 automount 지점에 대한 `name_to_handle_at()` 호출은 `handle_bytes`를 올리지 않은 채 `EOVERFLOW` 오류를 반환하게 된다. 리눅스 4.13 이상에서 NFS를 쓸 때 서버 상의 별도 파일 시스템에 있는 디렉터리에 접근 시 이런 상황이 생길 수 있다. 이 경우에 경로명 끝에 "/"를 덧붙이면 automount를 일으킬 수 있다.
 
@@ -63,7 +63,7 @@ struct file_handle {
 
 `mount_fd` 인자는 `handle`을 해석할 기준이 돼야 하는 마운트 된 파일 시스템 내의 임의 객체(파일, 디렉터리 등)에 대한 파일 디스크립터이다. 호출자의 현재 작업 디렉터리를 뜻하는 특수 값 `AT_FDCWD`를 지정할 수 있다.
 
-`flags` 인자는 <tt>[[open(2)]]</tt>에서와 같다. `handle`이 심볼릭 링크를 가리키는 경우 호출자가 `O_PATH` 플래그를 지정해야 하며, 그 심볼릭 링크를 역참조하지 않는다. `O_NOFOLLOW` 플래그는 지정 시 무시한다.
+`flags` 인자는 <tt>[[open(2)]]</tt>에서와 같다. `handle`이 심볼릭 링크를 가리키는 경우 호출자가 `O_PATH` 플래그를 지정해야 하며, 그 심볼릭 링크를 따라가지 않는다. `O_NOFOLLOW` 플래그는 지정 시 무시한다.
 
 `open_by_handle_at()`을 쓰려면 호출자에게 `CAP_DAC_READ_SEARCH` 역능이 있어야 한다.
 
