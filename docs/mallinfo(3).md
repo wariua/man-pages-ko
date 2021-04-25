@@ -48,7 +48,7 @@ struct mallinfo2 {
 :   패스트빈 유휴 블록 개수. (<tt>[[mallopt(3)]]</tt> 참고.)
 
 `hblks`
-:   현재 <tt>[[mmap(2)]]</tt>으로 할당된 블록 개수. (<tt>[[mallopt(3)]]</tt>의 `M_MMAP_THRESHOLD` 논의 참고.)
+:   현재 <tt>[[mmap(2)]]</tt>으로 할당된 블록 개수. (<tt>[[mallopt(3)]]</tt>의 `M_MMAP_THRESHOLD` 설명 참고.)
 
 `hblkhd`
 :   현재 <tt>[[mmap(2)]]</tt>으로 할당된 블록들의 바이트 수.

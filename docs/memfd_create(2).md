@@ -25,7 +25,7 @@ int memfd_create(const char *name, unsigned int flags);
 :   새 파일 디스크립터에 'exec에서 닫기'(`FD_CLOEXEC`) 플래그를 설정한다. 이게 유용할 수 있는 이유에 대해선 <tt>[[open(2)]]</tt>의 `O_CLOEXEC` 플래그 설명을 보라.
 
 `MFD_ALLOW_SEALING`
-:   파일에 대한 봉인 동작을 허용한다. <tt>[[fcntl(2)]]</tt>의 `F_ADD_SEALS` 및 `F_GET_SEALS` 동작 논의와 아래 NOTES를 참고하라. 최초 봉인 집합은 비어 있다. 이 플래그가 설정돼 있지 않으면 최초 봉인 집합이 `F_SEAL_SEAL`이 된다. 즉 파일에 다른 봉인을 설정할 수 없다.
+:   파일에 대한 봉인 동작을 허용한다. <tt>[[fcntl(2)]]</tt>의 `F_ADD_SEALS` 및 `F_GET_SEALS` 동작 설명과 아래 NOTES를 참고하라. 최초 봉인 집합은 비어 있다. 이 플래그가 설정돼 있지 않으면 최초 봉인 집합이 `F_SEAL_SEAL`이 된다. 즉 파일에 다른 봉인을 설정할 수 없다.
 
 `MFD_HUGETLB` (리눅스 4.14부터)
 :   익명 파일이 거대 페이지를 이용해 hugetlbfs 파일 시스템 안에 만들어지게 된다. hugetlbfs에 대한 자세한 내용은 리눅스 커널 소스 파일 `Documentation/admin-guide/mm/hugetlbpage.rst`를 보라. `flags`에 `MFD_HUGETLB`와 `MFD_ALLOW_SEALING`을 함께 지정하는 것은 리눅스 4.16부터 지원한다.

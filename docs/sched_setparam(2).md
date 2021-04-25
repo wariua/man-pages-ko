@@ -25,7 +25,7 @@ struct sched_param {
 
 `sched_setparam()`은 스레드의 스케줄링 정책에 대해 `param`의 유효성을 확인한다. `param->sched_priority` 값이 <tt>[[sched_get_priority_min(2)]]</tt>과 <tt>[[sched_get_priority_max(2)]]</tt>에 의한 범위 내에 있어야 한다.
 
-스케줄링 우선순위와 정책에 관련된 특권과 자원 제한에 대한 논의는 <tt>[[sched(7)]]</tt>를 보라.
+스케줄링 우선순위와 정책에 관련된 특권과 자원 제한에 대한 설명은 <tt>[[sched(7)]]</tt>를 보라.
 
 `sched_setparam()`과 `sched_getparam()`을 사용할 수 있는 POSIX 시스템에는 `<unistd.h>`에 `_POSIX_PRIORITY_SCHEDULING`이 정의되어 있다.
 

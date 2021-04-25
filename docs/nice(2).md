@@ -34,7 +34,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 ## ERRORS
 
 `EPERM`
-:   호출 프로세스가 음수 `inc`를 제공하여 자기 우선순위를 높이려고 시도했지만 충분한 특권을 가지고 있지 않다. 리눅스에서는 `CAP_SYS_NICE` 역능이 필요하다. (하지만 <tt>[[setrlimit(2)]]</tt>에 있는 `RLIMIT_NICE` 자원 제한에 대한 논의를 보라.)
+:   호출 프로세스가 음수 `inc`를 제공하여 자기 우선순위를 높이려고 시도했지만 충분한 특권을 가지고 있지 않다. 리눅스에서는 `CAP_SYS_NICE` 역능이 필요하다. (하지만 <tt>[[setrlimit(2)]]</tt>에 있는 `RLIMIT_NICE` 자원 제한 설명을 보라.)
 
 ## CONFORMING TO
 

@@ -13,7 +13,7 @@ pid_t gettid(void);
 
 ## DESCRIPTION
 
-`gettid()`는 호출자의 스레드 ID(TID)를 반환한다. 단일 스레드인 프로세스에서 스레드 ID는 프로세스 ID(<tt>[[getpid(2)]]</tt>가 반환하는 PID)와 같다. 다중 스레드인 프로세스에서 모든 스레드는 PID가 같지만 각각 유일한 TID를 가진다. 더 자세한 내용은 <tt>[[clone(2)]]</tt>의 `CLONE_THREAD` 논의를 보라.
+`gettid()`는 호출자의 스레드 ID(TID)를 반환한다. 단일 스레드인 프로세스에서 스레드 ID는 프로세스 ID(<tt>[[getpid(2)]]</tt>가 반환하는 PID)와 같다. 다중 스레드인 프로세스에서 모든 스레드는 PID가 같지만 각각 유일한 TID를 가진다. 더 자세한 내용은 <tt>[[clone(2)]]</tt>의 `CLONE_THREAD` 설명을 보라.
 
 ## RETURN VALUE
 

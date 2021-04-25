@@ -114,7 +114,7 @@ int unshare(int flags);
 :   `flags`에 `CLONE_NEWUSER`를 지정했는데 호출자가 chroot 환경 안에 있다. (즉, 호출자의 루트 디렉터리가 호출자가 위치한 마운트 네임스페이스의 루트 디렉터리와 일치하지 않는다.)
 
 `EUSERS` (리눅스 3.11부터 리눅스 4.8까지)
-:   `flags`에 `CLONE_NEWUSER`를 지정했는데 중첩 사용자 네임스페이스 수 제한을 초과하게 되었다. 위의 `ENOSPC` 오류 논의 참고.
+:   `flags`에 `CLONE_NEWUSER`를 지정했는데 중첩 사용자 네임스페이스 수 제한을 초과하게 되었다. 위의 `ENOSPC` 오류 설명 참고.
 
 ## VERSIONS
 

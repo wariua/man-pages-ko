@@ -32,7 +32,7 @@ POSIX.1-2001, POSIX.1-2008.
 
 ## NOTES
 
-리눅스에서는 <tt>[[nanosleep(2)]]</tt>을 통해 `sleep()`이 구현돼 있다. <tt>[[nanosleep(2)]]</tt> 맨 페이지의 사용 클럭에 대한 논의를 보라.
+리눅스에서는 <tt>[[nanosleep(2)]]</tt>을 통해 `sleep()`이 구현돼 있다. <tt>[[nanosleep(2)]]</tt> 맨 페이지의 사용 클럭에 대한 설명을 보라.
 
 ### 이식성 관련 사항
 
