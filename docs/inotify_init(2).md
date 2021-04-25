@@ -23,7 +23,7 @@ inotify API에 대한 소개는 <tt>[[inotify(7)]]</tt>를 보라.
 :   새 파일 디스크립터가 가리키는 열린 파일 기술 항목(<tt>[[open(2)]]</tt> 참고)에 `O_NONBLOCK` 파일 상태 플래그를 설정한다. 이 플래그를 사용하면 같은 결과를 얻기 위해 <tt>[[fcntl(2)]]</tt>을 추가로 호출하지 않아도 된다.
 
 `IN_CLOEXEC`
-:   새 파일 디스크립터에 'exec에서 닫기'(`FD_CLOEXEC`) 플래그를 설정한다. 이게 유용할 수 있는 이유에 대해선 <tt>[[open(2)]]</tt>의 `O_CLOEXEC` 플래그 설명을 보라.
+:   새 파일 디스크립터에 exec에서 닫기(`FD_CLOEXEC`) 플래그를 설정한다. 이게 유용할 수 있는 이유에 대해선 <tt>[[open(2)]]</tt>의 `O_CLOEXEC` 플래그 설명을 보라.
 
 ## RETURN VALUE
 

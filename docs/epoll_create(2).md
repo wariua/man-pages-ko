@@ -22,7 +22,7 @@ int epoll_create1(int flags);
 `flags`가 0인 경우에는 구식 `size` 인자가 없어졌다는 점을 빼고 `epoll_create1()`이 `epoll_create()`와 동일하다. `flags`에 다음 값을 포함시켜서 다른 동작 방식을 얻을 수 있다.
 
 `EPOLL_CLOEXEC`
-:   새 파일 디스크립터에 'exec에서 닫기'(`FD_CLOEXEC`) 플래그를 설정한다. 이게 유용할 수 있는 이유에 대해선 <tt>[[open(2)]]</tt>의 `O_CLOEXEC` 플래그 설명을 보라.
+:   새 파일 디스크립터에 exec에서 닫기(`FD_CLOEXEC`) 플래그를 설정한다. 이게 유용할 수 있는 이유에 대해선 <tt>[[open(2)]]</tt>의 `O_CLOEXEC` 플래그 설명을 보라.
 
 ## RETURN VALUE
 

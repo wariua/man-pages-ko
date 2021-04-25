@@ -19,7 +19,7 @@ int eventfd(unsigned int initval, int flags);
 `flags`에 다음 값들을 비트 OR 해서 `eventfd()`의 동작 방식을 바꿀 수 있다.
 
 `EFD_CLOEXEC` (리눅스 2.6.27부터)
-:   새 파일 디스크립터에 'exec에서 닫기'(`FD_CLOEXEC`) 플래그를 설정한다. 이게 유용할 수 있는 이유에 대해선 <tt>[[open(2)]]</tt>의 `O_CLOEXEC` 플래그 설명을 보라.
+:   새 파일 디스크립터에 exec에서 닫기(`FD_CLOEXEC`) 플래그를 설정한다. 이게 유용할 수 있는 이유에 대해선 <tt>[[open(2)]]</tt>의 `O_CLOEXEC` 플래그 설명을 보라.
 
 `EFD_NONBLOCK` (리눅스 2.6.27부터)
 :   새 파일 디스크립터가 가리키는 열린 파일 기술 항목(<tt>[[open(2)]]</tt> 참고)에 `O_NONBLOCK` 파일 상태 플래그를 설정한다. 이 플래그를 사용하면 같은 결과를 얻기 위해 <tt>[[fcntl(2)]]</tt>을 추가로 호출하지 않아도 된다.
@@ -63,7 +63,7 @@ int eventfd(unsigned int initval, int flags);
 <tt>[[close(2)]]</tt>
 :   파일 디스크립터가 더이상 필요하지 않으면 닫아야 한다. 동일 eventfd 객체에 연계된 모든 파일 디스크립터가 닫혔을 때 커널이 그 객체의 자원을 해제한다.
 
-<tt>[[fork(2)]]</tt>로 생성된 자식은 `eventfd()`로 만든 파일 디스크립터의 사본을 물려받는다. 복제된 파일 디스크립터는 동일한 eventfd 객체에 연계되어 있다. 'exec에서 닫기' 플래그를 설정하지 않았으면 <tt>[[execve(2)]]</tt>를 거치면서 `eventfd()`로 만든 파일 디스크립터가 유지된다.
+<tt>[[fork(2)]]</tt>로 생성된 자식은 `eventfd()`로 만든 파일 디스크립터의 사본을 물려받는다. 복제된 파일 디스크립터는 동일한 eventfd 객체에 연계되어 있다. exec에서 닫기 플래그를 설정하지 않았으면 <tt>[[execve(2)]]</tt>를 거치면서 `eventfd()`로 만든 파일 디스크립터가 유지된다.
 
 ## RETURN VALUE
 

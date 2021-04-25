@@ -41,7 +41,7 @@ recvfrom(sockfd, buf, len, flags, NULL, NULL);
 `flags` 인자는 다음 값들을 1개 이상 OR 해서 구성한다.
 
 `MSG_CMSG_CLOEXEC` (`recvmsg()` 전용, 리눅스 2.6.23부터)
-:   (<tt>[[unix(7)]]</tt>에서 기술하는) `SCM_RIGHTS` 동작으로 유닉스 도메인 파일 디스크립터를 통해 수신하는 파일 디스크립터에 'exec에서 닫기' 플래그를 설정한다. <tt>[[open(2)]]</tt>의 `O_CLOEXEC` 플래그와 같은 이유로 이 플래그가 유용하다.
+:   (<tt>[[unix(7)]]</tt>에서 기술하는) `SCM_RIGHTS` 동작으로 유닉스 도메인 파일 디스크립터를 통해 수신하는 파일 디스크립터에 exec에서 닫기 플래그를 설정한다. <tt>[[open(2)]]</tt>의 `O_CLOEXEC` 플래그와 같은 이유로 이 플래그가 유용하다.
 
 `MSG_DONTWAIT` (리눅스 2.2부터)
 :   논블로킹 동작을 켠다. 동작이 블록 되려는 경우 호출이 `EAGAIN`이나 `EWOULDBLOCK`으로 실패한다. (<tt>[[fcntl(2)]]</tt> `F_SETFL` 동작을 통해) `O_NONBLOCK` 플래그를 설정한 경우와 비슷한 동작 방식인데, `MSG_DONTWAIT`이 호출별 옵션인 반면 `O_NONBLOCK`은 열린 파일 기술 항목에 대한 설정이어서 (<tt>[[open(2)]]</tt> 참고) 호출 프로세스 내 모든 스레드뿐 아니라 같은 열린 파일 기술 항목을 가리키는 파일 디스크립터를 가진 다른 프로세스에도 영향을 끼치게 된다.

@@ -45,7 +45,7 @@ fanotify API에 대한 소개는 <tt>[[fanotify(7)]]</tt>를 보라.
 `flags`에 추가로 다음 비트들을 설정할 수 있다.
 
 `FAN_CLOEXEC`
-:   새 파일 디스크립터에 'exec에서 닫기' 플래그(`FD_CLOEXEC`)를 설정한다. <tt>[[open(2)]]</tt>의 `O_CLOEXEC` 플래그 설명을 보라.
+:   새 파일 디스크립터에 exec에서 닫기 플래그(`FD_CLOEXEC`)를 설정한다. <tt>[[open(2)]]</tt>의 `O_CLOEXEC` 플래그 설명을 보라.
 
 `FAN_NONBLOCK`
 :   파일 디스크립터에 논블로킹 플래그(`O_NONBLOCK`)를 켠다. 파일 디스크립터에서 읽기가 블록 하지 않게 된다. 읽을 수 있는 데이터가 없으면 대신 `read(2)`가 `EAGAIN` 오류로 실패한다.
@@ -91,7 +91,7 @@ fanotify API에 대한 소개는 <tt>[[fanotify(7)]]</tt>를 보라.
 :   2GB 초과 파일 지원을 켠다. 이 플래그를 설정하지 않으면 32비트 시스템에서 fanotify 그룹으로 감시하는 큰 파일을 열려고 할 때 `EOVERFLOW` 오류가 발생하게 된다.
 
 `O_CLOEXEC` (리눅스 3.18부터)
-:   파일 디스크립터에 'exec에서 닫기' 플래그를 켠다. 이게 유용할 수 있는 이유에 대해선 <tt>[[open(2)]]</tt>의 `O_CLOEXEC` 플래그 설명을 보라.
+:   파일 디스크립터에 exec에서 닫기 플래그를 켠다. 이게 유용할 수 있는 이유에 대해선 <tt>[[open(2)]]</tt>의 `O_CLOEXEC` 플래그 설명을 보라.
 
 `O_APPEND`, `O_DSYNC`, `O_NOATIME`, `O_NONBLOCK`, `O_SYNC`도 사용 가능하다. `event_f_flags`에 그 외 다른 플래그를 지정하면 `EINVAL` 오류가 생긴다. (하지만 BUGS 참고.)
 

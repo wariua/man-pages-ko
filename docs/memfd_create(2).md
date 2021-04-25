@@ -22,7 +22,7 @@ int memfd_create(const char *name, unsigned int flags);
 `flags`에 다음 값들을 비트 OR 해서 `memfd_create()`의 동작 방식을 바꿀 수 있다.
 
 `MFD_CLOEXEC`
-:   새 파일 디스크립터에 'exec에서 닫기'(`FD_CLOEXEC`) 플래그를 설정한다. 이게 유용할 수 있는 이유에 대해선 <tt>[[open(2)]]</tt>의 `O_CLOEXEC` 플래그 설명을 보라.
+:   새 파일 디스크립터에 exec에서 닫기(`FD_CLOEXEC`) 플래그를 설정한다. 이게 유용할 수 있는 이유에 대해선 <tt>[[open(2)]]</tt>의 `O_CLOEXEC` 플래그 설명을 보라.
 
 `MFD_ALLOW_SEALING`
 :   파일에 대한 봉인 동작을 허용한다. <tt>[[fcntl(2)]]</tt>의 `F_ADD_SEALS` 및 `F_GET_SEALS` 동작 설명과 아래 NOTES를 참고하라. 최초 봉인 집합은 비어 있다. 이 플래그가 설정돼 있지 않으면 최초 봉인 집합이 `F_SEAL_SEAL`이 된다. 즉 파일에 다른 봉인을 설정할 수 없다.
@@ -39,7 +39,7 @@ int memfd_create(const char *name, unsigned int flags);
 
 반환 값으로 `memfd_create()`가 반환하는 새 파일 디스크립터를 파일을 가리킬 데 쓸 수 있다. 그 파일 디스크립터는 읽기 및 쓰기(`O_RDWR`)로 열려 있으며 파일 디스크립터에 `O_LARGEFILE`이 설정돼 있다.
 
-<tt>[[fork(2)]]</tt> 및 <tt>[[execve(2)]]</tt>와 관련해선 일반적인 의미론이 `memfd_create()`로 만든 파일 디스크립터에 적용된다. <tt>[[fork(2)]]</tt>로 생긴 자식이 파일 디스크립터 사본을 물려받으며 그 사본은 파일을 가리킨다. 'exec에서 닫기' 플래그를 설정하지 않았으면 <tt>[[execve(2)]]</tt>를 거치면서 파일 디스크립터가 유지된다.
+<tt>[[fork(2)]]</tt> 및 <tt>[[execve(2)]]</tt>와 관련해선 일반적인 의미론이 `memfd_create()`로 만든 파일 디스크립터에 적용된다. <tt>[[fork(2)]]</tt>로 생긴 자식이 파일 디스크립터 사본을 물려받으며 그 사본은 파일을 가리킨다. exec에서 닫기 플래그를 설정하지 않았으면 <tt>[[execve(2)]]</tt>를 거치면서 파일 디스크립터가 유지된다.
 
 ## RETURN VALUE
 
