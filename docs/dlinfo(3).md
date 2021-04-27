@@ -16,7 +16,7 @@ int dlinfo(void *restrict handle, int request, void *restrict info);
 
 ## DESCRIPTION
 
-`dlinfo()` 함수는 (보통 앞선 <tt>[[dlopen(3)]]</tt> 내지 <tt>[[dlmopen(3)]]</tt> 호출로 얻은) `handle`이 가리키는 동적 적재 오브젝트에 대한 정보를 얻어 온다. `request` 인자가 어떤 정보를 반환해야 하는지 지정한다. `info` 인자는 호출에서 반환하는 정보를 저장하는 데 쓰는 버퍼에 대한 포인터다. `request`에 따라 이 인자의 타입이 달라진다.
+`dlinfo()` 함수는 (보통 앞선 <tt>[[dlopen(3)]]</tt> 내지 <tt>[[dlmopen(3)]]</tt> 호출로 얻은) `handle`이 가리키는 동적 적재 오브젝트에 대한 정보를 얻어 온다. `request` 인자가 어떤 정보를 반환해야 하는지 지정한다. `info` 인자는 호출에서 반환하는 정보를 저장하는 데 쓰는 버퍼의 포인터다. `request`에 따라 이 인자의 타입이 달라진다.
 
 `request`에 다음 값들을 지원한다. (괄호 안은 해당하는 `info` 타입이다.)
 
@@ -24,7 +24,7 @@ int dlinfo(void *restrict handle, int request, void *restrict info);
 :   `handle`이 적재된 링크 맵 리스트(네임스페이스)의 ID를 얻는다.
 
 `RTLD_DI_LINKMAP` (`struct link_map **`)
-:   `handle`에 대응하는 `link_map` 구조체에 대한 포인터를 얻는다. `info` 인자가 `<link.h>`에 다음처럼 정의된 `link_map` 구조체에 대한 포인터를 가리킨다.
+:   `handle`에 대응하는 `link_map` 구조체 포인터를 얻는다. `info` 인자가 `<link.h>`에 다음처럼 정의된 `link_map` 구조체 포인터를 가리킨다.
 
         struct link_map {
             ElfW(Addr) l_addr;  /* ELF 파일 내 주소와
@@ -44,7 +44,7 @@ int dlinfo(void *restrict handle, int request, void *restrict info);
 :   `handle`에 대응하는 공유 오브젝트의 출발점(origin) 경로명을 `info`가 가리키는 위치로 복사한다.
 
 `RTLD_DI_SERINFO` (`Dl_serinfo *`)
-:   `handle`이 가리키는 공유 오브젝트에 대한 라이브러리 탐색 경로 목록을 얻는다. `info` 인자가 탐색 경로들을 담는 `Dl_serinfo`에 대한 포인터이다. 탐색 경로 수가 다를 수 있기 때문에 `info`가 가리키는 구조체의 크기가 달라질 수 있다. 아래에서 기술하는 `RTLD_DI_SERINFOSIZE` 요청을 이용하면 응용에서 적절한 크기로 버퍼를 만들 수 있다. 호출자가 다음 단계들을 수행해야 한다.
+:   `handle`이 가리키는 공유 오브젝트에 대한 라이브러리 탐색 경로 목록을 얻는다. `info` 인자가 탐색 경로들을 담는 `Dl_serinfo`의 포인터이다. 탐색 경로 수가 다를 수 있기 때문에 `info`가 가리키는 구조체의 크기가 달라질 수 있다. 아래에서 기술하는 `RTLD_DI_SERINFOSIZE` 요청을 이용하면 응용에서 적절한 크기로 버퍼를 만들 수 있다. 호출자가 다음 단계들을 수행해야 한다.
 
     1. `RTLD_DI_SERINFOSIZE` 요청을 사용해 `Dl_serinfo` 구조체에 이어질 `RTLD_DI_SERINFO` 요청에 필요한 크기(`dls_size`)를 채운다.
 

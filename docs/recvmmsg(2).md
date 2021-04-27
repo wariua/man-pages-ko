@@ -18,7 +18,7 @@ int recvmmsg(int sockfd, struct mmsghdr *msgvec, unsigned int vlen,
 
 `sockfd` 인자는 데이터를 수신할 소켓의 파일 디스크립터이다.
 
-`msgvec` 인자는 `mmsghdr` 구조체 배열에 대한 포인터이다. 이 배열의 크기를 `vlen`에 지정한다.
+`msgvec` 인자는 `mmsghdr` 구조체 배열의 포인터이다. 이 배열의 크기를 `vlen`에 지정한다.
 
 `mmsghdr` 구조체는 `<sys/socket.h>`에 다음처럼 정의돼 있다.
 

@@ -45,7 +45,7 @@ int sched_getattr(pid_t pid, struct sched_attr *attr,
 `SCHED_DEADLINE`
 :   마감 스케줄링 정책. 자세한 내용은 <tt>[[sched(7)]]</tt> 참고.
 
-`attr` 인자는 지정한 스레드를 위한 새 스케줄링 정책과 속성들을 규정하는 구조체에 대한 포인터이다. 이 구조체는 다음과 같은 형태이다.
+`attr` 인자는 지정한 스레드를 위한 새 스케줄링 정책과 속성들을 규정하는 구조체의 포인터이다. 이 구조체는 다음과 같은 형태이다.
 
 ```c
 struct sched_attr {

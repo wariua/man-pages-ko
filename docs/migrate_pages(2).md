@@ -20,7 +20,7 @@ long migrate_pages(int pid, unsigned long maxnode,
 
 `migrate_pages()`는 프로세스 `pid`의 페이지들 중 메모리 노드 `old_nodes`에 있는 것들을 모두 메모리 노드 `new_nodes`로 옮기려고 시도한다. `old_nodes`의 어느 노드에도 위치해 있지 않은 페이지는 이동하지 않는다. 커널에서는 `new_nodes`로 이동시키는 동안 `old_nodes` 내의 상대적 위상 관계를 가급적 유지한다.
 
-`old_nodes` 및 `new_nodes` 인자는 노드 번호들의 비트 마스크에 대한 포인터이며, 각 마스크에 최대 `maxnode` 개 비트가 있다. 그 마스크들은 부호 없는 `long` 정수들의 배열 형태로 유지한다. (마지막 `long` 정수에서 `maxnode`로 지정한 것 너머의 비트들은 무시한다.) `maxnode` 인자는 비트 마스크 내의 가장 큰 노드 번호에 1을 더한 것이다. (<tt>[[mbind(2)]]</tt>와는 같지만 <tt>[[select(2)]]</tt>와는 다르다.)
+`old_nodes` 및 `new_nodes` 인자는 노드 번호 비트 마스크의 포인터이며, 각 마스크에 최대 `maxnode` 개 비트가 있다. 그 마스크들은 부호 없는 `long` 정수들의 배열 형태로 유지한다. (마지막 `long` 정수에서 `maxnode`로 지정한 것 너머의 비트들은 무시한다.) `maxnode` 인자는 비트 마스크 내의 가장 큰 노드 번호에 1을 더한 것이다. (<tt>[[mbind(2)]]</tt>와는 같지만 <tt>[[select(2)]]</tt>와는 다르다.)
 
 `pid` 인자는 이동할 페이지들을 소유한 프로세스의 ID이다. 다른 프로세스의 페이지들을 옮기려면 호출자에게 특권(`CAP_SYS_NICE`)이 있거나 호출 프로세스의 실제 내지 실효 사용자 ID가 대상 프로세스의 실제 내지 saved-set 사용자 ID와 일치해야 한다. `pid`가 0이면 `migrate_pages()`는 호출 프로세스의 페이지를 옮긴다.
 

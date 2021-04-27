@@ -46,7 +46,7 @@ eBPF 프로그램을 다양한 이벤트에 연계할 수 있다. 그 이벤트�
 
 ### 인자
 
-`cmd` 인자가 `bpf()` 시스템 호출이 수행할 작업을 결정한다. 각 작업은 `bpf_attr` 타입 공용체에 대한 포인터인 `attr`을 통해 추가 인자를 받는다 (아래 참고). `size` 인자는 `attr`이 가리키는 공용체의 크기이다.
+`cmd` 인자가 `bpf()` 시스템 호출이 수행할 작업을 결정한다. 각 작업은 `bpf_attr` 타입 공용체의 포인터인 `attr`을 통해 추가 인자를 받는다 (아래 참고). `size` 인자는 `attr`이 가리키는 공용체의 크기이다.
 
 `cmd`로 주는 값은 다음 중 하나이다.
 
@@ -451,7 +451,7 @@ eBPF 프로그램 종류(`prog_type`)가 프로그램에서 호출할 수 있는
         bpf_map_delete_elem(map_fd, void *key)
                             /* map_fd에서 키 삭제 */
 
-    `bpf_context` 인자는 `struct __sk_buff`에 대한 포인터이다.
+    `bpf_context` 인자는 `struct __sk_buff` 포인터이다.
 
 `BPF_PROG_TYPE_KPROBE` (리눅스 4.1부터)
 :   [작성 예정]

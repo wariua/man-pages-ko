@@ -125,7 +125,7 @@ pthread_sigmask(SIG_SETMASK, &origmask, NULL);
 
 `sigmask`를 NULL로 지정한 경우에는 시그널 마스크 조작을 수행하지 않는다. (그러면 `ppoll()`과 `poll()`의 차이는 `timeout` 인자의 정밀도뿐이다.)
 
-`tmo_p` 인자는 `ppoll()`에서 블록 할 시간의 상한을 나타낸다. 이 인자는 다음 구조체에 대한 포인터이다.
+`tmo_p` 인자는 `ppoll()`에서 블록 할 시간의 상한을 나타낸다. 이 인자는 다음 구조체의 포인터이다.
 
 ```c
 struct timespec {

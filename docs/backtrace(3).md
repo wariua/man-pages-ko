@@ -25,7 +25,7 @@ void backtrace_symbols_fd(void *const *buffer, int size, int fd);
 
 `backtrace()`는 `buffer`로 반환하는 주소들의 수를 반환하며 그 값은 `size`보다 크지 않다. 반환 값이 `size`보다 작은 경우에는 백트레이스 전체가 저장된 것이다. `size`와 같은 경우에는 일부가 잘렸을 수도 있으며, 그 경우 오래된 스택 프레임들의 주소가 반환되지 않는다.
 
-성공 시 `backtrace_symbols()`는 호출에서 <tt>[[malloc(3)]]</tt> 한 배열에 대한 포인터를 반환한다. 오류 시 NULL을 반환한다.
+성공 시 `backtrace_symbols()`는 호출에서 <tt>[[malloc(3)]]</tt> 한 배열의 포인터를 반환한다. 오류 시 NULL을 반환한다.
 
 ## ATTRIBUTES
 

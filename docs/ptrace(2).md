@@ -82,10 +82,10 @@ ptrace(PTRACE_foo, pid, ...)
     현재 유일하게 있는 플래그는 프로세스별 시그널 큐에서 시그널을 가져오기 위한 `PTRACE_PEEKSIGINFO_SHARED`이다. 이 플래그가 설정돼 있지 않으면 지정한 스레드의 스레드별 큐에서 시그널을 읽는다.
 
 `PTRACE_GETSIGMASK` (리눅스 3.11부터)
-:   블록 된 시그널 마스크(<tt>[[sigprocmask(2)]]</tt> 참고) 사본을 `data`가 가리키는 버퍼에 집어넣는다. `data`는 `sigset_t` 타입 버퍼에 대한 포인터여야 한다. `addr` 인자는 `data`가 가리키는 버퍼의 크기를 (즉 `sizeof(sigset_t)`를) 담는다.
+:   블록 된 시그널 마스크(<tt>[[sigprocmask(2)]]</tt> 참고) 사본을 `data`가 가리키는 버퍼에 집어넣는다. `data`는 `sigset_t` 타입 버퍼의 포인터여야 한다. `addr` 인자는 `data`가 가리키는 버퍼의 크기를 (즉 `sizeof(sigset_t)`를) 담는다.
 
 `PTRACE_SETSIGMASK` (리눅스 3.11부터)
-:   블록 된 시그널 마스크(<tt>[[sigprocmask(2)]]</tt> 참고)를 `data`가 가리키는 버퍼에 지정한 값으로 바꾼다. `data`는 `sigset_t` 타입 버퍼에 대한 포인터여야 한다. `addr` 인자는 `data`가 가리키는 버퍼의 크기를 (즉 `sizeof(sigset_t)`를) 담는다.
+:   블록 된 시그널 마스크(<tt>[[sigprocmask(2)]]</tt> 참고)를 `data`가 가리키는 버퍼에 지정한 값으로 바꾼다. `data`는 `sigset_t` 타입 버퍼의 포인터여야 한다. `addr` 인자는 `data`가 가리키는 버퍼의 크기를 (즉 `sizeof(sigset_t)`를) 담는다.
 
 `PTRACE_SETOPTIONS` (리눅스 2.4.6부터. BUGS 절의 경고 참고)
 :   `data`에서 가져온 ptrace 옵션들을 설정한다. (`addr`은 무시한다.) `data`는 옵션들의 비트 마스크로 해석하며, 다음 플래그들로 옵션을 지정한다.
@@ -193,7 +193,7 @@ ptrace(PTRACE_foo, pid, ...)
 
     `addr`은 얻어올 필터의 인덱스를 나타내는 정수이다. 가장 최근 설치된 필터의 인덱스가 0이다. `addr`이 설치된 필터 수보다 크면 동작이 `ENOENT` 오류로 실패한다.
 
-    `data`는 BPF 프로그램을 저장하기에 충분히 큰 `struct sock_filter` 배열에 대한 포인터이거나, 프로그램을 저장하려는 것이 아니면 NULL이다.
+    `data`는 BPF 프로그램을 저장하기에 충분히 큰 `struct sock_filter` 배열의 포인터이거나, 프로그램을 저장하려는 것이 아니면 NULL이다.
 
     성공 시 반환 값은 BPF 프로그램 내 인스트럭션 수이다. `data`가 NULL이었으면 이 반환 값을 이용해 정확한 크기의 `struct sock_filter` 배열을 후속 호출에 줄 수 있다.
 
@@ -211,7 +211,7 @@ ptrace(PTRACE_foo, pid, ...)
 :   이 동작은 <tt>[[set_thread_area(2)]]</tt>와 비슷한 일을 수행한다. GDT에서 인덱스가 `addr`인 TLS 항목을 `data`가 가리키는 `struct user_desc`에 준 데이터로 설정한다. (<tt>[[set_thread_area(2)]]</tt>와 달리 `struct user_desc`의 `entry_number`를 무시한다. 다시 말해 이 ptrace 동작을 사용해 빈 TLS 항목을 할당할 수는 없다.)
 
 `PTRACE_GET_SYSCALL_INFO` (리눅스 5.3부터)
-:   정지를 유발한 시스템 호출에 대한 정보를 가져온다. `data` 인자가 가리키는 버퍼로 정보가 들어가는데, 그 인자는 `struct ptrace_syscall_info` 타입 버퍼에 대한 포인터여야 한다. `addr` 인자는 `data` 인자가 가리키는 버퍼의 크기(즉 `sizeof(struct ptrace_syscall_info)`)를 담는다. 반환 값에는 커널에서 더 써넣었을 수 있었을 바이트 수가 들어간다. 커널에서 써넣으려 한 데이터의 크기가 `addr` 인자에 지정된 크기를 넘는 경우 데이터가 잘려서 출력된다.
+:   정지를 유발한 시스템 호출에 대한 정보를 가져온다. `data` 인자가 가리키는 버퍼로 정보가 들어가는데, 그 인자는 `struct ptrace_syscall_info` 타입 버퍼의 포인터여야 한다. `addr` 인자는 `data` 인자가 가리키는 버퍼의 크기(즉 `sizeof(struct ptrace_syscall_info)`)를 담는다. 반환 값에는 커널에서 더 써넣었을 수 있었을 바이트 수가 들어간다. 커널에서 써넣으려 한 데이터의 크기가 `addr` 인자에 지정된 크기를 넘는 경우 데이터가 잘려서 출력된다.
 
     `ptrace_syscall_info` 구조체는 다음 필드들을 담고 있다.
 

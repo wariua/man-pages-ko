@@ -51,7 +51,7 @@ void STAILQ_CONCAT(STAILQ_HEAD *head1, STAILQ_HEAD *head2);
 STAILQ_HEAD(HEADNAME, TYPE) head;
 ```
 
-`struct HEADNAME`이 정의하려는 구조체의 이름이고 `struct TYPE`이 꼬리 큐로 연결할 항목들의 타입이다. 이후 다음처럼 꼬리 큐 머리에 대한 포인터를 선언할 수 있다.
+`struct HEADNAME`이 정의하려는 구조체의 이름이고 `struct TYPE`이 꼬리 큐로 연결할 항목들의 타입이다. 이후 다음처럼 꼬리 큐 머리의 포인터를 선언할 수 있다.
 
 ```c
 struct HEADNAME *headp;
@@ -97,7 +97,7 @@ struct HEADNAME *headp;
 
 `STAILQ_EMPTY()`는 큐가 비어 있으면 0 아닌 값을 반환하고, 큐에 한 항목이라도 있으면 0을 반환한다.
 
-`STAILQ_FIRST()`와 `STAILQ_NEXT()`는 각각 처음 또는 다음 `TYPE` 구조체에 대한 포인터를 반환한다.
+`STAILQ_FIRST()`와 `STAILQ_NEXT()`는 각각 처음 또는 다음 `TYPE` 구조체의 포인터를 반환한다.
 
 `STAILQ_HEAD_INITIALIZER()`는 큐 `head`에 할당할 수 있는 초기화 값을 반환한다.
 

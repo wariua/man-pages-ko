@@ -22,7 +22,7 @@ int open_by_handle_at(int mount_fd, struct file_handle *handle,
 
 ### `name_to_handle_at()`
 
-`name_to_handle_at()` 시스템 호출은 `dirfd` 및 `pathname` 인자로 지정한 파일에 대응하는 파일 핸들과 마운트 ID를 반환한다. 인자 `handle`을 통해 파일 핸들을 반환하는데, 다음과 같은 구조체에 대한 포인터이다.
+`name_to_handle_at()` 시스템 호출은 `dirfd` 및 `pathname` 인자로 지정한 파일에 대응하는 파일 핸들과 마운트 ID를 반환한다. 인자 `handle`을 통해 파일 핸들을 반환하는데, 다음과 같은 구조체의 포인터이다.
 
 ```c
 struct file_handle {

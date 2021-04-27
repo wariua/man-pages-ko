@@ -23,7 +23,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 `realpath()`는 널 종료 문자열 `path`에서 심볼릭 링크를 모두 확장하고 `/./`, `/../`, 중복 '`/`' 문자를 풀어서 정규화 된 절대 경로명을 만들어 낸다. 결과로 나온 경로명을 `resolved_path`가 가리키는 버퍼에 최대 `PATH_MAX` 바이트까지의 널 종료 문자열로 저장한다. 결과 경로에는 심볼릭 링크나 `/./`, `/../` 요소가 없게 된다.
 
-`resolved_path`를 NULL로 지정하면 `realpath()`에서 <tt>[[malloc(3)]]</tt>을 사용해 풀린 경로명을 담을 최대 `PATH_MAX` 바이트 버퍼를 할당하고 그 버퍼에 대한 포인터를 반환한다. 호출자가 <tt>[[free(3)]]</tt>를 써서 그 버퍼를 해제해야 한다.
+`resolved_path`를 NULL로 지정하면 `realpath()`에서 <tt>[[malloc(3)]]</tt>을 사용해 풀린 경로명을 담을 최대 `PATH_MAX` 바이트 버퍼를 할당하고 그 버퍼의 포인터를 반환한다. 호출자가 <tt>[[free(3)]]</tt>를 써서 그 버퍼를 해제해야 한다.
 
 ## RETURN VALUE
 

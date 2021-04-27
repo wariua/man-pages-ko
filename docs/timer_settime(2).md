@@ -22,7 +22,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## DESCRIPTION
 
-`timer_settime()`은 `timerid`가 나타내는 타이머를 장전하거나 해제한다. `new_value` 인자는 타이머의 새 최초 값과 새 간격을 나타내는 `itimerspec` 구조체에 대한 포인터이다. `itimerspec` 구조체는 다음과 같이 정의되어 있다.
+`timer_settime()`은 `timerid`가 나타내는 타이머를 장전하거나 해제한다. `new_value` 인자는 타이머의 새 최초 값과 새 간격을 나타내는 `itimerspec` 구조체의 포인터이다. `itimerspec` 구조체는 다음과 같이 정의되어 있다.
 
 ```c
 struct timespec {

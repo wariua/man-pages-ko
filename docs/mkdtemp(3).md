@@ -23,7 +23,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## RETURN VALUE
 
-`mkdtemp()` 함수는 성공 시 변경된 템플릿 문자열에 대한 포인터를 반환한다. 오류 시 NULL을 반환하며 오류를 나타내도록 `errno`를 설정한다.
+`mkdtemp()` 함수는 성공 시 변경된 템플릿 문자열의 포인터를 반환한다. 오류 시 NULL을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 

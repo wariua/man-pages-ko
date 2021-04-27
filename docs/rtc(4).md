@@ -61,13 +61,13 @@ RTC 장치에 연결된 파일 디스크립터에서 다음 `ioctl(2)` 요청들
             int tm_isdst;    /* 사용 안 함 */
         };
 
-    이 구조체 필드들의 의미와 범위는 <tt>[[gmtime(3)]]</tt>에 설명된 `tm` 구조체와 같다. `ioctl(2)` 세 번째 인자로 이 구조체에 대한 포인터를 전달해야 한다.
+    이 구조체 필드들의 의미와 범위는 <tt>[[gmtime(3)]]</tt>에 설명된 `tm` 구조체와 같다. `ioctl(2)` 세 번째 인자로 이 구조체의 포인터를 전달해야 한다.
 
 `RTC_SET_TIME`
 :   이 RTC의 시간을 `ioctl(2)` 세 번째 인자가 가리키는 `rtc_time` 구조체가 나타내는 시간으로 설정한다. RTC 시간을 설정하려면 프로세스에게 특권이 있어야 한다. (즉 `CAP_SYS_TIME` 역능이 있어야 한다.)
 
 `RTC_ALM_READ`, `RTC_ALM_SET`
-:   알람을 지원하는 RTC에 대해서 알람 시간을 읽거나 설정한다. 알람 인터럽트를 켜거나 끄는 건 `RTC_AIE_ON` 및 `RTC_AIE_OFF` 요청을 써서 따로 해야 한다. `ioctl(2)` 세 번째 인자는 `rtc_time` 구조체에 대한 포인터이다. 그 구조체의 `tm_sec`, `tm_min`, `tm_hour` 필드만 쓴다.
+:   알람을 지원하는 RTC에 대해서 알람 시간을 읽거나 설정한다. 알람 인터럽트를 켜거나 끄는 건 `RTC_AIE_ON` 및 `RTC_AIE_OFF` 요청을 써서 따로 해야 한다. `ioctl(2)` 세 번째 인자는 `rtc_time` 구조체 포인터이다. 그 구조체의 `tm_sec`, `tm_min`, `tm_hour` 필드만 쓴다.
 
 `RTC_IRQP_READ`, `RTC_IRQP_SET`
 :   주기적 인터럽트를 지원하는 RTC에 대해서 주기적 인터럽트의 빈도를 읽거나 설정한다. 주기적 인터럽트를 켜거나 끄는 건 `RTC_PIE_ON` 및 `RTC_PIE_OFF` 요청을 써서 따로 해야 한다. `ioctl(2)` 세 번째 인자는 각각 `unsigned long *`와 `unsigned long`이다. 그 값이 초당 인터럽트 빈도이다. 허용 가능한 빈도는 2에서 8192까지 범위 내의 2의 배수들이다. 특권 프로세스만 (즉 `CAP_SYS_RESOURCE` 역능을 가진 프로세스만) `/proc/sys/dev/rtc/max-user-freq`에 지정된 값보다 높게 빈도를 설정할 수 있다. (이 파일에 기본으로 들어 있는 값은 64이다.)
@@ -93,7 +93,7 @@ RTC 장치에 연결된 파일 디스크립터에서 다음 `ioctl(2)` 요청들
             struct rtc_time time;
         };
 
-    `enabled` 플래그는 알람 인터럽트를 켜고 끄거나 현재 상태를 읽는 데 쓴다. 이 호출 사용 시 `RTC_AIE_ON` 및 `RTC_AIE_OFF`는 쓰지 않는다. `pending` 플래그는 `RTC_WKALM_RD`에서 미처리 인터럽트를 알려 주기 위한 것이다. (그래서 EFI 펌웨어가 관리하는 RTC를 다룰 때를 빼면 리눅스에서는 쓸 일이 거의 없다.) `time` 필드는 `RTC_ALM_READ` 및 `RTC_ALM_SET`에서와 마찬가지이되 `tm_mday`, `tm_mon`, `tm_year` 필드도 유효하다. 이 구조체에 대한 포인터를 `ioctl(2)` 세 번째 인자로 전달해야 한다.
+    `enabled` 플래그는 알람 인터럽트를 켜고 끄거나 현재 상태를 읽는 데 쓴다. 이 호출 사용 시 `RTC_AIE_ON` 및 `RTC_AIE_OFF`는 쓰지 않는다. `pending` 플래그는 `RTC_WKALM_RD`에서 미처리 인터럽트를 알려 주기 위한 것이다. (그래서 EFI 펌웨어가 관리하는 RTC를 다룰 때를 빼면 리눅스에서는 쓸 일이 거의 없다.) `time` 필드는 `RTC_ALM_READ` 및 `RTC_ALM_SET`에서와 마찬가지이되 `tm_mday`, `tm_mon`, `tm_year` 필드도 유효하다. 이 구조체의 포인터를 `ioctl(2)` 세 번째 인자로 전달해야 한다.
 
 ## FILES
 

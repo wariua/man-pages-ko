@@ -30,7 +30,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 이 시스템 호출들은 호출 프로세스("지역 프로세스")와 `pid`로 나타낸 프로세스("원격 프로세스")의 주소 공간들 사이에서 데이터를 전송한다. 데이터가 커널을 거치지 않고 두 프로세스 주소 공간 간에 직접 이동한다.
 
-`process_vm_readv()` 시스템 호출은 원격 프로세스에서 지역 프로세스로 데이터를 전송한다. 전송할 데이터를 `remote_iov`와 `riovcnt`로 나타낸다. `remote_iov`는 프로세스 `pid` 내 주소 범위를 기술하는 배열에 대한 포인터이고 `riovcnt`는 `remote_iov`의 항목 개수를 나타낸다. 그 데이터가 `local_iov`와 `liovcnt`로 나타낸 위치로 전송된다. `local_iov`는 호출 프로세스 내 주소 범위를 기술하는 배열에 대한 포인터이고 `liovcnt`는 `local_iov`의 항목 개수를 나타낸다.
+`process_vm_readv()` 시스템 호출은 원격 프로세스에서 지역 프로세스로 데이터를 전송한다. 전송할 데이터를 `remote_iov`와 `riovcnt`로 나타낸다. `remote_iov`는 프로세스 `pid` 내 주소 범위를 기술하는 배열의 포인터이고 `riovcnt`는 `remote_iov`의 항목 개수를 나타낸다. 그 데이터가 `local_iov`와 `liovcnt`로 나타낸 위치로 전송된다. `local_iov`는 호출 프로세스 내 주소 범위를 기술하는 배열의 포인터이고 `liovcnt`는 `local_iov`의 항목 개수를 나타낸다.
 
 `process_vm_writev()` 시스템 호출은 `process_vm_readv()`의 반대이다. 즉, 지역 프로세스에서 원격 프로세스로 데이터를 전송한다. 전송 방향을 제외하고 인자 `liovcnt`, `local_iov`, `riovcnt`, `remote_iov`의 의미는 `process_vm_readv()`에서와 같다.
 

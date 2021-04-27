@@ -25,7 +25,7 @@ int lio_listio(int mode, struct aiocb *restrict const aiocb_list[restrict],
 `LIO_NOWAIT`
 :   I/O 동작들을 처리 큐에 넣고 호출이 즉시 반환한다. I/O 동작들이 모두 완료되면 `sevp` 인자로 지정한 대로 비동기 알림이 이뤄진다. 자세한 내용은 <tt>[[sigevent(7)]]</tt> 참고. `sevp`가 NULL이면 비동기 알림이 이뤄지지 않는다.
 
-`aiocb_list` 인자는 I/O 동작을 기술하는 `aiocb` 구조체에 대한 포인터들의 배열이다. 그 동작들이 실행되는 순서는 명세돼 있지 않다. `nitems` 인자는 `aiocb_list` 배열의 크기를 나타낸다. `aiocb_list`에서 널 포인터는 무시한다.
+`aiocb_list` 인자는 I/O 동작을 기술하는 `aiocb` 구조체 포인터들의 배열이다. 그 동작들이 실행되는 순서는 명세돼 있지 않다. `nitems` 인자는 `aiocb_list` 배열의 크기를 나타낸다. `aiocb_list`에서 널 포인터는 무시한다.
 
 `aiocb_list`의 각 제어 블록 안에 있는 `aio_lio_opcode` 필드가 개시할 I/O 동작을 지정한다.
 

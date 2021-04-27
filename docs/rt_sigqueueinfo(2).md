@@ -19,7 +19,7 @@ int rt_tgsigqueueinfo(pid_t tgid, pid_t tid, int sig, siginfo_t *info);
 
 `rt_sigqueueinfo()` 시스템 호출은 ID가 `tgid`인 스레드 그룹에게 시그널 `sig`를 보낸다. ("스레드 그룹"이라는 용어는 "프로세스"와 동의어이며 `tid`는 전통적인 유닉스 프로세스 ID에 해당한다.) 그 스레드 그룹의 임의 구성원에게 (즉 현재 그 시그널을 막고 있지 않은 스레드들 중 하나에게) 시그널이 전달된다.
 
-`info` 인자는 시그널에 동반되는 데이터를 나타낸다. 이 인자는 <tt>[[sigaction(2)]]</tt>에 기술된 (그리고 `<sigaction.h>`를 포함시켜서 정의하는) `siginfo_t` 타입의 구조체에 대한 포인터이다. 호출자가 이 구조체의 다음 필드들을 설정해야 한다.
+`info` 인자는 시그널에 동반되는 데이터를 나타낸다. 이 인자는 <tt>[[sigaction(2)]]</tt>에 기술된 (그리고 `<sigaction.h>`를 포함시켜서 정의하는) `siginfo_t` 타입 구조체의 포인터이다. 호출자가 이 구조체의 다음 필드들을 설정해야 한다.
 
 `si_code`
 :   리눅스 커널 소스 파일 `include/asm-generic/siginfo.h`에 있는 `SI_*` 코드들 중 하나여야 한다. 호출자 자신이 아닌 프로세스로 시그널을 보내려는 경우 다음 제약이 적용된다.

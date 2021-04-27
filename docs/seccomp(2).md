@@ -36,7 +36,7 @@ int seccomp(unsigned int operation, unsigned int flags, void *args);
         prctl(PR_SET_SECCOMP, SECCOMP_MODE_STRICT);
 
 `SECCOMP_SET_MODE_FILTER`
-:   `args`를 통해 전달하는 버클리 패킷 필터(BPF) 포인터가 허용 시스템 호출을 규정한다. 이 인자는 `struct sock_fprog`에 대한 포인터이다. 임의의 시스템 호출 및 시스템 호출 인자를 걸러내도록 설계할 수 있다. 필터가 유효하지 않으면 `seccomp()`가 실패하며 `errno`로 `EINVAL`을 반환한다.
+:   `args`를 통해 전달하는 버클리 패킷 필터(BPF) 포인터가 허용 시스템 호출을 규정한다. 이 인자는 `struct sock_fprog`의 포인터이다. 임의의 시스템 호출 및 시스템 호출 인자를 걸러내도록 설계할 수 있다. 필터가 유효하지 않으면 `seccomp()`가 실패하며 `errno`로 `EINVAL`을 반환한다.
 
     필터에서 <tt>[[fork(2)]]</tt>나 <tt>[[clone(2)]]</tt>을 허용하는 경우 자식 프로세스들은 부모와 같은 시스템 호출 필터의 제약을 받게 된다. <tt>[[execve(2)]]</tt>가 허용되는 경우 <tt>[[execve(2)]]</tt> 호출을 거치면서 기존 필터가 유지된다.
 
@@ -80,7 +80,7 @@ int seccomp(unsigned int operation, unsigned int flags, void *args);
 struct sock_fprog {
     unsigned short     len;     /* BPF 인스트럭션 개수 */
     struct sock_filter *filter; /* BPF 인스트럭션들의
-                                   배열에 대한 포인터 */
+                                   배열의 포인터 */
 };
 ```
 

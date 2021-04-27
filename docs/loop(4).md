@@ -33,7 +33,7 @@ $ sudo mount /dev/loop4 /myloopdev
 :   루프 장치와 파일 디스크립터의 연계를 없앤다.
 
 `LOOP_SET_STATUS`
-:   `ioctl(2)` (세 번째) 인자를 이용해 루프 장치의 상태를 설정한다. 그 인자는 `loop_info` 구조체에 대한 포인터인데 `<linux/loop.h>`에 다음처럼 구조체가 정의돼 있다.
+:   `ioctl(2)` (세 번째) 인자를 이용해 루프 장치의 상태를 설정한다. 그 인자는 `loop_info` 구조체의 포인터인데 `<linux/loop.h>`에 다음처럼 구조체가 정의돼 있다.
 
         struct loop_info {
             int           lo_number;      /* ioctl r/o */
@@ -71,7 +71,7 @@ $ sudo mount /dev/loop4 /myloopdev
     `LOOPS_SET_STATUS`로 변경할 수 있는 `lo_flags`는 `LO_FLAGS_AUTOCLEAR`와 `LO_FLAGS_PARTSCAN`뿐이다.
 
 `LOOP_GET_STATUS`
-:   루프 장치의 상태를 얻는다. `ioctl(2)` (세 번째) 인자가 `struct loop_info`에 대한 포인터여야 한다.
+:   루프 장치의 상태를 얻는다. `ioctl(2)` (세 번째) 인자가 `struct loop_info` 포인터여야 한다.
 
 `LOOP_CHANGE_FD` (리눅스 2.6.5부터)
 :   루프 장치의 기반 저장소를 정수인 `ioctl(2)` (세 번째) 인자에 지정한 파일 디스크립터가 나타내는 새 파일로 바꾼다. 루프 장치가 읽기 전용이고 새 기반 저장소가 이전 기반 저장소와 크기 및 종류가 같은 경우에만 이 동작이 가능하다.
@@ -86,7 +86,7 @@ $ sudo mount /dev/loop4 /myloopdev
 :   루프 장치의 블록 크기를 설정한다. `ioctl(3)` (세 번째) 인자가 unsigned long 값이다. 이 값은 [512,pagesize] 범위의 2의 거듭제곱이어야 한다. 아니면 `EINVAL` 오류가 나온다.
 
 `LOOP_CONFIGURE` (리눅스 5.8부터)
-:   `ioctl(2)` (세 번째) 인자를 써서 모든 루프 장치 매개변수를 한꺼번에 설정한다. 그 인자는 `loop_config` 구조체에 대한 포인터인데 `<linux/loop.h>`에 다음처럼 구조체가 정의돼 있다.
+:   `ioctl(2)` (세 번째) 인자를 써서 모든 루프 장치 매개변수를 한꺼번에 설정한다. 그 인자는 `loop_config` 구조체의 포인터인데 `<linux/loop.h>`에 다음처럼 구조체가 정의돼 있다.
 
         struct loop_config {
             __u32               fd;

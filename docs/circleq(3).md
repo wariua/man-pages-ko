@@ -56,7 +56,7 @@ void CIRCLEQ_REMOVE(CIRCLEQ_HEAD *head, struct TYPE *elm,
 CIRCLEQ_HEAD(HEADNAME, TYPE) head;
 ```
 
-`struct HEADNAME`이 정의하려는 구조체의 이름이고 `struct TYPE`이 큐로 연결할 항목들의 타입이다. 이후 다음처럼 큐 머리에 대한 포인터를 선언할 수 있다.
+`struct HEADNAME`이 정의하려는 구조체의 이름이고 `struct TYPE`이 큐로 연결할 항목들의 타입이다. 이후 다음처럼 큐 머리의 포인터를 선언할 수 있다.
 
 ```c
 struct HEADNAME *headp;
@@ -108,7 +108,7 @@ struct HEADNAME *headp;
 
 `CIRCLEQ_EMPTY()`는 큐가 비어 있으면 0 아닌 값을 반환하고, 큐에 한 항목이라도 있으면 0을 반환한다.
 
-`CIRCLEQ_FIRST()`, `CIRCLEQ_LAST()`, `CIRCLEQ_LOOP_PREV()`, `CIRCLEQ_LOOP_NEXT()`는 각각 처음, 마지막, 이전, 다음 `TYPE` 구조체에 대한 포인터를 반환한다.
+`CIRCLEQ_FIRST()`, `CIRCLEQ_LAST()`, `CIRCLEQ_LOOP_PREV()`, `CIRCLEQ_LOOP_NEXT()`는 각각 처음, 마지막, 이전, 다음 `TYPE` 구조체의 포인터를 반환한다.
 
 `CIRCLEQ_PREV()`와 `CIRCLEQ_NEXT()`는 `CIRCLEQ_LOOP_*()` 짝과 비슷하되, 인자가 각각 첫 번째 또는 마지막 항목이면 `&head`를 반환한다.
 

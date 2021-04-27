@@ -69,7 +69,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 `SIGEV_THREAD_ID` (리눅스 한정)
 :   `SIGEV_SIGNAL`과 같되 `sigev_notify_thread_id`로 준 ID를 가진 스레드가 시그널의 대상이다. 호출자와 같은 프로세스 내의 스레드여야 한다. `sigev_notify_thread_id` 필드에서는 커널 스레드 ID를, 즉 <tt>[[clone(2)]]</tt>이나 <tt>[[gettid(2)]]</tt>가 반환한 값을 지정한다. 이 플래그는 스레드 라이브러리에서의 사용만을 위한 것이다.
 
-`sevp`를 NULL로 지정하는 것은 `sigev_notify`가 `SIGEV_SIGNAL`이고 `sigev_signo`가 `SIGALRM`, `sigev_value.sival_int`가 타이머 ID인 `sigevent` 구조체에 대한 포인터를 지정하는 것과 동등하다.
+`sevp`를 NULL로 지정하는 것은 `sigev_notify`가 `SIGEV_SIGNAL`이고 `sigev_signo`가 `SIGALRM`, `sigev_value.sival_int`가 타이머 ID인 `sigevent` 구조체의 포인터를 지정하는 것과 동등하다.
 
 ## RETURN VALUE
 

@@ -43,7 +43,7 @@ int kcmp(pid_t pid1, pid_t pid2, int type,
 :   프로세스들이 동일한 주소 공간을 공유하는지 확인한다. `idx1` 및 `idx2` 인자는 무시한다. <tt>[[clone(2)]]</tt>의 `CLONE_VM` 플래그 설명 참고.
 
 `KCMP_EPOLL_TFD`
-:   프로세스 `pid1`의 파일 디스크립터 `idx1`이 프로세스 `pid2`의 `idx2`가 기술하는 <tt>[[epoll(7)]]</tt> 인스턴스 내에 있는지 확인한다. `idx2` 인자는 대상 파일을 기술하는 구조체에 대한 포인터이다. 그 구조체는 다음 형태이다.
+:   프로세스 `pid1`의 파일 디스크립터 `idx1`이 프로세스 `pid2`의 `idx2`가 기술하는 <tt>[[epoll(7)]]</tt> 인스턴스 내에 있는지 확인한다. `idx2` 인자는 대상 파일을 기술하는 구조체의 포인터이다. 그 구조체는 다음 형태이다.
 
         struct kcmp_epoll_slot {
             __u32 efd;

@@ -24,9 +24,9 @@ FILE *fopencookie(void *restrict cookie, const char *restrict mode,
 
 * `fopencookie()`를 호출해 새 스트림을 열고 스트림에 쿠키와 훅 함수를 연계한다.
 
-`fopencookie()` 함수는 <tt>[[fopen(3)]]</tt>과 비슷한 역할을 한다. 즉 새 스트림을 열고 그 스트림 조작 시 사용할 `FILE` 객체에 대한 포인터를 반환한다.
+`fopencookie()` 함수는 <tt>[[fopen(3)]]</tt>과 비슷한 역할을 한다. 즉 새 스트림을 열고 그 스트림 조작 시 사용할 `FILE` 객체의 포인터를 반환한다.
 
-`cookie` 인자는 호출자의 쿠키 자료 구조에 대한 포인터이며 새 스트림에 연계된다. 표준 I/O 라이브러리에서 아래 기술하는 훅 함수들을 호출할 때 이 포인터를 첫 번째 인자로 제공한다.
+`cookie` 인자는 호출자의 쿠키 자료 구조의 포인터이며 새 스트림에 연계된다. 표준 I/O 라이브러리에서 아래 기술하는 훅 함수들을 호출할 때 이 포인터를 첫 번째 인자로 제공한다.
 
 `mode` 인자는 <tt>[[fopen(3)]]</tt>에서와 같은 역할을 한다. 지원하는 모드는 `r`, `w`, `a`, `r+`, `w+`, `a+`이다. 자세한 내용은 <tt>[[fopen(3)]]</tt>을 보라.
 
@@ -96,7 +96,7 @@ typedef struct {
 
 ## RETURN VALUE
 
-성공 시 `fopencookie()`는 새 스트림에 대한 포인터를 반환한다. 오류 시 NULL을 반환한다.
+성공 시 `fopencookie()`는 새 스트림의 포인터를 반환한다. 오류 시 NULL을 반환한다.
 
 ## ATTRIBUTES
 

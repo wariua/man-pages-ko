@@ -20,7 +20,7 @@ int dl_iterate_phdr(
 
 `dl_iterate_phdr()` 함수는 응용의 공유 오브젝트 목록을 순회하면서 각 오브젝트마다 함수 `callback`을 호출한다. 모든 공유 오브젝트를 처리했으면, 또는 `callback`이 0 아닌 값을 반환하면 멈춘다.
 
-`callback` 호출 각각은 세 개 인자를 받는다. `info`는 공유 오브젝트에 대한 정보를 담은 구조체에 대한 포인터이고 `size`는 `info`가 가리키는 구조체의 크기이다. `data`는 호출 프로그램에서 `dl_iterate_phdr()` 호출 때 (역시 이름이 `data`인) 두 번째 인자로 준 값의 사본이다.
+`callback` 호출 각각은 세 개 인자를 받는다. `info`는 공유 오브젝트에 대한 정보를 담은 구조체의 포인터이고 `size`는 `info`가 가리키는 구조체의 크기이다. `data`는 호출 프로그램에서 `dl_iterate_phdr()` 호출 때 (역시 이름이 `data`인) 두 번째 인자로 준 값의 사본이다.
 
 `info` 인자는 다음 타입의 구조체이다.
 
@@ -29,7 +29,7 @@ struct dl_phdr_info {
     ElfW(Addr)        dlpi_addr;  /* 오브젝트의 기준 주소 */
     const char       *dlpi_name;  /* 오브젝트의 (널 종료) 이름 */
     const ElfW(Phdr) *dlpi_phdr;  /* 이 오브젝트의 ELF 프로그램
-                                     헤더 배열에 대한 포인터 */
+                                     헤더 배열의 포인터 */
     ElfW(Half)        dlpi_phnum; /* dlpi_phdr의 항목 개수 */
 
     /* 다음 필드들은 이 구조체의 첫 번째 버전이 공개된 후에

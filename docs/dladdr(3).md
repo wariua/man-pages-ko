@@ -36,7 +36,7 @@ typedef struct {
 `dladdr1()` 함수는 `dladdr()`과 비슷하되 `extra_info` 인자를 통해 추가 정보를 반환한다. 반환되는 정보는 `flags`에 지정한 값에 따라 달라지는데, 다음 값들 중 하나를 지정할 수 있다.
 
 `RTLD_DL_LINKMAP`
-:   걸린 파일의 링크 맵에 대한 포인터를 반환한다. `extra_info` 인자가 `link_map` 구조체에 대한 포인터를 가리킨다. (즉 `struct link_map **`이다.) 그 구조체는 `<link.h>`에 다음과 같이 정의돼 있다.
+:   걸린 파일의 링크 맵의 포인터를 반환한다. `extra_info` 인자가 `link_map` 구조체 포인터를 가리킨다. (즉 `struct link_map **`이다.) 그 구조체는 `<link.h>`에 다음과 같이 정의돼 있다.
 
         struct link_map {
             ElfW(Addr) l_addr;  /* ELF 파일 내 주소와
@@ -53,7 +53,7 @@ typedef struct {
         };
 
 `RTLD_DL_SYMENT`
-:   대응하는 심볼의 ELF 심볼 테이블 항목에 대한 포인터를 얻는다. `extra_info` 인자가 심볼 포인터에 대한 포인터, 즉 `const ElfW(Sym) **`이다. `ElfW()` 매크로는 그 인자를 하드웨어 아키텍처에 맞는 ELF 데이터 타입 이름으로 바꿔 준다. 예를 들어 64비트 플랫폼에서 `ElfW(Sym)`은 데이터 타입 이름 `Elf64_Sym`을 내놓는데, 이는 `<elf.h>`에 다음처럼 정의돼 있다.
+:   대응하는 심볼의 ELF 심볼 테이블 항목의 포인터를 얻는다. `extra_info` 인자가 심볼 포인터의 포인터, 즉 `const ElfW(Sym) **`이다. `ElfW()` 매크로는 그 인자를 하드웨어 아키텍처에 맞는 ELF 데이터 타입 이름으로 바꿔 준다. 예를 들어 64비트 플랫폼에서 `ElfW(Sym)`은 데이터 타입 이름 `Elf64_Sym`을 내놓는데, 이는 `<elf.h>`에 다음처럼 정의돼 있다.
 
         typedef struct  {
             Elf64_Word    st_name;     /* 심볼 이름 */

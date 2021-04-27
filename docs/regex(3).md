@@ -23,7 +23,7 @@ void regfree(regex_t *preg);
 
 `regcomp()`를 사용해 이어지는 `regexec()` 검색에 적합한 형태로 정규 표현식을 컴파일 한다.
 
-`regcomp()`에 주는 `preg`는 패턴 버퍼 저장 공간에 대한 포인터이고, `regex`는 널 종료 문자열에 대한 포인터, `cflags`는 컴파일 방식을 결정하는 플래그들이다.
+`regcomp()`에 주는 `preg`는 패턴 버퍼 저장 공간의 포인터이고, `regex`는 널 종료 문자열의 포인터, `cflags`는 컴파일 방식을 결정하는 플래그들이다.
 
 모든 정규 표현식 검색은 컴파일 된 패턴 버퍼를 통해 이뤄져야 한다. 따라서 `regexec()`에는 항상 `regcomp()`로 초기화 한 패턴 버퍼의 주소를 줘야 한다.
 
@@ -79,7 +79,7 @@ typedef struct {
 
 `regerror()`를 이용해 `regcomp()` 및 `regexec()`가 반환하는 오류 코드를 오류 메시지 문자열로 바꾼다.
 
-오류 코드 `errcode`, 패턴 버퍼 `preg`, 문자열 버퍼에 대한 포인터 `errbuf`, 그 문자열 버퍼의 크기 `errbuf_size`를 `regerror()`에 준다. 그러면 널 종료 오류 메시지 문자열을 담는 데 필요한 `errbuf`의 크기를 반환한다. `errbuf`와 `errbuf_size` 모두 0이 아니면 `errbuf`에 오류 메시지의 처음 `errbuf_size - 1` 개 문자와 종료 널 바이트('\0')를 채운다.
+오류 코드 `errcode`, 패턴 버퍼 `preg`, 문자열 버퍼의 포인터 `errbuf`, 그 문자열 버퍼의 크기 `errbuf_size`를 `regerror()`에 준다. 그러면 널 종료 오류 메시지 문자열을 담는 데 필요한 `errbuf`의 크기를 반환한다. `errbuf`와 `errbuf_size` 모두 0이 아니면 `errbuf`에 오류 메시지의 처음 `errbuf_size - 1` 개 문자와 종료 널 바이트('\0')를 채운다.
 
 ### POSIX 패턴 버퍼 해제
 

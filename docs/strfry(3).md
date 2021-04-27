@@ -17,7 +17,7 @@ char *strfry(char *string);
 
 ## RETURN VALUE
 
-`strfry()` 함수는 난수화 된 그 문자열에 대한 포인터를 반환한다.
+`strfry()` 함수는 난수화 된 그 문자열의 포인터를 반환한다.
 
 ## ATTRIBUTES
 

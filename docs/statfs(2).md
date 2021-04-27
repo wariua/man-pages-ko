@@ -13,7 +13,7 @@ int fstatfs(int fd, struct statfs *buf);
 
 ## DESCRIPTION
 
-`statfs()` 시스템 호출은 마운트 된 파일 시스템에 대한 정보를 반환한다. `path`는 마운트 된 파일 시스템 내 임의 파일의 경로명이다. `buf`는 대략 다음처럼 정의돼 있는 `statfs` 구조체에 대한 포인터다.
+`statfs()` 시스템 호출은 마운트 된 파일 시스템에 대한 정보를 반환한다. `path`는 마운트 된 파일 시스템 내 임의 파일의 경로명이다. `buf`는 대략 다음처럼 정의돼 있는 `statfs` 구조체의 포인터다.
 
 ```c
 struct statfs {

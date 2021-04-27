@@ -34,7 +34,7 @@ int hsearch_r(ENTRY item, ACTION action, ENTRY **retval,
 
 `hdestroy()` 함수는 `hcreate()`로 만든 해시 테이블이 차지하는 메모리를 해제한다. `hdestroy()` 호출 후에 `hcreate()`로 새 해시 테이블을 만들 수 있다. `hdestroy_r()`은 유사한 일을 수행하되 앞서 `hcreate_r()`로 생성한 `*htab`로 기술한 해시 테이블에 대해 그렇게 한다.
 
-`hsearch()` 함수는 해시 테이블에서 `item`과 같은 키를 가진 항목을 탐색한다. ("같은" 키인지 `strcmp(3)`로 판단한다.) 성공하면 그 항목에 대한 포인터를 반환한다.
+`hsearch()` 함수는 해시 테이블에서 `item`과 같은 키를 가진 항목을 탐색한다. ("같은" 키인지 `strcmp(3)`로 판단한다.) 성공하면 그 항목의 포인터를 반환한다.
 
 `item` 인자는 `ENTRY` 타입인데, `<search.h>`에 다음처럼 정의돼 있다.
 
@@ -47,15 +47,15 @@ typedef struct entry {
 
 `key` 필드가 가리키는 널 종료 문자열은 탐색 키이다. `data` 필드는 그 키에 연계된 데이터를 가리킨다.
 
-`action` 인자는 탐색 실패 후에 `hsearch()`가 무엇을 할지 결정한다. 이 인자는 `item` 사본을 삽입하라는 뜻의 `ENTER` 값이거나 (이 경우 새 해시 테이블 항목에 대한 포인터를 함수 결과로 반환함) NULL을 반환해야 한다는 뜻의 `FIND` 값이어야 한다. (`action`이 `FIND`인 경우 `data`는 무시된다.)
+`action` 인자는 탐색 실패 후에 `hsearch()`가 무엇을 할지 결정한다. 이 인자는 `item` 사본을 삽입하라는 뜻의 `ENTER` 값이거나 (이 경우 새 해시 테이블 항목의 포인터를 함수 결과로 반환함) NULL을 반환해야 한다는 뜻의 `FIND` 값이어야 한다. (`action`이 `FIND`인 경우 `data`는 무시된다.)
 
-`hsearch_r()` 함수는 `hsearch()`와 비슷하되 `*htab`로 기술한 테이블에 대해 동작한다. 그리고 `hsearch_r()` 함수는 발견 항목에 대한 포인터를 함수 결과가 아니라 `*retval`로 반환한다는 점에서 `hsearch()`와 다르다.
+`hsearch_r()` 함수는 `hsearch()`와 비슷하되 `*htab`로 기술한 테이블에 대해 동작한다. 그리고 `hsearch_r()` 함수는 발견 항목의 포인터를 함수 결과가 아니라 `*retval`로 반환한다는 점에서 `hsearch()`와 다르다.
 
 ## RETURN VALUE
 
 `hcreate()`와 `hcreate_r()`은 성공 시 0 아닌 값을 반환한다. 오류 시 0을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
-성공 시 `hsearch()`는 해시 테이블 내 항목에 대한 포인터를 반환한다. `hsearch()`는 오류 시에, 즉 `action`이 `ENTER`인데 해시 테이블이 가득 찼거나 `action`이 `FIND`인데 해시 테이블에서 `item`을 찾을 수 없는 경우에 NULL을 반환한다. `hsearch_r()`은 성공 시 0 아닌 값을 반환하고 오류 시 0을 반환한다. 오류 시에 이 두 함수는 오류를 나타내도록 `errno`를 설정한다.
+성공 시 `hsearch()`는 해시 테이블 내 항목의 포인터를 반환한다. `hsearch()`는 오류 시에, 즉 `action`이 `ENTER`인데 해시 테이블이 가득 찼거나 `action`이 `FIND`인데 해시 테이블에서 `item`을 찾을 수 없는 경우에 NULL을 반환한다. `hsearch_r()`은 성공 시 0 아닌 값을 반환하고 오류 시 0을 반환한다. 오류 시에 이 두 함수는 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
@@ -127,7 +127,7 @@ main(void)
 
     for (int i = 0; i < 24; i++) {
         e.key = data[i];
-        /* data는 뭔가에 대한 포인터가 아니라
+        /* data는 뭔가의 포인터가 아니라
            그냥 정수임 */
         e.data = (void *) i;
         ep = hsearch(e, ENTER);

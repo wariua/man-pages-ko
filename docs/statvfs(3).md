@@ -13,7 +13,7 @@ int fstatvfs(int fd, struct statvfs *buf);
 
 ## DESCRIPTION
 
-`statvfs()` 함수는 마운트 된 파일 시스템에 대한 정보를 반환한다. `path`는 마운트 된 파일 시스템 내 임의 파일의 경로명이다. `buf`는 대략 다음처럼 정의돼 있는 `statvfs` 구조체에 대한 포인터다.
+`statvfs()` 함수는 마운트 된 파일 시스템에 대한 정보를 반환한다. `path`는 마운트 된 파일 시스템 내 임의 파일의 경로명이다. `buf`는 대략 다음처럼 정의돼 있는 `statvfs` 구조체의 포인터다.
 
 ```c
 struct statvfs {
