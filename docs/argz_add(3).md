@@ -10,7 +10,7 @@ argz_add, argz_add_sep, argz_append, argz_count, argz_create, argz_create_sep, a
 error_t argz_add(char **restrict argz, size_t *restrict argz_len,
                 const char *restrict str);
 
-error_t argz_add_sep(char **restrict argz, size_t *restritc argz_len,
+error_t argz_add_sep(char **restrict argz, size_t *restrict argz_len,
                 const char *restrict str, int delim);
 
 error_t argz_append(char **restrict argz, size_t *restrict argz_len,
@@ -21,7 +21,7 @@ size_t argz_count(const char *argz, size_t argz_len);
 error_t argz_create(char *const argv[], char **restrict argz,
                 size_t *restrict argz_len);
 
-error_t argz_create_sep(const char *restrit str, int sep,
+error_t argz_create_sep(const char *restrict str, int sep,
                 char **restrict argz, size_t *restrict argz_len);
 
 void argz_delete(char **restrict argz, size_t *restrict argz_len,
