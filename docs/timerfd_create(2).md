@@ -131,7 +131,7 @@ struct itimerspec {
 
 ### <tt>[[execve(2)]]</tt> 동작 방식
 
-`timerfd_create()`으로 생성한 파일 디스크립터가 <tt>[[execve(2)]]</tt>를 거치면서 보존되며, 타이머가 장전되어 있었다면 계속 타이머 만료가 발생한다.
+`timerfd_create()`으로 생성한 파일 디스크립터가 <tt>[[execve(2)]]</tt>를 거치면서 유지되며, 타이머가 장전되어 있었다면 계속 타이머 만료가 발생한다.
 
 ## RETURN VALUE
 

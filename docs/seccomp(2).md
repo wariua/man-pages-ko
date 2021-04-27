@@ -38,7 +38,7 @@ int seccomp(unsigned int operation, unsigned int flags, void *args);
 `SECCOMP_SET_MODE_FILTER`
 :   `args`를 통해 전달하는 버클리 패킷 필터(BPF) 포인터가 허용 시스템 호출을 규정한다. 이 인자는 `struct sock_fprog`에 대한 포인터이다. 임의의 시스템 호출 및 시스템 호출 인자를 걸러내도록 설계할 수 있다. 필터가 유효하지 않으면 `seccomp()`가 실패하며 `errno`로 `EINVAL`을 반환한다.
 
-    필터에서 <tt>[[fork(2)]]</tt>나 <tt>[[clone(2)]]</tt>을 허용하는 경우 자식 프로세스들은 부모와 같은 시스템 호출 필터의 제약을 받게 된다. <tt>[[execve(2)]]</tt>가 허용되는 경우 <tt>[[execve(2)]]</tt> 호출을 거치면서 기존 필터가 보존된다.
+    필터에서 <tt>[[fork(2)]]</tt>나 <tt>[[clone(2)]]</tt>을 허용하는 경우 자식 프로세스들은 부모와 같은 시스템 호출 필터의 제약을 받게 된다. <tt>[[execve(2)]]</tt>가 허용되는 경우 <tt>[[execve(2)]]</tt> 호출을 거치면서 기존 필터가 유지된다.
 
     `SECCOMP_SET_MODE_FILTER` 동작을 사용하기 위해선 호출 스레드가 자기 네임스페이스에서 `CAP_SYS_ADMIN` 역능을 가지고 있어야 한다. 아니면 스레드에 이미 `no_new_privs` 비트가 설정되어 있어야 하는데, 스레드 선조가 그 비트를 이미 설정하지 않았다면 스레드에서 다음 호출을 해야 한다.
 

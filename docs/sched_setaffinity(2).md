@@ -67,7 +67,7 @@ int sched_getaffinity(pid_t pid, size_t cpusetsize,
 
 `isolcpus`라는 부팅 옵션을 이용해 부팅 시점에 한 개 이상의 CPU를 격리할 수 있다. 그러면 그 CPU들로 어떤 프로세스도 스케줄 되지 않는다. 이 부팅 옵션을 사용한 다음에는 `sched_setaffinity()`나 <tt>[[cpuset(7)]]</tt> 메커니즘을 통해서만 그 격리된 CPU로 프로세스를 스케줄 할 수 있다. 자세한 내용은 커널 소스 파일 `Documentation/admin-guide/kernel-parameters.txt`를 보라. 그 파일에서 언급하듯 `isolcpus`가 CPU를 격리하는 선호 메커니즘이다. (이에 대비되는 것은 시스템 상의 모든 프로세스들의 CPU 친화성을 수동으로 설정하는 것이다.)
 
-<tt>[[fork(2)]]</tt>를 통해 생성된 자식은 부모의 CPU 친화성 마스크를 물려받는다. <tt>[[execve(2)]]</tt>를 거치면서 친화성 마스크가 보존된다.
+<tt>[[fork(2)]]</tt>를 통해 생성된 자식은 부모의 CPU 친화성 마스크를 물려받는다. <tt>[[execve(2)]]</tt>를 거치면서 친화성 마스크가 유지된다.
 
 ### C 라이브러리/커널 차이
 

@@ -119,7 +119,7 @@ core - 코어 덤프 파일
 
 `coredump_filter` 값이 어떻든지 프레임 버퍼 같은 메모리 맵 I/O 페이지들은 절대 덤프 하지 않으며 가상 DSO(<tt>[[vdso(7)]]</tt>) 페이지들은 항상 덤프 한다.
 
-<tt>[[fork(2)]]</tt>를 통해 생성된 자식 프로세스는 부모의 `coredump_filter` 값을 물려받는다. <tt>[[execve(2)]]</tt>를 거치면서 `coredump_filter` 값이 보존된다.
+<tt>[[fork(2)]]</tt>를 통해 생성된 자식 프로세스는 부모의 `coredump_filter` 값을 물려받는다. <tt>[[execve(2)]]</tt>를 거치면서 `coredump_filter` 값이 유지된다.
 
 프로그램 실행 전에 부모 셸에서 `coredump_filter`를 설정하는 게 유용할 수 있다.
 
