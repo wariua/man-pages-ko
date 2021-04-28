@@ -15,17 +15,17 @@ void backtrace_symbols_fd(void *const *buffer, int size, int fd);
 
 ## DESCRIPTION
 
-`backtrace()`는 `buffer`가 가리키는 배열에 호출 프로그램의 백트레이스를 반환한다. 백트레이스란 프로그램에서 현재 활성인 함수 호출들의 열이다. `buffer`가 가리키는 배열의 각 항목은 `void *` 타입이며 대응하는 스택 프레임의 반환 주소이다. `size` 인자는 `buffer`에 저장할 수 있는 주소의 최대 개수를 나타낸다. 백트레이스가 `size`보다 큰 경우에는 가장 최근 `size` 개 함수 호출에 대응하는 주소들을 반환한다. 백트레이스 전체를 얻으려면 `buffer`와 `size`를 충분히 크게 해야 한다.
+`backtrace()`는 `buffer`가 가리키는 배열로 호출 프로그램의 백트레이스를 반환한다. 백트레이스란 프로그램에서 현재 활성인 함수 호출들의 열이다. `buffer`가 가리키는 배열의 각 항목은 `void *` 타입이며 대응하는 스택 프레임의 반환 주소다. `size` 인자는 `buffer`에 저장할 수 있는 주소의 최대 개수를 나타낸다. 백트레이스가 `size`보다 큰 경우에는 가장 최근 `size` 개 함수 호출에 대응하는 주소들만 반환된다. 백트레이스 전체를 얻으려면 `buffer`와 `size`를 충분히 크게 해야 한다.
 
 `backtrace()`가 반환한 주소 집합을 `backtrace_symbols()`에게 `buffer`로 주면 주소를 심볼로 나타낸 문자열들의 배열로 변환해 준다. `size` 인자는 `buffer`의 주소 개수를 나타낸다. 각 주소의 심볼 표현은 함수 이름 (알아낼 수 있는 경우), 16진수로 된 함수 내 오프셋, (16진수로 된) 실제 반환 주소로 이뤄져 있다. 문자열 포인터들의 배열의 주소를 `backtrace_symbols()`가 함수 결과로 반환한다. 그 배열은 `backtrace_symbols()`에서 <tt>[[malloc(3)]]</tt> 한 것이므로 호출자가 해제해야 한다. (그 포인터 배열이 가리키는 문자열들은 해제할 필요가 없으며 해서도 안 된다.)
 
-`backtrace_symbols_fd()`는 `backtrace_symbols()`와 같은 `buffer` 및 `size` 인자를 받되 문자열 배열을 호출자에게 반환하는 대신 파일 디스크립터 `fd`에 그 문자열들을 한 행에 하나씩 쓴다. `backtrace_symbols_fd()`는 <tt>[[malloc(3)]]</tt>을 호출하지 않으므로 <tt>[[malloc(3)]]</tt>이 실패할 수도 있는 경우에 이용할 수 있다. 하지만 NOTES를 보라.
+`backtrace_symbols_fd()`는 `backtrace_symbols()`와 같은 `buffer` 및 `size` 인자를 받되 문자열 배열을 호출자에게 반환하는 대신 파일 디스크립터 `fd`에 그 문자열들을 한 행에 하나씩 출력한다. `backtrace_symbols_fd()`는 <tt>[[malloc(3)]]</tt>을 호출하지 않으므로 <tt>[[malloc(3)]]</tt>이 실패할 수도 있는 경우에 이용할 수 있다. 하지만 NOTES를 보라.
 
 ## RETURN VALUE
 
 `backtrace()`는 `buffer`로 반환하는 주소들의 수를 반환하며 그 값은 `size`보다 크지 않다. 반환 값이 `size`보다 작은 경우에는 백트레이스 전체가 저장된 것이다. `size`와 같은 경우에는 일부가 잘렸을 수도 있으며, 그 경우 오래된 스택 프레임들의 주소가 반환되지 않는다.
 
-성공 시 `backtrace_symbols()`는 호출에서 <tt>[[malloc(3)]]</tt> 한 배열의 포인터를 반환한다. 오류 시 NULL을 반환한다.
+성공 시 `backtrace_symbols()`는 호출 내에서 <tt>[[malloc(3)]]</tt> 한 배열의 포인터를 반환한다. 오류 시 NULL을 반환한다.
 
 ## ATTRIBUTES
 
@@ -49,7 +49,7 @@ void backtrace_symbols_fd(void *const *buffer, int size, int fd);
 
 * 꼬리 호출 최적화가 이뤄지면 한 스택 프레임이 다른 프레임을 대체한다.
 
-* `backtrace()`와 `backtrace_symbols_fd()`에서 <tt>[[malloc(3)]]</tt>을 명시적으로 호출하지는 않지만 그 함수들이 포함된 `libgcc`가 최초 사용 때 동적으로 적재된다. 그리고 동적 적재는 일반적으로 <tt>[[malloc(3)]]</tt> 호출을 유발한다. 이 두 함수에 대한 특정 호출이 (가령 시그널 핸들러 안에서) 메모리 할당을 하지 않게 하려면 `libgcc`가 미리 적재돼 있도록 해야 한다.
+* `backtrace()`와 `backtrace_symbols_fd()`에서 <tt>[[malloc(3)]]</tt>을 명시적으로 호출하지는 않지만 그 함수들이 포함된 `libgcc`가 최초 사용 때 동적으로 적재된다. 그리고 동적 적재는 일반적으로 <tt>[[malloc(3)]]</tt> 호출을 유발한다. 이 두 함수에 대한 특정 (가령 시그널 핸들러 안의) 호출에서 메모리 할당을 하지 않게 하려면 `libgcc`가 미리 적재돼 있도록 해야 한다.
 
 특별한 링커 옵션을 쓰지 않으면 심볼 이름을 얻지 못할 수도 있다. GNU 링커를 사용하는 시스템에서는 `-rdynamic` 링커 옵션을 써야 한다. 참고로 "static" 함수의 이름은 노출되지 않으므로 백트레이스에 나오지 않는다.
 

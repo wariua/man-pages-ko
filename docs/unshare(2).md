@@ -99,7 +99,7 @@ int unshare(int flags);
 `ENOSPC` (리눅스 4.9부터. 전에는 `EUSERS`)
 :   `flags`에 `CLONE_NEWUSER`를 지정했는데 중첩 사용자 네임스페이스 수 제한을 초과하게 되었다. <tt>[[user_namespaces(7)]]</tt> 참고.
 
-    리눅스 3.11부터 리눅스 4.8까지에서는 이 경우 진단 오류가 `EUSERS`였다.
+    리눅스 3.11부터 리눅스 4.8까지는 이 경우 진단 오류가 `EUSERS`였다.
 
 `ENOSPC` (리눅스 4.9부터)
 :   `flags`의 한 값이 새 사용자 네임스페이스 생성을 나타내지만 그렇게 하면 `/proc/sys/user` 안의 대응 파일에 규정된 제한을 초과하게 된다. 자세한 내용은 <tt>[[namespaces(7)]]</tt> 참고.

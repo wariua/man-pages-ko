@@ -28,7 +28,7 @@ void pthread_kill_other_threads_np(void);
 
 ## NOTES
 
-`pthread_kill_other_threads_np()`는 스레드가 <tt>[[execve(2)]]</tt>나 유사 함수를 호출하기 바로 전에 호출하기 위한 것이다. 이 함수는 (POSIX.1-2001에 요구하는 대로) <tt>[[execve(2)]]</tt> 과정에서 응용의 다른 스레드들이 자동으로 종료되지 않는 구식 LinuxThreads 구현의 한계에 대처하기 위해 설계된 것이다.
+`pthread_kill_other_threads_np()`는 스레드가 <tt>[[execve(2)]]</tt>나 비슷한 함수를 호출하기 바로 전에 호출하기 위한 것이다. 이 함수는 (POSIX.1-2001에 요구하는 대로) <tt>[[execve(2)]]</tt> 과정에서 응용의 다른 스레드들이 자동으로 종료되지 않는 구식 LinuxThreads 구현의 한계에 대처하기 위해 설계된 것이다.
 
 NPTL 스레딩 구현에는 `pthread_kill_other_threads_np()`가 존재하기는 하지만 아무것도 하지 않는다. (구현이 <tt>[[execve(2)]]</tt> 과정에서 제대로 동작하므로 아무것도 할 필요가 없다.)
 

@@ -49,7 +49,7 @@ int eventfd(unsigned int initval, int flags);
 
     제공 버퍼의 크기가 8바이트보다 작거나 값 0xffffffffffffffff를 쓰려고 시도하면 `write(2)`가 `EINVAL` 오류로 실패한다.
 
-<tt>[[poll(2)]]</tt>, <tt>[[select(2)]]</tt> (기타 유사 함수)
+<tt>[[poll(2)]]</tt>, <tt>[[select(2)]]</tt> (기타 비슷한 함수)
 :   반환되는 파일 디스크립터가 다음과 같이 <tt>[[poll(2)]]</tt> (<tt>[[epoll(7)]]</tt>도 비슷함) 및 <tt>[[select(2)]]</tt>를 지원한다.
 
     * 카운터 값이 0보다 크면 파일 디스크립터가 읽기 가능하다. (<tt>[[select(2)]]</tt>의 `readfds` 인자, <tt>[[poll(2)]]</tt>의 `POLLIN` 플래그)

@@ -14,7 +14,7 @@ int aio_error(const struct aiocb *aiocbp);
 
 ## DESCRIPTION
 
-`aio_error()` 함수는 `aiocbp`가 가리키는 제어 블록의 비동기 I/O 요청에 대해 오류 상태를 반환한다. (`aiocb` 구조체에 대한 설명은 <tt>[[aio(7)]]</tt> 참고.)
+`aio_error()` 함수는 `aiocbp`가 가리키는 제어 블록의 비동기 I/O 요청에 대한 오류 상태를 반환한다. (`aiocb` 구조체에 대한 설명은 <tt>[[aio(7)]]</tt> 참고.)
 
 ## RETURN VALUE
 

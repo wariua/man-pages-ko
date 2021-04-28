@@ -14,9 +14,9 @@ unsigned int alarm(unsigned int seconds);
 
 `alarm()`은 `seconds` 초 후에 호출 프로세스에게 `SIGALRM` 시그널이 전달되도록 한다.
 
-`seconds`가 0이면 대기 중 알람이 있으면 취소한다.
+`seconds`가 0인 경우에는 대기 상태 알람이 있으면 취소하기만 한다.
 
-어느 경우이든 앞서 설정한 `alarm()`이 있으면 취소된다.
+어느 경우든 앞서 설정한 `alarm()`이 있으면 취소된다.
 
 ## RETURN VALUE
 
@@ -32,7 +32,7 @@ POSIX.1-2001, POSIX.1-2008, SVr4, 4.3BSD.
 
 `alarm()`으로 생성된 알람이 <tt>[[execve(2)]]</tt>를 거치면서 유지된다. <tt>[[fork(2)]]</tt>를 통해 생긴 자식들이 물려받지 않는다.
 
-<tt>[[sleep(3)]]</tt>이 `SIGALRM`을 이용해 구현돼 있을 수 있다. 즉 `alarm()`과 <tt>[[sleep(3)]]</tt>을 같이 쓰는 건 좋지 않다.
+<tt>[[sleep(3)]]</tt>이 `SIGALRM`을 이용해 구현돼 있을 수 있다. 즉 `alarm()`과 <tt>[[sleep(3)]]</tt>을 섞어 쓰는 건 좋지 않다.
 
 언제나 그렇듯 스케줄링 지연 때문에 프로세스 실행이 임의 시간만큼 지연될 수 있다.
 

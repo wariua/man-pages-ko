@@ -51,7 +51,7 @@ long SSL_get_mode(SSL *ssl);
 `SSL_MODE_SEND_FALLBACK_SCSV`
 :   ClientHello에 TLS_FALLBACK_SCSV를 보낸다. 프로토콜 버전을 내려서 재연결하는 응용에서만 설정하게 된다. 자세한 내용은 draft-ietf-tls-downgrade-scsv-00을 보라.
 
-    응용에서 일반적인 핸드셰이크를 시도하는 경우에는 절대 이 플래크를 켜지 마라. 명확하게 후퇴 재시도를 하는 경우에만 draft-ietf-tls-downgrade-scsv-00의 지침에 따라서 사용해야 한다.
+    응용에서 일반적인 핸드셰이크를 시도하는 경우에는 절대 이 모드를 켜지 마라. 명확하게 후퇴 재시도를 하는 경우에만 draft-ietf-tls-downgrade-scsv-00의 지침에 따라서 사용해야 한다.
 
 `SSL_MODE_ASYNC`
 :   비동기 처리를 켠다. 이 모드가 설정돼 있으면 암호 연산 수행에 비동기 지원 엔진을 쓰는 경우 TLS I/O 동작이 `SSL_ERROR_WANT_ASYNC`로 재시도 필요를 나타낼 수 있다. `SSL_get_error(3)` 참고.

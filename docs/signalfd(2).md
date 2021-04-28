@@ -37,7 +37,7 @@ int signalfd(int fd, const sigset_t *mask, int flags);
 
     `mask` 내의 시그널 어느 것도 프로세스에 미처리 상태가 아니면 `mask` 내의 시그널들 중 하나가 프로세스에게 생성될 때까지 `read(2)`가 블록 한다. 파일 디스크립터를 논블록으로 만들었으면 `EAGAIN` 오류로 실패한다.
 
-<tt>[[poll(2)]]</tt>, <tt>[[select(2)]]</tt> (기타 유사 함수)
+<tt>[[poll(2)]]</tt>, <tt>[[select(2)]]</tt> (기타 비슷한 함수)
 :   `mask` 내의 시그널이 하나 이상 프로세스에 미처리 상태인 경우에 파일 디스크립터가 읽기 가능하다. (<tt>[[select(2)]]</tt> `readfds` 인자, <tt>[[poll(2)]]</tt> `POLLIN` 플래그.)
 
     signalfd 파일 디스크립터는 <tt>[[pselect(2)]]</tt>, <tt>[[ppoll(2)]]</tt>, <tt>[[epoll(7)]]</tt> 같은 다른 파일 디스크립터 다중화 API도 지원한다.

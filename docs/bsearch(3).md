@@ -1,6 +1,6 @@
 ## NAME
 
-bsearch - 정렬된 배열 이진 탐색하기
+bsearch - 정렬된 배열 이진 탐색
 
 ## SYNOPSIS
 
@@ -14,7 +14,7 @@ void *bsearch(const void *key, const void *base,
 
 ## DESCRIPTION
 
-`bsearch()` 함수는 `base`가 첫 항목을 가리키는 `nmemb` 개 객체의 배열에서 `key`가 가리키는 객체와 일치하는 항목을 탐색한다. 배열의 각 항목의 크기를 `size`로 지정한다.
+`bsearch()` 함수는 `base`가 첫 항목을 가리키는 `nmemb` 개 객체의 배열에서 `key`가 가리키는 객체와 일치하는 항목을 탐색한다. 배열 항목의 크기를 `size`로 지정한다.
 
 배열 내용물이 `compar`가 가리키는 비교 함수를 기준으로 오름차순으로 정렬돼 있어야 한다. `compar` 루틴에는 두 인자가 있어서 차례로 `key` 객체와 배열 항목을 가리키게 돼 있으며, `key` 객체가 배열 항목보다 작거나 같거나 클 때 각각 0보다 작거나 같거나 큰 정수를 반환해야 한다.
 
@@ -36,7 +36,7 @@ POSIX.1-2001, POSIX.1-2008, C89, C99, SVr4, 4.3BSD.
 
 ## EXAMPLES
 
-아래 예에서는 먼저 `qsort(3)`를 써서 구조체 배열을 정렬하고서 `bsearch()`를 써서 원하는 항목을 얻는다.
+아래 예에서는 먼저 `qsort(3)`를 써서 구조체 배열을 정렬하고 `bsearch()`를 써서 원하는 항목을 얻는다.
 
 ```c
 #include <stdio.h>

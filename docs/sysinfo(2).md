@@ -14,7 +14,7 @@ int sysinfo(struct sysinfo *info);
 
 `sysinfo()`는 메모리 및 스왑 사용, 그리고 평균 부하에 대한 몇 가지 통계를 반환한다.
 
-리눅스 2.3.16까지에서 `sysinfo()`는 다음 구조체로 정보를 반환했다.
+리눅스 2.3.16까지는 `sysinfo()`가 다음 구조체로 정보를 반환했다.
 
 ```c
 struct sysinfo {

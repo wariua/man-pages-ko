@@ -38,7 +38,7 @@ argz 벡터는 문자 버퍼 포인터에 길이가 함께 있는 것이다. (<t
 
 `envz_entry()`는 envz 벡터 (`envz`, `envz_len`)에서 `name`을 탐색하며, 찾으면 그 항목을 반환하고 없으면 NULL을 반환한다.
 
-`envz_get()`은 envz 벡터 (`envz`, `envz_len`)에서 `name`을 탐색하며, 찾으면 그 값을 반환하고 없으면 NULL을 반환한다. (참고로 '=' 없는 `name` 항목이 있으면 값이 NULL일 수 있다.)
+`envz_get()`은 envz 벡터 (`envz`, `envz_len`)에서 `name`을 탐색하며, 찾으면 그 값을 반환하고 없으면 NULL을 반환한다. ('=' 없는 `name` 항목이 있으면 값이 NULL일 수 있다는 점에 유의하라.)
 
 `envz_merge()`는 `envz2`의 각 항목을 `envz_add()`를 쓴 것처럼 `*envz`에 추가한다. `override`가 참이면 `envz2`에 있는 값이 `*envz`에 있는 같은 이름의 값을 대체하고, 아니면 그러지 않는다.
 

@@ -217,7 +217,7 @@ unsigned int la_i86_gnu_pltexit(Elf32_Sym *sym, unsigned int ndx,
 
 ## BUGS
 
-glibc 버전 2.9까지에서 `LD_AUDIT`에 감사 라이브러리를 여러 개 지정하면 런타임 크래시가 발생한다. glibc 2.10에서 고쳐졌다고 한다.
+glibc 버전 2.9까지는 `LD_AUDIT`에 감사 라이브러리를 여러 개 지정하면 런타임 크래시가 발생한다. glibc 2.10에서 고쳐졌다고 한다.
 
 ## EXAMPLES
 

@@ -16,11 +16,11 @@ int aio_fsync(int op, struct aiocb *aiocbp);
 
 `aio_fsync()` 함수는 `aiocbp->aio_filedes`에 연계된 모든 미처리 비동기 I/O 동작들에 동기화를 한다. (`aiocb` 구조체에 대한 설명은 <tt>[[aio(7)]]</tt> 참고.)
 
-더 정확하게는 `op`가 `O_SYNC`이면 현재 큐에 있는 모든 I/O 동작들이 <tt>[[fsync(2)]]</tt>를 호출한 경우처럼 완료된다. 그리고 `op`가 `O_DSYNC`이면 이 호출은 <tt>[[fdatasync(2)]]</tt>의 비동기 형태가 된다.
+더 정확하게는 `op`가 `O_SYNC`이면 <tt>[[fsync(2)]]</tt>를 호출한 것처럼 현재 큐에 있는 모든 I/O 동작들이 완료된다. 그리고 `op`가 `O_DSYNC`이면 이 호출은 <tt>[[fdatasync(2)]]</tt>의 비동기 형태가 된다.
 
 참고로 이 호출은 요청만 할 뿐이다. 즉 I/O가 완료되기를 기다리지 않는다.
 
-`aiocbp`가 가리키는 구조체에서 `aio_fildes` 외에 이 호출에서 유일하게 사용하는 필드는 `aio_sigevent` 필드(`sigevent` 구조체. <tt>[[sigevent(7)]]</tt>에서 설명)인데, 원하는 비동기 완료 알림 종류를 나타낸다. 다른 필드들은 모두 무시한다.
+`aiocbp`가 가리키는 구조체에서 `aio_fildes` 외에 이 호출에서 유일하게 사용하는 필드는 `aio_sigevent` 필드(`sigevent` 구조체. <tt>[[sigevent(7)]]</tt>에서 설명)인데, 원하는 비동기 완료 알림 종류를 나타낸다. 다른 필드들은 모두 무시된다.
 
 ## RETURN VALUE
 

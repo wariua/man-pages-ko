@@ -237,7 +237,7 @@ struct {
 
 glibc 2.0에서는 `sigmask` 인자를 받지 않는 잘못된 `pselect()` 버전을 제공했다.
 
-glibc 버전 2.1에서 2.2.1까지에서는 `<sys/select.h>`에서 `pselect()` 정의를 얻으려면 `_GNU_SOURCE`를 정의해야 한다.
+glibc 버전 2.1에서 2.2.1까지는 `<sys/select.h>`에서 `pselect()` 정의를 얻으려면 `_GNU_SOURCE`를 정의해야 한다.
 
 ## BUGS
 

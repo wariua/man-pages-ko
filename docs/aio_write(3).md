@@ -14,7 +14,7 @@ int aio_write(struct aiocb *aiocbp);
 
 ## DESCRIPTION
 
-`aio_write()` 함수는 `aiocbp`가 가리키는 버퍼에 기술된 I/O 요청을 큐에 넣는다. 이 함수는 `write(2)`의 비동기 형태이다. 다음 호출에서
+`aio_write()` 함수는 `aiocbp`가 가리키는 버퍼에 기술된 I/O 요청을 큐에 넣는다. 이 함수는 `write(2)`의 비동기 형태다. 다음 호출에서
 
 ```c
 write(fd, buf, count)
@@ -26,15 +26,15 @@ write(fd, buf, count)
 
 "비동기"라는 것은 요청을 큐에 넣자마자 이 호출이 반환한다는 뜻이다. 호출 반환 때 쓰기가 완료돼 있을 수도 있고 아닐 수도 있다. 완료 여부를 <tt>[[aio_error(3)]]</tt>로 검사한다. 그리고 완료된 I/O 동작의 반환 상태를 <tt>[[aio_return(3)]]</tt>으로 얻는다. `aiocbp->aio_sigevent`를 적절히 설정해서 I/O 완료 알림을 비동기적으로 받을 수 있다. 자세한 내용은 <tt>[[sigevent(7)]]</tt> 참고.
 
-`_POSIX_PRIORITIZED_IO`가 정의돼 있으며 이 파일에서 지원하는 경우 호출 프로세스의 우선순위에서 `aiocbp->aio_reqprio`를 뺀 우선순위로 비동기 동작을 제출한다.
+`_POSIX_PRIORITIZED_IO`가 정의돼 있고 이 파일에서 지원한다면 호출 프로세스의 우선순위에서 `aiocbp->aio_reqprio`를 뺀 우선순위로 비동기 동작이 제출된다.
 
-`aiocbp->aio_lio_opcode` 필드는 무시한다.
+`aiocbp->aio_lio_opcode` 필드는 무시된다.
 
 정규 파일에서 최대 오프셋 너머로는 어떤 데이터도 쓰지 않는다.
 
 ## RETURN VALUE
 
-성공 시 0을 반환한다. 오류 시 요청이 큐에 들어가지 않고, -1을 반환하며 오류를 나타내도록 `errno`를 설정한다. 오류를 나중에 탐지한 경우 <tt>[[aio_return(3)]]</tt>(상태 -1 반환)이나 <tt>[[aio_error(3)]]</tt>(`errno`로 받았을 `EBADF` 같은 오류 상태)를 통해 보고한다.
+성공 시 0을 반환한다. 오류 시 요청을 큐에 넣지 않고 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다. 오류를 나중에 탐지한 경우 <tt>[[aio_return(3)]]</tt>(상태 -1 반환)이나 <tt>[[aio_error(3)]]</tt>(`errno`로 받았을 `EBADF` 같은 오류 상태)를 통해 보고하게 된다.
 
 ## ERRORS
 

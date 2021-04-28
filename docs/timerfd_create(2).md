@@ -52,7 +52,7 @@ int timerfd_gettime(int fd, struct itimerspec *curr_value);
 `TFD_CLOEXEC`
 :   새 파일 디스크립터에 exec에서 닫기(`FD_CLOEXEC`) 플래그를 설정한다. 이게 유용할 수 있는 이유에 대해선 <tt>[[open(2)]]</tt>의 `O_CLOEXEC` 플래그 설명을 보라.
 
-리눅스 버전 2.6.26까지에서는 `flags`를 0으로 지정해야 한다.
+리눅스 버전 2.6.26까지는 `flags`를 0으로 지정해야 한다.
 
 ### `timerfd_settime()`
 
@@ -111,7 +111,7 @@ struct itimerspec {
 
     연계된 클럭이 `CLOCK_REALTIME`이나 `CLOCK_REALTIME_ALARM`이고, 타이머가 절대이고 (`TFD_TIMER_ABSTIME`), `timerfd_settime()` 호출 때 `TFD_TIMER_CANCEL_ON_SET` 플래그를 지정하지 *않았다면* 시간 만료 후 파일 디스크립터에 대한 `read(2)` 전에 클럭에 (가령 <tt>[[clock_settime(2)]]</tt>으로) 불연속적 역방향 변경이 일어나면 `read(2)`가 블록 하지 않고 0값을 반환할 (즉 읽은 바이트가 없을) 수도 있다.
 
-<tt>[[poll(2)]]</tt>, <tt>[[select(2)]]</tt> (기타 유사 함수)
+<tt>[[poll(2)]]</tt>, <tt>[[select(2)]]</tt> (기타 비슷한 함수)
 :   타이머 만료가 한 번 이상 일어났을 때 파일 디스크립터가 읽기 가능하다. (<tt>[[select(2)]]</tt> `readfds` 인자, <tt>[[poll(2)]]</tt> `POLLIN` 플래그.)
 
     파일 디스크립터가 <tt>[[pselect(2)]]</tt>, <tt>[[ppoll(2)]]</tt>, <tt>[[epoll(7)]]</tt> 같은 다른 파일 디스크립터 다중화 API도 지원한다.

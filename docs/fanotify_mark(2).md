@@ -35,7 +35,7 @@ fanotify API에 대한 소개는 <tt>[[fanotify(7)]]</tt>를 보라.
 추가로 `flags`에 다음 값들을 0개 이상 OR 할 수 있다.
 
 `FAN_MARK_DONT_FOLLOW`
-:   `pathname`이 심볼릭 링크이면 가리키는 파일이 아니라 링크 자체에 표시를 한다. (기본적으로 `fanotify_mark()`는 `pathname`이 심볼릭 링크이면 따라간다.)
+:   `pathname`이 심볼릭 링크면 가리키는 파일이 아니라 링크 자체에 표시를 한다. (기본적으로 `fanotify_mark()`는 `pathname`이 심볼릭 링크면 따라간다.)
 
 `FAN_MARK_ONLYDIR`
 :   표시할 파일 시스템 객체가 디렉터리가 아니면 `ENOTDIR` 오류를 제기한다.

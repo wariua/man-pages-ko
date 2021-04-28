@@ -171,9 +171,9 @@ glibc에서 이 시스템 호출의 래퍼를 제공하지 않는다. <tt>[[sysc
 
 ## BUGS
 
-리눅스 버전 3.15까지에서 ERRORS 절에서 기술하는 경우에 `sched_setattr()`이 `E2BIG` 대신 `EFAULT` 오류로 실패했다.
+리눅스 버전 3.15까지는 ERRORS 절에서 기술하는 경우에 `sched_setattr()`이 `E2BIG` 대신 `EFAULT` 오류로 실패했다.
 
-리눅스 버전 5.3까지에서 커널 내 `sched_attr` 구조체가 사용자 공간에서 준 `size`보다 큰 경우 `sched_getattr()`이 `EFBIG` 오류로 실패했다.
+리눅스 버전 5.3까지는 커널 내 `sched_attr` 구조체가 사용자 공간에서 준 `size`보다 큰 경우 `sched_getattr()`이 `EFBIG` 오류로 실패했다.
 
 ## SEE ALSO
 
