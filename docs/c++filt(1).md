@@ -10,6 +10,8 @@ c++filt [<strong>-_</strong>|<strong>--strip-underscore</strong>]
         [<strong>-p</strong>|<strong>--no-params</strong>]
         [<strong>-t</strong>|<strong>--types</strong>]
         [<strong>-i</strong>|<strong>--no-verbose</strong>]
+        [<strong>-r</strong>|<strong>--no-recurse-limit</strong>]
+        [<strong>-R</strong>|<strong>--recurse-limit</strong>]
         [<strong>-s</strong> <em>format</em>|<strong>--format=</strong><em>format</em>]
         [<strong>--help</strong>]  [<strong>--version</strong>]  [<em>symbol</em>...]
 </pre>
@@ -67,6 +69,13 @@ echo _Z1fv, | c++filt -n
 `-i`<br>`--no-verbose`
 :   디맹글 된 출력에 구현 상세 정보를 포함시키지 않는다.
 
+`-r`<br>`-R`<br>`--recurse-limit`<br>`--no-recurse-limit`<br>`--recursion-limit`<br>`--no-recursion-limit`
+:   문자열 해독 중 수행하는 재귀 횟수에 대한 제한을 켜거나 끈다. 이름 해독 형식에서 무한 단계의 재귀가 가능하기 때문에 해독으로 인해 호스트 머신의 가용 스택 공간이 고갈돼서 메모리 폴트가 일어나도록 문자열을 만드는 게 가능하다. 제한 동작은 재귀 중첩을 2048단계로 제한해서 그런 일이 일어나지 않게 한다.
+
+    기본은 제한을 켜는 것이지만 정말로 복잡한 이름을 해독하기 위해선 끌 필요가 있을 수도 있다. 하지만 재귀 제한이 꺼져 있으면 스택 고갈이 가능하고, 그런 경우에 대한 버그 보고는 거부된다는 점에 유의하라.
+
+    `-r` 옵션은 `--no-recurse-limit` 옵션과 의미가 같다. `-R` 옵션은 `--recurse-limit` 옵션과 의미가 같다.
+
 `-s format`<br>`--format=format`
 :   `c++filt`는 여러 컴파일러들에서 쓰는 다양한 맹글 방식을 해독할 수 있다. 이 옵션 인자로 사용 방식을 선택한다.
 
@@ -118,12 +127,12 @@ info *binutils* 항목.
 
 ## COPYRIGHT
 
-Copyright (c) 1991-2018 Free Software Foundation, Inc.
+Copyright (c) 1991-2020 Free Software Foundation, Inc.
 
 Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free Documentation License, Version 1.3 or any later version published by the Free Software Foundation; with no Invariant Sections, with no Front-Cover Texts, and with no Back-Cover Texts.  A copy of the license is included in the section entitled "GNU Free Documentation License".
 
 ----
 
-2018-09-12
+2020-09-21
 
-binutils-2.30-system
+binutils-2.35.1

@@ -74,7 +74,7 @@ ASYNC_JOB 생성은 꽤 비용이 큰 동작이다. 따라서 효율성을 위�
 
 윈도우 플랫폼에서는 `openssl/async.h` 헤더에 필요한 몇 가지 타입들이 보통 `windows.h`를 포함시켜야 사용 가능해진다. 그런데 가장 먼저 포함시키는 헤더들 중 하나인 `windows.h`를 언제 포함시킬지를 응용 개발자가 통제할 수 있어야 하는 경우가 많다. 따라서 `async.h`에 앞서 `windows.h`를 포함시키는 것을 응용 개발자의 책임으로 규정한다.
 
-## EXAMPLE
+## EXAMPLES
 
 다음 예는 핵심 비동기 API 대부분의 사용 방식을 보여 준다.
 
@@ -225,10 +225,10 @@ OpenSSL 1.1.0에서 `ASYNC_init_thread()`, `ASYNC_cleanup_thread()`, `ASYNC_star
 
 ## COPYRIGHT
 
-Copyright 2015-2016 The OpenSSL Project Authors. All Rights Reserved.
+Copyright 2015-2020 The OpenSSL Project Authors. All Rights Reserved.
 
 Licensed under the OpenSSL license (the "License").  You may not use this file except in compliance with the License.  You can obtain a copy in the file LICENSE in the source distribution or at <https://www.openssl.org/source/license.html>.
 
 ----
 
-2017-12-31
+2021-03-25

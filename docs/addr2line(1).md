@@ -8,7 +8,10 @@ addr2line - 주소를 파일 이름과 행 번호로 변환하기
 addr2line [<strong>-a</strong>|<strong>--addresses</strong>]
           [<strong>-b</strong> <em>bfdname</em>|<strong>--target=</strong><em>bfdname</em>]
           [<strong>-C</strong>|<strong>--demangle</strong>[=<em>style</em>]]
+          [<strong>-r</strong>|<strong>--no-recurse-limit</strong>]
+          [<strong>-R</strong>|<strong>--recurse-limit</strong>]
           [<strong>-e</strong> <em>filename</em>|<strong>--exe=</strong><em>filename</em>]
+          [<strong>-f</strong>|<strong>--functions</strong>] [<strong>-s</strong>|<strong>--basename</strong>]
           [<strong>-i</strong>|<strong>--inlines</strong>]
           [<strong>-p</strong>|<strong>--pretty-print</strong>]
           [<strong>-j</strong>|<strong>--section=</strong><em>name</em>]
@@ -75,6 +78,15 @@ addr2line [<strong>-a</strong>|<strong>--addresses</strong>]
 `-p`<br>`--pretty-print`
 :   출력을 더 인간 친화적으로 만든다. 즉 각 위치를 한 행에 찍는다. `-i` 옵션을 지정하면 모든 감싸는 스코프 행 앞에 `(inlined by)`가 붙는다.
 
+`-r`<br>`-R`<br>`--recurse-limit`<br>`--no-recurse-limit`<br>`--recursion-limit`<br>`--no-recursion-limit`
+:   문자열 해독 중 수행하는 재귀 횟수에 대한 제한을 켜거나 끈다. 이름 해독 형식에서 무한 단계의 재귀가 가능하기 때문에 해독으로 인해 호스트 머신의 가용 스택 공간이 고갈돼서 메모리 폴트가 일어나도록 문자열을 만드는 게 가능하다. 제한 동작은 재귀 중첩을 2048단계로 제한해서 그런 일이 일어나지 않게 한다.
+
+    기본은 제한을 켜는 것이지만 정말로 복잡한 이름을 해독하기 위해선 끌 필요가 있을 수도 있다. 하지만 재귀 제한이 꺼져 있으면 스택 고갈이 가능하고, 그런 경우에 대한 버그 보고는 거부된다는 점에 유의하라.
+
+    `-r` 옵션은 `--no-recurse-limit` 옵션과 의미가 같다. `-R` 옵션은 `--recurse-limit` 옵션과 의미가 같다.
+
+    `-C` 내지 `--demangle` 옵션을 켰을 때만 이 옵션이 효과가 있다는 점에 유의하라.
+
 `@file`
 :   `file`에서 명령행 옵션들을 읽는다. 읽어 들인 옵션들이 원래 `@file` 옵션 자리에 들어간다. `file`이 존재하지 않거나 읽을 수 없는 경우에는 이 옵션을 제거하지 않고 문자 그대로 다루게 된다.
 
@@ -86,12 +98,12 @@ info *binutils* 항목.
 
 ## COPYRIGHT
 
-Copyright (c) 1991-2018 Free Software Foundation, Inc.
+Copyright (c) 1991-2020 Free Software Foundation, Inc.
 
 Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Free Documentation License, Version 1.3 or any later version published by the Free Software Foundation; with no Invariant Sections, with no Front-Cover Texts, and with no Back-Cover Texts.  A copy of the license is included in the section entitled "GNU Free Documentation License".
 
 ----
 
-2018-09-12
+2020-09-21
 
-binutils-2.30-system
+binutils-2.35.1
