@@ -53,13 +53,13 @@ ptrace(PTRACE_foo, pid, ...)
 :   워드 `data`를 피추적자 USER 영역의 오프셋 `addr`로 복사한다. `PTRACE_PEEKUSER`처럼 오프셋이 보통은 워드에 정렬되어 있어야 한다. 커널의 무결성을 유지하기 위해 USER 영역에 대한 일부 변경은 허용하지 않는다.
 
 `PTRACE_GETREGS`, `PTRACE_GETFPREGS`
-:   각각 피추적자의 범용 레지스터들이나 부동 소수점 레지스터들을 추적자 내의 주소 `data`로 복사한다. 이 데이터의 형식에 대한 정보는 `<sys/user.h>`를 보라. (`addr`은 무시한다.) 참고로 SPARC 시스템에서는 `data`와 `addr`의 의미가 뒤집혀 있다. 즉, `data`를 무시하고 주소 `addr`로 레지스터들을 복사한다. 모든 아키텍처에 `PTRACE_GETREGS`와 `PTRACE_GETFPREGS`가 있는 건 아니다.
+:   각각 피추적자의 범용 레지스터들이나 부동소수점 레지스터들을 추적자 내의 주소 `data`로 복사한다. 이 데이터의 형식에 대한 정보는 `<sys/user.h>`를 보라. (`addr`은 무시한다.) 참고로 SPARC 시스템에서는 `data`와 `addr`의 의미가 뒤집혀 있다. 즉, `data`를 무시하고 주소 `addr`로 레지스터들을 복사한다. 모든 아키텍처에 `PTRACE_GETREGS`와 `PTRACE_GETFPREGS`가 있는 건 아니다.
 
 `PTRACE_GETREGSET` (리눅스 2.6.34부터)
-:   피추적자의 레지스터들을 읽는다. `addr`이 아키텍처별 방식으로 읽을 레지스터들의 종류를 나타낸다. `NT_PRSTATUS`(숫자 값 1)는 일반적으로 범용 레지스터들을 읽게 만든다. 예를 들어 CPU에 부동 소수점 및/또는 벡터 레지스터가 있으면 `addr`을 대응 `NT_foo` 상수로 설정해서 그 레지스터들을 가져올 수 있다. `data`는 목적지 버퍼의 위치와 길이를 기술하는 `struct iovec`을 가리킨다. 반환 시 실제 반환되는 바이트 수를 나타내도록 커널이 `iov.len`을 변경한다.
+:   피추적자의 레지스터들을 읽는다. `addr`이 아키텍처별 방식으로 읽을 레지스터들의 종류를 나타낸다. `NT_PRSTATUS`(숫자 값 1)는 일반적으로 범용 레지스터들을 읽게 만든다. 예를 들어 CPU에 부동소수점 및/또는 벡터 레지스터가 있으면 `addr`을 대응 `NT_foo` 상수로 설정해서 그 레지스터들을 가져올 수 있다. `data`는 목적지 버퍼의 위치와 길이를 기술하는 `struct iovec`을 가리킨다. 반환 시 실제 반환되는 바이트 수를 나타내도록 커널이 `iov.len`을 변경한다.
 
 `PTRACE_SETREGS`, `PTRACE_SETFPREGS`
-:   각각 피추적자의 범용 레지스터들이나 부동 소수점 레지스터들을 추적자 내의 주소 `data`에서 온 값으로 변경한다. `PTRACE_POKEUSER`처럼 일부 범용 레지스터 변경이 허용되지 않을 수도 있다. (`addr`은 무시한다.) 참고로 SPARCS 시스템에서는 `data`와 `addr`의 의미가 뒤집혀 있다. 즉, `data`를 무시하고 주소 `addr`로부터 레지스터들을 복사한다. 모든 아키텍처에 `PTRACE_SETREGS`와 `PTRACE_SETFPREGS`가 있는 건 아니다.
+:   각각 피추적자의 범용 레지스터들이나 부동소수점 레지스터들을 추적자 내의 주소 `data`에서 온 값으로 변경한다. `PTRACE_POKEUSER`처럼 일부 범용 레지스터 변경이 허용되지 않을 수도 있다. (`addr`은 무시한다.) 참고로 SPARCS 시스템에서는 `data`와 `addr`의 의미가 뒤집혀 있다. 즉, `data`를 무시하고 주소 `addr`로부터 레지스터들을 복사한다. 모든 아키텍처에 `PTRACE_SETREGS`와 `PTRACE_SETFPREGS`가 있는 건 아니다.
 
 `PTRACE_SETREGSET` (리눅스 2.6.34부터)
 :   피추적자의 레지스터들을 변경한다. `addr`과 `data`의 의미는 `PTRACE_GETREGSET`과 유사하다.

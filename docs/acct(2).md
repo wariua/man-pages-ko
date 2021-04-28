@@ -60,7 +60,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 :   메모리 부족.
 
 `ENOSYS`
-:   운영 체제 커널을 컴파일 할 때 BSD 프로세스 통계 기능을 켜지 않았다. 이 기능을 제어하는 커널 구성 매개변수는 `CONFIG_BSD_PROCESS_ACCT`이다.
+:   운영 체제 커널을 컴파일할 때 BSD 프로세스 통계 기능을 켜지 않았다. 이 기능을 제어하는 커널 구성 매개변수는 `CONFIG_BSD_PROCESS_ACCT`이다.
 
 `ENOTDIR`
 :   `filename`에서 디렉터리인 부분이 실제로는 디렉터리가 아니다.

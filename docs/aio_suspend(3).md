@@ -34,7 +34,7 @@ int aio_suspend(const struct aiocb *const aiocb_list[], int nitems,
 ## ERRORS
 
 `EAGAIN`
-:   지정한 동작 하나라도 완료되기 전에 호출이 타임아웃 되었다.
+:   지정한 동작 하나라도 완료되기 전에 호출이 타임아웃되었다.
 
 `EINTR`
 :   시그널로 호출이 끝났다. (기다리던 동작들 중 하나의 완료 알림일 수도 있다.) <tt>[[signal(7)]]</tt> 참고.

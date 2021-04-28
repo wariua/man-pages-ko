@@ -84,7 +84,7 @@ struct timex {
 `ADJ_SETOFFSET` (리눅스 2.6.39부터)
 :   현재 시간에 `buf.time` 더하기. `buf.status`에 `ADJ_NANO` 플래그가 포함돼 있으면 `buf.time.tv_usec`을 나노초 값으로 해석한다. 아니면 마이크로초로 해석한다.
 
-    `buf.time`의 값은 그 두 필드의 합이되, `buf.time.tv_usec` 필드가 음수가 아니어야 한다. 다음은 나노초 해상도로 `timeval`을 정규화 하는 방법을 보여 주는 예시다.
+    `buf.time`의 값은 그 두 필드의 합이되, `buf.time.tv_usec` 필드가 음수가 아니어야 한다. 다음은 나노초 해상도로 `timeval`을 정규화하는 방법을 보여 주는 예시다.
 
         while (buf.time.tv_usec < 0) {
             buf.time.tv_sec  -= 1;
@@ -238,7 +238,7 @@ struct timex {
 :   `buf.status`를 위에 나열된 것 외의 값으로 설정하려 했다.
 
 `EINVAL`
-:   `clock_adjtime()`에 준 `clk_id`가 유효하지 않다. 시스템 V 방식의 하드코딩 된 양수 클럭 ID가 범위를 벗어났거나, 동적인 `clk_id`가 유효한 클럭 객체 인스턴스를 가리키고 있지 않다. 동적 클럭에 대한 설명은 <tt>[[clock_gettime(2)]]</tt>을 보라.
+:   `clock_adjtime()`에 준 `clk_id`가 유효하지 않다. 시스템 V 방식의 하드코딩된 양수 클럭 ID가 범위를 벗어났거나, 동적인 `clk_id`가 유효한 클럭 객체 인스턴스를 가리키고 있지 않다. 동적 클럭에 대한 설명은 <tt>[[clock_gettime(2)]]</tt>을 보라.
 
 `EINVAL`
 :   `buf.tick`을 `900000/HZ`에서 `1100000/HZ`까지 범위 밖의 값으로 설정하려 했다. 여기서 `HZ`는 시스템 타이머 인터럽트 빈도이다.

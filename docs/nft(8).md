@@ -287,7 +287,7 @@ add table inet mytable
 | nat    | ip, ip6, inet | prerouting, input, output, postrouting | 이 체인 타입에서는 conntrack 항목에 따라 네트워크 주소 변환을 수행한다. 연결의 첫 번째 패킷만 실제로 이 체인을 거친다. 체인 규칙에서는 일반적으로 생성되는 conntrack 항목의 세부 사항(예를 들어 NAT 문)을 규정한다. |
 | route  | ip, ip6       | output | 패킷이 이 체인 타입을 거치고서 허용되는 경우에 IP 헤더의 관련 부분이 변경됐으면 라우트 검색을 새로 수행한다. 이를 이용해 가령 nftables에서 정책 라우팅을 할 수 있다. |
 
-위에 설명한 특별한 경우들(가령 `nat`에서 `forward` 훅을 지원하지 않거나 `route`에서 `output` 훅만 지원하는 것) 외에도 신경 써야 할 특이 사항이 두 가지 더 있다.
+위에 설명한 특별한 경우들(가령 `nat`에서 `forward` 훅을 지원하지 않거나 `route`에서 `output` 훅만 지원하는 것) 외에도 신경써야 할 특이 사항이 두 가지 더 있다.
 
 * netdev 패밀리는 한 가지 조합, 즉 `filter` 타입에 `ingress` 훅만 지원한다. 또 이 패밀리의 기본 체인에는 `device` 매개변수가 꼭 있어야 하는데, 입력 인터페이스별로 체인이 존재하기 때문이다.
 

@@ -1,6 +1,6 @@
 ## NAME
 
-basename, dirname - 경로명 요소 파싱 하기
+basename, dirname - 경로명 요소 파싱하기
 
 ## SYNOPSIS
 
