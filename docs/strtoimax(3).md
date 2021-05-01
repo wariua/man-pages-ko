@@ -35,7 +35,7 @@ POSIX.1-2001, POSIX.1-2008, C99.
 
 ## SEE ALSO
 
-`imaxabs(3)`, `imaxdiv(3)`, <tt>[[strtol(3)]]</tt>, <tt>[[strtoul(3)]]</tt>, `wcstoimax(3)`
+<tt>[[imaxabs(3)]]</tt>, <tt>[[imaxdiv(3)]]</tt>, <tt>[[strtol(3)]]</tt>, <tt>[[strtoul(3)]]</tt>, `wcstoimax(3)`
 
 ----
 
