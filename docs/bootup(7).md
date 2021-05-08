@@ -60,7 +60,7 @@ systemd가 시스템을 구동할 때 default.target이 의존하는 모든 유�
        v              \_______ | _____/         rescue.service   |
                               \|/                     |          |
                                v                      v          |
-                           basic.target        _rescue.target_   |
+                           basic.target        *rescue.target*   |
                                |                                 |
                        ________v____________________             |
                       /              |              \            |
@@ -70,15 +70,15 @@ systemd가 시스템을 구동할 때 default.target이 의존하는 모든 유�
               manager.service     필요한          서비스들)      |
                       |         다양한 시스템       |            |
                       |          서비스들)          v            v
-                      |              |           _multi-user.target_
+                      |              |           *multi-user.target*
  emergency.service    |              |              |
          |            \_____________ | _____________/
          v                          \|/
-_emergency.target_                   v
-                             _graphical.target_
+*emergency.target*                   v
+                             *graphical.target*
 ```
 
-부트 타겟으로 흔히 쓰이는 타겟 유닛들을 \_강조 표시\_하였다. 이 유닛들은 목표 타겟으로 하기에 좋은 선택지이다. 예를 들어 `systemd.unit=` 커널 명령행 옵션(`systemd(1)` 참고)에 전달하거나 심볼릭 링크로 default.target이 그 유닛을 가리키게 하면 된다.
+부트 타겟으로 흔히 쓰이는 타겟 유닛들을 \*강조\* 표시하였다. 이 유닛들은 목표 타겟으로 하기에 좋은 선택지이다. 예를 들어 `systemd.unit=` 커널 명령행 옵션(`systemd(1)` 참고)에 전달하거나 심볼릭 링크로 default.target이 그 유닛을 가리키게 하면 된다.
 
 timers.target은 basic.target과 비동기적으로 당겨 온다. 이렇게 하면 타이머가 부팅 후반에서야 사용 가능해지는 서비스에 의존할 수 있다.
 
@@ -108,7 +108,7 @@ timers.target은 basic.target과 비동기적으로 당겨 온다. 이렇게 하
             |            (그래픽 세션을 위한 서비스들)       v
             |                    |                       printer.target
             v                    v
-    _default.target_     graphical-session.target
+    *default.target*     graphical-session.target
 ```
 
 ## 최초 램디스크에서의 부팅 (INITRD)
@@ -118,59 +118,59 @@ systemd를 사용해서도 최초 램디스크(initial RAM disk) 구현(initrd)�
 systemd에서 /etc/initrd-release 파일을 확인해서 initrd 내에서 돌고 있다는 걸 알아낸다. initrd 내에서 기본 타겟은 initrd.target이다. basic.target에 도달할 때까지는 시스템 관리자 부팅(위 내용 참고)과 동일하게 부팅 과정이 시작한다. 거기서부터 systemd는 특수한 타겟인 initrd.target으로 접근한다. 파일 시스템을 마운트 하기 전에 시스템이 하이버네이션에서 복귀할 것인지 아니면 정상 부트를 진행할 것인지 결정해야 한다. 이 결정은 systemd-hibernate-resume@.service에서 이뤄지며, local-fs-pre.target 전에 완료되어야 한다. 따라서 그 확인이 끝나기 전에는 어떤 파일 시스템도 마운트 할 수 없다. 루트 장치가 사용 가능해지면 initrd-root-device.target에 도달한다. 그 루트 장치를 /sysroot에 마운트 할 수 있으면 sysroot.mount 유닛이 활성화되고 initrd-root-fs.target에 도달한다. 서비스 initrd-parse-etc.service에서는 /sysroot/etc/fstab에서 가능한 /usr 마운트와 `x-initrd.mount` 옵션이 표시된 추가 항목들을 탐색한다. 발견한 모든 항목들을 /sysroot 아래에 마운트 하며, 그러면 initrd-fs.target에 도달한다. 서비스 initrd-cleanup.service는 initrd-switch-root.target으로 격리되는데(isolate), 거기서 정리 서비스가 돌 수 있다. 최종 단계로 initrd-switch-root.service가 활성화되고, 그러면 시스템이 /sysroot로 루트를 전환하게 된다.
 
 ```text
-                                               : (시작은 위와 동일)
-                                               :
-                                               v
-                                         basic.target
-                                               |                                 emergency.service
-                        ______________________/|                                         |
-                       /                       |                                         v
-                       |            initrd-root-device.target                   _emergency.target_
-                       |                       |
-                       |                       v
-                       |                  sysroot.mount
-                       |                       |
-                       |                       v
-                       |             initrd-root-fs.target
-                       |                       |
-                       |                       v
-                       v            initrd-parse-etc.service
-               (자체적인 initrd                |
-                 서비스들...)                  v
-                       |             (sysroot-usr.mount 및
-                       |             fstab 옵션으로 표시된
-                       |               다양한 마운트들
-                       |              x-initrd.mount...)
-                       |                       |
-                       |                       v
-                       |                initrd-fs.target
-                       \______________________ |
-                                              \|
-                                               v
-                                          initrd.target
-                                               |
-                                               v
-                                     initrd-cleanup.service
-                                       다음 타겟으로 격리
-                                    initrd-switch-root.target
-                                               |
-                                               v
-                        ______________________/|
-                       /                       v
-                       |        initrd-udevadm-cleanup-db.service
-                       v                       |
-               (자체적인 initrd                |
-                 서비스들...)                  |
-                       \______________________ |
-                                              \|
-                                               v
-                                   initrd-switch-root.target
-                                               |
-                                               v
-                                   initrd-switch-root.service
-                                               |
-                                               v
-                                        호스트 OS로 이행
+                                : (시작은 위와 동일)
+                                :
+                                v
+                          basic.target
+                                |                                 emergency.service
+         ______________________/|                                         |
+        /                       |                                         v
+        |            initrd-root-device.target                   *emergency.target*
+        |                       |
+        |                       v
+        |                  sysroot.mount
+        |                       |
+        |                       v
+        |             initrd-root-fs.target
+        |                       |
+        |                       v
+        v            initrd-parse-etc.service
+(자체적인 initrd                |
+  서비스들...)                  v
+        |             (sysroot-usr.mount 및
+        |             fstab 옵션으로 표시된
+        |               다양한 마운트들
+        |              x-initrd.mount...)
+        |                       |
+        |                       v
+        |                initrd-fs.target
+        \______________________ |
+                               \|
+                                v
+                           initrd.target
+                                |
+                                v
+                      initrd-cleanup.service
+                        다음 타겟으로 격리
+                     initrd-switch-root.target
+                                |
+                                v
+         ______________________/|
+        /                       v
+        |        initrd-udevadm-cleanup-db.service
+        v                       |
+(자체적인 initrd                |
+  서비스들...)                  |
+        \______________________ |
+                               \|
+                                v
+                    initrd-switch-root.target
+                                |
+                                v
+                    initrd-switch-root.service
+                                |
+                                v
+                         호스트 OS로 이행
 ```
 
 ## 시스템 관리자 정지
@@ -203,10 +203,10 @@ systemd에서의 시스템 정지 역시 다양한 타겟 단위들로 이뤄져
 systemd-reboot.service   systemd-poweroff.service   systemd-halt.service   systemd-kexec.service
            |                         |                        |                      |
            v                         v                        v                      v
-   _reboot.target_           _poweroff.target_          _halt.target_         _kexec.target_
+   *reboot.target*           *poweroff.target*          *halt.target*         *kexec.target*
 ```
 
-흔히 쓰는 시스템 정지 타겟들이 강조되어 있다.
+흔히 쓰는 시스템 정지 타겟들이 \*강조\*되어 있다.
 
 참고로 `systemd-halt.service(8)`, systemd-reboot.service, systemd-poweroff.service, systemd-kexec.service는 시스템 및 서버 관리자(PID 1)를 (systemd-shutdown 바이너리에 구현된) 시스템 정지의 두 번째 단계로 전환시키게 된다. 그 단계에서는 더이상 서비스 내지 유닛 개념을 신경쓰지 않고 단순하고 견고한 방식으로 남은 파일 시스템이 있으면 언마운트 하고, 남은 프로세스가 있으면 죽이고, 남은 다른 자원이 있으면 해제한다. 그 시점에서 보통 응용 및 자원은 보통 이미 종료되고 해제되어 있으며, 그래서 두 번째 단계는 위에 설명한 유닛 기반의 첫 번째 정지 단계에서 어떤 이유로 멈추거나 해제하지 못한 것들에 대한 안전망 역할을 할 뿐이다.
 
