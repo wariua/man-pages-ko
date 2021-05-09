@@ -4,7 +4,7 @@
 * [[hier(7)]], [[path_resolution(7)]]
 * [[mount(2)]], [[mount(8)]], [[mount_namespaces(7)]]
 * [[statfs(2)]], [[statvfs(3)]], [[sysfs(2)]]
-* [[open(2)]], [[dup(2)]], [[open_by_handle_at(2)]], [[close(2)]]
+* [[open(2)]], [[dup(2)]], [[open_by_handle_at(2)]], [[close(2)]], [[getdtablesize(3)]]
 * [[mkdir(2)]], [[chdir(2)]], [[getcwd(3)]], [[rmdir(2)]], [[mknod(2)]], [[makedev(3)]]
 * [[symlink(7)]], [[symlink(2)]], [[readlink(2)]], [[link(2)]], [[unlink(2)]]
 * [[remove(3)]], [[rename(2)]]
