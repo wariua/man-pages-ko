@@ -200,7 +200,7 @@ int eventfd(unsigned int initval, int flags);
 <p><code>write(2)</code> 호출은 버퍼에 준 8바이트 정수 값을 카운터에 더한다. 카운터에 저장할 수 있는 최댓값은 가장 큰 부호 없는 64비트 정수에서 1을 뺀 것(즉 0xfffffffffffffffe)이다. 더한 결과가 그 최댓값을 초과하게 될 것 같으면 그 파일 디스크립터에 <code>read(2)</code>가 이뤄질 때까지 <code>write(2)</code>가 블록 한다. 파일 디스크립터를 논블록으로 만들었으면 <code>EAGAIN</code> 오류로 실패한다.</p>
 <p>제공 버퍼의 크기가 8바이트보다 작거나 값 0xffffffffffffffff를 쓰려고 시도하면 <code>write(2)</code>가 <code>EINVAL</code> 오류로 실패한다.</p>
 </dd>
-<dt><tt><a class="wikilink" href="/man-pages-ko/poll(2)/">poll(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/select(2)/">select(2)</a></tt> (기타 유사 함수)</dt>
+<dt><tt><a class="wikilink" href="/man-pages-ko/poll(2)/">poll(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/select(2)/">select(2)</a></tt> (기타 비슷한 함수)</dt>
 <dd>
 <p>반환되는 파일 디스크립터가 다음과 같이 <tt><a class="wikilink" href="/man-pages-ko/poll(2)/">poll(2)</a></tt> (<tt><a class="wikilink" href="/man-pages-ko/epoll(7)/">epoll(7)</a></tt>도 비슷함) 및 <tt><a class="wikilink" href="/man-pages-ko/select(2)/">select(2)</a></tt>를 지원한다.</p>
 <ul>

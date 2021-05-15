@@ -197,7 +197,7 @@ long kexec_file_load(int kernel_fd, int initrd_fd,
 <p>패닉 kexec에서는 (즉 <code>KEXEC_ON_CRASH</code> 플래그가 설정돼 있을 때는) 호출 시점에 예약 메모리로 세그먼트 데이터를 적재하며 크래시 후에 kexec 메커니즘에서 그대로 그 커널로 제어를 넘긴다.</p>
 <p>커널이 <code>CONFIG_KEXEC</code>로 구성된 경우에만 <code>kexec_load()</code> 시스템 호출이 사용 가능하다.</p>
 <h3 id="kexec_file_load"><code>kexec_file_load()</code></h3>
-<p><code>kexec_file_load()</code> 시스템 호출은 <code>kexec_load()</code>와 비슷하되 받는 인자들이 다르다. 파일 디스크립터 <code>kernel_fd</code>가 가리키는 파일에서 적재할 커널을 읽어 들이고 파일 디스크립터 <code>initrd_fd</code>가 가리키는 파일에서 적재할 initrd(최초 램 디스크)를 읽어 들인다. <code>cmdline</code> 인자는 새 커널을 위한 명령행을 담은 버퍼에 대한 포인터이다. <code>cmdline_len</code> 인자는 그 버퍼의 크기를 나타낸다. 버퍼의 마지막 바이트가 널 바이트('\0')여야 한다.</p>
+<p><code>kexec_file_load()</code> 시스템 호출은 <code>kexec_load()</code>와 비슷하되 받는 인자들이 다르다. 파일 디스크립터 <code>kernel_fd</code>가 가리키는 파일에서 적재할 커널을 읽어 들이고 파일 디스크립터 <code>initrd_fd</code>가 가리키는 파일에서 적재할 initrd(최초 램 디스크)를 읽어 들인다. <code>cmdline</code> 인자는 새 커널을 위한 명령행을 담은 버퍼의 포인터이다. <code>cmdline_len</code> 인자는 그 버퍼의 크기를 나타낸다. 버퍼의 마지막 바이트가 널 바이트('\0')여야 한다.</p>
 <p><code>flags</code> 인자는 호출의 동작 방식을 변경하는 비트 마스크이다. <code>flags</code>에 다음 값들을 지정할 수 있다.</p>
 <dl>
 <dt><code>KEXEC_FILE_UNLOAD</code></dt>

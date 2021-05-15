@@ -150,7 +150,7 @@
         <div class="col-md-9" role="main">
 
 <h2 id="name">NAME</h2>
-<p>adjtime - 시스템 클럭 동기화를 위해 시간을 정정하기</p>
+<p>adjtime - 시스템 클럭 동기화를 위해 시간 정정하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
 <pre><code class="language-c">#include &lt;sys/time.h&gt;
 
@@ -169,14 +169,14 @@ int adjtime(const struct timeval *delta, struct timeval *olddelta);
 </dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>adjtime()</code> 함수는 (<tt><a class="wikilink" href="/man-pages-ko/gettimeofday(2)/">gettimeofday(2)</a></tt>가 반환하는) 시스템 클럭을 서서히 조정한다. 클럭 시간을 조정할 양을 <code>delta</code>가 가리키는 구조체로 지정한다. 그 구조체는 다음 형태이다.</p>
+<p><code>adjtime()</code> 함수는 (<tt><a class="wikilink" href="/man-pages-ko/gettimeofday(2)/">gettimeofday(2)</a></tt>가 반환하는) 시스템 클럭을 서서히 조정한다. 클럭 시간을 얼마나 조정할지를 <code>delta</code>가 가리키는 구조체로 지정한다. 그 구조체는 다음 형태다.</p>
 <pre><code class="language-c">struct timeval {
     time_t      tv_sec;     /* 초 */
     suseconds_t tv_usec;    /* 마이크로초 */
 };
 </code></pre>
-<p><code>delta</code>의 조정치가 양수이면 조정이 완료될 때까지 시스템 클럭 속도를 어떤 작은 비율만큼 올린다. (즉 매초마다 클럭 값에 작은 양의 시간을 더한다.) <code>delta</code>의 조정치가 음수이면 비슷한 방식으로 클럭 속도를 내린다.</p>
-<p>앞선 <code>adjtime()</code> 호출의 클럭 조정이 이미 진행 중인 상태에서 <code>adjtime()</code> 호출이 이뤄지면서 뒤쪽 호출의 <code>delta</code>가 NULL이 아닌 경우에는 앞선 조정이 중단된다. 하지만 그 조정 중 이미 완료된 부분을 되돌리지는 않는다.</p>
+<p><code>delta</code>의 조정치가 양수면 조정이 완료될 때까지 시스템 클럭 속도를 어떤 작은 비율만큼 올린다. (즉 매초마다 클럭 값에 작은 양의 시간을 더한다.) <code>delta</code>의 조정치가 음수면 비슷한 방식으로 클럭 속도를 내린다.</p>
+<p>앞선 <code>adjtime()</code> 호출의 클럭 조정이 이미 진행 중인 상태에서 <code>adjtime()</code> 호출이 이뤄지면서 뒤쪽 호출의 <code>delta</code>가 NULL이 아니면 앞선 조정이 중단된다. 하지만 이미 완료된 부분을 되돌리지는 않는다.</p>
 <p><code>olddelta</code>가 NULL이 아니면 가리키는 버퍼를 이용해 앞선 조정에서 아직 완료되지 않고 남은 시간 양을 반환한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 <code>adjtime()</code>은 0을 반환한다. 실패 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
@@ -208,10 +208,10 @@ int adjtime(const struct timeval *delta, struct timeval *olddelta);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>4.3BSD, 시스템 V.</p>
 <h2 id="notes">NOTES</h2>
-<p><code>adjtime()</code>을 통해 클럭에 하는 조정은 클럭이 항상 단조 증가하게 하는 방식으로 이뤄진다. <code>adjtime()</code>을 써서 조정을 하면 시스템 시간이 앞이나 뒤로 갑자기 건너뛸 때 특정 응용들(가령 <code>make(1)</code>)에 발생할 수 있는 문제들이 방지된다.</p>
-<p><code>adjtime()</code>은 시스템 시간을 약간 조정하는 데 쓰기 위한 것이다. 대부분의 시스템에서는 <code>delta</code>에 지정할 수 있는 조정치에 제한을 둔다. glibc 구현에서는 <code>delta</code>가 (INT_MAX / 1000000 - 2) 이하이고 (INT_MIN / 1000000 + 2) 이상이어야 한다. (i386에서 각각 2145초 및 -2145초이다.)</p>
+<p><code>adjtime()</code>을 통해 클럭에 하는 조정은 클럭이 항상 단조 증가하게 하는 방식으로 이뤄진다. <code>adjtime()</code>을 써서 조정을 하면 시스템 시간이 앞이나 뒤로 갑자기 건너뛰면서 특정 응용들(가령 <code>make(1)</code>)에 발생할 수 있는 문제들이 방지된다.</p>
+<p><code>adjtime()</code>은 시스템 시간을 조금 조정하는 데 쓰는 것이다. 대부분의 시스템에서는 <code>delta</code>에 지정할 수 있는 조정치에 제한을 둔다. glibc 구현에서는 <code>delta</code>가 (INT_MAX / 1000000 - 2) 이하이고 (INT_MIN / 1000000 + 2) 이상이어야 한다. (i386에서 각각 2145초와 -2145초다.)</p>
 <h2 id="bugs">BUGS</h2>
-<p>오래된 버그로 인해 <code>delta</code>를 NULL로 지정한 경우에 남아 있는 클럭 조정치에 대한 유효한 정보를 <code>olddelta</code>로 전혀 반환하지 않는다. (이 경우에 원래 <code>adjtime()</code>은 남아 있는 클럭 조정치를 변경 없이 반환해야 한다.) glibc 2.8 및 이후와 리눅스 커널 2.6.26 및 이후를 쓰는 시스템에서는 이 버그가 수정돼 있다.</p>
+<p>오래된 버그로 인해 <code>delta</code>를 NULL로 지정한 경우에 남아 있는 클럭 조정치에 대한 유효한 정보를 <code>olddelta</code>로 반환하지 않았다. (이 경우에 원래 <code>adjtime()</code>은 남아 있는 클럭 조정치를 변경 없이 반환해야 한다.) glibc 2.8 및 이후 버전과 리눅스 커널 2.6.26 및 이후 버전을 쓰는 시스템에서는 이 버그가 수정돼 있다.</p>
 <h2 id="see-also">SEE ALSO</h2>
 <p><tt><a class="wikilink" href="/man-pages-ko/adjtimex(2)/">adjtimex(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/gettimeofday(2)/">gettimeofday(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/time(7)/">time(7)</a></tt></p>
 <hr />

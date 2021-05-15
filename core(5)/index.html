@@ -354,7 +354,7 @@
 <p>기본적으로 0번, 1번, 4번 (<code>CONFIG_CORE_DUMP_DEFAULT_ELF_HEADERS</code> 커널 구성 옵션이 켜진 경우), 5번 비트가 설정돼 있다. <code>coredump_filter</code> 부팅 옵션을 사용하면 부팅 때 이 기본 값을 바꿀 수 있다.</p>
 <p>이 파일의 값은 16진수로 표시된다. (따라서 기본 값은 33으로 표시된다.)</p>
 <p><code>coredump_filter</code> 값이 어떻든지 프레임 버퍼 같은 메모리 맵 I/O 페이지들은 절대 덤프 하지 않으며 가상 DSO(<tt><a class="wikilink" href="/man-pages-ko/vdso(7)/">vdso(7)</a></tt>) 페이지들은 항상 덤프 한다.</p>
-<p><tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt>를 통해 생성된 자식 프로세스는 부모의 <code>coredump_filter</code> 값을 물려받는다. <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>를 거치면서 <code>coredump_filter</code> 값이 보존된다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt>를 통해 생성된 자식 프로세스는 부모의 <code>coredump_filter</code> 값을 물려받는다. <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>를 거치면서 <code>coredump_filter</code> 값이 유지된다.</p>
 <p>프로그램 실행 전에 부모 셸에서 <code>coredump_filter</code>를 설정하는 게 유용할 수 있다.</p>
 <pre><code class="language-text">$ echo 0x7 &gt; /proc/self/coredump_filter
 $ ./some_program

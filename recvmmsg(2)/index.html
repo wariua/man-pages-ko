@@ -163,7 +163,7 @@ int recvmmsg(int sockfd, struct mmsghdr *msgvec, unsigned int vlen,
 <h2 id="description">DESCRIPTION</h2>
 <p><code>recvmmsg()</code> 시스템 호출은 <tt><a class="wikilink" href="/man-pages-ko/recvmsg(2)/">recvmsg(2)</a></tt>를 확장한 것이다. 호출자가 시스템 호출 한 번으로 소켓에서 여러 메시지를 수신할 수 있게 해 준다. (일부 응용에서 성능상 이점이 있다.) 또 <tt><a class="wikilink" href="/man-pages-ko/recvmsg(2)/">recvmsg(2)</a></tt>를 확장해서 수신 동작의 타임아웃을 지원한다.</p>
 <p><code>sockfd</code> 인자는 데이터를 수신할 소켓의 파일 디스크립터이다.</p>
-<p><code>msgvec</code> 인자는 <code>mmsghdr</code> 구조체 배열에 대한 포인터이다. 이 배열의 크기를 <code>vlen</code>에 지정한다.</p>
+<p><code>msgvec</code> 인자는 <code>mmsghdr</code> 구조체 배열의 포인터이다. 이 배열의 크기를 <code>vlen</code>에 지정한다.</p>
 <p><code>mmsghdr</code> 구조체는 <code>&lt;sys/socket.h&gt;</code>에 다음처럼 정의돼 있다.</p>
 <pre><code class="language-c">struct mmsghdr {
     struct msghdr msg_hdr;  /* 메시지 헤더 */

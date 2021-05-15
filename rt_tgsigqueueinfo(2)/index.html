@@ -159,7 +159,7 @@ int rt_tgsigqueueinfo(pid_t tgid, pid_t tid, int sig, siginfo_t *info);
 <p><code>rt_sigqueueinfo()</code> 및 <code>rt_tgsigqueueinfo()</code> 시스템 호출은 프로세스나 스레드에게 시그널에 데이터를 더해 보내는 데 사용하는 저수준 인터페이스이다. 수신자에서 <tt><a class="wikilink" href="/man-pages-ko/sigaction(2)/">sigaction(2)</a></tt> <code>SA_SIGINFO</code> 플래그로 시그널 핸들러를 설정하여 동반 데이터를 얻을 수 있다.</p>
 <p>이 시스템 호출들은 응용에서 직접 사용하기 위한 것이 아니라 <tt><a class="wikilink" href="/man-pages-ko/sigqueue(3)/">sigqueue(3)</a></tt>와 <tt><a class="wikilink" href="/man-pages-ko/pthread_sigqueue(3)/">pthread_sigqueue(3)</a></tt>를 구현할 수 있도록 제공하는 것이다.</p>
 <p><code>rt_sigqueueinfo()</code> 시스템 호출은 ID가 <code>tgid</code>인 스레드 그룹에게 시그널 <code>sig</code>를 보낸다. ("스레드 그룹"이라는 용어는 "프로세스"와 동의어이며 <code>tid</code>는 전통적인 유닉스 프로세스 ID에 해당한다.) 그 스레드 그룹의 임의 구성원에게 (즉 현재 그 시그널을 막고 있지 않은 스레드들 중 하나에게) 시그널이 전달된다.</p>
-<p><code>info</code> 인자는 시그널에 동반되는 데이터를 나타낸다. 이 인자는 <tt><a class="wikilink" href="/man-pages-ko/sigaction(2)/">sigaction(2)</a></tt>에 기술된 (그리고 <code>&lt;sigaction.h&gt;</code>를 포함시켜서 정의하는) <code>siginfo_t</code> 타입의 구조체에 대한 포인터이다. 호출자가 이 구조체의 다음 필드들을 설정해야 한다.</p>
+<p><code>info</code> 인자는 시그널에 동반되는 데이터를 나타낸다. 이 인자는 <tt><a class="wikilink" href="/man-pages-ko/sigaction(2)/">sigaction(2)</a></tt>에 기술된 (그리고 <code>&lt;sigaction.h&gt;</code>를 포함시켜서 정의하는) <code>siginfo_t</code> 타입 구조체의 포인터이다. 호출자가 이 구조체의 다음 필드들을 설정해야 한다.</p>
 <dl>
 <dt><code>si_code</code></dt>
 <dd>

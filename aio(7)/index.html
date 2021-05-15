@@ -152,15 +152,15 @@
 <h2 id="name">NAME</h2>
 <p>aio - POSIX 비동기 I/O 소개</p>
 <h2 id="description">DESCRIPTION</h2>
-<p>POSIX 비동기 I/O(AIO) 인터페이스를 응용에서 이용하여 비동기적으로 (즉 배경에서) 수행되는 I/O 동작을 한 개 이상 개시할 수 있다. I/O 동작 완료에 대한 알림을 응용에서 원하는 다양한 방식으로 받을 수 있다. 시그널 전달, 스레드 실행, 또는 알림을 받지 않을 수도 있다.</p>
+<p>POSIX 비동기 I/O(AIO) 인터페이스를 응용에서 이용하여 비동기적으로 (즉 배경에서) 수행되는 I/O 동작을 한 개 이상 개시할 수 있다. I/O 동작 완료에 대한 알림을 응용에서 원하는 다양한 방식으로 받을 수 있다. 시그널 전달로, 새로운 스레드로, 또는 알림을 받지 않을 수도 있다.</p>
 <p>POSIX AIO 인터페이스는 다음 함수들로 이뤄져 있다.</p>
 <dl>
 <dt><tt><a class="wikilink" href="/man-pages-ko/aio_read(3)/">aio_read(3)</a></tt></dt>
-<dd>읽기 요청을 큐에 넣는다. <code>read(2)</code>의 비동기 형태이다.</dd>
+<dd>읽기 요청을 큐에 넣는다. <code>read(2)</code>의 비동기 형태다.</dd>
 <dt><tt><a class="wikilink" href="/man-pages-ko/aio_write(3)/">aio_write(3)</a></tt></dt>
-<dd>쓰기 요청을 큐에 넣는다. <code>write(2)</code>의 비동기 형태이다.</dd>
+<dd>쓰기 요청을 큐에 넣는다. <code>write(2)</code>의 비동기 형태다.</dd>
 <dt><tt><a class="wikilink" href="/man-pages-ko/aio_fsync(3)/">aio_fsync(3)</a></tt></dt>
-<dd>파일 디스크립터 상의 I/O 동작들에 대한 동기화 요청을 큐에 넣는다. <tt><a class="wikilink" href="/man-pages-ko/fsync(2)/">fsync(2)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/fdatasync(2)/">fdatasync(2)</a></tt>의 비동기 형태이다.</dd>
+<dd>파일 디스크립터 상의 I/O 동작들에 대한 동기화 요청을 큐에 넣는다. <tt><a class="wikilink" href="/man-pages-ko/fsync(2)/">fsync(2)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/fdatasync(2)/">fdatasync(2)</a></tt>의 비동기 형태다.</dd>
 <dt><tt><a class="wikilink" href="/man-pages-ko/aio_error(3)/">aio_error(3)</a></tt></dt>
 <dd>큐에 넣은 I/O 요청의 오류 상태를 얻는다.</dd>
 <dt><tt><a class="wikilink" href="/man-pages-ko/aio_return(3)/">aio_return(3)</a></tt></dt>
@@ -172,7 +172,7 @@
 <dt><tt><a class="wikilink" href="/man-pages-ko/lio_listio(3)/">lio_listio(3)</a></tt></dt>
 <dd>한 번의 함수 호출로 여러 I/O 요청을 큐에 넣는다.</dd>
 </dl>
-<p><code>aiocb</code>(비동기 I/O 제어 블록) 구조체가 I/O 동작을 제어하는 매개변수들을 정의한다. 위에 나열한 함수 모두에서 이 타입의 인자를 쓴다. 이 구조체는 다음 형태이다.</p>
+<p><code>aiocb</code>(비동기 I/O 제어 블록) 구조체가 I/O 동작을 제어하는 매개변수들을 정의한다. 위에 나열한 함수 모두에서 이 타입의 인자를 쓴다. 다음 형태의 구조체다.</p>
 <pre><code class="language-c">#include &lt;aiocb.h&gt;
 
 struct aiocb {
@@ -205,9 +205,9 @@ enum { LIO_READ, LIO_WRITE, LIO_NOP };
 <dt><code>aio_nbytes</code></dt>
 <dd><code>aio_buf</code>가 가리키는 버퍼의 크기.</dd>
 <dt><code>aio_reqprio</code></dt>
-<dd>이 필드에 지정한 값을 호출 스레드의 실시간 우선순위에서 빼서 이 I/O 요청의 실행 우선순위를 결정한다. (<tt><a class="wikilink" href="/man-pages-ko/pthread_setschedparam(3)/">pthread_setschedparam(3)</a></tt> 참고.) 지정하는 값이 0과 <code>sysconf(_SC_AIO_PRIO_DELTA_MAX)</code> 반환 값 사이에 있어야 한다. 파일 동기화 동작에서는 이 필드를 무시한다.</dd>
+<dd>이 필드에 지정한 값을 호출 스레드의 실시간 우선순위에서 빼서 I/O 요청의 실행 우선순위를 정한다. (<tt><a class="wikilink" href="/man-pages-ko/pthread_setschedparam(3)/">pthread_setschedparam(3)</a></tt> 참고.) 지정하는 값이 0과 <code>sysconf(_SC_AIO_PRIO_DELTA_MAX)</code> 반환 값 사이여야 한다. 파일 동기화 동작에서는 이 필드가 무시된다.</dd>
 <dt><code>aio_sigevent</code></dt>
-<dd>비동기 I/O 동작이 완료됐을 때 호출자가 알림을 받는 방법을 지정하는 구조체이다. <code>aio_sigevent.sigev_notify</code>에 가능한 값은 <code>SIGEV_NONE</code>, <code>SIGEV_SIGNAL</code>, <code>SIGEV_THREAD</code>이다. 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/sigevent(7)/">sigevent(7)</a></tt> 참고.</dd>
+<dd>비동기 I/O 동작이 완료됐을 때 호출자가 알림을 받는 방법을 지정하는 구조체다. <code>aio_sigevent.sigev_notify</code>에 가능한 값은 <code>SIGEV_NONE</code>, <code>SIGEV_SIGNAL</code>, <code>SIGEV_THREAD</code>다. 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/sigevent(7)/">sigevent(7)</a></tt> 참고.</dd>
 <dt><code>aio_lio_opcode</code></dt>
 <dd>수행할 동작 종류. <tt><a class="wikilink" href="/man-pages-ko/lio_listio(3)/">lio_listio(3)</a></tt>에서만 사용.</dd>
 </dl>
@@ -227,12 +227,12 @@ enum { LIO_READ, LIO_WRITE, LIO_NOP };
 <p>POSIX.1-2001, POSIX.1-2008.</p>
 <h2 id="notes">NOTES</h2>
 <p>제어 블록 버퍼를 사용하기 전에 0으로 채우는 게 좋다. (<code>memset(3)</code> 참고.) I/O 동작이 진행 중인 동안 제어 블록 버퍼와 <code>aio_buf</code>가 가리키는 버퍼가 변경되어선 안 된다. I/O 동작이 완료될 때까지 그 버퍼들이 유효한 상태로 유지돼야 한다.</p>
-<p>같은 <code>aiocb</code> 구조체를 사용해 동시에 비동기 읽기 동작과 쓰기 동작을 할 때 나오는 결과는 규정돼 있지 않다.</p>
+<p>같은 <code>aiocb</code> 구조체를 써서 비동기 읽기 내지 쓰기 동작들을 동시에 할 때의 결과는 규정돼 있지 않다.</p>
 <p>현재 리눅스의 POSIX AIO 구현은 사용자 공간에서 glibc가 제공한다. 그래서 여러 제약이 있는데, 가장 눈에 띄는 건 I/O 동작을 수행하기 위해 여러 스레드를 유지하는 게 비용이 크고 확장성이 떨어진다는 점이다. 얼마 전부터 커널에서 상태 머신 기반으로 비동기 I/O를 구현하는 작업이 진행 중이긴 한데 (<tt><a class="wikilink" href="/man-pages-ko/io_submit(2)/">io_submit(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/io_setup(2)/">io_setup(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/io_cancel(2)/">io_cancel(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/io_destroy(2)/">io_destroy(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/io_getevents(2)/">io_getevents(2)</a></tt> 참고) 그 커널 시스템 호출들을 이용해 POSIX AIO 구현을 완전히 재구현할 수 있는 수준까지는 아직 오지 못했다.</p>
 <h2 id="examples">EXAMPLES</h2>
 <p>아래 프로그램에서는 명령행 인자에 지명한 파일들 각각을 열어서 얻은 파일 디스크립터에 <tt><a class="wikilink" href="/man-pages-ko/aio_read(3)/">aio_read(3)</a></tt>로 요청을 넣는다. 그러고서 루프를 돌면서 아직 진행 중인 I/O 동작 각각을 <tt><a class="wikilink" href="/man-pages-ko/aio_error(3)/">aio_error(3)</a></tt>를 이용해 주기적으로 확인한다. I/O 요청 각각은 시그널 전달로 알림을 주도록 설정한다. 모든 I/O 요청이 완료된 후에 <tt><a class="wikilink" href="/man-pages-ko/aio_return(3)/">aio_return(3)</a></tt>으로 상태를 가져온다.</p>
 <p><code>SIGQUIT</code> 시그널(Control-\ 입력으로 생성)을 주면 프로그램에서 <tt><a class="wikilink" href="/man-pages-ko/aio_cancel(3)/">aio_cancel(3)</a></tt>로 미처리 요청 각각의 취소를 요청한다.</p>
-<p>다음은 이 프로그램을 실행한 결과 예시이다. 이 예에서는 표준 입력에 대한 요청을 두 개 하고, "abc"와 "x"를 담은 두 입력 행으로 그 요청을 충족시킨다.</p>
+<p>다음은 이 프로그램을 실행한 결과 예시다. 이 예에서는 표준 입력에 대한 요청을 두 개 하고, "abc"와 "x"를 담은 두 입력 행으로 그 요청을 충족시킨다.</p>
 <pre><code class="language-text">$ ./a.out /dev/stdin /dev/stdin
 opened /dev/stdin on descriptor 3
 opened /dev/stdin on descriptor 4

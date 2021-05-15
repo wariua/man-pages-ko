@@ -169,7 +169,7 @@ int acct(const char *filename);
 </dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>acct()</code> 시스템 호출은 프로세스 통계 수집을 켜거나 끈다. 존재하는 파일의 이름을 인자로 해서 호출하면 통계 수집이 켜진다. 그러면 종료하는 프로세스 각각의 레코드가 종료 시점에 <code>filename</code>에 덧붙는다. NULL 인자는 통계 수집이 꺼지게 한다.</p>
+<p><code>acct()</code> 시스템 호출은 프로세스 통계 수집을 켜거나 끈다. 존재하는 파일의 이름을 인자로 해서 호출하면 통계 수집이 켜진다. 그러면 종료하는 프로세스 각각의 레코드가 종료 시점에 <code>filename</code> 파일에 덧붙는다. NULL 인자는 통계 수집이 꺼지게 한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
@@ -193,7 +193,7 @@ int acct(const char *filename);
 <dt><code>ENOMEM</code></dt>
 <dd>메모리 부족.</dd>
 <dt><code>ENOSYS</code></dt>
-<dd>운영 체제 커널을 컴파일 할 때 BSD 프로세스 통계 기능을 켜지 않았다. 이 기능을 제어하는 커널 구성 매개변수는 <code>CONFIG_BSD_PROCESS_ACCT</code>이다.</dd>
+<dd>운영 체제 커널을 컴파일할 때 BSD 프로세스 통계 기능을 켜지 않았다. 이 기능을 제어하는 커널 구성 매개변수는 <code>CONFIG_BSD_PROCESS_ACCT</code>이다.</dd>
 <dt><code>ENOTDIR</code></dt>
 <dd><code>filename</code>에서 디렉터리인 부분이 실제로는 디렉터리가 아니다.</dd>
 <dt><code>EPERM</code></dt>

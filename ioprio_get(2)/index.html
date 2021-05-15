@@ -234,7 +234,7 @@ Password:
 <dt>프로세스 소유권</dt>
 <dd>비특권 프로세스는 호출 프로세스의 실제 UID나 실효 UID와 일치하는 실제 UID를 가진 프로세스에 대해서만 I/O 우선순위를 설정할 수 있다. <code>CAP_SYS_NICE</code> 역능을 가진 프로세스는 모든 프로세스의 우선순위를 바꿀 수 있다.</dd>
 <dt>원하는 우선순위</dt>
-<dd>아주 높은 우선순위(<code>IOPRIO_CLASS_RT</code>)를 설정하려면 <code>CAP_SYS_ADMIN</code> 역능이 필요하다. 커널 버전 2.6.24까지에서는 아주 낮은 우선순위(<code>IOPRIO_CLASS_IDLE</code>)를 설정하는 데도 <code>CAP_SYS_ADMIN</code>이 필요했지만 리눅스 2.6.25부터는 필요하지 않다.</dd>
+<dd>아주 높은 우선순위(<code>IOPRIO_CLASS_RT</code>)를 설정하려면 <code>CAP_SYS_ADMIN</code> 역능이 필요하다. 커널 버전 2.6.24까지는 아주 낮은 우선순위(<code>IOPRIO_CLASS_IDLE</code>)를 설정하는 데도 <code>CAP_SYS_ADMIN</code>이 필요했지만 리눅스 2.6.25부터는 필요하지 않다.</dd>
 </dl>
 <p><code>ioprio_set()</code> 호출 시 두 규칙 모두를 따라야 하며, 그렇지 않으면 호출이 <code>EPERM</code> 오류로 실패하게 된다.</p>
 <h2 id="bugs">BUGS</h2>

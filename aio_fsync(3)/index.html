@@ -158,9 +158,9 @@ int aio_fsync(int op, struct aiocb *aiocbp);
 <p><code>-lrt</code>로 링크.</p>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>aio_fsync()</code> 함수는 <code>aiocbp-&gt;aio_filedes</code>에 연계된 모든 미처리 비동기 I/O 동작들에 동기화를 한다. (<code>aiocb</code> 구조체에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/aio(7)/">aio(7)</a></tt> 참고.)</p>
-<p>더 정확하게는 <code>op</code>가 <code>O_SYNC</code>이면 현재 큐에 있는 모든 I/O 동작들이 <tt><a class="wikilink" href="/man-pages-ko/fsync(2)/">fsync(2)</a></tt>를 호출한 경우처럼 완료된다. 그리고 <code>op</code>가 <code>O_DSYNC</code>이면 이 호출은 <tt><a class="wikilink" href="/man-pages-ko/fdatasync(2)/">fdatasync(2)</a></tt>의 비동기 형태가 된다.</p>
+<p>더 정확하게는 <code>op</code>가 <code>O_SYNC</code>이면 <tt><a class="wikilink" href="/man-pages-ko/fsync(2)/">fsync(2)</a></tt>를 호출한 것처럼 현재 큐에 있는 모든 I/O 동작들이 완료된다. 그리고 <code>op</code>가 <code>O_DSYNC</code>이면 이 호출은 <tt><a class="wikilink" href="/man-pages-ko/fdatasync(2)/">fdatasync(2)</a></tt>의 비동기 형태가 된다.</p>
 <p>참고로 이 호출은 요청만 할 뿐이다. 즉 I/O가 완료되기를 기다리지 않는다.</p>
-<p><code>aiocbp</code>가 가리키는 구조체에서 <code>aio_fildes</code> 외에 이 호출에서 유일하게 사용하는 필드는 <code>aio_sigevent</code> 필드(<code>sigevent</code> 구조체. <tt><a class="wikilink" href="/man-pages-ko/sigevent(7)/">sigevent(7)</a></tt>에서 설명)인데, 원하는 비동기 완료 알림 종류를 나타낸다. 다른 필드들은 모두 무시한다.</p>
+<p><code>aiocbp</code>가 가리키는 구조체에서 <code>aio_fildes</code> 외에 이 호출에서 유일하게 사용하는 필드는 <code>aio_sigevent</code> 필드(<code>sigevent</code> 구조체. <tt><a class="wikilink" href="/man-pages-ko/sigevent(7)/">sigevent(7)</a></tt>에서 설명)인데, 원하는 비동기 완료 알림 종류를 나타낸다. 다른 필드들은 모두 무시된다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 (동기화 요청을 성공적으로 큐에 넣었으면) 함수가 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>

@@ -188,7 +188,7 @@ int sched_getattr(pid_t pid, struct sched_attr *attr,
 <dt><code>SCHED_DEADLINE</code></dt>
 <dd>마감 스케줄링 정책. 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/sched(7)/">sched(7)</a></tt> 참고.</dd>
 </dl>
-<p><code>attr</code> 인자는 지정한 스레드를 위한 새 스케줄링 정책과 속성들을 규정하는 구조체에 대한 포인터이다. 이 구조체는 다음과 같은 형태이다.</p>
+<p><code>attr</code> 인자는 지정한 스레드를 위한 새 스케줄링 정책과 속성들을 규정하는 구조체의 포인터이다. 이 구조체는 다음과 같은 형태이다.</p>
 <pre><code class="language-c">struct sched_attr {
     u32 size;              /* 이 구조체의 크기 */
     u32 sched_policy;      /* 정책 (SCHED_*) */
@@ -283,8 +283,8 @@ int sched_getattr(pid_t pid, struct sched_attr *attr,
 <p>glibc에서 이 시스템 호출의 래퍼를 제공하지 않는다. <tt><a class="wikilink" href="/man-pages-ko/syscall(2)/">syscall(2)</a></tt>을 이용해 호출해야 한다.</p>
 <p><code>sched_setattr()</code>은 <tt><a class="wikilink" href="/man-pages-ko/sched_setscheduler(2)/">sched_setscheduler(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sched_setparam(2)/">sched_setparam(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/nice(2)/">nice(2)</a></tt>, 그리고 (특정 사용자에게 속한 모든 프로세스나 특정 그룹의 모든 프로세스들의 우선순위를 설정하는 것을 제외하고) <tt><a class="wikilink" href="/man-pages-ko/setpriority(2)/">setpriority(2)</a></tt>의 상위집합 기능을 제공한다. 유사하게 <code>sched_getattr()</code>은 <tt><a class="wikilink" href="/man-pages-ko/sched_getscheduler(2)/">sched_getscheduler(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sched_getparam(2)/">sched_getparam(2)</a></tt>, 그리고 (부분적으로) <tt><a class="wikilink" href="/man-pages-ko/getpriority(2)/">getpriority(2)</a></tt>의 상위집합 기능을 제공한다.</p>
 <h2 id="bugs">BUGS</h2>
-<p>리눅스 버전 3.15까지에서 ERRORS 절에서 기술하는 경우에 <code>sched_setattr()</code>이 <code>E2BIG</code> 대신 <code>EFAULT</code> 오류로 실패했다.</p>
-<p>리눅스 버전 5.3까지에서 커널 내 <code>sched_attr</code> 구조체가 사용자 공간에서 준 <code>size</code>보다 큰 경우 <code>sched_getattr()</code>이 <code>EFBIG</code> 오류로 실패했다.</p>
+<p>리눅스 버전 3.15까지는 ERRORS 절에서 기술하는 경우에 <code>sched_setattr()</code>이 <code>E2BIG</code> 대신 <code>EFAULT</code> 오류로 실패했다.</p>
+<p>리눅스 버전 5.3까지는 커널 내 <code>sched_attr</code> 구조체가 사용자 공간에서 준 <code>size</code>보다 큰 경우 <code>sched_getattr()</code>이 <code>EFBIG</code> 오류로 실패했다.</p>
 <h2 id="see-also">SEE ALSO</h2>
 <p><code>chrt(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/nice(2)/">nice(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sched_get_priority_max(2)/">sched_get_priority_max(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sched_get_priority_min(2)/">sched_get_priority_min(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sched_getaffinity(2)/">sched_getaffinity(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sched_getparam(2)/">sched_getparam(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sched_getscheduler(2)/">sched_getscheduler(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sched_rr_get_interval(2)/">sched_rr_get_interval(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sched_setaffinity(2)/">sched_setaffinity(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sched_setparam(2)/">sched_setparam(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sched_setscheduler(2)/">sched_setscheduler(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sched_yield(2)/">sched_yield(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/setpriority(2)/">setpriority(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_setschedparam(3)/">pthread_setschedparam(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_setschedparam(3)/">pthread_setschedparam(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_setschedprio(3)/">pthread_setschedprio(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/capabilities(7)/">capabilities(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/cpuset(7)/">cpuset(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sched(7)/">sched(7)</a></tt></p>
 <hr />

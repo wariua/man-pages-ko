@@ -198,7 +198,7 @@ void STAILQ_CONCAT(STAILQ_HEAD *head1, STAILQ_HEAD *head2);
 <p>단일 연결 꼬리 큐의 머리는 <code>STAILQ_HEAD()</code> 매크로로 정의한 구조체이다. 이 구조체에는 포인터 한 쌍이 있는데, 하나는 꼬리 큐의 첫 번째 항목을 가리키고 다른 하나는 꼬리 큐의 마지막 항목을 가리킨다. 공간 및 포인터 조작 오버헤드를 최소화하기 위해 단일 연결로 되어 있으며, 대신 임의 항목 제거에 O(n) 비용이 든다. 기존 항목 뒤에, 또는 꼬리 큐 머리나 꼬리 큐 끝에 새 항목을 추가할 수 있다. <code>STAILQ_HEAD</code> 구조체를 다음처럼 선언한다.</p>
 <pre><code class="language-c">STAILQ_HEAD(HEADNAME, TYPE) head;
 </code></pre>
-<p><code>struct HEADNAME</code>이 정의하려는 구조체의 이름이고 <code>struct TYPE</code>이 꼬리 큐로 연결할 항목들의 타입이다. 이후 다음처럼 꼬리 큐 머리에 대한 포인터를 선언할 수 있다.</p>
+<p><code>struct HEADNAME</code>이 정의하려는 구조체의 이름이고 <code>struct TYPE</code>이 꼬리 큐로 연결할 항목들의 타입이다. 이후 다음처럼 꼬리 큐 머리의 포인터를 선언할 수 있다.</p>
 <pre><code class="language-c">struct HEADNAME *headp;
 </code></pre>
 <p>(이름 <code>head</code>와 <code>headp</code>는 사용자가 정할 수 있다.)</p>
@@ -221,7 +221,7 @@ void STAILQ_CONCAT(STAILQ_HEAD *head1, STAILQ_HEAD *head2);
 <p><code>STAILQ_CONCAT()</code>은 <code>head2</code>가 가리키는 꼬리 큐를 <code>head1</code>이 가리키는 꼬리 큐 끝에 이어 붙이고 <code>head2</code>에서 모든 항목을 제거한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p><code>STAILQ_EMPTY()</code>는 큐가 비어 있으면 0 아닌 값을 반환하고, 큐에 한 항목이라도 있으면 0을 반환한다.</p>
-<p><code>STAILQ_FIRST()</code>와 <code>STAILQ_NEXT()</code>는 각각 처음 또는 다음 <code>TYPE</code> 구조체에 대한 포인터를 반환한다.</p>
+<p><code>STAILQ_FIRST()</code>와 <code>STAILQ_NEXT()</code>는 각각 처음 또는 다음 <code>TYPE</code> 구조체의 포인터를 반환한다.</p>
 <p><code>STAILQ_HEAD_INITIALIZER()</code>는 큐 <code>head</code>에 할당할 수 있는 초기화 값을 반환한다.</p>
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1, POSIX.1-2001, POSIX.1-2008에 없다. BSD들에 있다. (4.4BSD에서 STAILQ 매크로들이 처음 등장했다.)</p>

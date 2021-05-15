@@ -165,7 +165,7 @@ int timer_gettime(timer_t timerid, struct itimerspec *curr_value);
 <dd><code>_POSIX_C_SOURCE &gt;= 199309L</code></dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>timer_settime()</code>은 <code>timerid</code>가 나타내는 타이머를 장전하거나 해제한다. <code>new_value</code> 인자는 타이머의 새 최초 값과 새 간격을 나타내는 <code>itimerspec</code> 구조체에 대한 포인터이다. <code>itimerspec</code> 구조체는 다음과 같이 정의되어 있다.</p>
+<p><code>timer_settime()</code>은 <code>timerid</code>가 나타내는 타이머를 장전하거나 해제한다. <code>new_value</code> 인자는 타이머의 새 최초 값과 새 간격을 나타내는 <code>itimerspec</code> 구조체의 포인터이다. <code>itimerspec</code> 구조체는 다음과 같이 정의되어 있다.</p>
 <pre><code class="language-c">struct timespec {
     time_t tv_sec;                /* 초 */
     long   tv_nsec;               /* 나노초 */

@@ -172,8 +172,8 @@ FILE *fopencookie(void *restrict cookie, const char *restrict mode,
 <p><code>fopencookie()</code>를 호출해 새 스트림을 열고 스트림에 쿠키와 훅 함수를 연계한다.</p>
 </li>
 </ul>
-<p><code>fopencookie()</code> 함수는 <tt><a class="wikilink" href="/man-pages-ko/fopen(3)/">fopen(3)</a></tt>과 비슷한 역할을 한다. 즉 새 스트림을 열고 그 스트림 조작 시 사용할 <code>FILE</code> 객체에 대한 포인터를 반환한다.</p>
-<p><code>cookie</code> 인자는 호출자의 쿠키 자료 구조에 대한 포인터이며 새 스트림에 연계된다. 표준 I/O 라이브러리에서 아래 기술하는 훅 함수들을 호출할 때 이 포인터를 첫 번째 인자로 제공한다.</p>
+<p><code>fopencookie()</code> 함수는 <tt><a class="wikilink" href="/man-pages-ko/fopen(3)/">fopen(3)</a></tt>과 비슷한 역할을 한다. 즉 새 스트림을 열고 그 스트림 조작 시 사용할 <code>FILE</code> 객체의 포인터를 반환한다.</p>
+<p><code>cookie</code> 인자는 호출자의 쿠키 자료 구조의 포인터이며 새 스트림에 연계된다. 표준 I/O 라이브러리에서 아래 기술하는 훅 함수들을 호출할 때 이 포인터를 첫 번째 인자로 제공한다.</p>
 <p><code>mode</code> 인자는 <tt><a class="wikilink" href="/man-pages-ko/fopen(3)/">fopen(3)</a></tt>에서와 같은 역할을 한다. 지원하는 모드는 <code>r</code>, <code>w</code>, <code>a</code>, <code>r+</code>, <code>w+</code>, <code>a+</code>이다. 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/fopen(3)/">fopen(3)</a></tt>을 보라.</p>
 <p><code>io_funcs</code> 인자는 스트림 구현을 위해 프로그래머가 정의한 훅 함수들을 가리키는 필드 네 개가 담긴 구조체이다. 이 구조체는 다음과 같이 정의돼 있다.</p>
 <pre><code class="language-c">typedef struct {
@@ -229,7 +229,7 @@ FILE *fopencookie(void *restrict cookie, const char *restrict mode,
 </dd>
 </dl>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 <code>fopencookie()</code>는 새 스트림에 대한 포인터를 반환한다. 오류 시 NULL을 반환한다.</p>
+<p>성공 시 <code>fopencookie()</code>는 새 스트림의 포인터를 반환한다. 오류 시 NULL을 반환한다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
 <p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>

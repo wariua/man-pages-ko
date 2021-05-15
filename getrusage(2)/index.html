@@ -252,7 +252,7 @@ int getrusage(int who, struct rusage *usage);
 <p>POSIX.1-2001, POSIX.1-2008, SVr4, 4.3BSD. POSIX.1에서 <code>getrusage()</code>를 명세하고는 있지만 <code>ru_utime</code> 및 <code>ru_stime</code> 필드만 명세한다.</p>
 <p><code>RUSAGE_THREAD</code>는 리눅스 전용이다.</p>
 <h2 id="notes">NOTES</h2>
-<p><tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>를 거치면서 자원 사용량 수치들이 보존된다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>를 거치면서 자원 사용량 수치들이 유지된다.</p>
 <p><code>&lt;sys/time.h&gt;</code>를 포함시키는 게 요즘에는 필요치 않지만 이식성을 높여 준다. (사실 <code>struct timeval</code>이 <code>&lt;sys/time.h&gt;</code>에 정의돼 있다.)</p>
 <p>리눅스 커널 버전 2.6.9 전에서는 <code>SIGCHLD</code> 처리 방식이 <code>SIG_IGN</code>으로 설정돼 있는 경우에 자식 프로세스의 자원 사용량이 자동으로 <code>RUSAGE_CHILDREN</code> 반환 값에 포함된다. 하지만 POSIX.1-2001에서는 이를 명확히 금지한다. 리눅스 2.6.9 및 이후에서는 이 불일치가 시정돼 있다.</p>
 <p>이 페이지 앞에 나온 구조체 정의는 4.3BSD Reno에서 가져온 것이다.</p>

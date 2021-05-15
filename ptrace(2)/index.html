@@ -217,11 +217,11 @@ long ptrace(enum __ptrace_request request, pid_t pid,
 <dt><code>PTRACE_POKEUSER</code></dt>
 <dd>워드 <code>data</code>를 피추적자 USER 영역의 오프셋 <code>addr</code>로 복사한다. <code>PTRACE_PEEKUSER</code>처럼 오프셋이 보통은 워드에 정렬되어 있어야 한다. 커널의 무결성을 유지하기 위해 USER 영역에 대한 일부 변경은 허용하지 않는다.</dd>
 <dt><code>PTRACE_GETREGS</code>, <code>PTRACE_GETFPREGS</code></dt>
-<dd>각각 피추적자의 범용 레지스터들이나 부동 소수점 레지스터들을 추적자 내의 주소 <code>data</code>로 복사한다. 이 데이터의 형식에 대한 정보는 <code>&lt;sys/user.h&gt;</code>를 보라. (<code>addr</code>은 무시한다.) 참고로 SPARC 시스템에서는 <code>data</code>와 <code>addr</code>의 의미가 뒤집혀 있다. 즉, <code>data</code>를 무시하고 주소 <code>addr</code>로 레지스터들을 복사한다. 모든 아키텍처에 <code>PTRACE_GETREGS</code>와 <code>PTRACE_GETFPREGS</code>가 있는 건 아니다.</dd>
+<dd>각각 피추적자의 범용 레지스터들이나 부동소수점 레지스터들을 추적자 내의 주소 <code>data</code>로 복사한다. 이 데이터의 형식에 대한 정보는 <code>&lt;sys/user.h&gt;</code>를 보라. (<code>addr</code>은 무시한다.) 참고로 SPARC 시스템에서는 <code>data</code>와 <code>addr</code>의 의미가 뒤집혀 있다. 즉, <code>data</code>를 무시하고 주소 <code>addr</code>로 레지스터들을 복사한다. 모든 아키텍처에 <code>PTRACE_GETREGS</code>와 <code>PTRACE_GETFPREGS</code>가 있는 건 아니다.</dd>
 <dt><code>PTRACE_GETREGSET</code> (리눅스 2.6.34부터)</dt>
-<dd>피추적자의 레지스터들을 읽는다. <code>addr</code>이 아키텍처별 방식으로 읽을 레지스터들의 종류를 나타낸다. <code>NT_PRSTATUS</code>(숫자 값 1)는 일반적으로 범용 레지스터들을 읽게 만든다. 예를 들어 CPU에 부동 소수점 및/또는 벡터 레지스터가 있으면 <code>addr</code>을 대응 <code>NT_foo</code> 상수로 설정해서 그 레지스터들을 가져올 수 있다. <code>data</code>는 목적지 버퍼의 위치와 길이를 기술하는 <code>struct iovec</code>을 가리킨다. 반환 시 실제 반환되는 바이트 수를 나타내도록 커널이 <code>iov.len</code>을 변경한다.</dd>
+<dd>피추적자의 레지스터들을 읽는다. <code>addr</code>이 아키텍처별 방식으로 읽을 레지스터들의 종류를 나타낸다. <code>NT_PRSTATUS</code>(숫자 값 1)는 일반적으로 범용 레지스터들을 읽게 만든다. 예를 들어 CPU에 부동소수점 및/또는 벡터 레지스터가 있으면 <code>addr</code>을 대응 <code>NT_foo</code> 상수로 설정해서 그 레지스터들을 가져올 수 있다. <code>data</code>는 목적지 버퍼의 위치와 길이를 기술하는 <code>struct iovec</code>을 가리킨다. 반환 시 실제 반환되는 바이트 수를 나타내도록 커널이 <code>iov.len</code>을 변경한다.</dd>
 <dt><code>PTRACE_SETREGS</code>, <code>PTRACE_SETFPREGS</code></dt>
-<dd>각각 피추적자의 범용 레지스터들이나 부동 소수점 레지스터들을 추적자 내의 주소 <code>data</code>에서 온 값으로 변경한다. <code>PTRACE_POKEUSER</code>처럼 일부 범용 레지스터 변경이 허용되지 않을 수도 있다. (<code>addr</code>은 무시한다.) 참고로 SPARCS 시스템에서는 <code>data</code>와 <code>addr</code>의 의미가 뒤집혀 있다. 즉, <code>data</code>를 무시하고 주소 <code>addr</code>로부터 레지스터들을 복사한다. 모든 아키텍처에 <code>PTRACE_SETREGS</code>와 <code>PTRACE_SETFPREGS</code>가 있는 건 아니다.</dd>
+<dd>각각 피추적자의 범용 레지스터들이나 부동소수점 레지스터들을 추적자 내의 주소 <code>data</code>에서 온 값으로 변경한다. <code>PTRACE_POKEUSER</code>처럼 일부 범용 레지스터 변경이 허용되지 않을 수도 있다. (<code>addr</code>은 무시한다.) 참고로 SPARCS 시스템에서는 <code>data</code>와 <code>addr</code>의 의미가 뒤집혀 있다. 즉, <code>data</code>를 무시하고 주소 <code>addr</code>로부터 레지스터들을 복사한다. 모든 아키텍처에 <code>PTRACE_SETREGS</code>와 <code>PTRACE_SETFPREGS</code>가 있는 건 아니다.</dd>
 <dt><code>PTRACE_SETREGSET</code> (리눅스 2.6.34부터)</dt>
 <dd>피추적자의 레지스터들을 변경한다. <code>addr</code>과 <code>data</code>의 의미는 <code>PTRACE_GETREGSET</code>과 유사하다.</dd>
 <dt><code>PTRACE_GETSIGINFO</code> (리눅스 2.3.99-pre6부터)</dt>
@@ -240,9 +240,9 @@ long ptrace(enum __ptrace_request request, pid_t pid,
 <p>현재 유일하게 있는 플래그는 프로세스별 시그널 큐에서 시그널을 가져오기 위한 <code>PTRACE_PEEKSIGINFO_SHARED</code>이다. 이 플래그가 설정돼 있지 않으면 지정한 스레드의 스레드별 큐에서 시그널을 읽는다.</p>
 </dd>
 <dt><code>PTRACE_GETSIGMASK</code> (리눅스 3.11부터)</dt>
-<dd>블록 된 시그널 마스크(<tt><a class="wikilink" href="/man-pages-ko/sigprocmask(2)/">sigprocmask(2)</a></tt> 참고) 사본을 <code>data</code>가 가리키는 버퍼에 집어넣는다. <code>data</code>는 <code>sigset_t</code> 타입 버퍼에 대한 포인터여야 한다. <code>addr</code> 인자는 <code>data</code>가 가리키는 버퍼의 크기를 (즉 <code>sizeof(sigset_t)</code>를) 담는다.</dd>
+<dd>블록 된 시그널 마스크(<tt><a class="wikilink" href="/man-pages-ko/sigprocmask(2)/">sigprocmask(2)</a></tt> 참고) 사본을 <code>data</code>가 가리키는 버퍼에 집어넣는다. <code>data</code>는 <code>sigset_t</code> 타입 버퍼의 포인터여야 한다. <code>addr</code> 인자는 <code>data</code>가 가리키는 버퍼의 크기를 (즉 <code>sizeof(sigset_t)</code>를) 담는다.</dd>
 <dt><code>PTRACE_SETSIGMASK</code> (리눅스 3.11부터)</dt>
-<dd>블록 된 시그널 마스크(<tt><a class="wikilink" href="/man-pages-ko/sigprocmask(2)/">sigprocmask(2)</a></tt> 참고)를 <code>data</code>가 가리키는 버퍼에 지정한 값으로 바꾼다. <code>data</code>는 <code>sigset_t</code> 타입 버퍼에 대한 포인터여야 한다. <code>addr</code> 인자는 <code>data</code>가 가리키는 버퍼의 크기를 (즉 <code>sizeof(sigset_t)</code>를) 담는다.</dd>
+<dd>블록 된 시그널 마스크(<tt><a class="wikilink" href="/man-pages-ko/sigprocmask(2)/">sigprocmask(2)</a></tt> 참고)를 <code>data</code>가 가리키는 버퍼에 지정한 값으로 바꾼다. <code>data</code>는 <code>sigset_t</code> 타입 버퍼의 포인터여야 한다. <code>addr</code> 인자는 <code>data</code>가 가리키는 버퍼의 크기를 (즉 <code>sizeof(sigset_t)</code>를) 담는다.</dd>
 <dt><code>PTRACE_SETOPTIONS</code> (리눅스 2.4.6부터. BUGS 절의 경고 참고)</dt>
 <dd>
 <p><code>data</code>에서 가져온 ptrace 옵션들을 설정한다. (<code>addr</code>은 무시한다.) <code>data</code>는 옵션들의 비트 마스크로 해석하며, 다음 플래그들로 옵션을 지정한다.</p>
@@ -339,7 +339,7 @@ long ptrace(enum __ptrace_request request, pid_t pid,
 <dd>
 <p>이 동작을 통해 추적자가 피추적자의 전통적 BPF 필터를 얻어올 수 있다.</p>
 <p><code>addr</code>은 얻어올 필터의 인덱스를 나타내는 정수이다. 가장 최근 설치된 필터의 인덱스가 0이다. <code>addr</code>이 설치된 필터 수보다 크면 동작이 <code>ENOENT</code> 오류로 실패한다.</p>
-<p><code>data</code>는 BPF 프로그램을 저장하기에 충분히 큰 <code>struct sock_filter</code> 배열에 대한 포인터이거나, 프로그램을 저장하려는 것이 아니면 NULL이다.</p>
+<p><code>data</code>는 BPF 프로그램을 저장하기에 충분히 큰 <code>struct sock_filter</code> 배열의 포인터이거나, 프로그램을 저장하려는 것이 아니면 NULL이다.</p>
 <p>성공 시 반환 값은 BPF 프로그램 내 인스트럭션 수이다. <code>data</code>가 NULL이었으면 이 반환 값을 이용해 정확한 크기의 <code>struct sock_filter</code> 배열을 후속 호출에 줄 수 있다.</p>
 <p>호출자가 <code>CAP_SYS_ADMIN</code> 역능을 가지고 있지 않거나 호출자가 seccomp 엄격 내지 필터 모드에 있으면 이 동작이 <code>EACCES</code> 오류로 실패한다. <code>addr</code>이 가리키는 필터가 전통적 BPF 필터가 아니면 동작이 <code>EMEDIUMTYPE</code> 오류로 실패한다.</p>
 <p>커널을 <code>CONFIG_SECCOMP_FILTER</code>와 <code>CONFIG_CHECKPOINT_RESTORE</code> 옵션 모두로 구성한 경우에만 이 동작이 사용 가능하다.</p>
@@ -352,7 +352,7 @@ long ptrace(enum __ptrace_request request, pid_t pid,
 <dd>이 동작은 <tt><a class="wikilink" href="/man-pages-ko/set_thread_area(2)/">set_thread_area(2)</a></tt>와 비슷한 일을 수행한다. GDT에서 인덱스가 <code>addr</code>인 TLS 항목을 <code>data</code>가 가리키는 <code>struct user_desc</code>에 준 데이터로 설정한다. (<tt><a class="wikilink" href="/man-pages-ko/set_thread_area(2)/">set_thread_area(2)</a></tt>와 달리 <code>struct user_desc</code>의 <code>entry_number</code>를 무시한다. 다시 말해 이 ptrace 동작을 사용해 빈 TLS 항목을 할당할 수는 없다.)</dd>
 <dt><code>PTRACE_GET_SYSCALL_INFO</code> (리눅스 5.3부터)</dt>
 <dd>
-<p>정지를 유발한 시스템 호출에 대한 정보를 가져온다. <code>data</code> 인자가 가리키는 버퍼로 정보가 들어가는데, 그 인자는 <code>struct ptrace_syscall_info</code> 타입 버퍼에 대한 포인터여야 한다. <code>addr</code> 인자는 <code>data</code> 인자가 가리키는 버퍼의 크기(즉 <code>sizeof(struct ptrace_syscall_info)</code>)를 담는다. 반환 값에는 커널에서 더 써넣었을 수 있었을 바이트 수가 들어간다. 커널에서 써넣으려 한 데이터의 크기가 <code>addr</code> 인자에 지정된 크기를 넘는 경우 데이터가 잘려서 출력된다.</p>
+<p>정지를 유발한 시스템 호출에 대한 정보를 가져온다. <code>data</code> 인자가 가리키는 버퍼로 정보가 들어가는데, 그 인자는 <code>struct ptrace_syscall_info</code> 타입 버퍼의 포인터여야 한다. <code>addr</code> 인자는 <code>data</code> 인자가 가리키는 버퍼의 크기(즉 <code>sizeof(struct ptrace_syscall_info)</code>)를 담는다. 반환 값에는 커널에서 더 써넣었을 수 있었을 바이트 수가 들어간다. 커널에서 써넣으려 한 데이터의 크기가 <code>addr</code> 인자에 지정된 크기를 넘는 경우 데이터가 잘려서 출력된다.</p>
 <p><code>ptrace_syscall_info</code> 구조체는 다음 필드들을 담고 있다.</p>
 <pre><code>struct ptrace_syscall_info {
     __u8 op;        /* 시스템 호출 정지 종류 */

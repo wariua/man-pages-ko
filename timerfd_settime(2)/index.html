@@ -202,7 +202,7 @@ int timerfd_gettime(int fd, struct itimerspec *curr_value);
 <dt><code>TFD_CLOEXEC</code></dt>
 <dd>새 파일 디스크립터에 exec에서 닫기(<code>FD_CLOEXEC</code>) 플래그를 설정한다. 이게 유용할 수 있는 이유에 대해선 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>의 <code>O_CLOEXEC</code> 플래그 설명을 보라.</dd>
 </dl>
-<p>리눅스 버전 2.6.26까지에서는 <code>flags</code>를 0으로 지정해야 한다.</p>
+<p>리눅스 버전 2.6.26까지는 <code>flags</code>를 0으로 지정해야 한다.</p>
 <h3 id="timerfd_settime"><code>timerfd_settime()</code></h3>
 <p><code>timerfd_settime()</code>은 파일 디스크립터 <code>fd</code>가 가리키는 타이머를 장전(시작)하거나 해제(정지)한다.</p>
 <p><code>new_value</code> 인자는 타이머의 최초 만료 시간과 간격을 지정한다. 이 인자에 쓰는 <code>itimerspec</code> 구조체에는 두 필드가 있고 각각이 다시 <code>timespec</code> 타입 구조체이다.</p>
@@ -242,7 +242,7 @@ struct itimerspec {
 <p>연계된 클럭이 <code>CLOCK_REALTIME</code>이나 <code>CLOCK_REALTIME_ALARM</code>이고, 타이머가 절대이고 (<code>TFD_TIMER_ABSTIME</code>), <code>timerfd_settime()</code> 호출 때 <code>TFD_TIMER_CANCEL_ON_SET</code> 플래그를 지정했다면 실제 시간 클럭이 불연속적 변경을 거치는 경우 <code>read(2)</code>가 <code>ECANCELED</code> 오류로 실패한다. (이를 통해 읽기를 하는 응용에서 클럭에 불연속적 변경이 일어났음을 알아챌 수 있다.)</p>
 <p>연계된 클럭이 <code>CLOCK_REALTIME</code>이나 <code>CLOCK_REALTIME_ALARM</code>이고, 타이머가 절대이고 (<code>TFD_TIMER_ABSTIME</code>), <code>timerfd_settime()</code> 호출 때 <code>TFD_TIMER_CANCEL_ON_SET</code> 플래그를 지정하지 <em>않았다면</em> 시간 만료 후 파일 디스크립터에 대한 <code>read(2)</code> 전에 클럭에 (가령 <tt><a class="wikilink" href="/man-pages-ko/clock_settime(2)/">clock_settime(2)</a></tt>으로) 불연속적 역방향 변경이 일어나면 <code>read(2)</code>가 블록 하지 않고 0값을 반환할 (즉 읽은 바이트가 없을) 수도 있다.</p>
 </dd>
-<dt><tt><a class="wikilink" href="/man-pages-ko/poll(2)/">poll(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/select(2)/">select(2)</a></tt> (기타 유사 함수)</dt>
+<dt><tt><a class="wikilink" href="/man-pages-ko/poll(2)/">poll(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/select(2)/">select(2)</a></tt> (기타 비슷한 함수)</dt>
 <dd>
 <p>타이머 만료가 한 번 이상 일어났을 때 파일 디스크립터가 읽기 가능하다. (<tt><a class="wikilink" href="/man-pages-ko/select(2)/">select(2)</a></tt> <code>readfds</code> 인자, <tt><a class="wikilink" href="/man-pages-ko/poll(2)/">poll(2)</a></tt> <code>POLLIN</code> 플래그.)</p>
 <p>파일 디스크립터가 <tt><a class="wikilink" href="/man-pages-ko/pselect(2)/">pselect(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ppoll(2)/">ppoll(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/epoll(7)/">epoll(7)</a></tt> 같은 다른 파일 디스크립터 다중화 API도 지원한다.</p>
@@ -252,7 +252,7 @@ struct itimerspec {
 <p>다음의 timerfd 한정 명령을 지원한다.</p>
 <dl>
 <dt><code>TFD_IOC_SET_TICKS</code> (리눅스 3.17부터)</dt>
-<dd>발생한 타이머 만료 횟수를 조정한다. 인자는 새 만료 횟수를 담은 0 아닌 8바이트 정수에 대한 포인터(<code>uint64_t*</code>)이다. 횟수를 설정하고 나서 그 타이머에 대기 중인 프로세스가 있으면 모두 깨운다. 이 명령의 유일한 용도는 체크포인트/복원 목적으로 만료 횟수를 복원하는 것이다. 커널을 <code>CONFIG_CHECKPOINT_RESTORE</code> 옵션으로 구성한 경우에만 이 동작이 사용 가능하다.</dd>
+<dd>발생한 타이머 만료 횟수를 조정한다. 인자는 새 만료 횟수를 담은 0 아닌 8바이트 정수의 포인터(<code>uint64_t*</code>)이다. 횟수를 설정하고 나서 그 타이머에 대기 중인 프로세스가 있으면 모두 깨운다. 이 명령의 유일한 용도는 체크포인트/복원 목적으로 만료 횟수를 복원하는 것이다. 커널을 <code>CONFIG_CHECKPOINT_RESTORE</code> 옵션으로 구성한 경우에만 이 동작이 사용 가능하다.</dd>
 </dl>
 </dd>
 <dt><tt><a class="wikilink" href="/man-pages-ko/close(2)/">close(2)</a></tt></dt>
@@ -261,7 +261,7 @@ struct itimerspec {
 <h3 id="fork2"><tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt> 동작 방식</h3>
 <p><code>timerfd_create()</code>으로 생성한 파일 디스크립터의 사본을 <tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt> 후에 자식이 물려받는다. 그 파일 디스크립터는 부모에서의 대응하는 파일 디스크립터와 같은 기반 타이머 객체를 가리키며, 자식에서 <code>read(2)</code> 하면 그 타이머의 만료에 대한 정보를 반환하게 된다.</p>
 <h3 id="execve2"><tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt> 동작 방식</h3>
-<p><code>timerfd_create()</code>으로 생성한 파일 디스크립터가 <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>를 거치면서 보존되며, 타이머가 장전되어 있었다면 계속 타이머 만료가 발생한다.</p>
+<p><code>timerfd_create()</code>으로 생성한 파일 디스크립터가 <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>를 거치면서 유지되며, 타이머가 장전되어 있었다면 계속 타이머 만료가 발생한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 <code>timerfd_create()</code>은 새 파일 디스크립터를 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <p><code>timerfd_settime()</code>과 <code>timerfd_gettime()</code>은 성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>

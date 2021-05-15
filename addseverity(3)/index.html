@@ -168,9 +168,9 @@ int addseverity(int severity, const char *s);
 </dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
-<p>이 함수를 이용하면 <tt><a class="wikilink" href="/man-pages-ko/fmtmsg(3)/">fmtmsg(3)</a></tt> 함수의 <code>severity</code> 인자로 지정할 수 있는 새로운 심각도 수준을 도입할 수 있다. 기본적으로 그 함수는 심각도 0~4에 대해서만 (문자열 (없음), <code>HALT</code>, <code>ERROR</code>, <code>WARNING</code>, <code>INFO</code>로) 메시지를 찍을 줄 안다. 이 호출은 주어진 값 <code>severity</code>에 주어진 문자열 <code>s</code>를 연결시킨다. <code>s</code>가 NULL이면 숫자 값이 <code>severity</code>인 심각도 수준을 제거한다. 기본 심각도 수준을 덮어쓰거나 제거하는 것은 불가능하다. 심각도 값은 음수가 아니어야 한다.</p>
+<p>이 함수를 이용하면 <tt><a class="wikilink" href="/man-pages-ko/fmtmsg(3)/">fmtmsg(3)</a></tt> 함수의 <code>severity</code> 인자로 지정할 수 있는 새로운 심각도 수준을 도입할 수 있다. 기본적으로 그 함수는 심각도 0~4에 대해서만 (빈 문자열, <code>HALT</code>, <code>ERROR</code>, <code>WARNING</code>, <code>INFO</code>로) 메시지를 찍을 줄 안다. 이 호출은 주어진 값 <code>severity</code>에 주어진 문자열 <code>s</code>를 연결시킨다. <code>s</code>가 NULL이면 숫자 값이 <code>severity</code>인 심각도 수준을 제거한다. 기본 심각도 수준을 덮어쓰거나 제거하는 것은 불가능하다. 심각도 값은 음수가 아니어야 한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 <code>MM_OK</code> 값을 반환한다. 오류 시 반환 값은 <code>MM_NOTOK</code>이다. 가능한 오류들로 메모리 부족, 존재하지 않거나 기본으로 있는 심각도 수준 제거 시도 등이 있다.</p>
+<p>성공 시 <code>MM_OK</code> 값을 반환한다. 오류 시 반환 값은 <code>MM_NOTOK</code>다. 가능한 오류로 메모리 부족, 존재하지 않거나 기본으로 있는 심각도 수준 제거 시도 등이 있다.</p>
 <h2 id="versions">VERSIONS</h2>
 <p>glibc 버전 2.1부터 <code>addseverity()</code>를 제공한다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>

@@ -211,7 +211,7 @@ FILE *fmemopen(void *buf, size_t size, const char *mode);
 </tbody>
 </table>
 <p>스트림에 현재 위치, 즉 다음 I/O 동작을 수행할 위치라는 개념이 있다. I/O 동작에서 현재 위치를 묵시적으로 갱신한다. <code>fseek(3)</code>으로 명시적으로 갱신할 수 있고 <code>ftell(3)</code>로 알아낼 수 있다. 덧붙이기를 제외한 모든 모드에서는 초기 위치를 버퍼 시작점으로 설정한다. 덧붙이기 모드에서 버퍼 내에 널 바이트가 없는 경우에는 초기 위치가 <code>size+1</code>이다.</p>
-<p><code>buf</code>를 NULL로 지정하면 <code>fmemopen()</code>에서 <code>size</code> 바이트의 버퍼를 할당한다. 임시 버퍼에 데이터를 쓰고서 다시 읽어 들이고 싶은 응용에서 유용하다. 초기 위치는 버퍼 시작점으로 설정한다. 그 버퍼는 스트림이 닫힐 때 자동으로 해제된다. 참고로 그런 호출로 할당된 임시 버퍼에 대한 포인터를 호출자가 얻을 수 있는 방법은 없다. (<tt><a class="wikilink" href="/man-pages-ko/open_memstream(3)/">open_memstream(3)</a></tt>도 참고.)</p>
+<p><code>buf</code>를 NULL로 지정하면 <code>fmemopen()</code>에서 <code>size</code> 바이트의 버퍼를 할당한다. 임시 버퍼에 데이터를 쓰고서 다시 읽어 들이고 싶은 응용에서 유용하다. 초기 위치는 버퍼 시작점으로 설정한다. 그 버퍼는 스트림이 닫힐 때 자동으로 해제된다. 참고로 그런 호출로 할당된 임시 버퍼의 포인터를 호출자가 얻을 수 있는 방법은 없다. (<tt><a class="wikilink" href="/man-pages-ko/open_memstream(3)/">open_memstream(3)</a></tt>도 참고.)</p>
 <p><code>buf</code>가 NULL이 아니면 호출자가 할당한 최소 <code>len</code> 바이트짜리 버퍼를 가리켜야 한다.</p>
 <p>쓰기 가능하게 연 스트림을 플러시(<tt><a class="wikilink" href="/man-pages-ko/fflush(3)/">fflush(3)</a></tt>) 하거나 닫을(<tt><a class="wikilink" href="/man-pages-ko/fclose(3)/">fclose(3)</a></tt>) 때 버퍼 끝에 공간이 있으면 널 바이트를 기록한다. 그렇게 되려면 버퍼에 여유 바이트가 있도록 (그리고 <code>size</code>가 그 바이트까지 포함하도록) 호출자가 신경써 줘야 한다.</p>
 <p>읽기 가능하게 연 스트림에서 버퍼 내에 널 바이트('\0')가 있어도 읽기 동작이 파일 끝 표시를 반환하지는 않는다. 현재 버퍼 위치가 버퍼 시작점부터 <code>size</code> 바이트를 지날 때만 버퍼 읽기가 파일 끝을 알린다.</p>

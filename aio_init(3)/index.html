@@ -156,7 +156,7 @@ void aio_init(const struct aioinit *init);
 <p><code>-lrt</code>로 링크.</p>
 <h2 id="description">DESCRIPTION</h2>
 <p>GNU 전용인 <code>aio_init()</code> 함수를 이용해 호출자가 glibc POSIX AIO 구현에 튜닝 힌트를 줄 수 있다. 이 함수 사용은 선택적이며, 효력이 있으려면 POSIX AIO API의 다른 함수 사용 전에 호출해야 한다.</p>
-<p><code>init</code> 인자가 가리키는 버퍼로 튜닝 정보를 제공한다. 그 버퍼는 다음 형태의 구조체이다.</p>
+<p><code>init</code> 인자가 가리키는 버퍼로 튜닝 정보를 제공한다. 그 버퍼는 다음 형태의 구조체다.</p>
 <pre><code class="language-c">struct aioinit {
     int aio_threads;    /* 스레드 최대 개수 */
     int aio_num;        /* 예상 동시 요청 개수 */
@@ -174,9 +174,9 @@ void aio_init(const struct aioinit *init);
 <dt><code>aio_threads</code></dt>
 <dd>이 필드는 구현에서 사용할 수 있는 작업 스레드 최대 개수를 지정한다. 미처리 I/O 동작의 수가 이 제한을 초과하면 작업 스레드에 여유가 생길 때까지 초과 작업들을 큐에 넣어 두게 된다. 이 필드에 1보다 작은 값을 지정하면 1 값을 쓴다. 기본값은 20이다.</dd>
 <dt><code>aio_num</code></dt>
-<dd>이 필드는 호출자가 큐에 동시에 넣는 I/O 요청 최대 개수 예상치를 지정한다. 이 필드에 32보다 작은 값을 지정하면 32로 올린다. 기본값은 64이다.</dd>
+<dd>이 필드는 호출자가 큐에 넣을 것으로 예상되는 동시 I/O 요청 최대 개수를 지정해야 한다. 이 필드에 32보다 작은 값을 지정하면 32로 올린다. 기본값은 64다.</dd>
 <dt><code>aio_idle_time</code></dt>
-<dd>이 필드는 작업 스레드가 이전 요청을 완료하고서 추가 요청을 몇 초나 기다린 후에 종료할지 지정한다. 기본값은 1이다.</dd>
+<dd>이 필드는 작업 스레드가 이전 요청을 완료하고서 추가 요청을 몇 초나 기다렸다가 종료할지 지정한다. 기본값은 1이다.</dd>
 </dl>
 <h2 id="versions">VERSIONS</h2>
 <p>glibc 2.1부터 <code>aio_init()</code> 함수가 사용 가능하다.</p>

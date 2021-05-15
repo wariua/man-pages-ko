@@ -350,7 +350,7 @@
 <h3 id="_5">응답 시간</h3>
 <p>I/O를 기다리며 블록 된 높은 우선순위 스레드가 다시 스케줄 되기까지는 어느 정도의 응답 시간이 있다. 장치 드라이버 작성자가 "느린" 인터럽트 핸들러를 사용함으로써 이 응답 시간을 크게 줄일 수 있다.</p>
 <h3 id="_6">기타</h3>
-<p><tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt>를 거치면서 자식 프로세스가 스케줄링 정책과 매개변수들을 물려받는다. <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>를 거치면서 스케줄링 정책과 매개변수들이 보존된다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt>를 거치면서 자식 프로세스가 스케줄링 정책과 매개변수들을 물려받는다. <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>를 거치면서 스케줄링 정책과 매개변수들이 유지된다.</p>
 <p>일반적으로 실시간 프로세스에서는 페이징 지연을 피하기 위해 메모리 잠그기가 필요하다. <tt><a class="wikilink" href="/man-pages-ko/mlock(2)/">mlock(2)</a></tt>이나 <tt><a class="wikilink" href="/man-pages-ko/mlockall(2)/">mlockall(2)</a></tt>로 가능하다.</p>
 <h3 id="autogroup">autogroup 기능</h3>
 <p>리눅스 2.6.38부터 커널에서 자동 묶기(autogrouping)라는 기능을 제공한다. 많은 병렬 빌드 프로세스로 (즉 <code>make(1)</code>의 <code>-j</code> 플래그로) 리눅스 커널을 빌드 할 때처럼 여러 프로세스이고 CPU 집약적인 부하가 있을 때의 대화형 데스크톱 성능을 향상시킨다.</p>

@@ -148,18 +148,18 @@
         <div class="col-md-9" role="main">
 
 <h2 id="name">NAME</h2>
-<p>assert - 단언이 거짓이면 프로그램 중단하기</p>
+<p>assert - 진술이 거짓이면 프로그램 중단하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
 <pre><code class="language-c">#include &lt;assert.h&gt;
 
 void assert(scalar expression);
 </code></pre>
 <h2 id="description">DESCRIPTION</h2>
-<p>이 매크로는 제한된 디버깅 출력을 내놓는 크래시를 통해 프로그래머가 자기 프로그램의 버그를 찾거나 예외적 경우를 다루는 데 도움을 준다.</p>
-<p><code>expression</code>이 거짓이면 (즉 0과 비교해서 같으면) <code>assert()</code>가 표준 오류로 오류 메시지를 찍고 <tt><a class="wikilink" href="/man-pages-ko/abort(3)/">abort(3)</a></tt> 호출로 프로그램을 종료시킨다. 오류 메시지에는 <code>assert()</code> 호출을 담고 있는 파일과 함수의 이름, 호출의 소스 코드 행 번호, 인자 텍스트가 포함된다. 다음과 같은 식이다.</p>
+<p>이 매크로는 제한된 디버깅 출력을 내놓는 크래시를 통해 프로그래머가 자기 프로그램의 버그를 찾거나 예외적 경우를 다루는 걸 돕는다.</p>
+<p><code>expression</code>이 거짓이면 (즉 0과 비교해서 같으면) 표준 오류로 오류 메시지를 찍고 <tt><a class="wikilink" href="/man-pages-ko/abort(3)/">abort(3)</a></tt> 호출로 프로그램을 종료시킨다. 오류 메시지에는 <code>assert()</code> 호출이 있는 파일과 함수의 이름, 호출의 소스 코드 행 번호, 인자 텍스트가 포함된다. 다음과 같은 식이다.</p>
 <pre><code class="language-text">prog: some_file.c:16: some_func: Assertion `val == 0' failed.
 </code></pre>
-<p><code>&lt;assert.h&gt;</code>를 마지막으로 포함하는 시점에 매크로 <code>NDEBUG</code>가 정의되어 있으면 <code>assert()</code> 매크로가 아무 코드도 만들지 않고, 그래서 아무것도 하지 않는다. 오류 조건 탐지에 <code>assert()</code>를 사용하는 경우 <code>NDEBUG</code>를 정의하지 않기를 권한다. 소프트웨어가 비결정적으로 동작할 수 있기 때문이다.</p>
+<p><code>&lt;assert.h&gt;</code>를 마지막으로 포함하는 시점에 매크로 <code>NDEBUG</code>가 정의돼 있으면 <code>assert()</code> 매크로가 아무 코드도 만들지 않고, 그래서 아무것도 하지 않는다. 오류 조건 탐지에 <code>assert()</code>를 쓰는 경우에는 <code>NDEBUG</code>를 정의하지 않기를 권한다. 소프트웨어가 비결정적으로 동작할 수 있기 때문이다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>아무 값도 반환하지 않는다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
@@ -183,7 +183,7 @@ void assert(scalar expression);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008, C89, C99. C89에서는 <code>expression</code>이 <code>int</code> 타입이어야 하고 아닌 경우 동작 결과가 규정되어 있지 않다. 하지만 C99에서는 어떤 스칼라 타입도 될 수 있다.</p>
 <h2 id="bugs">BUGS</h2>
-<p><code>assert()</code>는 매크로로 구현되어 있다. 검사하는 식에 부대 효과가 있으면 <code>NDEBUG</code>가 정의되어 있는지 여부에 따라 프로그램 동작이 달라질 수도 있다. 이 때문에 디버깅을 켜면 사라져 버리는 하이젠버그가 생길 수 있다.</p>
+<p><code>assert()</code>가 매크로로 구현되어 있다. 검사하는 식에 부대 효과가 있으면 <code>NDEBUG</code>가 정의돼 있는지 여부에 따라 프로그램 동작이 달라질 수도 있다. 이 때문에 디버깅을 켜면 사라져 버리는 하이젠버그가 생길 수 있다.</p>
 <h2 id="see-also">SEE ALSO</h2>
 <p><tt><a class="wikilink" href="/man-pages-ko/abort(3)/">abort(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/assert_perror(3)/">assert_perror(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/exit(3)/">exit(3)</a></tt></p>
 <hr />

@@ -154,7 +154,7 @@
 <pre><code class="language-c">#include &lt;sys/acct.h&gt;
 </code></pre>
 <h2 id="description">DESCRIPTION</h2>
-<p>프로세스 통계 옵션(<code>CONFIG_BSD_PROCESS_ACCT</code>)을 켜서 커널을 빌드 한 경우에 다음과 같이 <tt><a class="wikilink" href="/man-pages-ko/acct(2)/">acct(2)</a></tt>를 호출하면 프로세스 통계 수집을 시작한다.</p>
+<p>프로세스 통계 옵션(<code>CONFIG_BSD_PROCESS_ACCT</code>)을 켜서 커널을 빌드한 경우에 다음과 같이 <tt><a class="wikilink" href="/man-pages-ko/acct(2)/">acct(2)</a></tt>를 호출하면 프로세스 통계 수집을 시작한다.</p>
 <pre><code class="language-c">acct(&quot;/var/log/pacct&quot;);
 </code></pre>
 <p>프로세스 통계를 켜면 시스템의 각 프로세스가 종료할 때마다 커널이 통계 파일에 레코드를 기록한다. 그 레코드는 종료 프로세스에 대한 정보를 담고 있으며 <code>&lt;sys/acct.h&gt;</code>에 다음과 같이 정의돼 있다.</p>
@@ -177,7 +177,7 @@ struct acct {
     comp_t    ac_rw;        /* 읽거나 쓴 블록 수 (사용 안 함) */
     comp_t    ac_minflt;    /* 마이너 페이지 폴트 */
     comp_t    ac_majflt;    /* 메이저 페이지 폴트 */
-    comp_t    ac_swaps;     /* 스왑 개수 (사용 안 함) */
+    comp_t    ac_swaps;     /* 스왑 수 (사용 안 함) */
     u_int32_t ac_exitcode;  /* 프로세스 종료 상태
                                (wait(2) 참고) */
     char      ac_comm[ACCT_COMM+1];
@@ -189,7 +189,7 @@ struct acct {
 enum {          /* ac_flag 필드에 설정될 수 있는 비트들 */
     AFORK = 0x01,           /* fork는 실행하고 exec는 실행하지 않았음 */
     ASU   = 0x02,           /* 수퍼유저 특권 사용했음 */
-    ACORE = 0x08,           /* 코어 덤프 했음 */
+    ACORE = 0x08,           /* 코어 덤프했음 */
     AXSIG = 0x10            /* 시그널로 죽었음 */
 };
 </code></pre>
@@ -198,7 +198,7 @@ enum {          /* ac_flag 필드에 설정될 수 있는 비트들 */
 </code></pre>
 <p><code>ac_utime</code>, <code>ac_stime</code>, <code>ac_etime</code> 필드는 "클럭 틱" 단위로 측정한 시간이다. 그 값을 <code>sysconf(_SC_CLK_TCK)</code>으로 나누면 초 단위로 바꿀 수 있다.</p>
 <h3 id="3">버전 3 통계 파일 형식</h3>
-<p>커널 2.6.8부터는 커널을 빌드 할 때 <code>CONFIG_BSD_PROCESS_ACCT_V3</code> 옵션을 설정하면 다른 버전으로 통계 파일을 만들어 낼 수 있다. 이 옵션이 설정돼 있으면 통계 파일에 기록되는 레코드에 몇 가지 필드가 추가되며 <code>ac_uid</code> 및 <code>ac_gid</code> 필드가 (리눅스 2.4 및 이후에서의 UID 및 GID 크기 증가에 맞춰) 16비트에서 32비트로 커진다. 레코드가 다음과 같이 정의돼 있다.</p>
+<p>커널 2.6.8부터는 커널을 빌드할 때 <code>CONFIG_BSD_PROCESS_ACCT_V3</code> 옵션을 설정하면 다른 버전으로 통계 파일을 만들어 낼 수 있다. 이 옵션이 설정돼 있으면 통계 파일에 기록되는 레코드에 몇 가지 필드가 추가되며 <code>ac_uid</code> 및 <code>ac_gid</code> 필드가 (리눅스 2.4 및 이후에서의 UID 및 GID 크기 증가에 맞춰) 16비트에서 32비트로 커진다. 레코드가 다음과 같이 정의돼 있다.</p>
 <pre><code class="language-c">struct acct_v3 {
     char      ac_flag;      /* 플래그 */
     char      ac_version;   /* 항상 ACCT_VERSION(3)으로 설정 */
@@ -217,7 +217,7 @@ enum {          /* ac_flag 필드에 설정될 수 있는 비트들 */
     comp_t    ac_rw;        /* 읽거나 쓴 블록 수 (사용 안 함) */
     comp_t    ac_minflt;    /* 마이너 페이지 폴트 */
     comp_t    ac_majflt;    /* 메이저 페이지 폴트 */
-    comp_t    ac_swaps;     /* 스왑 개수 (사용 안 함) */
+    comp_t    ac_swaps;     /* 스왑 수 (사용 안 함) */
     char      ac_comm[ACCT_COMM]; /* 명령 이름 */
 };
 </code></pre>
@@ -226,8 +226,8 @@ enum {          /* ac_flag 필드에 설정될 수 있는 비트들 */
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>프로세스 통계는 BSD에서 유래한 것이다. 대다수 시스템에 있기는 하지만 표준화는 되어 있지 않아서 시스템마다 세부 내용이 다소 다르다.</p>
 <h2 id="notes">NOTES</h2>
-<p>통계 파일의 레코드들은 프로세스 종료 시간 순서로 들어가 있다.</p>
-<p>커널 2.6.9까지에서는 NPTL 스레드 라이브러리로 생성된 스레드마다 따로 통계 레코드가 기록된다. 리눅스 2.6.10부터는 프로세스의 마지막 스레드 종료 때 프로세스 전체에 대한 통계 레코드 하나만 기록한다.</p>
+<p>통계 파일의 레코드들은 프로세스 종료 시간 순서로 들어간다.</p>
+<p>커널 2.6.9까지는 NPTL 스레드 라이브러리로 생성된 스레드마다 따로 통계 레코드가 기록된다. 리눅스 2.6.10부터는 프로세스의 마지막 스레드 종료 때 프로세스 전체에 대한 통계 레코드 하나만 기록된다.</p>
 <p><tt><a class="wikilink" href="/man-pages-ko/proc(5)/">proc(5)</a></tt>에서 설명하는 <code>/proc/sys/kernel/acct</code> 파일에는 디스크 공간이 모자랄 때 프로세스 통계 기능의 동작 방식을 제어하는 설정들이 있다.</p>
 <h2 id="see-also">SEE ALSO</h2>
 <p><code>lastcomm(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/acct(2)/">acct(2)</a></tt>, <code>accton(8)</code>, <code>sa(8)</code></p>

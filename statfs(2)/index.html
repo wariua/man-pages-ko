@@ -159,7 +159,7 @@ int statfs(const char *path, struct statfs *buf);
 int fstatfs(int fd, struct statfs *buf);
 </code></pre>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>statfs()</code> 시스템 호출은 마운트 된 파일 시스템에 대한 정보를 반환한다. <code>path</code>는 마운트 된 파일 시스템 내 임의 파일의 경로명이다. <code>buf</code>는 대략 다음처럼 정의돼 있는 <code>statfs</code> 구조체에 대한 포인터다.</p>
+<p><code>statfs()</code> 시스템 호출은 마운트 된 파일 시스템에 대한 정보를 반환한다. <code>path</code>는 마운트 된 파일 시스템 내 임의 파일의 경로명이다. <code>buf</code>는 대략 다음처럼 정의돼 있는 <code>statfs</code> 구조체의 포인터다.</p>
 <pre><code class="language-c">struct statfs {
     __fsword_t f_type;    /* 파일 시스템 유형 (아래 참고) */
     __fsword_t f_bsize;   /* 최적 전송 블록 크기 */
@@ -334,7 +334,7 @@ _XIAFS_SUPER_MAGIC    0x012fd16d /* 리눅스 2.0 및 이전 */
 <p>기본 개념은 <code>f_fsid</code>에 어떤 임의의 내용물이 있어서 (<code>f_fsid</code>,<code>ino</code>) 쌍이 파일을 유일하게 결정해 준다는 것이다. 어떤 운영 체제에서는 장치 번호를 (또는 그걸 변형해서) 쓰거나 장치 번호에 파일 시스템 타입을 합쳐서 쓴다. 여러 운영 체제에서는 <code>f_fsid</code> 필드를 수퍼유저에게만 제공한다. (비특권 사용자에게는 0으로 채운다.) NFS로 내보낼 때 파일 시스템의 파일 핸들에 그 필드를 사용하므로 그 값을 알려 주는 게 보안 우려 사항이기 때문이다.</p>
 <p>일부 운영 체제에서는 그 <code>fsid</code>를 <tt><a class="wikilink" href="/man-pages-ko/sysfs(2)/">sysfs(2)</a></tt> 시스템 호출 두 번째 인자로 쓸 수 있다.</p>
 <h2 id="bugs">BUGS</h2>
-<p>리눅스 2.6.38부터 리눅스 3.1까지에서는 <tt><a class="wikilink" href="/man-pages-ko/pipe(2)/">pipe(2)</a></tt>로 생성된 파일 디스크립터에 대해 <code>fstatfs()</code>가 <code>ENOSYS</code> 오류로 실패한다.</p>
+<p>리눅스 2.6.38부터 리눅스 3.1까지는 <tt><a class="wikilink" href="/man-pages-ko/pipe(2)/">pipe(2)</a></tt>로 생성된 파일 디스크립터에 대해 <code>fstatfs()</code>가 <code>ENOSYS</code> 오류로 실패한다.</p>
 <h2 id="see-also">SEE ALSO</h2>
 <p><tt><a class="wikilink" href="/man-pages-ko/stat(2)/">stat(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/statvfs(3)/">statvfs(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/path_resolution(7)/">path_resolution(7)</a></tt></p>
 <hr />

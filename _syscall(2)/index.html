@@ -159,13 +159,13 @@ _syscall 매크로
 원하는 시스템 호출
 </code></pre>
 <h2 id="description">DESCRIPTION</h2>
-<p>시스템 호출에 대해 알아야 할 중요한 것이 그 원형이다. 인자가 몇 개고, 타입이 무엇이고, 함수 반환 타입은 뭔지 알아야 한다. 시스템으로의 실제 호출을 쉽게 만들어 주는 매크로가 일곱 가지 있는데, 다음과 같은 형태이다.</p>
+<p>시스템 호출에 대해 알아야 할 중요한 것은 그 원형이다. 인자가 몇 개고, 타입이 무엇이고, 함수 반환 타입이 뭔지 알아야 한다. 실제 시스템 호출을 쉽게 만들어 주는 매크로가 일곱 가지 있는데, 다음과 같은 형태다.</p>
 <pre><code class="language-text">_syscallX(type,name,type1,arg1,type2,arg2,...)
 </code></pre>
 <p>여기서,</p>
 <ul>
 <li>
-<p><code>X</code>는 0-6이며 시스템 호출이 받는 인자 개수이다.</p>
+<p><code>X</code>는 0-6이며 시스템 호출이 받는 인자 개수다.</p>
 </li>
 <li>
 <p><code>type</code>은 시스템 호출의 반환 타입이다.</p>
@@ -180,7 +180,7 @@ _syscall 매크로
 <p><code>argN</code>은 N 번째 인자의 이름이다.</p>
 </li>
 </ul>
-<p>이 매크로들은 지정한 인자들로 <code>name</code>이라는 함수를 만든다. 소스 코드에서 그 _syscall()을 포함시키고 나서 <code>name</code>으로 시스템 호출을 부른다.</p>
+<p>이 매크로들은 지정한 인자들로 <code>name</code>이라는 함수를 만든다. 소스 코드에 그 _syscall()을 포함시키고 나서 <code>name</code>으로 시스템 호출을 부른다.</p>
 <h2 id="files">FILES</h2>
 <p><code>/usr/include/linux/unistd.h</code></p>
 <h2 id="conforming-to">CONFORMING TO</h2>
@@ -188,8 +188,8 @@ _syscall 매크로
 <h2 id="notes">NOTES</h2>
 <p>커널 2.6.18 정도부터 사용자 공간에 제공되는 헤더 파일에서 _syscall 매크로가 제거되었다. 대신 <tt><a class="wikilink" href="/man-pages-ko/syscall(2)/">syscall(2)</a></tt>을 사용하라. (일부 아키텍처들, 특히 ia64에서는 한번도 _syscall 매크로를 제공하지 않았다. 그런 아키텍처에서는 항상 <tt><a class="wikilink" href="/man-pages-ko/syscall(2)/">syscall(2)</a></tt>이 필요했다.)</p>
 <p>_syscall() 매크로는 원형을 만들어 주지 <em>않는다</em>. 특히 C++ 사용자들을 위해서 직접 만들어 줘야 할 수도 있다.</p>
-<p>시스템 호출들이 반드시 양수이거나 음수인 오류 코드만 반환해야 하는 것이 아니다. 오류를 어떻게 반환하는지 확실히 알려면 소스를 읽어 보아야 한다. 일반적으로는 표준 오류 코드의 음수 값, 예를 들어 <code>-EPERM</code>이다. _syscall() 매크로들은 시스템 호출의 결과 <code>r</code>이 음수가 아닐 때는 <code>r</code>을 반환하고, <code>r</code>이 음수일 때는 -1을 반환하고 변수 <code>errno</code>를 -<code>r</code>로 설정하게 된다. 오류 코드들에 대해선 <tt><a class="wikilink" href="/man-pages-ko/errno(3)/">errno(3)</a></tt>를 보라.</p>
-<p>시스템 호출을 정의할 때 인자 타입들은 값 전달이나 (구조체 같은 집합 타입의 경우) 포인터 전달이어야 한다.</p>
+<p>시스템 호출들이 반드시 양수이거나 음수인 오류 코드만 반환해야 하는 것은 아니다. 오류를 어떻게 반환하는지 확실히 알려면 소스를 읽어 보아야 한다. 일반적으로는 표준 오류 코드의 음수 값, 예를 들어 <code>-EPERM</code>을 반환한다. _syscall() 매크로들은 시스템 호출의 결과 <code>r</code>이 음수가 아닐 때는 <code>r</code>을 반환하고, <code>r</code>이 음수일 때는 -1을 반환하고 <code>errno</code> 변수를 -<code>r</code>로 설정하게 된다. 오류 코드들에 대해선 <tt><a class="wikilink" href="/man-pages-ko/errno(3)/">errno(3)</a></tt>를 보라.</p>
+<p>시스템 호출을 정의할 때 인자 타입은 값 전달이나 (구조체 같은 집합 타입의 경우) 포인터 전달이어야 한다.</p>
 <h2 id="examples">EXAMPLES</h2>
 <pre><code class="language-c">#include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;

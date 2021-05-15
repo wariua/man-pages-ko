@@ -175,20 +175,20 @@ void *sbrk(intptr_t increment);
 </dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>brk()</code>와 <code>sbrk()</code>는 <em>프로그램 단절점(program break)</em>의 위치를 바꾼다. 프로그램 단절점은 프로세스의 데이터 세그먼트 끝을 규정한다. (즉, 프로그램 단절점은 비초기화 데이터 세그먼트의 끝 다음의 첫 위치이다.) 프로그램 단절점을 올리면 프로세스에게 메모리를 할당하는 효과가 있고 단절점을 내리면 메모리를 해제하는 것이다.</p>
-<p><code>brk()</code>는 데이터 세그먼트의 끝을 <code>addr</code>에 지정한 값으로 설정한다. 단, 그 값이 적당하고, 시스템에 충분한 메모리가 있고, 프로세스가 자기 최대 데이터 크기(<tt><a class="wikilink" href="/man-pages-ko/setrlimit(2)/">setrlimit(2)</a></tt> 참고)를 초과하지 않아야 한다.</p>
+<p><code>brk()</code>와 <code>sbrk()</code>는 <em>프로그램 단절점(program break)</em>의 위치를 바꾼다. 프로그램 단절점은 프로세스의 데이터 세그먼트 끝을 규정한다. (즉, 프로그램 단절점은 비초기화 데이터 세그먼트의 끝 다음의 첫 위치다.) 프로그램 단절점을 올리면 프로세스에게 메모리를 할당하는 효과가 있고 단절점을 내리면 메모리를 해제하는 것이다.</p>
+<p><code>brk()</code>는 데이터 세그먼트의 끝을 <code>addr</code>에 지정한 값으로 설정한다. 단, 그 값이 적당하고, 시스템에 충분한 메모리가 있고, 프로세스의 최대 데이터 크기(<tt><a class="wikilink" href="/man-pages-ko/setrlimit(2)/">setrlimit(2)</a></tt> 참고)를 초과하지 않아야 한다.</p>
 <p><code>sbrk()</code>는 프로그램의 데이터 공간을 <code>increment</code> 바이트만큼 올린다. <code>increment</code>를 0으로 해서 <code>sbrk()</code>를 호출하면 프로그램 단절점의 현재 위치를 알아낼 수 있다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 <code>brk()</code>는 0을 반환한다. 오류 시 -1을 반환하며 <code>errno</code>를 <code>ENOMEM</code>으로 설정한다.</p>
-<p>성공 시 <code>sbrk()</code>는 이전 프로그램 단절점을 반환한다. (단절점이 증가했다면 이 값은 새로 할당된 메모리 시작점에 대한 포인터이다.) 오류 시 <code>(void *) -1</code>을 반환하며 <code>errno</code>를 <code>ENOMEM</code>으로 설정한다.</p>
+<p><code>brk()</code>는 성공 시 0을 반환한다. 오류 시 -1을 반환하며 <code>errno</code>를 <code>ENOMEM</code>으로 설정한다.</p>
+<p><code>sbrk()</code>는 성공 시 이전 프로그램 단절점을 반환한다. (단절점이 올라갔다면 이 값이 새로 할당된 메모리 시작점에 대한 포인터다.) 오류 시 <code>(void *) -1</code>을 반환하며 <code>errno</code>를 <code>ENOMEM</code>으로 설정한다.</p>
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>4.3BSD, SUSv1. SUSv2에서 LEGACY로 표시됨. POSIX.1-2001에서 제거됨.</p>
 <h2 id="notes">NOTES</h2>
 <p><code>brk()</code>와 <code>sbrk()</code> 사용을 피하라. <tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt> 메모리 할당 패키지가 메모리를 할당하는 이식성 있고 편리한 방식이다.</p>
-<p>여러 시스템들에서 <code>sbrk()</code> 인자에 다양한 타입을 쓴다. 흔하게는 <code>int</code>, <code>ssize_t</code>, <code>ptrdiff_t</code>, <code>intptr_t</code>가 있다.</p>
+<p>시스템마다 <code>sbrk()</code> 인자에 다양한 타입을 쓴다. 흔하게는 <code>int</code>, <code>ssize_t</code>, <code>ptrdiff_t</code>, <code>intptr_t</code>가 있다.</p>
 <h3 id="c">C 라이브러리/커널 차이</h3>
-<p>위에서 기술한 <code>brk()</code> 반환 값은 리눅스 <code>brk()</code> 시스템 호출을 위한 glibc 래퍼 함수가 제공하는 동작 방식이다. (다른 대부분의 구현에서도 <code>brk()</code> 반환 값이 그와 같다. 이 반환 값이 SUSv2에 명세되기도 했다.) 하지만 실제 리눅스 시스템 호출은 성공 시 새로운 프로그램 단절점을 반환한다. 그리고 실패 시 시스템 호출은 현재 단절점을 반환한다. glibc 래퍼 함수에서 약간의 작업을 해서 (즉 새 단절점이 <code>addr</code>보다 작은지 확인해서) 위에 기술한 0과 -1 반환 값을 제공한다.</p>
-<p>리눅스에서 <code>sbrk()</code>는 <code>brk()</code> 시스템 호출을 사용하는 라이브러리 함수로 구현되어 있으며, 내부적으로 어떤 상태 관리를 해서 이전 단절점 값을 반환할 수 있도록 한다.</p>
+<p>위에서 기술한 <code>brk()</code> 반환 값은 리눅스 <code>brk()</code> 시스템 호출을 위한 glibc 래퍼 함수가 제공하는 동작 방식이다. (다른 대부분의 구현에서도 <code>brk()</code> 반환 값이 그와 같다. 이 반환 값이 SUSv2에 명세되기도 했다.) 하지만 실제 리눅스 시스템 호출은 성공 시 새로운 프로그램 단절점을 반환한다. 그리고 실패 시 현재 단절점을 반환한다. glibc 래퍼 함수에서 약간의 작업을 해서 (즉 새 단절점이 <code>addr</code>보다 작은지 확인해서) 위에 기술한 0과 -1 반환 값을 제공한다.</p>
+<p>리눅스에서 <code>sbrk()</code>는 <code>brk()</code> 시스템 호출을 사용하는 라이브러리 함수로 구현돼 있으며, 내부적으로 어떤 상태 관리를 해서 이전 단절점 값을 반환할 수 있다.</p>
 <h2 id="see-also">SEE ALSO</h2>
 <p><tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/getrlimit(2)/">getrlimit(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/end(3)/">end(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt></p>
 <hr />

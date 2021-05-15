@@ -175,7 +175,7 @@ void regfree(regex_t *preg);
 <h2 id="description">DESCRIPTION</h2>
 <h3 id="posix">POSIX 정규 표현식 컴파일</h3>
 <p><code>regcomp()</code>를 사용해 이어지는 <code>regexec()</code> 검색에 적합한 형태로 정규 표현식을 컴파일 한다.</p>
-<p><code>regcomp()</code>에 주는 <code>preg</code>는 패턴 버퍼 저장 공간에 대한 포인터이고, <code>regex</code>는 널 종료 문자열에 대한 포인터, <code>cflags</code>는 컴파일 방식을 결정하는 플래그들이다.</p>
+<p><code>regcomp()</code>에 주는 <code>preg</code>는 패턴 버퍼 저장 공간의 포인터이고, <code>regex</code>는 널 종료 문자열의 포인터, <code>cflags</code>는 컴파일 방식을 결정하는 플래그들이다.</p>
 <p>모든 정규 표현식 검색은 컴파일 된 패턴 버퍼를 통해 이뤄져야 한다. 따라서 <code>regexec()</code>에는 항상 <code>regcomp()</code>로 초기화 한 패턴 버퍼의 주소를 줘야 한다.</p>
 <p><code>cflags</code>는 다음을 0개 이상 비트 OR 한 것이다.</p>
 <dl>
@@ -214,7 +214,7 @@ void regfree(regex_t *preg);
 <p>-1 아닌 <code>rm_so</code> 항목은 문자열 내에서 가장 큰 다음 일치 부분열의 시작 위치를 나타낸다. <code>rm_eo</code> 항목은 일치 부분 끝을 상대적으로 나타내는데, 일치 텍스트 다음 첫 문자의 위치이다.</p>
 <h3 id="posix_2">POSIX 오류 보고</h3>
 <p><code>regerror()</code>를 이용해 <code>regcomp()</code> 및 <code>regexec()</code>가 반환하는 오류 코드를 오류 메시지 문자열로 바꾼다.</p>
-<p>오류 코드 <code>errcode</code>, 패턴 버퍼 <code>preg</code>, 문자열 버퍼에 대한 포인터 <code>errbuf</code>, 그 문자열 버퍼의 크기 <code>errbuf_size</code>를 <code>regerror()</code>에 준다. 그러면 널 종료 오류 메시지 문자열을 담는 데 필요한 <code>errbuf</code>의 크기를 반환한다. <code>errbuf</code>와 <code>errbuf_size</code> 모두 0이 아니면 <code>errbuf</code>에 오류 메시지의 처음 <code>errbuf_size - 1</code> 개 문자와 종료 널 바이트('\0')를 채운다.</p>
+<p>오류 코드 <code>errcode</code>, 패턴 버퍼 <code>preg</code>, 문자열 버퍼의 포인터 <code>errbuf</code>, 그 문자열 버퍼의 크기 <code>errbuf_size</code>를 <code>regerror()</code>에 준다. 그러면 널 종료 오류 메시지 문자열을 담는 데 필요한 <code>errbuf</code>의 크기를 반환한다. <code>errbuf</code>와 <code>errbuf_size</code> 모두 0이 아니면 <code>errbuf</code>에 오류 메시지의 처음 <code>errbuf_size - 1</code> 개 문자와 종료 널 바이트('\0')를 채운다.</p>
 <h3 id="posix_3">POSIX 패턴 버퍼 해제</h3>
 <p>컴파일 된 패턴 버퍼 <code>preg</code>를 <code>regfree()</code>에 주면 <code>regcomp()</code>에서 컴파일 하며 패턴 버퍼에 할당한 메모리를 해제한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>

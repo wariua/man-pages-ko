@@ -175,7 +175,7 @@ int open_by_handle_at(int mount_fd, struct file_handle *handle,
 <h2 id="description">DESCRIPTION</h2>
 <p><code>name_to_handle_at()</code> 및 <code>open_by_handle_at()</code> 시스템 호출은 <tt><a class="wikilink" href="/man-pages-ko/openat(2)/">openat(2)</a></tt>의 기능을 두 부분으로 쪼갠 것이다. <code>name_to_handle_at()</code>은 지정한 파일에 대응하는 불투명 핸들을 반환하며 <code>open_by_handle_at()</code>은 앞선 <code>name_to_handle_at()</code> 호출이 반환한 핸들에 대응하는 파일을 열어서 열린 파일 디스크립터를 반환한다.</p>
 <h3 id="name_to_handle_at"><code>name_to_handle_at()</code></h3>
-<p><code>name_to_handle_at()</code> 시스템 호출은 <code>dirfd</code> 및 <code>pathname</code> 인자로 지정한 파일에 대응하는 파일 핸들과 마운트 ID를 반환한다. 인자 <code>handle</code>을 통해 파일 핸들을 반환하는데, 다음과 같은 구조체에 대한 포인터이다.</p>
+<p><code>name_to_handle_at()</code> 시스템 호출은 <code>dirfd</code> 및 <code>pathname</code> 인자로 지정한 파일에 대응하는 파일 핸들과 마운트 ID를 반환한다. 인자 <code>handle</code>을 통해 파일 핸들을 반환하는데, 다음과 같은 구조체의 포인터이다.</p>
 <pre><code class="language-c">struct file_handle {
     unsigned int  handle_bytes;   /* f_handle의 크기 [in, out] */
     int           handle_type;    /* 핸들 타입 [out] */

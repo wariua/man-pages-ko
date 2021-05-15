@@ -184,7 +184,7 @@ long set_mempolicy(int mode, const unsigned long *nodemask,
 <dt><code>MPOL_LOCAL</code> (리눅스 3.8부터)</dt>
 <dd>이 모드는 "지역 할당"을 나타낸다. 즉 할당을 촉발한 CPU의 노드("지역 노드")에서 메모리를 할당한다. <code>nodemask</code> 및 <code>maxnode</code> 인자가 빈 집합을 나타내야 한다. "지역 노드"에 유휴 메모리가 부족한 경우 커널은 다른 노드에서 메모리 할당을 시도하게 된다. 사용 가능한 메모리가 있는 경우에는 커널이 항상 "지역 노드"에서 메모리를 할당하게 된다. 프로세스의 현재 cpuset 문맥이 "지역 노드"를 허용하지 않으면 커널이 다른 노드에서 메모리 할당을 시도하게 된다. 프로세스의 현재 cpuset 문맥에서 허용하게 되면 커널이 항상 "지역 노드"에서 메모리를 할당하게 된다.</dd>
 </dl>
-<p><tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>를 거치면서 스레드 메모리 정책이 보존되며, <tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt>나 <tt><a class="wikilink" href="/man-pages-ko/clone(2)/">clone(2)</a></tt>으로 생성한 자식이 정책을 물려받는다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>를 거치면서 스레드 메모리 정책이 유지되며, <tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt>나 <tt><a class="wikilink" href="/man-pages-ko/clone(2)/">clone(2)</a></tt>으로 생성한 자식이 정책을 물려받는다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 <code>set_mempolicy()</code>는 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>

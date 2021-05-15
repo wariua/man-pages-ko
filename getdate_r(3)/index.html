@@ -173,7 +173,7 @@ int getdate_r(const char *restrict string, struct tm *restrict res);
 <dd><code>_GNU_SOURCE</code></dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>getdate()</code> 함수는 <code>string</code>이 가리키는 버퍼에 담긴 날짜 및 시간 문자열 표현을 분할 시간으로 변환한다. 분할 시간을 <code>tm</code> 구조체에 저장해서 그 구조체에 대한 포인터를 함수 결과로 반환한다. 그 <code>tm</code> 구조체는 정적 저장 공간에 할당돼 있으므로 이어서 <code>getdate()</code>를 또 호출하면 덮어 써지게 된다.</p>
+<p><code>getdate()</code> 함수는 <code>string</code>이 가리키는 버퍼에 담긴 날짜 및 시간 문자열 표현을 분할 시간으로 변환한다. 분할 시간을 <code>tm</code> 구조체에 저장해서 그 구조체의 포인터를 함수 결과로 반환한다. 그 <code>tm</code> 구조체는 정적 저장 공간에 할당돼 있으므로 이어서 <code>getdate()</code>를 또 호출하면 덮어 써지게 된다.</p>
 <p>(<code>format</code> 인자가 있는) <tt><a class="wikilink" href="/man-pages-ko/strptime(3)/">strptime(3)</a></tt>과 달리 <code>getdate()</code>에서는 파일에서 얻은 형식들을 사용한다. 그 파일의 전체 경로명을 환경 변수 <code>DATEMSK</code>로 받는다. 주어진 입력 문자열에 맞는 파일 내의 첫 행을 변환에 쓴다.</p>
 <p>맞는지 확인할 때 대소문자를 무시한다. 패턴이나 변환할 문자열 내의 잉여 공백은 무시한다.</p>
 <p><tt><a class="wikilink" href="/man-pages-ko/strptime(3)/">strptime(3)</a></tt>의 변환 지정 항목들이 패턴에 포함될 수 있다. POSIX.1-2001에는 변환 지정 항목 한 가지가 추가로 명세돼 있다.</p>
@@ -198,7 +198,7 @@ int getdate_r(const char *restrict string, struct tm *restrict res);
 <p>날짜가 없지만 시간은 아는 경우에는 그 시간을 현재 시간이나 이후의 첫 해당 시간으로 받는다.</p>
 <p><code>getdate_r()</code>은 <code>getdate()</code>의 재진입 가능 버전을 제공하는 GNU 확장이다. 전역 변수로 오류를 보고하고 정적 버퍼로 분할 시간을 반환하는 대신 함수 반환 값을 통해 오류를 반환하고 <code>res</code> 인자가 가리키는 호출자 할당 버퍼로 결과 분할 시간을 반환한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 <code>getdate()</code>는 <code>struct tm</code>에 대한 포인터를 반환한다. 아니면 NULL을 반환하며 전역 변수 <code>getdate_err</code>를 아래 있는 오류 번호들 중 하나로 설정한다. <code>errno</code> 변화에 대해선 명세돼 있지 않다.</p>
+<p>성공 시 <code>getdate()</code>는 <code>struct tm</code> 포인터를 반환한다. 아니면 NULL을 반환하며 전역 변수 <code>getdate_err</code>를 아래 있는 오류 번호들 중 하나로 설정한다. <code>errno</code> 변화에 대해선 명세돼 있지 않다.</p>
 <p>성공 시 <code>getdate_r()</code>은 0을 반환한다. 오류 시 아래 있는 오류 번호들 중 하나를 반환한다.</p>
 <h2 id="errors">ERRORS</h2>
 <p><code>getdate_err</code>를 통해서 (<code>getdate()</code>), 또는 함수 결과를 통해서 (<code>getdate_r()</code>) 다음 오류를 반환한다.</p>

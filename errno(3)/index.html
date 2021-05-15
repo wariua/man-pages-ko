@@ -720,7 +720,7 @@ EACCES 13 Permission denied
     if (errno == ...) { ... }
 }
 </code></pre>
-<p>여기서 <code>errno</code>가 꼭 <code>somecall()</code> 함수 반환 시의 값을 가지고 있는 게 아니다. (즉 <tt><a class="wikilink" href="/man-pages-ko/printf(3)/">printf(3)</a></tt>에 의해 바뀌었을 수도 있다.) 라이브러리 호출을 거치면서 <code>errno</code> 값이 보존돼야 한다면 저장을 해야 한다.</p>
+<p>여기서 <code>errno</code>가 꼭 <code>somecall()</code> 함수 반환 시의 값을 가지고 있는 게 아니다. (즉 <tt><a class="wikilink" href="/man-pages-ko/printf(3)/">printf(3)</a></tt>에 의해 바뀌었을 수도 있다.) 라이브러리 호출을 거치면서 <code>errno</code> 값이 유지돼야 한다면 저장을 해야 한다.</p>
 <pre><code class="language-c">if (somecall() == -1) {
     int errsv = errno;
     printf(&quot;somecall() failed\n&quot;);

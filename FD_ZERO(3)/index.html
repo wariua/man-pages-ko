@@ -347,7 +347,7 @@ pthread_sigmask(SIG_SETMASK, &amp;origmask, NULL);
 <p>그래서 여러 아키텍처에서 시스템 호출에 최대 6개 인자만 지원한다는 점을 감안하면서 시스템 호출에서 시그널 집합 포인터와 그 크기를 모두 받을 수 있다. 커널과 libc에서의 시그널 집합 개념 차이에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/sigprocmask(2)/">sigprocmask(2)</a></tt>를 보라.</p>
 <h3 id="glibc">glibc 세부 이력</h3>
 <p>glibc 2.0에서는 <code>sigmask</code> 인자를 받지 않는 잘못된 <code>pselect()</code> 버전을 제공했다.</p>
-<p>glibc 버전 2.1에서 2.2.1까지에서는 <code>&lt;sys/select.h&gt;</code>에서 <code>pselect()</code> 정의를 얻으려면 <code>_GNU_SOURCE</code>를 정의해야 한다.</p>
+<p>glibc 버전 2.1에서 2.2.1까지는 <code>&lt;sys/select.h&gt;</code>에서 <code>pselect()</code> 정의를 얻으려면 <code>_GNU_SOURCE</code>를 정의해야 한다.</p>
 <h2 id="bugs">BUGS</h2>
 <p>POSIX에서는 파일 디스크립터 집합에 지정할 수 있는 파일 디스크립터들의 범위에 대해 구현에서 상한을 정해서 상수 <code>FD_SETSIZE</code>를 통해 알리는 것을 허용한다. 리눅스 커널에서는 어떤 고정 제한도 두지 않지만 glibc 구현에서는 <code>FD_SETSIZE</code>를 1024로 해서 <code>fd_set</code>을 고정 크기 타입으로 만들고 <code>FD_*()</code> 매크로가 그 제한에 따라 동작하게 한다. 1023보다 큰 파일 디스크립터를 감시하려면 <tt><a class="wikilink" href="/man-pages-ko/poll(2)/">poll(2)</a></tt>이나 <tt><a class="wikilink" href="/man-pages-ko/epoll(7)/">epoll(7)</a></tt>을 써야 한다.</p>
 <p>POSIX에 따르면 <code>select()</code>에서는 세 파일 디스크립터 집합에 지정된 모든 파일 디스크립터들을 상한 <code>nfds-1</code>까지 확인해야 한다. 하지만 현재 구현에서는 프로세스가 현재 열어 둔 파일 디스크립터 번호의 최댓값보다 큰 파일 디스크립터를 무시한다. POSIX에 따르면 한 집합에 그런 파일 디스크립터가 지정돼 있으면 <code>EBADF</code> 오류가 발생해야 한다.</p>

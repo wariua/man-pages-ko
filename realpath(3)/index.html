@@ -169,7 +169,7 @@ char *realpath(const char *restrict path,
 </dl>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>realpath()</code>는 널 종료 문자열 <code>path</code>에서 심볼릭 링크를 모두 확장하고 <code>/./</code>, <code>/../</code>, 중복 '<code>/</code>' 문자를 풀어서 정규화 된 절대 경로명을 만들어 낸다. 결과로 나온 경로명을 <code>resolved_path</code>가 가리키는 버퍼에 최대 <code>PATH_MAX</code> 바이트까지의 널 종료 문자열로 저장한다. 결과 경로에는 심볼릭 링크나 <code>/./</code>, <code>/../</code> 요소가 없게 된다.</p>
-<p><code>resolved_path</code>를 NULL로 지정하면 <code>realpath()</code>에서 <tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt>을 사용해 풀린 경로명을 담을 최대 <code>PATH_MAX</code> 바이트 버퍼를 할당하고 그 버퍼에 대한 포인터를 반환한다. 호출자가 <tt><a class="wikilink" href="/man-pages-ko/free(3)/">free(3)</a></tt>를 써서 그 버퍼를 해제해야 한다.</p>
+<p><code>resolved_path</code>를 NULL로 지정하면 <code>realpath()</code>에서 <tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt>을 사용해 풀린 경로명을 담을 최대 <code>PATH_MAX</code> 바이트 버퍼를 할당하고 그 버퍼의 포인터를 반환한다. 호출자가 <tt><a class="wikilink" href="/man-pages-ko/free(3)/">free(3)</a></tt>를 써서 그 버퍼를 해제해야 한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>오류가 없으면 <code>realpath()</code>는 <code>resolved_path</code>에 대한 포인터를 반환한다.</p>
 <p>아니면 NULL을 반환하며 그때 배열 <code>resolved_path</code>의 내용은 규정돼 있지 않다. 그리고 오류를 나타내도록 <code>errno</code>를 설정한다.</p>

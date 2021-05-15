@@ -299,7 +299,7 @@ int futimens(int fd, const struct timespec times[2]);
 <p>POSIX.1에서는 한 <code>tv_nsec</code> 필드의 값이 <code>UTIME_NOW</code>나 <code>UTIME_OMIT</code>이면 대응하는 <code>tv_sec</code> 필드를 무시해야 한다고 명세한다. 그런데 <code>tv_sec</code> 필드의 값이 0이기를 요구한다. (아니면 <code>EINVAL</code> 오류 발생.)</p>
 </li>
 <li>
-<p>다양한 버그들이 의미하는 바는 권한 검사에 있어서 두 <code>tv_nsec</code> 필드가 모두 <code>UTIME_NOW</code>로 설정된 경우를 항상 <code>times</code>를 NULL로 지정한 것과 같게 다루지는 않는다는 것, 그리고 한 <code>tv_nsec</code> 값이 <code>UTIME_NOW</code>이고 다른 값이 <code>UTIME_OMIT</code>인 경우를 <code>times</code>를 임의 시간 값들을 담은 구조체 배열에 대한 포인터로 지정한 것과 같게 다루지 않는다는 것이다. 버그들 때문에 일부 경우에서 a) 갱신을 수행할 권한이 없어야 하는 프로세스가 파일 타임스탬프를 갱신할 수 있고, b) 갱신을 수행할 권한이 있어야 하는 프로세스가 파일 타임스탬프를 갱신할 수 없고, c) 오류 경우에 틀린 <code>errno</code> 값을 반환한다.</p>
+<p>다양한 버그들이 의미하는 바는 권한 검사에 있어서 두 <code>tv_nsec</code> 필드가 모두 <code>UTIME_NOW</code>로 설정된 경우를 항상 <code>times</code>를 NULL로 지정한 것과 같게 다루지는 않는다는 것, 그리고 한 <code>tv_nsec</code> 값이 <code>UTIME_NOW</code>이고 다른 값이 <code>UTIME_OMIT</code>인 경우를 <code>times</code>를 임의 시간 값들을 담은 구조체 배열의 포인터로 지정한 것과 같게 다루지 않는다는 것이다. 버그들 때문에 일부 경우에서 a) 갱신을 수행할 권한이 없어야 하는 프로세스가 파일 타임스탬프를 갱신할 수 있고, b) 갱신을 수행할 권한이 있어야 하는 프로세스가 파일 타임스탬프를 갱신할 수 없고, c) 오류 경우에 틀린 <code>errno</code> 값을 반환한다.</p>
 </li>
 <li>
 <p>POSIX.1에서는 두 가지 타임스탬프를 모두 현재 시간으로 갱신하기 위해 <em>파일에 대한 쓰기 접근권</em>을 가진 프로세스가 <code>times</code>를 NULL로 해서, 또는 <code>times</code>가 두 <code>tv_nsec</code> 필드가 모두 <code>UTIME_NOW</code>인 구조체 배열을 가리키게 해서 호출을 할 수 있다고 한다. 하지만 <code>futimens()</code>에서 그 대신 <em>파일 디스크립터의 접근 모드에서 쓰기를 허용하는지</em> 여부를 확인한다.</p>

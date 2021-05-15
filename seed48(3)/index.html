@@ -186,7 +186,7 @@ c = 0xB
 <p>함수 <code>drand48()</code>, <code>erand48()</code>, <code>lrand48()</code>, <code>nrand48()</code>, <code>mrand48()</code>, <code>jrand48()</code> 중 뭔가로 반환하는 값의 계산은 먼저 열의 다음 48비트 <code>Xi</code>를 생성하는 것으로 이뤄진다. 그러고서 반환할 데이터 항목의 타입에 따라 적절한 수의 비트를 <code>Xi</code>의 상위 비트들로부터 복사하고 이를 반환 값으로 변환한다.</p>
 <p><code>drand48()</code>, <code>lrand48()</code>, <code>mrand48()</code> 함수에서는 마지막으로 생성한 48비트 <code>Xi</code>를 내부 버퍼에 저장해 둔다. <code>erand48()</code>, <code>nrand48()</code>, <code>jrand48()</code> 함수에서는 연속되는 <code>Xi</code> 값을 위한 저장 공간을 호출 프로그램이 <code>xsubi</code> 배열 인자로 제공해야 한다. 처음 함수를 호출하기 전에 그 배열에 <code>Xi</code>의 초기값을 넣어서 그 함수들을 초기화 한다.</p>
 <p>초기화 함수 <code>srand48()</code>은 <code>Xi</code>의 상위 32비트를 인자 <code>seedval</code>로 설정한다. 하위 16비트는 임의로 정한 0x330E 값으로 설정한다.</p>
-<p>초기화 함수 <code>seed48()</code>은 <code>Xi</code>의 값을 배열 인자 <code>seed16v</code>에 지정된 48비트 값으로 설정한다. <code>Xi</code>의 이전 값이 어떤 내부 버퍼로 복사되고 이 버퍼에 대한 포인터를 <code>seed48()</code>이 반환한다.</p>
+<p>초기화 함수 <code>seed48()</code>은 <code>Xi</code>의 값을 배열 인자 <code>seed16v</code>에 지정된 48비트 값으로 설정한다. <code>Xi</code>의 이전 값이 어떤 내부 버퍼로 복사되고 이 버퍼의 포인터를 <code>seed48()</code>이 반환한다.</p>
 <p>초기화 함수 <code>lcong48()</code>은 사용자가 <code>Xi</code>, <code>a</code>, <code>c</code>의 초기값을 지정할 수 있게 해 준다. 배열 인자의 <code>param[0-2]</code> 항목들이 <code>Xi</code>를 지정하고, <code>param[3-5]</code>가 <code>a</code>를 지정하고, <code>param[6]</code>이 <code>c</code>를 지정한다. <code>lcong48()</code>을 호출한 다음에 <code>srand48()</code>이나 <code>seed48()</code>을 호출하면 <code>a</code>와 <code>c</code>의 표준 값이 다시 살아나게 된다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
 <p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>

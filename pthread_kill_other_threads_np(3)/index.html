@@ -176,7 +176,7 @@ void pthread_kill_other_threads_np(void);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>이 함수들은 비표준 GNU 확장이다. 그래서 이름 뒤에 "_np"(nonportable: 이식성 없음)가 붙어 있다.</p>
 <h2 id="notes">NOTES</h2>
-<p><code>pthread_kill_other_threads_np()</code>는 스레드가 <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>나 유사 함수를 호출하기 바로 전에 호출하기 위한 것이다. 이 함수는 (POSIX.1-2001에 요구하는 대로) <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt> 과정에서 응용의 다른 스레드들이 자동으로 종료되지 않는 구식 LinuxThreads 구현의 한계에 대처하기 위해 설계된 것이다.</p>
+<p><code>pthread_kill_other_threads_np()</code>는 스레드가 <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>나 비슷한 함수를 호출하기 바로 전에 호출하기 위한 것이다. 이 함수는 (POSIX.1-2001에 요구하는 대로) <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt> 과정에서 응용의 다른 스레드들이 자동으로 종료되지 않는 구식 LinuxThreads 구현의 한계에 대처하기 위해 설계된 것이다.</p>
 <p>NPTL 스레딩 구현에는 <code>pthread_kill_other_threads_np()</code>가 존재하기는 하지만 아무것도 하지 않는다. (구현이 <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt> 과정에서 제대로 동작하므로 아무것도 할 필요가 없다.)</p>
 <h2 id="see-also">SEE ALSO</h2>
 <p><tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_cancel(3)/">pthread_cancel(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_setcancelstate(3)/">pthread_setcancelstate(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthread_etcanceltype(3)/">pthread_etcanceltype(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pthreads(7)/">pthreads(7)</a></tt></p>

@@ -203,7 +203,7 @@ int timer_create(clockid_t clockid, struct sigevent *restrict sevp,
 <dt><code>SIGEV_THREAD_ID</code> (리눅스 한정)</dt>
 <dd><code>SIGEV_SIGNAL</code>과 같되 <code>sigev_notify_thread_id</code>로 준 ID를 가진 스레드가 시그널의 대상이다. 호출자와 같은 프로세스 내의 스레드여야 한다. <code>sigev_notify_thread_id</code> 필드에서는 커널 스레드 ID를, 즉 <tt><a class="wikilink" href="/man-pages-ko/clone(2)/">clone(2)</a></tt>이나 <tt><a class="wikilink" href="/man-pages-ko/gettid(2)/">gettid(2)</a></tt>가 반환한 값을 지정한다. 이 플래그는 스레드 라이브러리에서의 사용만을 위한 것이다.</dd>
 </dl>
-<p><code>sevp</code>를 NULL로 지정하는 것은 <code>sigev_notify</code>가 <code>SIGEV_SIGNAL</code>이고 <code>sigev_signo</code>가 <code>SIGALRM</code>, <code>sigev_value.sival_int</code>가 타이머 ID인 <code>sigevent</code> 구조체에 대한 포인터를 지정하는 것과 동등하다.</p>
+<p><code>sevp</code>를 NULL로 지정하는 것은 <code>sigev_notify</code>가 <code>SIGEV_SIGNAL</code>이고 <code>sigev_signo</code>가 <code>SIGALRM</code>, <code>sigev_value.sival_int</code>가 타이머 ID인 <code>sigevent</code> 구조체의 포인터를 지정하는 것과 동등하다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 <code>timer_create()</code>은 0을 반환하며 새 타이머의 ID가 <code>*timerid</code>에 들어간다. 실패 시 -1을 반환하며 <code>errno</code>를 설정하여 오류를 나타낸다.</p>
 <h2 id="errors">ERRORS</h2>

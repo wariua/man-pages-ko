@@ -159,7 +159,7 @@ int sched_getscheduler(pid_t pid);
 </code></pre>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>sched_setscheduler()</code> 시스템 호출은 <code>pid</code>로 지정한 ID의 스레드를 위한 스케줄링 정책과 매개변수 모두를 설정한다. <code>pid</code>가 0이면 호출 스레드의 스케줄링 정책과 매개변수를 설정하게 된다.</p>
-<p>스케줄링 매개변수를 <code>param</code> 인자로 지정하는데, 이는 다음 형태의 구조체에 대한 포인터이다.</p>
+<p>스케줄링 매개변수를 <code>param</code> 인자로 지정하는데, 이는 다음 형태의 구조체의 포인터이다.</p>
 <pre><code class="language-c">struct sched_param {
     ...
     int sched_priority;

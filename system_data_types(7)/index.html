@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/system_data_types%287%29/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>system_data_types(7) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+            <li class="second-level"><a href="#aiocb">aiocb</a></li>
+                
+            <li class="second-level"><a href="#clock_t">clock_t</a></li>
+                
+            <li class="second-level"><a href="#clockid_t">clockid_t</a></li>
+                
+            <li class="second-level"><a href="#dev_t">dev_t</a></li>
+                
+            <li class="second-level"><a href="#div_t">div_t</a></li>
+                
+            <li class="second-level"><a href="#double_t">double_t</a></li>
+                
+            <li class="second-level"><a href="#fd_set">fd_set</a></li>
+                
+            <li class="second-level"><a href="#fenv_t">fenv_t</a></li>
+                
+            <li class="second-level"><a href="#fexcept_t">fexcept_t</a></li>
+                
+            <li class="second-level"><a href="#file">FILE</a></li>
+                
+            <li class="second-level"><a href="#float_t">float_t</a></li>
+                
+            <li class="second-level"><a href="#gid_t">gid_t</a></li>
+                
+            <li class="second-level"><a href="#id_t">id_t</a></li>
+                
+            <li class="second-level"><a href="#imaxdiv_t">imaxdiv_t</a></li>
+                
+            <li class="second-level"><a href="#intmax_t">intmax_t</a></li>
+                
+            <li class="second-level"><a href="#intn_t">intN_t</a></li>
+                
+            <li class="second-level"><a href="#intptr_t">intptr_t</a></li>
+                
+            <li class="second-level"><a href="#lconv">lconv</a></li>
+                
+            <li class="second-level"><a href="#ldiv_t">ldiv_t</a></li>
+                
+            <li class="second-level"><a href="#lldiv_t">lldiv_t</a></li>
+                
+            <li class="second-level"><a href="#off64_t">off64_t</a></li>
+                
+            <li class="second-level"><a href="#off_t">off_t</a></li>
+                
+            <li class="second-level"><a href="#pid_t">pid_t</a></li>
+                
+            <li class="second-level"><a href="#ptrdiff_t">ptrdiff_t</a></li>
+                
+            <li class="second-level"><a href="#regex_t">regex_t</a></li>
+                
+            <li class="second-level"><a href="#regmatch_t">regmatch_t</a></li>
+                
+            <li class="second-level"><a href="#regoff_t">regoff_t</a></li>
+                
+            <li class="second-level"><a href="#sigevent">sigevent</a></li>
+                
+            <li class="second-level"><a href="#siginfo_t">siginfo_t</a></li>
+                
+            <li class="second-level"><a href="#sigset_t">sigset_t</a></li>
+                
+            <li class="second-level"><a href="#sigval">sigval</a></li>
+                
+            <li class="second-level"><a href="#size_t">size_t</a></li>
+                
+            <li class="second-level"><a href="#ssize_t">ssize_t</a></li>
+                
+            <li class="second-level"><a href="#suseconds_t">suseconds_t</a></li>
+                
+            <li class="second-level"><a href="#time_t">time_t</a></li>
+                
+            <li class="second-level"><a href="#timer_t">timer_t</a></li>
+                
+            <li class="second-level"><a href="#timespec">timespec</a></li>
+                
+            <li class="second-level"><a href="#timeval">timeval</a></li>
+                
+            <li class="second-level"><a href="#uid_t">uid_t</a></li>
+                
+            <li class="second-level"><a href="#uintmax_t">uintmax_t</a></li>
+                
+            <li class="second-level"><a href="#uintn_t">uintN_t</a></li>
+                
+            <li class="second-level"><a href="#uintptr_t">uintptr_t</a></li>
+                
+            <li class="second-level"><a href="#va_list">va_list</a></li>
+                
+            <li class="second-level"><a href="#void">void *</a></li>
+                
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+            <li class="second-level"><a href="#_1">페이지 작성 방식</a></li>
+                
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>system_data_types - 시스템 데이터 타입들 소개</p>
+<h2 id="description">DESCRIPTION</h2>
+<h3 id="aiocb"><code>aiocb</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;aio.h&gt;</code>.</p>
+<pre><code class="language-c">struct aiocb {
+    int             aio_fildes;    /* 파일 디스크립터 */
+    off_t           aio_offset;    /* 파일 오프셋 */
+    volatile void  *aio_buf;       /* 버퍼 위치 */
+    size_t          aio_nbytes;    /* 전송 길이 */
+    int             aio_reqprio;   /* 요청 우선순위 오프셋 */
+    struct sigevent aio_sigevent;  /* 시그널 번호와 값 */
+    int             aio_lio_opcode;/* 수행할 동작 */
+};
+</code></pre>
+<p>이 구조체에 대한 추가 정보는 <tt><a class="wikilink" href="/man-pages-ko/aio(7)/">aio(7)</a></tt>를 보라.</p>
+<p><em>CONFORMING TO</em>: POSIX.1-2001 및 이후.</p>
+<p><em>SEE ALSO</em>: <tt><a class="wikilink" href="/man-pages-ko/aio_cancel(3)/">aio_cancel(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/aio_error(3)/">aio_error(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/aio_fsync(3)/">aio_fsync(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/aio_read(3)/">aio_read(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/aio_return(3)/">aio_return(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/aio_suspend(3)/">aio_suspend(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/aio_write(3)/">aio_write(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/lio_listio(3)/">lio_listio(3)</a></tt></p>
+<h3 id="clock_t"><code>clock_t</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;time.h&gt;</code>나 <code>&lt;sys/types.h&gt;</code>. 또는 <code>&lt;sys/time.h&gt;</code>.</p>
+<p>클럭 틱, 즉 (<code>&lt;time.h&gt;</code>에 정의돼 있는) <code>CLOCKS_PER_SEC</code>로 된 시스템 시간에 쓴다. POSIX에 따르면 정수 타입 또는 실수 부동소수점 타입이다.</p>
+<p><em>CONFORMING TO</em>: C99 및 이후. POSIX.1-2001 및 이후.</p>
+<p><em>SEE ALSO</em>: <tt><a class="wikilink" href="/man-pages-ko/times(2)/">times(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/clock(3)/">clock(3)</a></tt></p>
+<h3 id="clockid_t"><code>clockid_t</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;sys/types.h&gt;</code>. 또는 <code>&lt;time.h&gt;</code>.</p>
+<p>클럭 및 타이머 함수들에서 클럭 ID 타입으로 쓴다. POSIX에 따르면 산술형 타입으로 정의돼 있다.</p>
+<p><em>CONFORMING TO</em>: POSIX.1.2001 및 이후.</p>
+<p><em>SEE ALSO</em>: <tt><a class="wikilink" href="/man-pages-ko/clock_adjtime(2)/">clock_adjtime(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/clock_getres(2)/">clock_getres(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/clock_nanosleep(2)/">clock_nanosleep(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/timer_create(2)/">timer_create(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/clock_getcpuclockid(3)/">clock_getcpuclockid(3)</a></tt></p>
+<h3 id="dev_t"><code>dev_t</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;sys/types.h&gt;</code>. 또는 <code>&lt;sys/stat.h&gt;</code>.</p>
+<p>장치 ID에 쓴다. POSIX에 따르면 정수 타입이다. 이 타입에 대한 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/makedev(3)/">makedev(3)</a></tt>를 보라.</p>
+<p><em>CONFORMING TO</em>: POSIX.1-2001 및 이후.</p>
+<p><em>SEE ALSO</em>: <tt><a class="wikilink" href="/man-pages-ko/mknod(2)/">mknod(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/stat(2)/">stat(2)</a></tt></p>
+<h3 id="div_t"><code>div_t</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;stdlib.h&gt;</code>.</p>
+<pre><code class="language-c">typedef struct {
+    int quot; /* 몫 */
+    int rem;  /* 나머지 */
+} div_t;
+</code></pre>
+<p><tt><a class="wikilink" href="/man-pages-ko/div(3)/">div(3)</a></tt> 함수 반환 값의 타입이다.</p>
+<p><em>CONFORMING TO</em>: C99 및 이후. POSIX.1-2001 및 이후.</p>
+<p><em>SEE ALSO</em>: <tt><a class="wikilink" href="/man-pages-ko/div(3)/">div(3)</a></tt></p>
+<h3 id="double_t"><code>double_t</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;math.h&gt;</code>.</p>
+<p>구현에서 최소 <code>double</code> 크기인 가장 효율적인 부동소수점 타입. (<code>&lt;float.h&gt;</code>에 정의돼 있는) <code>FLT_EVAL_METHOD</code> 매크로의 값에 따라 타입이 달라진다.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td><code>double_t</code>가 <code>double</code>.</td>
+</tr>
+<tr>
+<td>1</td>
+<td><code>double_t</code>가 <code>double</code>.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>double_t</code>가 <code>long double</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>다른 <code>FLT_EVAL_METHOD</code> 값에서 <code>double_t</code>의 타입은 구현에서 정한다.</p>
+<p><em>CONFORMING TO</em>: C99 및 이후. POSIX.1-2001 및 이후.</p>
+<p><em>SEE ALSO</em>: 이 페이지의 <code>float_t</code> 타입.</p>
+<h3 id="fd_set"><code>fd_set</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;sys/select.h&gt;</code>. 또는 <code>&lt;sys/time.h&gt;</code>.</p>
+<p>파일 디스크립터 집합을 나타낼 수 있는 구조체 타입이다. POSIX에 따르면 <code>fd_set</code> 구조체에 들어가는 파일 디스크립터 최대 개수가 <code>FD_SETSIZE</code> 매크로 값이다.</p>
+<p><em>CONFORMING TO</em>: POSIX.1-2001 및 이후.</p>
+<p><em>SEE ALSO</em>: <tt><a class="wikilink" href="/man-pages-ko/select(2)/">select(2)</a></tt></p>
+<h3 id="fenv_t"><code>fenv_t</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;fenv.h&gt;</code>.</p>
+<p>제어 모드와 상태 플래그들을 포함한 부동소수점 환경 전체를 나타내는 타입이다. 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/fenv(3)/">fenv(3)</a></tt>를 보라.</p>
+<p><em>CONFORMING TO</em>: C99 및 이후. POSIX.1-2001 및 이후.</p>
+<p><em>SEE ALSO</em>: <tt><a class="wikilink" href="/man-pages-ko/fenv(3)/">fenv(3)</a></tt></p>
+<h3 id="fexcept_t"><code>fexcept_t</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;fenv.h&gt;</code>.</p>
+<p>부동소수점 상태 플래그들 전체를 나타내는 타입이다. 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/fenv(3)/">fenv(3)</a></tt>를 보라.</p>
+<p><em>CONFORMING TO</em>: C99 및 이후. POSIX.1-2001 및 이후.</p>
+<p><em>SEE ALSO</em>: <tt><a class="wikilink" href="/man-pages-ko/fenv(3)/">fenv(3)</a></tt></p>
+<h3 id="file"><code>FILE</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;stdio.h&gt;</code>. 또는 <code>&lt;wchar.h&gt;</code>.</p>
+<p>스트림에 쓰는 오브젝트 타입.</p>
+<p><em>CONFORMING TO</em>: C99 및 이후. POSIX.1-2001 및 이후.</p>
+<p><em>SEE ALSO</em>: <tt><a class="wikilink" href="/man-pages-ko/fclose(3)/">fclose(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/flockfile(3)/">flockfile(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fopen(3)/">fopen(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fprintf(3)/">fprintf(3)</a></tt>, <code>fread(3)</code>, <tt><a class="wikilink" href="/man-pages-ko/fscanf(3)/">fscanf(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/stdin(3)/">stdin(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/stdio(3)/">stdio(3)</a></tt></p>
+<h3 id="float_t"><code>float_t</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;math.h&gt;</code>.</p>
+<p>구현에서 최소 <code>float</code> 크기인 가장 효율적인 부동소수점 타입. (<code>&lt;float.h&gt;</code>에 정의돼 있는) <code>FLT_EVAL_METHOD</code> 매크로의 값에 따라 타입이 달라진다.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td><code>float_t</code>가 <code>float</code>.</td>
+</tr>
+<tr>
+<td>1</td>
+<td><code>float_t</code>가 <code>double</code>.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>float_t</code>가 <code>long double</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>다른 <code>FLT_EVAL_METHOD</code> 값에서 <code>float_t</code>의 타입은 구현에서 정한다.</p>
+<p><em>CONFORMING TO</em>: C99 및 이후. POSIX.1-2001 및 이후.</p>
+<p><em>SEE ALSO</em>: 이 페이지의 <code>double_t</code> 타입.</p>
+<h3 id="gid_t"><code>gid_t</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;sys/types.h&gt;</code>. 또는 <code>&lt;grp.h&gt;</code>, <code>&lt;pwd.h&gt;</code>, <code>&lt;signal.h&gt;</code>, <code>&lt;stropts.h&gt;</code>, <code>&lt;sys/ipc.h&gt;</code>, <code>&lt;sys/stat.h&gt;</code>, <code>&lt;unistd.h&gt;</code>.</p>
+<p>그룹 ID를 담는 데 쓰는 타입. POSIX에 따르면 정수 타입이다.</p>
+<p><em>CONFORMING TO</em>: POSIX.1-2001 및 이후.</p>
+<p><em>SEE ALSO</em>: <tt><a class="wikilink" href="/man-pages-ko/chown(2)/">chown(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/getgid(2)/">getgid(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/getegid(2)/">getegid(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/getgroups(2)/">getgroups(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/getresgid(2)/">getresgid(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/getgrnam(2)/">getgrnam(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/credentials(7)/">credentials(7)</a></tt></p>
+<h3 id="id_t"><code>id_t</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;sys/types.h&gt;</code>. 또는 <code>&lt;sys/resource.h&gt;</code>.</p>
+<p>일반 식별자를 담는 데 쓰는 타입. POSIX에 따르면 <code>pid_t</code>, <code>uid_t</code>, <code>gid_t</code>를 담을 수 있는 정수 타입이다.</p>
+<p><em>CONFORMING TO</em>: POSIX.1-2001 및 이후.</p>
+<p><em>SEE ALSO</em>: <tt><a class="wikilink" href="/man-pages-ko/getpriority(2)/">getpriority(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/waitid(2)/">waitid(2)</a></tt></p>
+<h3 id="imaxdiv_t"><code>imaxdiv_t</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;inttypes.h&gt;</code>.</p>
+<pre><code class="language-c">typedef struct {
+    intmax_t    quot; /* 몫 */
+    intmax_t    rem;  /* 나머지 */
+} imaxdiv_t;
+</code></pre>
+<p><tt><a class="wikilink" href="/man-pages-ko/imaxdiv(3)/">imaxdiv(3)</a></tt> 함수 반환 값의 타입이다.</p>
+<p><em>CONFORMING TO</em>: C99 및 이후. POSIX.1-2001 및 이후.</p>
+<p><em>SEE ALSO</em>: <tt><a class="wikilink" href="/man-pages-ko/imaxdiv(3)/">imaxdiv(3)</a></tt></p>
+<h3 id="intmax_t"><code>intmax_t</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;stdint.h&gt;</code>. 또는 <code>&lt;inttypes.h&gt;</code>.</p>
+<p>구현에서 지원하는 어떤 부호 있는 정수 타입의 값이든 표현 가능한 부호 있는 정수 타입. C 언어 표준에 따르면 [<code>INTMAX_MIN</code>, <code>INTMAX_MAX</code>] 범위의 값을 저장할 수 있다.</p>
+<p><code>INTMAX_C()</code> 매크로는 인자를 <code>intmax_t</code> 타입의 정수 상수로 확장해 준다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/printf(3)/">printf(3)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/scanf(3)/">scanf(3)</a></tt> 함수군에서 <code>intmax_t</code>의 길이 변환자는 <code>j</code>다. 그래서 <code>intmax_t</code> 값을 찍을 때 <code>%jd</code>나 <code>%ji</code>를 흔히 쓰게 된다.</p>
+<p><em>CONFORMING TO</em>: C99 및 이후. POSIX.1-2001 및 이후.</p>
+<p><em>BUGS</em>: <code>__int128</code>이 정의돼 있고 <code>long long</code>이 128비트보다 작은 구현에서 <code>intmax_t</code>가 <code>__int128</code> 타입 값을 표현할 만큼 크지 않다.</p>
+<p><em>SEE ALSO</em>: 이 페이지의 <code>uintmax_t</code> 타입.</p>
+<h3 id="intn_t"><code>intN_t</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;stdint.h&gt;</code>. 또는 <code>&lt;inttypes.h&gt;</code>.</p>
+<p><code>int8_t</code>, <code>int16_t</code>, <code>int32_t</code>, <code>int64_t</code></p>
+<p>정확히 N비트 고정 크기인 부호 있는 정수 타입. N은 타입 이름에 있는 값이다. C 언어 표준에 따르면 [<code>INTN_MIN</code>, <code>INTN_MAX</code>] 범위의 값을 저장할 수 있다.</p>
+<p>POSIX에 따르면 <code>int8_t</code>, <code>int16_t</code>, <code>int32_t</code>가 반드시 있다. <code>int64_t</code>는 64비트 정수 타입을 제공하는 구현에서만 반드시 있다. 이 형태의 그 외 타입들은 모두 선택적이다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/printf(3)/">printf(3)</a></tt> 함수군에서 <code>intN_t</code> 타입의 길이 변환자는 (<code>&lt;inttypes.h&gt;</code>에 정의돼 있는) <code>PRIdN</code> 및 <code>PRIiN</code> 형태 매크로를 확장한 것이다. 예를 들어 <code>int64_t</code> 값을 찍을 때는 <code>%"PRId64"</code>나 <code>%"PRIi64"</code>가 된다. <tt><a class="wikilink" href="/man-pages-ko/scanf(3)/">scanf(3)</a></tt> 함수군에서 <code>intN_t</code> 타입의 길이 변환자는 (<code>&lt;inttypes.h&gt;</code>에 정의돼 있는) <code>SCNdN</code> 및 <code>SCNiN</code> 형태 매크로를 확장한 것이다. 예를 들어 <code>int8_t</code> 값을 탐색할 때는 <code>%"SCNd8"</code>이나 <code>%"SCNi8"</code>이 된다.</p>
+<p><em>CONFORMING TO</em>: C99 및 이후. POSIX.1-2001 및 이후.</p>
+<p><em>SEE ALSO</em>: 이 페이지의 <code>intmax_t</code>, <code>uintN_t</code>, <code>uintmax_t</code> 타입.</p>
+<h3 id="intptr_t"><code>intptr_t</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;stdint.h&gt;</code>. 또는 <code>&lt;inttypes.h&gt;</code>.</p>
+<p>유효한 어떤 (<code>void *</code>) 값이든 변환해서 넣고 뺄 수 있는 부호 있는 정수 타입. C 언어 표준에 따르면 [<code>INTPTR_MIN</code>, <code>INTPTR_MAX</code>] 범위의 값을 저장할 수 있다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/printf(3)/">printf(3)</a></tt> 함수군에서 <code>intptr_t</code>의 길이 변환자는 (<code>&lt;inttypes.h&gt;</code>에 정의돼 있는) <code>PRIdPTR</code> 및 <code>PRIiPTR</code> 매크로를 확장한 것이다. 그래서 <code>intptr_t</code> 값을 찍을 때 <code>%"PRIdPTR"</code>이나 <code>%"PRIiPTR"</code>을 흔히 쓰게 된다. <tt><a class="wikilink" href="/man-pages-ko/scanf(3)/">scanf(3)</a></tt> 함수군에서 <code>intptr_t</code>의 길이 변환자는 (<code>&lt;inttypes.h&gt;</code>에 정의돼 있는) <code>SCNdPTR</code> 및 <code>SCNiPTR</code> 매크로를 확장한 것이다. 그래서 <code>intptr_t</code> 값을 탐색할 때 <code>%"SCNdPTR"</code>이나 <code>%"SCNiPTR"</code>을 흔히 쓰게 된다.</p>
+<p><em>CONFORMING TO</em>: C99 및 이후. POSIX.1-2001 및 이후.</p>
+<p><em>SEE ALSO</em>: 이 페이지의 <code>uintptr_t</code> 및 <code>void *</code> 타입.</p>
+<h3 id="lconv"><code>lconv</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;locale.h&gt;</code></p>
+<pre><code class="language-c">struct lconv {                  /* &quot;C&quot; 로캘에서의 값: */
+    char   *decimal_point;      /* &quot;.&quot; */
+    char   *thousands_sep;      /* &quot;&quot; */
+    char   *grouping;           /* &quot;&quot; */
+    char   *mon_decimal_point;  /* &quot;&quot; */
+    char   *mon_thousands_sep;  /* &quot;&quot; */
+    char   *mon_grouping;       /* &quot;&quot; */
+    char   *positive_sign;      /* &quot;&quot; */
+    char   *negative_sign;      /* &quot;&quot; */
+    char   *currency_symbol;    /* &quot;&quot; */
+    char    frac_digits;        /* CHAR_MAX */
+    char    p_cs_precedes;      /* CHAR_MAX */
+    char    n_cs_precedes;      /* CHAR_MAX */
+    char    p_sep_by_space;     /* CHAR_MAX */
+    char    n_sep_by_space;     /* CHAR_MAX */
+    char    p_sign_posn;        /* CHAR_MAX */
+    char    n_sign_posn;        /* CHAR_MAX */
+    char   *int_curr_symbol;    /* &quot;&quot; */
+    char    int_frac_digits;    /* CHAR_MAX */
+    char    int_p_cs_precedes;  /* CHAR_MAX */
+    char    int_n_cs_precedes;  /* CHAR_MAX */
+    char    int_p_sep_by_space; /* CHAR_MAX */
+    char    int_n_sep_by_space; /* CHAR_MAX */
+    char    int_p_sign_posn;    /* CHAR_MAX */
+    char    int_n_sign_posn;    /* CHAR_MAX */
+};
+</code></pre>
+<p>수 값의 서식과 관련된 멤버들을 담고 있다. "C" 로캘에서 멤버들의 값이 위 주석에 있다.</p>
+<p><em>CONFORMING TO</em>: C11 및 이후. POSIX.1-2001 및 이후.</p>
+<p><em>SEE ALSO</em>: <tt><a class="wikilink" href="/man-pages-ko/setlocale(3)/">setlocale(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/localeconv(3)/">localeconv(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/charsets(7)/">charsets(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/locale(7)/">locale(7)</a></tt></p>
+<h3 id="ldiv_t"><code>ldiv_t</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;stdlib.h&gt;</code>.</p>
+<pre><code class="language-c">typedef struct {
+    long    quot; /* 몫 */
+    long    rem;  /* 나머지 */
+} ldiv_t;
+</code></pre>
+<p><tt><a class="wikilink" href="/man-pages-ko/ldiv(3)/">ldiv(3)</a></tt> 함수 반환 값의 타입이다.</p>
+<p><em>CONFORMING TO</em>: C99 및 이후. POSIX.1-2001 및 이후.</p>
+<p><em>SEE ALSO</em>: <tt><a class="wikilink" href="/man-pages-ko/ldiv(3)/">ldiv(3)</a></tt></p>
+<h3 id="lldiv_t"><code>lldiv_t</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;stdlib.h&gt;</code>.</p>
+<pre><code class="language-c">typedef struct {
+    long long   quot; /* 몫 */
+    long long   rem;  /* 나머지 */
+} lldiv_t;
+</code></pre>
+<p><tt><a class="wikilink" href="/man-pages-ko/lldiv(3)/">lldiv(3)</a></tt> 함수 반환 값의 타입이다.</p>
+<p><em>CONFORMING TO</em>: C99 및 이후. POSIX.1-2001 및 이후.</p>
+<p><em>SEE ALSO</em>: <tt><a class="wikilink" href="/man-pages-ko/lldiv(3)/">lldiv(3)</a></tt></p>
+<h3 id="off64_t"><code>off64_t</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;sys/types.h&gt;</code>.</p>
+<p>파일 크기에 쓴다. 64비트 부호 있는 정수 타입이다.</p>
+<p><em>CONFORMING TO</em>: glibc에 있다. C 언어 표준이나 POSIX에 표준화되어 있지 않다.</p>
+<p><em>NOTES</em>: 이 타입을 이용하려면 기능 확인 매크로 <code>_LARGEFILE64_SOURCE</code>가 정의돼 있어야 한다.</p>
+<p><em>SEE ALSO</em>: <tt><a class="wikilink" href="/man-pages-ko/copy_file_range(2)/">copy_file_range(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/readahead(2)/">readahead(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sync_file_range(2)/">sync_file_range(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/lseek64(3)/">lseek64(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt></p>
+<p>이 페이지의 <code>off_t</code> 타입도 참고.</p>
+<h3 id="off_t"><code>off_t</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;sys/types.h&gt;</code>. 또는 <code>&lt;aio.h&gt;</code>, <code>&lt;fcntl.h&gt;</code>, <code>&lt;stdio.h&gt;</code>, <code>&lt;sys/mman.h&gt;</code>, <code>&lt;sys/stat.h&gt;</code>, <code>&lt;unistd.h&gt;</code>.</p>
+<p>파일 크기에 쓴다. POSIX에 따르면 부호 있는 정수 타입이다.</p>
+<p><em>VERSIONS</em>: POSIX.1-2008부터 <code>&lt;aio.h&gt;</code>와 <code>&lt;stdio.h&gt;</code>가 <code>off_t</code>를 정의한다.</p>
+<p><em>CONFORMING TO</em>: POSIX.1-2001 및 이후.</p>
+<p><em>NOTES</em>: 어떤 아키텍처에선 기능 확인 매크로 <code>_FILE_OFFSET_BITS</code>로 이 타입의 크기를 제어할 수 있다.</p>
+<p><em>SEE ALSO</em>: <tt><a class="wikilink" href="/man-pages-ko/lseek(2)/">lseek(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/posix_fadvise(2)/">posix_fadvise(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pread(2)/">pread(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/truncate(2)/">truncate(2)</a></tt>, <code>fseeko(3)</code>, <tt><a class="wikilink" href="/man-pages-ko/lockf(3)/">lockf(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/posix_fallocate(3)/">posix_fallocate(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt></p>
+<p>이 페이지의 <code>off64_t</code> 타입도 참고.</p>
+<h3 id="pid_t"><code>pid_t</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;sys/types.h&gt;</code>. 또는 <code>&lt;fcntl.h&gt;</code>, <code>&lt;sched.h&gt;</code>, <code>&lt;signal.h&gt;</code>, <code>&lt;spawn.h&gt;</code>, <code>&lt;sys/msg.h&gt;</code>, <code>&lt;sys/sem.h&gt;</code>, <code>&lt;sys/shm.h&gt;</code>, <code>&lt;sys/wait.h&gt;</code>, <code>&lt;termios.h&gt;</code>, <code>&lt;time.h&gt;</code>, <code>&lt;unistd.h&gt;</code>, <code>&lt;utmpx.h&gt;</code>.</p>
+<p>프로세스 ID, 프로세스 그룹 ID, 세션 ID 저장에 쓰는 타입. POSIX에 따르면 부호 있는 정수 타입이며, 구현에서 <code>pid_t</code> 크기가 <code>long</code> 타입보다 크지 않은 프로그래밍 환경을 한 가지 이상 지원한다.</p>
+<p><em>CONFORMING TO</em>: POSIX.1-2001 및 이후.</p>
+<p><em>SEE ALSO</em>: <tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/getpid(2)/">getpid(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/getppid(2)/">getppid(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/getsid(2)/">getsid(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/gettid(2)/">gettid(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/getpgid(2)/">getpgid(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/kill(2)/">kill(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pidfd_open(2)/">pidfd_open(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sched_setscheduler(2)/">sched_setscheduler(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/waitpid(2)/">waitpid(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigqueue(3)/">sigqueue(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/credentials(7)/">credentials(7)</a></tt></p>
+<h3 id="ptrdiff_t"><code>ptrdiff_t</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;stddef.h&gt;</code>.</p>
+<p>항목 개수와 배열 인덱스에 쓴다. 두 포인터로 뺄셈을 한 결과다. C 언어 표준에 따르면 [<code>PTRDIFF_MIN</code>, <code>PTRDIFF_MAX</code>] 범위의 값을 저장할 수 있다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/printf(3)/">printf(3)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/scanf(3)/">scanf(3)</a></tt> 함수군에서 <code>ptrdiff_t</code>의 길이 변환자는 <code>t</code>다. 그래서 <code>ptrdiff_t</code> 값을 찍을 때 <code>%td</code>나 <code>%ti</code>를 흔히 쓰게 된다.</p>
+<p><em>CONFORMING TO</em>: C99 및 이후. POSIX.1-2001 및 이후.</p>
+<p><em>SEE ALSO</em>: 이 페이지의 <code>size_t</code> 및 <code>ssize_t</code> 타입.</p>
+<h3 id="regex_t"><code>regex_t</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;regex.h&gt;</code></p>
+<pre><code class="language-c">typedef struct {
+    size_t  re_nsub; /* 괄호로 감싼 하위식 수 */
+} regex_t;
+</code></pre>
+<p>정규 표현식 검사에 쓰는 구조체 타입이다. <tt><a class="wikilink" href="/man-pages-ko/regcomp(3)/">regcomp(3)</a></tt>로 컴파일한 정규 표현식을 담는다.</p>
+<p><em>CONFORMING TO</em>: POSIX.1-2001 및 이후.</p>
+<p><em>SEE ALSO</em>: <tt><a class="wikilink" href="/man-pages-ko/regex(3)/">regex(3)</a></tt></p>
+<h3 id="regmatch_t"><code>regmatch_t</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;regex.h&gt;</code></p>
+<pre><code class="language-c">typedef struct {
+    regoff_t    rm_so; /* 문자열 시작점 기준
+                          하위 문자열 시작점의 바이트 오프셋 */
+    regoff_t    rm_eo; /* 문자열 시작점 기준
+                          하위 문자열 끝 다음 첫 문자의
+                          바이트 오프셋 */
+} regmatch_t;
+</code></pre>
+<p>정규 표현식 검사에 쓰는 구조체 타입이다.</p>
+<p><em>CONFORMING TO</em>: POSIX.1-2001 및 이후.</p>
+<p><em>SEE ALSO</em>: <tt><a class="wikilink" href="/man-pages-ko/regexec(3)/">regexec(3)</a></tt></p>
+<h3 id="regoff_t"><code>regoff_t</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;regex.h&gt;</code></p>
+<p>POSIX에 따르면 <code>ptrdiff_t</code> 타입이나 <code>ssize_t</code> 타입 중 한쪽에 저장할 수 있는 가장 큰 값을 저장할 수 있는 부호 있는 정수 타입이다.</p>
+<p><em>VERSIONS</em>: POSIX.1-2008 전에선 <code>off_t</code> 타입이나 <code>ssize_t</code> 타입 중 한쪽에 저장할 수 있는 가장 큰 값을 저장할 수 있었다.</p>
+<p><em>CONFORMING TO</em>: POSIX.1-2001 및 이후.</p>
+<p><em>SEE ALSO</em>: 이 페이지의 <code>regmatch_t</code> 구조체와 <code>ptrdiff_t</code> 및 <code>ssize_t</code> 타입.</p>
+<h3 id="sigevent"><code>sigevent</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;signal.h&gt;</code>. 또는 <code>&lt;aio.h&gt;</code>, <code>&lt;mqueue.h&gt;</code>, <code>&lt;time.h&gt;</code>.</p>
+<pre><code class="language-c">struct sigevent {
+    int             sigev_notify; /* 알림 종류 */
+    int             sigev_signo;  /* 시그널 번호 */
+    union sigval    sigev_value;  /* 시그널 값 */
+    void          (*sigev_notify_function)(union sigval);
+                                  /* 알림 함수 */
+    pthread_attr_t *sigev_notify_attributes;
+                                  /* 알림 속성 */
+};
+</code></pre>
+<p>이 타입에 대한 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/sigevent(7)/">sigevent(7)</a></tt>를 보라.</p>
+<p><em>VERSIONS</em>: POSIX.1-2008부터 <code>&lt;aio.h&gt;</code> 및 <code>&lt;time.h&gt;</code>가 <code>sigevent</code>를 정의한다.</p>
+<p><em>CONFORMING TO</em>: POSIX.1-2001 및 이후.</p>
+<p><em>SEE ALSO</em>: <tt><a class="wikilink" href="/man-pages-ko/timer_create(2)/">timer_create(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/getaddrinfo_a(3)/">getaddrinfo_a(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/lio_listio(3)/">lio_listio(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mq_notify(3)/">mq_notify(3)</a></tt></p>
+<p>이 페이지의 <code>aiocb</code> 구조체도 참고.</p>
+<h3 id="siginfo_t"><code>siginfo_t</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;signal.h&gt;</code>. 또는 <code>&lt;sys/wait.h&gt;</code>.</p>
+<pre><code class="language-c">typedef struct {
+    int      si_signo;  /* 시그널 번호 */
+    int      si_code;   /* 시그널 코드 */
+    pid_t    si_pid;    /* 송신 프로세스 ID */
+    uid_t    si_uid;    /* 송신 프로세스의 실제 사용자 ID */
+    void    *si_addr;   /* 폴트 유발 인스트럭션의 주소 */
+    int      si_status; /* 종료 값 또는 시그널 */
+    union sigval si_value;  /* 시그널 값 */
+} siginfo_t;
+</code></pre>
+<p>시그널 연관 정보. 이 구조체에 대한 (리눅스 전용 추가 필드들을 포함한) 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/sigaction(2)/">sigaction(2)</a></tt>을 보라.</p>
+<p><em>CONFORMING TO</em>: POSIX.1-2001 및 이후.</p>
+<p><em>SEE ALSO</em>: <tt><a class="wikilink" href="/man-pages-ko/pidfd_send_signal(2)/">pidfd_send_signal(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/rt_sigqueueinfo(2)/">rt_sigqueueinfo(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigaction(2)/">sigaction(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigwaitinfo(2)/">sigwaitinfo(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/psiginfo(3)/">psiginfo(3)</a></tt></p>
+<h3 id="sigset_t"><code>sigset_t</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;signal.h&gt;</code>. 또는 <code>&lt;spawn.h&gt;</code>나 <code>&lt;sys/select.h&gt;</code>.</p>
+<p>시그널 집합을 나타내는 타입이다. POSIX에 따르면 정수 또는 구조체 타입이다.</p>
+<p><em>CONFORMING TO</em>: POSIX.1-2001 및 이후.</p>
+<p><em>SEE ALSO</em>: <tt><a class="wikilink" href="/man-pages-ko/epoll_pwait(2)/">epoll_pwait(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ppoll(2)/">ppoll(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pselect(2)/">pselect(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigaction(2)/">sigaction(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/signalfd(2)/">signalfd(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigpending(2)/">sigpending(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigprocmask(2)/">sigprocmask(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigsuspend(2)/">sigsuspend(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigwaitinfo(2)/">sigwaitinfo(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt></p>
+<h3 id="sigval"><code>sigval</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;signal.h&gt;</code>.</p>
+<pre><code class="language-c">union sigval {
+    int     sigval_int; /* 정수 값 */
+    void   *sigval_ptr; /* 포인터 값 */
+};
+</code></pre>
+<p>시그널과 함께 전달되는 데이터.</p>
+<p><em>CONFORMING TO</em>: POSIX.1-2001 및 이후.</p>
+<p><em>SEE ALSO</em>: <tt><a class="wikilink" href="/man-pages-ko/pthread_sigqueue(3)/">pthread_sigqueue(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigqueue(3)/">sigqueue(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigevent(7)/">sigevent(7)</a></tt></p>
+<p>이 페이지의 <code>sigevent</code> 구조체와 <code>siginfo_t</code> 타입도 참고.</p>
+<h3 id="size_t"><code>size_t</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;stddef.h&gt;</code>나 <code>&lt;sys/types.h&gt;</code>. 또는 <code>&lt;aio.h&gt;</code>, <code>&lt;glob.h&gt;</code>, <code>&lt;grp.h&gt;</code>, <code>&lt;iconv.h&gt;</code>, <code>&lt;monetary.h&gt;</code>, <code>&lt;mqueue.h&gt;</code>, <code>&lt;ndbm.h&gt;</code>, <code>&lt;pwd.h&gt;</code>, <code>&lt;regex.h&gt;</code>, <code>&lt;search.h&gt;</code>, <code>&lt;signal.h&gt;</code>, <code>&lt;stdio.h&gt;</code>, <code>&lt;stdlib.h&gt;</code>, <code>&lt;string.h&gt;</code>, <code>&lt;strings.h&gt;</code>, <code>&lt;sys/mman.h&gt;</code>, <code>&lt;sys/msg.h&gt;</code>, <code>&lt;sys/sem.h&gt;</code>, <code>&lt;sys/shm.h&gt;</code>, <code>&lt;sys/socket.h&gt;</code>, <code>&lt;sys/uio.h&gt;</code>, <code>&lt;time.h&gt;</code>, <code>&lt;unistd.h&gt;</code>, <code>&lt;wchar.h&gt;</code>, <code>&lt;wordexp.h&gt;</code>.</p>
+<p>바이트 개수에 쓴다. <code>sizeof</code> 연산자의 결과다. C 언어 표준에 따르면 [0, <code>SIZE_MAX</code>] 범위의 값을 저장할 수 있는 부호 없는 정수 타입이다. POSIX에 따르면 구현에서 <code>size_t</code> 크기가 <code>long</code> 타입보다 크지 않은 프로그래밍 환경을 한 가지 이상 지원한다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/printf(3)/">printf(3)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/scanf(3)/">scanf(3)</a></tt> 함수군에서 <code>size_t</code>의 길이 변환자는 <code>z</code>다. 그래서 <code>size_t</code> 값을 찍을 때 <code>%zu</code>나 <code>%zx</code>를 흔히 쓰게 된다.</p>
+<p><em>VERSIONS</em>: POSIX.1-2008부터 <code>&lt;aio.h&gt;</code>, <code>&lt;glob.h&gt;</code>, <code>&lt;grp.h&gt;</code>, <code>&lt;iconv.h&gt;</code>, <code>&lt;mqueue.h&gt;</code>, <code>&lt;pwd.h&gt;</code>, <code>&lt;signal.h&gt;</code>, <code>&lt;sys/socket.h&gt;</code>가 <code>size_t</code>를 정의한다.</p>
+<p><em>CONFORMING TO</em>: C99 및 이후. POSIX.1-2001 및 이후.</p>
+<p><em>SEE ALSO</em>: <code>read(2)</code>, <code>write(2)</code>, <code>fread(3)</code>, <code>fwrite(3)</code>, <code>memcmp(3)</code>, <code>memcpy(3)</code>, <code>memset(3)</code>, <tt><a class="wikilink" href="/man-pages-ko/offsetof(3)/">offsetof(3)</a></tt></p>
+<p>이 페이지의 <code>ptrdiff_t</code> 및 <code>ssize_t</code> 타입도 참고.</p>
+<h3 id="ssize_t"><code>ssize_t</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;sys/types.h&gt;</code>. 또는 <code>&lt;aio.h&gt;</code>, <code>&lt;monetary.h&gt;</code>, <code>&lt;mqueue.h&gt;</code>, <code>&lt;stdio.h&gt;</code>, <code>&lt;sys/msg.h&gt;</code>, <code>&lt;sys/socket.h&gt;</code>, <code>&lt;sys/uio.h&gt;</code>, <code>&lt;unistd.h&gt;</code>.</p>
+<p>바이트 개수 또는 오류 표시에 쓴다. POSIX에 따르면 적어도 [-1, <code>SSIZE_MAX</code>] 범위의 값을 저장할 수 있는 부호 있는 정수 타입이며, 구현에서 <code>ssize_t</code> 크기가 <code>long</code> 타입보다 크지 않은 프로그래밍 환경을 한 가지 이상 지원한다.</p>
+<p>glibc와 대다수의 다른 구현에서 <tt><a class="wikilink" href="/man-pages-ko/printf(3)/">printf(3)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/scanf(3)/">scanf(3)</a></tt> 함수군을 위한 <code>ssize_t</code>의 길이 변환자를 <code>z</code>로 제공한다. 그래서 <code>ssize_t</code> 값을 찍을 때 <code>%zd</code>나 <code>%zi</code>를 흔히 쓰게 된다. 대다수 구현에서 <code>ssize_t</code>에 <code>z</code>가 동작하긴 하지만 이식 가능한 POSIX 프로그램에선 이용을 피하는 게 좋다. 예를 들어 값을 <code>intmax_t</code>로 변환하고 그에 맞는 길이 변환자(<code>j</code>)를 쓰면 된다.</p>
+<p><em>CONFORMING TO</em>: POSIX.1-2001 및 이후.</p>
+<p><em>SEE ALSO</em>: <code>read(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/readlink(2)/">readlink(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/readv(2)/">readv(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/recv(2)/">recv(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/send(2)/">send(2)</a></tt> <code>write(2)</code></p>
+<p>이 페이지의 <code>ptrdiff_t</code> 및 <code>size_t</code> 타입도 참고.</p>
+<h3 id="suseconds_t"><code>suseconds_t</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;sys/types.h&gt;</code>. 또는 <code>&lt;sys/select.h&gt;</code>나 <code>&lt;sys/time.h&gt;</code>.</p>
+<p>마이크로초 단위 시간에 쓴다. POSIX에 따르면 적어도 [-1, 1000000] 범위의 값을 저장할 수 있는 부호 있는 정수 타입이며, 구현에서 <code>suseconds_t</code> 크기가 <code>long</code> 타입보다 크지 않은 프로그래밍 환경을 한 가지 이상 지원한다.</p>
+<p><em>CONFORMING TO</em>: POSIX.1-2001 및 이후.</p>
+<p><em>SEE ALSO</em>: 이 페이지의 <code>timeval</code> 구조체.</p>
+<h3 id="time_t"><code>time_t</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;time.h&gt;</code>나 <code>&lt;sys/types.h&gt;</code>. 또는 <code>&lt;sched.h&gt;</code>, <code>&lt;sys/msg.h&gt;</code>, <code>&lt;sys/select.h&gt;</code>, <code>&lt;sys/sem.h&gt;</code>, <code>&lt;sys/shm.h&gt;</code>, <code>&lt;sys/stat.h&gt;</code>, <code>&lt;sys/time.h&gt;</code>, <code>&lt;utime.h&gt;</code>.</p>
+<p>초 단위 시간에 쓴다. POSIX에 따르면 정수 타입이다.</p>
+<p><em>VERSIONS</em>: POSIX.1-2008부터 <code>&lt;sched.h&gt;</code>가 <code>time_t</code>를 정의한다.</p>
+<p><em>CONFORMING TO</em>: C99 및 이후. POSIX.1-2001 및 이후.</p>
+<p><em>SEE ALSO</em>: <tt><a class="wikilink" href="/man-pages-ko/stime(2)/">stime(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/time(2)/">time(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ctime(3)/">ctime(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/difftime(3)/">difftime(3)</a></tt></p>
+<h3 id="timer_t"><code>timer_t</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;sys/types.h&gt;</code>. 또는 <code>&lt;time.h&gt;</code>.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/timer_create(2)/">timer_create(2)</a></tt>가 반환하는 타이머 ID에 쓴다. POSIX에 따르면 이 타입에 대해 정의된 비교 연산자나 할당 연산자가 없다.</p>
+<p><em>CONFORMING TO</em>: POSIX.1-2001 및 이후.</p>
+<p><em>SEE ALSO</em>: <tt><a class="wikilink" href="/man-pages-ko/timer_create(2)/">timer_create(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/timer_delete(2)/">timer_delete(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/timer_getoverrun(2)/">timer_getoverrun(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/timer_settime(2)/">timer_settime(2)</a></tt></p>
+<h3 id="timespec"><code>timespec</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;time.h&gt;</code>. 또는 <code>&lt;aio.h&gt;</code>, <code>&lt;mqueue.h&gt;</code>, <code>&lt;sched.h&gt;</code>, <code>&lt;signal.h&gt;</code>, <code>&lt;sys/select.h&gt;</code>, <code>&lt;sys/stat.h&gt;</code>.</p>
+<pre><code class="language-c">struct timespec {
+    time_t  tv_sec;  /* 초 */
+    long    tv_nsec; /* 나노초 */
+};
+</code></pre>
+<p>초와 나노초로 시간을 기술한다.</p>
+<p><em>CONFORMING TO</em>: C11 및 이후. POSIX.1-2001 및 이후.</p>
+<p><em>SEE ALSO</em>: <tt><a class="wikilink" href="/man-pages-ko/clock_gettime(2)/">clock_gettime(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/clock_nanosleep(2)/">clock_nanosleep(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/nanosleep(2)/">nanosleep(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/timerfd_gettime(2)/">timerfd_gettime(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/timer_gettime(2)/">timer_gettime(2)</a></tt></p>
+<h3 id="timeval"><code>timeval</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;sys/time.h&gt;</code>. 또는 <code>&lt;sys/resource.h&gt;</code>, <code>&lt;sys/select.h&gt;</code>, <code>&lt;utmpx.h&gt;</code>.</p>
+<pre><code class="language-c">struct timeval {
+    time_t      tv_sec;  /* 초 */
+    suseconds_t tv_usec; /* 마이크로초 */
+};
+</code></pre>
+<p>초와 마이크로초로 시간을 기술한다.</p>
+<p><em>CONFORMING TO</em>: POSIX.1-2001 및 이후.</p>
+<p><em>SEE ALSO</em>: <tt><a class="wikilink" href="/man-pages-ko/gettimeofday(2)/">gettimeofday(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/select(2)/">select(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/utimes(2)/">utimes(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/adjtime(3)/">adjtime(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/futimes(3)/">futimes(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/timeradd(3)/">timeradd(3)</a></tt></p>
+<h3 id="uid_t"><code>uid_t</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;sys/types.h&gt;</code>. 또는 <code>&lt;pwd.h&gt;</code>, <code>&lt;signal.h&gt;</code>, <code>&lt;stropts.h&gt;</code>, <code>&lt;sys/ipc.h&gt;</code>, <code>&lt;sys/stat.h&gt;</code>, <code>&lt;unistd.h&gt;</code>.</p>
+<p>사용자 ID를 담는 데 쓰는 타입. POSIX에 따르면 정수 타입이다.</p>
+<p><em>CONFORMING TO</em>: POSIX.1-2001 및 이후.</p>
+<p><em>SEE ALSO</em>: <tt><a class="wikilink" href="/man-pages-ko/chown(2)/">chown(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/getuid(2)/">getuid(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/geteuid(2)/">geteuid(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/getresuid(2)/">getresuid(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/getpwnam(2)/">getpwnam(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/credentials(7)/">credentials(7)</a></tt></p>
+<h3 id="uintmax_t"><code>uintmax_t</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;stdint.h&gt;</code>. 또는 <code>&lt;inttypes.h&gt;</code>.</p>
+<p>구현에서 지원하는 어떤 부호 없는 정수 타입의 값이든 표현 가능한 부호 없는 정수 타입. C 언어 표준에 따르면 [0, <code>UINTMAX_MAX</code>] 범위의 값을 저장할 수 있다.</p>
+<p><code>UINTMAX_C()</code> 매크로는 인자를 <code>uintmax_t</code> 타입의 정수 상수로 확장해 준다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/printf(3)/">printf(3)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/scanf(3)/">scanf(3)</a></tt> 함수군에서 <code>uintmax_t</code>의 길이 변환자는 <code>j</code>다. 그래서 <code>uintmax_t</code> 값을 찍을 때 <code>%ju</code>나 <code>%jx</code>를 흔히 쓰게 된다.</p>
+<p><em>CONFORMING TO</em>: C99 및 이후. POSIX.1-2001 및 이후.</p>
+<p><em>BUGS</em>: <code>unsigned __int128</code>이 정의돼 있고 <code>unsigned long long</code>이 128비트보다 작은 구현에서 <code>uintmax_t</code>가 <code>unsigned __int128</code> 타입 값을 표현할 만큼 크지 않다.</p>
+<p><em>SEE ALSO</em>: 이 페이지의 <code>intmax_t</code> 타입.</p>
+<h3 id="uintn_t"><code>uintN_t</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;stdint.h&gt;</code>. 또는 <code>&lt;inttypes.h&gt;</code>.</p>
+<p><code>uint8_t</code>, <code>uint16_t</code>, <code>uint32_t</code>, <code>uint64_t</code></p>
+<p>정확히 N비트 고정 크기인 부호 없는 정수 타입. N은 타입 이름에 있는 값이다. C 언어 표준에 따르면 [0, <code>UINTN_MAX</code>] 범위의 값을 저장할 수 있다.</p>
+<p>POSIX에 따르면 <code>uint8_t</code>, <code>uint16_t</code>, <code>uint32_t</code>가 반드시 있다. <code>uint64_t</code>는 64비트 정수 타입을 제공하는 구현에서만 반드시 있다. 이 형태의 그 외 타입들은 모두 선택적이다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/printf(3)/">printf(3)</a></tt> 함수군에서 <code>uintN_t</code> 타입의 길이 변환자는 (<code>&lt;inttypes.h&gt;</code>에 정의돼 있는) <code>PRIuN</code>, <code>PRIoN</code>, <code>PRIxN</code>, <code>PRIXN</code> 형태 매크로를 확장한 것이다. 예를 들어 <code>uint32_t</code> 값을 찍을 때는 <code>%"PRIu32"</code>나 <code>%"PRIx32"</code>가 된다. <tt><a class="wikilink" href="/man-pages-ko/scanf(3)/">scanf(3)</a></tt> 함수군에서 <code>uintN_t</code> 타입의 길이 변환자는 (<code>&lt;inttypes.h&gt;</code>에 정의돼 있는) <code>SCNuN</code>,<code>SCNoN</code>, <code>SCNxN</code>, <code>SCNXN</code> 형태 매크로를 확장한 것이다. 예를 들어 <code>uint16_t</code> 값을 탐색할 때는 <code>%"SCNu16"</code>이나 <code>%"SCNx16"</code>이 된다.</p>
+<p><em>CONFORMING TO</em>: C99 및 이후. POSIX.1-2001 및 이후.</p>
+<p><em>SEE ALSO</em>: 이 페이지의 <code>intmax_t</code>, <code>intN_t</code>, <code>uintmax_t</code> 타입.</p>
+<h3 id="uintptr_t"><code>uintptr_t</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;stdint.h&gt;</code>. 또는 <code>&lt;inttypes.h&gt;</code>.</p>
+<p>유효한 어떤 (<code>void *</code>) 값이든 변환해서 넣고 뺄 수 있는 부호 없는 정수 타입. C 언어 표준에 따르면 [0, <code>UINTPTR_MAX</code>] 범위의 값을 저장할 수 있다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/printf(3)/">printf(3)</a></tt> 함수군에서 <code>uintptr_t</code>의 길이 변환자는 (<code>&lt;inttypes.h&gt;</code>에 정의돼 있는) <code>PRIuPTR</code>, <code>PRIoPTR</code>, <code>PRIxPTR</code>, <code>PRIXPTR</code> 매크로를 확장한 것이다. 그래서 <code>uintptr_t</code> 값을 찍을 때 <code>%"PRIuPTR"</code>이나 <code>%"PRIxPTR"</code>을 흔히 쓰게 된다. <tt><a class="wikilink" href="/man-pages-ko/scanf(3)/">scanf(3)</a></tt> 함수군에서 <code>uintptr_t</code>의 길이 변환자는 (<code>&lt;inttypes.h&gt;</code>에 정의돼 있는) <code>SCNuPTR</code>, <code>SCNoPTR</code>, <code>SCNxPTR</code>, <code>SCNXPTR</code> 매크로를 확장한 것이다. 그래서 <code>uintptr_t</code> 값을 탐색할 때 <code>%"SCNuPTR"</code>이나 <code>%"SCNxPTR"</code>을 흔히 쓰게 된다.</p>
+<p><em>CONFORMING TO</em>: C99 및 이후. POSIX.1-2001 및 이후.</p>
+<p><em>SEE ALSO</em>: 이 페이지의 <code>intptr_t</code> 및 <code>void *</code> 타입.</p>
+<h3 id="va_list"><code>va_list</code></h3>
+<p><em>INCLUDE</em>: <code>&lt;stdarg.h&gt;</code>. 또는 <code>&lt;stdio.h&gt;</code>나 <code>&lt;wchar.h&gt;</code>.</p>
+<p>가변 타입 가변 개수 인자가 있는 함수에서 쓴다.  함수에서 <code>va_list</code> 타입 객체를 선언해야 하며 <tt><a class="wikilink" href="/man-pages-ko/va_start(3)/">va_start(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/va_arg(3)/">va_arg(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/va_copy(3)/">va_copy(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/va_end(3)/">va_end(3)</a></tt> 매크로로 인자 목록을 순회한다.</p>
+<p><em>CONFORMING TO</em>: C99 및 이후. POSIX.1-2001 및 이후.</p>
+<p><em>SEE ALSO</em>: <tt><a class="wikilink" href="/man-pages-ko/va_start(3)/">va_start(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/va_arg(3)/">va_arg(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/va_copy(3)/">va_copy(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/va_end(3)/">va_end(3)</a></tt></p>
+<h3 id="void"><code>void *</code></h3>
+<p>C 언어 표준에 따르면 모든 객체의 포인터와 <code>void</code> 포인터를 서로 변환할 수 있다. 더 나아가 POSIX에서는 함수 포인터까지 포함한 모든 포인터와 <code>void</code> 포인터를 서로 변환할 수 있기를 요구한다.</p>
+<p>다른 포인터 타입과의 변환은 묵시적으로 이뤄지며 캐스팅이 전혀 필요치 않다. 이런 동작 때문에 어떤 종류의 타입 검사도 불가능해진다는 점에 유의하자. 프로그래머는 <code>void *</code> 값을 기반 데이터와 호환되지 않는 타입으로 변환하지 않도록 유의해야 한다. 규정되지 않은 동작이 일어나게 되기 때문이다.</p>
+<p>임의 타입의 값을 전달할 수 있으므로 함수 매개변수와 반환 값에 유용하다. <code>void</code> 포인터를 통해 함수로 전달되는 데이터의 진짜 타입을 알 수 있는 어떤 메커니즘이 있는 게 보통이다.</p>
+<p>이 타입의 값을 따라갈 수 없다. 그러면 <code>void</code> 타입이 나올 텐데, 그건 불가능하기 때문이다. 마찬가지로 이 타입으로 포인터 산술을 할 수 없다. 하지만 GNU C에서는 표준 확장으로 포인터 산술을 허용한다. <code>void</code>나 함수의 크기를 1로 해서 동작한다. <code>void</code>와 함수 타입에 <code>sizeof</code>도 허용되며, 1을 반환한다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/printf(3)/">printf(3)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/scanf(3)/">scanf(3)</a></tt> 함수군에서 <code>void *</code>의 변환 지정자는 <code>p</code>이다.</p>
+<p><em>VERSIONS</em>: <code>void *</code>와 함수 포인터 간 호환성에 대한 POSIX 요구 사항은 POSIX.1-2008 기술 정오표 1(2013년)에서 추가되었다.</p>
+<p><em>CONFORMING TO</em>: C99 및 이후. POSIX.1-2001 및 이후.</p>
+<p><em>SEE ALSO</em>: <tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt>, <code>memcmp(3)</code>, <code>memcpy(3)</code>, <code>memset(3)</code></p>
+<p>이 페이지의 <code>intptr_t</code> 및 <code>uintptr_t</code> 타입도 참고.</p>
+<h2 id="notes">NOTES</h2>
+<p>이 매뉴얼 페이지에서 기술하는 구조체들은 적어도 그 정의에 나와 있는 멤버들을 가지고 있다. 단, 그 순서는 정해져 있지 않다.</p>
+<p>이 페이지에서 기술하는 정수 타입 대다수에는 <tt><a class="wikilink" href="/man-pages-ko/printf(3)/">printf(3)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/scanf(3)/">scanf(3)</a></tt> 함수군을 위한 대응하는 길이 변환자가 없다. 길이 변환자가 없는 정수 타입의 값을 찍으려면 명시적 캐스팅으로 <code>intmax_t</code>나 <code>uintmax_t</code>로 변환하는 게 좋다. 길이 변환자가 없는 정수 타입의 변수로 탐색해서 넣으려면 <code>intmax_t</code>나 <code>uintmax_t</code> 타입의 중간 임시 변수를 쓰는 게 좋다. 그 임시 변수에서 대상 변수로 복사할 때 값이 넘칠 수도 있다. 타입에 상한 및 하한이 있다면 값을 실제 복사하기 전에 값이 그 범위 안에 있는지 검사해 보는 게 좋다. 아래 예에서 어떻게 그런 변환을 해야 하는지 보인다.</p>
+<h3 id="_1">페이지 작성 방식</h3>
+<p>"CONFORMING TO"에서는 C99 및 이후, 그리고 POSIX.1-2001 및 이후만 고려한다. 일부 타입은 더 이른 표준 버전에 명세돼 있을 수도 있지만 단순함을 위해 더 이른 표준의 내용은 생략한다.</p>
+<p>"INCLUDE"에서는 먼저 C나 POSIX.1 표준에 따라 그 타입을 정의하는 "주된" 헤더(들)을 적는다. "또는" 다음에는 그 타입을 정의하게 된다고 표준에서 명시한 추가 헤더들을 적는다.</p>
+<h2 id="examples">EXAMPLES</h2>
+<p>아래 프로그램은 길이 변환자가 없는 정수 타입을 문자열에서 탐색하고 변수에 저장된 값을 찍는다. 위의 NOTES 절에서 설명한 대로 적절히 <code>intmax_t</code>와 변환하고 적절히 범위 검사를 한다.</p>
+<pre><code class="language-c">#include &lt;stdint.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;sys/types.h&gt;
+
+int
+main (void)
+{
+    static const char *const str = &quot;500000 us in half a second&quot;;
+    suseconds_t us;
+    intmax_t    tmp;
+
+    /* 문자열에서 수를 탐색해서 임시 변수에 넣기. */
+
+    sscanf(str, &quot;%jd&quot;, &amp;tmp);
+
+    /* 값이 suseconds_t의 유효 범위에 있는지 확인하기. */
+
+    if (tmp &lt; -1 || tmp &gt; 1000000) {
+        fprintf(stderr, &quot;Scanned value outside valid range!\n&quot;);
+        exit(EXIT_FAILURE);
+    }
+
+    /* 그 값을 suseconds_t 변수 'us'로 복사하기. */
+
+    us = tmp;
+
+    /* suseconds_t가 -1 값을 담을 수 있긴 하지만 합리적인
+       마이크로초 수는 아니다. */
+
+    if (us &lt; 0) {
+        fprintf(stderr, &quot;Scanned value shouldn't be negative!\n&quot;);
+        exit(EXIT_FAILURE);
+    }
+
+    /* 값 찍기. */
+
+    printf(&quot;There are %jd microseconds in half a second.\n&quot;,
+            (intmax_t) us);
+
+    exit(EXIT_SUCCESS);
+}
+</code></pre>
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/standards(7)/">standards(7)</a></tt></p>
+<hr />
+<p>2021-03-22</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

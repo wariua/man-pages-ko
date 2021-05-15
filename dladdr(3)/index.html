@@ -175,7 +175,7 @@ int dladdr1(void *addr, Dl_info *info, void **extra_info, int flags);
 <p><code>dladdr1()</code> 함수는 <code>dladdr()</code>과 비슷하되 <code>extra_info</code> 인자를 통해 추가 정보를 반환한다. 반환되는 정보는 <code>flags</code>에 지정한 값에 따라 달라지는데, 다음 값들 중 하나를 지정할 수 있다.</p>
 <dl>
 <dt><code>RTLD_DL_LINKMAP</code></dt>
-<dd>걸린 파일의 링크 맵에 대한 포인터를 반환한다. <code>extra_info</code> 인자가 <code>link_map</code> 구조체에 대한 포인터를 가리킨다. (즉 <code>struct link_map **</code>이다.) 그 구조체는 <code>&lt;link.h&gt;</code>에 다음과 같이 정의돼 있다.<pre><code>struct link_map {
+<dd>걸린 파일의 링크 맵의 포인터를 반환한다. <code>extra_info</code> 인자가 <code>link_map</code> 구조체 포인터를 가리킨다. (즉 <code>struct link_map **</code>이다.) 그 구조체는 <code>&lt;link.h&gt;</code>에 다음과 같이 정의돼 있다.<pre><code>struct link_map {
     ElfW(Addr) l_addr;  /* ELF 파일 내 주소와
                            메모리 내 주소의 차이 */
     char      *l_name;  /* 오브젝트를 찾은
@@ -192,7 +192,7 @@ int dladdr1(void *addr, Dl_info *info, void **extra_info, int flags);
 </dd>
 <dt><code>RTLD_DL_SYMENT</code></dt>
 <dd>
-<p>대응하는 심볼의 ELF 심볼 테이블 항목에 대한 포인터를 얻는다. <code>extra_info</code> 인자가 심볼 포인터에 대한 포인터, 즉 <code>const ElfW(Sym) **</code>이다. <code>ElfW()</code> 매크로는 그 인자를 하드웨어 아키텍처에 맞는 ELF 데이터 타입 이름으로 바꿔 준다. 예를 들어 64비트 플랫폼에서 <code>ElfW(Sym)</code>은 데이터 타입 이름 <code>Elf64_Sym</code>을 내놓는데, 이는 <code>&lt;elf.h&gt;</code>에 다음처럼 정의돼 있다.</p>
+<p>대응하는 심볼의 ELF 심볼 테이블 항목의 포인터를 얻는다. <code>extra_info</code> 인자가 심볼 포인터의 포인터, 즉 <code>const ElfW(Sym) **</code>이다. <code>ElfW()</code> 매크로는 그 인자를 하드웨어 아키텍처에 맞는 ELF 데이터 타입 이름으로 바꿔 준다. 예를 들어 64비트 플랫폼에서 <code>ElfW(Sym)</code>은 데이터 타입 이름 <code>Elf64_Sym</code>을 내놓는데, 이는 <code>&lt;elf.h&gt;</code>에 다음처럼 정의돼 있다.</p>
 <pre><code>typedef struct  {
     Elf64_Word    st_name;     /* 심볼 이름 */
     unsigned char st_info;     /* 심볼 타입 및 바인딩 */

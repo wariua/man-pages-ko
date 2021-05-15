@@ -166,7 +166,7 @@ int kcmp(pid_t pid1, pid_t pid2, int type,
 <p><code>type</code> 인자는 두 프로세스에서 어떤 자원을 비교할지 나타낸다. 다음 값들 중 하나이다.</p>
 <dl>
 <dt><code>KCMP_FILE</code></dt>
-<dd>프로세스 <code>pid1</code> 내의 파일 디스크립터 <code>idx1</code>이 프로세스 <code>pid2</code> 내의 파일 디스크립터 <code>idx2</code>와 같은 열린 파일 기술 항목(<tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt> 참고)을 가리키는지 확인한다. <tt><a class="wikilink" href="/man-pages-ko/dup(2)/">dup(2)</a></tt> (및 유사 함수), <tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt>, 도메인 소켓을 통한 파일 디스크립터 전달(<tt><a class="wikilink" href="/man-pages-ko/unix(7)/">unix(7)</a></tt> 참고)의 결과로 같은 열린 파일 기술 항목을 가리키는 두 개의 파일 디스크립터가 존재할 수 있다.</dd>
+<dd>프로세스 <code>pid1</code> 내의 파일 디스크립터 <code>idx1</code>이 프로세스 <code>pid2</code> 내의 파일 디스크립터 <code>idx2</code>와 같은 열린 파일 기술 항목(<tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt> 참고)을 가리키는지 확인한다. <tt><a class="wikilink" href="/man-pages-ko/dup(2)/">dup(2)</a></tt> (및 비슷한 함수), <tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt>, 도메인 소켓을 통한 파일 디스크립터 전달(<tt><a class="wikilink" href="/man-pages-ko/unix(7)/">unix(7)</a></tt> 참고)의 결과로 같은 열린 파일 기술 항목을 가리키는 두 개의 파일 디스크립터가 존재할 수 있다.</dd>
 <dt><code>KCMP_FILES</code></dt>
 <dd>프로세스들이 동일한 열린 파일 디스크립터 집합을 공유하는지 확인한다. <code>idx1</code> 및 <code>idx2</code> 인자는 무시한다. <tt><a class="wikilink" href="/man-pages-ko/clone(2)/">clone(2)</a></tt>의 <code>CLONE_FILES</code> 플래그 설명 참고.</dd>
 <dt><code>KCMP_FS</code></dt>
@@ -181,7 +181,7 @@ int kcmp(pid_t pid1, pid_t pid2, int type,
 <dd>프로세스들이 동일한 주소 공간을 공유하는지 확인한다. <code>idx1</code> 및 <code>idx2</code> 인자는 무시한다. <tt><a class="wikilink" href="/man-pages-ko/clone(2)/">clone(2)</a></tt>의 <code>CLONE_VM</code> 플래그 설명 참고.</dd>
 <dt><code>KCMP_EPOLL_TFD</code></dt>
 <dd>
-<p>프로세스 <code>pid1</code>의 파일 디스크립터 <code>idx1</code>이 프로세스 <code>pid2</code>의 <code>idx2</code>가 기술하는 <tt><a class="wikilink" href="/man-pages-ko/epoll(7)/">epoll(7)</a></tt> 인스턴스 내에 있는지 확인한다. <code>idx2</code> 인자는 대상 파일을 기술하는 구조체에 대한 포인터이다. 그 구조체는 다음 형태이다.</p>
+<p>프로세스 <code>pid1</code>의 파일 디스크립터 <code>idx1</code>이 프로세스 <code>pid2</code>의 <code>idx2</code>가 기술하는 <tt><a class="wikilink" href="/man-pages-ko/epoll(7)/">epoll(7)</a></tt> 인스턴스 내에 있는지 확인한다. <code>idx2</code> 인자는 대상 파일을 기술하는 구조체의 포인터이다. 그 구조체는 다음 형태이다.</p>
 <pre><code>struct kcmp_epoll_slot {
     __u32 efd;
     __u32 tfd;

@@ -185,16 +185,16 @@ int faccessat2(int dirfd, const char *pathname, int mode, int flags);
 </dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>access()</code>는 호출 프로세스가 파일 <code>pathname</code>에 접근할 수 있는지 여부를 확인한다. <code>pathname</code>이 심볼릭 링크이면 따라간다.</p>
-<p><code>mode</code>는 수행할 접근 가능 검사(들)을 나타내는데, <code>F_OK</code> 값이거나 <code>R_OK</code>, <code>W_OK</code>, <code>X_OK</code> 중 하나 이상을 비트 OR 해서 만든 마스크이다. <code>F_OK</code>는 파일 존재 여부를 검사한다. <code>R_OK</code>, <code>W_OK</code>, <code>X_OK</code>는 파일이 존재하며 각각 읽기, 쓰기, 실행 권한을 허가하는지 여부를 검사한다.</p>
-<p>호출 프로세스의 <em>실제</em> UID 및 GID로 검사를 수행한다. 즉 파일에 대한 동작(가령 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>)을 실제 시도할 때처럼 실효 ID로 하는 게 아니다. 마찬가지로 루트 사용자에 대해 실효 역능 집합이 아니라 허용 역능 집합을 검사에 사용한다. 루트 아닌 사용자에 대해선 검사에 빈 역능 집합을 쓴다.</p>
-<p>이 때문에 set-user-ID 프로그램과 역능을 부여받은 프로그램에서 자기를 호출한 사용자의 권한을 쉽게 판단할 수 있다. 달리 말하자면 <code>access()</code>는 "내가 이 파일을 읽을/쓸/실행할 수 있는가?"라는 질문에 답하지 않는다. 살짝 다른 질문, 즉 "(내가 setuid 바이너리라고 하고) <em>나를 호출한 사용자가</em> 이 파일을 읽을/쓸/실행할 수 있는가?"에 답한다. 그래서 set-user-ID 프로그램인 경우에, 악의적 사용자가 읽을 수 없어야 되는 파일을 읽게끔 만드는 걸 막을 수 있게 된다.</p>
-<p>호출 프로세스에게 특권이 있는 (즉 실재 UID가 0인) 경우에는 정규 파일의 소유자, 그룹, 기타 중 어디에든 실행 권한이 켜져 있으면 그 파일에 대한 <code>X_OK</code> 검사가 성공한다.</p>
+<p><code>access()</code>는 호출 프로세스가 파일 <code>pathname</code>에 접근할 수 있는지 여부를 확인한다. <code>pathname</code>이 심볼릭 링크면 따라간다.</p>
+<p><code>mode</code>는 수행할 접근 가능 검사를 나타내는데, <code>F_OK</code> 값이거나 <code>R_OK</code>, <code>W_OK</code>, <code>X_OK</code> 중 하나 이상을 비트 OR 해서 만든 마스크이다. <code>F_OK</code>는 파일 존재 여부를 검사한다. <code>R_OK</code>, <code>W_OK</code>, <code>X_OK</code>는 파일이 존재하며 각각 읽기, 쓰기, 실행이 허용되는지 여부를 검사한다.</p>
+<p>호출 프로세스의 <em>실제</em> UID 및 GID로 검사를 수행한다. 즉 파일에 대한 동작(가령 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>)을 실제 시도할 때처럼 실효 ID로 하는 게 아니다. 마찬가지로 루트 사용자에 대해 실효 역능 집합이 아니라 허용 역능 집합을 검사에 사용한다. 루트 아닌 사용자에 대해선 빈 역능 집합을 검사에 쓴다.</p>
+<p>이 때문에 set-user-ID 프로그램과 역능을 부여받은 프로그램에서 자기를 호출한 사용자의 권한을 쉽게 판단할 수 있다. 달리 말해 <code>access()</code>는 "내가 이 파일을 읽을/쓸/실행할 수 있는가?"라는 질문에 답하지 않는다. 살짝 다른 질문, 즉 "(내가 setuid 바이너리라고 하고) <em>나를 호출한 사용자가</em> 이 파일을 읽을/쓸/실행할 수 있는가?"에 답한다. 그래서 set-user-ID 프로그램인 경우에, 악의적 사용자가 읽을 수 없어야 할 파일을 읽게끔 만드는 걸 막을 수 있게 된다.</p>
+<p>호출 프로세스에게 특권이 있는 (즉 실제 UID가 0인) 경우에는 정규 파일의 소유자, 그룹, 기타 중 어디에든 실행 권한이 켜져 있으면 그 파일에 대한 <code>X_OK</code> 검사가 성공한다.</p>
 <h3 id="faccessat"><code>faccessat()</code></h3>
 <p><code>faccessat()</code>은 여기 설명하는 차이점을 빼면 <code>access()</code>와 똑같이 동작한다.</p>
-<p><code>pathname</code>에 준 경로명이 상대 경로이면 (상대 경로명에 대해 <code>access()</code>에서 하듯 호출 프로세스의 현재 작업 디렉터리를 기준으로 하는 게 아니라) 파일 디스크립터 <code>dirfd</code>가 가리키는 디렉터리를 기준으로 경로명을 해석한다.</p>
+<p><code>pathname</code>에 준 경로명이 상대 경로면 (<code>access()</code>에서 하듯 호출 프로세스의 현재 작업 디렉터리를 기준으로 하는 게 아니라) 파일 디스크립터 <code>dirfd</code>가 가리키는 디렉터리를 기준으로 경로명을 해석한다.</p>
 <p><code>pathname</code>이 상대 경로이고 <code>dirfd</code>가 특수 값 <code>AT_FDCWD</code>이면 (<code>access()</code>처럼) 호출 프로세스의 현재 작업 디렉터리를 기준으로 <code>pathname</code>을 해석한다.</p>
-<p><code>pathname</code>이 절대 경로이면 <code>dirfd</code>를 무시한다.</p>
+<p><code>pathname</code>이 절대 경로면 <code>dirfd</code>를 무시한다.</p>
 <p><code>flags</code>는 다음 값들을 0개 이상 OR 해서 구성한다.</p>
 <dl>
 <dt><code>AT_EACCESS</code></dt>
@@ -204,9 +204,9 @@ int faccessat2(int dirfd, const char *pathname, int mode, int flags);
 </dl>
 <p><code>faccessat()</code>의 필요성에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/openat(2)/">openat(2)</a></tt>을 보라.</p>
 <h3 id="faccessat2"><code>faccessat2()</code></h3>
-<p>위의 <code>faccessat()</code> 설명은 POSIX.1 및 glibc 제공 구현체와 부합한다. 하지만 glibc의 구현은 리눅스의 <code>faccessat()</code> 시스템 호출에 <code>flags</code>가 없는 문제를 땜질하는 불완전한 에뮬레이션이었다. (BUGS 참고.) 올바른 구현이 가능하도록 리눅스 5.8에서 <code>faccessat2()</code> 시스템 호출이 추가되었는데, <code>flags</code> 인자를 지원하여 <code>faccessat()</code> 래퍼 함수를 올바르게 구현할 수 있게 되었다.</p>
+<p>위의 <code>faccessat()</code> 설명은 POSIX.1 및 glibc 제공 구현체와 부합한다. 하지만 glibc의 구현은 리눅스의 <code>faccessat()</code> 시스템 호출에 <code>flags</code>가 없는 문제를 땜질한 불완전한 에뮬레이션이었다. (BUGS 참고.) 올바른 구현이 가능하도록 리눅스 5.8에서 <code>faccessat2()</code> 시스템 호출이 추가되었는데, <code>flags</code> 인자를 지원하여 <code>faccessat()</code> 래퍼 함수를 올바르게 구현할 수 있게 되었다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 (모든 요청 권한이 허가됨, 또는 <code>mode</code>가 <code>F_OK</code>이고 파일이 존재함) 0을 반환한다. 오류 시 (권한을 묻는 <code>mode</code>의 비트 중 최소 하나가 거부됨, 또는 <code>mode</code>가 <code>F_OK</code>이고 파일이 존재하지 않음, 또는 어떤 다른 오류 발생) -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
+<p>성공 시 (모든 요청 권한이 허용됨, 또는 <code>mode</code>가 <code>F_OK</code>이고 파일이 존재함) 0을 반환한다. 오류 시 (권한을 묻는 <code>mode</code>의 비트 중 최소 하나가 거부됨, 또는 <code>mode</code>가 <code>F_OK</code>이고 파일이 존재하지 않음, 또는 어떤 다른 오류 발생) -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <p>다음 경우에 <code>access()</code>와 <code>faccessat()</code>이 실패한다.</p>
 <dl>
@@ -217,9 +217,9 @@ int faccessat2(int dirfd, const char *pathname, int mode, int flags);
 <dt><code>ENAMETOOLONG</code></dt>
 <dd><code>pathname</code>이 너무 길다.</dd>
 <dt><code>ENOENT</code></dt>
-<dd><code>pathname</code>의 어느 요소가 존재하지 않거나 깨진 심볼릭 링크이다.</dd>
+<dd><code>pathname</code>의 어느 부분이 존재하지 않거나 깨진 심볼릭 링크다.</dd>
 <dt><code>ENOTDIR</code></dt>
-<dd><code>pathname</code>에서 디렉터리로 쓰인 요소가 실제로는 디렉터리가 아니다.</dd>
+<dd><code>pathname</code>에서 디렉터리로 쓰인 부분이 실제로는 디렉터리가 아니다.</dd>
 <dt><code>EROFS</code></dt>
 <dd>읽기 전용 파일 시스템 상의 파일에 쓰기 권한을 요청했다.</dd>
 </dl>
@@ -243,7 +243,7 @@ int faccessat2(int dirfd, const char *pathname, int mode, int flags);
 <dt><code>EINVAL</code></dt>
 <dd><code>flags</code>에 유효하지 않은 플래그를 지정했다.</dd>
 <dt><code>ENOTDIR</code></dt>
-<dd><code>pathname</code>이 상대 경로이고 <code>dirfd</code>가 디렉터리 아닌 파일을 가리키는 파일 디스크립터이다.</dd>
+<dd><code>pathname</code>이 상대 경로이고 <code>dirfd</code>가 디렉터리 아닌 파일을 가리키는 파일 디스크립터다.</dd>
 </dl>
 <h2 id="versions">VERSIONS</h2>
 <p>리눅스 커널 2.6.16에서 <code>faccessat()</code>이 추가되었다. glibc 버전 2.4에서 라이브러리 지원이 추가되었다.</p>
@@ -254,19 +254,19 @@ int faccessat2(int dirfd, const char *pathname, int mode, int flags);
 <p><code>faccessat2()</code>: 리눅스 전용.</p>
 <h2 id="notes">NOTES</h2>
 <p><strong>경고</strong>: 예를 들어 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>으로 실제 파일을 열기 전에 이 호출들을 사용해서 파일을 열 권한이 사용자에게 있는지 검사하는 방식은 보안상의 구멍을 만든다. 검사 시점과 파일을 열어서 조작하는 시점 사이의 짧은 간격을 사용자가 악용할 수도 있기 때문이다. <strong>그런 이유로 이 시스템 호출 사용을 피하는 게 좋다.</strong> (방금 서술한 예에서 안전한 대안은 프로세스의 실효 사용자 ID를 실제 ID로 잠시 전환하고서 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>을 호출하는 것이다.)</p>
-<p><code>access()</code>는 항상 심볼릭 링크를 따라간다. 심볼릭 링크에 대해 권한을 검사해야 하면 <code>faccessat()</code>를 <code>AT_SYMLINK_NOFOLLOW</code> 플래그로 사용하면 된다.</p>
+<p><code>access()</code>는 항상 심볼릭 링크를 따라간다. 심볼릭 링크에 대해 권한을 검사해야 하면 <code>AT_SYMLINK_NOFOLLOW</code> 플래그를 써서 <code>faccessat()</code>을 이용하면 된다.</p>
 <p>이 호출들은 <code>mode</code>의 접근 방식들 중 하나라도 거부되면 <code>mode</code>의 나머지 접근 방식 일부가 허용되는 경우라도 오류를 반환한다.</p>
 <p>호출 프로세스에게 적절한 특권이 있는 경우에 (즉 수퍼유저인 경우) POSIX.1-2001에서는 실행 권한 비트가 전혀 설정돼 있지 않더라도 구현에서 <code>X_OK</code> 검사에 대해 성공을 표시하는 걸 허용한다. 리눅스에서는 그렇게 하지 않는다.</p>
-<p><code>pathname</code> 경로 선두부의 디렉터리 각각에 대해 권한이 탐색(즉 실행) 접근을 허가하는 경우에만 그 파일이 접근 가능하다. 한 디렉터리라도 접근 불가능이면 파일 자체에 대한 권한은 상관없이 <code>access()</code> 호출이 실패한다.</p>
+<p><code>pathname</code> 경로 선두부의 디렉터리 각각에 대해 탐색(즉 실행) 접근이 허용된 경우에만 그 파일에 접근 가능하다. 한 디렉터리라도 접근 불가능이면 파일 자체의 권한과 상관없이 <code>access()</code> 호출이 실패한다.</p>
 <p>접근 비트만 확인할 뿐 파일 종류나 내용은 보지 않는다. 따라서 디렉터리가 쓰기 가능하다고 나온다면 그건 그 디렉터리에 파일을 만들 수 있다는 뜻이지 파일처럼 그 디렉터리에 뭔가를 기록할 수 있다는 뜻은 아닐 것이다. 마찬가지로 DOS 파일이 실행 가능이라고 나올 수 있지만 그래도 <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt> 호출은 실패하게 된다.</p>
 <p>이 호출들은 UID 매핑이 켜진 NFSv2 파일 시스템에서는 올바로 동작하지 않을 수도 있다. UID 매핑이 서버에서 이뤄지며 권한을 검사하는 클라이언트에게는 감춰져 있기 때문이다. (NFS 버전 3 및 이후에서는 서버에서 검사를 수행한다.) FUSE 마운트에도 비슷한 문제가 생길 수 있다.</p>
 <h3 id="c">C 라이브러리/커널 차이</h3>
 <p>진짜 <code>faccessat()</code> 시스템 호출은 처음 세 인자만 받는다. <code>AT_EACCESS</code>와 <code>AT_SYMLINK_NOFOLLOW</code> 플래그는 사실 <code>faccessat()</code>의 glibc 래퍼 함수 안에 구현돼 있다. 그 플래그들 중 하나라도 지정한 경우에는 래퍼 함수에서 <tt><a class="wikilink" href="/man-pages-ko/fstatat(2)/">fstatat(2)</a></tt>을 이용해 접근 권한을 알아낸다. 하지만 BUGS를 보라.</p>
 <h3 id="glibc">glibc 참고 사항</h3>
-<p><code>faccessat()</code>이 없는 구식 커널에서는 (그리고 <code>AT_EACCESS</code>와 <code>AT_SYMLINK_NOFOLLOW</code> 플래그가 지정돼 있지 않을 때) glibc 래퍼 함수가 <code>access()</code>를 사용하는 걸로 후퇴한다. <code>pathname</code>이 상대 경로명일 때 glibc에서는 <code>/proc/self/fd</code> 안의 <code>dirfd</code> 인자에 대응하는 심볼릭 링크를 가지고 경로명을 만든다.</p>
+<p><code>faccessat()</code>이 없는 구식 커널에서는 (그리고 <code>AT_EACCESS</code>와 <code>AT_SYMLINK_NOFOLLOW</code> 플래그가 지정돼 있지 않을 때) glibc 래퍼 함수가 <code>access()</code>를 사용하는 방식으로 후퇴한다. <code>pathname</code>이 상대 경로명일 때 glibc에서는 <code>/proc/self/fd</code> 안의 <code>dirfd</code> 인자에 대응하는 심볼릭 링크를 가지고 경로명을 만든다.</p>
 <h2 id="bugs">BUGS</h2>
 <p>리눅스 커널의 <code>faccessat()</code> 시스템 호출에서 <code>flags</code> 인자를 지원하지 않기 때문에 glibc 2.32 및 이전에서 제공한 <code>faccessat()</code> 래퍼 함수에서는 <code>faccessat()</code> 시스템 호출과 <tt><a class="wikilink" href="/man-pages-ko/fstatat(2)/">fstatat(2)</a></tt>을 조합해서 필요한 기능을 흉내낸다. 하지만 그 에뮬레이션에서 ACL을 고려하지 않는다. glibc 2.33부터는 기반 커널에서 제공하는 경우 래퍼 함수에서 <code>faccessat2()</code> 시스템 호출을 활용하여 이 버그를 피한다.</p>
-<p>커널 2.4(및 이전)에는 수퍼유저에 대한 <code>X_OK</code> 검사 처리에 좀 이상한 점이 있다. 디렉터리 아닌 파일에서 모든 부문의 실행 권한이 꺼져 있는 경우에 <code>access()</code> 검사가 -1을 반환하는 건 <code>mode</code>에 <code>X_OK</code>만 지정돼 있을 때이다. <code>mode</code>에 <code>R_OK</code>나 <code>W_OK</code>도 지정돼 있으면 그런 파일에 대해 <code>access()</code>가 0을 반환한다. 2.6 초기 (2.6.3까지의) 커널들도 커널 2.4와 같은 식으로 동작했다.</p>
+<p>커널 2.4(및 이전)에는 수퍼유저에 대한 <code>X_OK</code> 검사 처리에 좀 이상한 점이 있다. 디렉터리 아닌 파일에서 모든 분류의 실행 권한이 꺼져 있는 경우에 <code>access()</code> 검사가 -1을 반환하는 건 <code>mode</code>에 <code>X_OK</code>만 지정돼 있을 때이다. <code>mode</code>에 <code>R_OK</code>나 <code>W_OK</code>도 지정돼 있으면 그런 파일에 대해 <code>access()</code>가 0을 반환한다. 2.6 초기 (2.6.3까지의) 커널들도 커널 2.4와 같은 식으로 동작했다.</p>
 <p>커널 2.6.20 전에서는 기반 파일 시스템을 <tt><a class="wikilink" href="/man-pages-ko/mount(2)/">mount(2)</a></tt> 할 때 <code>MS_NOEXEC</code> 플래그를 사용한 경우 이 호출들에서 그 플래그의 효과를 무시했다. 커널 2.6.20부터는 <code>MS_NOEXEC</code> 플래그를 존중한다.</p>
 <h2 id="see-also">SEE ALSO</h2>
 <p><tt><a class="wikilink" href="/man-pages-ko/chmod(2)/">chmod(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/chown(2)/">chown(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/setgid(2)/">setgid(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/setuid(2)/">setuid(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/stat(2)/">stat(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/euidaccess(3)/">euidaccess(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/credentials(7)/">credentials(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/path_resolution(7)/">path_resolution(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/symlink(7)/">symlink(7)</a></tt></p>

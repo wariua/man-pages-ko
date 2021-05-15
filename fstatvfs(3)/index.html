@@ -157,7 +157,7 @@ int statvfs(const char *restrict path, struct statvfs *restrict buf);
 int fstatvfs(int fd, struct statvfs *buf);
 </code></pre>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>statvfs()</code> 함수는 마운트 된 파일 시스템에 대한 정보를 반환한다. <code>path</code>는 마운트 된 파일 시스템 내 임의 파일의 경로명이다. <code>buf</code>는 대략 다음처럼 정의돼 있는 <code>statvfs</code> 구조체에 대한 포인터다.</p>
+<p><code>statvfs()</code> 함수는 마운트 된 파일 시스템에 대한 정보를 반환한다. <code>path</code>는 마운트 된 파일 시스템 내 임의 파일의 경로명이다. <code>buf</code>는 대략 다음처럼 정의돼 있는 <code>statvfs</code> 구조체의 포인터다.</p>
 <pre><code class="language-c">struct statvfs {
     unsigned long  f_bsize;    /* 파일 시스템 블록 크기 */
     unsigned long  f_frsize;   /* 단편 크기 */

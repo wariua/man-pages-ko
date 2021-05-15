@@ -217,7 +217,7 @@
 <pre><code class="language-c">unsigned int la_objopen(struct link_map *map, Lmid_t lmid,
                         uintptr_t *cookie);
 </code></pre>
-<p>새 공유 오브젝트를 적재할 때 동적 링커가 이 함수를 호출한다. <code>map</code> 인자는 그 오브젝트를 기술하는 링크 맵 구조체에 대한 포인터이다. <code>lmid</code> 인자는 다음 값들 중 하나이다.</p>
+<p>새 공유 오브젝트를 적재할 때 동적 링커가 이 함수를 호출한다. <code>map</code> 인자는 그 오브젝트를 기술하는 링크 맵 구조체의 포인터이다. <code>lmid</code> 인자는 다음 값들 중 하나이다.</p>
 <dl>
 <dt><code>LM_ID_BASE</code></dt>
 <dd>링크 맵이 최초 네임스페이스에 속한다.</dd>
@@ -251,7 +251,7 @@ uintptr_t la_symbind64(Elf64_Sym *sym, unsigned int ndx,
                        unsigned int *flags, const char *symname);
 </code></pre>
 <p><code>la_objopen()</code>에서 감사 알림을 받게 표시했던 두 공유 오브젝트 간에 심볼 바인딩이 이뤄질 때 동적 링커가 이 함수들 중 하나를 호출한다. <code>la_symbind32()</code> 함수는 32비트 플랫폼에서 쓰는 것이고 <code>la_symbind64()</code> 함수는 64비트 플랫폼에서 쓰는 것이다.</p>
-<p><code>sym</code> 인자는 바인드 하려는 심볼에 대한 정보를 제공하는 구조체에 대한 포인터이다. 구조체 정의는 <code>&lt;elf.h&gt;</code>에 있다. 이 구조체의 필드들 중에 <code>st_value</code>은 심볼이 바인드 되는 주소를 나타낸다.</p>
+<p><code>sym</code> 인자는 바인드 하려는 심볼에 대한 정보를 제공하는 구조체의 포인터이다. 구조체 정의는 <code>&lt;elf.h&gt;</code>에 있다. 이 구조체의 필드들 중에 <code>st_value</code>은 심볼이 바인드 되는 주소를 나타낸다.</p>
 <p><code>ndx</code> 인자는 바인드 대상 공유 오브젝트의 심볼 테이블에서 그 심볼의 인덱스이다.</p>
 <p><code>refcook</code> 인자는 심볼 참조를 하고 있는 공유 오브젝트를 나타낸다. <code>LA_FLG_BINDFROM</code>을 반환한 <code>la_objopen()</code> 함수에 제공된 것과 같은 식별자이다. <code>defcook</code> 인자는 참조되는 심볼을 정의하고 있는 공유 오브젝트를 나타낸다. <code>LA_FLG_BINDTO</code>를 반환한 <code>la_objopen()</code> 함수에 제공된 것과 같은 식별자이다.</p>
 <p><code>symname</code> 인자는 심볼 이름은 담은 문자열을 가리킨다.</p>
@@ -310,7 +310,7 @@ uintptr_t la_symbind64(Elf64_Sym *sym, unsigned int ndx,
 </li>
 </ul>
 <h2 id="bugs">BUGS</h2>
-<p>glibc 버전 2.9까지에서 <code>LD_AUDIT</code>에 감사 라이브러리를 여러 개 지정하면 런타임 크래시가 발생한다. glibc 2.10에서 고쳐졌다고 한다.</p>
+<p>glibc 버전 2.9까지는 <code>LD_AUDIT</code>에 감사 라이브러리를 여러 개 지정하면 런타임 크래시가 발생한다. glibc 2.10에서 고쳐졌다고 한다.</p>
 <h2 id="examples">EXAMPLES</h2>
 <pre><code class="language-c">#include &lt;link.h&gt;
 #include &lt;stdio.h&gt;

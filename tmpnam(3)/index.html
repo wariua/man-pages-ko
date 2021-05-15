@@ -171,11 +171,11 @@ char *tmpnam_r(char *s);
 </dl>
 <h2 id="description">DESCRIPTION</h2>
 <p><strong>주의</strong>: 이 함수들을 쓰지 말 것. 대신 <tt><a class="wikilink" href="/man-pages-ko/mkstemp(3)/">mkstemp(3)</a></tt>나 <tt><a class="wikilink" href="/man-pages-ko/tmpfile(3)/">tmpfile(3)</a></tt>을 사용하라.</p>
-<p><code>tmpnam()</code> 함수는 유효한 파일명인 문자열에 대한 포인터를 반환한다. 어느 시점에는 그 이름으로 된 파일이 존재하지 않으므로 순진한 프로그래머라면 임시 파일에 적당한 이름이라고 생각할 수도 있다. 인자 <code>s</code>가 NULL이면 내부 정적 버퍼에다 이름을 생성하므로 다음 번 <code>tmpnam()</code> 호출로 덮어 써질 수도 있다. <code>s</code>가 NULL이 아니면 <code>s</code>가 가리키는 (길이가 최소 <code>L_tmpnam</code>인) 문자 배열로 이름을 복사하며 성공 시 값 <code>s</code>를 반환한다.</p>
+<p><code>tmpnam()</code> 함수는 유효한 파일명인 문자열의 포인터를 반환한다. 어느 시점에는 그 이름으로 된 파일이 존재하지 않으므로 순진한 프로그래머라면 임시 파일에 적당한 이름이라고 생각할 수도 있다. 인자 <code>s</code>가 NULL이면 내부 정적 버퍼에다 이름을 생성하므로 다음 번 <code>tmpnam()</code> 호출로 덮어 써질 수도 있다. <code>s</code>가 NULL이 아니면 <code>s</code>가 가리키는 (길이가 최소 <code>L_tmpnam</code>인) 문자 배열로 이름을 복사하며 성공 시 값 <code>s</code>를 반환한다.</p>
 <p>생성되는 경로명에는 디렉터리 선두부 <code>P_tmpdir</code>이 있다. (<code>L_tmpnam</code>과 <code>P_tmpdir</code> 모두 <code>&lt;stdio.h&gt;</code>에 정의돼 있다. 아래서 언급하는 <code>TMP_MAX</code>도 마찬가지.)</p>
 <p><code>tmpnam_r()</code> 함수는 <code>tmpnam()</code>과 같은 일을 수행하되 <code>s</code>가 NULL이면 (오류를 나타내는) NULL을 반환한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>이 함수들은 유일한 임시 파일명에 대한 포인터를 반환한다. 유일한 이름을 생성할 수 없으면 NULL을 반환한다.</p>
+<p>이 함수들은 유일한 임시 파일명의 포인터를 반환한다. 유일한 이름을 생성할 수 없으면 NULL을 반환한다.</p>
 <h2 id="errors">ERRORS</h2>
 <p>어떤 오류도 정의되어 있지 않다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>

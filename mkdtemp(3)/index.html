@@ -165,7 +165,7 @@ char *mkdtemp(char *template);
 <h2 id="description">DESCRIPTION</h2>
 <p><code>mkdtemp()</code> 함수는 <code>template</code>을 가지고 유일한 이름의 임시 디렉터리를 만들어 낸다. <code>template</code>의 마지막 여섯 글자가 XXXXXX여야 하며 그 글자들을 바꿔서 디렉터리 이름을 유일하게 만든다. 그리고 0700 권한으로 디렉터리를 생성한다. 변경이 이뤄지므로 <code>template</code>이 문자열 상수여서는 안 되며 문자 배열로 선언하는 게 좋다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p><code>mkdtemp()</code> 함수는 성공 시 변경된 템플릿 문자열에 대한 포인터를 반환한다. 오류 시 NULL을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
+<p><code>mkdtemp()</code> 함수는 성공 시 변경된 템플릿 문자열의 포인터를 반환한다. 오류 시 NULL을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EINVAL</code></dt>

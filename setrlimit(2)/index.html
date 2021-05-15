@@ -309,7 +309,7 @@ int prlimit(pid_t pid, int resource, const struct rlimit *new_limit,
 <p><code>prlimit()</code>: 리눅스 전용.</p>
 <p><code>RLIMIT_MEMLOCK</code>과 <code>RLIMIT_NPROC</code>은 BSD에서 온 것이며 POSIX.1에는 명세돼 있지 않다. BSD 계열과 리눅스에는 있지만 다른 구현에는 거의 없다. <code>RLIMIT_RSS</code>는 BSD에서 온 것이며 POSIX.1에는 명세돼 있지 않다. 하지만 대다수 구현들에 존재한다. <code>RLIMIT_MSGQUEUE</code>, <code>RLIMIT_NICE</code>, <code>RLIMIT_RTPRIO</code>, <code>RLIMIT_RTTIME</code>, <code>RLIMIT_SIGPENDING</code>은 리눅스 전용이다.</p>
 <h2 id="notes">NOTES</h2>
-<p><tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt>를 통해 생성된 자식 프로세스는 부모의 자원 제한들을 물려받는다. <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>를 거치면서 자원 제한들이 보존된다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt>를 통해 생성된 자식 프로세스는 부모의 자원 제한들을 물려받는다. <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>를 거치면서 자원 제한들이 유지된다.</p>
 <p>자원 제한은 프로세스별 속성이므로 프로세스 내 모든 스레드가 공유한다.</p>
 <p>자원의 연성 제한을 프로세스가 현재 그 자원을 쓰고 있는 것보다 낮게 내려도 성공한다. (하지만 프로세스가 그 자원 사용량을 더 높이지 못하게 된다.)</p>
 <p>셸의 내장 명령 <code>ulimit</code>(<code>csh(1)</code>에서는 <code>limit</code>)을 사용해 셸의 자원 제한을 설정할 수 있다. 셸에서 명령 실행을 위해 생성하는 프로세스들이 그 자원 제한을 물려받는다.</p>
@@ -320,7 +320,7 @@ int prlimit(pid_t pid, int resource, const struct rlimit *new_limit,
 <p>glibc 래퍼 함수의 이름이 <code>prlimit()</code>이다. 기반 시스템 호출은 <code>prlimit64()</code>이다.</p>
 <h2 id="bugs">BUGS</h2>
 <p>구식 리눅스 커널들에서는 프로세스가 연성 및 경성 <code>RLIMIT_CPU</code> 제한을 만났을 때 (CPU 사용 시간으로) 일 초 늦게 <code>SIGXCPU</code> 및 <code>SIGKILL</code> 시그널이 전달된다. 커널 2.6.8에서 수정됐다.</p>
-<p>2.6.x 커널에서 2.6.17 전까지에서는 <code>RLIMIT_CPU</code> 제한값 0을 (<code>RLIM_INFINITY</code>처럼) "제한 없음"으로 잘못 처리한다. 2.6.17부터 제한값을 0으로 설정하는 것은 효력이 없다. 단 실제로는 제한값 1초로 다룬다.</p>
+<p>2.6.x 커널에서 2.6.17 전까지는 <code>RLIMIT_CPU</code> 제한값 0을 (<code>RLIM_INFINITY</code>처럼) "제한 없음"으로 잘못 처리한다. 2.6.17부터 제한값을 0으로 설정하는 것은 효력이 없다. 단 실제로는 제한값 1초로 다룬다.</p>
 <p>커널 2.6.12에서는 커널 버그 때문에 <code>RLIMIT_RTPRIO</code>가 동작하지 않는다. 커널 2.6.13에서 문제가 수정됐다.</p>
 <p>커널 2.6.12에서는 <tt><a class="wikilink" href="/man-pages-ko/getpriority(2)/">getpriority(2)</a></tt>가 반환하는 우선순위 범위와 <code>RLIMIT_NICE</code> 간에 1만큼의 불일치가 있었다. 이 때문에 나이스 값 실제 상한을 <code>19 - rlim_cur</code>로 계산했다. 커널 2.6.13에서 수정됐다.</p>
 <p>리눅스 2.6.12부터는 프로세스가 <code>RLIMIT_CPU</code> 제한에 도달했는데 <code>SIGXCPU</code>에 대한 핸들러가 설치돼 있는 경우 커널에서 시그널 핸들러를 호출하고 추가로 연성 제한을 1초만큼 올린다. 프로세스가 계속 CPU 시간을 소모하면 이 동작이 되풀이되고, 그러다 경성 제한에 도달하면 프로세스가 죽는다. 다른 구현들에서는 이런 식으로 <code>RLIMIT_CPU</code> 연성 제한을 바꾸지 않으며 리눅스의 동작 방식은 표준에 부합하지 않을 수 있다. 따라서 이식 가능한 응용에서는 리눅스 한정인 이 동작 방식에 의존하는 걸 피해야 한다. 리눅스 한정인 <code>RLIMIT_RTTIME</code> 제한 역시 연성 제한을 만났을 때 같은 동작을 보인다.</p>

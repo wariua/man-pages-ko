@@ -159,11 +159,11 @@ int euidaccess(const char *pathname, int mode);
 int eaccess(const char *pathname, int mode);
 </code></pre>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>euidaccess()</code>는 <tt><a class="wikilink" href="/man-pages-ko/access(2)/">access(2)</a></tt>처럼 인자 <code>pathname</code>이 나타내는 파일의 권한과 존재 여부를 확인한다. 하지만 <tt><a class="wikilink" href="/man-pages-ko/access(2)/">access(2)</a></tt>에서 프로세스의 실제 사용자 및 그룹 식별자들로 검사를 수행하는 반면 <code>euidaccess()</code>에서는 실효 식별자들을 쓴다.</p>
+<p><code>euidaccess()</code>는 <tt><a class="wikilink" href="/man-pages-ko/access(2)/">access(2)</a></tt>처럼 인자 <code>pathname</code>이 나타내는 파일의 권한과 존재 여부를 확인한다. <tt><a class="wikilink" href="/man-pages-ko/access(2)/">access(2)</a></tt>에서는 프로세스의 실제 사용자 및 그룹 식별자들로 검사를 수행하는 반면 <code>euidaccess()</code>에서는 실효 식별자들을 쓴다.</p>
 <p><code>mode</code>는 <code>R_OK</code>, <code>W_OK</code>, <code>X_OK</code>, <code>F_OK</code>를 한 개 이상 조합한 마스크이며 <tt><a class="wikilink" href="/man-pages-ko/access(2)/">access(2)</a></tt>에서와 의미가 같다.</p>
 <p><code>eaccess()</code>는 <code>euidaccess()</code>와 이름만 다른 함수이며 일부 다른 시스템들과의 호환성을 위한 것이다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 (모든 요청 권한이 허가됨) 0을 반환한다. 오류 시 (권한을 묻는 <code>mode</code>의 비트 중 최소 하나가 거부됨, 또는 어떤 다른 오류 발생) -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
+<p>성공 시 (모든 요청 권한이 허용됨) 0을 반환한다. 오류 시 (권한을 묻는 <code>mode</code>의 비트 중 최소 하나가 거부됨, 또는 어떤 다른 오류 발생) -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <p><tt><a class="wikilink" href="/man-pages-ko/access(2)/">access(2)</a></tt>에서와 같음.</p>
 <h2 id="versions">VERSIONS</h2>
@@ -189,8 +189,8 @@ int eaccess(const char *pathname, int mode);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>이 함수들은 비표준이다. 일부 다른 시스템에 <code>eaccess()</code> 함수가 있다.</p>
 <h2 id="notes">NOTES</h2>
-<p><em>경고</em>: 이 함수를 사용해 파일에 대한 프로세스의 권한을 확인한 다음 그 정보에 따라 어떤 동작을 수행하는 방식은 경쟁 조건으로 이어진다. 두 단계 사이에서 파일 권한이 바뀔 수도 있기 때문이다. 일반적으로 그냥 원하는 동작을 시도하고서 권한 오류가 발생하면 그걸 처리하는 방식이 더 안전하다.</p>
-<p>이 함수는 항상 심볼릭 링크를 따라간다. 심볼릭 링크에 대한 권한을 확인하려면 <code>AT_EACCESS</code> 및 <code>AT_SYMLINK_NOFOLLOW</code> 플래그와 함께 <tt><a class="wikilink" href="/man-pages-ko/faccessat(2)/">faccessat(2)</a></tt>을 사용하면 된다.</p>
+<p><em>경고</em>: 이 함수를 사용해 파일에 대한 프로세스의 권한을 확인한 다음 그 정보에 따라 어떤 동작을 수행하는 방식은 경쟁 조건으로 이어진다. 두 단계 사이에서 파일 권한이 바뀔 수도 있기 때문이다. 그냥 원하는 동작을 시도하고서 권한 오류가 발생하면 대처하는 방식이 일반적으로 더 안전하다.</p>
+<p>이 함수는 항상 심볼릭 링크를 따라간다. 심볼릭 링크에 대해 권한을 검사해야 하면 <code>AT_EACCESS</code> 및 <code>AT_SYMLINK_NOFOLLOW</code> 플래그를 써서 <tt><a class="wikilink" href="/man-pages-ko/faccessat(2)/">faccessat(2)</a></tt>을 이용하면 된다.</p>
 <h2 id="see-also">SEE ALSO</h2>
 <p><tt><a class="wikilink" href="/man-pages-ko/access(2)/">access(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/chmod(2)/">chmod(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/chown(2)/">chown(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/faccessat(2)/">faccessat(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/setgid(2)/">setgid(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/setuid(2)/">setuid(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/stat(2)/">stat(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/credentials(7)/">credentials(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/path_resolution(7)/">path_resolution(7)</a></tt></p>
 <hr />

@@ -170,7 +170,7 @@ char *tempnam(const char *dir, const char *pfx);
 </dl>
 <h2 id="description">DESCRIPTION</h2>
 <p><em>이 함수를 절대 쓰지 말 것.</em> 대신 <tt><a class="wikilink" href="/man-pages-ko/mkstemp(3)/">mkstemp(3)</a></tt>나 <tt><a class="wikilink" href="/man-pages-ko/tmpfile(3)/">tmpfile(3)</a></tt>을 사용하라.</p>
-<p><code>tempnam()</code> 함수는 유효한 파일명인 문자열에 대한 포인터를 반환한다. <code>tempnam()</code>에서 확인하는 시점에는 그 이름으로 된 파일이 존재하지 않는다. <code>pfx</code>가 최대 다섯 바이트의 NULL 아닌 문자열인 경우 생성 경로명의 파일명 부분이 <code>pfx</code>로 시작하게 된다. 생성 경로명의 디렉터리 부분이 "적절"해야 (보통 적어도 쓰기 가능해야) 한다.</p>
+<p><code>tempnam()</code> 함수는 유효한 파일명인 문자열의 포인터를 반환한다. <code>tempnam()</code>에서 확인하는 시점에는 그 이름으로 된 파일이 존재하지 않는다. <code>pfx</code>가 최대 다섯 바이트의 NULL 아닌 문자열인 경우 생성 경로명의 파일명 부분이 <code>pfx</code>로 시작하게 된다. 생성 경로명의 디렉터리 부분이 "적절"해야 (보통 적어도 쓰기 가능해야) 한다.</p>
 <p>적절한 디렉터리를 찾기 위해 다음 단계를 거친다.</p>
 <p>a) 환경 변수 <code>TMPDIR</code>이 존재하여 적절한 디렉터리 이름을 담고 있는 경우에는 그걸 쓴다.</p>
 <p>b) 아니면, <code>dir</code> 인자가 NULL이 아니고 적절하면 그걸 쓴다.</p>
@@ -178,7 +178,7 @@ char *tempnam(const char *dir, const char *pfx);
 <p>d) 마지막으로, 구현에서 정한 디렉터리를 사용할 수 있다.</p>
 <p><code>tempnam()</code>이 반환하는 문자열은 <tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt>으로 할당한 것이므로 <tt><a class="wikilink" href="/man-pages-ko/free(3)/">free(3)</a></tt>로 해제해 줘야 한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 <code>tempnam()</code> 함수는 유일한 임시 파일명에 대한 포인터를 반환한다. 유일한 이름을 생성할 수 없는 경우 NULL을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
+<p>성공 시 <code>tempnam()</code> 함수는 유일한 임시 파일명의 포인터를 반환한다. 유일한 이름을 생성할 수 없는 경우 NULL을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>ENOMEM</code></dt>

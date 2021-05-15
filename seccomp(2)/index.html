@@ -191,8 +191,8 @@ int seccomp(unsigned int operation, unsigned int flags, void *args);
 </dd>
 <dt><code>SECCOMP_SET_MODE_FILTER</code></dt>
 <dd>
-<p><code>args</code>를 통해 전달하는 버클리 패킷 필터(BPF) 포인터가 허용 시스템 호출을 규정한다. 이 인자는 <code>struct sock_fprog</code>에 대한 포인터이다. 임의의 시스템 호출 및 시스템 호출 인자를 걸러내도록 설계할 수 있다. 필터가 유효하지 않으면 <code>seccomp()</code>가 실패하며 <code>errno</code>로 <code>EINVAL</code>을 반환한다.</p>
-<p>필터에서 <tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt>나 <tt><a class="wikilink" href="/man-pages-ko/clone(2)/">clone(2)</a></tt>을 허용하는 경우 자식 프로세스들은 부모와 같은 시스템 호출 필터의 제약을 받게 된다. <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>가 허용되는 경우 <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt> 호출을 거치면서 기존 필터가 보존된다.</p>
+<p><code>args</code>를 통해 전달하는 버클리 패킷 필터(BPF) 포인터가 허용 시스템 호출을 규정한다. 이 인자는 <code>struct sock_fprog</code>의 포인터이다. 임의의 시스템 호출 및 시스템 호출 인자를 걸러내도록 설계할 수 있다. 필터가 유효하지 않으면 <code>seccomp()</code>가 실패하며 <code>errno</code>로 <code>EINVAL</code>을 반환한다.</p>
+<p>필터에서 <tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt>나 <tt><a class="wikilink" href="/man-pages-ko/clone(2)/">clone(2)</a></tt>을 허용하는 경우 자식 프로세스들은 부모와 같은 시스템 호출 필터의 제약을 받게 된다. <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>가 허용되는 경우 <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt> 호출을 거치면서 기존 필터가 유지된다.</p>
 <p><code>SECCOMP_SET_MODE_FILTER</code> 동작을 사용하기 위해선 호출 스레드가 자기 네임스페이스에서 <code>CAP_SYS_ADMIN</code> 역능을 가지고 있어야 한다. 아니면 스레드에 이미 <code>no_new_privs</code> 비트가 설정되어 있어야 하는데, 스레드 선조가 그 비트를 이미 설정하지 않았다면 스레드에서 다음 호출을 해야 한다.</p>
 <pre><code>prctl(PR_SET_NO_NEW_PRIVS, 1);
 </code></pre>
@@ -226,7 +226,7 @@ int seccomp(unsigned int operation, unsigned int flags, void *args);
 <pre><code class="language-c">struct sock_fprog {
     unsigned short     len;     /* BPF 인스트럭션 개수 */
     struct sock_filter *filter; /* BPF 인스트럭션들의
-                                   배열에 대한 포인터 */
+                                   배열의 포인터 */
 };
 </code></pre>
 <p>각 프로그램은 한 개 이상의 BPF 인스트럭션을 담고 있어야 한다.</p>

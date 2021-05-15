@@ -257,7 +257,7 @@ pthread_sigmask(SIG_SETMASK, &amp;origmask, NULL);
 <p>위 코드가 <em>거의</em> 동등하다고 한 이유는 <code>poll()</code>에선 음수 <code>timeout</code> 값을 무한대 타임아웃으로 해석하지만 <code>ppoll()</code>에선 <code>*tmo_p</code>의 값이 음수이면 오류가 나기 때문이다.</p>
 <p><code>ppoll()</code>이 필요한 이유는 <tt><a class="wikilink" href="/man-pages-ko/pselect(2)/">pselect(2)</a></tt>의 설명을 보라.</p>
 <p><code>sigmask</code>를 NULL로 지정한 경우에는 시그널 마스크 조작을 수행하지 않는다. (그러면 <code>ppoll()</code>과 <code>poll()</code>의 차이는 <code>timeout</code> 인자의 정밀도뿐이다.)</p>
-<p><code>tmo_p</code> 인자는 <code>ppoll()</code>에서 블록 할 시간의 상한을 나타낸다. 이 인자는 다음 구조체에 대한 포인터이다.</p>
+<p><code>tmo_p</code> 인자는 <code>ppoll()</code>에서 블록 할 시간의 상한을 나타낸다. 이 인자는 다음 구조체의 포인터이다.</p>
 <pre><code class="language-c">struct timespec {
     long    tv_sec;         /* 초 */
     long    tv_nsec;        /* 나노초 */

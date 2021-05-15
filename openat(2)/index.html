@@ -346,7 +346,7 @@ int openat2(int dirfd, const char *pathname,
 <dt><code>O_EXCL</code></dt>
 <dd>
 <p>이 호출에서 꼭 파일을 만들도록 한다. 이 플래그가 <code>O_CREAT</code>와 함께 지정돼 있는데 <code>pathname</code>이 이미 존재하면 <code>open()</code>이 <code>EEXIST</code> 오류로 실패한다.</p>
-<p>그 두 플래그가 지정된 경우에는 심볼릭 링크를 따라가지 않는다. <code>pathname</code>이 심볼릭 링크이면 그게 어디를 가리키는지와 상관없이 <code>open()</code>이 실패한다.</p>
+<p>그 두 플래그가 지정된 경우에는 심볼릭 링크를 따라가지 않는다. <code>pathname</code>이 심볼릭 링크면 그게 어디를 가리키는지와 상관없이 <code>open()</code>이 실패한다.</p>
 <p>일반적으로 <code>O_CREAT</code> 없이 사용 시 <code>O_EXCL</code>의 동작 방식은 규정돼 있지 않다. 여기에 한 가지 예외가 있는데, 리눅스 2.6 및 이후에서는 <code>pathname</code>이 블록 장치를 가리키는 경우 <code>O_EXCL</code>을 <code>O_CREAT</code> 없이 쓸 수 있다. 그 블록 장치를 시스템에서 사용 중이면 (가령 마운트 돼 있으면) <code>open()</code>이 <code>EBUSY</code> 오류로 실패한다.</p>
 <p>NFS인 경우, 커널 2.6 내지 이후에서 NFSv3 내지 이후 버전을 쓸 때만 <code>O_EXCL</code>을 지원한다. 락킹 작업 수행에 있어 이에 의존하는 프로그램이 있다면 <code>O_EXCL</code>을 지원하지 않는 NFS 환경에서 경쟁 조건이 있게 된다. 락 파일을 이용해 원자적 파일 락킹을 수행하고 싶은데 NFS의 <code>O_EXCL</code> 지원에 의지하는 건 피하고 싶은 이식 가능한 프로그램에서는 같은 파일 시스템 상에 (가령 호스트명과 PID를 합쳐서) 유일한 파일을 만들고 <tt><a class="wikilink" href="/man-pages-ko/link(2)/">link(2)</a></tt>를 사용해 그 락 파일에 대한 링크를 만들 수 있다. <tt><a class="wikilink" href="/man-pages-ko/link(2)/">link(2)</a></tt>가 0을 반환한다면 락이 성공한 것이다. 그렇지 않은 경우 그 유일한 파일에 <tt><a class="wikilink" href="/man-pages-ko/stat(2)/">stat(2)</a></tt>을 해서 링크 카운트가 2로 올라갔는지 확인한다. 그렇다면 그 경우 역시 락이 성공한 것이다.</p>
 </dd>
@@ -370,7 +370,7 @@ int openat2(int dirfd, const char *pathname,
 <dd><code>pathname</code>이 터미널 장치(<tt><a class="wikilink" href="/man-pages-ko/tty(4)/">tty(4)</a></tt> 참고)를 가리키는 경우에 프로세스에 제어 터미널이 없더라도 그 장치가 프로세스의 제어 터미널이 되지 않게 한다.</dd>
 <dt><code>O_NOFOLLOW</code></dt>
 <dd>
-<p><code>pathname</code>의 마지막 부분(즉 basename)이 심볼릭 링크이면 열기가 <code>ELOOP</code> 오류로 실패한다. 경로명 앞쪽 부분의 심볼릭 링크는 여전히 따라간다. (참고로 이 경우 발생할 수 있는 <code>ELOOP</code> 오류는 경로명 선두부 구성 항목들을 해석하는 과정에서 너무 많은 심볼릭 링크를 발견해서 열기가 실패하는 경우와 구별이 불가능하다.)</p>
+<p><code>pathname</code>의 마지막 부분(즉 basename)이 심볼릭 링크면 열기가 <code>ELOOP</code> 오류로 실패한다. 경로명 앞쪽 부분의 심볼릭 링크는 여전히 따라간다. (참고로 이 경우 발생할 수 있는 <code>ELOOP</code> 오류는 경로명 선두부 구성 항목들을 해석하는 과정에서 너무 많은 심볼릭 링크를 발견해서 열기가 실패하는 경우와 구별이 불가능하다.)</p>
 <p>이 플래그는 FreeBSD 확장이며 리눅스에는 버전 2.1.126에 추가되었다. 그 뒤 POSIX.1-2008에서 표준화되었다.</p>
 <p>아래의 <code>O_PATH</code>도 참고.</p>
 </dd>

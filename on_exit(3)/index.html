@@ -148,7 +148,7 @@
         <div class="col-md-9" role="main">
 
 <h2 id="name">NAME</h2>
-<p>on_exit - 정상적 프로세스 종료 때 호출되는 함수 등록하기</p>
+<p>on_exit - 프로세스 정상 종료 때 호출되는 함수 등록하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
 <pre><code class="language-c">#include &lt;stdlib.h&gt;
 
@@ -167,9 +167,9 @@ int on_exit(void (*function)(int, void *), void *arg);
 </dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>on_exit()</code> 함수는 <tt><a class="wikilink" href="/man-pages-ko/exit(3)/">exit(3)</a></tt>나 프로그램 <code>main()</code> 반환을 통한 정상적 프로세스 종료 때 호출하도록 주어진 함수 <code>function</code>을 등록한다. 마지막 <tt><a class="wikilink" href="/man-pages-ko/exit(3)/">exit(3)</a></tt>이 받은 <code>status</code> 인자와 <code>on_exit()</code>의 <code>arg</code> 인자가 <code>function</code>에게 전달된다.</p>
+<p><code>on_exit()</code> 함수는 <tt><a class="wikilink" href="/man-pages-ko/exit(3)/">exit(3)</a></tt>나 프로그램 <code>main()</code> 반환을 통한 프로세스 정상 종료 때 호출하도록 주어진 함수 <code>function</code>을 등록해 둔다. 마지막 <tt><a class="wikilink" href="/man-pages-ko/exit(3)/">exit(3)</a></tt> 호출이 받은 <code>status</code> 인자와 <code>on_exit()</code>의 <code>arg</code> 인자가 <code>function</code>으로 전달된다.</p>
 <p>같은 함수를 여러 번 등록할 수도 있다. 각 등록마다 한 번씩 호출된다.</p>
-<p><tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt>를 통해 자식 프로세스를 생성하면 부모의 등록 내용 사본을 물려받는다. <tt><a class="wikilink" href="/man-pages-ko/exec(3)/">exec(3)</a></tt> 함수들 중 하나를 성공 호출 시 모든 등록 내용이 없어진다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt>를 통해 자식 프로세스가 생성되면 부모의 등록 내용 사본을 물려받는다. <tt><a class="wikilink" href="/man-pages-ko/exec(3)/">exec(3)</a></tt> 함수들 중 하나를 성공적으로 호출하면 모든 등록 내용이 없어진다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p><code>on_exit()</code> 함수는 성공 시 0 값을 반환한다. 그 외의 경우 0 아닌 값을 반환한다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
@@ -193,7 +193,7 @@ int on_exit(void (*function)(int, void *), void *arg);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>이 함수는 SunOS 4에서 생긴 것이지만 glibc에도 있다. 솔라리스(SunOS 5)에는 더이상 존재하지 않는다. 이식 가능한 응용에서는 이 함수를 피하고 대신 표준인 <tt><a class="wikilink" href="/man-pages-ko/atexit(3)/">atexit(3)</a></tt>를 사용해야 한다.</p>
 <h2 id="notes">NOTES</h2>
-<p><code>function</code>이 실행될 때 스택(<em>자동</em>) 변수들이 이미 스코프를 벗어났을 수 있다. 따라서 <code>arg</code>가 스택 변수에 대한 포인터여선 안 된다. 대신 힙 변수나 전역 변수에 대한 포인터일 수 있다.</p>
+<p><code>function</code>이 실행될 때 스택(<em>자동</em>) 변수들이 이미 스코프를 벗어났을 수 있다. 따라서 <code>arg</code>가 스택 변수에 대한 포인터여선 안 된다. 힙 변수나 전역 변수에 대한 포인터는 괜찮다.</p>
 <h2 id="see-also">SEE ALSO</h2>
 <p><tt><a class="wikilink" href="/man-pages-ko/_exit(2)/">_exit(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/atexit(3)/">atexit(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/exit(3)/">exit(3)</a></tt></p>
 <hr />

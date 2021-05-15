@@ -225,8 +225,8 @@ time_t mktime(struct tm *tm);
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 <code>gmtime()</code> 및 <code>localtime()</code>은 <code>struct tm</code> 포인터를 반환한다.</p>
 <p>성공 시 <code>gmtime_r()</code> 및 <code>localtime_r()</code>은 <code>result</code>가 가리키는 구조체의 주소를 반환한다.</p>
-<p>성공 시 <code>asctime()</code> 및 <code>ctime()</code>은 문자열 포인터를 반환한다.</p>
-<p>성공 시 <code>asctime_r()</code> 및 <code>ctime_r()</code>은 <code>buf</code>가 가리키는 문자열에 대한 포인터를 반환한다.</p>
+<p>성공 시 <code>asctime()</code> 및 <code>ctime()</code>은 문자열의 포인터를 반환한다.</p>
+<p>성공 시 <code>asctime_r()</code> 및 <code>ctime_r()</code>은 <code>buf</code>가 가리키는 문자열의 포인터를 반환한다.</p>
 <p>성공 시 <code>mktime()</code>은 <code>time_t</code> 타입 값으로 표현한 달력 시간(에포크 이후 초 수)을 반환한다.</p>
 <p>오류 시 <code>mktime()</code>은 <code>(time_t) -1</code> 값을 반환한다. 나머지 함수들은 오류 시 NULL을 반환한다. 오류 시 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
@@ -276,7 +276,7 @@ time_t mktime(struct tm *tm);
 <p>POSIX.1-2001. C89 및 C99에서 <code>asctime()</code>, <code>ctime()</code>, <code>gmtime()</code>, <code>localtime()</code>, <code>mktime()</code>을 명세하고 있다. POSIX.1-2008에서 <code>asctime()</code>, <code>asctime_r()</code>, <code>ctime()</code>, <code>ctime_r()</code>을 구식으로 표시하고 대신 <tt><a class="wikilink" href="/man-pages-ko/strftime(3)/">strftime(3)</a></tt>을 쓰기를 권하고 있다.</p>
 <p>POSIX에서는 <code>ctime_r()</code>의 매개변수가 <code>restrict</code>여야 한다고 명세하고 있지 않다. glibc 한정이다.</p>
 <h2 id="notes">NOTES</h2>
-<p>네 함수 <code>asctime()</code>, <code>ctime()</code>, <code>gmtime()</code>, <code>localtime()</code>은 정적 데이터에 대한 포인터를 반환하므로 스레드 안전이 아니다. 스레드 안전 버전인 <code>asctime_r()</code>, <code>ctime_r()</code>, <code>gmtime_r()</code>, <code>localtime_r()</code>을 SUSv2에서 명세한다.</p>
+<p>네 함수 <code>asctime()</code>, <code>ctime()</code>, <code>gmtime()</code>, <code>localtime()</code>은 정적 데이터의 포인터를 반환하므로 스레드 안전이 아니다. 스레드 안전 버전인 <code>asctime_r()</code>, <code>ctime_r()</code>, <code>gmtime_r()</code>, <code>localtime_r()</code>을 SUSv2에서 명세한다.</p>
 <p>POSIX.1-2001: "<code>asctime()</code>, <code>ctime()</code>, <code>gmtime()</code>, <code>localtime()</code> 함수는 두 가지 정적 객체, 즉 분할 시간 구조체와 <code>char</code> 타입 배열 중 하나로 값을 반환해야 한다. 이 함수들 중 어느 것을 실행하든 다른 어느 함수에서 그 객체들 중 어느 것으로든 반환한 정보를 덮어 쓸 수 있다." glibc 구현에서도 그럴 수 있다.</p>
 <p>glibc를 포함한 여러 구현체에서는 <code>tm_mday</code>의 0 값을 전달 마지막 날을 뜻하는 것으로 해석한다.</p>
 <p><code>&lt;time.h&gt;</code>를 포함하기 전에 <code>_BSD_SOURCE</code>가 설정돼 있으면 glibc 버전 <code>struct tm</code>에는 다음 필드가 추가로 정의된다.</p>
