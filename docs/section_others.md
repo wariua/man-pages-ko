@@ -41,4 +41,5 @@
 * [[locale(7)]], [[setlocale(3)]], [[newlocale(3)]], [[duplocale(3)]], [[uselocale(3)]], [[nl_langinfo(3)]], [[localeconv(3)]],  [[catopen(3)]], [[catgets(3)]], [[strfmon(3)]], [[strcoll(3)]], [[strxfrm(3)]]
 * [[gettext(3)]], [[ngettext(3)]], [[textdomain(3)]], [[bind_text_domain_codeset(3)]], [[bindtextdomain(3)]]
 * [[feature_test_macros(7)]], [[posixoptions(7)]], [[standards(7)]]
+* [[system_data_types(7)]]
 * [[attributes(7)]]
