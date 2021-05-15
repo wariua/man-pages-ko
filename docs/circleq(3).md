@@ -50,7 +50,7 @@ void CIRCLEQ_REMOVE(CIRCLEQ_HEAD *head, struct TYPE *elm,
 
 ### 생성
 
-원형 큐의 머리는 `CIRCLEQ_HEAD()` 매크로로 정의한 구조체이다. 이 구조체에는 포인터 한 쌍이 있는데, 하나는 큐의 첫 번째 항목을 가리키고 다른 하나는 큐의 마지막 항목을 가리킨다. 항목들이 이중으로 연결되어 있으므로 큐 순회 없이 임의 항목을 제거할 수 있다. 기존 항목 뒤나 기존 항목 앞에, 큐 머리나 큐 끝에 새 항목을 추가할 수 있다. `CIRCLEQ_HEAD` 구조체를 다음처럼 선언한다.
+원형 큐의 머리는 `CIRCLEQ_HEAD()` 매크로로 정의한 구조체다. 이 구조체에는 포인터 한 쌍이 있는데, 하나는 큐의 첫 번째 항목을 가리키고 다른 하나는 큐의 마지막 항목을 가리킨다. 항목들이 이중으로 연결되어 있으므로 큐 순회 없이 임의 항목을 제거할 수 있다. 기존 항목 뒤나 기존 항목 앞에, 큐 머리나 큐 끝에 새 항목을 추가할 수 있다. `CIRCLEQ_HEAD` 구조체를 다음처럼 선언한다.
 
 ```c
 CIRCLEQ_HEAD(HEADNAME, TYPE) head;
@@ -88,13 +88,13 @@ struct HEADNAME *headp;
 
 `CIRCLEQ_LAST()`는 큐의 마지막 항목을 반환한다.
 
-`CIRCLEQ_PREV()`는 큐 내의 이전 항목을 반환하며, 현 항목이 첫 번째이면 `&head`를 반환한다.
+`CIRCLEQ_PREV()`는 큐에서 이전 항목을 반환하며, 현 항목이 첫 번째면 `&head`를 반환한다.
 
-`CIRCLEQ_NEXT()`는 큐 내의 다음 항목을 반환하며, 현 항목이 마지막이면 `&head`를 반환한다.
+`CIRCLEQ_NEXT()`는 큐에서 다음 항목을 반환하며, 현 항목이 마지막이면 `&head`를 반환한다.
 
-`CIRCLEQ_LOOP_PREV()`는 큐 내의 이전 항목을 반환한다. `elm`이 큐의 첫 번째 항목이면 마지막 항목을 반환한다.
+`CIRCLEQ_LOOP_PREV()`는 큐에서 이전 항목을 반환한다. `elm`이 큐의 첫 번째 항목이면 마지막 항목을 반환한다.
 
-`CIRCLEQ_LOOP_NEXT()`는 큐 내의 다음 항목을 반환한다. `elm`이 큐의 마지막 항목이면 첫 번째 항목을 반환한다.
+`CIRCLEQ_LOOP_NEXT()`는 큐에서 다음 항목을 반환한다. `elm`이 큐의 마지막 항목이면 첫 번째 항목을 반환한다.
 
 `CIRCLEQ_FOREACH()`는 `head`가 가리키는 큐를 순방향으로 순회하면서 각 항목을 차례로 `var`에 할당한다. 루프가 정상적으로 끝나거나 항목이 없는 경우에 `var`를 `&head`로 설정한다.
 
@@ -120,7 +120,7 @@ POSIX.1, POSIX.1-2001, POSIX.1-2008에 없다. BSD들에 있다. (4.4BSD에서 C
 
 ## BUGS
 
-`CIRCLEQ_FOREACH()` 및 `CIRCLEQ_FOREACH_REVERSE()`에서 `var`를 루프 안에서 제거하거나 해제하는 것이 허용되지 않는다. 순회를 방해하게 되기 때문이다. BSD들에 있지만 glibc에는 없는 `CIRCLEQ_FOREACH_SAFE()` 및 `CIRCLEQ_FOREACH_REVERSE_SAFE()`에서 이 제약을 수정해서, 순회를 방해하지 않고 루프 안에서 `var`를 안전하게 리스트에서 제거하고 해제하는 것이 허용된다.
+`CIRCLEQ_FOREACH()` 및 `CIRCLEQ_FOREACH_REVERSE()`에서 `var`를 루프 안에서 제거하거나 해제하는 것이 허용되지 않는다. 순회를 방해하게 되기 때문이다. BSD들에 있지만 glibc에는 없는 `CIRCLEQ_FOREACH_SAFE()` 및 `CIRCLEQ_FOREACH_REVERSE_SAFE()`에서 이 제약을 수정해서, 순회를 방해하지 않고 루프 안에서 `var`를 안전하게 리스트에서 제거하고 해제하는 것이 가능하다.
 
 ## EXAMPLES
 

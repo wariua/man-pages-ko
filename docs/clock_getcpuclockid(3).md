@@ -19,7 +19,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## DESCRIPTION
 
-`clock_getcpuclockid()` 함수는 ID가 `pid`인 프로세스의 CPU 시간 클럭의 ID를 얻어서 `clockid`가 가리키는 위치로 반환한다. `pid`가 0이면 호출 프로세스의 CPU 시간 클럭의 클럭 ID를 반환한다.
+`clock_getcpuclockid()` 함수는 ID가 `pid`인 프로세스의 CPU 시간 클럭의 ID를 얻어서 `clockid`가 가리키는 위치를 통해 반환한다. `pid`가 0이면 호출 프로세스의 CPU 시간 클럭의 클럭 ID를 반환한다.
 
 ## RETURN VALUE
 
@@ -28,10 +28,10 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 ## ERRORS
 
 `ENOSYS`
-:   커널이 다른 프로세스의 프로세스별 CPU 시간 클럭 얻기를 지원하지 않는데 `pid`가 호출 프로세스를 지정하고 있지 않다.
+:   커널이 다른 프로세스의 프로세스별 CPU 시간 클럭 얻기를 지원하지 않는데 `pid`가 호출 프로세스를 나타내고 있지 않다.
 
 `EPERM`
-:   `pid`로 지정한 프로세스의 CPU 시간 클럭에 접근할 권한을 호출자가 가지고 있지 않다. (POSIX.1-2001에서 명세함. 리눅스에서는 커널이 다른 프로세스의 프로세스별 CPU 시간 클럭 얻기를 지원하지 않는 경우가 아니라면 발생하지 않음.)
+:   `pid`가 나타내는 프로세스의 CPU 시간 클럭에 접근할 권한을 호출자가 가지고 있지 않다. (POSIX.1-2001에서 명세함. 리눅스에서는 커널이 다른 프로세스의 프로세스별 CPU 시간 클럭 얻기를 지원하지 않는 경우가 아니라면 발생하지 않음.)
 
 `ESRCH`
 :   ID가 `pid`인 프로세스가 없다.
@@ -54,11 +54,11 @@ POSIX.1-2001, POSIX.1-2008.
 
 ## NOTES
 
-`pid`가 0인 `clock_getcpuclockid()` 호출로 얻은 클럭 ID를 <tt>[[clock_gettime(2)]]</tt>을 호출할 때 사용하는 것은 클럭 ID `CLOCK_PROCESS_CPUTIME_ID`를 쓰는 것과 같다.
+`pid` 0으로 `clock_getcpuclockid()`를 호출해서 얻은 클럭 ID를 가지고 <tt>[[clock_gettime(2)]]</tt>을 호출하는 것은 클럭 ID `CLOCK_PROCESS_CPUTIME_ID`를 쓰는 것과 같다.
 
 ## EXAMPLES
 
-아래의 예시 프로그램은 명령행으로 준 ID를 가진 프로세스의 CPU 시간 클럭 ID를 얻은 다음 <tt>[[clock_gettime(2)]]</tt>을 이용해 그 클럭의 시간을 얻는다. 동작 예는 다음과 같다.
+아래의 예시 프로그램은 명령행으로 받은 ID를 가진 프로세스의 CPU 시간 클럭 ID를 얻은 다음 <tt>[[clock_gettime(2)]]</tt>을 이용해 그 클럭의 시간을 얻는다. 동작 예는 다음과 같다.
 
 ```text
 $ ./a.out 1                 # init 프로세스의 CPU 클럭 보기

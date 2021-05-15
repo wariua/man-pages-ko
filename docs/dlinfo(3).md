@@ -16,12 +16,12 @@ int dlinfo(void *restrict handle, int request, void *restrict info);
 
 ## DESCRIPTION
 
-`dlinfo()` 함수는 (보통 앞선 <tt>[[dlopen(3)]]</tt> 내지 <tt>[[dlmopen(3)]]</tt> 호출로 얻은) `handle`이 가리키는 동적 적재 오브젝트에 대한 정보를 얻어 온다. `request` 인자가 어떤 정보를 반환해야 하는지 지정한다. `info` 인자는 호출에서 반환하는 정보를 저장하는 데 쓰는 버퍼의 포인터다. `request`에 따라 이 인자의 타입이 달라진다.
+`dlinfo()` 함수는 (보통 앞선 <tt>[[dlopen(3)]]</tt> 내지 <tt>[[dlmopen(3)]]</tt> 호출로 얻은) `handle`이 가리키는 동적 적재 오브젝트에 대한 정보를 얻어 온다. `request` 인자는 어떤 정보를 반환해야 하는지 지정한다. `info` 인자는 호출에서 반환하는 정보를 저장하는 데 쓰는 버퍼의 포인터다. `request`에 따라 이 인자의 타입이 달라진다.
 
-`request`에 다음 값들을 지원한다. (괄호 안은 해당하는 `info` 타입이다.)
+`request`에 다음 값들을 지원한다. (괄호 안은 `info`의 타입이다.)
 
 `RTLD_DI_LMID` (`Lmid_t *`)
-:   `handle`이 적재된 링크 맵 리스트(네임스페이스)의 ID를 얻는다.
+:   `handle`이 적재된 링크 맵 목록(네임스페이스)의 ID를 얻는다.
 
 `RTLD_DI_LINKMAP` (`struct link_map **`)
 :   `handle`에 대응하는 `link_map` 구조체 포인터를 얻는다. `info` 인자가 `<link.h>`에 다음처럼 정의된 `link_map` 구조체 포인터를 가리킨다.
@@ -29,26 +29,25 @@ int dlinfo(void *restrict handle, int request, void *restrict info);
         struct link_map {
             ElfW(Addr) l_addr;  /* ELF 파일 내 주소와
                                    메모리 내 주소의 차이 */
-            char      *l_name;  /* 오브젝트를 찾은
+            char      *l_name;  /* 오브젝트가 있던
                                    절대 경로명 */
             ElfW(Dyn) *l_ld;    /* 공유 오브젝트의
                                    dynamic 섹션 */
             struct link_map *l_next, *l_prev;
                                 /* 적재된 오브젝트들을 연결 */
 
-            /* 더해서 구현 내부용 필드들이
-               추가로 있음 */
+            /* 추가로 구현 내부용 필드들이 있음 */
         };
 
 `RTLD_DI_ORIGIN` (`char *`)
-:   `handle`에 대응하는 공유 오브젝트의 출발점(origin) 경로명을 `info`가 가리키는 위치로 복사한다.
+:   `handle`에 대응하는 공유 오브젝트의 출처(origin) 경로명을 `info`가 가리키는 위치로 복사한다.
 
 `RTLD_DI_SERINFO` (`Dl_serinfo *`)
-:   `handle`이 가리키는 공유 오브젝트에 대한 라이브러리 탐색 경로 목록을 얻는다. `info` 인자가 탐색 경로들을 담는 `Dl_serinfo`의 포인터이다. 탐색 경로 수가 다를 수 있기 때문에 `info`가 가리키는 구조체의 크기가 달라질 수 있다. 아래에서 기술하는 `RTLD_DI_SERINFOSIZE` 요청을 이용하면 응용에서 적절한 크기로 버퍼를 만들 수 있다. 호출자가 다음 단계들을 수행해야 한다.
+:   `handle`이 가리키는 공유 오브젝트에 대한 라이브러리 탐색 경로 목록을 얻는다. `info` 인자가 탐색 경로들을 담는 `Dl_serinfo`의 포인터다. 탐색 경로 수가 다를 수 있기 때문에 `info`가 가리키는 구조체의 크기가 달라질 수 있다. 아래에서 기술하는 `RTLD_DI_SERINFOSIZE` 요청을 이용하면 응용에서 적절한 크기로 버퍼를 만들 수 있다. 호출자가 다음 단계들을 수행해야 한다.
 
-    1. `RTLD_DI_SERINFOSIZE` 요청을 사용해 `Dl_serinfo` 구조체에 이어질 `RTLD_DI_SERINFO` 요청에 필요한 크기(`dls_size`)를 채운다.
+    1. `RTLD_DI_SERINFOSIZE` 요청을 사용해 이어질 `RTLD_DI_SERINFO` 요청에 필요한 크기(`dls_size`)를 `DL_serinfo` 구조체에 채운다.
 
-    2. 올바른 크기(`dls_size`)의 `Dl_serinfo` 버퍼를 할당한다.
+    2. 올바른 크기(`dls_size`)로 `Dl_serinfo` 버퍼를 할당한다.
 
     3. 다시 `RTLD_DI_SERINFOSIZE` 요청을 사용해 앞 단계에서 할당한 버퍼의 `dls_size` 및 `dls_cnt` 필드를 채운다.
 
@@ -57,15 +56,15 @@ int dlinfo(void *restrict handle, int request, void *restrict info);
     `Dl_serinfo` 구조체는 다음과 같이 정의돼 있다.
 
         typedef struct {
-            size_t dls_size;           /* Size in bytes of
-                                          the whole buffer */
-            unsigned int dls_cnt;      /* Number of elements
-                                          in 'dls_serpath' */
-            Dl_serpath dls_serpath[1]; /* Actually longer,
-                                          'dls_cnt' elements */
+            size_t dls_size;           /* 전체 버퍼의
+                                          바이트 단위 크기 */
+            unsigned int dls_cnt;      /* 'dls_serpath'의
+                                          항목 수 */
+            Dl_serpath dls_serpath[1]; /* 실제로는 항목
+                                          'dls_cnt' 개 */
         } Dl_serinfo;
 
-    위 구조체의 `dls_serpath` 항목 각각은 다음 형태의 구조체이다.
+    위 구조체의 `dls_serpath` 항목 각각은 다음 형태의 구조체다.
 
         typedef struct {
             char *dls_name;            /* 라이브러리 탐색 경로
@@ -107,7 +106,7 @@ glibc 2.3.3에서 `dlinfo()`가 처음 등장했다.
 
 ## EXAMPLES
 
-아래 프로그램에서는 <tt>[[dlopen(3)]]</tt>을 써서 공유 오브젝트를 연 다음 `RTLD_DI_SERINFOSIZE` 및 `RTLD_DI_SERINFO` 요청을 이용해 그 라이브러리에 대한 라이브러리 탐색 경로 목록을 얻는다. 다음은 프로그램 실행 시 볼 수 있는 출력의 예이다.
+아래 프로그램에서는 <tt>[[dlopen(3)]]</tt>을 써서 공유 오브젝트를 연 다음 `RTLD_DI_SERINFOSIZE` 및 `RTLD_DI_SERINFO` 요청을 이용해 그 라이브러리에 대한 라이브러리 탐색 경로 목록을 얻는다. 다음은 프로그램 실행 시 볼 수 있는 출력의 예다.
 
 ```text
 $ ./a.out /lib64/libm.so.6
@@ -136,7 +135,7 @@ main(int argc, char *argv[])
         exit(EXIT_FAILURE);
     }
 
-    /* 명령행에 지정된 공유 오브젝트에 대한 핸들 얻기. */
+    /* 명령행에서 지정한 공유 오브젝트에 대한 핸들 얻기. */
 
     handle = dlopen(argv[1], RTLD_NOW);
     if (handle == NULL) {

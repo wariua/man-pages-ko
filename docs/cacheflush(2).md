@@ -14,7 +14,7 @@ int cacheflush(void *addr, int nbytes, int cache);
 
 ## DESCRIPTION
 
-`cacheflush()`는 `addr`에서 `(addr+nbytes-1)`까지 범위에 대해 표시한 캐시(들)의 내용물을 비운다. `cache`는 다음 중 하나일 수 있다.
+`cacheflush()`는 `addr`에서 `(addr+nbytes-1)`까지 범위의 사용자 주소에 대해 표시된 캐시(들)의 내용물을 비운다. `cache`는 다음 중 하나일 수 있다.
 
 `ICACHE`
 :   인스트럭션 캐시를 비운다.
@@ -43,7 +43,7 @@ int cacheflush(void *addr, int nbytes, int cache);
 
 ### 경고
 
-이식 가능해야 하는 프로그램에서는 `cacheflush()`를 사용하지 말아야 한다. 리눅스에서 이 호출은 MIPS 아키텍처에서 처음 등장했다. 요즘은 일부 다른 아키텍처들에서도 `cacheflush()` 시스템 호출을 제공하지만 인자가 다르다.
+이식 가능해야 하는 프로그램에서는 `cacheflush()`를 사용하지 말아야 한다. 리눅스에서 이 호출은 MIPS 아키텍처에서 처음 등장했다. 요즘은 몇몇 다른 아키텍처에서도 `cacheflush()` 시스템 호출을 제공하지만 인자가 다르다.
 
 ## NOTES
 
@@ -51,7 +51,7 @@ int cacheflush(void *addr, int nbytes, int cache);
 
 glibc에서 ARC, CSKY, MIPS, NIOS2 아키텍처에 대해 SYNOPSIS에 있는 원형으로 이 시스템 호출의 래퍼를 제공한다.
 
-몇몇 다른 아키텍처에서는 리눅스에서 이 시스템 호출을 다른 인자로 제공한다.
+몇몇 다른 아키텍처에서는 리눅스에서 다른 인자로 이 시스템 호출을 제공한다.
 
 M68K:
 :   
@@ -85,7 +85,7 @@ void __builtin___clear_cache(void *begin, void *end);
 
 ## BUGS
 
-2.6.11보다 오래된 리눅스 커널에서는 `addr`과 `nbytes` 인자를 무시하며, 그래서 이 함수 비용이 꽤 비싸진다. 그 때문에 항상 캐시 전체를 비운다.
+2.6.11보다 오래된 리눅스 커널에서는 `addr`과 `nbytes` 인자를 무시하며, 그래서 이 함수의 비용이 꽤 높아진다. 항상 캐시 전체를 비운다.
 
 이 함수는 항상 `cache` 인자로 `BCACHE`를 전달받은 것처럼 동작하며 `cache` 인자에 대해 어떤 오류 검사도 하지 않는다.
 

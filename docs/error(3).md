@@ -19,7 +19,7 @@ extern void (*error_print_progname)(void);
 
 ## DESCRIPTION
 
-`error()`는 범용 오류 보고 함수이다. `stdout`을 플러시하고 나서 `stderr`로 프로그램 이름, 콜론과 공백, <tt>[[printf(3)]]</tt> 방식 서식 문자열 `format`으로 지정한 메시지를 출력하며, `errnum`이 0이 아니면 두 번째 콜론과 공백, 그리고 `strerror(errnum)`에서 얻은 문자열을 함께 출력한다. `format`에 필요한 인자가 있으면 인자 목록에서 `format` 뒤에 따라와야 한다. 출력 내용 끝에는 개행 문자가 붙는다.
+`error()`는 범용 오류 보고 함수다. `stdout`을 플러시하고 나서 `stderr`로 프로그램 이름, 콜론과 공백, <tt>[[printf(3)]]</tt> 방식 서식 문자열 `format`으로 지정한 메시지를 출력하며, `errnum`이 0이 아니면 두 번째 콜론과 공백, 그리고 `strerror(errnum)`에서 얻은 문자열을 함께 출력한다. `format`에 필요한 인자가 있으면 인자 목록에서 `format` 뒤에 따라와야 한다. 출력 내용 끝에 개행 문자가 붙는다.
 
 `error()`에서 찍는 프로그램 이름은 전역 변수 <tt>[[program_invocation_name(3)]]</tt>의 값이다. `program_invocation_name`은 처음에는 `main()`의 `argv[0]`과 같은 값을 가지고 있다. 이 변수의 값을 바꾸면 `error()` 출력도 바뀐다.
 
@@ -42,11 +42,11 @@ extern void (*error_print_progname)(void);
 | `error()` | 스레드 안전성 | MT-Safe locale |
 | `error_at_line()` | 스레드 안전성 | MT-Unsafe race: error_at_line/error_one_per_line locale |
 
-내부 `error_one_per_line` 변수에 접근이 이뤄진다. (어떤 동기화도 없지만 `int`를 한 번 쓰는 것이므로 충분히 안전할 것이다.) 그리고 `error_one_per_line`이 0 아닌 값으로 설정돼 있는 경우에는 마지막으로 찍은 파일 이름과 행 번호를 담는 (사용자에게 노출되지 않는) 정적 변수들에 동기화 없는 접근 및 변경이 이뤄진다. 갱신이 원자적이지 않으며 취소를 비활성화하기 전에 이뤄지기 때문에 두 변수 중 하나만 변경되고 실행이 중단될 수 있다. 그 외에는 `error_at_line()`이 `error()`와 거의 똑같다.
+내부적으로 `error_one_per_line` 변수에 접근이 이뤄진다. (어떤 동기화도 없지만 `int`를 한 번 이용하는 것이므로 충분히 안전할 것이다.) 그리고 `error_one_per_line`이 0 아닌 값으로 설정돼 있는 경우에는 마지막으로 찍은 파일 이름과 행 번호를 담는 (사용자에게 노출되지 않는) 정적 변수들에 동기화 없는 접근 및 변경이 이뤄진다. 갱신이 원자적이지 않으며 취소를 비활성화하기 전에 이뤄지기 때문에 두 변수 중 하나만 변경되고 실행이 중단될 수 있다. 그 외에는 `error_at_line()`이 `error()`와 거의 같다.
 
 ## CONFORMING TO
 
-이 함수 및 변수들은 GNU 확장이므로 이식성이 있어야 하는 프로그램에서는 사용하지 말아야 한다.
+이 함수 및 변수들은 GNU 확장이므로 이식성이 있어야 하는 프로그램에서는 쓰지 말아야 한다.
 
 ## SEE ALSO
 

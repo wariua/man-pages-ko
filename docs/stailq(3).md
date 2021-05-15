@@ -45,7 +45,7 @@ void STAILQ_CONCAT(STAILQ_HEAD *head1, STAILQ_HEAD *head2);
 
 ### 생성
 
-단일 연결 꼬리 큐의 머리는 `STAILQ_HEAD()` 매크로로 정의한 구조체이다. 이 구조체에는 포인터 한 쌍이 있는데, 하나는 꼬리 큐의 첫 번째 항목을 가리키고 다른 하나는 꼬리 큐의 마지막 항목을 가리킨다. 공간 및 포인터 조작 오버헤드를 최소화하기 위해 단일 연결로 되어 있으며, 대신 임의 항목 제거에 O(n) 비용이 든다. 기존 항목 뒤에, 또는 꼬리 큐 머리나 꼬리 큐 끝에 새 항목을 추가할 수 있다. `STAILQ_HEAD` 구조체를 다음처럼 선언한다.
+단일 연결 꼬리 큐의 머리는 `STAILQ_HEAD()` 매크로로 정의한 구조체다. 이 구조체에는 포인터 한 쌍이 있는데, 하나는 꼬리 큐의 첫 번째 항목을 가리키고 다른 하나는 꼬리 큐의 마지막 항목을 가리킨다. 공간 및 포인터 조작 오버헤드를 최소화하기 위해 단일 연결로 되어 있으며, 대신 임의 항목 제거에 O(n) 비용이 든다. 기존 항목 뒤에, 또는 꼬리 큐 머리나 꼬리 큐 끝에 새 항목을 추가할 수 있다. `STAILQ_HEAD` 구조체를 다음처럼 선언한다.
 
 ```c
 STAILQ_HEAD(HEADNAME, TYPE) head;
@@ -79,7 +79,7 @@ struct HEADNAME *headp;
 
 `STAILQ_FIRST()`는 꼬리 큐의 첫 번째 항목을 반환하며 꼬리 큐가 비어 있으면 NULL을 반환한다.
 
-`STAILQ_NEXT()`는 꼬리 큐 내의 다음 항목을 반환하며, 현 항목이 마지막이면 NULL을 반환한다.
+`STAILQ_NEXT()`는 꼬리 큐에서 다음 항목을 반환하며, 현 항목이 마지막이면 NULL을 반환한다.
 
 `STAILQ_FOREACH()`는 `head`가 가리키는 꼬리 큐를 순방향으로 순회하면서 각 항목을 차례로 `var`에 할당한다.
 
@@ -107,11 +107,11 @@ POSIX.1, POSIX.1-2001, POSIX.1-2008에 없다. BSD들에 있다. (4.4BSD에서 S
 
 ## BUGS
 
-`STAILQ_FOREACH()`에서 `var`를 루프 안에서 제거하거나 해제하는 것이 허용되지 않는다. 순회를 방해하게 되기 때문이다. BSD들에 있지만 glibc에는 없는 `STAILQ_FOREACH_SAFE()`에서 이 제약을 수정해서, 순회를 방해하지 않고 루프 안에서 `var`를 안전하게 리스트에서 제거하고 해제하는 것이 허용된다.
+`STAILQ_FOREACH()`에서 `var`를 루프 안에서 제거하거나 해제하는 것이 허용되지 않는다. 순회를 방해하게 되기 때문이다. BSD들에 있지만 glibc에는 없는 `STAILQ_FOREACH_SAFE()`에서 이 제약을 수정해서, 순회를 방해하지 않고 루프 안에서 `var`를 안전하게 리스트에서 제거하고 해제하는 것이 가능하다.
 
 ## NOTES
 
-일부 BSD들에선 STAILQ 대신 SIMPLEQ를 제공한다. 둘은 동일하지만 역사적 이유 때문에 다른 이름이 붙었다. STAILQ는 FreeBSD에서 유래했고 SIMPLEQ는 NetBSD에서 유래했다. 호환성을 위해 어떤 시스템에선 두 매크로 세트를 모두 제공한다. glibc에서는 STAILQ와 SIMPLEQ를 모두 제공하는데, `STAILQ_CONCAT()`에 대응하는 SIMPLEQ 매크로가 없다는 점을 빼고 서로 동일하다.
+일부 BSD들에선 STAILQ 대신 SIMPLEQ를 제공한다. 둘은 동일하지만 역사적 이유 때문에 다른 이름이 붙었다. STAILQ는 FreeBSD에서 유래했고 SIMPLEQ는 NetBSD에서 유래했다. 어떤 시스템에선 호환성을 위해 두 매크로 세트를 모두 제공한다. glibc에서 STAILQ와 SIMPLEQ를 모두 제공하는데, `STAILQ_CONCAT()`에 대응하는 SIMPLEQ 매크로가 없다는 점을 빼면 동일하다.
 
 ## EXAMPLES
 

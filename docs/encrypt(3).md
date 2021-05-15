@@ -26,7 +26,7 @@ void encrypt_r(char *block, int edflag, struct crypt_data *data);
 
 ## DESCRIPTION
 
-이 함수들은 64비트 메시지를 암호화 및 복호화한다. `setkey()` 함수는 `encrypt()`에서 쓰는 키를 설정한다. 여기 쓰이는 `key` 인자는 64바이트짜리 배열이며 각 바이트가 숫자 값 1 또는 0이다. n=8\*i-1인 key[n]은 무시하며, 따라서 실제 키 길이는 56비트다.
+이 함수들은 64비트 메시지를 암호화 및 복호화한다. `setkey()` 함수는 `encrypt()`에서 쓰는 키를 설정한다. 그때 쓰이는 `key` 인자는 64바이트짜리 배열이며 각 바이트가 숫자 값 1 또는 0이다. n=8\*i-1인 key[n]은 무시하며, 따라서 실제 키 길이는 56비트다.
 
 `encrypt()` 함수는 전달받은 버퍼를 변경하는데, `edflag`가 0이면 암호화, 1이면 복호화다. `key` 인자처럼 `block` 역시도 암호화하는 실제 값의 비트 벡터 표현이다. 같은 벡터로 결과가 반환된다.
 
@@ -62,7 +62,7 @@ struct crypt_data {
 
 ## VERSIONS
 
-더이상 안전하지 않다고 보는 DES 블록 암호를 이용하기 때문에 `crypt()`, `crypt_r()`, `setkey()`, `setkey_r()`이 glibc 2.28에서 제거되었다. 응용들은 `libgcrypt` 같은 현대적인 암호 라이브러리로 전환하는 게 좋다.
+더이상 안전하지 않다고 보는 DES 블록 암호를 쓰기 때문에 glibc 2.28에서 `crypt()`, `crypt_r()`, `setkey()`, `setkey_r()`이 제거되었다. 응용에선 `libgcrypt` 같은 현대적인 암호 라이브러리로 전환해야 한다.
 
 ## ATTRIBUTES
 

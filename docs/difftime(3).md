@@ -12,7 +12,7 @@ double difftime(time_t time1, time_t time0);
 
 ## DESCRIPTION
 
-`difftime()` 함수는 시간 `time0`과 시간 `time1` 간의 경과 초 수를 `double`로 나타내서 반환한다. 각 시간을 달력 시간으로 지정한다. 즉 그 값은 1970-01-01 00:00:00 +0000 (UTC) 에포크를 기준으로 한 (초 단위) 측정치이다.
+`difftime()` 함수는 시간 `time0`과 시간 `time1` 사이에 경과한 초 수를 `double`로 반환한다. 각 시간은 달력 시간으로 지정한다. 즉, 그 값은 1970-01-01 00:00:00 +0000 (UTC) 에포크를 기준으로 한 (초 단위) 측정치다.
 
 ## ATTRIBUTES
 

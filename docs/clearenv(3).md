@@ -18,7 +18,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## DESCRIPTION
 
-`clearenv()` 함수는 환경에서 모든 이름-값 쌍을 비우고 외부 변수 `environ`의 값을 NULL로 설정한다. 이 호출 후에 <tt>[[putenv(3)]]</tt> 및 <tt>[[setenv(3)]]</tt>를 이용해 환경에 새 변수를 추가할 수 있다.
+`clearenv()` 함수는 환경에서 모든 이름-값 짝을 비우고 외부 변수 `environ`의 값을 NULL로 설정한다. 이 호출 후에 <tt>[[putenv(3)]]</tt> 및 <tt>[[setenv(3)]]</tt>를 이용해 환경에 새 변수를 추가할 수 있다.
 
 ## RETURN VALUE
 
@@ -42,7 +42,7 @@ glibc 2.0부터 사용 가능.
 
 ## NOTES
 
-`clearenv()`를 쓸 수 없는 시스템에서는 아마 다음 할당으로도 될 것이다.
+`clearenv()`가 없는 시스템에서는 아마 다음 할당으로도 될 것이다.
 
 ```
 environ = NULL;
@@ -50,7 +50,7 @@ environ = NULL;
 
 <tt>[[exec(3)]]</tt>로 실행되는 프로그램에 전달되는 환경을 신중하게 통제하고 싶은 보안 중시 응용들에서 `clearenv()` 함수가 유용할 수 있다. 그런 응용에서는 먼저 환경을 비운 다음 정선한 환경 변수들을 추가하게 될 것이다.
 
-참고로 `clearenv()`의 주된 효과는 포인터 <tt>[[environ(7)]]</tt>의 값을 조정하는 것이다. 이 함수가 환경 정의를 담은 버퍼들의 내용을 삭제하지는 않는다.
+참고로 `clearenv()`의 주된 효과는 포인터 <tt>[[environ(7)]]</tt>의 값을 조정하는 것이다. 환경 정의를 담은 버퍼들의 내용을 삭제하지는 않는다.
 
 DG/UX 및 Tru64 맨 페이지에는 이렇게 적혀 있다: <tt>[[putenv(3)]]</tt>, <tt>[[getenv(3)]]</tt>, `clearenv()` 외의 어떤 방법으로 `environ`을 변경했으면 `clearenv()`가 오류를 반환하게 되며 프로세스 환경이 그대로 유지된다.
 
