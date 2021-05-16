@@ -79,7 +79,7 @@ typedef struct {
 구현에서 최소 `double` 크기인 가장 효율적인 부동소수점 타입. (`<float.h>`에 정의돼 있는) `FLT_EVAL_METHOD` 매크로의 값에 따라 타입이 달라진다.
 
 | | |
-| -- | -- |
+| --- | --- |
 | 0 | `double_t`가 `double`. |
 | 1 | `double_t`가 `double`. |
 | 2 | `double_t`가 `long double`. |
@@ -137,7 +137,7 @@ typedef struct {
 구현에서 최소 `float` 크기인 가장 효율적인 부동소수점 타입. (`<float.h>`에 정의돼 있는) `FLT_EVAL_METHOD` 매크로의 값에 따라 타입이 달라진다.
 
 | | |
-| -- | -- |
+| --- | --- |
 | 0 | `float_t`가 `float`. |
 | 1 | `float_t`가 `double`. |
 | 2 | `float_t`가 `long double`. |

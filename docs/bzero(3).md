@@ -34,7 +34,7 @@ glibc 2.25에서 `explicit_bzero()`가 처음 등장했다.
 
 | 인터페이스 | 속성 | 값 |
 | --- | --- | --- |
-| `bzero()`,<br>`explicit_bzero()` | 스레드 안전성 | MT-Safe |
+| `bzero()`, `explicit_bzero()` | 스레드 안전성 | MT-Safe |
 
 ## CONFORMING TO
 
