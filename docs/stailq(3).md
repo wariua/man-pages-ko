@@ -41,7 +41,7 @@ void STAILQ_CONCAT(STAILQ_HEAD *head1, STAILQ_HEAD *head2);
 
 이 매크로들은 단일 연결 꼬리 큐를 정의하고 조작한다.
 
-매크로 정의에서 `TYPE`은 사용자 정의 구조체의 이름이며, 그 구조체에는 타입이 `STAILQ_ENTRY`이고 이름이 `NAME`인 필드가 있어야 한다. `HEADNAME` 인자는 `STAILQ_HEAD()` 매크로를 써>서 선언해야 하는 사용자 정의 구조체의 이름이다.
+매크로 정의에서 `TYPE`은 사용자 정의 구조체의 이름이며, 그 구조체에는 타입이 `STAILQ_ENTRY`이고 이름이 `NAME`인 필드가 있어야 한다. `HEADNAME` 인자는 `STAILQ_HEAD()` 매크로를 써서 선언해야 하는 사용자 정의 구조체의 이름이다.
 
 ### 생성
 

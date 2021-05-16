@@ -77,7 +77,7 @@ pthread_sigmask(SIG_SETMASK, &origmask, NULL);
 
 ### `epoll_pwait2()`
 
-`epoll_pwait2()`는 `timeout` 인자를 빼면 `epoll_pwait()`과 동등하다. `timespect` 타입으로 인자를 받으므로 나노초 해상도로 타임아웃을 지정할 수 있다. 이 인자는 <tt>[[pselect(2)]]</tt> 및 <tt>[[ppoll(2)]]</tt>에서과 똑같이 동작한다. `timeout`이 NULL이면 `epoll_pwait2()`가 무한정 블록 할 수 있다.
+`epoll_pwait2()`는 `timeout` 인자를 빼면 `epoll_pwait()`과 동등하다. `timespec` 타입으로 인자를 받으므로 나노초 해상도로 타임아웃을 지정할 수 있다. 이 인자는 <tt>[[pselect(2)]]</tt> 및 <tt>[[ppoll(2)]]</tt>에서과 똑같이 동작한다. `timeout`이 NULL이면 `epoll_pwait2()`가 무한정 블록 할 수 있다.
 
 ## RETURN VALUE
 
@@ -86,7 +86,7 @@ pthread_sigmask(SIG_SETMASK, &origmask, NULL);
 ## ERRORS
 
 `EBADF`
-:   `epfd`가 유요한 파일 디스크립터가 아니다.
+:   `epfd`가 유효한 파일 디스크립터가 아니다.
 
 `EFAULT`
 :   `events`가 가리키는 메모리 영역이 쓰기 권한으로 접근 가능하지 않다.

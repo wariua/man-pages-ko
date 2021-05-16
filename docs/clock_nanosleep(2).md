@@ -53,7 +53,7 @@ struct timespec {
 
 `flags`가 0이면 `request`에 지정한 값을 `clockid`에 지정한 클럭의 현재 값에 대한 상대적 시간으로 해석한다.
 
-`flags`가 `TIMER_ABSTIME`이면 `request`를 `clockid` 클럭으로 측정한 절대 시간으로 해석한다. `request`가 클럭의 현재 값보다 작거나 값으면 호출 스레드가 멈추지 않고 `clock_nanosleep()`이 즉시 반환한다.
+`flags`가 `TIMER_ABSTIME`이면 `request`를 `clockid` 클럭으로 측정한 절대 시간으로 해석한다. `request`가 클럭의 현재 값보다 작거나 같으면 호출 스레드가 멈추지 않고 `clock_nanosleep()`이 즉시 반환한다.
 
 `clock_nanosleep()`은 적어도 `request`에 지정한 시간이 지날 때까지, 또는 핸들러 호출을 유발하거나 프로세스를 종료시키는 시그널이 전달될 때까지 호출 스레드의 실행을 멈춘다.
 

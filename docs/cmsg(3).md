@@ -6,6 +6,7 @@ CMSG_ALIGN, CMSG_SPACE, CMSG_NXTHDR, CMSG_FIRSTHDR - 보조 데이터에 접근�
 
 ```c
 #include <sys/socket.h>
+
 struct cmsghdr *CMSG_FIRSTHDR(struct msghdr *msgh);
 struct cmsghdr *CMSG_NXTHDR(struct msghdr *msgh,
                             struct cmsghdr *cmsg);
