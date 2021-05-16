@@ -63,7 +63,7 @@ struct HEADNAME *headp;
 
 `STAILQ_HEAD_INITIALIZER()`는 꼬리 큐 `head`를 위한 초기화 값으로 평가된다.
 
-`STAILQ_INIT()`은 `head`가 가리키는 꼬리 큐를 초기화 한다.
+`STAILQ_INIT()`은 `head`가 가리키는 꼬리 큐를 초기화한다.
 
 `STAILQ_EMPTY()`는 꼬리 큐에 아무 항목도 없으면 참으로 평가된다.
 

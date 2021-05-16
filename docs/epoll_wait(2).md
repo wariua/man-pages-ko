@@ -21,9 +21,9 @@ int epoll_pwait2(int epfd, struct epoll_event *events,
 
 `epoll_wait()` 시스템 호출은 파일 디스크립터 `epfd`가 가리키는 <tt>[[epoll(7)]]</tt> 인스턴스에서 이벤트를 기다린다. `events`가 가리키는 버퍼를 이용해서 뭔가 이벤트가 있는 관심 목록 내 파일 디스크립터들에 대한 준비 목록 정보를 반환한다. 최대 `maxevents` 개 이벤트를 반환한다. `maxevents` 인자는 0보다 커야 한다.
 
-`timeout` 인자는 `epoll_wait()`에서 블록 할 밀리초 수를 나타낸다. `CLOCK_MONOTONIC` 클럭으로 시간을 측정한다.
+`timeout` 인자는 `epoll_wait()`에서 블록할 밀리초 수를 나타낸다. `CLOCK_MONOTONIC` 클럭으로 시간을 측정한다.
 
-다음 어느 경우든 해당할 때까지 `epoll_wait()` 호출이 블록 하게 된다.
+다음 어느 경우든 해당할 때까지 `epoll_wait()` 호출이 블록하게 된다.
 
 * 파일 디스크립터가 이벤트를 내놓는다.
 
@@ -31,7 +31,7 @@ int epoll_pwait2(int epfd, struct epoll_event *events,
 
 * 타임아웃이 만료된다.
 
-참고로 `timeout` 시간을 시스템 클럭 해상도에 따라 올림 하게 되며 커널 스케줄링 지연도 있기 때문에 그 블록 시간을 약간 넘길 수도 있다. `timeout`을 -1로 지정하면 `epoll_wait()`이 무한정 블록 하게 되며, `timeout`을 0으로 지정하면 가용 이벤트가 없더라도 `epoll_wait()`이 즉시 반환하게 된다.
+참고로 `timeout` 시간을 시스템 클럭 해상도에 따라 올림하게 되며 커널 스케줄링 지연도 있기 때문에 그 블록 시간을 약간 넘길 수도 있다. `timeout`을 -1로 지정하면 `epoll_wait()`이 무한정 블록하게 되며, `timeout`을 0으로 지정하면 가용 이벤트가 없더라도 `epoll_wait()`이 즉시 반환하게 된다.
 
 `struct epoll_event`는 다음으로 정의돼 있다.
 
@@ -77,7 +77,7 @@ pthread_sigmask(SIG_SETMASK, &origmask, NULL);
 
 ### `epoll_pwait2()`
 
-`epoll_pwait2()`는 `timeout` 인자를 빼면 `epoll_pwait()`과 동등하다. `timespec` 타입으로 인자를 받으므로 나노초 해상도로 타임아웃을 지정할 수 있다. 이 인자는 <tt>[[pselect(2)]]</tt> 및 <tt>[[ppoll(2)]]</tt>에서과 똑같이 동작한다. `timeout`이 NULL이면 `epoll_pwait2()`가 무한정 블록 할 수 있다.
+`epoll_pwait2()`는 `timeout` 인자를 빼면 `epoll_pwait()`과 동등하다. `timespec` 타입으로 인자를 받으므로 나노초 해상도로 타임아웃을 지정할 수 있다. 이 인자는 <tt>[[pselect(2)]]</tt> 및 <tt>[[ppoll(2)]]</tt>에서과 똑같이 동작한다. `timeout`이 NULL이면 `epoll_pwait2()`가 무한정 블록할 수 있다.
 
 ## RETURN VALUE
 
@@ -111,11 +111,11 @@ pthread_sigmask(SIG_SETMASK, &origmask, NULL);
 
 ## NOTES
 
-한 스레드가 `epoll_wait()` 호출 내에서 블록 돼 있는 동안 다른 스레드에서 그 **epoll** 인스턴스에 파일 디스크립터를 추가하는 게 가능하다. 새 파일 디스크립터가 준비 상태가 되면 `epoll_wait()` 호출의 블록이 풀리게 된다.
+한 스레드가 `epoll_wait()` 호출 내에서 블록돼 있는 동안 다른 스레드에서 그 **epoll** 인스턴스에 파일 디스크립터를 추가하는 게 가능하다. 새 파일 디스크립터가 준비 상태가 되면 `epoll_wait()` 호출의 블록이 풀리게 된다.
 
 `epoll_wait()` 호출 시 `maxevents` 개를 넘는 파일 디스크립터가 준비 상태이면 이어지는 `epoll_wait()` 호출에서 준비 상태 파일 디스크립터들을 라운드 로빈으로 처리하게 된다. 이 동작은 프로세스에서 준비 상태라고 알고 있는 파일 디스크립터들에 집중하느라 준비 상태인 파일 디스크립터가 더 있다는 걸 알아채지 못해서 발생하는 기아 상황을 피하는 데 도움이 된다.
 
-참고로 관심 목록이 현재 비어 있는 (또는 다른 스레드에서 파일 디스크립터를 닫거나 관심 목록에서 제거해서 관심 목록이 비게 되는) **epoll** 인스턴스에도 `epoll_wait()` 호출이 가능하다. 이후 (다른 스레드에서) 관심 목록에 어떤 파일 디스크립터를 추가하고 그 파일 디스크립터가 준비 상태가 될 때까지 호출이 블록 하게 된다.
+참고로 관심 목록이 현재 비어 있는 (또는 다른 스레드에서 파일 디스크립터를 닫거나 관심 목록에서 제거해서 관심 목록이 비게 되는) **epoll** 인스턴스에도 `epoll_wait()` 호출이 가능하다. 이후 (다른 스레드에서) 관심 목록에 어떤 파일 디스크립터를 추가하고 그 파일 디스크립터가 준비 상태가 될 때까지 호출이 블록하게 된다.
 
 ## BUGS
 

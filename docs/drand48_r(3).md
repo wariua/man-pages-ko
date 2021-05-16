@@ -40,7 +40,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 이 함수들은 <tt>[[drand48(3)]]</tt>에서 기술하는 함수들의 재진입 가능 버전이다. 전역 난수 생성기 상태를 변경하는 대신 `buffer`로 제공받는 데이터 버퍼를 사용한다.
 
-첫 사용 전에 이 구조체를 초기화 해야 한다. 예를 들어 0으로 채우거나 함수 `srand48_r()`, `seed48_r()`, `lcong48_r()` 중 하나를 호출하면 된다.
+첫 사용 전에 이 구조체를 초기화해야 한다. 예를 들어 0으로 채우거나 함수 `srand48_r()`, `seed48_r()`, `lcong48_r()` 중 하나를 호출하면 된다.
 
 ## RETURN VALUE
 
@@ -52,7 +52,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 | 인터페이스 | 속성 | 값 |
 | --- | --- | --- |
-| `drand48_r()`, `erand48_r()`,<br>`lrand48_r()`, `nrand48_r()`,<br>`mrand48_r()`, `jrand48_r()`,<br>`srand48_r()`, `seed48_r()`,<br>`lcong48_r()` | 스레드 안전성 | MT-Safe race:buffer |
+| `drand48_r()`, `erand48_r()`,<br>`lrand48_r()`, `nrand48_r()`,<br>`mrand48_r()`, `jrand48_r()`,<br>`srand48_r()`, `seed48_r()`, `lcong48_r()` | 스레드 안전성 | MT-Safe race:buffer |
 
 ## CONFORMING TO
 

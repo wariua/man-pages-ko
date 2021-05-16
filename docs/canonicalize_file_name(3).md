@@ -1,6 +1,6 @@
 ## NAME
 
-canonicalize_file_name - 정규화 된 절대 경로명 반환
+canonicalize_file_name - 정규화된 절대 경로명 반환
 
 ## SYNOPSIS
 
@@ -13,7 +13,7 @@ char *canonicalize_file_name(const char *path);
 
 ## DESCRIPTION
 
-`canonicalize_file_name()` 함수는 `path`에 대응하는 정규화 된 절대 경로명을 담은 널 종료 문자열을 반환한다. 반환 문자열에서는 심볼릭 링크와 `.` 및 `..` 경로명 요소가 풀려 있다. 연달아 있는 슬래시(`/`) 문자들은 슬래시 한 개로 바뀐다.
+`canonicalize_file_name()` 함수는 `path`에 대응하는 정규화된 절대 경로명을 담은 널 종료 문자열을 반환한다. 반환 문자열에서는 심볼릭 링크와 `.` 및 `..` 경로명 요소가 풀려 있다. 연달아 있는 슬래시(`/`) 문자들은 슬래시 한 개로 바뀐다.
 
 반환 문자열은 `canonicalize_file_name()`에서 동적으로 할당한 것이므로 더는 필요치 않을 때 호출자가 <tt>[[free(3)]]</tt>로 해제해야 한다.
 

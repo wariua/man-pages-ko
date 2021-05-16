@@ -39,17 +39,17 @@ struct dl_phdr_info {
 
     unsigned long long dlpi_adds;
                     /* 새 오브젝트가 추가됐을 수도
-		       있을 때 증가됨 */
+                       있을 때 증가됨 */
     unsigned long long dlpi_subs;
                     /* 오브젝트가 제거됐을 수도
-		       있을 때 증가됨 */
+                       있을 때 증가됨 */
     size_t dlpi_tls_modid;
                     /* PT_TLS 세그먼트가 있는 경우는 TLS 재배치에
-		       쓰인 그 모듈 ID, 아니면 0 */
+                       쓰인 그 모듈 ID, 아니면 0 */
     void  *dlpi_tls_data;
                     /* 이 모듈의 PT_TLS 세그먼트 인스턴스가
-		       하나 있고 호출 스레드에 할당돼 있으면
-		       그 주소, 아니면 널 포인터 */
+                       하나 있고 호출 스레드에 할당돼 있으면
+                       그 주소, 아니면 널 포인터 */
 };
 ```
 

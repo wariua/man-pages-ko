@@ -59,7 +59,9 @@ EACCES 13 Permission denied
 
 * *POSIX.1-2008*: 그 이름을 POSIX.1-2008에서는 규정하고 있지만 더 전의 POSIX.1 표준에는 없다.
 
-* *C99*: 그 이름을 C99에서 규정하고 있다. 다음은 리눅스에서 정의돼 있는 오류 심볼 이름들의 목록이다.
+* *C99*: 그 이름을 C99에서 규정하고 있다.
+
+다음은 리눅스에서 정의돼 있는 오류 심볼 이름들의 목록이다.
 
 | | |
 | - | - |
@@ -84,7 +86,7 @@ EACCES 13 Permission denied
 | `ECOMM` | 송신 중 통신 오류. |
 | `ECONNABORTED` | 연결 중단됨. (POSIX.1-2001) |
 | `ECONNREFUSED` | 연결 거부됨. (POSIX.1-2001) |
-| `ECONNRESET` | 연결 리셋 됨. (POSIX.1-2001) |
+| `ECONNRESET` | 연결 리셋됨. (POSIX.1-2001) |
 | `EDEADLK` | 자원 교착 회피했음. (POSIX.1-2001) |
 | `EDEADLOCK` | 대부분 시스템에서 `EDEADLK`의 동의어. 일부 시스템(가령 리눅스의 MIPS, PowerPC, SPARC)에선 별도의 오류 코드 "File locking deadlock error"이다. |
 | `EDESTADDRREQ` | 목적 주소 필요함. (POSIX.1-2001) |
@@ -114,7 +116,7 @@ EACCES 13 Permission denied
 | `EL3RST` | 3계층 재설정. |
 | `ELIBACC` | 필요한 공유 라이브러리에 접근할 수 없음. |
 | `ELIBBAD` | 접근하려는 공유 라이브러리에 오류. |
-| `ELIBMAX` | 링크 하려는 공유 라이브러리가 너무 많음. |
+| `ELIBMAX` | 링크하려는 공유 라이브러리가 너무 많음. |
 | `ELIBSCN` | a.out의 .lib 섹션에 오류. |
 | `ELIBEXEC` | 공유 라이브러리를 직접 실행할 수 없음. |
 | `ELNRANGE` | 링크 개수가 범위를 초과. |
@@ -181,13 +183,13 @@ EACCES 13 Permission denied
 | `ESTALE` | <p>파일 핸들이 더는 유효하지 않음. (POSIX.1-2001)</p><p>NFS 및 기타 파일 시스템에서 이 오류가 발생할 수 있다.</p> |
 | `ESTRPIPE` | 스트림 파이프 오류. |
 | `ETIME` | <p>타이머 만료됨. (POSIX.1 (XSI STREAMS 옵션))</p><p>(POSIX.1에서는 "STREAM `ioctl(2)` 타임아웃"이라고 함.</p> |
-| `ETIMEDOUT` | 연결이 타임아웃 됨. (POSIX.1-2001) |
+| `ETIMEDOUT` | 연결이 타임아웃됨. (POSIX.1-2001) |
 | `ETOOMANYREFS` | 참조가 너무 많음. splice 할 수 없음. |
 | `ETXTBSY` | 텍스트 파일 사용 중. (POSIX.1-2001) |
 | `EUCLEAN` | 구조 정리 필요. |
 | `EUNATCH` | 프로토콜 드라이버 붙어 있지 않음. |
 | `EUSERS` | 사용자가 너무 많음. |
-| `EWOULDBLOCK` | 동작이 블록 하게 됨. (`EAGAIN`과 같은 값일 수도 있음.) (POSIX.1-2001) |
+| `EWOULDBLOCK` | 동작이 블록하게 됨. (`EAGAIN`과 같은 값일 수도 있음.) (POSIX.1-2001) |
 | `EXDEV` | 부적절한 링크. (POSIX.1-2001) |
 | `EXFULL` | 교환기에 여유 없음. |
 

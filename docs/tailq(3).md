@@ -67,7 +67,7 @@ struct HEADNAME *headp;
 
 `TAILQ_HEAD_INITIALIZER()`는 큐 `head`를 위한 초기화 값으로 평가된다.
 
-`TAILQ_INIT()`은 `head`가 가리키는 큐를 초기화 한다.
+`TAILQ_INIT()`은 `head`가 가리키는 큐를 초기화한다.
 
 `TAILQ_EMPTY()`는 큐에 아무 항목도 없으면 참으로 평가된다.
 

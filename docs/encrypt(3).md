@@ -93,7 +93,8 @@ glibc 2.2에서 이 함수들은 DES 알고리듬을 사용한다.
 
 ```c
 #define _XOPEN_SOURCE
-#include <stdio.h> #include <stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <crypt.h>
 

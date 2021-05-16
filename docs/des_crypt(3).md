@@ -51,7 +51,7 @@ glibc 버전 2.1에서 이 함수들이 추가되었다.
 
 | 인터페이스 | 속성 | 값 |
 | --- | --- | --- |
-| `ecb_crypt()`, `cbc_crypt()`,<br>`des_setparity()` | 스레드 안전성 | MT-Safe |
+| `ecb_crypt()`, `cbc_crypt()`, `des_setparity()` | 스레드 안전성 | MT-Safe |
 
 ## CONFORMING TO
 

@@ -57,7 +57,7 @@ struct HEADNAME *headp;
 
 `SLIST_HEAD_INITIALIZER()`는 리스트 `head`를 위한 초기화 값으로 평가된다.
 
-`SLIST_INIT()`은 `head`가 가리키는 리스트를 초기화 한다.
+`SLIST_INIT()`은 `head`가 가리키는 리스트를 초기화한다.
 
 `SLIST_EMPTY()`는 리스트에 아무 항목도 없으면 참으로 평가된다.
 

@@ -90,7 +90,7 @@ POSIX.1-2001, POSIX.1-2008.
 
 ## NOTES
 
-`request`에 지정한 시간이 기반 클럭 정밀도(<tt>[[time(7)]]</tt> 참고)의 정수배가 아니면 다음 배수로 시간을 올림 한다. 또한 잠들기가 끝난 후에도 CPU에서 호출 스레드를 다시 실행할 수 있게 될 때까지 지연이 있을 수도 있다.
+`request`에 지정한 시간이 기반 클럭 정밀도(<tt>[[time(7)]]</tt> 참고)의 정수배가 아니면 다음 배수로 시간을 올림한다. 또한 잠들기가 끝난 후에도 CPU에서 호출 스레드를 다시 실행할 수 있게 될 때까지 지연이 있을 수도 있다.
 
 절대 타이머를 쓰면 <tt>[[nanosleep(2)]]</tt>에서 설명하는 늦춰지는 문제를 막는 데 도움이 된다. (상대적 잠들기가 반복적으로 시그널에 의해 중단돼서 재시작하려 하는 프로그램에서 그 문제가 심해진다.) 상대적 잠들기를 하면서 이 문제를 피하려면 원하는 클럭으로 <tt>[[clock_gettime(2)]]</tt>을 호출하고서 `TIMER_ABSTIME` 플래그로 `clock_nanosleep()`을 호출하면 된다.
 
@@ -100,9 +100,9 @@ POSIX.1-2001, POSIX.1-2008.
 
 POSIX.1에서는 `clock_nanosleep()`이 시그널 처리 방식이나 시그널 마스크에 어떤 영향도 끼치지 않는다고 명세한다.
 
-POSIX.1에서는 <tt>[[clock_settime(2)]]</tt>을 통해 `CLOCK_REALTIME`의 값을 바꾼 후에는 절대적 `clock_nanosleep()`에 블록 된 스레드가 깨어날 시점을 새 클럭 값으로 정해야 한다고 명세하고 있다. 새 클럭 값이 수면 시간 끝을 넘어간다면 `clock_nanosleep()` 호출이 즉시 반환된다.
+POSIX.1에서는 <tt>[[clock_settime(2)]]</tt>을 통해 `CLOCK_REALTIME`의 값을 바꾼 후에는 절대적 `clock_nanosleep()`에 블록된 스레드가 깨어날 시점을 새 클럭 값으로 정해야 한다고 명세하고 있다. 새 클럭 값이 수면 시간 끝을 넘어간다면 `clock_nanosleep()` 호출이 즉시 반환된다.
 
-POSIX.1에서는 <tt>[[clock_settime(2)]]</tt>을 통해 `CLOCK_REALTIME`의 값을 바꾸는 것이 상대적 `clock_nanosleep()`에 블록 된 스레드에 어떤 영향도 끼치지 않아야 한다고 명세하고 있다.
+POSIX.1에서는 <tt>[[clock_settime(2)]]</tt>을 통해 `CLOCK_REALTIME`의 값을 바꾸는 것이 상대적 `clock_nanosleep()`에 블록된 스레드에 어떤 영향도 끼치지 않아야 한다고 명세하고 있다.
 
 ## SEE ALSO
 
