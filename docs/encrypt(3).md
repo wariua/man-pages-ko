@@ -87,7 +87,7 @@ struct crypt_data {
 
 ### glibc에서의 기능들
 
-glibc 2.2에서 이 함수들은 DES 알고리듬을 사용한다.
+glibc 2.2에서 이 함수들은 DES 알고리즘을 사용한다.
 
 ## EXAMPLES
 

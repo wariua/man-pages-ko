@@ -13,7 +13,7 @@ int sched_get_priority_min(int policy);
 
 ## DESCRIPTION
 
-`sched_get_priority_max()`는 `policy`가 나타내는 스케줄링 알고리듬과 함께 사용할 수 있는 우선순위 최댓값을 반환한다. `sched_get_priority_min()`은 `policy`가 나타내는 스케줄링 알고리듬과 함께 사용할 수 있는 우선순위 최솟값을 반환한다. 지원하는 `policy` 값은 `SCHED_FIFO`, `SCHED_RR`, `SCHED_OTHER`, `SCHED_BATCH`, `SCHED_IDLE`, `SCHED_DEADLINE`이다. 이 정책들에 대한 더 자세한 내용을 <tt>[[sched(7)]]</tt>에서 볼 수 있다.
+`sched_get_priority_max()`는 `policy`가 나타내는 스케줄링 알고리즘과 함께 사용할 수 있는 우선순위 최댓값을 반환한다. `sched_get_priority_min()`은 `policy`가 나타내는 스케줄링 알고리즘과 함께 사용할 수 있는 우선순위 최솟값을 반환한다. 지원하는 `policy` 값은 `SCHED_FIFO`, `SCHED_RR`, `SCHED_OTHER`, `SCHED_BATCH`, `SCHED_IDLE`, `SCHED_DEADLINE`이다. 이 정책들에 대한 더 자세한 내용을 <tt>[[sched(7)]]</tt>에서 볼 수 있다.
 
 높은 수치 우선순위의 프로세스가 낮은 수치 우선순위의 프로세스보다 먼저 스케줄링 된다. 따라서 `sched_get_priority_max()`가 반환하는 값이 `sched_get_priority_min()`이 반환하는 값보다 크게 된다.
 
