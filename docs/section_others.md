@@ -32,7 +32,7 @@
 * [[pam(7)]]
 * [[crypt(3)]], [[encrypt(3)]], [[des_crypt(3)]], [[xcrypt(3)]]
 * [[keyrings(7)]], [[keyctl(2)]], [[add_key(2)]], [[request_key(2)]]
-* [[bsearch(3)]], [[hsearch(3)]], [[lsearch(3)]], [[tsearch(3)]]
+* [[bsearch(3)]], [[hsearch(3)]], [[lsearch(3)]], [[tsearch(3)]], [[qsort(3)]]
 * [[queue(7)]], [[slist(3)]], [[list(3)]], [[stailq(3)]], [[tailq(3)]], [[circleq(3)]], [[insque(3)]]
 * [[stdarg(3)]]
 * [[gdbm(3)]]
