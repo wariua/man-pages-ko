@@ -36,7 +36,7 @@ POSIX.1-2001, POSIX.1-2008, C89, C99, SVr4, 4.3BSD.
 
 ## EXAMPLES
 
-아래 예에서는 먼저 `qsort(3)`를 써서 구조체 배열을 정렬하고 `bsearch()`를 써서 원하는 항목을 얻는다.
+아래 예에서는 먼저 <tt>[[qsort(3)]]</tt>를 써서 구조체 배열을 정렬하고 `bsearch()`를 써서 원하는 항목을 얻는다.
 
 ```c
 #include <stdio.h>
@@ -84,7 +84,7 @@ main(int argc, char **argv)
 
 ## SEE ALSO
 
-<tt>[[hsearch(3)]]</tt>, <tt>[[lsearch(3)]]</tt>, `qsort(3)`, <tt>[[tsearch(3)]]</tt>
+<tt>[[hsearch(3)]]</tt>, <tt>[[lsearch(3)]]</tt>, <tt>[[qsort(3)]]</tt>, <tt>[[tsearch(3)]]</tt>
 
 ----
 

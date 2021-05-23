@@ -161,7 +161,7 @@ main(void)
 
 ## SEE ALSO
 
-<tt>[[bsearch(3)]]</tt>, <tt>[[hsearch(3)]]</tt>, <tt>[[lsearch(3)]]</tt>, `qsort(3)`
+<tt>[[bsearch(3)]]</tt>, <tt>[[hsearch(3)]]</tt>, <tt>[[lsearch(3)]]</tt>, <tt>[[qsort(3)]]</tt>
 
 ----
 
