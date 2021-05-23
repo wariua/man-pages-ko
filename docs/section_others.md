@@ -5,7 +5,7 @@
 * [[console(4)]], [[console_codes(4)]], [[ioctl_console(2)]]
 * [[pty(7)]], [[pts(4)]], [[tty(4)]], [[ttyS(4)]], [[termios(3)]], [[openpty(3)]], [[ttyname(3)]], [[ctermid(3)]], [[isatty(3)]], [[posix_openpt(3)]], [[getpt(3)]], [[grantpt(3)]], [[unlockpt(3)]], [[ioctl_tty(2)]]
 * [[time(7)]], [[rtc(4)]], [[adjtime(3)]], [[adjtimex(2)]], [[ntp_gettime(3)]], [[rtime(3)]], [[tzfile(5)]], [[tzset(3)]]
-* [[time(2)]], [[difftime(3)]], [[gettimeofday(2)]], [[timeradd(3)]], [[ftime(3)]], [[stime(2)]], [[ctime(3)]], [[timegm(3)]], [[strftime(3)]], [[strptime(3)]], [[getdate(3)]]
+* [[time(2)]], [[difftime(3)]], [[gettimeofday(2)]], [[timeradd(3)]], [[ftime(3)]], [[stime(2)]], [[ctime(3)]], [[timegm(3)]], [[strftime(3)]], [[strptime(3)]], [[getdate(3)]], [[dysize(3)]]
 * [[clock_getcpuclockid(3)]], [[clock_getres(2)]], [[getitimer(2)]], [[timer_create(2)]], [[timer_delete(2)]], [[timer_getoverrun(2)]], [[timer_settime(2)]], [[timerfd_create(2)]], [[sigevent(7)]], [[alarm(2)]], [[ualarm(3)]]
 * [[sleep(3)]], [[usleep(3)]], [[nanosleep(2)]], [[clock_nanosleep(2)]]
 * [[sysconf(3)]], [[fpathconf(3)]], [[confstr(3)]], [[gnu_get_libc_version(3)]]
