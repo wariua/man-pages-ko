@@ -268,7 +268,7 @@ $ cat /proc/1/autogroup
 /autogroup-1 nice 0
 ```
 
-이 파일을 이용해 autogroup에 할당된 CPU 대역폭을 변경할 수도 있다. 파일에 "나이스" 범위 안의 수를 써넣어서 autogroup의 나이스 값을 설정하면 된다. 허용 범위는 +19(낮은 우선순위)에서 -20(높은 우선순위)까지이다. (이 범위 밖의 값을 써넣으면 `write(2)`가 `EINVAL` 오류로 실패하게 된다.)
+이 파일을 이용해 autogroup에 할당된 CPU 대역폭을 변경할 수도 있다. 파일에 "나이스" 범위 안의 수를 써넣어서 autogroup의 나이스 값을 설정하면 된다. 허용 범위는 +19(낮은 우선순위)에서 -20(높은 우선순위)까지이다. (이 범위 밖의 값을 써넣으면 <tt>[[write(2)]]</tt>가 `EINVAL` 오류로 실패하게 된다.)
 
 autogroup 나이스 설정의 의미는 프로세스 나이스 값과 같되, autogroup들의 상대적 나이스 값에 기반한 autogroup 단위의 CPU 사이클 분배에 적용한다. autogroup 내의 프로세스가 받는 CPU 사이클은 autogroup의 (다른 autogroup들에 대한) 나이스 값과 프로세스의 (같은 autogroup 내 다른 프로세스들에 대한) 나이스 값에 따른 결과물이다.
 

@@ -26,7 +26,7 @@ int aio_error(const struct aiocb *aiocbp);
 
 * 0: 요청이 성공적으로 완료된 경우.
 
-* 양수 오류 번호: 비동기 I/O 동작이 실패한 경우. 동기적인 `read(2)`, `write(2)`, `fsync(2)`, `fdatasync(2)` 호출에서 `errno` 변수에 저장됐을 값과 같다.
+* 양수 오류 번호: 비동기 I/O 동작이 실패한 경우. 동기적인 <tt>[[read(2)]]</tt>, <tt>[[write(2)]]</tt>, `fsync(2)`, `fdatasync(2)` 호출에서 `errno` 변수에 저장됐을 값과 같다.
 
 ## ERRORS
 

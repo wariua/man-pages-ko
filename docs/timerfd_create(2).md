@@ -19,7 +19,7 @@ int timerfd_gettime(int fd, struct itimerspec *curr_value);
 
 이 시스템 호출들은 파일 디스크립터를 통해 타이머 만료 알림을 전달하는 타이머를 생성하고 조작한다. <tt>[[setitimer(2)]]</tt>나 <tt>[[timer_create(2)]]</tt>의 대안이 되어 주는데 <tt>[[select(2)]]</tt>, <tt>[[poll(2)]]</tt>, <tt>[[epoll(7)]]</tt>로 그 파일 디스크립터를 감시할 수 있다는 장점이 있다.
 
-이 세 가지 시스템 호출 사용법은 <tt>[[timer_create(2)]]</tt>, <tt>[[timer_settime(2)]]</tt>, <tt>[[timer_gettime(2)]]</tt>과 비슷하다. (<tt>[[timer_getoverrun(2)]]</tt>에 대응하는 것은 없다. 아래에서 설명하듯 `read(2)`로 그 기능성을 제공하기 때문이다.)
+이 세 가지 시스템 호출 사용법은 <tt>[[timer_create(2)]]</tt>, <tt>[[timer_settime(2)]]</tt>, <tt>[[timer_gettime(2)]]</tt>과 비슷하다. (<tt>[[timer_getoverrun(2)]]</tt>에 대응하는 것은 없다. 아래에서 설명하듯 <tt>[[read(2)]]</tt>로 그 기능성을 제공하기 때문이다.)
 
 ### `timerfd_create()`
 
@@ -84,7 +84,7 @@ struct itimerspec {
 :   `new_value.it_value`를 타이머 클럭에서의 절댓값으로 해석한다. 타이머의 클럭이 `new_value.it_value`로 지정한 값에 도달할 때 타이머가 만료된다.
 
 `TFD_TIMER_CANCEL_ON_SET`
-:   `TFD_TIMER_ABSTIME`과 함께 이 플래그를 지정하고 이 타이머의 클럭이 `CLOCK_REALTIME`이나 `CLOCK_REALTIME_ALARM`이면 실제 시간 클럭이 불연속적 변경(<tt>[[settimeofday(2)]]</tt>나 <tt>[[clock_settime(2)]]</tt> 같은 것)을 겪을 때 이 타이머를 취소할 수 있다고 표시한다. 그런 변경이 일어날 때 파일 디스크립터에 대한 현재나 미래의 `read(2)`가 `ECANCELED` 오류로 실패하게 된다.
+:   `TFD_TIMER_ABSTIME`과 함께 이 플래그를 지정하고 이 타이머의 클럭이 `CLOCK_REALTIME`이나 `CLOCK_REALTIME_ALARM`이면 실제 시간 클럭이 불연속적 변경(<tt>[[settimeofday(2)]]</tt>나 <tt>[[clock_settime(2)]]</tt> 같은 것)을 겪을 때 이 타이머를 취소할 수 있다고 표시한다. 그런 변경이 일어날 때 파일 디스크립터에 대한 현재나 미래의 <tt>[[read(2)]]</tt>가 `ECANCELED` 오류로 실패하게 된다.
 
 `old_value` 인자가 NULL이 아니면 가리키는 `itimerspec` 구조체를 이용해 호출 시점에 적용 중이던 타이머 설정을 반환한다. 이어지는 `timerfd_gettime()` 설명을 참고하라.
 
@@ -100,16 +100,16 @@ struct itimerspec {
 
 `timerfd_create()`가 반환하는 파일 디스크립터는 다음 추가 작업을 지원한다.
 
-`read(2)`
-:   `timerfd_settime()`을 이용해 마지막으로 설정을 변경한 이후로, 또는 마지막 `read(2)` 성공 이후로 타이머가 한 번 이상 만료되었으면 발생한 만료 횟수를 담은 부호 없는 8바이트 정수(`uint64_t`)를 `read(2)`에 준 버퍼로 반환한다. (반환되는 값은 호스트 바이트 순서, 즉 호스트 머신 자체의 정수 바이트 순서로 되어 있다.)
+<tt>[[read(2)]]</tt>
+:   `timerfd_settime()`을 이용해 마지막으로 설정을 변경한 이후로, 또는 마지막 <tt>[[read(2)]]</tt> 성공 이후로 타이머가 한 번 이상 만료되었으면 발생한 만료 횟수를 담은 부호 없는 8바이트 정수(`uint64_t`)를 <tt>[[read(2)]]</tt>에 준 버퍼로 반환한다. (반환되는 값은 호스트 바이트 순서, 즉 호스트 머신 자체의 정수 바이트 순서로 되어 있다.)
 
-    `read(2)` 시점까지 타이머 만료가 발생하지 않았으면 다음 타이머 만료까지 호출이 블록 한다. 또는 (<tt>[[fcntl(2)]]</tt> `F_SETFL` 동작으로 `O_NONBLOCK` 플래그를 설정해서) 파일 디스크립터를 비블로킹으로 만들었다면 `EAGAIN` 오류로 실패한다.
+    <tt>[[read(2)]]</tt> 시점까지 타이머 만료가 발생하지 않았으면 다음 타이머 만료까지 호출이 블록 한다. 또는 (<tt>[[fcntl(2)]]</tt> `F_SETFL` 동작으로 `O_NONBLOCK` 플래그를 설정해서) 파일 디스크립터를 비블로킹으로 만들었다면 `EAGAIN` 오류로 실패한다.
 
-    제공한 버퍼의 크기가 8바이트보다 작으면 `read(2)`가 `EINVAL` 오류로 실패한다.
+    제공한 버퍼의 크기가 8바이트보다 작으면 <tt>[[read(2)]]</tt>가 `EINVAL` 오류로 실패한다.
 
-    연계된 클럭이 `CLOCK_REALTIME`이나 `CLOCK_REALTIME_ALARM`이고, 타이머가 절대이고 (`TFD_TIMER_ABSTIME`), `timerfd_settime()` 호출 때 `TFD_TIMER_CANCEL_ON_SET` 플래그를 지정했다면 실제 시간 클럭이 불연속적 변경을 거치는 경우 `read(2)`가 `ECANCELED` 오류로 실패한다. (이를 통해 읽기를 하는 응용에서 클럭에 불연속적 변경이 일어났음을 알아챌 수 있다.)
+    연계된 클럭이 `CLOCK_REALTIME`이나 `CLOCK_REALTIME_ALARM`이고, 타이머가 절대이고 (`TFD_TIMER_ABSTIME`), `timerfd_settime()` 호출 때 `TFD_TIMER_CANCEL_ON_SET` 플래그를 지정했다면 실제 시간 클럭이 불연속적 변경을 거치는 경우 <tt>[[read(2)]]</tt>가 `ECANCELED` 오류로 실패한다. (이를 통해 읽기를 하는 응용에서 클럭에 불연속적 변경이 일어났음을 알아챌 수 있다.)
 
-    연계된 클럭이 `CLOCK_REALTIME`이나 `CLOCK_REALTIME_ALARM`이고, 타이머가 절대이고 (`TFD_TIMER_ABSTIME`), `timerfd_settime()` 호출 때 `TFD_TIMER_CANCEL_ON_SET` 플래그를 지정하지 *않았다면* 시간 만료 후 파일 디스크립터에 대한 `read(2)` 전에 클럭에 (가령 <tt>[[clock_settime(2)]]</tt>으로) 불연속적 역방향 변경이 일어나면 `read(2)`가 블록 하지 않고 0값을 반환할 (즉 읽은 바이트가 없을) 수도 있다.
+    연계된 클럭이 `CLOCK_REALTIME`이나 `CLOCK_REALTIME_ALARM`이고, 타이머가 절대이고 (`TFD_TIMER_ABSTIME`), `timerfd_settime()` 호출 때 `TFD_TIMER_CANCEL_ON_SET` 플래그를 지정하지 *않았다면* 시간 만료 후 파일 디스크립터에 대한 <tt>[[read(2)]]</tt> 전에 클럭에 (가령 <tt>[[clock_settime(2)]]</tt>으로) 불연속적 역방향 변경이 일어나면 <tt>[[read(2)]]</tt>가 블록 하지 않고 0값을 반환할 (즉 읽은 바이트가 없을) 수도 있다.
 
 <tt>[[poll(2)]]</tt>, <tt>[[select(2)]]</tt> (기타 비슷한 함수)
 :   타이머 만료가 한 번 이상 일어났을 때 파일 디스크립터가 읽기 가능하다. (<tt>[[select(2)]]</tt> `readfds` 인자, <tt>[[poll(2)]]</tt> `POLLIN` 플래그.)
@@ -127,7 +127,7 @@ struct itimerspec {
 
 ### <tt>[[fork(2)]]</tt> 동작 방식
 
-`timerfd_create()`으로 생성한 파일 디스크립터의 사본을 <tt>[[fork(2)]]</tt> 후에 자식이 물려받는다. 그 파일 디스크립터는 부모에서의 대응하는 파일 디스크립터와 같은 기반 타이머 객체를 가리키며, 자식에서 `read(2)` 하면 그 타이머의 만료에 대한 정보를 반환하게 된다.
+`timerfd_create()`으로 생성한 파일 디스크립터의 사본을 <tt>[[fork(2)]]</tt> 후에 자식이 물려받는다. 그 파일 디스크립터는 부모에서의 대응하는 파일 디스크립터와 같은 기반 타이머 객체를 가리키며, 자식에서 <tt>[[read(2)]]</tt> 하면 그 타이머의 만료에 대한 정보를 반환하게 된다.
 
 ### <tt>[[execve(2)]]</tt> 동작 방식
 
@@ -202,7 +202,7 @@ struct itimerspec {
 
 (b) 그 후에 `CLOCK_REALTIME` 클럭에 불연속적 변경(가령 <tt>[[settimeofday(2)]]</tt>)이 일어난다.
 
-(c) 호출자가 (파일 디스크립터를 먼저 `read(2)` 하지 않고) 한 번 더 `timerfd_settime()`을 호출해서 타이머를 재장전한다.
+(c) 호출자가 (파일 디스크립터를 먼저 <tt>[[read(2)]]</tt> 하지 않고) 한 번 더 `timerfd_settime()`을 호출해서 타이머를 재장전한다.
 
 이 경우에 다음처럼 된다.
 
@@ -331,7 +331,7 @@ main(int argc, char *argv[])
 
 ## SEE ALSO
 
-<tt>[[eventfd(2)]]</tt>, <tt>[[poll(2)]]</tt>, `read(2)`, <tt>[[select(2)]]</tt>, <tt>[[setitimer(2)]]</tt>, <tt>[[signalfd(2)]]</tt>, <tt>[[timer_create(2)]]</tt>, <tt>[[timer_gettime(2)]]</tt>, <tt>[[timer_settime(2)]]</tt>, <tt>[[epoll(7)]]</tt>, <tt>[[time(7)]]</tt>
+<tt>[[eventfd(2)]]</tt>, <tt>[[poll(2)]]</tt>, <tt>[[read(2)]]</tt>, <tt>[[select(2)]]</tt>, <tt>[[setitimer(2)]]</tt>, <tt>[[signalfd(2)]]</tt>, <tt>[[timer_create(2)]]</tt>, <tt>[[timer_gettime(2)]]</tt>, <tt>[[timer_settime(2)]]</tt>, <tt>[[epoll(7)]]</tt>, <tt>[[time(7)]]</tt>
 
 ----
 

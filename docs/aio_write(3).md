@@ -14,7 +14,7 @@ int aio_write(struct aiocb *aiocbp);
 
 ## DESCRIPTION
 
-`aio_write()` 함수는 `aiocbp`가 가리키는 버퍼에 기술된 I/O 요청을 큐에 넣는다. 이 함수는 `write(2)`의 비동기 형태다. 다음 호출에서
+`aio_write()` 함수는 `aiocbp`가 가리키는 버퍼에 기술된 I/O 요청을 큐에 넣는다. 이 함수는 <tt>[[write(2)]]</tt>의 비동기 형태다. 다음 호출에서
 
 ```c
 write(fd, buf, count)

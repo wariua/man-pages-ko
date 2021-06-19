@@ -43,7 +43,7 @@ ssize_t getrandom(void *buf, size_t buflen, unsigned int flags);
 :   `buf`가 가리키는 주소가 접근 가능한 주소 공간 밖에 있다.
 
 `EINTR`
-:   호출이 시그널 핸들러에 의해 중단되었다. <tt>[[signal(7)]]</tt> 맨 페이지에서 `SA_RESTART` 플래그가 있거나 없을 때 "느린" 장치에 대한 `read(2)` 호출 중단을 어떻게 처리하는지에 대한 설명을 보라.
+:   호출이 시그널 핸들러에 의해 중단되었다. <tt>[[signal(7)]]</tt> 맨 페이지에서 `SA_RESTART` 플래그가 있거나 없을 때 "느린" 장치에 대한 <tt>[[read(2)]]</tt> 호출 중단을 어떻게 처리하는지에 대한 설명을 보라.
 
 `EINVAL`
 :   `flags`에 유효하지 않은 플래그를 지정했다.

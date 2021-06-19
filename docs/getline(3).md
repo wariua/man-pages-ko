@@ -99,7 +99,7 @@ main(int argc, char *argv[])
 
 ## SEE ALSO
 
-`read(2)`, <tt>[[fgets(3)]]</tt>, <tt>[[fopen(3)]]</tt>, `fread(3)`, <tt>[[scanf(3)]]</tt>
+<tt>[[read(2)]]</tt>, <tt>[[fgets(3)]]</tt>, <tt>[[fopen(3)]]</tt>, <tt>[[fread(3)]]</tt>, <tt>[[scanf(3)]]</tt>
 
 ----
 

@@ -29,13 +29,13 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 성공 시 `pread()`는 읽어 들인 바이트 수(0은 파일 끝 표시)를 반환하고 `pwrite()`는 기록한 바이트 수를 반환한다.
 
-성공한 호출에서 요청보다 적은 바이트를 이동한 것이 오류가 아니라는 점에 유의하라. (`read(2)` 및 `write(2)` 참고.)
+성공한 호출에서 요청보다 적은 바이트를 이동한 것이 오류가 아니라는 점에 유의하라. (<tt>[[read(2)]]</tt> 및 <tt>[[write(2)]]</tt> 참고.)
 
 오류 시 -1을 반환하며 오류를 나타내도록 `errno`를 설정한다.
 
 ## ERRORS
 
-`pread()`는 `read(2)`나 <tt>[[lseek(2)]]</tt>에 명세된 오류로 실패하여 `errno`를 설정할 수 있다. `pwrite()`는 `write(2)`나 <tt>[[lseek(2)]]</tt>에 명세된 오류로 실패하여 `errno`를 설정할 수 있다.
+`pread()`는 <tt>[[read(2)]]</tt>나 <tt>[[lseek(2)]]</tt>에 명세된 오류로 실패하여 `errno`를 설정할 수 있다. `pwrite()`는 <tt>[[write(2)]]</tt>나 <tt>[[lseek(2)]]</tt>에 명세된 오류로 실패하여 `errno`를 설정할 수 있다.
 
 ## VERSIONS
 
@@ -61,7 +61,7 @@ POSIX에서는 파일을 `O_APPEND` 플래그로 여는 것이 `pwrite()`에서 
 
 ## SEE ALSO
 
-<tt>[[lseek(2)]]</tt>, `read(2)`, <tt>[[readv(2)]]</tt>, `write(2)`
+<tt>[[lseek(2)]]</tt>, <tt>[[read(2)]]</tt>, <tt>[[readv(2)]]</tt>, <tt>[[write(2)]]</tt>
 
 ----
 

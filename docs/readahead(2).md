@@ -47,7 +47,7 @@ ssize_t readahead(int fd, off64_t offset, size_t count);
 
 ## SEE ALSO
 
-<tt>[[lseek(2)]]</tt>, <tt>[[madvise(2)]]</tt>, <tt>[[mmap(2)]]</tt>, <tt>[[posix_fadvise(2)]]</tt>, `read(2)`
+<tt>[[lseek(2)]]</tt>, <tt>[[madvise(2)]]</tt>, <tt>[[mmap(2)]]</tt>, <tt>[[posix_fadvise(2)]]</tt>, <tt>[[read(2)]]</tt>
 
 ----
 

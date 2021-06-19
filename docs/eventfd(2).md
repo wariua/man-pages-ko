@@ -31,23 +31,23 @@ int eventfd(unsigned int initval, int flags);
 
 `eventfd()`가 반환한 파일 디스크립터에 다음 작업을 수행할 수 있다.
 
-`read(2)`
-:   `read(2)`가 성공할 때마다 8바이트 정수를 반환한다. 제공 버퍼의 크기가 8바이트보다 작으면 `read(2)`가 `EINVAL` 오류로 실패한다.
+<tt>[[read(2)]]</tt>
+:   <tt>[[read(2)]]</tt>가 성공할 때마다 8바이트 정수를 반환한다. 제공 버퍼의 크기가 8바이트보다 작으면 <tt>[[read(2)]]</tt>가 `EINVAL` 오류로 실패한다.
 
-    `read(2)`가 반환하는 값은 호스트 바이트 순서, 즉 호스트 머신의 기본 정수 바이트 순서로 돼 있다.
+    <tt>[[read(2)]]</tt>가 반환하는 값은 호스트 바이트 순서, 즉 호스트 머신의 기본 정수 바이트 순서로 돼 있다.
 
-    `read(2)`의 동작 방식은 eventfd 카운터가 현재 0 아닌 값을 가지고 있는지 여부와 eventfd 파일 디스크립터 생성 시 `EFD_SEMAPHORE` 플래그를 지정했는지 여부에 따라 달라진다.
+    <tt>[[read(2)]]</tt>의 동작 방식은 eventfd 카운터가 현재 0 아닌 값을 가지고 있는지 여부와 eventfd 파일 디스크립터 생성 시 `EFD_SEMAPHORE` 플래그를 지정했는지 여부에 따라 달라진다.
 
-    * `EFD_SEMAPHORE`를 지정하지 않았고 eventfd 카운터의 값이 0이 아니면 `read(2)`가 그 값을 담은 8바이트를 반환하며 카운터 값이 0으로 재설정된다.
+    * `EFD_SEMAPHORE`를 지정하지 않았고 eventfd 카운터의 값이 0이 아니면 <tt>[[read(2)]]</tt>가 그 값을 담은 8바이트를 반환하며 카운터 값이 0으로 재설정된다.
 
-    * `EFD_SEMAPHORE`를 지정했으며 eventfd 카운터의 값이 0이 아니면 `read(2)`가 값 1을 담은 8바이트를 반환하며 카운터 값이 1만큼 줄어든다.
+    * `EFD_SEMAPHORE`를 지정했으며 eventfd 카운터의 값이 0이 아니면 <tt>[[read(2)]]</tt>가 값 1을 담은 8바이트를 반환하며 카운터 값이 1만큼 줄어든다.
 
-    * `read(2)` 호출 시점에 eventfd 카운터가 0이면 카운터가 0이 아니게 될 때까지 블록한다. (그 다음에 `read(2)`가 위 설명처럼 진행한다.) 파일 디스크립터를 논블록으로 만들었다면 `EAGAIN` 오류로 실패한다.
+    * <tt>[[read(2)]]</tt> 호출 시점에 eventfd 카운터가 0이면 카운터가 0이 아니게 될 때까지 블록한다. (그 다음에 <tt>[[read(2)]]</tt>가 위 설명처럼 진행한다.) 파일 디스크립터를 논블록으로 만들었다면 `EAGAIN` 오류로 실패한다.
 
-`write(2)`
-:   `write(2)` 호출은 버퍼에 준 8바이트 정수 값을 카운터에 더한다. 카운터에 저장할 수 있는 최댓값은 가장 큰 부호 없는 64비트 정수에서 1을 뺀 것(즉 0xfffffffffffffffe)이다. 더한 결과가 그 최댓값을 초과하게 될 것 같으면 그 파일 디스크립터에 `read(2)`가 이뤄질 때까지 `write(2)`가 블록한다. 파일 디스크립터를 논블록으로 만들었다면 `EAGAIN` 오류로 실패한다.
+<tt>[[write(2)]]</tt>
+:   <tt>[[write(2)]]</tt> 호출은 버퍼에 준 8바이트 정수 값을 카운터에 더한다. 카운터에 저장할 수 있는 최댓값은 가장 큰 부호 없는 64비트 정수에서 1을 뺀 것(즉 0xfffffffffffffffe)이다. 더한 결과가 그 최댓값을 초과하게 될 것 같으면 그 파일 디스크립터에 <tt>[[read(2)]]</tt>가 이뤄질 때까지 <tt>[[write(2)]]</tt>가 블록한다. 파일 디스크립터를 논블록으로 만들었다면 `EAGAIN` 오류로 실패한다.
 
-    제공 버퍼의 크기가 8바이트보다 작거나 값 0xffffffffffffffff를 쓰려고 시도하면 `write(2)`가 `EINVAL` 오류로 실패한다.
+    제공 버퍼의 크기가 8바이트보다 작거나 값 0xffffffffffffffff를 쓰려고 시도하면 <tt>[[write(2)]]</tt>가 `EINVAL` 오류로 실패한다.
 
 <tt>[[poll(2)]]</tt>, <tt>[[select(2)]]</tt> (기타 비슷한 함수)
 :   반환되는 파일 디스크립터가 다음과 같이 <tt>[[poll(2)]]</tt>과 (마찬가지로 <tt>[[epoll(7)]]</tt>과) <tt>[[select(2)]]</tt>를 지원한다.
@@ -56,7 +56,7 @@ int eventfd(unsigned int initval, int flags);
 
     * 블록되지 않고 적어도 "1" 값을 기록할 수 있으면 파일 디스크립터가 쓰기 가능하다. (<tt>[[select(2)]]</tt>의 `writefds` 인자, <tt>[[poll(2)]]</tt>의 `POLLOUT` 플래그)
 
-    * 카운터 값 넘침을 감지한 경우 <tt>[[select(2)]]</tt>는 파일 디스크립터가 읽기 가능하면서 동시에 쓰기 가능하다고 표시하며 <tt>[[poll(2)]]</tt>은 `POLLERR` 이벤트를 반환한다. 위에서 언급한 것처럼 `write(2)`가 절대 카운터를 넘치게 할 수 없다. 하지만 KAIO 서브시스템에서 eventfd "알림 발송"을 2^64번 수행한다면 넘침이 발생할 수 있다. (이론적으로 가능한 것이고 실제로는 가능성이 낮다.) 넘침이 발생했으면 `read(2)`가 가장 큰 `uint64_t` 값(즉 0xffffffffffffffff)을 반환하게 된다.
+    * 카운터 값 넘침을 감지한 경우 <tt>[[select(2)]]</tt>는 파일 디스크립터가 읽기 가능하면서 동시에 쓰기 가능하다고 표시하며 <tt>[[poll(2)]]</tt>은 `POLLERR` 이벤트를 반환한다. 위에서 언급한 것처럼 <tt>[[write(2)]]</tt>가 절대 카운터를 넘치게 할 수 없다. 하지만 KAIO 서브시스템에서 eventfd "알림 발송"을 2^64번 수행한다면 넘침이 발생할 수 있다. (이론적으로 가능한 것이고 실제로는 가능성이 낮다.) 넘침이 발생했으면 <tt>[[read(2)]]</tt>가 가장 큰 `uint64_t` 값(즉 0xffffffffffffffff)을 반환하게 된다.
 
     eventfd 파일 디스크립터는 <tt>[[pselect(2)]]</tt>와 <tt>[[ppoll(2)]]</tt> 같은 다른 파일 디스크립터 다중화 API도 지원한다.
 
@@ -208,7 +208,7 @@ main(int argc, char *argv[])
 
 ## SEE ALSO
 
-<tt>[[futex(2)]]</tt>, <tt>[[pipe(2)]]</tt>, <tt>[[poll(2)]]</tt>, `read(2)`, <tt>[[select(2)]]</tt>, <tt>[[signalfd(2)]]</tt>, <tt>[[timerfd_create(2)]]</tt>, `write(2)`, <tt>[[epoll(7)]]</tt>, <tt>[[sem_overview(7)]]</tt>
+<tt>[[futex(2)]]</tt>, <tt>[[pipe(2)]]</tt>, <tt>[[poll(2)]]</tt>, <tt>[[read(2)]]</tt>, <tt>[[select(2)]]</tt>, <tt>[[signalfd(2)]]</tt>, <tt>[[timerfd_create(2)]]</tt>, <tt>[[write(2)]]</tt>, <tt>[[epoll(7)]]</tt>, <tt>[[sem_overview(7)]]</tt>
 
 ----
 

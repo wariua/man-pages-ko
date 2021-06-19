@@ -23,7 +23,7 @@ int seccomp(unsigned int operation, unsigned int flags, void *args);
 현재 리눅스는 다음 `operation` 값들을 지원한다.
 
 `SECCOMP_SET_MODE_STRICT`
-:   호출 스레드에게 허용되는 시스템 호출이 `read(2)`, `write(2)`, <tt>[[_exit(2)]]</tt> (<tt>[[exit_group(2)]]</tt>은 안 됨), <tt>[[sigreturn(2)]]</tt>뿐이다. 다른 시스템 호출은 `SIGKILL` 시그널 전달을 일으킨다. 엄격한 안전 컴퓨팅 모드는 파이프나 소켓 등을 읽어서 얻은 비신뢰 바이트 코드를 실행해야 하는 계산 위주 응용에 유용하다.
+:   호출 스레드에게 허용되는 시스템 호출이 <tt>[[read(2)]]</tt>, <tt>[[write(2)]]</tt>, <tt>[[_exit(2)]]</tt> (<tt>[[exit_group(2)]]</tt>은 안 됨), <tt>[[sigreturn(2)]]</tt>뿐이다. 다른 시스템 호출은 `SIGKILL` 시그널 전달을 일으킨다. 엄격한 안전 컴퓨팅 모드는 파이프나 소켓 등을 읽어서 얻은 비신뢰 바이트 코드를 실행해야 하는 계산 위주 응용에 유용하다.
 
     참고로 호출 스레드에서 더이상 <tt>[[sigprocmask(2)]]</tt>를 호출할 수 없기는 하지만 <tt>[[sigreturn(2)]]</tt>을 이용해 `SIGKILL`과 `SIGSTOP`을 제외한 모든 시그널들을 차단할 수 있다. 따라서 (예를 들어) 프로세스의 실행 시간을 제약하는 데 <tt>[[alarm(2)]]</tt>으로는 충분치 않다. 확실하게 프로세스를 끝내려면 대신 `SIGKILL`을 사용해야 한다. <tt>[[timer_create(2)]]</tt>을 `SIGEV_SIGNAL`로 하고 `sigev_signo`를 `SIGKILL`로 설정해서 사용하거나 <tt>[[setrlimit(2)]]</tt>를 이용해 `RLIMIT_CPU`에 경성 제한을 설정하면 된다.
 
@@ -351,7 +351,7 @@ $ ./a.out 59 0xC000003E 99 /bin/whoami
 execv: Cannot assign requested address
 ```
 
-그 다음에는 BPF 필터가 `write(2)` 시스템 호출을 거부하여 `whoami(1)` 명령이 성공적으로 시작은 하지만 출력을 쓸 수 없게 한다.
+그 다음에는 BPF 필터가 <tt>[[write(2)]]</tt> 시스템 호출을 거부하여 `whoami(1)` 명령이 성공적으로 시작은 하지만 출력을 쓸 수 없게 한다.
 
 ```text
 $ syscall_nr write

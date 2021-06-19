@@ -128,7 +128,7 @@ typedef struct {
 
 *CONFORMING TO*: C99 및 이후. POSIX.1-2001 및 이후.
 
-*SEE ALSO*: <tt>[[fclose(3)]]</tt>, <tt>[[flockfile(3)]]</tt>, <tt>[[fopen(3)]]</tt>, <tt>[[fprintf(3)]]</tt>, `fread(3)`, <tt>[[fscanf(3)]]</tt>, <tt>[[stdin(3)]]</tt>, <tt>[[stdio(3)]]</tt>
+*SEE ALSO*: <tt>[[fclose(3)]]</tt>, <tt>[[flockfile(3)]]</tt>, <tt>[[fopen(3)]]</tt>, <tt>[[fprintf(3)]]</tt>, <tt>[[fread(3)]]</tt>, <tt>[[fscanf(3)]]</tt>, <tt>[[stdin(3)]]</tt>, <tt>[[stdio(3)]]</tt>
 
 ### `float_t`
 
@@ -491,7 +491,7 @@ union sigval {
 
 *CONFORMING TO*: C99 및 이후. POSIX.1-2001 및 이후.
 
-*SEE ALSO*: `read(2)`, `write(2)`, `fread(3)`, `fwrite(3)`, `memcmp(3)`, `memcpy(3)`, `memset(3)`, <tt>[[offsetof(3)]]</tt>
+*SEE ALSO*: <tt>[[read(2)]]</tt>, <tt>[[write(2)]]</tt>, <tt>[[fread(3)]]</tt>, <tt>[[fwrite(3)]]</tt>, `memcmp(3)`, `memcpy(3)`, `memset(3)`, <tt>[[offsetof(3)]]</tt>
 
 이 페이지의 `ptrdiff_t` 및 `ssize_t` 타입도 참고.
 
@@ -505,7 +505,7 @@ glibc와 대다수의 다른 구현에서 <tt>[[printf(3)]]</tt> 및 <tt>[[scanf
 
 *CONFORMING TO*: POSIX.1-2001 및 이후.
 
-*SEE ALSO*: `read(2)`, <tt>[[readlink(2)]]</tt>, <tt>[[readv(2)]]</tt>, <tt>[[recv(2)]]</tt>, <tt>[[send(2)]]</tt> `write(2)`
+*SEE ALSO*: <tt>[[read(2)]]</tt>, <tt>[[readlink(2)]]</tt>, <tt>[[readv(2)]]</tt>, <tt>[[recv(2)]]</tt>, <tt>[[send(2)]]</tt> <tt>[[write(2)]]</tt>
 
 이 페이지의 `ptrdiff_t` 및 `size_t` 타입도 참고.
 

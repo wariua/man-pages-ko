@@ -48,7 +48,7 @@ fanotify API에 대한 소개는 <tt>[[fanotify(7)]]</tt>를 보라.
 :   새 파일 디스크립터에 exec에서 닫기 플래그(`FD_CLOEXEC`)를 설정한다. <tt>[[open(2)]]</tt>의 `O_CLOEXEC` 플래그 설명을 보라.
 
 `FAN_NONBLOCK`
-:   파일 디스크립터에 논블로킹 플래그(`O_NONBLOCK`)를 켠다. 파일 디스크립터에서 읽기가 블록 하지 않게 된다. 읽을 수 있는 데이터가 없으면 대신 `read(2)`가 `EAGAIN` 오류로 실패한다.
+:   파일 디스크립터에 논블로킹 플래그(`O_NONBLOCK`)를 켠다. 파일 디스크립터에서 읽기가 블록 하지 않게 된다. 읽을 수 있는 데이터가 없으면 대신 <tt>[[read(2)]]</tt>가 `EAGAIN` 오류로 실패한다.
 
 `FAN_UNLIMITED_QUEUE`
 :   이벤트 큐에서 16384개 이벤트 제한을 없앤다. 이 플래그를 사용하려면 `CAP_SYS_ADMIN` 역능이 필요하다.
@@ -57,7 +57,7 @@ fanotify API에 대한 소개는 <tt>[[fanotify(7)]]</tt>를 보라.
 :   8192개 표시 제한을 없앤다. 이 플래그를 사용하려면 `CAP_SYS_ADMIN` 역능이 필요하다.
 
 `FAN_REPORT_TID` (리눅스 4.20부터)
-:   `read(2)`가 내놓는 `struct fanotify_event_metadata`(<tt>[[fanotify(7)]]</tt> 참고)의 `pid` 필드로 프로세스 ID(PID) 대신 스레드 ID(TID)를 알려 준다.
+:   <tt>[[read(2)]]</tt>가 내놓는 `struct fanotify_event_metadata`(<tt>[[fanotify(7)]]</tt> 참고)의 `pid` 필드로 프로세스 ID(PID) 대신 스레드 ID(TID)를 알려 준다.
 
 `FAN_ENABLE_AUDIT` (리눅스 4.15부터)
 :   권한 이벤트로 수행하는 접근 조정에 대해 감사 로그 기록 생성 동작을 켠다. 권한 이벤트 응답에 `FAN_AUDIT` 표시를 해 주어야 감사 로그 기록이 생성된다.

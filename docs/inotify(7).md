@@ -12,7 +12,7 @@ inotify - 파일 시스템 이벤트 감시하기
 
 * <tt>[[inotify_add_watch(2)]]</tt>는 inotify 인스턴스에 연계된 "감시 목록(watch list)"을 조작한다. 감시 목록 내의 각 항목은 파일이나 디렉터리의 경로명과 함께 그 경로명이 가리키는 파일에 대해 커널에서 감시해야 할 어떤 이벤트 집합을 나타낸다. <tt>[[inotify_add_watch(2)]]</tt>는 새 감시 항목을 만들거나 기존 감시 항목을 변경한다. 각 감시 항목에는 고유한 "감시 디스크립터"가 있는데, 그 감시 항목을 생성할 때 <tt>[[inotify_add_watch(2)]]</tt>가 그 정수를 반환한다.
 
-* 감시 대상 파일 및 디렉터리에 대한 이벤트가 발생할 때 inotify 파일 디스크립터에서 `read(2)`로 그 이벤트를 나타내는 구조화된 데이터를 읽어 들일 수 있다. (아래 참고.)
+* 감시 대상 파일 및 디렉터리에 대한 이벤트가 발생할 때 inotify 파일 디스크립터에서 <tt>[[read(2)]]</tt>로 그 이벤트를 나타내는 구조화된 데이터를 읽어 들일 수 있다. (아래 참고.)
 
 * <tt>[[inotify_rm_watch(2)]]</tt>는 inotify 감시 목록에서 항목을 제거한다.
 
@@ -22,9 +22,9 @@ inotify - 파일 시스템 이벤트 감시하기
 
 ## inotify 파일 디스크립터에서 이벤트 읽기
 
-어떤 이벤트가 발생했는지 알아내기 위해 응용에서는 inotify 파일 디스크립터에 `read(2)`를 한다. 아직 어떤 이벤트도 일어나지 않은 경우 블로킹 파일 디스크립터라고 하면 적어도 한 개 이벤트가 발생할 때까지 `read(2)`가 블록 하게 된다. (단 시그널에 의해 중단되는 경우에는 호출이 `EINTR` 오류로 실패한다. <tt>[[signal(7)]]</tt> 참고.)
+어떤 이벤트가 발생했는지 알아내기 위해 응용에서는 inotify 파일 디스크립터에 <tt>[[read(2)]]</tt>를 한다. 아직 어떤 이벤트도 일어나지 않은 경우 블로킹 파일 디스크립터라고 하면 적어도 한 개 이벤트가 발생할 때까지 <tt>[[read(2)]]</tt>가 블록 하게 된다. (단 시그널에 의해 중단되는 경우에는 호출이 `EINTR` 오류로 실패한다. <tt>[[signal(7)]]</tt> 참고.)
 
-`read(2)`가 성공하면 다음 구조체를 한 개 이상 담은 버퍼를 반환한다.
+<tt>[[read(2)]]</tt>가 성공하면 다음 구조체를 한 개 이상 담은 버퍼를 반환한다.
 
 ```c
 struct inotify_event {
@@ -47,7 +47,7 @@ struct inotify_event {
 
 `len` 필드는 널 바이트를 포함해 `name`의 바이트 모두의 개수이다. 따라서 각 `inotify_event` 구조체의 길이는 `sizeof(struct inotify_event)+len`이다.
 
-`read(2)`에 준 버퍼가 너무 작아서 다음 이벤트에 대한 정보를 담을 수 없는 경우의 동작 방식은 커널 버전에 따라 다르다. 2.6.21 전의 커널에서는 `read(2)`가 0을 반환하며 커널 2.6.21부터는 `read(2)`가 `EINVAL` 오류로 실패한다. 다음 크기의 버퍼를 지정하면 적어도 이벤트 한 개는 확실히 읽을 수 있다.
+<tt>[[read(2)]]</tt>에 준 버퍼가 너무 작아서 다음 이벤트에 대한 정보를 담을 수 없는 경우의 동작 방식은 커널 버전에 따라 다르다. 2.6.21 전의 커널에서는 <tt>[[read(2)]]</tt>가 0을 반환하며 커널 2.6.21부터는 <tt>[[read(2)]]</tt>가 `EINVAL` 오류로 실패한다. 다음 크기의 버퍼를 지정하면 적어도 이벤트 한 개는 확실히 읽을 수 있다.
 
 ```c
 sizeof(struct inotify_event) + NAME_MAX + 1
@@ -55,10 +55,10 @@ sizeof(struct inotify_event) + NAME_MAX + 1
 
 ### inotify 이벤트
 
-<tt>[[inotify_add_watch(2)]]</tt>의 `mask` 인자와 inotify 파일 디스크립터에서 `read(2)` 할 때 반환되는 `inotify_event` 구조체의 `mask` 필드는 inotify 이벤트들을 나타내는 비트 마스크이다. <tt>[[inotify_add_watch(2)]]</tt> 호출 시 `mask` 마스크에 다음 비트들을 지정할 수 있으며 `read(2)`에서 반환하는 `mask` 필드로 반환될 수 있다.
+<tt>[[inotify_add_watch(2)]]</tt>의 `mask` 인자와 inotify 파일 디스크립터에서 <tt>[[read(2)]]</tt> 할 때 반환되는 `inotify_event` 구조체의 `mask` 필드는 inotify 이벤트들을 나타내는 비트 마스크이다. <tt>[[inotify_add_watch(2)]]</tt> 호출 시 `mask` 마스크에 다음 비트들을 지정할 수 있으며 <tt>[[read(2)]]</tt>에서 반환하는 `mask` 필드로 반환될 수 있다.
 
 `IN_ACCESS` (+)
-:   파일에 접근했음. (가령 `read(2)`, <tt>[[execve(2)]]</tt>.)
+:   파일에 접근했음. (가령 <tt>[[read(2)]]</tt>, <tt>[[execve(2)]]</tt>.)
 
 `IN_ATTRIB` (\*)
 :   타데이터 변경됐음. 예를 들어 권한(<tt>[[chmod(2)]]</tt>), 타임스탬프(<tt>[[utimensat(2)]]</tt>), 확장 속성(<tt>[[setxattr(2)]]</tt>), 링크 카운트(리눅스 2.6.25부터, <tt>[[link(2)]]</tt> 및 <tt>[[unlink(2)]]</tt> 대상에 대해), 사용자/그룹 ID(<tt>[[chown(2)]]</tt>).
@@ -79,7 +79,7 @@ sizeof(struct inotify_event) + NAME_MAX + 1
 :   감시 대상 파일/디렉터리 자체가 삭제됐음. (다른 파일 시스템으로 객체를 옮기는 경우에도 이 이벤트가 발생한다. 그 경우 `mv(1)`는 실질적으로는 다른 파일 시스템으로 파일을 복사한 다음 원래 파일 시스템에서 파일을 삭제하기 때문이다.) 더불어 그 감시 디스크립터로 이어서 `IN_IGNORED` 이벤트가 생성될 것이다.
 
 `IN_MODIFY` (+)
-:   파일이 변경됐음. (가령 `write(2)`, <tt>[[truncate(2)]]</tt>.)
+:   파일이 변경됐음. (가령 <tt>[[write(2)]]</tt>, <tt>[[truncate(2)]]</tt>.)
 
 `IN_MOVE_SELF`
 :   감시 대상 파일/디렉터리 자체가 이동됐음.
@@ -137,7 +137,7 @@ inotify 감시는 아이노드를 기준으로 한다. 어떤 파일을 감시�
 
     이 플래그를 이용하면 응용에서 새 감시 항목이 기존 항목을 변경하지 않게 할 수 있다. 그게 유용한 건 여러 경로가 같은 아이노드를 가리키고 있을 수도 있기 때문이다. 이 플래그 없이 <tt>[[inotify_add_watch(2)]]</tt>를 여러 번 호출하면 기존 감시 마스크를 망가뜨릴 수 있다.
 
-`read(2)`로 받는 `mask` 필드에 다음 비트들이 설정돼 있을 수 있다.
+<tt>[[read(2)]]</tt>로 받는 `mask` 필드에 다음 비트들이 설정돼 있을 수 있다.
 
 `IN_IGNORED`
 :   감시 대상이 명시적으로(<tt>[[inotify_rm_watch(2)]]</tt>) 또는 자동으로(파일이 삭제되거나 파일 시스템이 마운트 해제됐음) 제거되었다. BUGS도 참고.
@@ -255,7 +255,7 @@ inotify 파일 디스크립터에서 이벤트 스트림을 읽어 들일 때 �
 
 그래서 <tt>[[rename(2)]]</tt>으로 생성되는 `IN_MOVED_FROM` 및 `IN_MOVED_TO` 이벤트의 짝을 맞추는 데는 기본적으로 경쟁 요소가 있다. (게다가 객체의 이름이 감시 대상 디렉터리 밖으로 바뀌면 `IN_MOVED_TO` 이벤트가 없을 수도 있다.) 경험적 접근 방식(가령 이벤트가 항상 연속돼 있다고 가정하기)을 쓰면 대부분 경우에서 짝을 맞출 수 있지만 불가피하게 일부 경우를 놓치게 되어 응용에서 어떤 `IN_MOVED_FROM` 및 `IN_MOVED_TO` 이벤트 쌍이 서로 무관하다고 인식하게 된다. 그래서 감시 디스크립터를 파기하고 다시 만들면 그 감시 디스크립터가 미처리 이벤트의 감시 디스크립터와 일치하지 않게 된다. (이런 경우에는 inotify 파일 디스크립터를 다시 만들고 캐시를 재구축하는 게 도움이 될 수 있다.)
 
-또한 응용에서는 이번 `read(2)` 호출이 반환하는 버퍼에 `IN_MOVED_FROM` 이벤트까지만 들어갈 수 있어서 딸린 `IN_MOVED_TO` 이벤트를 다음 `read(2)`로만 읽을 수 있을 가능성을 감안해야 한다. 이때 (작은) 타임아웃을 주는 게 좋은데, `IN_MOVED_FROM`+`IN_MOVED_TO` 이벤트 쌍 삽입이 원자적이지 않으며 `IN_MOVED_TO` 이벤트가 없을 가능성도 있기 때문이다.
+또한 응용에서는 이번 <tt>[[read(2)]]</tt> 호출이 반환하는 버퍼에 `IN_MOVED_FROM` 이벤트까지만 들어갈 수 있어서 딸린 `IN_MOVED_TO` 이벤트를 다음 <tt>[[read(2)]]</tt>로만 읽을 수 있을 가능성을 감안해야 한다. 이때 (작은) 타임아웃을 주는 게 좋은데, `IN_MOVED_FROM`+`IN_MOVED_TO` 이벤트 쌍 삽입이 원자적이지 않으며 `IN_MOVED_TO` 이벤트가 없을 가능성도 있기 때문이다.
 
 ## BUGS
 
@@ -478,7 +478,7 @@ main(int argc, char *argv[])
 
 ## SEE ALSO
 
-`inotifywait(1)`, `inotifywatch(1)`, <tt>[[inotify_add_watch(2)]]</tt>, <tt>[[inotify_init(2)]]</tt>, <tt>[[inotify_init1(2)]]</tt>, <tt>[[inotify_rm_watch(2)]]</tt>, `read(2)`, <tt>[[stat(2)]]</tt>, <tt>[[fanotify(7)]]</tt>
+`inotifywait(1)`, `inotifywatch(1)`, <tt>[[inotify_add_watch(2)]]</tt>, <tt>[[inotify_init(2)]]</tt>, <tt>[[inotify_init1(2)]]</tt>, <tt>[[inotify_rm_watch(2)]]</tt>, <tt>[[read(2)]]</tt>, <tt>[[stat(2)]]</tt>, <tt>[[fanotify(7)]]</tt>
 
 리눅스 커널 소스 트리의 `Documentation/filesystems/inotify.txt`
 

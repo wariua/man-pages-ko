@@ -101,7 +101,7 @@ glibc 버전 2.4에서 `mkfifoat()`이 추가되었다. 리눅스 커널 2.6.16�
 
 ## SEE ALSO
 
-`mkfifo(1)`, <tt>[[close(2)]]</tt>, <tt>[[open(2)]]</tt>, `read(2)`, <tt>[[stat(2)]]</tt>, <tt>[[umask(2)]]</tt>, `write(2)`, <tt>[[fifo(7)]]</tt>
+`mkfifo(1)`, <tt>[[close(2)]]</tt>, <tt>[[open(2)]]</tt>, <tt>[[read(2)]]</tt>, <tt>[[stat(2)]]</tt>, <tt>[[umask(2)]]</tt>, <tt>[[write(2)]]</tt>, <tt>[[fifo(7)]]</tt>
 
 ----
 

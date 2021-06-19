@@ -30,12 +30,12 @@ int signalfd(int fd, const sigset_t *mask, int flags);
 
 `signalfd()`가 반환하는 파일 디스크립터는 다음 작업을 지원한다.
 
-`read(2)`
-:   `mask`에 지정한 시그널들이 하나 이상 프로세스에 미처리 상태이면 `read(2)`에 준 버퍼를 이용해 시그널을 기술하는 `signalfd_siginfo` 구조체(아래 참고)를 하나 이상 반환한다. 미처리 시그널에 대한 정보를 버퍼에 가급적 많이 채워서 `read(2)`가 반환한다. 버퍼가 최소 `sizeof(struct signalfd_siginfo)` 바이트여야 한다. `read(2)`의 반환 값은 읽은 바이트 총수이다.
+<tt>[[read(2)]]</tt>
+:   `mask`에 지정한 시그널들이 하나 이상 프로세스에 미처리 상태이면 <tt>[[read(2)]]</tt>에 준 버퍼를 이용해 시그널을 기술하는 `signalfd_siginfo` 구조체(아래 참고)를 하나 이상 반환한다. 미처리 시그널에 대한 정보를 버퍼에 가급적 많이 채워서 <tt>[[read(2)]]</tt>가 반환한다. 버퍼가 최소 `sizeof(struct signalfd_siginfo)` 바이트여야 한다. <tt>[[read(2)]]</tt>의 반환 값은 읽은 바이트 총수이다.
 
-    `read(2)`의 결과로 시그널이 소비되며, 그래서 더이상 그 프로세스에 미처리인 시그널이 아니게 된다. (즉, 시그널 핸들러에 잡히지 않으며 <tt>[[sigwaitinfo(2)]]</tt>로 받을 수 없다.)
+    <tt>[[read(2)]]</tt>의 결과로 시그널이 소비되며, 그래서 더이상 그 프로세스에 미처리인 시그널이 아니게 된다. (즉, 시그널 핸들러에 잡히지 않으며 <tt>[[sigwaitinfo(2)]]</tt>로 받을 수 없다.)
 
-    `mask` 내의 시그널 어느 것도 프로세스에 미처리 상태가 아니면 `mask` 내의 시그널들 중 하나가 프로세스에게 생성될 때까지 `read(2)`가 블록 한다. 파일 디스크립터를 논블록으로 만들었으면 `EAGAIN` 오류로 실패한다.
+    `mask` 내의 시그널 어느 것도 프로세스에 미처리 상태가 아니면 `mask` 내의 시그널들 중 하나가 프로세스에게 생성될 때까지 <tt>[[read(2)]]</tt>가 블록 한다. 파일 디스크립터를 논블록으로 만들었으면 `EAGAIN` 오류로 실패한다.
 
 <tt>[[poll(2)]]</tt>, <tt>[[select(2)]]</tt> (기타 비슷한 함수)
 :   `mask` 내의 시그널이 하나 이상 프로세스에 미처리 상태인 경우에 파일 디스크립터가 읽기 가능하다. (<tt>[[select(2)]]</tt> `readfds` 인자, <tt>[[poll(2)]]</tt> `POLLIN` 플래그.)
@@ -47,7 +47,7 @@ int signalfd(int fd, const sigset_t *mask, int flags);
 
 ### `signalfd_siginfo` 구조체
 
-signalfd 파일 디스크립터에서 `read(2)`가 반환하는 `signalfd_siginfo` 구조체의 형식은 다음과 같다.
+signalfd 파일 디스크립터에서 <tt>[[read(2)]]</tt>가 반환하는 `signalfd_siginfo` 구조체의 형식은 다음과 같다.
 
 ```c
 struct signalfd_siginfo {
@@ -79,11 +79,11 @@ struct signalfd_siginfo {
 
 ### <tt>[[fork(2)]]</tt> 동작 방식
 
-<tt>[[fork(2)]]</tt> 후에 자식이 signalfd 파일 디스크립터 사본을 물려받는다. 자식에서 그 파일 디스크립터에 `read(2)` 하면 자식의 큐에 있는 시그널에 대한 정보를 반환하게 된다.
+<tt>[[fork(2)]]</tt> 후에 자식이 signalfd 파일 디스크립터 사본을 물려받는다. 자식에서 그 파일 디스크립터에 <tt>[[read(2)]]</tt> 하면 자식의 큐에 있는 시그널에 대한 정보를 반환하게 된다.
 
 ### 파일 디스크립터 전달 동작 방식
 
-다른 파일 디스크립터들과 마찬가지로 유닉스 도메인 소켓을 통해 signalfd 파일 디스크립터를 다른 프로세스로 전달할 수 있다. (<tt>[[unix(7)]]</tt> 참고.) 수신 쪽 프로세스에서 수신한 파일 디스크립터에 `read(2)` 하면 그 프로세스의 큐에 있는 시그널에 대한 정보를 반환하게 된다.
+다른 파일 디스크립터들과 마찬가지로 유닉스 도메인 소켓을 통해 signalfd 파일 디스크립터를 다른 프로세스로 전달할 수 있다. (<tt>[[unix(7)]]</tt> 참고.) 수신 쪽 프로세스에서 수신한 파일 디스크립터에 <tt>[[read(2)]]</tt> 하면 그 프로세스의 큐에 있는 시그널에 대한 정보를 반환하게 된다.
 
 ### <tt>[[execve(2)]]</tt> 동작 방식
 
@@ -95,7 +95,7 @@ struct signalfd_siginfo {
 
 ### <tt>[[epoll(7)]]</tt> 동작 방식
 
-프로세스에서 (<tt>[[epoll_ctl(2)]]</tt>을 통해) signalfd 파일 디스크립터를 <tt>[[epoll(7)]]</tt> 인스턴스에 추가한 경우에는 그 프로세스로 전송되는 시그널에 대해서만  <tt>[[epoll_wait(2)]]</tt>이 이벤트를 반환한다. 특히 그러고서 프로세스가 <tt>[[fork(2)]]</tt>로 자식 프로세스를 만들게 되면 자식에서 signalfd 파일 디스크립터를 써서 자기에게 온 시그널을 `read(2)` 할 수는 있지만 <tt>[[epoll_wait(2)]]</tt>은 signalfd 파일 디스크립터가 준비 상태라고 표시하지 **않게** 된다. 그런 경우에 쓸 수 있는 방법은 <tt>[[fork(2)]]</tt> 후 자식 프로세스에서 부모에게 물려받은 signalfd 파일 디스크립터를 닫고서 다른 signalfd 파일 디스크립터를 만들어 epoll 인스턴스에 추가하는 것이다. 아니면 부모와 자식에서 (따로) signalfd 파일 디스크립터를 만들고 epoll 인스턴스에 추가하는 걸 <tt>[[fork(2)]]</tt> 호출 후로 미룰 수도 있다.
+프로세스에서 (<tt>[[epoll_ctl(2)]]</tt>을 통해) signalfd 파일 디스크립터를 <tt>[[epoll(7)]]</tt> 인스턴스에 추가한 경우에는 그 프로세스로 전송되는 시그널에 대해서만  <tt>[[epoll_wait(2)]]</tt>이 이벤트를 반환한다. 특히 그러고서 프로세스가 <tt>[[fork(2)]]</tt>로 자식 프로세스를 만들게 되면 자식에서 signalfd 파일 디스크립터를 써서 자기에게 온 시그널을 <tt>[[read(2)]]</tt> 할 수는 있지만 <tt>[[epoll_wait(2)]]</tt>은 signalfd 파일 디스크립터가 준비 상태라고 표시하지 **않게** 된다. 그런 경우에 쓸 수 있는 방법은 <tt>[[fork(2)]]</tt> 후 자식 프로세스에서 부모에게 물려받은 signalfd 파일 디스크립터를 닫고서 다른 signalfd 파일 디스크립터를 만들어 epoll 인스턴스에 추가하는 것이다. 아니면 부모와 자식에서 (따로) signalfd 파일 디스크립터를 만들고 epoll 인스턴스에 추가하는 걸 <tt>[[fork(2)]]</tt> 호출 후로 미룰 수도 있다.
 
 ## RETURN VALUE
 
@@ -224,7 +224,7 @@ main(int argc, char *argv[])
 
 ## SEE ALSO
 
-<tt>[[eventfd(2)]]</tt>, <tt>[[poll(2)]]</tt>, `read(2)`, <tt>[[select(2)]]</tt>, <tt>[[sigaction(2)]]</tt>, <tt>[[sigprocmask(2)]]</tt>, <tt>[[sigwaitinfo(2)]]</tt>, <tt>[[timerfd_create(2)]]</tt>, <tt>[[sigsetops(3)]]</tt>, <tt>[[sigwait(3)]]</tt>, <tt>[[epoll(7)]]</tt>, <tt>[[signal(7)]]</tt>
+<tt>[[eventfd(2)]]</tt>, <tt>[[poll(2)]]</tt>, <tt>[[read(2)]]</tt>, <tt>[[select(2)]]</tt>, <tt>[[sigaction(2)]]</tt>, <tt>[[sigprocmask(2)]]</tt>, <tt>[[sigwaitinfo(2)]]</tt>, <tt>[[timerfd_create(2)]]</tt>, <tt>[[sigsetops(3)]]</tt>, <tt>[[sigwait(3)]]</tt>, <tt>[[epoll(7)]]</tt>, <tt>[[signal(7)]]</tt>
 
 ----
 

@@ -29,7 +29,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## DESCRIPTION
 
-`select()`를 이용해 프로그램에서 여러 파일 디스크립터들을 감시하고 그 중 하나 이상이 어떤 유형의 I/O 동작에 "준비" 상태(가령, 입력 가능)가 될 때까지 대기할 수 있다. 해당 I/O 동작(가령 `read(2)`나 충분히 작은 `write(2)`)을 블록킹 없이 수행하는 게 가능하면 파일 디스크립터가 준비 상태라고 본다.
+`select()`를 이용해 프로그램에서 여러 파일 디스크립터들을 감시하고 그 중 하나 이상이 어떤 유형의 I/O 동작에 "준비" 상태(가령, 입력 가능)가 될 때까지 대기할 수 있다. 해당 I/O 동작(가령 <tt>[[read(2)]]</tt>나 충분히 작은 <tt>[[write(2)]]</tt>)을 블록킹 없이 수행하는 게 가능하면 파일 디스크립터가 준비 상태라고 본다.
 
 `select()`에서는 `FD_SETSIZE`보다 작은 파일 디스크립터 번호만 감시할 수 있다. <tt>[[poll(2)]]</tt>과 <tt>[[epoll(7)]]</tt>에는 그런 제한이 없다. BUGS 참고.
 
@@ -292,7 +292,7 @@ main(void)
 
 ## SEE ALSO
 
-`accept(2)`, `connect(2)`, <tt>[[poll(2)]]</tt>, `read(2)`, <tt>[[recv(2)]]</tt>, <tt>[[restart_syscall(2)]]</tt>, <tt>[[send(2)]]</tt>, <tt>[[sigprocmask(2)]]</tt>, `write(2)`, <tt>[[epoll(7)]]</tt>, <tt>[[time(7)]]</tt>
+`accept(2)`, `connect(2)`, <tt>[[poll(2)]]</tt>, <tt>[[read(2)]]</tt>, <tt>[[recv(2)]]</tt>, <tt>[[restart_syscall(2)]]</tt>, <tt>[[send(2)]]</tt>, <tt>[[sigprocmask(2)]]</tt>, <tt>[[write(2)]]</tt>, <tt>[[epoll(7)]]</tt>, <tt>[[time(7)]]</tt>
 
 설명과 예시가 있는 자습서인 <tt>[[select_tut(2)]]</tt> 참고.
 

@@ -25,7 +25,7 @@ int rtime(struct sockaddr_in *addrp, struct rpc_timeval *timep,
 
 ## ERRORS
 
-기반 함수들(<tt>[[sendto(2)]]</tt>, <tt>[[poll(2)]]</tt>, <tt>[[recvfrom(2)]]</tt>, `connect(2)`, `read(2)`)의 모든 오류들이 발생할 수 있다. 추가로,
+기반 함수들(<tt>[[sendto(2)]]</tt>, <tt>[[poll(2)]]</tt>, <tt>[[recvfrom(2)]]</tt>, `connect(2)`, <tt>[[read(2)]]</tt>)의 모든 오류들이 발생할 수 있다. 추가로,
 
 `EIO`
 :   반환된 바이트 수가 4가 아니다.

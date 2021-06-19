@@ -18,7 +18,7 @@ ssize_t recvmsg(int sockfd, struct msghdr *msg, int flags);
 
 `recv()`, `recvfrom()`, `recvmsg()` 호출을 이용해 소켓에서 메시지를 받는다. 무연결 소켓과 연결 지향 소켓 모두에서 데이터를 받을 수 있다. 이 페이지에서는 먼저 세 가지 시스템 호출의 공통 기능을 기술한 다음 호출들 간의 차이점을 기술한다.
 
-`recv()`와 `read(2)`의 유일한 차이는 `flags`의 존재 여부다. `flags` 인자가 0이면 `recv()`는 일반적으로 `read(2)`와 동등하다. (하지만 NOTES 참고.) 또한 다음 호출은
+`recv()`와 <tt>[[read(2)]]</tt>의 유일한 차이는 `flags`의 존재 여부다. `flags` 인자가 0이면 `recv()`는 일반적으로 <tt>[[read(2)]]</tt>와 동등하다. (하지만 NOTES 참고.) 또한 다음 호출은
 
 ```c
 recv(sockfd, buf, len, flags);
@@ -214,7 +214,7 @@ POSIX.1에서는 `MSG_OOB`, `MSG_PEEK`, `MSG_WAITALL` 플래그만 기술한다.
 
 ## NOTES
 
-길이가 0인 데이터그램이 대기 중인 경우 `read(2)`와 `flags` 인자 0인 `recv()`의 동작이 다르다. 이 경우에 `read(2)`는 효력이 없지만 (데이터그램이 대기 중으로 남는다) `recv()`는 대기 중인 데이터그램을 소모한다.
+길이가 0인 데이터그램이 대기 중인 경우 <tt>[[read(2)]]</tt>와 `flags` 인자 0인 `recv()`의 동작이 다르다. 이 경우에 <tt>[[read(2)]]</tt>는 효력이 없지만 (데이터그램이 대기 중으로 남는다) `recv()`는 대기 중인 데이터그램을 소모한다.
 
 `socklen_t` 타입은 POSIX에서 고안한 것이다. `accept(2)`도 참고.
 
@@ -228,7 +228,7 @@ POSIX.1에 따르면 `msghdr` 구조체의 `msg_controllen` 필드가 `socklen_t
 
 ## SEE ALSO
 
-<tt>[[fcntl(2)]]</tt>, `getsockopt(2)`, `read(2)`, <tt>[[recvmmsg(2)]]</tt>, <tt>[[select(2)]]</tt>, <tt>[[shutdown(2)]]</tt>, <tt>[[socket(2)]]</tt>, <tt>[[cmsg(3)]]</tt>, <tt>[[sockatmark(3)]]</tt>, <tt>[[ip(7)]]</tt>, <tt>[[ipv6(7)]]</tt>, <tt>[[socket(7)]]</tt>, <tt>[[tcp(7)]]</tt>, <tt>[[udp(7)]]</tt>, <tt>[[unix(7)]]</tt>
+<tt>[[fcntl(2)]]</tt>, `getsockopt(2)`, <tt>[[read(2)]]</tt>, <tt>[[recvmmsg(2)]]</tt>, <tt>[[select(2)]]</tt>, <tt>[[shutdown(2)]]</tt>, <tt>[[socket(2)]]</tt>, <tt>[[cmsg(3)]]</tt>, <tt>[[sockatmark(3)]]</tt>, <tt>[[ip(7)]]</tt>, <tt>[[ipv6(7)]]</tt>, <tt>[[socket(7)]]</tt>, <tt>[[tcp(7)]]</tt>, <tt>[[udp(7)]]</tt>, <tt>[[unix(7)]]</tt>
 
 ----
 

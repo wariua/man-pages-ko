@@ -114,7 +114,7 @@ POSIX.1에서 비동기 시그널 안전이기를 요구하는 함수들이 아�
 | <tt>[[pthread_self(3)]]</tt>     | POSIX.1-2008 TC1에서 추가 |
 | <tt>[[pthread_sigmask(3)]]</tt>  | POSIX.1-2008 TC1에서 추가 |
 | <tt>[[raise(3)]]</tt>            | |
-| `read(2)`                        | |
+| <tt>[[read(2)]]</tt>             | |
 | <tt>[[readlink(2)]]</tt>         | |
 | <tt>[[readlinkat(2)]]</tt>       | POSIX.1-2008에서 추가 |
 | <tt>[[recv(2)]]</tt>             | |
@@ -217,7 +217,7 @@ POSIX.1에서 비동기 시그널 안전이기를 요구하는 함수들이 아�
 | `wmemcpy(3)`                     | POSIX.1-2008 TC2에서 추가 |
 | `wmemmove(3)`                    | POSIX.1-2008 TC2에서 추가 |
 | `wmemset(3)`                     | POSIX.1-2008 TC2에서 추가 |
-| `write(2)`                       | |
+| <tt>[[write(2)]]</tt>            | |
 
 참고:
 

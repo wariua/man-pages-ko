@@ -17,7 +17,7 @@ ssize_t sendmsg(int sockfd, const struct msghdr *msg, int flags);
 
 시스템 호출 `send()`, `sendto()`, `sendmsg()`를 이용해 다른 소켓으로 메시지를 전송한다.
 
-`send()` 호출은 소켓이 *연결* 상태일 때만 (그래서 대상 수신자가 알려진 경우에만) 쓸 수 있다. `send()`와 `write(2)`의 유일한 차이는 `flags`의 존재 여부다. `flags` 인자가 0이면 `send()`는 `write(2)`와 동등하다. 또한 다음 호출은
+`send()` 호출은 소켓이 *연결* 상태일 때만 (그래서 대상 수신자가 알려진 경우에만) 쓸 수 있다. `send()`와 <tt>[[write(2)]]</tt>의 유일한 차이는 `flags`의 존재 여부다. `flags` 인자가 0이면 `send()`는 <tt>[[write(2)]]</tt>와 동등하다. 또한 다음 호출은
 
 ```c
 send(sockfd, buf, len, flags);
@@ -178,7 +178,7 @@ POSIX.1-2001에 따르면 `msghdr` 구조체의 `msg_controllen` 필드가 `sock
 
 ## SEE ALSO
 
-<tt>[[fcntl(2)]]</tt>, `getsockopt(2)`, <tt>[[recv(2)]]</tt>, <tt>[[select(2)]]</tt>, <tt>[[sendfile(2)]]</tt>, <tt>[[sendmmsg(2)]]</tt>, <tt>[[shutdown(2)]]</tt>, <tt>[[socket(2)]]</tt>, `write(2)`, <tt>[[cmsg(3)]]</tt>, <tt>[[ip(7)]]</tt>, <tt>[[ipv6(7)]]</tt>, <tt>[[socket(7)]]</tt>, <tt>[[tcp(7)]]</tt>, <tt>[[udp(7)]]</tt>, <tt>[[unix(7)]]</tt>
+<tt>[[fcntl(2)]]</tt>, `getsockopt(2)`, <tt>[[recv(2)]]</tt>, <tt>[[select(2)]]</tt>, <tt>[[sendfile(2)]]</tt>, <tt>[[sendmmsg(2)]]</tt>, <tt>[[shutdown(2)]]</tt>, <tt>[[socket(2)]]</tt>, <tt>[[write(2)]]</tt>, <tt>[[cmsg(3)]]</tt>, <tt>[[ip(7)]]</tt>, <tt>[[ipv6(7)]]</tt>, <tt>[[socket(7)]]</tt>, <tt>[[tcp(7)]]</tt>, <tt>[[udp(7)]]</tt>, <tt>[[unix(7)]]</tt>
 
 ----
 

@@ -63,7 +63,7 @@ inode - 파일 아이노드 정보
 최근 접근 타임스탬프 (atime)
 :   `stat.st_atime`. `statx.stx_atime`.
 
-    파일의 최근 접근 타임스탬프다. <tt>[[execve(2)]]</tt>, <tt>[[mknod(2)]]</tt>, <tt>[[pipe(2)]]</tt>, <tt>[[utime(2)]]</tt>, (0 바이트보다 큰) `read(2)` 등의 파일 접근에 의해 바뀐다. <tt>[[mmap(2)]]</tt> 같은 다른 인터페이스는 atime 타임스탬프를 갱신할 수도 있고 하지 않을 수도 있다.
+    파일의 최근 접근 타임스탬프다. <tt>[[execve(2)]]</tt>, <tt>[[mknod(2)]]</tt>, <tt>[[pipe(2)]]</tt>, <tt>[[utime(2)]]</tt>, (0 바이트보다 큰) <tt>[[read(2)]]</tt> 등의 파일 접근에 의해 바뀐다. <tt>[[mmap(2)]]</tt> 같은 다른 인터페이스는 atime 타임스탬프를 갱신할 수도 있고 하지 않을 수도 있다.
 
     일부 파일 시스템 타입에서는 파일 및/또는 디렉터리 접근이 atime 타임스탬프 갱신을 일으키지 않도록 마운트 하는 게 가능하다. (<tt>[[mount(8)]]</tt>의 `noatime`, `nodiratime`, `relatime`, 그리고 <tt>[[mount(2)]]</tt>의 관련 정보 참고.) 더불어 `O_NOATIME` 플래그를 써서 파일을 열면 atime 타임스탬프가 갱신되지 않는다. <tt>[[open(2)]]</tt> 참고.
 
