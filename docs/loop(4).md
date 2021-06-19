@@ -24,16 +24,16 @@ $ sudo mount /dev/loop4 /myloopdev
 
 루프 장치별로 암복호화를 위한 변환 기능을 지정할 수 있다.
 
-루프 블록 장치는 다음 `ioctl(2)` 동작들을 제공한다.
+루프 블록 장치는 다음 <tt>[[ioctl(2)]]</tt> 동작들을 제공한다.
 
 `LOOP_SET_FD`
-:   `ioctl(2)` (세 번째) 인자로 파일 디스크립터를 준 열린 파일에 루프 장치를 연계한다.
+:   <tt>[[ioctl(2)]]</tt> (세 번째) 인자로 파일 디스크립터를 준 열린 파일에 루프 장치를 연계한다.
 
 `LOOP_CLR_FD`
 :   루프 장치와 파일 디스크립터의 연계를 없앤다.
 
 `LOOP_SET_STATUS`
-:   `ioctl(2)` (세 번째) 인자를 이용해 루프 장치의 상태를 설정한다. 그 인자는 `loop_info` 구조체의 포인터인데 `<linux/loop.h>`에 다음처럼 구조체가 정의돼 있다.
+:   <tt>[[ioctl(2)]]</tt> (세 번째) 인자를 이용해 루프 장치의 상태를 설정한다. 그 인자는 `loop_info` 구조체의 포인터인데 `<linux/loop.h>`에 다음처럼 구조체가 정의돼 있다.
 
         struct loop_info {
             int           lo_number;      /* ioctl r/o */
@@ -71,22 +71,22 @@ $ sudo mount /dev/loop4 /myloopdev
     `LOOPS_SET_STATUS`로 변경할 수 있는 `lo_flags`는 `LO_FLAGS_AUTOCLEAR`와 `LO_FLAGS_PARTSCAN`뿐이다.
 
 `LOOP_GET_STATUS`
-:   루프 장치의 상태를 얻는다. `ioctl(2)` (세 번째) 인자가 `struct loop_info` 포인터여야 한다.
+:   루프 장치의 상태를 얻는다. <tt>[[ioctl(2)]]</tt> (세 번째) 인자가 `struct loop_info` 포인터여야 한다.
 
 `LOOP_CHANGE_FD` (리눅스 2.6.5부터)
-:   루프 장치의 기반 저장소를 정수인 `ioctl(2)` (세 번째) 인자에 지정한 파일 디스크립터가 나타내는 새 파일로 바꾼다. 루프 장치가 읽기 전용이고 새 기반 저장소가 이전 기반 저장소와 크기 및 종류가 같은 경우에만 이 동작이 가능하다.
+:   루프 장치의 기반 저장소를 정수인 <tt>[[ioctl(2)]]</tt> (세 번째) 인자에 지정한 파일 디스크립터가 나타내는 새 파일로 바꾼다. 루프 장치가 읽기 전용이고 새 기반 저장소가 이전 기반 저장소와 크기 및 종류가 같은 경우에만 이 동작이 가능하다.
 
 `LOOP_SET_CAPACITY` (리눅스 2.6.30부터)
 :   동작 중인 루프 장치의 크기를 바꾼다. 기반 저장소의 크기를 바꾼 다음에 이 동작을 써서 루프 드라이버가 새 크기를 알아내도록 할 수 있다. 이 동작에는 인자가 없다.
 
 `LOOP_SET_DIRECT_IO` (리눅스 4.10부터)
-:   루프 장치에 직접 I/O 모드를 설정해서 기반 파일을 열 때 그 모드를 쓸 수 있게 한다. `ioctl(2)` (세 번째) 인자가 unsigned long 값이다. 0 아닌 값이 직접 I/O 모드를 나타낸다.
+:   루프 장치에 직접 I/O 모드를 설정해서 기반 파일을 열 때 그 모드를 쓸 수 있게 한다. <tt>[[ioctl(2)]]</tt> (세 번째) 인자가 unsigned long 값이다. 0 아닌 값이 직접 I/O 모드를 나타낸다.
 
 `LOOP_SET_BLOCK_SIZE` (리눅스 4.14부터)
 :   루프 장치의 블록 크기를 설정한다. `ioctl(3)` (세 번째) 인자가 unsigned long 값이다. 이 값은 [512,pagesize] 범위의 2의 거듭제곱이어야 한다. 아니면 `EINVAL` 오류가 나온다.
 
 `LOOP_CONFIGURE` (리눅스 5.8부터)
-:   `ioctl(2)` (세 번째) 인자를 써서 모든 루프 장치 매개변수를 한꺼번에 설정한다. 그 인자는 `loop_config` 구조체의 포인터인데 `<linux/loop.h>`에 다음처럼 구조체가 정의돼 있다.
+:   <tt>[[ioctl(2)]]</tt> (세 번째) 인자를 써서 모든 루프 장치 매개변수를 한꺼번에 설정한다. 그 인자는 `loop_config` 구조체의 포인터인데 `<linux/loop.h>`에 다음처럼 구조체가 정의돼 있다.
 
         struct loop_config {
             __u32               fd;
@@ -103,7 +103,7 @@ $ sudo mount /dev/loop4 /myloopdev
 
     * `loop_config.info.lo_flags`에 `LO_FLAGS_READ_ONLY` 설정해서 읽기 전용 모드 명확히 요청하기.
 
-리눅스 2.6부터 두 가지 새로운 `ioctl(2)` 동작이 있다.
+리눅스 2.6부터 두 가지 새로운 <tt>[[ioctl(2)]]</tt> 동작이 있다.
 
 `LOOP_SET_STATUS64`, `LOOP_GET_STATUS64`
 :   위에서 설명한 `LOOP_SET_STATUS` 및 `LOOP_GET_STATUS`와 유사하되 필드가 몇 개 더 있고 일부 필드가 더 큰 `loop_info64` 구조체를 사용한다.
@@ -127,16 +127,16 @@ $ sudo mount /dev/loop4 /myloopdev
 
 ### `/dev/loop-control`
 
-리눅스 3.1부터 커널에서 `/dev/loop-control` 장치를 제공하는데, 이를 통해 응용에서 동적으로 유휴 장치를 찾아내고 시스템에 루프 장치를 추가 및 제거할 수 있다. 그런 동작들을 수행하려면 먼저 `/dev/loop-control`을 연 다음 다음 `ioctl(2)` 동작들 중 하나를 쓰면 된다.
+리눅스 3.1부터 커널에서 `/dev/loop-control` 장치를 제공하는데, 이를 통해 응용에서 동적으로 유휴 장치를 찾아내고 시스템에 루프 장치를 추가 및 제거할 수 있다. 그런 동작들을 수행하려면 먼저 `/dev/loop-control`을 연 다음 다음 <tt>[[ioctl(2)]]</tt> 동작들 중 하나를 쓰면 된다.
 
 `LOOP_CTL_GET_FREE`
 :   사용할 유휴 루프 장치를 찾고 없으면 할당한다. 성공 시 호출 결과로 장치 번호가 반환된다. 이 동작에는 인자가 없다.
 
 `LOOP_CTL_ADD`
-:   새로운 루프 장치를 추가하며 그 장치 번호를 세 번째 `ioctl(2)` 인자에 long형 정수로 지정한다. 성공 시 호출 결과로 장치 번호가 반환된다. 그 장치가 이미 할당돼 있으면 `EEXIST` 오류로 호출이 실패한다.
+:   새로운 루프 장치를 추가하며 그 장치 번호를 세 번째 <tt>[[ioctl(2)]]</tt> 인자에 long형 정수로 지정한다. 성공 시 호출 결과로 장치 번호가 반환된다. 그 장치가 이미 할당돼 있으면 `EEXIST` 오류로 호출이 실패한다.
 
 `LOOP_CTL_REMOVE`
-:   루프 장치를 제거하며 그 장치 번호를 세 번째 `ioctl(2)` 인자에 long형 정수로 지정한다. 성공 시 호출 결과로 장치 번호가 반환된다. 장치가 사용 중이면 `EBUSY` 오류로 호출이 실패한다.
+:   루프 장치를 제거하며 그 장치 번호를 세 번째 <tt>[[ioctl(2)]]</tt> 인자에 long형 정수로 지정한다. 성공 시 호출 결과로 장치 번호가 반환된다. 장치가 사용 중이면 `EBUSY` 오류로 호출이 실패한다.
 
 ## FILES
 

@@ -109,9 +109,9 @@ dd if=/dev/urandom of=$random_seed count=1 bs=$bytes
 `uuid` 및 `boot_id`
 :   이 읽기 전용 파일들은 6fd5a44b-35f4-4ad4-a9b9-6b9be13e1fe9 같은 난수열을 담고 있다. 전자는 읽을 때마다 새로 생성하며 후자는 한 번만 생성한다.
 
-### `ioctl(2)` 인터페이스
+### <tt>[[ioctl(2)]]</tt> 인터페이스
 
-`/dev/random` 내지 `/dev/urandom`에 연결된 파일 디스크립터에서 다음 `ioctl(2)` 요청들이 정의되어 있다. 모든 수행 요청들은 `/dev/random`과 `/dev/urandom` 모두에 영향을 주는 입력 엔트로피 풀과 상호작용 하게 된다. `RNDGETENTCNT`를 제외한 모든 요청에는 `CAP_SYS_ADMIN` 역능이 필요하다.
+`/dev/random` 내지 `/dev/urandom`에 연결된 파일 디스크립터에서 다음 <tt>[[ioctl(2)]]</tt> 요청들이 정의되어 있다. 모든 수행 요청들은 `/dev/random`과 `/dev/urandom` 모두에 영향을 주는 입력 엔트로피 풀과 상호작용 하게 된다. `RNDGETENTCNT`를 제외한 모든 요청에는 `CAP_SYS_ADMIN` 역능이 필요하다.
 
 `RNDGETENTCNT`
 :   입력 풀의 엔트로피 양을 가져온다. 그 내용물은 proc 아래의 `entropy_avail`과 같게 된다. 인자가 가리키는 int에 결과가 저장된다.

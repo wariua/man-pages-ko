@@ -55,7 +55,7 @@ POSIX.1-2001, POSIX.1-2008.
 
 `SIGURG` 시그널 핸들러에서 안전하게 `sockatmark()`를 호출할 수 있다.
 
-`sockatmark()`는 `SIOCATMARK` `ioctl(2)` 동작을 이용해 구현되어 있다.
+`sockatmark()`는 `SIOCATMARK` <tt>[[ioctl(2)]]</tt> 동작을 이용해 구현되어 있다.
 
 ## BUGS
 

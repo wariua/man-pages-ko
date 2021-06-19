@@ -116,7 +116,7 @@ struct itimerspec {
 
     파일 디스크립터가 <tt>[[pselect(2)]]</tt>, <tt>[[ppoll(2)]]</tt>, <tt>[[epoll(7)]]</tt> 같은 다른 파일 디스크립터 다중화 API도 지원한다.
 
-`ioctl(2)`
+<tt>[[ioctl(2)]]</tt>
 :   다음의 timerfd 한정 명령을 지원한다.
 
     `TFD_IOC_SET_TICKS` (리눅스 3.17부터)

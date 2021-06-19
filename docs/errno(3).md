@@ -182,7 +182,7 @@ EACCES 13 Permission denied
 | `ESRCH` | 그런 프로세스 없음. (POSIX.1-2001) |
 | `ESTALE` | <p>파일 핸들이 더는 유효하지 않음. (POSIX.1-2001)</p><p>NFS 등의 파일 시스템에서 이 오류가 발생할 수 있다.</p> |
 | `ESTRPIPE` | 스트림 파이프 오류. |
-| `ETIME` | <p>타이머 만료됨. (POSIX.1 (XSI STREAMS 옵션))</p><p>(POSIX.1에선 "STREAM `ioctl(2)` 타임아웃"이라고 함.</p> |
+| `ETIME` | <p>타이머 만료됨. (POSIX.1 (XSI STREAMS 옵션))</p><p>(POSIX.1에선 "STREAM <tt>[[ioctl(2)]]</tt> 타임아웃"이라고 함.</p> |
 | `ETIMEDOUT` | 연결이 타임아웃됨. (POSIX.1-2001) |
 | `ETOOMANYREFS` | 참조가 너무 많음. splice 할 수 없음. |
 | `ETXTBSY` | 텍스트 파일 사용 중. (POSIX.1-2001) |
