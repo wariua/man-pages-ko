@@ -16,7 +16,7 @@
 * [[inode(7)]], [[stat(2)]], [[statx(2)]]
 * [[flock(2)]], [[lockf(3)]]
 * [[ioctl_ficlonerange(2)]], [[ioctl_fideduperange(2)]]
-* [[fcntl(2)]]
+* [[fcntl(2)]], [[ioctl(2)]]
 * [[glob(7)]], [[glob(3)]], [[fnmatch(3)]], [[wordexp(3)]]
 * [[scandir(3)]], [[opendir(3)]], [[closedir(3)]], [[readdir(3)]], [[readdir_r(3)]], [[seekdir(3)]], [[telldir(3)]], [[rewinddir(3)]], [[dirfd(3)]], [[getdents(2)]], [[readdir(2)]], [[fts(3)]], [[ftw(3)]]
 * [[utime(2)]], [[futimes(3)]], [[futimesat(2)]], [[utimensat(2)]]
