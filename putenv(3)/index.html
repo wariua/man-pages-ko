@@ -163,7 +163,7 @@ int putenv(char *string);
 <code>|| /* glibc &lt;= 2.19: */ _SVID_SOURCE</code></dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>putenv()</code> 함수는 환경 변수 값을 추가하거나 바꾼다. 인자 <code>string</code>은 <code>name=value</code> 형태이다. <code>name</code>이 환경 내에 존재하지 않으면 <code>string</code>을 환경에 추가한다. <code>name</code>이 이미 존재하는 경우에는 환경 안의 <code>name</code>의 값을 <code>value</code>로 바꾼다. <code>string</code>이 가리키는 문자열이 환경의 일부가 되며, 따라서 그 문자열을 변경하면 환경이 바뀐다.</p>
+<p><code>putenv()</code> 함수는 환경 변수 값을 추가하거나 바꾼다. 인자 <code>string</code>은 <code>name=value</code> 형태다. <code>name</code>이 환경에 존재하지 않으면 <code>string</code>을 환경에 추가한다. <code>name</code>이 이미 존재하는 경우에는 환경 안의 <code>name</code>의 값을 <code>value</code>로 바꾼다. <code>string</code>이 가리키는 문자열이 환경의 일부가 되며, 따라서 그 문자열을 변경하면 환경이 바뀐다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p><code>putenv()</code> 함수는 성공 시 0을 반환한다. 실패 시 0 아닌 값을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
@@ -193,10 +193,10 @@ int putenv(char *string);
 <p>POSIX.1-2001, POSIX.1-2008, SVr4, 4.3BSD.</p>
 <h2 id="notes">NOTES</h2>
 <p><code>putenv()</code> 함수가 재진입 가능이 아닐 수도 있다. glibc 2.0에서는 아니지만 glibc 2.1 버전은 재진입 가능이다.</p>
-<p>버전 2.1.2부터 glibc 구현이 SUSv2를 준수한다. 즉 <code>putenv()</code>에 준 포인터 <code>string</code>을 사용한다. 특히 그 문자열이 환경의 일부가 되고, 그래서 이후 변경하면 환경이 바뀌게 된다. (따라서 자동 변수를 인자로 해서 <code>putenv()</code>를 호출한 다음 <code>string</code>이 여전히 환경의 일부인 상태로 호출 함수에서 반환하는 것은 오류다.) 하지만 glibc 버전 2.0부터 2.1.1까지는 다르다. 즉 문자열의 복사본을 쓴다. 이는 한편으로 메모리 누수를 일으키고 다른 한편으로 SUSv2를 위반한다.</p>
+<p>버전 2.1.2부터 glibc 구현이 SUSv2를 준수한다. 즉 <code>putenv()</code>에 준 포인터 <code>string</code>을 사용한다. 특히 그 문자열이 환경의 일부가 되고, 그래서 이후 변경하면 환경이 바뀌게 된다. (따라서 자동 변수를 인자로 해서 <code>putenv()</code>를 호출한 다음 <code>string</code>이 여전히 환경의 일부인 상태로 호출 함수에서 반환하는 것은 오류다.) 하지만 glibc 버전 2.0부터 2.1.1까지는 다른데, 문자열의 복사본을 쓴다. 이는 한편으로 메모리 누수를 일으키고 다른 한편으로 SUSv2를 위반한다.</p>
 <p>4.4BSD 버전은 glibc 2.0처럼 복사본을 쓴다.</p>
-<p>SUSv2에서 원형의 <code>const</code>를 없앴고 glibc 2.1.3에서 그렇게 됐다.</p>
-<p>GNU C 라이브러리 구현에서는 비표준 확장을 제공한다. 다음처럼 <code>string</code>에 등호가 포함돼 있지 않으면 지정한 변수를 호출자의 환경에서 제거한다.</p>
+<p>SUSv2에서 원형의 <code>const</code>를 없앴고 glibc 2.1.3에서 그렇게 했다.</p>
+<p>GNU C 라이브러리 구현에서는 비표준 확장을 제공한다. 다음처럼 <code>string</code>에 등호가 포함돼 있지 않으면 그 변수를 호출자의 환경에서 제거한다.</p>
 <pre><code class="language-c">putenv(&quot;NAME&quot;);
 </code></pre>
 <h2 id="see-also">SEE ALSO</h2>

@@ -162,7 +162,7 @@ int clearenv(void);
 <code>|| /* glibc &lt;= 2.19: */ _SVID_SOURCE || _BSD_SOURCE</code></dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>clearenv()</code> 함수는 환경에서 모든 이름-값 쌍을 비우고 외부 변수 <code>environ</code>의 값을 NULL로 설정한다. 이 호출 후에 <tt><a class="wikilink" href="/man-pages-ko/putenv(3)/">putenv(3)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/setenv(3)/">setenv(3)</a></tt>를 이용해 환경에 새 변수를 추가할 수 있다.</p>
+<p><code>clearenv()</code> 함수는 환경에서 모든 이름-값 짝을 비우고 외부 변수 <code>environ</code>의 값을 NULL로 설정한다. 이 호출 후에 <tt><a class="wikilink" href="/man-pages-ko/putenv(3)/">putenv(3)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/setenv(3)/">setenv(3)</a></tt>를 이용해 환경에 새 변수를 추가할 수 있다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p><code>clearenv()</code> 함수는 성공 시 0을 반환하고 실패 시 0 아닌 값을 반환한다.</p>
 <h2 id="versions">VERSIONS</h2>
@@ -188,11 +188,11 @@ int clearenv(void);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>다양한 유닉스 변종들(DG/UX, HP-UX, QNX, ...). POSIX.9 (FORTRAN77 바인딩). POSIX.1-1996에서는 <code>clearenv()</code>와 <tt><a class="wikilink" href="/man-pages-ko/putenv(3)/">putenv(3)</a></tt>를 받아들이지 않았지만 마음을 바꿔서 이후 어느 버전에서 그 함수들을 추가하기로 했다. (B.4.6.1절 참고.) 하지만 POSIX.1-2001에서 <tt><a class="wikilink" href="/man-pages-ko/putenv(3)/">putenv(3)</a></tt>만 추가하고 <code>clearenv()</code>는 거부했다.</p>
 <h2 id="notes">NOTES</h2>
-<p><code>clearenv()</code>를 쓸 수 없는 시스템에서는 아마 다음 할당으로도 될 것이다.</p>
+<p><code>clearenv()</code>가 없는 시스템에서는 아마 다음 할당으로도 될 것이다.</p>
 <pre><code>environ = NULL;
 </code></pre>
 <p><tt><a class="wikilink" href="/man-pages-ko/exec(3)/">exec(3)</a></tt>로 실행되는 프로그램에 전달되는 환경을 신중하게 통제하고 싶은 보안 중시 응용들에서 <code>clearenv()</code> 함수가 유용할 수 있다. 그런 응용에서는 먼저 환경을 비운 다음 정선한 환경 변수들을 추가하게 될 것이다.</p>
-<p>참고로 <code>clearenv()</code>의 주된 효과는 포인터 <tt><a class="wikilink" href="/man-pages-ko/environ(7)/">environ(7)</a></tt>의 값을 조정하는 것이다. 이 함수가 환경 정의를 담은 버퍼들의 내용을 삭제하지는 않는다.</p>
+<p>참고로 <code>clearenv()</code>의 주된 효과는 포인터 <tt><a class="wikilink" href="/man-pages-ko/environ(7)/">environ(7)</a></tt>의 값을 조정하는 것이다. 환경 정의를 담은 버퍼들의 내용을 삭제하지는 않는다.</p>
 <p>DG/UX 및 Tru64 맨 페이지에는 이렇게 적혀 있다: <tt><a class="wikilink" href="/man-pages-ko/putenv(3)/">putenv(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/getenv(3)/">getenv(3)</a></tt>, <code>clearenv()</code> 외의 어떤 방법으로 <code>environ</code>을 변경했으면 <code>clearenv()</code>가 오류를 반환하게 되며 프로세스 환경이 그대로 유지된다.</p>
 <h2 id="see-also">SEE ALSO</h2>
 <p><tt><a class="wikilink" href="/man-pages-ko/getenv(3)/">getenv(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/putenv(3)/">putenv(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/setenv(3)/">setenv(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/unsetenv(3)/">unsetenv(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/environ(7)/">environ(7)</a></tt></p>

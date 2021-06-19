@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/mknod%282%29/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>mknod(2) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+            <li class="second-level"><a href="#mknodat">mknodat()</a></li>
+                
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>mknod, mknodat - 특수 파일이나 일반 파일 만들기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="language-c">#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;unistd.h&gt;
+
+int mknod(const char *pathname, mode_t mode, dev_t dev);
+
+#include &lt;fcntl.h&gt;           /* AT_* 상수 정의 */
+#include &lt;sys/stat.h&gt;
+
+int mknodat(int dirfd, const char *pathname, mode_t mode, dev_t dev);
+</code></pre>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
+<dl>
+<dt><code>mknod()</code>:</dt>
+<dd><code>_XOPEN_SOURCE &gt;= 500</code><br>
+<code>|| /* glibc 2.19부터 */ _DEFAULT_SOURCE</code><br>
+<code>|| /* glibc &lt;= 2.19 */ _BSD_SOURCE || _SVID_SOURCE</code></dd>
+</dl>
+<h2 id="description">DESCRIPTION</h2>
+<p><code>mknod()</code> 시스템 호출은 이름이 <code>pathname</code>이고 <code>mode</code>와 <code>dev</code>가 나타내는 속성의 파일 시스템 노드(파일, 장치 특수 파일, 이름 있는 파이프)를 만든다.</p>
+<p><code>mode</code> 인자는 사용할 파일 모드와 생성할 노드 종류 모두를 나타낸다. 아래 나열하는 파일 종류 중 하나와 <tt><a class="wikilink" href="/man-pages-ko/inode(7)/">inode(7)</a></tt>에 나열된 파일 모드 비트 0개 이상을 (비트 OR로) 조합한 것이어야 한다.</p>
+<p>파일 모드가 프로세스의 <code>umask</code>에 의해 일반적 방식으로 변경된다. 즉, 기본 ACL이 없다면 생성되는 노드의 권한은 <code>(mode &amp; ~umask)</code>다.</p>
+<p>파일 종류는 <code>S_IFREG</code>, <code>S_IFCHR</code>, <code>S_IFBLK</code>, <code>S_IFIFO</code>, <code>S_IFSOCK</code> 중 하나여야 하며, 각각 (빈 채로 생성되는) 정규 파일, 문자 특수 파일, 블록 특수 파일, FIFO (이름 있는 파이프), 유닉스 도메인 소켓이다. (파일 종류가 0인 것은 <code>S_IFREG</code>와 동등하다.)</p>
+<p>파일 종류가 <code>S_IFCHR</code>나 <code>S_IFBLK</code>인 경우 <code>dev</code>는 새로 생성되는 장치 특수 파일의 주번호와 부번호를 나타낸다. (<code>dev</code> 값을 만드는 데 <tt><a class="wikilink" href="/man-pages-ko/makedev(3)/">makedev(3)</a></tt>가 유용할 수 있다.) 그 외 경우에는 무시된다.</p>
+<p><code>pathname</code>이 이미 존재하거나 심볼릭 링크면 호출이 <code>EEXIST</code> 오류로 실패한다.</p>
+<p>새로 생성되는 노드는 프로세스의 실효 사용자 ID가 소유하게 된다. 노드를 담은 디렉터리에 set-group-ID 비트가 설정돼 있거나 파일 시스템이 BSD 그룹 동작 방식으로 마운트돼 있다면 새 노드가 부모 디렉터리의 그룹 소유자를 물려받게 된다. 아니라면 프로세스의 실효 그룹 ID가 소유하게 된다.</p>
+<h3 id="mknodat"><code>mknodat()</code></h3>
+<p><code>mknodat()</code> 시스템 호출은 아래 설명하는 차이를 빼면 <code>mknod()</code>와 똑같은 방식으로 동작한다.</p>
+<p><code>pathname</code>의 경로명이 상대적인 경우에는 (<code>mknod()</code>에서 하듯 호출 프로세스의 현재 작업 디렉터리 기준이 아니라) 파일 디스크립터 <code>dirfd</code>가 가리키는 디렉터리를 기준으로 해석한다.</p>
+<p><code>pathname</code>이 상대적이고 <code>dirfd</code>가 특수한 값 <code>AT_FDCWD</code>인 경우에는 (<code>mknod()</code>처럼) 호출 프로세스의 현재 작업 디렉터리를 기준으로 <code>pathname</code>을 해석한다.</p>
+<p><code>pathname</code>이 절대적인 경우에는 <code>dirfd</code>를 무시한다.</p>
+<p><code>mknodat()</code>의 필요성에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/openat(2)/">openat(2)</a></tt>을 보라.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p><code>mknod()</code>와 <code>mknodat()</code>은 성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
+<h2 id="errors">ERRORS</h2>
+<dl>
+<dt><code>EACCES</code></dt>
+<dd>부모 디렉터리에서 프로세스에 쓰기 권한을 허용하지 않거나, <code>pathname</code>의 경로 선두부의 한 디렉터리에서 탐색 권한을 허용하지 않았다. (<tt><a class="wikilink" href="/man-pages-ko/path_resolution(7)/">path_resolution(7)</a></tt>도 참고.)</dd>
+<dt><code>EDQUOT</code></dt>
+<dd>파일 시스템에서 사용자의 디스크 블록 내지 아이노드 쿼터가 고갈되었다.</dd>
+<dt><code>EEXIST</code></dt>
+<dd><code>pathname</code>이 이미 존재한다. <code>pathname</code>이 (깨진 것이든 아니든) 심볼릭 링크인 경우도 포함된다.</dd>
+<dt><code>EFAULT</code></dt>
+<dd><code>pathname</code>이 접근 가능한 주소 공간 밖을 가리킨다.</dd>
+<dt><code>EINVAL</code></dt>
+<dd><code>mode</code>로 정규 파일, 장치 특수 파일, FIFO, 소켓 외의 뭔가를 생성하라고 요청했다.</dd>
+<dt><code>ELOOP</code></dt>
+<dd><code>pathname</code>을 해석하는 동안 너무 많은 심볼릭 링크를 만났다.</dd>
+<dt><code>ENAMETOOLONG</code></dt>
+<dd><code>pathname</code>이 너무 길다.</dd>
+<dt><code>ENOENT</code></dt>
+<dd><code>pathname</code>의 어느 부분이 존재하지 않거나 깨진 심볼릭 링크다.</dd>
+<dt><code>ENOMEM</code></dt>
+<dd>사용 가능한 커널 메모리가 충분하지 않다.</dd>
+<dt><code>ENOSPC</code></dt>
+<dd><code>pathname</code>을 담을 장치에 새 노드를 위한 여유 공간이 없다.</dd>
+<dt><code>ENOTDIR</code></dt>
+<dd><code>pathname</code>에서 디렉터리로 쓰인 부분이 실제로는 디렉터리가 아니다.</dd>
+<dt><code>EPERM</code></dt>
+<dd><code>mode</code>에서 정규 파일, FIFO (이름 있는 파이프), 유닉스 도메인 소켓 아닌 뭔가를 생성하라고 요청했으며 호출자에게 특권이 없다. (리눅스: <code>CAP_MKNOD</code> 역능이 없다.) 요청한 노드 종류를 <code>pathname</code>을 담을 파일 시스템에서 지원하지 않는 경우에도 반환된다.</dd>
+<dt><code>EROFS</code></dt>
+<dd><code>pathname</code>이 가리키는 파일이 읽기 전용 파일 시스템에 있다.</dd>
+</dl>
+<p><code>mknodat()</code>에서 추가로 다음 오류가 발생할 수 있다.</p>
+<dl>
+<dt><code>EBADF</code></dt>
+<dd><code>dirfd</code>가 유효한 파일 디스크립터가 아니다.</dd>
+<dt><code>ENOTDIR</code></dt>
+<dd><code>pathname</code>이 상대 경로이고 <code>dirfd</code>가 디렉터리 아닌 파일을 가리키는 파일 디스크립터다.</dd>
+</dl>
+<h2 id="versions">VERSIONS</h2>
+<p>리눅스 커널 2.6.16에서 <code>mknodat()</code>이 추가되었다. glibc 버전 2.4에서 라이브러리 지원이 추가되었다.</p>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p><code>mknod()</code>: SVr4, 4.4BSD, POSIX.1-2001 (하지만 아래 참고), POSIX.1-2008.</p>
+<p><code>mknodat()</code>: POSIX.1-2008.</p>
+<h2 id="notes">NOTES</h2>
+<p>POSIX.1-2001에 따르면: "유일하게 이식성 있는 <code>mknod()</code> 사용 방식은 FIFO 특수 파일을 만드는 것이다. <code>mode</code>가 <code>S_IFIFO</code>가 아니거나 <code>dev</code>가 0이 아닐 때 <code>mknod()</code>의 동작은 명세돼 있지 않다." 하지만 요즘은 그런 용도에 <code>mknod()</code>를 절대 쓰지 않는 게 좋다. 대신 특별히 그 용도로 규정된 함수인 <tt><a class="wikilink" href="/man-pages-ko/mkfifo(3)/">mkfifo(3)</a></tt>를 쓰는 게 좋다.</p>
+<p>리눅스에서는 디렉터리를 만드는 데 <code>mknod()</code>를 쓸 수 없다. <tt><a class="wikilink" href="/man-pages-ko/mkdir(2)/">mkdir(2)</a></tt>로 디렉터리를 만드는 게 좋다.</p>
+<p>NFS의 기반 프로토콜에 여러 부적합한 점이 있어서 그 중 일부가 <code>mknod()</code>와 <code>mknodat()</code>에 영향을 끼친다.</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><code>mknod(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/chmod(2)/">chmod(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/chown(2)/">chown(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mkdir(2)/">mkdir(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mount(2)/">mount(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/socket(2)/">socket(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/stat(2)/">stat(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/umask(2)/">umask(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/unlink(2)/">unlink(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/makedev(3)/">makedev(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mkfifo(3)/">mkfifo(3)</a></tt>, <code>acl(5)</code>, <tt><a class="wikilink" href="/man-pages-ko/path_resolution(7)/">path_resolution(7)</a></tt></p>
+<hr />
+<p>2021-03-22</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

@@ -180,8 +180,8 @@ int lcong48_r(unsigned short param[7], struct drand48_data *buffer);
 <code>|| /* glibc &lt;= 2.19: */ _SVID_SOURCE || _BSD_SOURCE</code></dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
-<p>이 함수들은 <tt><a class="wikilink" href="/man-pages-ko/drand48(3)/">drand48(3)</a></tt>에서 기술하는 함수들의 재진입 가능 버전이다. 전역 난수 생성기 상태를 변경하는 대신 <code>buffer</code>로 제공받는 데이터 버퍼를 사용한다.</p>
-<p>첫 사용 전에 이 구조체를 초기화 해야 한다. 예를 들어 0으로 채우거나 함수 <code>srand48_r()</code>, <code>seed48_r()</code>, <code>lcong48_r()</code> 중 하나를 호출하면 된다.</p>
+<p>이 함수들은 <tt><a class="wikilink" href="/man-pages-ko/drand48(3)/">drand48(3)</a></tt>에서 설명하는 함수들의 재진입 가능 버전이다. 전역 난수 생성기 상태를 변경하는 대신 <code>buffer</code>로 제공받는 데이터 버퍼를 사용한다.</p>
+<p>첫 사용 전에 이 구조체를 초기화해야 한다. 예를 들어 0으로 채우거나 함수 <code>srand48_r()</code>, <code>seed48_r()</code>, <code>lcong48_r()</code> 중 하나를 호출하면 된다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>반환 값은 0이다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
@@ -196,7 +196,7 @@ int lcong48_r(unsigned short param[7], struct drand48_data *buffer);
 </thead>
 <tbody>
 <tr>
-<td><code>drand48_r()</code>, <code>erand48_r()</code>,<br><code>lrand48_r()</code>, <code>nrand48_r()</code>,<br><code>mrand48_r()</code>, <code>jrand48_r()</code>,<br><code>srand48_r()</code>, <code>seed48_r()</code>,<br><code>lcong48_r()</code></td>
+<td><code>drand48_r()</code>, <code>erand48_r()</code>,<br><code>lrand48_r()</code>, <code>nrand48_r()</code>,<br><code>mrand48_r()</code>, <code>jrand48_r()</code>,<br><code>srand48_r()</code>, <code>seed48_r()</code>, <code>lcong48_r()</code></td>
 <td>스레드 안전성</td>
 <td>MT-Safe race:buffer</td>
 </tr>

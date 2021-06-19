@@ -160,20 +160,20 @@ ssize_t copy_file_range(int fd_in, off64_t *off_in,
                         size_t len, unsigned int flags);
 </code></pre>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>copy_file_range()</code> 시스템 호출은 커널에서 사용자 공간으로 데이터를 보내고 받는 추가 비용 없이 커널 내에서 두 파일 디스크립터 간에 복사를 수행한다. 출발지 파일 디스크립터 <code>fd_in</code>에서 목적지 파일 디스크립터 <code>fd_out</code>으로 최대 <code>len</code> 바이트까지 데이터를 복사하며, 목적지 파일에서 요청 범위 내에 데이터가 존재하면 덮어 쓴다.</p>
-<p><code>off_in</code>에 다음 의미론이 적용되며, 비슷한 내용이 <code>off_out</code>에도 적용된다.</p>
+<p><code>copy_file_range()</code> 시스템 호출은 커널에서 사용자 공간으로 데이터를 보내고 받는 추가 비용 없이 커널 내에서 두 파일 디스크립터 사이에 복사를 수행한다. 출발 파일 디스크립터 <code>fd_in</code>에서 대상 파일 디스크립터 <code>fd_out</code>으로 최대 <code>len</code> 바이트까지 데이터를 복사하며, 대상 파일의 요청 범위 안에 데이터가 존재하면 덮어 쓴다.</p>
+<p><code>off_in</code>을 다음처럼 처리하며, 마찬가지 내용이 <code>off_out</code>에도 적용된다.</p>
 <ul>
 <li>
-<p><code>off_in</code>이 NULL이면 파일 오프셋부터 시작해서 <code>fd_in</code>에서 바이트를 읽어 들이며, 복사한 바이트 수만큼 파일 오프셋을 조정한다.</p>
+<p><code>off_in</code>이 NULL이면 파일 오프셋부터 시작해서 <code>fd_in</code>에서 바이트들을 읽어 들이며, 복사한 바이트 수만큼 파일 오프셋을 조정한다.</p>
 </li>
 <li>
-<p><code>off_in</code>이 NULL이 아니면 <code>off_in</code>은 <code>fd_in</code>에서 바이트를 읽어 들이기 시작할 오프셋을 나타내는 버퍼를 가리켜야 한다. <code>fd_in</code>의 파일 오프셋을 바꾸지 않으며, 대신 <code>off_in</code>을 적절히 조정한다.</p>
+<p><code>off_in</code>이 NULL이 아니면 <code>off_in</code>은 <code>fd_in</code>에서 바이트들을 읽어 들이기 시작할 오프셋을 나타내는 블록을 가리켜야 한다. <code>fd_in</code>의 파일 오프셋이 바뀌지 않으며, 대신 <code>off_in</code>을 적절히 조정한다.</p>
 </li>
 </ul>
-<p><code>fd_in</code>과 <code>fd_out</code>이 같은 파일을 가리킬 수 있다. 같은 파일을 가리키는 경우에는 출발 범위와 목적 범위가 겹칠 수 없다.</p>
+<p><code>fd_in</code>과 <code>fd_out</code>이 같은 파일을 가리킬 수 있다. 같은 파일을 가리키는 경우에는 출발 범위와 대상 범위가 겹칠 수 없다.</p>
 <p><code>flags</code> 인자는 향후 확장을 위한 것이며 현재는 0으로 설정해야 한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 완료 시 <code>copy_file_range()</code>는 파일들 사이에서 복사한 바이트 수를 반환한다. 원래 요청한 길이보다 적을 수도 있다.</p>
+<p>성공 완료 시 <code>copy_file_range()</code>는 파일들 사이에서 복사한 바이트 수를 반환한다. 원래 요청 길이보다 작을 수도 있다. <code>fd_in</code>의 파일 오프셋이 파일 끝이나 그 너머에 있는 경우에는 아무것도 복사하지 않으며 <code>copy_file_range()</code>가 0을 반환한다.</p>
 <p>오류 시 <code>copy_file_range()</code>는 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
@@ -182,17 +182,17 @@ ssize_t copy_file_range(int fd_in, off64_t *off_in,
 <dt><code>EBADF</code></dt>
 <dd><code>fd_in</code>이 읽기 가능하게 열려 있지 않다. 또는 <code>fd_out</code>이 쓰기 가능하게 열려 있지 않다.</dd>
 <dt><code>EBADF</code></dt>
-<dd>파일 디스크립터 <code>fd_out</code>이 가리키는 열린 파일 기술 항목(<tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt> 참고)에 <code>O_APPEND</code> 플래그가 설정되어 있다.</dd>
+<dd>파일 디스크립터 <code>fd_out</code>이 가리키는 열린 파일 기술 항목(<tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt> 참고)에 <code>O_APPEND</code> 플래그가 설정돼 있다.</dd>
 <dt><code>EFBIG</code></dt>
 <dd>커널에서 지원하는 최대 파일 오프셋을 넘는 위치에서 쓰기 시도가 이뤄졌다.</dd>
 <dt><code>EFBIG</code></dt>
-<dd>허용된 최대 파일 크기를 초과하는 범위로 쓰기 시도가 이뤄졌다. 최대 파일 크기는 파일 시스템 구현에 따라 다르며 허용된 최대 파일 오프셋과 다를 수 있다.</dd>
+<dd>허용된 최대 파일 크기를 초과하는 범위로 쓰기 시도가 이뤄졌다. 최대 파일 크기는 파일 시스템 구현에 따라 다르며 허용되는 최대 파일 오프셋과 다를 수 있다.</dd>
 <dt><code>EFBIG</code></dt>
 <dd>프로세스의 파일 크기 자원 제한을 초과하도록 쓰기 시도가 이뤄졌다. 이로 인해 프로세스가 <code>SIGXFSZ</code> 시그널도 받게 될 수 있다.</dd>
 <dt><code>EINVAL</code></dt>
 <dd><code>flags</code> 인자가 0이 아니다.</dd>
 <dt><code>EINVAL</code></dt>
-<dd><code>fd_in</code>과 <code>fd_out</code>이 같은 파일을 가리키며 출발지 범위와 목적지 범위가 겹친다.</dd>
+<dd><code>fd_in</code>과 <code>fd_out</code>이 같은 파일을 가리키며 출발 범위와 대상 범위가 겹친다.</dd>
 <dt><code>EINVAL</code></dt>
 <dd><code>fd_in</code>이나 <code>fd_out</code>이 정규 파일이 아니다.</dd>
 <dt><code>EIO</code></dt>
@@ -202,9 +202,9 @@ ssize_t copy_file_range(int fd_in, off64_t *off_in,
 <dt><code>ENOMEM</code></dt>
 <dd>메모리 부족.</dd>
 <dt><code>ENOSPC</code></dt>
-<dd>목적지 파일 시스템에 복사를 완료하기 위한 충분한 공간이 없다.</dd>
+<dd>대상 파일 시스템에 복사를 완료하기 위한 충분한 공간이 없다.</dd>
 <dt><code>EOVERFLOW</code></dt>
-<dd>요청한 출발지 내지 목적지 범위가 너무 커서 명세된 데이터 타입으로 표현할 수 없다.</dd>
+<dd>요청한 출발 범위나 대상 범위가 너무 커서 명세된 데이터 타입으로 표현할 수 없다.</dd>
 <dt><code>EPERM</code></dt>
 <dd><code>fd_out</code>이 불변 파일을 가리키고 있다.</dd>
 <dt><code>ETXTBSY</code></dt>
@@ -219,8 +219,8 @@ ssize_t copy_file_range(int fd_in, off64_t *off_in,
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p><code>copy_file_range()</code> 시스템 호출은 비표준 리눅스 및 GNU 확장이다.</p>
 <h2 id="notes">NOTES</h2>
-<p><code>fd_in</code>이 희소 파일이면 요청 범위 내에 존재하는 구멍을 <code>copy_file_range()</code>가 채워 버릴 수 있다. 루프 안에서 <code>copy_file_range()</code>를 호출하면서 <tt><a class="wikilink" href="/man-pages-ko/lseek(2)/">lseek(2)</a></tt> <code>SEEK_DATA</code> 및 <code>SEEK_HOLE</code> 동작으로 데이터 세그먼트의 위치를 알아내는 방식이 좋을 수 있다.</p>
-<p><code>copy_file_range()</code>는 파일 시스템에서 reflink(즉 여러 아이노드가 동일 copy-on-write 디스크 블록에 대한 포인터 공유)나 서버 측 복사(NFS인 경우) 사용 같은 "복사 가속" 기법을 적용할 기회를 준다.</p>
+<p><code>fd_in</code>이 희소(sparse) 파일이면 요청 범위 내에 존재하는 구멍을 <code>copy_file_range()</code>가 채워 버릴 수 있다. 루프에서 <code>copy_file_range()</code>를 호출하면서 <tt><a class="wikilink" href="/man-pages-ko/lseek(2)/">lseek(2)</a></tt> <code>SEEK_DATA</code> 및 <code>SEEK_HOLE</code> 동작으로 데이터 세그먼트 위치를 알아내는 방식이 좋을 수 있다.</p>
+<p><code>copy_file_range()</code>를 쓰면 파일 시스템에서 reflink(즉 여러 아이노드가 동일 copy-on-write 디스크 블록에 대한 포인터 공유) 사용이나 서버 측 복사(NFS인 경우) 같은 "복사 가속" 기법을 적용할 기회가 생긴다.</p>
 <h2 id="examples">EXAMPLES</h2>
 <pre><code class="language-c">#define _GNU_SOURCE
 #include &lt;fcntl.h&gt;

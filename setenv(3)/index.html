@@ -164,7 +164,7 @@ int unsetenv(const char *name);
 <code>|| /* glibc &lt;= 2.19: */ _BSD_SOURCE</code></dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>setenv()</code> 함수는 환경에 <code>name</code>이 존재하지 않으면 변수 <code>name</code>을 <code>value</code> 값으로 추가한다. 환경에 <code>name</code>이 이미 존재하는 경우에는 <code>overwrite</code>가 0이 아니면 그 값을 <code>value</code>로 바꾼다. <code>overwrite</code>가 0이면 <code>name</code>의 값을 바꾸지 않는다. (그리고 <code>setenv()</code>가 성공 상태를 반환한다.) 이 함수는 <code>name</code>과 <code>value</code>가 가리키는 문자열들의 복사본을 쓴다. (<tt><a class="wikilink" href="/man-pages-ko/putenv(3)/">putenv(3)</a></tt>와 반대다.)</p>
+<p><code>setenv()</code> 함수는 환경에 <code>name</code>이 존재하지 않으면 변수 <code>name</code>을 <code>value</code> 값으로 추가한다. 환경에 <code>name</code>이 이미 존재하는 경우에는 <code>overwrite</code>가 0이 아니면 그 값을 <code>value</code>로 바꾼다. <code>overwrite</code>가 0이면 <code>name</code>의 값을 바꾸지 않는다. (그리고 <code>setenv()</code>는 성공 상태를 반환한다.) 이 함수는 (<tt><a class="wikilink" href="/man-pages-ko/putenv(3)/">putenv(3)</a></tt>와 반대로) <code>name</code>과 <code>value</code>가 가리키는 문자열의 복사본을 만든다.</p>
 <p><code>unsetenv()</code> 함수는 환경에서 변수 <code>name</code>을 삭제한다. 환경에 <code>name</code>이 존재하지 않는 경우에는 함수가 성공하고 환경이 안 바뀐다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p><code>setenv()</code> 및 <code>unsetenv()</code> 함수는 성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
@@ -197,7 +197,7 @@ int unsetenv(const char *name);
 <p>POSIX.1-2001, POSIX.1-2008, 4.3BSD.</p>
 <h2 id="notes">NOTES</h2>
 <p>POSIX.1에서는 <code>setenv()</code>나 <code>unsetenv()</code>가 재진입 가능이기를 요구하지 않는다.</p>
-<p>glibc 2.2.2 전에선 <code>unsetenv()</code>의 원형이 <code>void</code>를 반환하는 것이었다. glibc 이후 버전들에서는 SYNOPSIS에 나와 있는 POSIX.1 준수 원형을 따른다.</p>
+<p>glibc 2.2.2 전에선 <code>unsetenv()</code>의 원형이 <code>void</code>를 반환하는 것이었다. 이후 버전들에서는 SYNOPSIS에 나와 있는 POSIX.1 준수 원형을 따른다.</p>
 <h2 id="bugs">BUGS</h2>
 <p>POSIX.1에서는 <code>name</code>에 '=' 문자가 있으면 <code>setenv()</code>가 <code>EINVAL</code> 오류로 실패해야 한다고 명세한다. 하지만 glibc 버전 2.3.4 전에선 <code>name</code>에 '=' 부호를 허용했다.</p>
 <h2 id="see-also">SEE ALSO</h2>

@@ -162,7 +162,7 @@ int cacheflush(void *addr, int nbytes, int cache);
 </code></pre>
 <p><em>주의</em>: 일부 아키텍처에는 이 시스템 호출에 대한 glibc 래퍼가 없다. NOTES 참고.</p>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>cacheflush()</code>는 <code>addr</code>에서 <code>(addr+nbytes-1)</code>까지 범위에 대해 표시한 캐시(들)의 내용물을 비운다. <code>cache</code>는 다음 중 하나일 수 있다.</p>
+<p><code>cacheflush()</code>는 <code>addr</code>에서 <code>(addr+nbytes-1)</code>까지 범위의 사용자 주소에 대해 표시된 캐시(들)의 내용물을 비운다. <code>cache</code>는 다음 중 하나일 수 있다.</p>
 <dl>
 <dt><code>ICACHE</code></dt>
 <dd>인스트럭션 캐시를 비운다.</dd>
@@ -183,11 +183,11 @@ int cacheflush(void *addr, int nbytes, int cache);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>역사적으로 이 시스템 호출은 RISC/os, IRIX, Ultrix, NetBSD, OpenBSD, FreeBSD를 포함한 모든 MIPS 유닉스 변종들에서 (그리고 일부 비유닉스 MIPS 운영 체제들에서도) 사용 가능했다. 그래서 MIPS 운영 체제들에서는 이 호출의 존재가 사실상 표준이다.</p>
 <h3 id="_1">경고</h3>
-<p>이식 가능해야 하는 프로그램에서는 <code>cacheflush()</code>를 사용하지 말아야 한다. 리눅스에서 이 호출은 MIPS 아키텍처에서 처음 등장했다. 요즘은 일부 다른 아키텍처들에서도 <code>cacheflush()</code> 시스템 호출을 제공하지만 인자가 다르다.</p>
+<p>이식 가능해야 하는 프로그램에서는 <code>cacheflush()</code>를 사용하지 말아야 한다. 리눅스에서 이 호출은 MIPS 아키텍처에서 처음 등장했다. 요즘은 몇몇 다른 아키텍처에서도 <code>cacheflush()</code> 시스템 호출을 제공하지만 인자가 다르다.</p>
 <h2 id="notes">NOTES</h2>
 <h3 id="_2">아키텍처별 차이</h3>
 <p>glibc에서 ARC, CSKY, MIPS, NIOS2 아키텍처에 대해 SYNOPSIS에 있는 원형으로 이 시스템 호출의 래퍼를 제공한다.</p>
-<p>몇몇 다른 아키텍처에서는 리눅스에서 이 시스템 호출을 다른 인자로 제공한다.</p>
+<p>몇몇 다른 아키텍처에서는 리눅스에서 다른 인자로 이 시스템 호출을 제공한다.</p>
 <dl>
 <dt>M68K:</dt>
 <dd>
@@ -214,7 +214,7 @@ int cacheflush(void *addr, int nbytes, int cache);
 <p>인스트럭션 캐시 비우기가 필요치 않은 플랫폼에선 <code>__builtin___clear_cache()</code>가 아무 효력이 없다.</p>
 <p><em>주의</em>: 일부 GCC 호환 컴파일러에선 이 내장 함수의 원형에서 매개변수에 <code>void *</code> 대신 <code>char *</code>를 쓴다.</p>
 <h2 id="bugs">BUGS</h2>
-<p>2.6.11보다 오래된 리눅스 커널에서는 <code>addr</code>과 <code>nbytes</code> 인자를 무시하며, 그래서 이 함수 비용이 꽤 비싸진다. 그 때문에 항상 캐시 전체를 비운다.</p>
+<p>2.6.11보다 오래된 리눅스 커널에서는 <code>addr</code>과 <code>nbytes</code> 인자를 무시하며, 그래서 이 함수의 비용이 꽤 높아진다. 항상 캐시 전체를 비운다.</p>
 <p>이 함수는 항상 <code>cache</code> 인자로 <code>BCACHE</code>를 전달받은 것처럼 동작하며 <code>cache</code> 인자에 대해 어떤 오류 검사도 하지 않는다.</p>
 <hr />
 <p>2021-03-22</p></div>

@@ -147,14 +147,14 @@
 <p>cpuid - x86 CPUID 접근 장치</p>
 <h2 id="description">DESCRIPTION</h2>
 <p>CPUID는 x86 CPU에 대한 정보 질의를 위한 인터페이스를 제공한다.</p>
-<p>이 장치에 <tt><a class="wikilink" href="/man-pages-ko/lseek(2)/">lseek(2)</a></tt>과 <tt><a class="wikilink" href="/man-pages-ko/pread(2)/">pread(2)</a></tt>로 접근해서 적절한 CPUID 레벨을 선택하고 16바이트 단위로 읽어 들인다. 16바이트 넘게 읽는 것은 연속한 여러 레벨을 읽는 것이다.</p>
-<p>파일 위치의 하위 32비트를 입력 <code>%eax</code>로 쓰고 파일 위치의 상위 32비트를 입력 <code>%ecx</code>로 쓴다. 후자는 <code>eax=4</code>처럼 "개수 세기"가 필요한 <code>eax</code> 레벨을 위한 것이다.</p>
-<p>이 드라이버에서 <code>/dev/cpu/CPUNUM/cpuid</code> 파일을 사용하는데, 여기서 <code>CPUNUM</code>은 부번호이다. SMP 박스에서 <code>/proc/cpuinfo</code>에 나열된 대로 <code>CPUNUM</code>번 CPU로 접근하게 된다.</p>
+<p>이 장치에 <tt><a class="wikilink" href="/man-pages-ko/lseek(2)/">lseek(2)</a></tt>이나 <tt><a class="wikilink" href="/man-pages-ko/pread(2)/">pread(2)</a></tt>로 접근해서 적절한 CPUID 레벨을 선택하고 16바이트 단위로 읽어 들인다. 16바이트 넘게 읽는 것은 연속한 여러 레벨을 읽는 것이다.</p>
+<p>파일 위치의 하위 32비트를 입력 <code>%eax</code>로 쓰고 파일 위치의 상위 32비트를 입력 <code>%ecx</code>로 쓴다. 후자는 <code>eax=4</code> 같은 때 <code>eax</code> 레벨을 나타내기 위한 것이다.</p>
+<p>이 드라이버에서 <code>/dev/cpu/CPUNUM/cpuid</code> 파일을 사용하는데, 여기서 <code>CPUNUM</code>은 부번호다. SMP 박스에서 <code>/proc/cpuinfo</code>에 나열된 대로 <code>CPUNUM</code>번 CPU로 접근하게 된다.</p>
 <p>이 파일은 사용자 <code>root</code>나 그룹 <code>root</code> 구성원만 읽을 수 있게 보호된다.</p>
 <h2 id="notes">NOTES</h2>
-<p>인라인 어셈블러를 이용해 프로그램에서 CPUID 인스트럭션을 직접 실행할 수도 있다. 하지만 이 장치를 쓰면 프로세스 친화성을 바꾸지 않고도 편리하게 모든 CPU에 접근할 수 있다.</p>
-<p><code>cpuid</code>의 정보 대부분은 커널이 <code>/proc/cpuinfo</code>나 <code>/sys/devices/system/cpu</code> 하위 디렉터리에서 가공된 형태로 알려주는 것들이다. 이 장치를 통한 CPUID 직접 접근은 예외적인 경우에만 쓰게 될 것이다.</p>
-<p><code>cpuid</code> 드라이버는 자동으로 적재되지 않는다. 모듈화 커널에서는 사용 전에 다음 명령으로 모듈을 명시적으로 적재해야 할 수도 있다.</p>
+<p>인라인 어셈블러를 이용해 프로그램에서 CPUID 인스트럭션을 직접 실행할 수도 있다. 하지만 이 장치를 쓰면 프로세스 친화성을 바꾸지 않고도 편하게 모든 CPU에 접근할 수 있다.</p>
+<p><code>cpuid</code>의 정보 대부분을 커널이 <code>/proc/cpuinfo</code>나 <code>/sys/devices/system/cpu</code> 하위 디렉터리에서 가공된 형태로 알려준다. 이 장치를 통한 CPUID 직접 접근은 예외적인 경우에만 쓰게 될 것이다.</p>
+<p><code>cpuid</code> 드라이버는 자동으로 적재되지 않는다. 모듈을 쓰는 커널에선 사용 전에 다음 명령으로 모듈을 따로 적재해야 할 수도 있다.</p>
 <pre><code class="language-text">$ modprobe cpuid
 </code></pre>
 <p>더 많은 입력 레지스터를 필요로 하는 CPUID 기능은 지원하지 않는다.</p>

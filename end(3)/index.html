@@ -159,17 +159,17 @@ extern end;
 <p>이 심볼들의 주소는 다양한 프로그램 세그먼트들의 끝을 나타낸다.</p>
 <dl>
 <dt><code>etext</code></dt>
-<dd>텍스트 세그먼트(프로그램 코드)의 끝 다음의 첫 주소이다.</dd>
+<dd>텍스트 세그먼트(프로그램 코드)의 끝 다음의 첫 주소다.</dd>
 <dt><code>edata</code></dt>
-<dd>초기화 된 데이터 세그먼트의 끝 다음의 첫 주소이다.</dd>
+<dd>초기화된 데이터 세그먼트의 끝 다음의 첫 주소다.</dd>
 <dt><code>end</code></dt>
-<dd>(BSS 세그먼트라고도 하는) 비초기화 데이터 세그먼트의 끝 다음의 첫 주소이다.</dd>
+<dd>(BSS 세그먼트라고도 하는) 비초기화 데이터 세그먼트의 끝 다음의 첫 주소다.</dd>
 </dl>
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>대부분의 유닉스 시스템에서 오랫동안 이 심볼들을 제공했지만 표준화되어 있지는 않다. 조심해서 사용하라.</p>
 <h2 id="notes">NOTES</h2>
-<p>프로그램에서 이 심볼들을 명시적으로 선언해야 한다. 어떤 헤더 파일에도 정의되어 있지 않다.</p>
-<p>일부 시스템에서는 이 심볼들의 이름 앞에 밑줄이 붙어서 <code>_etext</code>, <code>_edata</code>, <code>_end</code>이다. 리눅스에서 컴파일 하는 프로그램에게는 이 심볼들도 정의되어 있다.</p>
+<p>프로그램에서 이 심볼들을 명시적으로 선언해야 한다. 어떤 헤더 파일에도 정의돼 있지 않다.</p>
+<p>일부 시스템에서는 이 심볼들의 이름 앞에 밑줄이 붙어서 <code>_etext</code>, <code>_edata</code>, <code>_end</code>다. 리눅스에서 컴파일하는 프로그램에게는 이 심볼들도 정의돼 있다.</p>
 <p>프로그램 실행이 시작될 때 프로그램 단절점(break)은 <code>&amp;end</code> 근처 어딘가(아마 다음 페이지의 시작점)일 것이다. 하지만 <tt><a class="wikilink" href="/man-pages-ko/brk(2)/">brk(2)</a></tt>나 <tt><a class="wikilink" href="/man-pages-ko/malloc(3)/">malloc(3)</a></tt>을 통해 메모리를 할당하면서 그 단절점이 바뀌게 된다. 인자 0으로 <tt><a class="wikilink" href="/man-pages-ko/sbrk(2)/">sbrk(2)</a></tt>를 사용하면 현재의 프로그램 단절점 값을 알아낼 수 있다.</p>
 <h2 id="examples">EXAMPLES</h2>
 <p>실행 시 아래 프로그램은 다음과 같은 출력을 내놓는다.</p>

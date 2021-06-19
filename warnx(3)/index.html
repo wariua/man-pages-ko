@@ -166,7 +166,7 @@ void vwarn(const char *fmt, va_list args);
 void vwarnx(const char *fmt, va_list args);
 </code></pre>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>err()</code> 및 <code>warn()</code> 계열 함수들은 표준 오류 출력으로 서식 준 오류 메시지를 표시한다. 모든 경우에 프로그램 이름의 마지막 부분, 콜론 문자, 공백을 출력한다. <code>fmt</code> 인자가 NULL이 아니면 <tt><a class="wikilink" href="/man-pages-ko/printf(3)/">printf(3)</a></tt> 방식으로 서식 준 오류 메시지를 출력한다. 출력 내용 끝에는 개행 문자가 붙는다.</p>
+<p><code>err()</code> 및 <code>warn()</code> 계열 함수들은 서식 적용한 오류 메시지를 표준 오류 출력에 표시한다. 모든 경우에 프로그램 이름의 마지막 부분, 콜론 문자, 공백을 출력한다. <code>fmt</code> 인자가 NULL이 아니면 <tt><a class="wikilink" href="/man-pages-ko/printf(3)/">printf(3)</a></tt> 방식으로 서식 적용한 오류 메시지를 출력한다. 출력 내용 끝에 개행 문자가 붙는다.</p>
 <p><code>err()</code>, <code>verr()</code>, <code>warn()</code>, <code>vwarn()</code> 함수는 전역 변수 <code>errno</code>로 <tt><a class="wikilink" href="/man-pages-ko/strerror(3)/">strerror(3)</a></tt>에서 얻은 오류 메시지를 덧붙이는데, <code>fmt</code> 인자가 NULL이 아니면 사이에 콜론과 공백을 붙인다.</p>
 <p><code>errx()</code> 및 <code>warnx()</code> 함수는 오류 메시지를 덧붙이지 않는다.</p>
 <p><code>err()</code>, <code>verr()</code>, <code>errx()</code>, <code>verrx()</code> 함수는 반환하지 않고 <code>eval</code> 인자 값으로 프로그램을 끝낸다.</p>

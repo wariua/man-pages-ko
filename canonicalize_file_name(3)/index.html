@@ -148,7 +148,7 @@
         <div class="col-md-9" role="main">
 
 <h2 id="name">NAME</h2>
-<p>canonicalize_file_name - 정규화 된 절대 경로명 반환</p>
+<p>canonicalize_file_name - 정규화된 절대 경로명 반환</p>
 <h2 id="synopsis">SYNOPSIS</h2>
 <pre><code class="language-c">#define _GNU_SOURCE         /* feature_test_macros(7) 참고 */
 #include &lt;stdlib.h&gt;
@@ -156,7 +156,7 @@
 char *canonicalize_file_name(const char *path);
 </code></pre>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>canonicalize_file_name()</code> 함수는 <code>path</code>에 대응하는 정규화 된 절대 경로명을 담은 널 종료 문자열을 반환한다. 반환 문자열에서는 심볼릭 링크와 <code>.</code> 및 <code>..</code> 경로명 요소가 풀려 있다. 연달아 있는 슬래시(<code>/</code>) 문자들은 슬래시 한 개로 바뀐다.</p>
+<p><code>canonicalize_file_name()</code> 함수는 <code>path</code>에 대응하는 정규화된 절대 경로명을 담은 널 종료 문자열을 반환한다. 반환 문자열에서는 심볼릭 링크와 경로명 요소 <code>.</code> 및 <code>..</code>가 풀려 있다. 연달아 있는 슬래시(<code>/</code>) 문자들은 슬래시 한 개로 바뀐다.</p>
 <p>반환 문자열은 <code>canonicalize_file_name()</code>에서 동적으로 할당한 것이므로 더는 필요치 않을 때 호출자가 <tt><a class="wikilink" href="/man-pages-ko/free(3)/">free(3)</a></tt>로 해제해야 한다.</p>
 <p><code>canonicalize_file_name(path)</code> 호출은 다음 호출과 동등하다.</p>
 <pre><code class="language-c">realpath(path, NULL);

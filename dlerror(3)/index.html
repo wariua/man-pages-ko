@@ -159,8 +159,8 @@ char *dlerror(void);
 </code></pre>
 <p><code>-ldl</code>로 링크.</p>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>dlerror()</code> 함수는 사람이 읽을 수 있는 널 종료 문자열을 반환하는데, 그 문자열에는 가장 최근 <code>dlerror()</code> 호출 이후로 dlopen API의 함수 호출에서 발생한 가장 최근의 오류가 기술돼 있다. 반환되는 문자열 끝에 개행이 포함돼 있지 <em>않다</em>.</p>
-<p>초기화 이후로 또는 마지막 호출 이후로 어떤 오류도 발생하지 않았으면 <code>dlerror()</code>가 NULL을 반환한다.</p>
+<p><code>dlerror()</code> 함수는 사람이 읽을 수 있는 널 종료 문자열을 반환하는데, 그 문자열에는 이전 <code>dlerror()</code> 호출 이후로 dlopen API의 함수 호출에서 최근 발생한 오류가 기술돼 있다. 반환되는 문자열 끝에 개행이 포함돼 있지 <em>않다</em>.</p>
+<p>초기화 이후에 또는 최근 호출 후에 어떤 오류도 발생하지 않았으면 <code>dlerror()</code>가 NULL을 반환한다.</p>
 <h2 id="versions">VERSIONS</h2>
 <p>glibc 2.0 및 이후에 <code>dlerror()</code>가 있다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>

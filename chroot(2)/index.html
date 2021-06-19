@@ -169,11 +169,11 @@ int chroot(const char *path);
 </dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>chroot()</code>는 호출 프로세스의 루트 디렉터리를 <code>path</code>에 지정한 디렉터리로 바꾼다. <code>/</code>으로 시작하는 경로명에 그 디렉터리를 쓰게 된다. 호출 프로세스의 모든 자식들이 그 루트 디렉터리를 물려받는다.</p>
+<p><code>chroot()</code>는 호출 프로세스의 루트 디렉터리를 <code>path</code>에 지정된 디렉터리로 바꾼다. <code>/</code>으로 시작하는 경로명에 그 디렉터리가 쓰이게 된다. 호출 프로세스의 모든 자식들이 그 루트 디렉터리를 물려받는다.</p>
 <p>특권을 가진 (리눅스: 자기 사용자 네임스페이스에서 <code>CAP_SYS_CHROOT</code> 역능을 가진) 프로세스만 <code>chroot()</code>를 호출할 수 있다.</p>
-<p>이 호출은 경로명 해석 과정의 재료 하나를 바꿀 뿐 다른 아무것도 하지 않는다. 특히 완전한 프로세스 샌드박스나 파일 시스템 호출 제약처럼 어떤 종류든 보안 목적으로 쓰기 위한 것이 아니다. 과거에는 데몬들에서 <code>chroot()</code>를 사용해 스스로를 제약한 후에 신뢰할 수 없는 사용자가 제공한 경로를 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt> 같은 시스템 호출에 전달했다. 하지만 폴더가 chroot 디렉터리 밖으로 옮겨진다면 공격자가 그걸 악용해 chroot 디렉터리를 벗어날 수 있다. 가장 간단한 방법은 옮겨질 디렉터리로 <tt><a class="wikilink" href="/man-pages-ko/chdir(2)/">chdir(2)</a></tt> 하고서 이동되길 기다린 다음 <code>../../../etc/passwd</code> 같은 경로를 여는 것이다.</p>
-<p><tt><a class="wikilink" href="/man-pages-ko/chdir(2)/">chdir(2)</a></tt>이 허용되지 않는다면 살짝 더 복잡한 변형 기법이 일부 경우에 통한다. 어떤 데몬의 "chroot 디렉터리"를 지정할 수 있다면 그건 일반적으로 원격 사용자가 chroot 디렉터리 밖의 파일에 접근하지 못하게 하려면 절대로 폴더들이 밖으로 옮겨지지 않게 해야 한다는 뜻이다.</p>
-<p>이 호출은 현재 작업 디렉터리를 바꾸지 않으며, 따라서 호출 후에 '<code>.</code>'가 '<code>/</code>'에 위치한 트리 밖에 있을 수 있다. 특히 수퍼유저가 다음과 같이 해서 "chroot 감옥"을 탈출할 수 있다.</p>
+<p>이 호출은 경로명 해석 과정의 재료 하나를 바꿀 뿐 다른 아무것도 하지 않는다. 특히 완전한 프로세스 샌드박스나 파일 시스템 호출 제약처럼 어떤 보안 목적으로 쓰기 위한 것이 아니다. 과거에는 데몬들에서 <code>chroot()</code>를 사용해 스스로를 제약한 후에 신뢰할 수 없는 사용자가 제공한 경로를 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt> 같은 시스템 호출에 전달했다. 하지만 폴더가 chroot 디렉터리 밖으로 옮겨진다면 공격자가 그걸 악용해 chroot 디렉터리를 벗어날 수 있다. 가장 간단한 방법은 옮겨질 디렉터리로 <tt><a class="wikilink" href="/man-pages-ko/chdir(2)/">chdir(2)</a></tt> 하고서 이동되길 기다린 다음 <code>../../../etc/passwd</code> 같은 경로를 여는 것이다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/chdir(2)/">chdir(2)</a></tt>이 허용되지 않는다면 살짝 더 복잡하게 변형된 기법이 일부 경우에 통하기도 한다. 따라서 일반적으로 어떤 데몬에서 "chroot 디렉터리"를 지정할 수 있게 허용한다면 원격 사용자가 chroot 디렉터리 밖의 파일에 접근하지 못하게 하려면 절대로 폴더들이 밖으로 옮겨지지 않게 해야 한다.</p>
+<p>이 호출은 현재 작업 디렉터리를 바꾸지 않으며, 따라서 호출 후에 '<code>.</code>'가 '<code>/</code>'에 위치한 트리 밖에 있을 수 있다. 특히 수퍼유저가 다음처럼 해서 "chroot 감옥"을 탈출할 수 있다.</p>
 <pre><code>mkdir foo; chroot foo; cd ..
 </code></pre>
 <p>이 호출은 열린 파일 디스크립터를 닫지 않으며, 그래서 그런 파일 디스크립터를 통해 chroot 트리 밖의 파일에 접근이 가능할 수도 있다.</p>
@@ -183,7 +183,7 @@ int chroot(const char *path);
 <p>파일 시스템에 따라 다른 오류들을 반환할 수 있다. 아래에 나열한 것은 일반적인 오류들이다.</p>
 <dl>
 <dt><code>EACCES</code></dt>
-<dd>경로 선두부의 어느 요소에 대해 탐색 권한이 거부되었다. (<tt><a class="wikilink" href="/man-pages-ko/path_resolution(7)/">path_resolution(7)</a></tt> 참고.)</dd>
+<dd>경로 선두부의 어느 부분에 대해 탐색 권한이 거부되었다. (<tt><a class="wikilink" href="/man-pages-ko/path_resolution(7)/">path_resolution(7)</a></tt> 참고.)</dd>
 <dt><code>EFAULT</code></dt>
 <dd><code>path</code>가 접근 가능한 주소 공간 밖을 가리키고 있다.</dd>
 <dt><code>EIO</code></dt>
@@ -197,7 +197,7 @@ int chroot(const char *path);
 <dt><code>ENOMEM</code></dt>
 <dd>사용 가능한 커널 메모리가 충분하지 않다.</dd>
 <dt><code>ENOTDIR</code></dt>
-<dd><code>path</code>의 한 요소가 디렉터리가 아니다.</dd>
+<dd><code>path</code>의 한 부분이 디렉터리가 아니다.</dd>
 <dt><code>EPERM</code></dt>
 <dd>호출자에게 충분한 특권이 없다.</dd>
 </dl>
@@ -205,7 +205,7 @@ int chroot(const char *path);
 <p>SVr4, 4.4BSD, SUSv2 (LEGACY로 표시). 이 함수는 POSIX.1-2001에 포함되어 있지 않다.</p>
 <h2 id="notes">NOTES</h2>
 <p><tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt>를 통해 생긴 자식 프로세스는 부모의 루트 디렉터리를 물려받는다. <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>에서 루트 디렉터리를 바꾸지 않는다.</p>
-<p>특수 심볼릭 링크 <code>/proc/[pid]/root</code>를 사용해 프로세스의 루트 디렉터리를 알아낼 수 있다. 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/proc(5)/">proc(5)</a></tt> 참고.</p>
+<p>특수 심볼릭 링크 <code>/proc/[pid]/root</code>를 이용해 프로세스의 루트 디렉터리를 알아낼 수 있다. 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/proc(5)/">proc(5)</a></tt> 참고.</p>
 <p>FreeBSD에는 더 강력한 <code>jail()</code> 시스템 호출이 있다.</p>
 <h2 id="see-also">SEE ALSO</h2>
 <p><code>chroot(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/chdir(2)/">chdir(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pivot_root(2)/">pivot_root(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/path_resolution(7)/">path_resolution(7)</a></tt>, <code>switch_root(8)</code></p>

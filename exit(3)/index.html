@@ -142,7 +142,7 @@
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-            <li class="second-level"><a href="#_1">다른 프로세스에게 보내는 시그널</a></li>
+            <li class="second-level"><a href="#_1">다른 프로세스에게 전송되는 시그널</a></li>
                 
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
@@ -158,9 +158,9 @@ noreturn void exit(int status);
 </code></pre>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>exit()</code> 함수는 정상적 프로세스 종료를 일으키며 <code>status</code>의 최하위 바이트(<code>status &amp; 0xFF</code>)가 부모에게 반환된다. (<tt><a class="wikilink" href="/man-pages-ko/wait(2)/">wait(2)</a></tt> 참고.)</p>
-<p><tt><a class="wikilink" href="/man-pages-ko/atexit(3)/">atexit(3)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/on_exit(3)/">on_exit(3)</a></tt>로 등록한 모든 함수들이 등록 역순으로 호출된다. (그 함수들 중 하나에서 <tt><a class="wikilink" href="/man-pages-ko/atexit(3)/">atexit(3)</a></tt>나 <tt><a class="wikilink" href="/man-pages-ko/on_exit(3)/">on_exit(3)</a></tt>를 사용해 종료 중 실행할 함수를 추가로 등록하는 것이 가능하다. 새로 등록한 함수는 호출을 기다리는 함수들의 목록 선두에 추가된다.) 이 함수들 중 하나가 반환하지 않으면 (가령 <tt><a class="wikilink" href="/man-pages-ko/_exit(2)/">_exit(2)</a></tt>를 호출하거나 시그널로 스스로를 죽이면) 남아 있는 함수들이 호출되지 않으며 이후 종료 절차를 (특히 <tt><a class="wikilink" href="/man-pages-ko/stdio(3)/">stdio(3)</a></tt> 스트림 플러싱을) 포기한다. 한 함수를 <tt><a class="wikilink" href="/man-pages-ko/atexit(3)/">atexit(3)</a></tt>이나 <tt><a class="wikilink" href="/man-pages-ko/on_exit(3)/">on_exit(3)</a></tt>으로 여러 번 등록했으면 등록한 횟수만큼 호출된다.</p>
-<p>열린 <tt><a class="wikilink" href="/man-pages-ko/stdio(3)/">stdio(3)</a></tt> 스트림들 모두를 플러시 하고 닫는다. <tt><a class="wikilink" href="/man-pages-ko/tmpfile(3)/">tmpfile(3)</a></tt>로 만든 파일들을 제거한다.</p>
-<p>C 표준에서 상수 <code>EXIT_SUCCESS</code> 및 <code>EXIT_FAILURE</code>를 명세하는데, 이를 <code>exit()</code>에게 전달하여 각각 성공 종료나 비성공 종료를 나타낼 수 있다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/atexit(3)/">atexit(3)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/on_exit(3)/">on_exit(3)</a></tt>로 등록한 모든 함수들이 등록 역순으로 호출된다. (그 함수들에서 <tt><a class="wikilink" href="/man-pages-ko/atexit(3)/">atexit(3)</a></tt>나 <tt><a class="wikilink" href="/man-pages-ko/on_exit(3)/">on_exit(3)</a></tt>를 사용해 종료 중 실행할 함수를 추가로 등록하는 게 가능하다. 새로 등록한 함수는 호출을 기다리는 함수들의 목록 선두에 추가된다.) 그 함수들 중 하나가 반환하지 않으면 (가령 <tt><a class="wikilink" href="/man-pages-ko/_exit(2)/">_exit(2)</a></tt>를 호출하거나 시그널로 스스로를 죽이면) 나머지 함수들이 호출되지 않으며 이후 종료 절차를 (특히 <tt><a class="wikilink" href="/man-pages-ko/stdio(3)/">stdio(3)</a></tt> 스트림 플러싱을) 포기한다. 한 함수를 <tt><a class="wikilink" href="/man-pages-ko/atexit(3)/">atexit(3)</a></tt>이나 <tt><a class="wikilink" href="/man-pages-ko/on_exit(3)/">on_exit(3)</a></tt>으로 여러 번 등록했으면 등록 횟수만큼 호출된다.</p>
+<p>열린 <tt><a class="wikilink" href="/man-pages-ko/stdio(3)/">stdio(3)</a></tt> 스트림들을 모두 플러시하고 닫는다. <tt><a class="wikilink" href="/man-pages-ko/tmpfile(3)/">tmpfile(3)</a></tt>로 만든 파일들을 제거한다.</p>
+<p>C 표준에서 상수 <code>EXIT_SUCCESS</code> 및 <code>EXIT_FAILURE</code>를 명세하는데, 이를 <code>exit()</code>에게 전달하여 각각 성공 종료나 성공 아닌 종료를 나타낼 수 있다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p><code>exit()</code> 함수는 반환하지 않는다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
@@ -181,30 +181,30 @@ noreturn void exit(int status);
 </tr>
 </tbody>
 </table>
-<p><code>exit()</code> 함수는 보호가 이뤄지지 않는 전역 변수를 사용하며, 따라서 스레드 안전하지 않다.</p>
+<p><code>exit()</code> 함수는 보호가 이뤄지지 않는 전역 변수를 사용하며, 따라서 스레드에 안전하지 않다.</p>
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008, C89, C99, SVr4, 4.3BSD.</p>
 <h2 id="notes">NOTES</h2>
-<p><tt><a class="wikilink" href="/man-pages-ko/atexit(3)/">atexit(3)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/on_exit(3)/">on_exit(3)</a></tt>으로 등록한 함수에서 <code>exit()</code>나 <tt><a class="wikilink" href="/man-pages-ko/longjmp(3)/">longjmp(3)</a></tt>를 호출한 경우의 동작 방식은 규정되어 있지 않다. 참고로 <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>를 호출하면 <tt><a class="wikilink" href="/man-pages-ko/atexit(3)/">atexit(3)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/on_exit(3)/">on_exit(3)</a></tt>으로 등록한 내용이 없어진다.</p>
-<p><code>EXIT_SUCCESS</code>와 <code>EXIT_FAILURE</code>를 쓰는 것이 0과 1 내지 -1 같은 값을 쓰는 것보다 (비 유닉스 환경에 대해) 조금 더 이식성이 있다. 특히 VMS에서 다른 관행을 사용한다.</p>
-<p>BSD에서 종료 코드를 표준화하려 하고 있다. (GNU C 라이브러리 같은 몇몇 C 라이브러리에서 받아들이기도 했다.) <code>&lt;sysexits.h&gt;</code> 파일 참고.</p>
-<p><code>exit()</code> 후에 부모 프로세스에게 종료 상태가 전달되어야 한다. 세 가지 경우가 있다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/atexit(3)/">atexit(3)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/on_exit(3)/">on_exit(3)</a></tt>으로 등록한 함수에서 <code>exit()</code>나 <tt><a class="wikilink" href="/man-pages-ko/longjmp(3)/">longjmp(3)</a></tt>를 호출한 경우의 동작 방식은 규정돼 있지 않다. 참고로 <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>를 호출하면 <tt><a class="wikilink" href="/man-pages-ko/atexit(3)/">atexit(3)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/on_exit(3)/">on_exit(3)</a></tt>으로 등록한 내용이 없어진다.</p>
+<p><code>EXIT_SUCCESS</code>와 <code>EXIT_FAILURE</code>를 쓰는 것이 0과 1 또는 -1 같은 값을 쓰는 것보다 (비 유닉스 환경에 대해) 조금 더 이식성이 있다. 특히 VMS에서 다른 관행을 사용한다.</p>
+<p>BSD에서 종료 코드를 표준화하려 하고 있다. (GNU C 라이브러리 같은 몇몇 C 라이브러리에서도 받아들였다.) <code>&lt;sysexits.h&gt;</code> 파일 참고.</p>
+<p><code>exit()</code> 후에 종료 상태가 부모 프로세스에게 전달되어야 한다. 세 가지 경우가 있다.</p>
 <ul>
 <li>
-<p>부모에서 <code>SA_NOCLDWAIT</code>을 설정했거나 <code>SIGCHLD</code> 핸들러를 <code>SIG_IGN</code>으로 설정했다면 상태가 폐기되고 자식이 즉시 죽는다.</p>
+<p>부모에서 <code>SA_NOCLDWAIT</code>을 설정했거나 <code>SIGCHLD</code> 핸들러를 <code>SIG_IGN</code>으로 설정했다면 상태 값이 폐기되고 자식이 즉시 죽는다.</p>
 </li>
 <li>
-<p>부모가 자식을 기다리고 있었다면 종료 상태가 통고되고 자식이 즉시 죽는다.</p>
+<p>부모가 자식을 기다리고 있었다면 종료 상태가 통보되고 자식이 즉시 죽는다.</p>
 </li>
 <li>
-<p>그 외의 경우 자식이 "좀비" 프로세스가 된다. 프로세스 자원 대부분이 재활용되고 자식 프로세스에 대한 최소한의 정보(종료 상태, 자원 사용 통계)만 담은 슬롯이 프로세스 테이블에 유지된다. 그러면 부모가 이후에 <tt><a class="wikilink" href="/man-pages-ko/waitpid(2)/">waitpid(2)</a></tt>를 (또는 비슷한 함수를) 이용해 자식의 종료 상태를 알아낼 수 있으며, 그때 좀비 프로세스 슬롯이 사라진다.</p>
+<p>그 외의 경우엔 자식이 "좀비" 프로세스가 된다. 프로세스 자원 대부분이 재활용되고 자식 프로세스에 대한 최소한의 정보(종료 상태, 자원 사용 통계)만 담은 슬롯이 프로세스 테이블에 유지된다. 그러면 부모가 이후에 <tt><a class="wikilink" href="/man-pages-ko/waitpid(2)/">waitpid(2)</a></tt>를 (또는 비슷한 함수를) 이용해 자식의 종료 상태를 알아낼 수 있으며, 그때 좀비 프로세스 슬롯이 해제된다.</p>
 </li>
 </ul>
-<p>구현에서 <code>SIGCHLD</code> 시그널을 지원하면 부모에게 이 시그널을 보낸다. 부모에서 <code>SA_NOCLDWAIT</code>을 설정한 경우 <code>SIGCHLD</code> 시그널을 보내는지 여부는 규정되어 있지 않다.</p>
-<h3 id="_1">다른 프로세스에게 보내는 시그널</h3>
-<p>종료하는 프로세스가 세션 리더이고 그 제어 터미널이 세션의 제어 터미널인 경우에는 이 제어 터미널의 전경 프로세스 그룹의 각 프로세스에게 <code>SIGHUP</code> 시그널이 전송되며 터미널이 이 세션과 분리된다. 그래서 새로운 제어 프로세스가 터미널을 획득할 수 있게 된다.</p>
-<p>프로세스 종료로 인해 어떤 프로세스 그룹이 고아가 되는 경우에 그 새로 고아가 되는 프로세스 그룹의 구성원 중에 정지된 프로세스가 있으면 이 프로세스 그룹의 각 프로세스에게 <code>SIGCONT</code> 시그널과 <code>SIGHUP</code> 시그널이 연달아 가게 된다. 고아 프로세스 그룹에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/setpgid(2)/">setpgid(2)</a></tt>를 보라.</p>
-<p>위 경우들에서는 시그널을 받는 프로세스가 종료 프로세스의 자식일 수도 있다. 하지만 이를 제외하면 일반적으로 프로세스 종료로 인해 그 프로세스의 자식에게 시그널이 전송되지 <strong>않는다</strong>. 하지만 프로세스에서 <tt><a class="wikilink" href="/man-pages-ko/prctl(2)/">prctl(2)</a></tt> <code>PR_SET_PDEATHSIG</code> 동작을 사용해 자기 부모가 종료하는 경우 시그널을 받도록 바꿀 수 있다.</p>
+<p>구현에서 <code>SIGCHLD</code> 시그널을 지원하면 부모에게 그 시그널이 전송된다. 부모에서 <code>SA_NOCLDWAIT</code>을 설정한 경우에 <code>SIGCHLD</code> 시그널이 전송되는지 여부는 규정돼 있지 않다.</p>
+<h3 id="_1">다른 프로세스에게 전송되는 시그널</h3>
+<p>종료하는 프로세스가 세션 리더이고 그 제어 터미널이 세션의 제어 터미널인 경우에는 그 제어 터미널의 전경 프로세스 그룹의 각 프로세스에게 <code>SIGHUP</code> 시그널이 전송되며 터미널이 그 세션과 분리된다. 그래서 새로운 제어 프로세스가 터미널을 획득할 수 있게 된다.</p>
+<p>프로세스 종료로 인해 어떤 프로세스 그룹이 고아가 되는 경우에 새로 고아가 되는 그 프로세스 그룹의 구성원 중에 정지된 프로세스가 있으면 그 프로세스 그룹의 각 프로세스에게 <code>SIGCONT</code> 시그널과 <code>SIGHUP</code> 시그널이 연달아 가게 된다. 고아 프로세스 그룹에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/setpgid(2)/">setpgid(2)</a></tt>를 보라.</p>
+<p>위 경우들에선 시그널을 받는 프로세스가 종료 프로세스의 자식일 수도 있다. 하지만 이를 제외하면 일반적으로 프로세스 종료로 인해 그 프로세스의 자식에게 시그널이 전송되지 <strong>않는다</strong>. 하지만 프로세스에서 <tt><a class="wikilink" href="/man-pages-ko/prctl(2)/">prctl(2)</a></tt> <code>PR_SET_PDEATHSIG</code> 동작을 사용해 자기 부모가 종료하는 경우 시그널을 받도록 바꿀 수 있다.</p>
 <h2 id="see-also">SEE ALSO</h2>
 <p><tt><a class="wikilink" href="/man-pages-ko/_exit(2)/">_exit(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/get_robust_list(2)/">get_robust_list(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/getpgid(2)/">getpgid(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/wait(2)/">wait(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/atexit(3)/">atexit(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/on_exit(3)/">on_exit(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/tmpfile(3)/">tmpfile(3)</a></tt></p>
 <hr />

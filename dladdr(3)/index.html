@@ -165,9 +165,9 @@ int dladdr1(void *addr, Dl_info *info, void **extra_info, int flags);
                                오브젝트의 경로명 */
     void       *dli_fbase;  /* 공유 오브젝트가 적재된
                                기준 주소 */
-    const char *dli_sname;  /* addr에 정의가 걸리는
+    const char *dli_sname;  /* 심볼 정의가 addr에 걸리는
                                심볼의 이름 */
-    void       *dli_saddr;  /* dli_sname에 나와 있는
+    void       *dli_saddr;  /* dli_sname에 언급된
                                심볼의 정확한 주소 */
 } Dl_info;
 </code></pre>
@@ -175,7 +175,7 @@ int dladdr1(void *addr, Dl_info *info, void **extra_info, int flags);
 <p><code>dladdr1()</code> 함수는 <code>dladdr()</code>과 비슷하되 <code>extra_info</code> 인자를 통해 추가 정보를 반환한다. 반환되는 정보는 <code>flags</code>에 지정한 값에 따라 달라지는데, 다음 값들 중 하나를 지정할 수 있다.</p>
 <dl>
 <dt><code>RTLD_DL_LINKMAP</code></dt>
-<dd>걸린 파일의 링크 맵의 포인터를 반환한다. <code>extra_info</code> 인자가 <code>link_map</code> 구조체 포인터를 가리킨다. (즉 <code>struct link_map **</code>이다.) 그 구조체는 <code>&lt;link.h&gt;</code>에 다음과 같이 정의돼 있다.<pre><code>struct link_map {
+<dd>걸린 파일의 링크 맵의 포인터를 반환한다. <code>extra_info</code> 인자가 <code>link_map</code> 구조체 포인터를 가리킨다. (즉 <code>struct link_map **</code>이다.) 그 구조체는 <code>&lt;link.h&gt;</code>에 다음처럼 정의돼 있다.<pre><code>struct link_map {
     ElfW(Addr) l_addr;  /* ELF 파일 내 주소와
                            메모리 내 주소의 차이 */
     char      *l_name;  /* 오브젝트를 찾은
@@ -192,7 +192,7 @@ int dladdr1(void *addr, Dl_info *info, void **extra_info, int flags);
 </dd>
 <dt><code>RTLD_DL_SYMENT</code></dt>
 <dd>
-<p>대응하는 심볼의 ELF 심볼 테이블 항목의 포인터를 얻는다. <code>extra_info</code> 인자가 심볼 포인터의 포인터, 즉 <code>const ElfW(Sym) **</code>이다. <code>ElfW()</code> 매크로는 그 인자를 하드웨어 아키텍처에 맞는 ELF 데이터 타입 이름으로 바꿔 준다. 예를 들어 64비트 플랫폼에서 <code>ElfW(Sym)</code>은 데이터 타입 이름 <code>Elf64_Sym</code>을 내놓는데, 이는 <code>&lt;elf.h&gt;</code>에 다음처럼 정의돼 있다.</p>
+<p>대응하는 심볼의 ELF 심볼 테이블 항목의 포인터를 얻는다. <code>extra_info</code> 인자가 심볼 포인터의 포인터, 즉 <code>const ElfW(Sym) **</code>이다. <code>ElfW()</code> 매크로는 인자를 하드웨어 아키텍처에 맞는 ELF 데이터 타입 이름으로 바꿔 준다. 예를 들어 64비트 플랫폼에서 <code>ElfW(Sym)</code>은 데이터 타입 이름 <code>Elf64_Sym</code>을 내놓는데, 이는 <code>&lt;elf.h&gt;</code>에 다음처럼 정의돼 있다.</p>
 <pre><code>typedef struct  {
     Elf64_Word    st_name;     /* 심볼 이름 */
     unsigned char st_info;     /* 심볼 타입 및 바인딩 */
@@ -202,7 +202,7 @@ int dladdr1(void *addr, Dl_info *info, void **extra_info, int flags);
     Elf64_Xword   st_size;     /* 심볼 크기 */
 } Elf64_Sym;
 </code></pre>
-<p><code>st_name</code> 필드는 문자열 테이블의 인덱스이다.</p>
+<p><code>st_name</code> 필드는 문자열 테이블의 인덱스다.</p>
 <p><code>st_info</code> 필드는 심볼의 타입과 바인딩을 담는다. 매크로 <code>ELF64_ST_TYPE(st_info)</code>으로 (32비트 플랫폼에서는 <code>ELF32_ST_TYPE()</code>으로) 타입을 뽑아낼 수 있으며 다음 값들 중 하나가 나온다.</p>
 <table>
 <thead>
@@ -288,7 +288,7 @@ int dladdr1(void *addr, Dl_info *info, void **extra_info, int flags);
 </tr>
 <tr>
 <td><code>STV_INTERNAL</code></td>
-<td>프로세서별 숨기기 수준</td>
+<td>프로세서별 숨김 유형</td>
 </tr>
 <tr>
 <td><code>STV_HIDDEN</code></td>
@@ -303,8 +303,8 @@ int dladdr1(void *addr, Dl_info *info, void **extra_info, int flags);
 </dd>
 </dl>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 이 함수들은 0 아닌 값을 반환한다. <code>addr</code>에 지정한 주소가 어떤 공유 오브젝트에 걸리기는 하지만 그 공유 오브젝트 안의 심볼에 들어맞지는 않는 경우에는 <code>info-&gt;dli_sname</code> 및 <code>info-&gt;dli_saddr</code> 필드가 NULL으로 설정된다.</p>
-<p><code>addr</code>에 지정한 주소에 걸리는 공유 오브젝트를 찾을 수 없으면 이 함수들은 0을 반환한다. 이 경우에 <tt><a class="wikilink" href="/man-pages-ko/dlerror(3)/">dlerror(3)</a></tt>를 통해 오류 메시지를 얻을 수 <em>없다</em>.</p>
+<p>성공 시 이 함수들은 0 아닌 값을 반환한다. <code>addr</code>에 지정한 주소가 어떤 공유 오브젝트에 걸리기는 하지만 그 공유 오브젝트 안의 심볼에 들어맞지는 않는 경우에는 <code>info-&gt;dli_sname</code> 및 <code>info-&gt;dli_saddr</code> 필드가 NULL로 설정된다.</p>
+<p><code>addr</code>에 지정한 주소에 걸리는 공유 오브젝트를 찾을 수 없으면 이 함수들은 0을 반환한다. 이 경우엔 <tt><a class="wikilink" href="/man-pages-ko/dlerror(3)/">dlerror(3)</a></tt>를 통해 오류 메시지를 얻을 수 <em>없다</em>.</p>
 <h2 id="versions">VERSIONS</h2>
 <p>glibc 2.0 및 이후에 <code>dladdr()</code>이 있다. glibc 2.3.3에서 <code>dladdr1()</code>이 처음 등장했다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
@@ -328,8 +328,8 @@ int dladdr1(void *addr, Dl_info *info, void **extra_info, int flags);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>이 함수들은 비표준 GNU 확장이며 솔라리스에도 있다.</p>
 <h2 id="bugs">BUGS</h2>
-<p>때때로 <code>dladdr()</code>에 함수 포인터를 줄 때 예상 외의 결과가 나올 수 있다. 일부 아키텍처(특히 i386과 x86-64)에서 인자로 준 함수가 분명 동적으로 링크 된 라이브러리에서 와야 하는 것인데 <code>dli_fname</code>과 <code>dli_fbase</code>가 <code>dladdr()</code>을 호출한 오브젝트를 가리키게 될 수도 있다.</p>
-<p>함수 포인터 값 결정이 여전히 컴파일 시점이 이뤄지며 원래 오브젝트의 <em>plt</em>(Procedure Linkage Table) 섹션을 가리킬 뿐이라는 게 문제다. (호출 오브젝트에서 동적 링커에게 심볼 결정을 요청한 후에 그 호출을 처리한다.) 이걸 피하려면 코드를 위치 독립이 되게 컴파일 해 볼 수 있다. 그러면 컴파일러에서 컴파일 시점에 포인터를 미리 준비할 수 없게 되므로 <em>got</em>(Global Offset Table)에서 최종 심볼 주소를 가져온 다음에 <code>dladdr()</code>로 주는 코드를 <code>gcc(1)</code>가 만들어 내게 된다.</p>
+<p>때때로 <code>dladdr()</code>에 함수 포인터를 줄 때 예상 외의 결과가 나올 수 있다. 일부 아키텍처(특히 i386과 x86-64)에서 인자로 준 함수가 분명 동적으로 링크된 라이브러리에서 와야 하는데 <code>dli_fname</code>과 <code>dli_fbase</code>가 <code>dladdr()</code>을 호출한 오브젝트를 가리키게 될 수도 있다.</p>
+<p>함수 포인터 값 해석이 여전히 컴파일 시점에 이뤄지며 원래 오브젝트의 <em>plt</em>(Procedure Linkage Table) 섹션을 가리킬 뿐이라는 게 문제다. (호출 오브젝트에서 동적 링커에게 심볼 해석을 요청한 후에 그 호출을 처리한다.) 이를 피하기 위해 코드를 위치 독립으로 컴파일해 볼 수 있다. 그러면 컴파일 시점에 컴파일러가 포인터를 미리 준비할 수 없게 되므로 <code>gcc(1)</code>는 <em>got</em>(Global Offset Table)에서 최종 심볼 주소를 가져와서 <code>dladdr()</code>로 전달하는 코드를 만들어 내게 된다.</p>
 <h2 id="see-also">SEE ALSO</h2>
 <p><tt><a class="wikilink" href="/man-pages-ko/dl_iterate_phdr(3)/">dl_iterate_phdr(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/dlinfo(3)/">dlinfo(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/dlopen(3)/">dlopen(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/dlsym(3)/">dlsym(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ld.so(8)/">ld.so(8)</a></tt></p>
 <hr />

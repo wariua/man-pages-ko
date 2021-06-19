@@ -170,9 +170,9 @@ int epoll_pwait2(int epfd, struct epoll_event *events,
                const sigset_t *sigmask);
 </code></pre>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>epoll_wait()</code> 시스템 호출은 파일 디스크립터 <code>epfd</code>가 가리키는 <tt><a class="wikilink" href="/man-pages-ko/epoll(7)/">epoll(7)</a></tt> 인스턴스에서 이벤트를 기다린다. <code>events</code>가 가리키는 버퍼를 이용해서 뭔가 이벤트가 있는 관심 목록 내 파일 디스크립터들에 대한 준비 목록 정보를 반환한다. 최대 <code>maxevents</code> 개 이벤트를 반환한다. <code>maxevents</code> 인자는 0보다 커야 한다.</p>
-<p><code>timeout</code> 인자는 <code>epoll_wait()</code>에서 블록 할 밀리초 수를 나타낸다. <code>CLOCK_MONOTONIC</code> 클럭으로 시간을 측정한다.</p>
-<p>다음 어느 경우든 해당할 때까지 <code>epoll_wait()</code> 호출이 블록 하게 된다.</p>
+<p><code>epoll_wait()</code> 시스템 호출은 파일 디스크립터 <code>epfd</code>가 가리키는 <tt><a class="wikilink" href="/man-pages-ko/epoll(7)/">epoll(7)</a></tt> 인스턴스에서 이벤트를 기다린다. <code>events</code>가 가리키는 버퍼를 이용해 뭔가 이벤트가 있는 관심 목록의 파일 디스크립터들에 대한 준비 목록의 정보를 반환한다. 최대 <code>maxevents</code> 개 이벤트를 반환한다. <code>maxevents</code> 인자는 0보다 커야 한다.</p>
+<p><code>timeout</code> 인자는 <code>epoll_wait()</code>에서 블록할 밀리초 수를 나타낸다. <code>CLOCK_MONOTONIC</code> 클럭으로 시간을 측정한다.</p>
+<p>다음 어느 경우든 해당할 때까지 <code>epoll_wait()</code> 호출이 블록하게 된다.</p>
 <ul>
 <li>
 <p>파일 디스크립터가 이벤트를 내놓는다.</p>
@@ -184,8 +184,8 @@ int epoll_pwait2(int epfd, struct epoll_event *events,
 <p>타임아웃이 만료된다.</p>
 </li>
 </ul>
-<p>참고로 <code>timeout</code> 시간을 시스템 클럭 해상도에 따라 올림 하게 되며 커널 스케줄링 지연도 있기 때문에 그 블록 시간을 약간 넘길 수도 있다. <code>timeout</code>을 -1로 지정하면 <code>epoll_wait()</code>이 무한정 블록 하게 되며, <code>timeout</code>을 0으로 지정하면 가용 이벤트가 없더라도 <code>epoll_wait()</code>이 즉시 반환하게 된다.</p>
-<p><code>struct epoll_event</code>는 다음으로 정의돼 있다.</p>
+<p>참고로 <code>timeout</code> 시간을 시스템 클럭 해상도에 따라 올림하게 되며 커널 스케줄링 지연도 있기 때문에 그 블록 시간을 약간 넘길 수도 있다. <code>timeout</code>을 -1로 지정하면 <code>epoll_wait()</code>이 무한정 블록하게 되며, <code>timeout</code>을 0으로 지정하면 가용 이벤트가 없더라도 <code>epoll_wait()</code>이 즉시 반환하게 된다.</p>
+<p><code>struct epoll_event</code>가 다음처럼 정의돼 있다.</p>
 <pre><code class="language-c">typedef union epoll_data {
     void        *ptr;
     int          fd;
@@ -214,17 +214,17 @@ pthread_sigmask(SIG_SETMASK, &amp;origmask, NULL);
 </code></pre>
 <p><code>sigmask</code> 인자를 NULL로 지정할 수 있으며, 그 경우 <code>epoll_pwait()</code>은 <code>epoll_wait()</code>과 동등하다.</p>
 <h3 id="epoll_pwait2"><code>epoll_pwait2()</code></h3>
-<p><code>epoll_pwait2()</code>는 <code>timeout</code> 인자를 빼면 <code>epoll_pwait()</code>과 동등하다. <code>timespect</code> 타입으로 인자를 받으므로 나노초 해상도로 타임아웃을 지정할 수 있다. 이 인자는 <tt><a class="wikilink" href="/man-pages-ko/pselect(2)/">pselect(2)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/ppoll(2)/">ppoll(2)</a></tt>에서과 똑같이 동작한다. <code>timeout</code>이 NULL이면 <code>epoll_pwait2()</code>가 무한정 블록 할 수 있다.</p>
+<p><code>epoll_pwait2()</code>는 <code>timeout</code> 인자를 빼면 <code>epoll_pwait()</code>과 동등하다. <code>timespec</code> 타입으로 인자를 받으므로 나노초 해상도로 타임아웃을 지정할 수 있다. 이 인자는 <tt><a class="wikilink" href="/man-pages-ko/pselect(2)/">pselect(2)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/ppoll(2)/">ppoll(2)</a></tt>에서과 똑같이 동작한다. <code>timeout</code>이 NULL이면 <code>epoll_pwait2()</code>가 무한정 블록할 수 있다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 <code>epoll_wait()</code>은 요청 I/O에 준비된 파일 디스크립터 수를 반환하며, 지정한 <code>timeout</code> 밀리초 동안 준비 상태가 된 파일 디스크립터가 없으면 0을 반환한다. 오류 시 <code>epoll_wait()</code>은 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
+<p>성공 시 <code>epoll_wait()</code>은 요청된 I/O를 할 준비가 된 파일 디스크립터 수를 반환하며, 지정한 <code>timeout</code> 밀리초 동안 준비된 파일 디스크립터가 없으면 0을 반환한다. 오류 시 <code>epoll_wait()</code>은 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EBADF</code></dt>
-<dd><code>epfd</code>가 유요한 파일 디스크립터가 아니다.</dd>
+<dd><code>epfd</code>가 유효한 파일 디스크립터가 아니다.</dd>
 <dt><code>EFAULT</code></dt>
 <dd><code>events</code>가 가리키는 메모리 영역이 쓰기 권한으로 접근 가능하지 않다.</dd>
 <dt><code>EINTR</code></dt>
-<dd>(1) 요청한 한 이벤트가 발생하거나 (2) <code>timeout</code>이 만료하기 전에 호출이 시그널 핸들러에 의해 중단되었다. <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt> 참고.</dd>
+<dd>(1) 요청된 이벤트가 하나라도 발생하거나 (2) <code>timeout</code>이 만료하기 전에 호출이 시그널 핸들러에 의해 중단되었다. <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt> 참고.</dd>
 <dt><code>EINVAL</code></dt>
 <dd><code>epfd</code>가 <strong>epoll</strong> 파일 디스크립터가 아니거나, <code>maxevents</code>가 0보다 작거나 같다.</dd>
 </dl>
@@ -235,9 +235,9 @@ pthread_sigmask(SIG_SETMASK, &amp;origmask, NULL);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p><code>epoll_wait()</code>, <code>epoll_pwait()</code>, <code>epoll_pwait2()</code>는 리눅스 전용이다.</p>
 <h2 id="notes">NOTES</h2>
-<p>한 스레드가 <code>epoll_wait()</code> 호출 내에서 블록 돼 있는 동안 다른 스레드에서 그 <strong>epoll</strong> 인스턴스에 파일 디스크립터를 추가하는 게 가능하다. 새 파일 디스크립터가 준비 상태가 되면 <code>epoll_wait()</code> 호출의 블록이 풀리게 된다.</p>
-<p><code>epoll_wait()</code> 호출 시 <code>maxevents</code> 개를 넘는 파일 디스크립터가 준비 상태이면 이어지는 <code>epoll_wait()</code> 호출에서 준비 상태 파일 디스크립터들을 라운드 로빈으로 처리하게 된다. 이 동작은 프로세스에서 준비 상태라고 알고 있는 파일 디스크립터들에 집중하느라 준비 상태인 파일 디스크립터가 더 있다는 걸 알아채지 못해서 발생하는 기아 상황을 피하는 데 도움이 된다.</p>
-<p>참고로 관심 목록이 현재 비어 있는 (또는 다른 스레드에서 파일 디스크립터를 닫거나 관심 목록에서 제거해서 관심 목록이 비게 되는) <strong>epoll</strong> 인스턴스에도 <code>epoll_wait()</code> 호출이 가능하다. 이후 (다른 스레드에서) 관심 목록에 어떤 파일 디스크립터를 추가하고 그 파일 디스크립터가 준비 상태가 될 때까지 호출이 블록 하게 된다.</p>
+<p>한 스레드가 <code>epoll_wait()</code> 호출에서 블록돼 있는 동안 다른 스레드에서 그 <strong>epoll</strong> 인스턴스에 파일 디스크립터를 추가하는 게 가능하다. 새 파일 디스크립터가 준비 상태가 되면 <code>epoll_wait()</code> 호출의 블록이 풀리게 된다.</p>
+<p><code>epoll_wait()</code> 호출 시 <code>maxevents</code> 개를 넘는 파일 디스크립터가 준비 상태면 이어지는 <code>epoll_wait()</code> 호출에서 준비 상태인 파일 디스크립터들을 라운드 로빈으로 처리하게 된다. 이 동작은 프로세스에서 준비 상태라고 알고 있는 파일 디스크립터들에 집중하느라 준비 상태인 파일 디스크립터가 더 있다는 걸 알아채지 못해서 발생하는 기아 상황을 피하는 데 도움이 된다.</p>
+<p>참고로 현재 관심 목록이 비어 있는 (또는 다른 스레드에서 파일 디스크립터를 닫거나 관심 목록에서 제거해서 관심 목록이 비게 되는) <strong>epoll</strong> 인스턴스에도 <code>epoll_wait()</code> 호출이 가능하다. 이후 (다른 스레드에서) 관심 목록에 어떤 파일 디스크립터를 추가하고 그 파일 디스크립터가 준비 상태가 될 때까지 호출이 블록하게 된다.</p>
 <h2 id="bugs">BUGS</h2>
 <p>커널 2.6.37 전에서는 <code>timeout</code> 값이 약 <code>LONG_MAX / HZ</code> 밀리초보다 크면 -1으로 (즉 무한으로) 처리한다. 그래서 가령 <code>sizeof(long)</code>이 4이고 커널 <code>HZ</code> 값이 1000인 시스템이라면 35.79 분보다 큰 타임아웃을 무한으로 처리한다.</p>
 <h3 id="c">C 라이브러리/커널 차이</h3>

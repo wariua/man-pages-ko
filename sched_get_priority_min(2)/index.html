@@ -155,7 +155,7 @@ int sched_get_priority_max(int policy);
 int sched_get_priority_min(int policy);
 </code></pre>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>sched_get_priority_max()</code>는 <code>policy</code>가 나타내는 스케줄링 알고리듬과 함께 사용할 수 있는 우선순위 최댓값을 반환한다. <code>sched_get_priority_min()</code>은 <code>policy</code>가 나타내는 스케줄링 알고리듬과 함께 사용할 수 있는 우선순위 최솟값을 반환한다. 지원하는 <code>policy</code> 값은 <code>SCHED_FIFO</code>, <code>SCHED_RR</code>, <code>SCHED_OTHER</code>, <code>SCHED_BATCH</code>, <code>SCHED_IDLE</code>, <code>SCHED_DEADLINE</code>이다. 이 정책들에 대한 더 자세한 내용을 <tt><a class="wikilink" href="/man-pages-ko/sched(7)/">sched(7)</a></tt>에서 볼 수 있다.</p>
+<p><code>sched_get_priority_max()</code>는 <code>policy</code>가 나타내는 스케줄링 알고리즘과 함께 사용할 수 있는 우선순위 최댓값을 반환한다. <code>sched_get_priority_min()</code>은 <code>policy</code>가 나타내는 스케줄링 알고리즘과 함께 사용할 수 있는 우선순위 최솟값을 반환한다. 지원하는 <code>policy</code> 값은 <code>SCHED_FIFO</code>, <code>SCHED_RR</code>, <code>SCHED_OTHER</code>, <code>SCHED_BATCH</code>, <code>SCHED_IDLE</code>, <code>SCHED_DEADLINE</code>이다. 이 정책들에 대한 더 자세한 내용을 <tt><a class="wikilink" href="/man-pages-ko/sched(7)/">sched(7)</a></tt>에서 볼 수 있다.</p>
 <p>높은 수치 우선순위의 프로세스가 낮은 수치 우선순위의 프로세스보다 먼저 스케줄링 된다. 따라서 <code>sched_get_priority_max()</code>가 반환하는 값이 <code>sched_get_priority_min()</code>이 반환하는 값보다 크게 된다.</p>
 <p>리눅스에서는 <code>SCHED_FIFO</code> 및 <code>SCHED_RR</code> 정책에 1에서 99까지의 고정 우선순위 범위를, 그리고 나머지에 우선순위 0을 준다. 여러 정책들의 스케줄링 우선순위 범위는 변경 불가능하다.</p>
 <p>다른 POSIX 시스템에서는 스케줄링 우선순위 범위가 다를 수 있으므로 이식 가능한 응용에서는 가상의 우선순위 범위를 사용하여 그 범위를 <code>sched_get_priority_max()</code> 및 <code>sched_get_priority_min()</code>이 준 구간으로 사상할 수 있겠다. POSIX.1에서는 <code>SCHED_FIFO</code> 및 <code>SCHED_RR</code>에 대한 최솟값과 최댓값 사이 범위가 적어도 우선순위 32개만큼은 되기를 요구한다.</p>

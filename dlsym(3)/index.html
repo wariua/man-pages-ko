@@ -166,14 +166,14 @@ void *dlvsym(void *restrict handle, const char *restrict symbol,
 </code></pre>
 <p><code>-ldl</code>로 링크.</p>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>dlsym()</code> 함수는 <tt><a class="wikilink" href="/man-pages-ko/dlopen(3)/">dlopen(3)</a></tt>이 반환하는 동적 적재 공유 오브젝트 "핸들"을 널 종료 심볼 이름과 함께 받아서 그 심볼이 메모리에 적재된 주소를 반환한다. 지정한 오브젝트에서, 그리고 그 오브젝트 적재 시 <tt><a class="wikilink" href="/man-pages-ko/dlopen(3)/">dlopen(3)</a></tt>에 의해 자동으로 적재된 공유 오브젝트들 어디서도 그 심볼을 찾지 못하면 <code>dlsym()</code>이 NULL을 반환한다. (<code>dlsym()</code>의 탐색은 그 공유 오브젝트들의 의존 관계 트리에서 너비 우선 방식으로 이뤄진다.)</p>
-<p>드문 경우에는 (아래 NOTES 참고) 심볼의 값이 실제로 NULL일 수도 있다. 따라서 <code>dlsym()</code>이 NULL을 반환한 게 꼭 오류를 나타내는 건 아니다. 오류와 값이 NULL인 심볼을 구별하는 정확한 방법은 <tt><a class="wikilink" href="/man-pages-ko/dlerror(3)/">dlerror(3)</a></tt> 호출로 이전 오류 조건을 지우고서 <code>dlsym()</code>을 호출한 다음 다시 <tt><a class="wikilink" href="/man-pages-ko/dlerror(3)/">dlerror(3)</a></tt>를 호출해서 반환 값을 변수에 저장하고, 그 저장된 값이 NULL이 아닌지 확인하는 것이다.</p>
+<p><code>dlsym()</code> 함수는 <tt><a class="wikilink" href="/man-pages-ko/dlopen(3)/">dlopen(3)</a></tt>이 반환한 동적 적재 공유 오브젝트 "핸들"을 널 종료 심볼 이름과 함께 받아서 그 심볼이 메모리에 적재된 주소를 반환한다. 지정한 오브젝트에서, 그리고 그 오브젝트 적재 시 <tt><a class="wikilink" href="/man-pages-ko/dlopen(3)/">dlopen(3)</a></tt>에 의해 자동으로 적재된 공유 오브젝트들 어디서도 그 심볼을 찾지 못하면 <code>dlsym()</code>이 NULL을 반환한다. (<code>dlsym()</code>의 탐색은 그 공유 오브젝트들의 의존 관계 트리에서 너비 우선 방식으로 이뤄진다.)</p>
+<p>드문 경우로 (아래 NOTES 참고) 심볼의 값이 실제로 NULL일 수도 있다. 따라서 <code>dlsym()</code>이 NULL을 반환한 게 꼭 오류를 나타내는 건 아니다. 값이 NULL인 심볼과 오류를 구별하는 정확한 방법은 <tt><a class="wikilink" href="/man-pages-ko/dlerror(3)/">dlerror(3)</a></tt> 호출로 이전 오류 조건을 지우고 <code>dlsym()</code>을 호출한 다음 다시 <tt><a class="wikilink" href="/man-pages-ko/dlerror(3)/">dlerror(3)</a></tt>를 호출해서 반환 값을 변수에 저장하고, 그 저장된 값이 NULL이 아닌지 확인하는 것이다.</p>
 <p><code>handle</code>에 지정할 수 있는 특수한 가상 핸들이 두 가지 있다.</p>
 <dl>
 <dt><code>RTLD_DEFAULT</code></dt>
-<dd>기본 오브젝트 탐색 순서에 따라서 원하는 심볼의 첫 번째 위치를 찾는다. 실행 파일 및 그 의존 대상들의 전역 심볼에 더해서 <code>RTLD_GLOBAL</code> 플래그로 동적으로 적재된 공유 오브젝트들의 심볼들이 탐색 대상에 포함된다.</dd>
+<dd>기본 오브젝트 탐색 순서에 따라서 원하는 심볼의 첫 번째 위치를 찾는다. 실행 파일 및 그 의존 대상들의 전역 심볼에 더해서 <code>RTLD_GLOBAL</code> 플래그로 동적으로 적재된 공유 오브젝트의 심볼들이 탐색 대상에 포함된다.</dd>
 <dt><code>RTLD_NEXT</code></dt>
-<dd>현재 오브젝트 다음에서 탐색 순서에 따라서 원하는 심볼의 다음 위치를 찾는다. 이를 이용해 다른 공유 오브젝트의 함수를 감싸는 래퍼를 제공할 수 있다. 예를 들어 사전 적재된 (<tt><a class="wikilink" href="/man-pages-ko/ld.so(8)/">ld.so(8)</a></tt>의 <code>LD_PRELOAD</code> 참고) 공유 오브젝트의 함수 정의에서 다른 공유 오브젝트에 있는 "진짜" 함수를 (또는 사전 적재가 여러 단계로 이뤄지는 경우에 "다음" 함수 정의를) 찾아서 호출할 수 있다.</dd>
+<dd>탐색 순서에서 현재 오브젝트 다음부터 원하는 심볼의 다음 위치를 찾는다. 이를 이용해 다른 공유 오브젝트의 함수를 감싸는 래퍼를 제공할 수 있다. 예를 들어 사전 적재된 (<tt><a class="wikilink" href="/man-pages-ko/ld.so(8)/">ld.so(8)</a></tt>의 <code>LD_PRELOAD</code> 참고) 공유 오브젝트의 함수 정의에서 다른 공유 오브젝트에 있는 "진짜" 함수를 (또는 사전 적재가 여러 단계로 이뤄지는 경우에 "다음" 함수 정의를) 찾아서 호출할 수 있다.</dd>
 </dl>
 <p><code>&lt;dlfcn.h&gt;</code>에서 <code>RTLD_DEFAULT</code> 및 <code>RTLD_NEXT</code> 정의를 얻으려면 기능 확인 매크로 <code>_GNU_SOURCE</code>가 정의돼 있어야 한다.</p>
 <p><code>dlvsym()</code> 함수는 <code>dlsym()</code>과 같은 동작을 하되 추가 인자로 버전 문자열을 받는다.</p>
@@ -202,7 +202,7 @@ void *dlvsym(void *restrict handle, const char *restrict symbol,
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001에서 <code>dlsym()</code>을 기술한다. <code>dlvsym()</code> 함수는 GNU 확장이다.</p>
 <h2 id="notes">NOTES</h2>
-<p>전역 심볼의 주소가 NULL일 수 있는 경우가 여러 가지 있다. 예를 들어 링커 스크립트나 명령행 옵션 <code>--defsym</code>을 통해 링커가 0 주소에 심볼을 두게 할 수 있다. 또, 정의 안 된 약한 심볼도 NULL 값을 가진다. 그리고 GNU 간접 함수(IFUNC) 결정 함수가 결정 결과로 NULL을 반환해서 그게 심볼 값이 될 수도 있다. 마지막 경우에 <code>dlsym()</code>은 오류 없이 NULL을 반환한다. 하지만 앞의 두 경우에서 GNU 동적 링커의 동작은 비일관적이다. 재배치 과정이 성공하고 심볼이 NULL 값을 가지는 걸 관찰할 수 있지만 <code>dlsym()</code>은 실패하고 <code>dlerror()</code>는 검색 오류를 알린다.</p>
+<p>전역 심볼의 주소가 NULL일 수 있는 경우가 여러 가지 있다. 예를 들어 링커 스크립트나 명령행 옵션 <code>--defsym</code>을 통해 링커가 주소 0에 심볼을 두게 할 수 있다. 또, 정의 안 된 약한 심볼도 NULL 값을 가진다. 그리고 GNU 간접 함수(IFUNC) 결정 함수가 결정 결과로 NULL을 반환해서 그게 심볼 값이 될 수도 있다. 마지막 경우에 <code>dlsym()</code>은 오류 없이 NULL을 반환한다. 하지만 앞의 두 경우에서 GNU 동적 링커의 동작은 비일관적이다. 재배치 과정이 성공하고 심볼이 NULL 값을 가지는 걸 관찰할 수 있지만 <code>dlsym()</code>은 실패하고 <code>dlerror()</code>는 검색 오류를 알린다.</p>
 <h3 id="_1">역사</h3>
 <p><code>dlsym()</code> 함수가 포함된 dlopen API는 SunOS에서 유래한 것이다. 그 시스템에 <code>dlvsym()</code>은 없다.</p>
 <h2 id="examples">EXAMPLES</h2>

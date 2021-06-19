@@ -168,11 +168,11 @@ int dup3(int oldfd, int newfd, int flags);
 </code></pre>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>dup()</code> 시스템 호출은 파일 디스크립터 <code>oldfd</code>의 사본을 만든다. 안 쓰는 가장 낮은 파일 디스크립터 번호를 새 디스크립터에 쓴다.</p>
-<p>성공 반환 후에는 이전 파일 디스크립터와 새 파일 디스크립터를 서로 바꿔 가며 사용할 수도 있다. 같은 열린 파일 기술 항목(<tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt> 참고)을 가리키기 때문에 오프셋과 파일 상태를 공유한다. 예를 들어 한쪽 파일 디스크립터에서 <tt><a class="wikilink" href="/man-pages-ko/lseek(2)/">lseek(2)</a></tt>으로 파일 오프셋을 변경하면 다른 쪽에서도 오프셋이 바뀐다.</p>
-<p>두 파일 디스크립터가 파일 디스크립터 플래그(exec에서 닫기 플래그)는 공유하지 않는다. 복제 디스크립터에서는 exec에서 닫기(<code>FD_CLOEXEC</code>, <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt> 참고) 플래그가 꺼져 있다.</p>
+<p>성공 반환 후에는 이전 파일 디스크립터와 새 파일 디스크립터를 바꿔 가며 쓸 수도 있다. 같은 열린 파일 기술 항목(<tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt> 참고)을 가리키기 때문에 오프셋과 파일 상태를 공유한다. 예를 들어 한쪽 파일 디스크립터에서 <tt><a class="wikilink" href="/man-pages-ko/lseek(2)/">lseek(2)</a></tt>으로 파일 오프셋을 변경하면 다른 쪽에서도 오프셋이 바뀐다.</p>
+<p>파일 디스크립터 플래그(exec에서 닫기 플래그)는 공유하지 않는다. 복제본 디스크립터에는 exec에서 닫기(<code>FD_CLOEXEC</code>, <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt> 참고) 플래그가 꺼져 있다.</p>
 <h3 id="dup2"><code>dup2()</code></h3>
 <p><code>dup2()</code> 시스템 호출은 <code>dup()</code>과 같은 일을 하되 안 쓰는 가장 낮은 파일 디스크립터 번호를 쓰는 게 아니라 <code>newfd</code>에 지정한 파일 디스크립터 번호를 쓴다. 파일 디스크립터 <code>newfd</code>가 이미 열려 있으면 조용히 닫고서 재사용한다.</p>
-<p>파일 디스크립터 <code>newfd</code>를 닫고 재사용하는 단계를 <em>원자적으로</em> 수행한다. 이 점이 중요한 건 <tt><a class="wikilink" href="/man-pages-ko/close(2)/">close(2)</a></tt>와 <code>dup()</code>을 이용해 동등한 기능성을 구현하려 하면 <code>newfd</code>가 두 단계 사이에서 재사용될 수도 있는 경쟁 조건에 직면하게 되기 때문이다. 메인 프로그램을 중단시킨 시그널 핸들러에서 파일 디스크립터를 할당하거나 병렬 스레드에서 파일 디스크립터를 할당하여 그런 재사용이 일어날 수 있을 것이다.</p>
+<p>파일 디스크립터 <code>newfd</code>를 닫고 재사용하는 단계를 <em>원자적으로</em> 수행한다. 이 점이 중요한 건 <tt><a class="wikilink" href="/man-pages-ko/close(2)/">close(2)</a></tt>와 <code>dup()</code>을 이용해 동등한 기능성을 구현하려 하면 <code>newfd</code>가 두 단계 사이에서 재사용될 수도 있는 경쟁 조건에 걸리게 되기 때문이다. 메인 프로그램을 중단시킨 시그널 핸들러에서 파일 디스크립터를 할당하거나 병렬 스레드에서 파일 디스크립터를 할당한다면 그런 재사용이 일어날 수 있을 것이다.</p>
 <p>다음 사항에 주의해야 한다.</p>
 <ul>
 <li>
@@ -201,7 +201,7 @@ int dup3(int oldfd, int newfd, int flags);
 <dt><code>EBADF</code></dt>
 <dd><code>newfd</code>가 파일 디스크립터 허용 범위를 벗어난다. (<tt><a class="wikilink" href="/man-pages-ko/getrlimit(2)/">getrlimit(2)</a></tt>의 <code>RLIMIT_NOFILE</code> 설명 참고.)</dd>
 <dt><code>EBUSY</code></dt>
-<dd>(리눅스 한정) <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>과 <code>dup()</code>의 경쟁 조건 시에 <code>dup2()</code>나 <code>dup3()</code>에서 반환할 수 있다.</dd>
+<dd>(리눅스 한정) <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>과 <code>dup()</code>의 경쟁 조건에서 <code>dup2()</code>나 <code>dup3()</code>에서 이 값을 반환할 수 있다.</dd>
 <dt><code>EINTR</code></dt>
 <dd><code>dup2()</code>나 <code>dup3()</code> 호출이 시그널에 의해 중단되었다. <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt> 참고.</dd>
 <dt><code>EINVAL</code></dt>
@@ -212,7 +212,7 @@ int dup3(int oldfd, int newfd, int flags);
 <dd>열린 파일 디스크립터 개수에 대한 프로세스별 제한에 도달했다. (<tt><a class="wikilink" href="/man-pages-ko/getrlimit(2)/">getrlimit(2)</a></tt>의 <code>RLIMIT_NOFILE</code> 설명 참고.)</dd>
 </dl>
 <h2 id="versions">VERSIONS</h2>
-<p>리눅스 2.6.27에서 <code>dup3()</code>가 추가되었다. glibc 버전 2.9부터 지원이 사용 가능하다.</p>
+<p>리눅스 2.6.27에서 <code>dup3()</code>가 추가되었다. glibc 버전 2.9부터 지원을 이용할 수 있다.</p>
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p><code>dup()</code>, <code>dup2()</code>: POSIX.1-2001, POSIX.1-2008, SVr4, 4.3BSD.</p>
 <p><code>dup3()</code>는 리눅스 전용이다.</p>

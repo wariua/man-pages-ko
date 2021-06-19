@@ -162,20 +162,20 @@ size_t confstr(int name, char *buf, size_t len);
 </dl>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>confstr()</code>은 구성에 따라 달라지는 문자열 변수의 값을 얻는다.</p>
-<p><code>name</code> 인자는 질의하려는 시스템 변수이다. 다음 변수들을 지원한다.</p>
+<p><code>name</code> 인자는 질의하려는 시스템 변수다. 다음 변수들을 지원한다.</p>
 <dl>
 <dt><code>_CS_GNU_LIBC_VERSION</code> (GNU C 라이브러리 전용. glibc 2.3.2부터)</dt>
 <dd>이 시스템의 GNU C 라이브러리 버전을 나타내는 문자열. (가령 "glibc 2.3.4")</dd>
 <dt><code>_CS_GNU_LIBPTHREAD_VERSION</code> (GNU C 라이브러리 전용. glibc 2.3.2부터)</dt>
 <dd>이 C 라이브러리에서 제공하는 POSIX 구현을 나타내는 문자열. (가령 "NPTL 2.3.4"나 "linuxthreads-0.10")</dd>
 <dt><code>_CS_PATH</code></dt>
-<dd>모든 POSIX.2 표준 유틸리티들을 찾을 수 있는 곳을 나타내는 <code>PATH</code> 변수를 위한 값.</dd>
+<dd>모든 POSIX.2 표준 유틸리티들을 찾을 수 있는 곳들을 나타내는 <code>PATH</code> 변수용 값.</dd>
 </dl>
-<p><code>buf</code>가 NULL이 아니고 <code>len</code>이 0이 아니면 <code>confstr()</code>이 문자열 값을 <code>buf</code>로 복사하는데, 필요시 <code>len - 1</code> 바이트로 자르고 널 바이트(<code>'\0'</code>)로 끝낸다. <code>confstr()</code> 반환 값을 <code>len</code>과 비교하여 이 경우를 탐지할 수 있다.</p>
+<p><code>buf</code>가 NULL이 아니고 <code>len</code>이 0이 아니면 <code>confstr()</code>에서 문자열 값을 <code>buf</code>로 복사하는데, 필요시 <code>len - 1</code> 바이트로 잘라서 널 바이트(<code>'\0'</code>)로 끝낸다. <code>confstr()</code> 반환 값을 <code>len</code>과 비교하면 잘렸는지를 알아낼 수 있다.</p>
 <p><code>len</code>이 0이고 <code>buf</code>가 NULL이면 <code>confstr()</code>이 아래 정의된 대로 값을 반환하기만 한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p><code>name</code>이 유효한 구성 변수이면 <code>confstr()</code>이 그 변수의 값 전체를 담기 위해 필요한 (종료용 널 바이트를 포함한) 바이트 수를 반환한다. 이 값이 <code>len</code>보다 클 수도 있는데, 이는 <code>buf</code>의 값이 잘려진 것임을 뜻한다.</p>
-<p><code>name</code>이 유효한 구성 변수이지만 그 변수에 값이 없으면 <code>confstr()</code>이 0을 반환한다. <code>name</code>이 유효한 구성 변수에 해당하지 않으면 <code>confstr()</code>이 0을 반환하며 <code>errno</code>를 <code>EINVAL</code>로 설정한다.</p>
+<p><code>name</code>이 유효한 구성 변수라면 그 변수의 값 전체를 담기 위해 필요한 (종료 널 바이트를 포함한) 바이트 수를 <code>confstr()</code>이 반환한다. 이 값이 <code>len</code>보다 클 수도 있는데, <code>buf</code>에 있는 것이 잘린 값이라는 의미다.</p>
+<p><code>name</code>이 유효한 구성 변수지만 그 변수에 값이 없다면 <code>confstr()</code>이 0을 반환한다. <code>name</code>에 대응하는 유효한 구성 변수가 없다면 <code>confstr()</code>이 0을 반환하며 <code>errno</code>를 <code>EINVAL</code>로 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EINVAL</code></dt>

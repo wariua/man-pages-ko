@@ -166,15 +166,15 @@ int clock_getcpuclockid(pid_t pid, clockid_t *clockid);
 <dd><code>_POSIX_C_SOURCE &gt;= 200112L</code></dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>clock_getcpuclockid()</code> 함수는 ID가 <code>pid</code>인 프로세스의 CPU 시간 클럭의 ID를 얻어서 <code>clockid</code>가 가리키는 위치로 반환한다. <code>pid</code>가 0이면 호출 프로세스의 CPU 시간 클럭의 클럭 ID를 반환한다.</p>
+<p><code>clock_getcpuclockid()</code> 함수는 ID가 <code>pid</code>인 프로세스의 CPU 시간 클럭의 ID를 얻어서 <code>clockid</code>가 가리키는 위치를 통해 반환한다. <code>pid</code>가 0이면 호출 프로세스의 CPU 시간 클럭의 클럭 ID를 반환한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 <code>clock_getcpuclockid()</code>는 0을 반환한다. 오류 시 ERRORS 절에 나열된 양수 오류 번호 중 하나를 반환한다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>ENOSYS</code></dt>
-<dd>커널이 다른 프로세스의 프로세스별 CPU 시간 클럭 얻기를 지원하지 않는데 <code>pid</code>가 호출 프로세스를 지정하고 있지 않다.</dd>
+<dd>커널이 다른 프로세스의 프로세스별 CPU 시간 클럭 얻기를 지원하지 않는데 <code>pid</code>가 호출 프로세스를 나타내고 있지 않다.</dd>
 <dt><code>EPERM</code></dt>
-<dd><code>pid</code>로 지정한 프로세스의 CPU 시간 클럭에 접근할 권한을 호출자가 가지고 있지 않다. (POSIX.1-2001에서 명세함. 리눅스에서는 커널이 다른 프로세스의 프로세스별 CPU 시간 클럭 얻기를 지원하지 않는 경우가 아니라면 발생하지 않음.)</dd>
+<dd><code>pid</code>가 나타내는 프로세스의 CPU 시간 클럭에 접근할 권한을 호출자가 가지고 있지 않다. (POSIX.1-2001에서 명세함. 리눅스에서는 커널이 다른 프로세스의 프로세스별 CPU 시간 클럭 얻기를 지원하지 않는 경우가 아니라면 발생하지 않음.)</dd>
 <dt><code>ESRCH</code></dt>
 <dd>ID가 <code>pid</code>인 프로세스가 없다.</dd>
 </dl>
@@ -201,9 +201,9 @@ int clock_getcpuclockid(pid_t pid, clockid_t *clockid);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008.</p>
 <h2 id="notes">NOTES</h2>
-<p><code>pid</code>가 0인 <code>clock_getcpuclockid()</code> 호출로 얻은 클럭 ID를 <tt><a class="wikilink" href="/man-pages-ko/clock_gettime(2)/">clock_gettime(2)</a></tt>을 호출할 때 사용하는 것은 클럭 ID <code>CLOCK_PROCESS_CPUTIME_ID</code>를 쓰는 것과 같다.</p>
+<p><code>pid</code> 0으로 <code>clock_getcpuclockid()</code>를 호출해서 얻은 클럭 ID를 가지고 <tt><a class="wikilink" href="/man-pages-ko/clock_gettime(2)/">clock_gettime(2)</a></tt>을 호출하는 것은 클럭 ID <code>CLOCK_PROCESS_CPUTIME_ID</code>를 쓰는 것과 같다.</p>
 <h2 id="examples">EXAMPLES</h2>
-<p>아래의 예시 프로그램은 명령행으로 준 ID를 가진 프로세스의 CPU 시간 클럭 ID를 얻은 다음 <tt><a class="wikilink" href="/man-pages-ko/clock_gettime(2)/">clock_gettime(2)</a></tt>을 이용해 그 클럭의 시간을 얻는다. 동작 예는 다음과 같다.</p>
+<p>아래의 예시 프로그램은 명령행으로 받은 ID를 가진 프로세스의 CPU 시간 클럭 ID를 얻은 다음 <tt><a class="wikilink" href="/man-pages-ko/clock_gettime(2)/">clock_gettime(2)</a></tt>을 이용해 그 클럭의 시간을 얻는다. 동작 예는 다음과 같다.</p>
 <pre><code class="language-text">$ ./a.out 1                 # init 프로세스의 CPU 클럭 보기
 CPU-time clock for PID 1 is 2.213466748 seconds
 </code></pre>

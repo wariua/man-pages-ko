@@ -156,7 +156,7 @@
                 
             <li class="second-level"><a href="#cgroups-v1">cgroups v1 해제 알림</a></li>
                 
-            <li class="second-level"><a href="#cgroups-v1_1">cgroups v1 이름 지정 계층 구조</a></li>
+            <li class="second-level"><a href="#cgroups-v1_1">cgroups v1 이름 있는 계층 구조</a></li>
                 
         <li class="first-level "><a href="#cgroups-2">cgroups 버전 2</a></li>
             <li class="second-level"><a href="#cgroups-v2">cgroups v2 통합 구조</a></li>
@@ -177,7 +177,7 @@
                 
             <li class="second-level"><a href="#cgroup_2">자손 cgroup 수 제한</a></li>
                 
-        <li class="first-level "><a href="#cgroups">cgroups 위임: 특권 작은 사용자로 계층 구조 위임하기</a></li>
+        <li class="first-level "><a href="#cgroups">cgroups 위임: 작은 특권의 사용자에게 계층 구조 위임하기</a></li>
             <li class="second-level"><a href="#cgroups-v2-nsdelegate-cgroup">cgroups v2 위임: nsdelegate와 cgroup 네임스페이스</a></li>
                 
             <li class="second-level"><a href="#cgroups_1">cgroups 위임 격납 규칙</a></li>
@@ -208,46 +208,47 @@
 </div></div>
         <div class="col-md-9" role="main">
 
+<p>작업 중.</p>
 <h2 id="name">NAME</h2>
 <p>cgroups - 리눅스 제어 그룹</p>
 <h2 id="description">DESCRIPTION</h2>
-<p>보통 cgroups라고 부르는 제어 그룹(control group)은 프로세스들을 계층적 그룹들로 조직해서 다양한 종류의 자원 사용을 제한하거나 감시할 수 있는 리눅스 커널의 기능이다. 커널의 cgroup 인터페이스는 cgroupfs라는 유사 파일 시스템을 통해 제공된다. 그룹 관리는 커널의 cgroup 핵심 코드에 구현돼 있으며 자원 추적 및 제한은 자원 종류별 서브시스템(메모리, CPU 등등)에 구현돼 있다.</p>
+<p>보통 cgroups라고 부르는 제어 그룹(control group)은 프로세스들을 계층적 그룹들로 조직해서 다양한 종류의 자원 사용을 제한하거나 감시할 수 있는 리눅스 커널의 기능이다. cgroupfs라는 유사 파일 시스템을 통해 커널의 cgroup 인터페이스가 제공된다. 그룹 관리는 커널의 cgroup 핵심 코드에 구현돼 있으며 자원 추적 및 제한은 자원 종류별 서브시스템(메모리, CPU 등등)에 구현돼 있다.</p>
 <h3 id="_1">용어</h3>
-<p><em>cgroup</em>은 cgroup 파일 시스템을 통해 규정한 제한이나 매개변수들의 구속을 받는 프로세스들의 집합이다.</p>
-<p><em>서브시스템(subsystem)</em>은 cgroup 내 프로세스들의 행동을 변경하는 커널 구성 요소다. 다양한 서브시스템이 구현돼 있어서 cgroup에 사용 가능한 CPU 시간이나 메모리의 양을 제한하거나, cgroup이 사용한 CPU 시간을 기록하거나, cgroup 내 프로세스들의 실행을 동결하고 재개하는 게 가능하다. 서브시스템을 <em>자원 컨트롤러(resource controller)</em>라고도 (또는 그냥 컨트롤러라고도) 부른다.</p>
-<p>어떤 컨트롤러의 cgroup들은 <em>계층적으로</em> 배치돼 있다. cgroup 파일 시스템 내에서 하위 디렉터리를 만들고, 지우고, 이름을 바꾸는 방식으로 그 계층 구조를 정의한다. 그리고 계층 구조의 각 단계에서 속성(가령 제한값)을 지정할 수 있다. cgroup에서 제공하는 제한, 제어, 기록 기능은 일반적으로 그 속성이 정의된 cgroup 이하의 부분 계층 구조 전체에 영향을 준다. 그래서 예를 들어 계층 구조 상위 단계의 cgroup에서 어떤 제한을 주면 그걸 자손 cgroup에서 초과할 수 없다.</p>
+<p><em>cgroup</em>이란 cgroup 파일 시스템을 통해 규정한 제한이나 매개변수들의 구속을 받는 프로세스들의 집합이다.</p>
+<p><em>서브시스템(subsystem)</em>이란 cgroup 내 프로세스들의 행동을 변경하는 커널 구성 요소다. 다양한 서브시스템이 구현돼 있어서 어떤 cgroup에서 이용 가능한 CPU 시간이나 메모리의 양을 제한하거나, cgroup에서 사용한 CPU 시간을 기록하거나, cgroup 내 프로세스들의 실행을 동결하고 재개하는 게 가능하다. 서브시스템을 <em>자원 컨트롤러(resource controller)</em>라고도 (그냥 컨트롤러라고도) 부른다.</p>
+<p>어떤 컨트롤러의 cgroup들은 <em>계층적으로</em> 배치돼 있다. cgroup 파일 시스템 내에서 하위 디렉터리를 만들고, 지우고, 이름을 바꾸는 방식으로 그 계층 구조를 정의한다. 그리고 계층 구조의 각 단계에서 속성(가령 제한값)을 지정할 수 있다. cgroup에서 제공하는 제한, 제어, 기록 기능은 일반적으로 그 속성이 정의된 cgroup 이하의 하위 계층 구조 전체에 영향을 준다. 예를 들어 계층 구조 상위 단계의 cgroup에서 어떤 제한을 주면 자손 cgroup에서 그걸 초과할 수 없다.</p>
 <h3 id="cgroups-1-2">cgroups 버전 1과 버전 2</h3>
 <p>cgroups 구현이 처음 출시된 건 리눅스 2.6.24에서였다. 시간이 흐르며 다양한 cgroup 컨트롤러들이 추가돼서 다양한 종류의 자원들을 관리할 수 있게 됐다. 하지만 그 컨트롤러들의 개발은 전반적으로 조정이 안 돼 있었고, 그래서 컨트롤러들 간에 비일관성이 발생하고 cgroup 계층 구조 관리가 꽤 복잡해지는 결과를 낳았다. 그 문제들에 대한 더 긴 설명은 커널 소스 파일 <code>Documentation/admin-guide/cgroup-v2.rst</code>(리눅스 4.17 이전은 <code>Documentation/cgroup-v2.txt</code>)에서 볼 수 있다.</p>
-<p>cgroups 최초 구현(cgroups 버전 1)의 문제들 때문에 리눅스 3.10부터 그 문제들을 해결하기 위한 새롭고 독립적인 구현체를 만드는 작업이 시작됐다. 처음에는 실험적으로 표시돼서 마운트 옵션 <code>-o __DEVEL__sane_behavior</code> 뒤에 숨어 있다가 리눅스 4.5가 출시될 때 마침내 새 버전(cgroups 버전 2)이 정식 버전이 됐다. 두 버전 간의 차이점들을 아래에서 설명한다. cgroups v1에 있는 <code>cgroup.sane_behavior</code> 파일은 이 마운트 옵션의 유물이다. 그 파일은 항상 "0"을 내놓으며 하위 호환성을 위해 유지되고 있을 뿐이다.</p>
-<p>cgroups v2가 cgroups v1을 대체하기 위한 것이긴 하지만 이전 시스템은 계속 존재한다. (그리고 호환성 문제가 있기 때문에 쉽게 제거되지 않을 것 같다.) 현재 cgroups v2는 cgroups v1에서 쓸 수 있는 컨트롤러들 중 일부만 구현하고 있다. 두 시스템은 동일한 시스템에서 v1 컨트롤러와 v2 컨트롤러를 모두 마운트 할 수 있도록 구현돼 있다. 그래서 예를 들어 버전 2에서 지원하는 컨트롤러들을 사용하면서도 버전 2에서 아직 컨트롤러를 지원하지 않는 버전 1의 컨트롤러까지 사용하는 게 가능하다. 유일한 제약은 한 컨트롤러를 cgroups v1 계층 구조와 cgroups v2 계층 구조 모두에서 동시에 사용할 수는 없다는 점이다.</p>
+<p>cgroups 최초 구현(cgroups 버전 1)의 문제들 때문에 리눅스 3.10부터 그 문제들을 해결하기 위한 새롭고 독립적인 구현체를 만드는 작업이 시작됐다. 처음에는 실험적으로 표시되어 마운트 옵션 <code>-o __DEVEL__sane_behavior</code> 뒤에 숨어 있다가 리눅스 4.5가 출시될 때 마침내 새 버전(cgroups 버전 2)이 정식 버전이 됐다. 두 버전의 차이를 아래에서 설명한다. cgroups v1에 있는 <code>cgroup.sane_behavior</code> 파일은 이 마운트 옵션의 유물이다. 항상 "0"을 내놓으며 하위 호환성을 위해 유지되고 있을 뿐이다.</p>
+<p>cgroups v2가 cgroups v1을 대체하기 위한 것이긴 하지만 이전 시스템은 계속 존재한다. (그리고 호환성 문제가 있기 때문에 쉽게 제거되지 않을 것 같다.) 현재 cgroups v2는 cgroups v1에서 쓸 수 있는 컨트롤러들 중 일부만 구현하고 있다. 같은 시스템에서 v1 컨트롤러와 v2 컨트롤러를 모두 마운트할 수 있도록 두 시스템이 구현돼 있다. 그래서 예를 들어 버전 2에서 지원하는 컨트롤러들을 사용하면서도 버전 2에서 아직 컨트롤러를 지원하지 않는 버전 1의 컨트롤러까지 사용하는 게 가능하다. 유일한 제약은 한 컨트롤러를 cgroups v1 계층 구조와 cgroups v2 계층 구조 모두에서 동시에 사용할 수는 없다는 점이다.</p>
 <h2 id="cgroups-1">cgroups 버전 1</h2>
-<p>cgroups v1 하에서는 시스템의 프로세스들에 대한 계층 구조를 각기 제공하는 별개의 cgroup 파일 시스템에 각 컨트롤러를 마운트 할 수 있다. 또한 같은 cgroup 파일 시스템에 여러 (또는 모든) cgroups v1 컨트롤러들을 함께 마운트 하는 것도 가능한데, 즉 함께 마운트 한 컨트롤러들이 동일한 프로세스 계층 구조를 관리하는 것이다.</p>
-<p>마운트 된 각 계층 구조별로 디렉터리 트리가 제어 그룹 계층 구조를 반영한다. 각 디렉터리가 제어 그룹을 나타내고 자식 디렉터리는 자식 제어 그룹을 나타낸다. 예를 들어 <code>/user/joe/1.session</code>은 <code>/user</code>의 자식인 cgroup <code>joe</code>의 자식인 제어 그룹 <code>1.session</code>을 나타낸다. 각 cgroup 디렉터리 하에는 읽거나 쓸 수 있는 파일들이 있는데, 이는 자원 제한들과 몇몇 일반적인 cgroup 속성들을 나타낸다.</p>
+<p>cgroups v1 하에서는 시스템 프로세스들에 대한 계층 구조를 각기 제공하는 별개의 cgroup 파일 시스템에 각 컨트롤러를 마운트할 수 있다. 또한 같은 cgroup 파일 시스템에 여러 (또는 모든) cgroups v1 컨트롤러들을 함께 마운트하는 것도 가능한데, 함께 마운트된 컨트롤러들이 같은 프로세스 계층 구조를 관리하는 것이다.</p>
+<p>마운트된 각 계층 구조별로 디렉터리 트리가 제어 그룹 계층 구조를 반영한다. 각 디렉터리가 제어 그룹을 나타내고 자식 디렉터리는 자식 제어 그룹을 나타낸다. 예를 들어 <code>/user/joe/1.session</code>은 제어 그룹 <code>/user</code>의 자식인 cgroup <code>joe</code>의 자식인 <code>1.session</code>을 나타낸다. 각 cgroup 디렉터리에는 읽거나 쓸 수 있는 파일들이 있어서 자원 제한치와 몇몇 일반적인 cgroup 속성들을 나타낸다.</p>
 <h3 id="_2">태스크(스레드) 대 프로세스</h3>
 <p>cgroup v1에서는 <em>프로세스</em>와 <em>태스크</em>를 구별한다. 그 관점에서는 한 프로세스가 여러 태스크(사용자 공간 쪽에선 주로 스레드라고 하며 이 맨 페이지 나머지에서도 그렇게 부름)로 이뤄져 있을 수 있다. cgroups v1에서는 프로세스 내 스레드들의 cgroup 소속을 독립적으로 조작하는 게 가능하다.</p>
-<p>cgroups v1에서 스레드들을 여러 cgroup들로 쪼갤 수 있다는 점이 몇몇 경우에 문제를 일으켰다. 예를 들어 <code>memory</code> 컨트롤러에서는 말이 안 되는데, 프로세스의 모든 스레드가 한 주소 공간을 공유하기 때문이다. 이러한 문제들 때문에 프로세스 내 스레드들의 cgroup 소속을 독립적으로 조작할 수 있도록 하는 것을 cgroups v2 최초 구현에서는 제거했으며, 이후에 제한된 형태로 되살렸다. (아래의 "스레드 모드" 설명 참고.)</p>
+<p>cgroups v1에서 스레드들을 여러 cgroup들로 쪼갤 수 있다는 점이 몇몇 경우에 문제를 일으켰다. 예를 들어 <code>memory</code> 컨트롤러에서는 말이 안 되는데, 프로세스의 모든 스레드가 한 주소 공간을 공유하기 때문이다. 이러한 문제들 때문에 프로세스 내 스레드들의 cgroup 소속을 독립적으로 조작할 수 있게 하는 것을 cgroups v2 최초 구현에서는 제거했으며, 그 뒤에 제한된 형태로 되살렸다. (아래의 "스레드 모드" 설명 참고.)</p>
 <h3 id="v1">v1 컨트롤러 마운트</h3>
-<p>cgroups 사용을 위해선 커널이 <code>CONFIG_CGROUP</code> 옵션으로 빌드 돼 있어야 한다. 또한 v1 컨트롤러 각각에 연관된 설정 옵션이 있어서 설정을 해 줘야 그 컨트롤러를 이용할 수 있다.</p>
-<p>v1 컨트롤러를 사용하려면 cgroup 파일 시스템으로 마운트를 해야 한다. 보통은 <code>/sys/fs/cgroup</code>에 마운트 한 <tt><a class="wikilink" href="/man-pages-ko/tmpfs(5)/">tmpfs(5)</a></tt> 파일 시스템 아래에 마운트 한다. 즉 <code>cpu</code> 컨트롤러를 다음처럼 마운트 할 수 있을 것이다.</p>
+<p>cgroups 사용을 위해선 커널이 <code>CONFIG_CGROUP</code> 옵션으로 빌드돼 있어야 한다. 또한 v1 컨트롤러 각각에 연관된 설정 옵션이 있어서 그걸 설정해 줘야 컨트롤러를 이용할 수 있다.</p>
+<p>v1 컨트롤러를 사용하려면 cgroup 파일 시스템으로 마운트를 해야 한다. 보통은 <code>/sys/fs/cgroup</code>에 마운트된 <tt><a class="wikilink" href="/man-pages-ko/tmpfs(5)/">tmpfs(5)</a></tt> 파일 시스템 아래에 마운트한다. 즉 <code>cpu</code> 컨트롤러를 다음처럼 마운트할 수 있을 것이다.</p>
 <pre><code>mount -t cgroup -o cpu none /sys/fs/cgroup/cpu
 </code></pre>
-<p>같은 계층 구조에 여러 컨트롤러를 함께 마운트 하는 게 가능하다. 예를 들어 다음은 한 계층 구조에 <code>cpu</code> 컨트롤러와 <code>cpuacct</code> 컨트롤러를 함께 마운트 한다.</p>
+<p>같은 계층 구조에 여러 컨트롤러를 함께 마운트하는 게 가능하다. 예를 들어 다음은 한 계층 구조에 <code>cpu</code> 컨트롤러와 <code>cpuacct</code> 컨트롤러를 함께 마운트한다.</p>
 <pre><code>mount -t cgroup -o cpu,cpuacct none /sys/fs/cgroup/cpu,cpuacct
 </code></pre>
-<p>컨트롤러들을 함께 마운트 하면 그렇게 마운트 한 모든 컨트롤러들에 대해 프로세스가 같은 cgroup에 있게 되는 효과가 있다. 반면 컨트롤러들을 따로 마운트 하면 프로세스가 한 컨트롤러에 대해선 cgroup <code>/foo1</code>에 있으면서 다른 컨트롤러에 대해선 <code>/foo2/foo3</code>에 있는 게 가능하다.</p>
-<p>모든 v1 컨트롤러들을 같은 계층 구조로 함께 마운트 하는 것도 가능하다.</p>
+<p>컨트롤러들을 함께 마운트하면 그렇게 마운트한 모든 컨트롤러에 대해 프로세스가 같은 cgroup에 있게 되는 효과가 있다. 반면 컨트롤러들을 따로 마운트하면 프로세스가 한 컨트롤러에 대해선 cgroup <code>/foo1</code>에 있으면서 다른 컨트롤러에 대해선 <code>/foo2/foo3</code>에 있는 게 가능하다.</p>
+<p>모든 v1 컨트롤러들을 같은 계층 구조로 함께 마운트하는 것도 가능하다.</p>
 <pre><code>mount -t cgroup -o all cgroup /sys/fs/cgroup
 </code></pre>
 <p>(컨트롤러를 따로 지정하지 않은 경우의 기본값이기도 하므로 <code>-o all</code>를 생략해도 같은 결과를 얻을 수 있다.)</p>
-<p>동일 컨트롤러를 여러 cgroup 계층 구조에 마운트 하는 건 불가능하다. 예를 들어 <code>cpu</code> 컨트롤러와 <code>cpuacct</code> 컨트롤러를 한 계층 구조에 같이 마운트 하고서 <code>cpu</code> 컨트롤러만 따로 다른 계층 구조에 마운트 하는 게 불가능하다. 정확히 동일한 컨트롤러 집합으로 여러 마운트 지점을 만드는 건 가능하다. 하지만 이렇게 하는 결과는 여러 마운트 지점에서 동일 계층 구조를 보여 주는 것일 뿐이다.</p>
-<p>참고로 많은 시스템에서는 <code>/sys/fs/cgroup</code> 아래에 v1 컨트롤러들을 자동으로 마운트 한다. 특히 <code>systemd(1)</code>에서 그런 마운트 지점들을 자동으로 생성한다.</p>
+<p>동일 컨트롤러를 여러 cgroup 계층 구조에 마운트하는 건 불가능하다. 예를 들어 <code>cpu</code> 컨트롤러와 <code>cpuacct</code> 컨트롤러를 한 계층 구조에 같이 마운트하고서 <code>cpu</code> 컨트롤러만 따로 다른 계층 구조에 마운트하는 게 불가능하다. 정확히 동일한 컨트롤러 집합으로 여러 마운트 지점을 만드는 건 가능하다. 하지만 이렇게 하는 결과는 여러 마운트 지점에서 동일 계층 구조를 보여 주는 것일 뿐이다.</p>
+<p>참고로 많은 시스템에서는 <code>/sys/fs/cgroup</code> 아래에 v1 컨트롤러들을 자동으로 마운트한다. 특히 <code>systemd(1)</code>에서 그런 마운트 지점들을 자동으로 생성한다.</p>
 <h3 id="v1_1">v1 컨트롤러 언마운트</h3>
-<p>마운트 된 cgroup 파일 시스템을 다음 예처럼 <code>umount(8)</code> 명령으로 언마운트 할 수 있다.</p>
+<p>마운트된 cgroup 파일 시스템을 다음 예처럼 <code>umount(8)</code> 명령으로 언마운트할 수 있다.</p>
 <pre><code>umount /sys/fs/cgroup/pids
 </code></pre>
-<p><em>주의</em>: cgroup 파일 시스템이 사용 중이 아니어야만, 즉 자식 cgroup이 없어야 언마운트 된다. 안 그러면 <code>umount(8)</code>의 효과는 마운트를 보이지 않게 하는 것뿐이다. 즉 마운트 지점이 실제로 제거되게 하려면 모든 자식 cgroup들을 먼저 제거해 둬야 하며, 그러려면 모든 소속 프로세스들을 그 cgroup에서 루트 cgroup으로 옮겨야 한다.</p>
+<p><em>주의</em>: cgroup 파일 시스템이 사용 중이 아니어야만, 즉 자식 cgroup이 없어야 언마운트된다. 안 그러면 <code>umount(8)</code>의 효과는 마운트를 보이지 않게 하는 것뿐이다. 즉 마운트 지점이 실제로 제거되게 하려면 모든 자식 cgroup을 먼저 제거해 둬야 하며, 그러려면 모든 소속 프로세스들을 그 cgroup에서 루트 cgroup으로 옮겨야 한다.</p>
 <h3 id="cgroups-1_1">cgroups 버전 1 컨트롤러</h3>
-<p>cgroups 버전 1 컨트롤러 각각은 (아래 적힌) 커널 구성 옵션에 좌우된다. 추가로 cgroups 기능 사용 여부는 커널 구성 옵션 <code>CONFIG_CGROUPS</code>에 좌우된다.</p>
+<p>cgroups 버전 1 컨트롤러 각각은 (아래 적힌) 커널 구성 옵션에 좌우된다. 추가로 cgroups 기능 사용 여부가 커널 구성 옵션 <code>CONFIG_CGROUPS</code>에 의해 좌우된다.</p>
 <dl>
 <dt><code>cpu</code> (리눅스 2.6.24부터. <code>CONFIG_CGROUP_SCHED</code>)</dt>
 <dd>
@@ -341,7 +342,7 @@
 <pre><code>mount -o release_agent=pathname ...
 </code></pre>
 <p>....</p>
-<h3 id="cgroups-v1_1">cgroups v1 이름 지정 계층 구조</h3>
+<h3 id="cgroups-v1_1">cgroups v1 이름 있는 계층 구조</h3>
 <p>....</p>
 <pre><code>mount -t cgroup -o none,name=somename none /some/mount/point
 </code></pre>
@@ -477,7 +478,7 @@ frozen 0
 <p>....</p>
 </dd>
 </dl>
-<h2 id="cgroups">cgroups 위임: 특권 작은 사용자로 계층 구조 위임하기</h2>
+<h2 id="cgroups">cgroups 위임: 작은 특권의 사용자에게 계층 구조 위임하기</h2>
 <p>....</p>
 <p>....</p>
 <p>....</p>
@@ -522,7 +523,7 @@ frozen 0
 </ul>
 <p>....</p>
 <p>....</p>
-<p><strong>주의</strong>: ....</p>
+<p><em>주의</em>: ....</p>
 <pre><code>cgroup_no_v1=all systemd.legacy_systemd_cgroup_controller
 </code></pre>
 <p>....</p>
@@ -542,7 +543,7 @@ frozen 0
 <p>....</p>
 </li>
 </ul>
-<p><strong>주의</strong>: ....</p>
+<p><em>주의</em>: ....</p>
 <h2 id="cgroups-2_1">cgroups 버전 2 스레드 모드</h2>
 <p>....</p>
 <ul>
@@ -683,7 +684,7 @@ frozen 0
 </li>
 </ul>
 <p>....</p>
-<h3 id="domain-threaded-cgroup">"<code>domain threaded</code>" cgroup 유형</h3>
+<h3 id="domain-threaded-cgroup">"domain threaded" cgroup 유형</h3>
 <p>....</p>
 <ul>
 <li>

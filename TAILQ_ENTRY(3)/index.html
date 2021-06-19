@@ -199,7 +199,7 @@ void TAILQ_CONCAT(TAILQ_HEAD *head1, TAILQ_HEAD *head2,
 <p>이 매크로들은 이중 연결 꼬리 큐를 정의하고 조작한다.</p>
 <p>매크로 정의에서 <code>TYPE</code>은 사용자 정의 구조체의 이름이며, 그 구조체에는 타입이 <code>TAILQ_ENTRY</code>이고 이름이 <code>NAME</code>인 필드가 있어야 한다. <code>HEADNAME</code> 인자는 <code>TAILQ_HEAD()</code> 매크로를 써서 선언해야 하는 사용자 정의 구조체의 이름이다.</p>
 <h3 id="_1">생성</h3>
-<p>꼬리 큐의 머리는 <code>TAILQ_HEAD()</code> 매크로로 정의한 구조체이다. 이 구조체에는 포인터 한 쌍이 있는데, 하나는 큐의 첫 번째 항목을 가리키고 다른 하나는 큐의 마지막 항목을 가리킨다. 항목들이 이중으로 연결되어 있으므로 큐 순회 없이 임의 항목을 제거할 수 있다. 기존 항목 뒤나 기존 항목 앞에, 큐 머리나 큐 끝에 새 항목을 추가할 수 있다. <code>TAILQ_HEAD</code> 구조체를 다음처럼 선언한다.</p>
+<p>꼬리 큐의 머리는 <code>TAILQ_HEAD()</code> 매크로로 정의한 구조체다. 이 구조체에는 포인터 한 쌍이 있는데, 하나는 큐의 첫 번째 항목을 가리키고 다른 하나는 큐의 마지막 항목을 가리킨다. 항목들이 이중으로 연결되어 있으므로 큐 순회 없이 임의 항목을 제거할 수 있다. 기존 항목 뒤나 기존 항목 앞에, 큐 머리나 큐 끝에 새 항목을 추가할 수 있다. <code>TAILQ_HEAD</code> 구조체를 다음처럼 선언한다.</p>
 <pre><code class="language-c">TAILQ_HEAD(HEADNAME, TYPE) head;
 </code></pre>
 <p><code>struct HEADNAME</code>은 정의하려는 구조체의 이름이고 <code>struct TYPE</code>은 큐로 연결할 항목들의 타입이다. 이후 다음처럼 큐 머리의 포인터를 선언할 수 있다.</p>
@@ -208,7 +208,7 @@ void TAILQ_CONCAT(TAILQ_HEAD *head1, TAILQ_HEAD *head2,
 <p>(이름 <code>head</code>와 <code>headp</code>는 사용자가 정할 수 있다.)</p>
 <p><code>TAILQ_ENTRY()</code>는 큐에서 항목들을 연결하는 구조체를 선언한다.</p>
 <p><code>TAILQ_HEAD_INITIALIZER()</code>는 큐 <code>head</code>를 위한 초기화 값으로 평가된다.</p>
-<p><code>TAILQ_INIT()</code>은 <code>head</code>가 가리키는 큐를 초기화 한다.</p>
+<p><code>TAILQ_INIT()</code>은 <code>head</code>가 가리키는 큐를 초기화한다.</p>
 <p><code>TAILQ_EMPTY()</code>는 큐에 아무 항목도 없으면 참으로 평가된다.</p>
 <h3 id="_2">삽입</h3>
 <p><code>TAILQ_INSERT_HEAD()</code>는 새 항목 <code>elm</code>을 큐의 머리에 삽입한다.</p>
@@ -218,8 +218,8 @@ void TAILQ_CONCAT(TAILQ_HEAD *head1, TAILQ_HEAD *head2,
 <h3 id="_3">순회</h3>
 <p><code>TAILQ_FIRST()</code>는 큐의 첫 번째 항목을 반환하며 큐가 비어 있으면 NULL을 반환한다.</p>
 <p><code>TAILQ_LAST()</code>는 큐의 마지막 항목을 반환한다. 큐가 비어 있으면 반환 값이 NULL이다.</p>
-<p><code>TAILQ_PREV()</code>는 큐 내의 이전 항목을 반환하며, 현 항목이 첫 번째이면 NULL을 반환한다.</p>
-<p><code>TAILQ_NEXT()</code>는 큐 내의 다음 항목을 반환하며, 현 항목이 마지막이면 NULL을 반환한다.</p>
+<p><code>TAILQ_PREV()</code>는 큐에서 이전 항목을 반환하며, 현 항목이 첫 번째면 NULL을 반환한다.</p>
+<p><code>TAILQ_NEXT()</code>는 큐에서 다음 항목을 반환하며, 현 항목이 마지막이면 NULL을 반환한다.</p>
 <p><code>TAILQ_FOREACH()</code>는 <code>head</code>가 가리키는 큐를 순방향으로 순회하면서 각 항목을 차례로 <code>var</code>에 할당한다. 루프가 정상적으로 끝나거나 항목이 없는 경우에 <code>var</code>를 NULL로 설정한다.</p>
 <p><code>TAILQ_FOREACH_REVERSE()</code>는 <code>head</code>가 가리키는 큐를 역방향으로 순회하면서 각 항목을 차례로 <code>var</code>에 할당한다.</p>
 <h3 id="_4">제거</h3>
@@ -233,7 +233,7 @@ void TAILQ_CONCAT(TAILQ_HEAD *head1, TAILQ_HEAD *head2,
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1, POSIX.1-2001, POSIX.1-2008에 없다. BSD들에 있다. (4.4BSD에서 TAILQ 매크로들이 처음 등장했다.)</p>
 <h2 id="bugs">BUGS</h2>
-<p><code>TAILQ_FOREACH()</code> 및 <code>TAILQ_FOREACH_REVERSE()</code>에서 <code>var</code>를 루프 안에서 제거하거나 해제하는 것이 허용되지 않는다. 순회를 방해하게 되기 때문이다. BSD들에 있지만 glibc에는 없는 <code>TAILQ_FOREACH_SAFE()</code> 및 <code>TAILQ_FOREACH_REVERSE_SAFE()</code>에서 이 제약을 수정해서, 순회를 방해하지 않고 루프 안에서 <code>var</code>를 안전하게 리스트에서 제거하고 해제하는 것이 허용된다.</p>
+<p><code>TAILQ_FOREACH()</code> 및 <code>TAILQ_FOREACH_REVERSE()</code>에서 <code>var</code>를 루프 안에서 제거하거나 해제하는 것이 허용되지 않는다. 순회를 방해하게 되기 때문이다. BSD들에 있지만 glibc에는 없는 <code>TAILQ_FOREACH_SAFE()</code> 및 <code>TAILQ_FOREACH_REVERSE_SAFE()</code>에서 이 제약을 수정해서, 순회를 방해하지 않고 루프 안에서 <code>var</code>를 안전하게 리스트에서 제거하고 해제하는 것이 가능하다.</p>
 <h2 id="examples">EXAMPLES</h2>
 <pre><code class="language-c">#include &lt;stddef.h&gt;
 #include &lt;stdio.h&gt;

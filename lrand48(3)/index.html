@@ -171,10 +171,10 @@ void lcong48(unsigned short param[7]);
 <code>|| /* glibc &lt;= 2.19: */ _SVID_SOURCE</code></dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
-<p>이 함수들은 선형 합동 알고리듬과 48비트 정수 연산을 이용해 유사 난수를 생성한다.</p>
+<p>이 함수들은 선형 합동 알고리즘과 48비트 정수 연산을 이용해 유사 난수를 생성한다.</p>
 <p><code>drand48()</code> 및 <code>erand48()</code> 함수는 [0.0, 1.0) 구간에 균일하게 분포하는 음수 아닌 배정밀도 부동소수점 값을 반환한다.</p>
 <p><code>lrand48()</code> 및 <code>nrand48()</code> 함수는 [0, 2^31) 구간에 균일하게 분포하는 음수 아닌 긴 정수를 반환한다.</p>
-<p><code>mrand48()</code> 및 <code>jrand48()</code> 함수는 [-2^31, 2^31) 구간에 균일하게 분포하는 부호 있는 긴 정부를 반환한다.</p>
+<p><code>mrand48()</code> 및 <code>jrand48()</code> 함수는 [-2^31, 2^31) 구간에 균일하게 분포하는 부호 있는 긴 정수를 반환한다.</p>
 <p><code>srand48()</code>, <code>seed48()</code>, <code>lcong48()</code> 함수는 초기화 함수이며 <code>drand48()</code>, <code>lrand48()</code>, <code>mrand48()</code> 사용 전에 호출해야 한다. <code>erand48()</code>, <code>nrand48()</code>, <code>jrand48()</code> 함수에는 초기화 함수를 먼저 호출할 필요가 없다.</p>
 <p>모든 함수들은 다음 선형 합동 식에 따라 48비트 정수 <code>Xi</code>의 열을 생성하여 동작한다.</p>
 <pre><code class="language-text">Xn+1 = (aXn + c) mod m, 여기서 n &gt;= 0
@@ -183,9 +183,9 @@ void lcong48(unsigned short param[7]);
 <pre><code class="language-text">a = 0x5DEECE66D
 c = 0xB
 </code></pre>
-<p>함수 <code>drand48()</code>, <code>erand48()</code>, <code>lrand48()</code>, <code>nrand48()</code>, <code>mrand48()</code>, <code>jrand48()</code> 중 뭔가로 반환하는 값의 계산은 먼저 열의 다음 48비트 <code>Xi</code>를 생성하는 것으로 이뤄진다. 그러고서 반환할 데이터 항목의 타입에 따라 적절한 수의 비트를 <code>Xi</code>의 상위 비트들로부터 복사하고 이를 반환 값으로 변환한다.</p>
-<p><code>drand48()</code>, <code>lrand48()</code>, <code>mrand48()</code> 함수에서는 마지막으로 생성한 48비트 <code>Xi</code>를 내부 버퍼에 저장해 둔다. <code>erand48()</code>, <code>nrand48()</code>, <code>jrand48()</code> 함수에서는 연속되는 <code>Xi</code> 값을 위한 저장 공간을 호출 프로그램이 <code>xsubi</code> 배열 인자로 제공해야 한다. 처음 함수를 호출하기 전에 그 배열에 <code>Xi</code>의 초기값을 넣어서 그 함수들을 초기화 한다.</p>
-<p>초기화 함수 <code>srand48()</code>은 <code>Xi</code>의 상위 32비트를 인자 <code>seedval</code>로 설정한다. 하위 16비트는 임의로 정한 0x330E 값으로 설정한다.</p>
+<p>함수 <code>drand48()</code>, <code>erand48()</code>, <code>lrand48()</code>, <code>nrand48()</code>, <code>mrand48()</code>, <code>jrand48()</code> 중 뭔가로 반환하는 값을 계산하기 위해 먼저 열의 다음 48비트 <code>Xi</code>를 생성한다. 그리고 반환할 데이터 항목의 타입에 따라 적절한 수의 비트를 <code>Xi</code>의 상위 비트들에서 복사해서 반환 값으로 변환한다.</p>
+<p><code>drand48()</code>, <code>lrand48()</code>, <code>mrand48()</code> 함수에서는 마지막으로 생성한 48비트 <code>Xi</code>를 내부 버퍼에 저장해 둔다. <code>erand48()</code>, <code>nrand48()</code>, <code>jrand48()</code> 함수에서는 연속한 <code>Xi</code> 값을 저장할 공간을 호출 프로그램이 <code>xsubi</code> 배열 인자로 제공해야 한다. 처음 함수를 호출하기 전에 그 배열에 <code>Xi</code>의 초기값을 넣어서 그 함수들을 초기화한다.</p>
+<p>초기화 함수 <code>srand48()</code>은 <code>Xi</code>의 상위 32비트에 인자 <code>seedval</code>을 설정한다. 하위 16비트는 임의 값 0x330E로 설정한다.</p>
 <p>초기화 함수 <code>seed48()</code>은 <code>Xi</code>의 값을 배열 인자 <code>seed16v</code>에 지정된 48비트 값으로 설정한다. <code>Xi</code>의 이전 값이 어떤 내부 버퍼로 복사되고 이 버퍼의 포인터를 <code>seed48()</code>이 반환한다.</p>
 <p>초기화 함수 <code>lcong48()</code>은 사용자가 <code>Xi</code>, <code>a</code>, <code>c</code>의 초기값을 지정할 수 있게 해 준다. 배열 인자의 <code>param[0-2]</code> 항목들이 <code>Xi</code>를 지정하고, <code>param[3-5]</code>가 <code>a</code>를 지정하고, <code>param[6]</code>이 <code>c</code>를 지정한다. <code>lcong48()</code>을 호출한 다음에 <code>srand48()</code>이나 <code>seed48()</code>을 호출하면 <code>a</code>와 <code>c</code>의 표준 값이 다시 살아나게 된다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
@@ -200,13 +200,13 @@ c = 0xB
 </thead>
 <tbody>
 <tr>
-<td><code>drand48()</code>, <code>erand48()</code>,<br><code>lrand48()</code>, <code>nrand48()</code>,<br><code>mrand48()</code>, <code>jrand48()</code>,<br><code>srand48()</code>, <code>seed48()</code>,<br><code>lcong48()</code></td>
+<td><code>drand48()</code>, <code>erand48()</code>, <code>lrand48()</code>, <code>nrand48()</code>,<br><code>mrand48()</code>, <code>jrand48()</code>, <code>srand48()</code>, <code>seed48()</code>,<br><code>lcong48()</code></td>
 <td>스레드 안전성</td>
 <td>MT-Unsafe race:drand48</td>
 </tr>
 </tbody>
 </table>
-<p>위 함수들은 난수 생성기를 위한 전역 상태 정보를 기록하며, 따라서 스레드 안전하지 않다.</p>
+<p>위 함수들은 난수 생성기를 위한 전역 상태 정보를 기록하며, 따라서 스레드에 안전하지 않다.</p>
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008, SVr4.</p>
 <h2 id="see-also">SEE ALSO</h2>

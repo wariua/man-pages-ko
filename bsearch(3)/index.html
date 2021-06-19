@@ -158,7 +158,7 @@ void *bsearch(const void *key, const void *base,
 </code></pre>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>bsearch()</code> 함수는 <code>base</code>가 첫 항목을 가리키는 <code>nmemb</code> 개 객체의 배열에서 <code>key</code>가 가리키는 객체와 일치하는 항목을 탐색한다. 배열 항목의 크기를 <code>size</code>로 지정한다.</p>
-<p>배열 내용물이 <code>compar</code>가 가리키는 비교 함수를 기준으로 오름차순으로 정렬돼 있어야 한다. <code>compar</code> 루틴에는 두 인자가 있어서 차례로 <code>key</code> 객체와 배열 항목을 가리키게 돼 있으며, <code>key</code> 객체가 배열 항목보다 작거나 같거나 클 때 각각 0보다 작거나 같거나 큰 정수를 반환해야 한다.</p>
+<p><code>compar</code>가 가리키는 비교 함수에 따라서 배열 내용물이 오름차순으로 정렬돼 있어야 한다. <code>compar</code> 루틴에는 두 인자가 있어서 차례로 <code>key</code> 객체와 배열 항목을 가리키게 돼 있으며, <code>key</code> 객체가 배열 항목보다 작거나 같거나 클 때 각각 0보다 작거나 같거나 큰 정수를 반환해야 한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p><code>bsearch()</code> 함수는 일치하는 배열 항목에 대한 포인터를 반환하며 일치 항목이 없으면 NULL을 반환한다. 키에 일치하는 항목이 여러 개 있는 경우 어느 항목을 반환하는지는 명세돼 있지 않다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
@@ -182,7 +182,7 @@ void *bsearch(const void *key, const void *base,
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008, C89, C99, SVr4, 4.3BSD.</p>
 <h2 id="examples">EXAMPLES</h2>
-<p>아래 예에서는 먼저 <code>qsort(3)</code>를 써서 구조체 배열을 정렬하고 <code>bsearch()</code>를 써서 원하는 항목을 얻는다.</p>
+<p>아래 예에서는 먼저 <tt><a class="wikilink" href="/man-pages-ko/qsort(3)/">qsort(3)</a></tt>를 써서 구조체 배열을 정렬하고 <code>bsearch()</code>를 써서 원하는 항목을 얻는다.</p>
 <pre><code class="language-c">#include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;
 #include &lt;string.h&gt;
@@ -226,7 +226,7 @@ main(int argc, char **argv)
 }
 </code></pre>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt><a class="wikilink" href="/man-pages-ko/hsearch(3)/">hsearch(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/lsearch(3)/">lsearch(3)</a></tt>, <code>qsort(3)</code>, <tt><a class="wikilink" href="/man-pages-ko/tsearch(3)/">tsearch(3)</a></tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/hsearch(3)/">hsearch(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/lsearch(3)/">lsearch(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/qsort(3)/">qsort(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/tsearch(3)/">tsearch(3)</a></tt></p>
 <hr />
 <p>2021-03-22</p></div>
         

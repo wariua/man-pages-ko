@@ -181,14 +181,14 @@ void *dlmopen(Lmid_t lmid, const char *filename, int flags);
 <p><code>-ldl</code>로 링크.</p>
 <h2 id="description">DESCRIPTION</h2>
 <h3 id="dlopen"><code>dlopen()</code></h3>
-<p><code>dlopen()</code> 함수는 널 종료 문자열 <code>filename</code>이 가리키는 동적 공유 오브젝트(공유 라이브러리)를 적재하고 적재된 오브젝트에 대한 불투명한 "핸들"을 반환한다. 그 핸들을 dlopen API의 <tt><a class="wikilink" href="/man-pages-ko/dlsym(3)/">dlsym(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/dladdr(3)/">dladdr(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/dlinfo(3)/">dlinfo(3)</a></tt>, <code>dlclose()</code> 같은 다른 함수들에 쓴다.</p>
-<p><code>filename</code>이 NULL이면 주 프로그램에 대한 핸들을 반환한다. <code>filename</code>에 슬래시("/")가 있으면 (상대 또는 절대) 경로명으로 해석한다. 아니면 동적 링커가 다음처럼 오브젝트를 탐색한다. (더 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/ld.so(8)/">ld.so(8)</a></tt> 참고.)</p>
+<p><code>dlopen()</code> 함수는 널 종료 문자열 <code>filename</code>이 가리키는 동적 공유 오브젝트(공유 라이브러리)를 적재하고 적재된 오브젝트에 대한 불투명한 "핸들"을 반환한다. 그 핸들을 <tt><a class="wikilink" href="/man-pages-ko/dlsym(3)/">dlsym(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/dladdr(3)/">dladdr(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/dlinfo(3)/">dlinfo(3)</a></tt>, <code>dlclose()</code> 같은 다른 dlopen API 함수들에 쓴다.</p>
+<p><code>filename</code>이 NULL이면 주 프로그램에 대한 핸들을 반환한다. <code>filename</code>에 슬래시("/")가 들어 있으면 (상대 또는 절대) 경로명으로 해석한다. 아니면 동적 링커가 다음처럼 오브젝트를 탐색한다. (더 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/ld.so(8)/">ld.so(8)</a></tt> 참고.)</p>
 <ul>
 <li>
 <p>(ELF 한정) 호출 오브젝트(즉 <code>dlopen()</code>을 호출한 공유 라이브러리 또는 실행 파일)에 DT_RPATH 태그가 있으면서 DT_RUNPATH 태그는 없으면 그 DT_RPATH 태그에 나열된 디렉터리들을 탐색한다.</p>
 </li>
 <li>
-<p>프로그램 시작 시점에 콤마 구분 디렉터리 목록을 담은 환경 변수 <code>LD_LIBRARY_PATH</code>가 정의돼 있었으면 그 디렉터리들을 탐색한다. (보안을 위해 set-user-ID 및 set-group-ID 프로그램에 대해선 이 변수를 무시한다.)</p>
+<p>콤마 구분 디렉터리 목록을 담은 환경 변수 <code>LD_LIBRARY_PATH</code>가 프로그램 시작 시점에 정의돼 있었으면 그 디렉터리들을 탐색한다. (보안을 위해 set-user-ID 및 set-group-ID 프로그램에선 이 변수를 무시한다.)</p>
 </li>
 <li>
 <p>(ELF 한정) 호출 오브젝트에 DT_RUNPATH가 있으면 그 태그에 나열된 디렉터리들을 탐색한다.</p>
@@ -197,54 +197,54 @@ void *dlmopen(Lmid_t lmid, const char *filename, int flags);
 <p>(<code>ldconfig(8)</code>로 관리하는) 캐시 파일 <code>/etc/ld.so.cache</code>를 확인해서 <code>filename</code>에 대한 항목이 있는지 본다.</p>
 </li>
 <li>
-<p><code>/lib</code> 및 <code>/usr/lib</code> 디렉터리를 (차례대로) 탐색한다.</p>
+<p><code>/lib</code> 및 <code>/usr/lib</code> 디렉터리를 (차례로) 탐색한다.</p>
 </li>
 </ul>
-<p><code>filename</code>으로 지정한 오브젝트에서 다른 공유 오브젝트에 의존하는 경우에는 동적 링커에서 같은 규칙으로 그 오브젝트들을 자동으로 적재한다. (그 오브젝트들에 다시 의존 관계가 있고 하면 이 과정이 재귀적으로 이뤄질 수도 있다.)</p>
+<p><code>filename</code>으로 지정한 오브젝트가 다른 공유 오브젝트에 의존하는 경우에는 동적 링커에서 같은 규칙으로 그 오브젝트들을 자동으로 적재한다. (그 오브젝트들에 다시 의존 관계가 있는 식이면 이 과정이 재귀적으로 이뤄질 수도 있다.)</p>
 <p><code>flags</code>에 다음 중 한 가지 값이 들어가야 한다.</p>
 <dl>
 <dt><code>RTLD_LAZY</code></dt>
-<dd>게으른 바이딩을 수행한다. 참조하는 코드가 실행될 때에서야 심볼을 결정한다. 심볼 참조가  전혀 없으면 아예 결정을 하지 않는다. (함수 참조에만 게으른 바인딩을 수행한다. 변수에 대한 참조는 항상 공유 오브젝트 적재 때 즉시 바인드 한다.) glibc 2.1.1부터 환경 변수 <code>LD_BIND_NOW</code> 효력이 이 플래그보다 우선시된다.</dd>
+<dd>게으른 바이딩을 수행한다. 심볼을 참조하는 코드가 실행될 때에야 심볼을 해석한다. 심볼을 전혀 참조하지 않으면 아예 해석을 하지 않는다. (함수 참조에만 게으른 바인딩을 수행한다. 변수에 대한 참조는 항상 공유 오브젝트 적재 때 즉시 바인드한다.) glibc 2.1.1부터 환경 변수 <code>LD_BIND_NOW</code>의 효력이 이 플래그보다 우선한다.</dd>
 <dt><code>RTLD_NOW</code></dt>
-<dd>이 값을 지정하거나 환경 변수 <code>LD_BIND_NOW</code>가 비어 있지 않은 문자열로 설정돼 있으면 공유 오브젝트 내의 정의 안 된 심볼들을 모두 결정한 다음에 <code>dlopen()</code>이 반환한다. 그럴 수 없으면 오류를 반환한다.</dd>
+<dd>이 값을 지정하거나 환경 변수 <code>LD_BIND_NOW</code>가 비어 있지 않은 문자열로 설정돼 있으면 공유 오브젝트의 정의 안 된 심볼들을 모두 해석한 다음에 <code>dlopen()</code>이 반환한다. 그러지 못하면 오류를 반환한다.</dd>
 </dl>
 <p><code>flags</code>에 다음 값을 0개 이상 OR 할 수도 있다.</p>
 <dl>
 <dt><code>RTLD_GLOBAL</code></dt>
-<dd>이 공유 오브젝트에서 정의하는 심볼들이 이후 적재되는 공유 오브젝트들의 심볼 결정에 쓰일 수 있게 한다.</dd>
+<dd>이 공유 오브젝트에 정의된 심볼들이 이후 적재되는 공유 오브젝트들의 심볼 해석에 쓰일 수 있게 한다.</dd>
 <dt><code>RTLD_LOCAL</code></dt>
-<dd><code>RTLD_GLOBAL</code>의 반대이며 어느 쪽 플래그도 지정하지 않은 경우의 기본값이다. 이 공유 오브젝트에서 정의하는 심볼들이 이후 적재되는 공유 오브젝트들의 심볼 찾기에 쓰이지 않는다.</dd>
+<dd><code>RTLD_GLOBAL</code>의 반대이며 어느 쪽 플래그도 지정하지 않은 경우의 기본값이다. 이 공유 오브젝트에 정의된 심볼들을 이후 적재되는 공유 오브젝트들의 참조 해석에 쓰일 수 있게 하지 않는다.</dd>
 <dt><code>RTLD_NODELETE</code> (glibc 2.2부터)</dt>
 <dd><code>dlclose()</code>에서 공유 오브젝트를 내리지 않는다. 그래서 이후 <code>dlopen()</code>으로 그 오브젝트를 재적재하는 경우에 오브젝트의 정적 변수 및 전역 변수들이 다시 초기화되지 않는다.</dd>
 <dt><code>RTLD_NOLOAD</code> (glibc 2.2부터)</dt>
-<dd>공유 오브젝트를 적재하지 않는다. 그 오브젝트가 이미 올라가 있는지 확인하는 데 쓸 수 있다. (올라가 있지 않으면 <code>dlopen()</code>이 NULL을 반환하고 올라가 있으면 오브젝트 핸들을 반환한다.) 또 이미 적재된 공유 오브젝트의 플래그를 승격시키는 데에도 쓸 수 있다. 예를 들어 <code>RTLD_LOCAL</code>로 올라가 있는 공유 오브젝트를 <code>RTLD_NOLOAD | RTLD_GLOBAL</code>로 다시 열 수 있다.</dd>
+<dd>공유 오브젝트를 적재하지 않는다. 그 오브젝트가 이미 올라와 있는지 확인하는 데 쓸 수 있다. (올라와 있지 않으면 <code>dlopen()</code>이 NULL을 반환하고 올라와 있으면 오브젝트 핸들을 반환한다.) 또 이미 적재된 공유 오브젝트의 플래그를 승격시키는 데 쓸 수도 있다. 예를 들어 <code>RTLD_LOCAL</code>로 올라가 있는 공유 오브젝트를 <code>RTLD_NOLOAD | RTLD_GLOBAL</code>로 다시 열 수 있다.</dd>
 <dt><code>RTLD_DEEPBIND</code> (glibc 2.3.4부터)</dt>
-<dd>이 공유 오브젝트 내 심볼들에 대한 탐색 기회를 전역보다 우선시한다. 즉 오브젝트 자체에 심볼 정의가 있다면 이미 적재된 다른 오브젝트에 담긴 같은 이름의 전역 심볼 대신 자기 심볼을 쓰게 된다는 것이다.</dd>
+<dd>이 공유 오브젝트의 심볼들에 대한 탐색을 전역보다 우선한다. 즉 오브젝트 자체에 심볼 정의가 있다면 이미 적재된 다른 오브젝트에 담긴 같은 이름의 전역 심볼 대신 자기 심볼을 쓰게 된다는 것이다.</dd>
 </dl>
-<p><code>filename</code>이 NULL이면 주 프로그램에 대한 핸들을 반환한다. 그 핸들을 <tt><a class="wikilink" href="/man-pages-ko/dlsym(3)/">dlsym(3)</a></tt>에 주면 먼저 메인 프로그램에서 심볼을 찾아보고, 다음은 프로그램 시작 때 적재한 공유 오브젝트들 전체에서, 그리고 다음으로 <code>RTLD_GLOBAL</code> 플래그를 써서 <code>dlopen()</code>으로 적재한 공유 오브젝트들 전체에서 탐색한다.</p>
-<p>공유 오브젝트 내 심볼 참조 결정은 메인 프로그램 및 의존 대상들을 위해 적재한 오브젝트들의 링크 맵에 있는 심볼, 앞서 <code>RTLD_GLOBAL</code>을 쓴 <code>dlopen()</code>으로 연 공유 오브젝트(와 의존 대상들)의 심볼, 공유 오브젝트 자체(와 그 오브젝트를 위해 적재된 의존 대상들) 내의 정의를 차례로 이용해 이뤄진다.</p>
-<p>실행 파일의 전역 심볼 중에 <code>ld(1)</code>에서 동적 심볼 테이블에 집어넣은 게 있으면 마찬가지로 동적 적재 공유 오브젝트의 참조 결정에 이용될 수 있다. 심볼이 동적 심볼 테이블에 들어가는 건 실행 파일을 "-rdynamic" (또는 같은 의미의 "--export-dynamic") 플래그로 링크해서일 수도 있고 (그 경우 실행 파일의 전역 심볼 모두가 동적 심볼 테이블에 들어간다.) <code>ld(1)</code>가 정적 링크 중에 다른 오브젝트에 있는 심볼에 대한 의존성에 주목해서일 수도 있다.</p>
-<p><code>dlopen()</code>으로 같은 공유 오브젝트를 다시 열면 같은 오브젝트 핸들이 반환된다. 동적 링커에서 오브젝트 핸들별로 참조 카운트를 관리해서 성공적으로 <code>dlopen()</code> 한 횟수만큼 <code>dlclose()</code>를 호출할 때까지는 동적 적재 공유 오브젝트가 해제되지 않도록 한다. 생성자(아래 참고)도 오브젝트가 실제 메모리로 적재될 때만 (즉 참조 카운트가 1로 증가할 때만) 호출된다.</p>
-<p>후속 <code>dlopen()</code> 호출에서 같은 공유 오브젝트를 <code>RTLD_NOW</code>로 적재해서 앞서 <code>RTLD_LAZY</code>로 적재된 공유 오브젝트에 대한 심볼 결정을 강제할 수 있다. 그와 비슷하게 앞서 <code>RTLD_LOCAL</code>로 열린 오브젝트가 후속 <code>dlopen()</code>에서 <code>RTLD_GLOBAL</code>로 승격될 수 있다.</p>
+<p><code>filename</code>이 NULL이면 주 프로그램에 대한 핸들을 반환한다. 그 핸들을 <tt><a class="wikilink" href="/man-pages-ko/dlsym(3)/">dlsym(3)</a></tt>에 주면 먼저 메인 프로그램에서 심볼을 찾아보고, 다음은 프로그램 시작 때 적재한 공유 오브젝트 모두에서, 그 다음으로 <code>RTLD_GLOBAL</code> 플래그를 써서 <code>dlopen()</code>으로 적재한 공유 오브젝트 모두에서 탐색한다.</p>
+<p>공유 오브젝트의 심볼 참조 해석은 메인 프로그램와 의존 대상들을 위해 적재한 오브젝트들의 링크 맵에 있는 심볼, 앞서 <code>RTLD_GLOBAL</code>을 써서 <code>dlopen()</code>으로 연 공유 오브젝트(와 의존 대상들)의 심볼, 공유 오브젝트 자체(와 그 오브젝트를 위해 적재된 의존 대상들)의 정의를 차례로 이용해 이뤄진다.</p>
+<p>실행 파일의 전역 심볼 중에 <code>ld(1)</code>가 동적 심볼 테이블에 집어넣은 게 있으면 마찬가지로 동적 적재 공유 오브젝트의 참조 해석에 이용될 수 있다. 심볼이 동적 심볼 테이블에 들어가는 건 실행 파일을 "-rdynamic" (또는 같은 의미의 "--export-dynamic") 플래그로 링크해서일 수도 있고 (그 경우 실행 파일의 전역 심볼 모두가 동적 심볼 테이블에 들어간다.) <code>ld(1)</code>가 정적 링크 중에 다른 오브젝트에 있는 심볼에 대한 의존성을 알아채서일 수도 있다.</p>
+<p><code>dlopen()</code>으로 같은 공유 오브젝트를 다시 열면 같은 오브젝트 핸들이 반환된다. 동적 링커에서 오브젝트 핸들별로 참조 카운트를 관리해서 성공적으로 <code>dlopen()</code> 한 횟수만큼 <code>dlclose()</code>를 호출할 때까지는 동적 적재 공유 오브젝트가 해제되지 않도록 한다. 오브젝트가 메모리로 실제 적재될 때만 (즉 참조 카운트가 1로 증가할 때만) 생성자(아래 참고)가 호출된다.</p>
+<p>후속 <code>dlopen()</code> 호출에서 같은 공유 오브젝트를 <code>RTLD_NOW</code>로 적재해서 앞서 <code>RTLD_LAZY</code>로 적재된 공유 오브젝트에 대한 심볼 해석을 강제할 수 있다. 그와 비슷하게 앞서 <code>RTLD_LOCAL</code>로 열린 오브젝트가 후속 <code>dlopen()</code>에서 <code>RTLD_GLOBAL</code>로 승격될 수 있다.</p>
 <p>어떤 이유로든 <code>dlopen()</code>이 실패하면 NULL을 반환한다.</p>
 <h3 id="dlmopen"><code>dlmopen()</code></h3>
-<p>이 함수는 아래에 적은 차이점들을 제외하면 <code>dlopen()</code>과 같은 작업을 수행하며 <code>filename</code>과 <code>flags</code> 인자뿐 아니라 반환 값이 동일하다.</p>
-<p><code>dlmopen()</code> 함수가 <code>dlopen()</code>과 다른 점은 추가 인자 <code>lmid</code>가 있어서 공유 오브젝트를 적재해야 할 링크 맵 리스트(<em>네임스페이스</em>라고도 부름)를 지정한다는 것이다. (반면 <code>dlopen()</code>에서는 동적으로 적재한 공유 오브젝트를 <code>dlopen()</code> 호출을 한 공유 오브젝트와 같은 네임스페이스에 추가한다.) <code>Lmid_t</code> 타입은 네임스페이스를 가리키는 불투명한 핸들이다.</p>
-<p><code>lmid</code> 인자는 기존 네임스페이스의 ID(<tt><a class="wikilink" href="/man-pages-ko/dlinfo(3)/">dlinfo(3)</a></tt> <code>RTLD_DI_DMID</code> 요청으로 얻을 수 있음)이거나 다음 특수 값들 중 하나이다.</p>
+<p>이 함수는 아래 차이점들을 제외하면 <code>dlopen()</code>과 같은 작업을 수행하며 <code>filename</code>과 <code>flags</code> 인자뿐 아니라 반환 값도 같다.</p>
+<p><code>dlmopen()</code> 함수가 <code>dlopen()</code>과 다른 점은 추가 인자 <code>lmid</code>가 있어서 공유 오브젝트를 적재해야 할 링크 맵 목록(<em>네임스페이스</em>라고도 부름)를 지정한다는 것이다. (반면 <code>dlopen()</code>에서는 동적으로 적재한 공유 오브젝트를 <code>dlopen()</code> 호출을 한 공유 오브젝트와 같은 네임스페이스에 추가한다.) <code>Lmid_t</code> 타입은 네임스페이스를 가리키는 불투명한 핸들이다.</p>
+<p><code>lmid</code> 인자는 기존 네임스페이스의 ID(<tt><a class="wikilink" href="/man-pages-ko/dlinfo(3)/">dlinfo(3)</a></tt> <code>RTLD_DI_DMID</code> 요청으로 얻을 수 있음)거나 다음 특수 값들 중 하나다.</p>
 <dl>
 <dt><code>LM_ID_BASE</code></dt>
 <dd>최초 네임스페이스에 (즉 응용의 네임스페이스에) 공유 오브젝트를 적재한다.</dd>
 <dt><code>LM_ID_NEWLM</code></dt>
-<dd>새 네임스페이스를 만들고 그 네임스페이스에 공유 오브젝트를 적재한다. 새 네임스페이스가 처음에는 비어 있으므로 오브젝트에서 필요로 하는 다른 공유 오브젝트들을 모두 참조하도록 오브젝트가 제대로 링크 돼 있어야 한다.</dd>
+<dd>새 네임스페이스를 만들고 그 네임스페이스에 공유 오브젝트를 적재한다. 새 네임스페이스가 처음에는 비어 있으므로 오브젝트에서 필요로 하는 다른 공유 오브젝트들을 모두 참조하도록 오브젝트가 제대로 링크돼 있어야 한다.</dd>
 </dl>
 <p><code>filename</code>이 NULL인 경우에는 <code>lmid</code>에 <code>LM_ID_BASE</code> 값만 허용된다.</p>
 <h3 id="dlclose"><code>dlclose()</code></h3>
-<p><code>dlclose()</code> 함수는 <code>handle</code>이 가리키는 동적 적재 공유 오브젝트의 참조 카운트를 줄인다.</p>
-<p>오브젝트의 참조 카운트가 0으로 떨어지고 그 오브젝트의 어떤 심볼도 다른 오브젝트에서 필요로 하지 않으면 오브젝트에 정의된 소멸자가 있으면 호출한 다음 그 오브젝트를 내린다. (이 오브젝트의 심볼을 다른 오브젝트에서 필요로 할 수도 있는 경우로는 그 오브젝트가 <code>RTLD_GLOBAL</code> 플래그로 열렸고 그 심볼이 다른 오브젝트의 재배치를 유발했을 때가 있다.)</p>
-<p><code>handle</code>이 가리키는 오브젝트에 <code>dlopen()</code>을 호출했을 때 자동으로 적재됐던 공유 오브젝트들을 모두 재귀적으로 같은 방식으로 닫는다.</p>
-<p><code>dlclose()</code>가 성공을 반환하더라도 <code>handle</code>에 연계된 심볼이 호출자의 주소 공간에서 제거됐다고 보장되는 건 아니다. 명시적 <code>dlopen()</code> 호출로 참조되는 것에 더해서 다른 공유 오브젝트에서의 의존 관계 때문에 공유 오브젝트가 묵시적으로 적재됐을 수도 (참조 카운트가 늘었을 수도) 있다. 그 모든 참조가 풀린 후에야 공유 오브젝트를 주소 공간에서 제거할 수 있다.</p>
+<p><code>dlclose()</code> 함수는 <code>handle</code>이 가리키는 동적 적재 공유 오브젝트의 참조 카운트를 내린다.</p>
+<p>오브젝트의 참조 카운트가 0으로 떨어지고 그 오브젝트의 어떤 심볼도 다른 오브젝트에서 필요로 하지 않으면 오브젝트에 정의된 소멸자가 있으면 호출한 다음에 그 오브젝트를 내린다. (이 오브젝트의 심볼을 다른 오브젝트에서 필요로 할 수도 있는 경우로는 그 오브젝트가 <code>RTLD_GLOBAL</code> 플래그로 열렸고 그 심볼이 다른 오브젝트의 재배치에 쓰였을 때가 있다.)</p>
+<p><code>handle</code>이 가리키는 오브젝트에 <code>dlopen()</code>을 호출했을 때 자동으로 적재됐던 공유 오브젝트들을 모두 같은 방식으로 재귀적으로 닫는다.</p>
+<p><code>dlclose()</code>가 성공을 반환하더라도 <code>handle</code>에 연계된 심볼이 호출자의 주소 공간에서 제거됐다고 보장되는 건 아니다. 명시적 <code>dlopen()</code> 호출로 인한 참조 말고도 다른 공유 오브젝트의 의존성 때문에 공유 오브젝트가 묵시적으로 적재됐을 수 (참조 카운트가 올라갔을 수) 있다. 그 모든 참조가 풀린 후에야 공유 오브젝트가 주소 공간에서 제거될 수 있다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>성공 시 <code>dlopen()</code>과 <code>dlmopen()</code>은 적재된 오브젝트에 대한 NULL 아닌 핸들을 반환한다. 오류 시 (파일을 찾을 수 없거나, 읽을 수 없거나, 형식이 틀리거나, 적재 중 오류가 생겼으면) 이 함수들은 NULL을 반환한다.</p>
+<p>성공 시 <code>dlopen()</code>과 <code>dlmopen()</code>은 적재된 오브젝트에 대한 NULL 아닌 핸들을 반환한다. 오류 시 (파일을 찾을 수 없거나, 읽을 수 없거나, 형식이 틀리거나, 적재 중 오류가 발생했으면) 이 함수들은 NULL을 반환한다.</p>
 <p>성공 시 <code>dlclose()</code>는 0을 반환한다. 오류 시 0 아닌 값을 반환한다.</p>
 <p>이 함수들이 반환한 오류를 <tt><a class="wikilink" href="/man-pages-ko/dlerror(3)/">dlerror(3)</a></tt>로 진단할 수 있다.</p>
 <h2 id="versions">VERSIONS</h2>
@@ -269,25 +269,25 @@ void *dlmopen(Lmid_t lmid, const char *filename, int flags);
 </table>
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001에서 <code>dlclose()</code>와 <code>dlopen()</code>을 기술한다. <code>dlmopen()</code> 함수는 GNU 확장이다.</p>
-<p><code>RTLD_NOLOAD</code>, <code>RTLD_NODELETE</code>, <code>RTLD_DEEPBIND</code> 플래그는 GNU 확장이다. 이 중 앞의 둘은 솔라리스에도 있다.</p>
+<p><code>RTLD_NOLOAD</code>, <code>RTLD_NODELETE</code>, <code>RTLD_DEEPBIND</code> 플래그는 GNU 확장이다. 앞의 둘은 솔라리스에도 있다.</p>
 <h2 id="notes">NOTES</h2>
 <h3 id="dlmopen_1"><code>dlmopen()</code>과 네임스페이스</h3>
-<p>링크 맵(link-map) 리스트는 동적 링커의 심볼 결정에서 격리된 네임스페이스를 나타낸다. 네임스페이스 내에서는 의존하는 공유 오브젝트들을 일반적 규칙에 따라 묵시적으로 적재하고 심볼 참조를 일반적 규칙에 따라 마찬가지로 결정하되 그 결정이 네임스페이스 내로 (명시적으로 또는 묵시적으로) 적재된 오브젝트들에서 제공하는 정의들로 국한된다.</p>
-<p><code>dlmopen()</code> 함수를 통해 오브젝트 적재 격리가 가능하다. 즉 공유 오브젝트를 새 네임스페이스에 올려서 그 새 오브젝트에서 제공하는 심볼들을 응용의 나머지 부분에 노출시키지 않을 수 있다. 참고로 <code>RTLD_LOCAL</code> 플래그로는 충분치 않다. 그 공유 오브젝트의 심볼을 다른 <em>모든</em> 공유 오브젝트에서 사용하지 못하게 하기 때문이다. 어떤 경우에는 동적 적재 공유 오브젝트에서 제공하는 심볼들을 다른 공유 오브젝트들(의 일부)에서 쓸 수 있게 하면서도 그 심볼들을 응용 전체로 노출하고 싶지는 않을 수 있다. 별도 네임스페이스와 <code>RTLD_GLOBAL</code> 플래그를 쓰면 그렇게 할 수 있다.</p>
-<p><code>dlmopen()</code> 함수를 쓰면 <code>RTLD_LOCAL</code> 플래그보다 더 나은 격리 기능을 제공할 수도 있다. 특히 <code>RTLD_LOCAL</code>로 적재된 공유 오브젝트는 <code>RTLD_GLOBAL</code>로 적재된 다른 공유 오브젝트에서 의존하는 경우 <code>RTLD_GLOBAL</code>로 승격될 수 있다. 따라서 공유 오브젝트 의존성 전체를 명확히 통제할 수 있는 (흔치 않은) 경우를 제외하면 <code>RTLD_LOCAL</code>은 적재된 공유 오브젝트를 격리하기에 충분하지 않다.</p>
-<p><code>dlmopen()</code>을 쓸 수 있는 곳으로 플러그인이 있다. 플러그인 적재 프레임워크 작성자가 플러그인 작성자들을 신뢰할 수 없어서 플러그인 프레임워크 내의 정의 안 된 심볼이 플러그인 심볼로 결정되기를 원치 않는 경우이다. 또 다른 용도는 같은 오브젝트를 여러 번 적재할 때이다. <code>dlmopen()</code>을 쓰지 않는다면 공유 오브젝트 파일 사본들을 따로 만들어야 할 것이다. 하지만 <code>dlmopen()</code>을 쓰면 같은 공유 오브젝트 파일을 다른 네임스페이스로 올리기만 하면 된다.</p>
+<p>링크 맵(link-map) 목록은 동적 링커의 심볼 해석을 위한 격리된 네임스페이스가 된다. 네임스페이스 내에서도 의존하는 공유 오브젝트들을 일반적 규칙에 따라 묵시적으로 적재하고 심볼 참조도 마찬가지로 일반적 규칙에 따라 해석하되, 그 해석이 네임스페이스로 (명시적으로 또는 묵시적으로) 적재된 오브젝트들에서 제공하는 정의들로 국한된다.</p>
+<p><code>dlmopen()</code> 함수를 통해 오브젝트 적재를 격리하는 게 가능하다. 즉, 공유 오브젝트를 새 네임스페이스로 적재해서 그 새 오브젝트에서 제공하는 심볼들을 응용의 나머지 부분에 노출시키지 않을 수 있다. 참고로 <code>RTLD_LOCAL</code> 플래그로는 충분치 않다. 그 공유 오브젝트의 심볼을 다른 <em>모든</em> 공유 오브젝트에서 이용하지 못하게 하기 때문이다. 때로는 동적 적재 공유 오브젝트에서 제공하는 심볼들을 다른 공유 오브젝트들(의 일부)에서 쓸 수 있게 하면서도 그 심볼들을 응용 전체로 노출하고 싶지는 않을 수 있다. 별도의 네임스페이스와 <code>RTLD_GLOBAL</code> 플래그를 쓰면 그렇게 할 수 있다.</p>
+<p><code>dlmopen()</code> 함수를 쓰면 <code>RTLD_LOCAL</code> 플래그보다 더 나은 격리 기능을 제공할 수 있기도 하다. 예컨대 <code>RTLD_LOCAL</code>로 적재된 공유 오브젝트를 <code>RTLD_GLOBAL</code>로 적재된 다른 공유 오브젝트에서 의존한다면 <code>RTLD_GLOBAL</code>로 승격될 수 있다. 따라서 공유 오브젝트 의존성 전체를 명확히 통제할 수 있는 (흔치 않은) 경우를 제외하면 <code>RTLD_LOCAL</code>은 적재된 공유 오브젝트를 격리하기에 충분치 않다.</p>
+<p><code>dlmopen()</code>을 쓸 수 있는 경우로 플러그인이 있다. 플러그인 적재 프레임워크 작성자가 플러그인 작성자들을 신뢰할 수 없어서 플러그인 프레임워크 내의 정의 안 된 심볼이 플러그인의 심볼로 해석되기를 원치 않는 경우가 그렇다. 또 다른 용도는 같은 오브젝트를 여러 번 적재할 때다. <code>dlmopen()</code>을 쓰지 않는다면 공유 오브젝트 파일의 사본을 따로 만들어야 할 것이다. 하지만 <code>dlmopen()</code>을 쓰면 같은 공유 오브젝트 파일을 다른 네임스페이스로 올리기만 하면 된다.</p>
 <p>glibc 구현에서는 네임스페이스를 최대 16개까지 지원한다.</p>
 <h3 id="_1">초기화 및 마무리 함수</h3>
-<p>공유 오브젝트에서 함수 속성 <code>__attribute__((constructor))</code>와 <code>__attribute__((destructor))</code>를 써서 함수를 내보일 수 있다. 생성자 함수는 <code>dlopen()</code> 반환 전에 실행되고 소멸자 함수는 <code>dlclose()</code> 반환 전에 실행된다. 한 공유 오브젝트에서 생성자와 소멸자를 여러 개 내보일 수 있으며 각 함수에 우선순위를 연계해서 실행 순서를 정할 수도 있다. 더 자세한 내용은 <code>gcc</code> 인포 페이지("Function attributes")를 보라.</p>
-<p>같은 결과를 (불완전하게) 얻는 구식 방법은 링커에서 인식하는 특수 심볼 <code>_init</code>과 <code>_fini</code>를 쓰는 것이었다. 동적 적재 공유 오브젝트에서 이름이 <code>_init()</code>인 루틴을 내보이면 공유 오브젝트 적재 후 <code>dlopen()</code> 반환 전에 그 코드가 실행된다. 또 공유 오브젝트에서 이름이 <code>_fini()</code>인 루틴을 내보이면 오브젝트를 내리기 바로 전에 그 루틴이 호출된다. 이 경우에 이 함수들의 기본 버전을 담고 있는 시스템 개시 파일들을 링크하지 않도록 해야 한다. <code>gcc(1)</code>의 명령행 옵션 <code>-nostartfiles</code>를 쓰면 된다.</p>
-<p><code>_init</code>과 <code>_fini</code>를 사용하는 방식은 현재 폐기 예정 상태이며 대신 앞서 언급한 생성자와 소멸자를 써야 한다. 여러 장점이 있으며 무엇보다 초기화 및 마무리 함수를 여러 개 정의할 수 있다.</p>
-<p>glibc 2.2.3부터 <tt><a class="wikilink" href="/man-pages-ko/atexit(3)/">atexit(3)</a></tt>를 이용해 공유 오브젝트가 내려갈 때 자동으로 호출되는 종료 핸들러를 등록할 수 있다.</p>
+<p>공유 오브젝트에서 함수 속성 <code>__attribute__((constructor))</code>와 <code>__attribute__((destructor))</code>를 써서 함수를 내보일 수 있다. 생성자 함수는 <code>dlopen()</code> 반환 전에 실행되고 소멸자 함수는 <code>dlclose()</code> 반환 전에 실행된다. 한 공유 오브젝트에서 생성자와 소멸자를 여러 개 내보일 수 있으며 각 함수에 우선순위를 부여해서 실행 순서를 정할 수도 있다. 더 자세한 내용은 <code>gcc</code> 인포 페이지("Function attributes")를 보라.</p>
+<p>같은 결과를 (불완전하게) 얻을 수 있는 구식 방법이 링커가 인식하는 특수 심볼 <code>_init</code>과 <code>_fini</code>를 쓰는 것이다. 동적 적재 공유 오브젝트에서 이름이 <code>_init()</code>인 루틴을 내보이면 공유 오브젝트 적재 후 <code>dlopen()</code> 반환 전에 그 코드가 실행된다. 또 공유 오브젝트에서 이름이 <code>_fini()</code>인 루틴을 내보이면 오브젝트를 내리기 바로 전에 그 루틴이 호출된다. 이 경우에 이 함수들의 기본 버전을 담고 있는 시스템의 개시 파일들을 링크하지 않도록 해야 한다. <code>gcc(1)</code>의 명령행 옵션 <code>-nostartfiles</code>를 쓰면 된다.</p>
+<p><code>_init</code>과 <code>_fini</code>를 이용하는 방식은 현재 구식화돼 있으므로 대신 앞서 언급한 생성자와 소멸자를 써야 한다. 여러 장점이 있으며 무엇보다 초기화 및 마무리 함수를 여러 개 정의할 수 있다.</p>
+<p>glibc 2.2.3부터 <tt><a class="wikilink" href="/man-pages-ko/atexit(3)/">atexit(3)</a></tt>를 사용해 공유 오브젝트가 내려갈 때 자동으로 호출되는 종료 핸들러를 등록할 수 있다.</p>
 <h3 id="_2">역사</h3>
 <p>이 함수들이 포함된 dlopen API는 SunOS에서 유래한 것이다.</p>
 <h2 id="bugs">BUGS</h2>
 <p>glibc 2.24 현재 <code>dlmopen()</code> 호출 시 <code>RTLD_GLOBAL</code> 플래그를 지정하면 오류가 발생한다. 또한 최초 네임스페이스 아닌 네임스페이스에 적재된 오브젝트에서 <code>dlopen()</code>을 호출하면서 <code>RTLD_GLOBAL</code>을 지정하면 프로그램 크래시(<code>SIGSEGV</code>)가 발생한다.</p>
 <h2 id="examples">EXAMPLES</h2>
-<p>아래 프로그램은 (glibc) 수학 라이브러리를 적재한 다음 <code>cos(3)</code> 함수 주소를 알아내서 코사인 2.0을 찍는다. 다음은 프로그램 빌드 및 실행 예이다.</p>
+<p>아래 프로그램은 (glibc의) 수학 라이브러리를 적재한 다음 <code>cos(3)</code> 함수 주소를 알아내서 코사인 2.0을 찍는다. 다음은 프로그램 빌드 및 실행 예다.</p>
 <pre><code class="language-text">$ cc dlopen_demo.c -ldl
 $ ./a.out
 -0.416147
@@ -328,7 +328,7 @@ main(void)
        'void *'와 함수 포인터 사이 캐스팅을 지원해야 한다고
        요구하는 것으로 상황을 개선했다. 그럼에도 불구하고 일부
        컴파일러들은 (가령 gcc에 '-pedantic' 옵션을 쓰면) 이
-       프로그램에서 쓴 캐스팅에 대해 뭐라 뭐라 할 수도 있다. */
+       프로그램에서 쓴 캐스팅에 대해 뭐라고 할 수도 있다. */
 
     error = dlerror();
     if (error != NULL) {

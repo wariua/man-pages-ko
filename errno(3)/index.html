@@ -151,21 +151,21 @@
         <div class="col-md-9" role="main">
 
 <h2 id="name">NAME</h2>
-<p>errno - 마지막 오류의 번호</p>
+<p>errno - 최근 오류 번호</p>
 <h2 id="synopsis">SYNOPSIS</h2>
 <pre><code class="language-c">#include &lt;errno.h&gt;
 </code></pre>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>&lt;errno.h&gt;</code> 헤더 파일에서 정수 변수 <code>errno</code>를 정의한다. 시스템 호출과 일부 라이브러리 함수에서 오류 발생 시 무엇이 잘못됐는지 나타내기 위해 그 변수를 설정한다.</p>
+<p><code>&lt;errno.h&gt;</code> 헤더 파일에서 정수 변수 <code>errno</code>를 정의한다. 시스템 호출들과 일부 라이브러리 함수들에서 오류 발생 시에 무엇이 잘못됐는지 나타내도록 그 변수를 설정한다.</p>
 <h3 id="errno"><code>errno</code></h3>
-<p>호출의 반환 값이 오류를 나타낸 (즉 대부분 시스템 호출에서 -1, 대부분 라이브러리 함수에서 -1 내지 NULL인) 때에만 <code>errno</code>의 값이 의미가 있다. 즉 성공하는 함수에서 <code>errno</code>를 바꾸는 것이 <em>허용된다</em>. 어떤 시스템 호출이나 라이브러리 호출에서도 절대 <code>errno</code> 값을 0으로 설정하지는 않는다.</p>
-<p>어떤 시스템 호출과 라이브러리 함수(가령 <tt><a class="wikilink" href="/man-pages-ko/getpriority(2)/">getpriority(2)</a></tt>)에서는 -1이 성공 시의 유효한 반환 값이다. 그런 경우에는 호출 전에 <code>errno</code>를 0으로 설정해서 성공 반환과 오류 반환을 구별할 수 있다. 오류가 발생했을 수도 있음을 나타내는 상태를 호출에서 반환하면 <code>errno</code>가 0 아닌 값인지 확인하면 된다.</p>
-<p><code>errno</code>는 ISO C에서 <code>int</code> 타입의 변경 가능한 lvalue라고 규정돼 있으며 명시적으로 선언해서는 안 된다. 즉 <code>errno</code>가 매크로일 수도 있다. <code>errno</code>는 스레드 로컬이다. 그래서 한 스레드에서 그 값을 설정해도 다른 스레드의 값에 영향을 주지 않는다.</p>
+<p>호출의 반환 값이 오류를 나타낼 때만 (즉 대부분 시스템 호출에서 -1, 대부분 라이브러리 함수에서 -1 또는 NULL일 때만) <code>errno</code>의 값이 의미가 있다. 성공하는 함수에서 <code>errno</code>를 바꾸는 것이 <em>허용된다</em>. 어떤 시스템 호출이나 라이브러리 호출에서도 절대 <code>errno</code> 값을 0으로 설정하지는 않는다.</p>
+<p>어떤 시스템 호출과 라이브러리 함수(가령 <tt><a class="wikilink" href="/man-pages-ko/getpriority(2)/">getpriority(2)</a></tt>)에서는 -1이 성공 시의 유효한 반환 값이다. 그런 경우에는 호출 전에 <code>errno</code>를 0으로 설정해서 성공 반환과 오류 반환을 구별할 수 있다. 호출이 반환한 상태 값이 오류가 발생했을 수도 있다는 뜻이라면 <code>errno</code>가 0 아닌 값인지 확인해 보면 된다.</p>
+<p><code>errno</code>는 ISO C에서 <code>int</code> 타입의 변경 가능한 lvalue라고 규정돼 있으며 명시적으로 선언해서는 안 된다. <code>errno</code>가 매크로일 수도 있기 때문이다. <code>errno</code>는 스레드 로컬이다. 그래서 한 스레드에서 그 값을 설정해도 다른 스레드의 값에 영향을 주지 않는다.</p>
 <h3 id="_1">오류 번호와 이름</h3>
-<p>유효한 오류 번호들은 모두 양수 번호이다. <code>errno</code>에 등장할 수 있는 오류 번호 각각의 심볼 이름이 <code>&lt;errno.h&gt;</code> 헤더 파일에 정의돼 있다.</p>
-<p>POSIX.1에서 명세하는 오류 이름들은 모두 서로 다른 값을 가져야 한다. 단 예외로 <code>EAGAIN</code>과 <code>EWOULDBLOCK</code>은 같을 수도 있다. 리눅스에서 이 둘은 모든 아키텍처에서 값이 같다.</p>
-<p>각 심볼 이름에 대응하는 오류 번호는 유닉스 시스템 종류에 따라 다르며 심지어 리눅스에서 아키텍처에 따라 다르기도 하다. 그래서 아래의 오류 이름 목록에는 번호 값이 포함돼 있지 않다. <tt><a class="wikilink" href="/man-pages-ko/perror(3)/">perror(3)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/strerror(3)/">strerror(3)</a></tt> 함수를 사용하면 그 이름을 대응하는 텍스트 오류 메시지로 변환할 수 있다.</p>
-<p>어떤 리눅스 시스템 상에서든 (<code>moreutils</code> 패키지에 포함된) <code>errno(1)</code> 명령을 쓰면 모든 오류 심볼 이름과 대응하는 오류 번호들의 목록을 얻을 수 있다.</p>
+<p>유효한 오류 번호들은 모두 양수다. <code>errno</code>에 등장할 수 있는 오류 번호 각각의 심볼 이름이 <code>&lt;errno.h&gt;</code> 헤더 파일에 정의돼 있다.</p>
+<p>POSIX.1에서 명세하는 오류 이름들은 모두 서로 다른 값을 가져야 한다. 단, 예외로 <code>EAGAIN</code>과 <code>EWOULDBLOCK</code>은 같을 수도 있다. 리눅스에서 이 둘은 모든 아키텍처에서 값이 같다.</p>
+<p>각 심볼 이름에 대응하는 오류 번호는 유닉스 시스템 종류에 따라 다르며 심지어 리눅스에서 아키텍처에 따라 다르기도 하다. 그래서 아래의 오류 이름 목록에는 번호 값이 포함돼 있지 않다. <tt><a class="wikilink" href="/man-pages-ko/perror(3)/">perror(3)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/strerror(3)/">strerror(3)</a></tt> 함수를 쓰면 그 이름을 대응하는 텍스트 오류 메시지로 변환할 수 있다.</p>
+<p>어떤 리눅스 시스템에서든 (<code>moreutils</code> 패키지에 포함된) <code>errno(1)</code> 명령을 쓰면 모든 오류 심볼 이름과 대응하는 오류 번호들의 목록을 얻을 수 있다.</p>
 <pre><code class="language-text">$ errno -l
 EPERM 1 Operation not permitted
 ENOENT 2 No such file or directory
@@ -174,7 +174,7 @@ EINTR 4 Interrupted system call
 EIO 5 Input/output error
 ...
 </code></pre>
-<p>또한 <code>errno(1)</code> 명령을 사용해 다음과 같이 개별 오류 번호와 이름을 찾아보고 오류 서술에서 얻은 문자열로 오류를 검색할 수 있다.</p>
+<p><code>errno(1)</code> 명령을 이용해 다음과 같이 개별 오류 번호와 이름을 찾아보고 오류 설명의 문자열로 오류를 검색할 수도 있다.</p>
 <pre><code class="language-text">$ errno 2
 ENOENT 2 No such file or directory
 $ errno ESRCH
@@ -183,18 +183,19 @@ $ errno -s permission
 EACCES 13 Permission denied
 </code></pre>
 <h3 id="_2">오류 이름 목록</h3>
-<p>아래의 오류 심볼 이름 목록에서 여러 이름들에 다음과 같은 표시가 되어 있다.</p>
+<p>아래의 오류 심볼 이름 목록에서 여러 이름들에 다음 표시가 되어 있다.</p>
 <ul>
 <li>
 <p><em>POSIX.1-2001</em>: 그 이름을 POSIX.1-2001에서, 그리고 달리 표시돼 있지 않으면 이후 POSIX.1 버전들에서도 규정하고 있다.</p>
 </li>
 <li>
-<p><em>POSIX.1-2008</em>: 그 이름을 POSIX.1-2008에서는 규정하고 있지만 더 전의 POSIX.1 표준에는 없다.</p>
+<p><em>POSIX.1-2008</em>: 그 이름을 POSIX.1-2008에서 규정하고 있으며 그 전의 POSIX.1 표준에는 없다.</p>
 </li>
 <li>
-<p><em>C99</em>: 그 이름을 C99에서 규정하고 있다. 다음은 리눅스에서 정의돼 있는 오류 심볼 이름들의 목록이다.</p>
+<p><em>C99</em>: 그 이름을 C99에서 규정하고 있다.</p>
 </li>
 </ul>
+<p>다음은 리눅스에서 정의돼 있는 오류 심볼 이름들의 목록이다.</p>
 <table>
 <thead>
 <tr>
@@ -273,7 +274,7 @@ EACCES 13 Permission denied
 </tr>
 <tr>
 <td><code>ECHRNG</code></td>
-<td>범위를 벗어나는 채널 번호.</td>
+<td>범위를 벗어난 채널 번호.</td>
 </tr>
 <tr>
 <td><code>ECOMM</code></td>
@@ -289,7 +290,7 @@ EACCES 13 Permission denied
 </tr>
 <tr>
 <td><code>ECONNRESET</code></td>
-<td>연결 리셋 됨. (POSIX.1-2001)</td>
+<td>연결 리셋됨. (POSIX.1-2001)</td>
 </tr>
 <tr>
 <td><code>EDEADLK</code></td>
@@ -297,7 +298,7 @@ EACCES 13 Permission denied
 </tr>
 <tr>
 <td><code>EDEADLOCK</code></td>
-<td>대부분 시스템에서 <code>EDEADLK</code>의 동의어. 일부 시스템(가령 리눅스의 MIPS, PowerPC, SPARC)에선 별도의 오류 코드 "File locking deadlock error"이다.</td>
+<td>대부분 시스템에서 <code>EDEADLK</code>의 동의어. 일부 시스템(가령 리눅스의 MIPS, PowerPC, SPARC)에선 별도의 오류 코드 "파일 락킹 교착 오류"다.</td>
 </tr>
 <tr>
 <td><code>EDESTADDRREQ</code></td>
@@ -341,7 +342,7 @@ EACCES 13 Permission denied
 </tr>
 <tr>
 <td><code>EILSEQ</code></td>
-<td><p>다중 바이트 내지 확장 문자가 유효하지 않거나 불완전함. (POSIX.1, C99)</p><p>이는 glibc의 오류 설명임. POSIX.1에서는 이 오류를 "유효하지 않은 바이트 열"이라고 기술함.</p></td>
+<td><p>다중 바이트 내지 확장 문자가 유효하지 않거나 불완전함. (POSIX.1, C99)</p><p>이는 glibc의 오류 설명임. POSIX.1에선 이 오류를 "유효하지 않은 바이트 열"이라고 기술함.</p></td>
 </tr>
 <tr>
 <td><code>EINPROGRESS</code></td>
@@ -369,7 +370,7 @@ EACCES 13 Permission denied
 </tr>
 <tr>
 <td><code>EISNAM</code></td>
-<td>기명 타입 파일임.</td>
+<td>이름 있는 타입 파일임.</td>
 </tr>
 <tr>
 <td><code>EKEYEXPIRED</code></td>
@@ -381,7 +382,7 @@ EACCES 13 Permission denied
 </tr>
 <tr>
 <td><code>EKEYREVOKED</code></td>
-<td>키가 폐지됐음.</td>
+<td>키가 폐기됐음.</td>
 </tr>
 <tr>
 <td><code>EL2HLT</code></td>
@@ -397,7 +398,7 @@ EACCES 13 Permission denied
 </tr>
 <tr>
 <td><code>EL3RST</code></td>
-<td>3계층 재설정.</td>
+<td>3계층 리셋.</td>
 </tr>
 <tr>
 <td><code>ELIBACC</code></td>
@@ -409,7 +410,7 @@ EACCES 13 Permission denied
 </tr>
 <tr>
 <td><code>ELIBMAX</code></td>
-<td>링크 하려는 공유 라이브러리가 너무 많음.</td>
+<td>너무 많은 공유 라이브러리를 링크하려 시도.</td>
 </tr>
 <tr>
 <td><code>ELIBSCN</code></td>
@@ -421,7 +422,7 @@ EACCES 13 Permission denied
 </tr>
 <tr>
 <td><code>ELNRANGE</code></td>
-<td>링크 개수가 범위를 초과.</td>
+<td>링크 수가 범위를 초과.</td>
 </tr>
 <tr>
 <td><code>ELOOP</code></td>
@@ -453,7 +454,7 @@ EACCES 13 Permission denied
 </tr>
 <tr>
 <td><code>ENETDOWN</code></td>
-<td>네트워크 내려가 있음. (POSIX.1-2001)</td>
+<td>네트워크가 내려가 있음. (POSIX.1-2001)</td>
 </tr>
 <tr>
 <td><code>ENETRESET</code></td>
@@ -461,11 +462,11 @@ EACCES 13 Permission denied
 </tr>
 <tr>
 <td><code>ENETUNREACH</code></td>
-<td>네트워크 도달 불가능. (POSIX.1-2001)</td>
+<td>네트워크에 도달 불가능. (POSIX.1-2001)</td>
 </tr>
 <tr>
 <td><code>ENFILE</code></td>
-<td>시스템에 열린 파일 너무 많음. (POSIX.1-2001) 리눅스에서는 아마 <code>/proc/sys/fs/file-max</code> 제한(<tt><a class="wikilink" href="/man-pages-ko/proc(5)/">proc(5)</a></tt> 참고)에 걸려서일 것.</td>
+<td>시스템에 열린 파일 너무 많음. (POSIX.1-2001) 리눅스에선 아마 <code>/proc/sys/fs/file-max</code> 제한(<tt><a class="wikilink" href="/man-pages-ko/proc(5)/">proc(5)</a></tt> 참고)에 걸려서.</td>
 </tr>
 <tr>
 <td><code>ENOANO</code></td>
@@ -485,7 +486,7 @@ EACCES 13 Permission denied
 </tr>
 <tr>
 <td><code>ENOENT</code></td>
-<td><p>그런 파일 내지 디렉터리 없음. (POSIX.1-2001)</p><p>보통 지정한 경로명이 존재하지 않거나, 경로명 디렉터리 선두부의 어느 요소가 존재하지 않거나, 지정한 경로명이 깨진 심볼릭 링크일 때 이 오류가 발생한다.</p></td>
+<td><p>그런 파일 내지 디렉터리 없음. (POSIX.1-2001)</p><p>보통 지정한 경로명이 존재하지 않거나, 경로명 디렉터리 선두부의 어느 부분이 존재하지 않거나, 지정한 경로명이 깨진 심볼릭 링크일 때 이 오류가 발생한다.</p></td>
 </tr>
 <tr>
 <td><code>ENOEXEC</code></td>
@@ -517,7 +518,7 @@ EACCES 13 Permission denied
 </tr>
 <tr>
 <td><code>ENONET</code></td>
-<td>머신이 네트워크 상에 없음.</td>
+<td>머신이 네트워크 상에 있지 않음.</td>
 </tr>
 <tr>
 <td><code>ENOPKG</code></td>
@@ -553,7 +554,7 @@ EACCES 13 Permission denied
 </tr>
 <tr>
 <td><code>ENOTDIR</code></td>
-<td>디렉터리가 아님. (POSIX.1-2001)</td>
+<td>디렉터리 아님. (POSIX.1-2001)</td>
 </tr>
 <tr>
 <td><code>ENOTEMPTY</code></td>
@@ -585,11 +586,11 @@ EACCES 13 Permission denied
 </tr>
 <tr>
 <td><code>EOPNOTSUPP</code></td>
-<td><p>소켓에서 지원 안 되는 동작. (POSIX.1-2001)</p><p>(리눅스에서는 <code>ENOTSUP</code>과 <code>EOPNOTSUPP</code>의 값이 같지만 POSIX.1에 따르면 두 오류 값이 구별돼야 한다.)</p></td>
+<td><p>소켓에서 지원 안 되는 동작. (POSIX.1-2001)</p><p>(리눅스에선 <code>ENOTSUP</code>과 <code>EOPNOTSUPP</code>의 값이 같지만 POSIX.1에 따르면 두 오류 값이 구별돼야 한다.)</p></td>
 </tr>
 <tr>
 <td><code>EOVERFLOW</code></td>
-<td>값이 너무 커서 데이터 타입에 저장 안 됨. (POSIX.1-2001)</td>
+<td>값이 너무 커서 데이터 타입에 저장 못함. (POSIX.1-2001)</td>
 </tr>
 <tr>
 <td><code>EOWNERDEAD</code></td>
@@ -649,7 +650,7 @@ EACCES 13 Permission denied
 </tr>
 <tr>
 <td><code>ESHUTDOWN</code></td>
-<td>전송 종단 정지 후 보낼 수 없음.</td>
+<td>전송 종단 shutdown 후 보낼 수 없음.</td>
 </tr>
 <tr>
 <td><code>ESPIPE</code></td>
@@ -661,11 +662,11 @@ EACCES 13 Permission denied
 </tr>
 <tr>
 <td><code>ESRCH</code></td>
-<td>그런 프로세스가 없음. (POSIX.1-2001)</td>
+<td>그런 프로세스 없음. (POSIX.1-2001)</td>
 </tr>
 <tr>
 <td><code>ESTALE</code></td>
-<td><p>파일 핸들이 더는 유효하지 않음. (POSIX.1-2001)</p><p>NFS 및 기타 파일 시스템에서 이 오류가 발생할 수 있다.</p></td>
+<td><p>파일 핸들이 더는 유효하지 않음. (POSIX.1-2001)</p><p>NFS 등의 파일 시스템에서 이 오류가 발생할 수 있다.</p></td>
 </tr>
 <tr>
 <td><code>ESTRPIPE</code></td>
@@ -673,11 +674,11 @@ EACCES 13 Permission denied
 </tr>
 <tr>
 <td><code>ETIME</code></td>
-<td><p>타이머 만료됨. (POSIX.1 (XSI STREAMS 옵션))</p><p>(POSIX.1에서는 "STREAM <code>ioctl(2)</code> 타임아웃"이라고 함.</p></td>
+<td><p>타이머 만료됨. (POSIX.1 (XSI STREAMS 옵션))</p><p>(POSIX.1에선 "STREAM <code>ioctl(2)</code> 타임아웃"이라고 함.</p></td>
 </tr>
 <tr>
 <td><code>ETIMEDOUT</code></td>
-<td>연결이 타임아웃 됨. (POSIX.1-2001)</td>
+<td>연결이 타임아웃됨. (POSIX.1-2001)</td>
 </tr>
 <tr>
 <td><code>ETOOMANYREFS</code></td>
@@ -701,11 +702,11 @@ EACCES 13 Permission denied
 </tr>
 <tr>
 <td><code>EWOULDBLOCK</code></td>
-<td>동작이 블록 하게 됨. (<code>EAGAIN</code>과 같은 값일 수도 있음.) (POSIX.1-2001)</td>
+<td>동작이 블록하게 됨. (<code>EAGAIN</code>과 같은 값일 수도 있음.) (POSIX.1-2001)</td>
 </tr>
 <tr>
 <td><code>EXDEV</code></td>
-<td>부적절한 링크. (POSIX.1-2001)</td>
+<td>잘못된 링크. (POSIX.1-2001)</td>
 </tr>
 <tr>
 <td><code>EXFULL</code></td>
@@ -720,7 +721,7 @@ EACCES 13 Permission denied
     if (errno == ...) { ... }
 }
 </code></pre>
-<p>여기서 <code>errno</code>가 꼭 <code>somecall()</code> 함수 반환 시의 값을 가지고 있는 게 아니다. (즉 <tt><a class="wikilink" href="/man-pages-ko/printf(3)/">printf(3)</a></tt>에 의해 바뀌었을 수도 있다.) 라이브러리 호출을 거치면서 <code>errno</code> 값이 유지돼야 한다면 저장을 해야 한다.</p>
+<p>여기서 <code>errno</code>가 반드시 <code>somecall()</code> 함수 반환 시의 값을 가지고 있는 게 아니다. (<tt><a class="wikilink" href="/man-pages-ko/printf(3)/">printf(3)</a></tt>에 의해 바뀌었을 수도 있다.) 라이브러리 호출을 거치면서 <code>errno</code> 값이 유지돼야 한다면 저장을 해야 한다.</p>
 <pre><code class="language-c">if (somecall() == -1) {
     int errsv = errno;
     printf(&quot;somecall() failed\n&quot;);

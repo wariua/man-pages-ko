@@ -160,7 +160,7 @@ extern int error_one_per_line;
 extern void (*error_print_progname)(void);
 </code></pre>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>error()</code>는 범용 오류 보고 함수이다. <code>stdout</code>을 플러시 하고 나서 <code>stderr</code>로 프로그램 이름, 콜론과 공백, <tt><a class="wikilink" href="/man-pages-ko/printf(3)/">printf(3)</a></tt> 방식 서식 문자열 <code>format</code>으로 지정한 메시지를 출력하며, <code>errnum</code>이 0이 아니면 두 번째 콜론과 공백, 그리고 <code>strerror(errnum)</code>에서 얻은 문자열을 함께 출력한다. <code>format</code>에 필요한 인자가 있으면 인자 목록에서 <code>format</code> 뒤에 따라와야 한다. 출력 내용 끝에는 개행 문자가 붙는다.</p>
+<p><code>error()</code>는 범용 오류 보고 함수다. <code>stdout</code>을 플러시하고 나서 <code>stderr</code>로 프로그램 이름, 콜론과 공백, <tt><a class="wikilink" href="/man-pages-ko/printf(3)/">printf(3)</a></tt> 방식 서식 문자열 <code>format</code>으로 지정한 메시지를 출력하며, <code>errnum</code>이 0이 아니면 두 번째 콜론과 공백, 그리고 <code>strerror(errnum)</code>에서 얻은 문자열을 함께 출력한다. <code>format</code>에 필요한 인자가 있으면 인자 목록에서 <code>format</code> 뒤에 따라와야 한다. 출력 내용 끝에 개행 문자가 붙는다.</p>
 <p><code>error()</code>에서 찍는 프로그램 이름은 전역 변수 <tt><a class="wikilink" href="/man-pages-ko/program_invocation_name(3)/">program_invocation_name(3)</a></tt>의 값이다. <code>program_invocation_name</code>은 처음에는 <code>main()</code>의 <code>argv[0]</code>과 같은 값을 가지고 있다. 이 변수의 값을 바꾸면 <code>error()</code> 출력도 바뀐다.</p>
 <p><code>status</code>가 0 아닌 값이면 <code>error()</code>에서 그 값을 종료 상태로 해서 <tt><a class="wikilink" href="/man-pages-ko/exit(3)/">exit(3)</a></tt>를 호출해서 프로그램을 종료시킨다. 아니면 오류 메시지를 찍고서 반환한다.</p>
 <p><code>error_at_line()</code> 함수는 <code>error()</code>와 동일하되 추가로 <code>filename</code> 및 <code>linenum</code> 인자가 있다. 내놓는 출력이 <code>error()</code>와 마찬가지이되 프로그램 이름 다음에 콜론, <code>filename</code>의 값, 콜론, <code>linenum</code>의 값이 들어간다. <code>error_at_line()</code> 호출 시에 전처리기의 값 <code>__LINE__</code>과 <code>__FILE__</code>이 유용하긴 하지만 다른 값도 쓸 수 있다. 예를 들어 이 인자들로 입력 파일 내의 위치를 나타낼 수도 있을 것이다.</p>
@@ -190,9 +190,9 @@ extern void (*error_print_progname)(void);
 </tr>
 </tbody>
 </table>
-<p>내부 <code>error_one_per_line</code> 변수에 접근이 이뤄진다. (어떤 동기화도 없지만 <code>int</code>를 한 번 쓰는 것이므로 충분히 안전할 것이다.) 그리고 <code>error_one_per_line</code>이 0 아닌 값으로 설정돼 있는 경우에는 마지막으로 찍은 파일 이름과 행 번호를 담는 (사용자에게 노출되지 않는) 정적 변수들에 동기화 없는 접근 및 변경이 이뤄진다. 갱신이 원자적이지 않으며 취소를 비활성화 하기 전에 이뤄지기 때문에 두 변수 중 하나만 변경되고 실행이 중단될 수 있다. 그 외에는 <code>error_at_line()</code>이 <code>error()</code>와 거의 똑같다.</p>
+<p>내부적으로 <code>error_one_per_line</code> 변수에 접근이 이뤄진다. (어떤 동기화도 없지만 <code>int</code>를 한 번 이용하는 것이므로 충분히 안전할 것이다.) 그리고 <code>error_one_per_line</code>이 0 아닌 값으로 설정돼 있는 경우에는 마지막으로 찍은 파일 이름과 행 번호를 담는 (사용자에게 노출되지 않는) 정적 변수들에 동기화 없는 접근 및 변경이 이뤄진다. 갱신이 원자적이지 않으며 취소를 비활성화하기 전에 이뤄지기 때문에 두 변수 중 하나만 변경되고 실행이 중단될 수 있다. 그 외에는 <code>error_at_line()</code>이 <code>error()</code>와 거의 같다.</p>
 <h2 id="conforming-to">CONFORMING TO</h2>
-<p>이 함수 및 변수들은 GNU 확장이므로 이식성이 있어야 하는 프로그램에서는 사용하지 말아야 한다.</p>
+<p>이 함수 및 변수들은 GNU 확장이므로 이식성이 있어야 하는 프로그램에서는 쓰지 말아야 한다.</p>
 <h2 id="see-also">SEE ALSO</h2>
 <p><tt><a class="wikilink" href="/man-pages-ko/err(3)/">err(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/errno(3)/">errno(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/exit(3)/">exit(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/perror(3)/">perror(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/program_invocation_name(3)/">program_invocation_name(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/strerror(3)/">strerror(3)</a></tt></p>
 <hr />

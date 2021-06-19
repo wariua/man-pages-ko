@@ -179,7 +179,7 @@ int pthread_cond_signal(pthread_cond_t *cond);
 <h2 id="examples">EXAMPLES</h2>
 <p>없음.</p>
 <h2 id="application-usage">APPLICATION USAGE</h2>
-<p>여러 스레드가 자기 작업을 진행할 수 있는 방식으로 공유 변수 상태가 바뀌었을 때는 항상 <code>pthread_cond_broadcast()</code> 함수를 사용한다. 단일 생산자/다중 소비자 문제 한 가지를 생각해 보자. 생산자는 리스트에 여러 항목을 집어넣을 수 있고 소비자는 한번에 한 항목씩 접근한다. 생산자가 <code>pthread_cond_broadcast()</code> 함수를 호출하여 대기 중일 수 있는 모든 소비자에게 알림을 보낼 수 있으며, 그러면 다중 프로세서 상에서 응용이 높은 스루풋을 얻게 된다. 또한 <code>pthread_cond_broadcast()</code>는 읽기-쓰기 락 구현을 쉽게 만들어 준다. 쓰기 쪽에서 락을 놓을 때 대기 중인 읽기 쪽 모두를 깨우려면 <code>pthread_cond_broadcast()</code> 함수가 필요하다. 마지막으로 2단계 커밋 알고리듬에서 이 동보 함수를 사용해서 임박한 트랜잭션 커밋의 모든 클라이언트에게 알림을 보낼 수 있다.</p>
+<p>여러 스레드가 자기 작업을 진행할 수 있는 방식으로 공유 변수 상태가 바뀌었을 때는 항상 <code>pthread_cond_broadcast()</code> 함수를 사용한다. 단일 생산자/다중 소비자 문제 한 가지를 생각해 보자. 생산자는 리스트에 여러 항목을 집어넣을 수 있고 소비자는 한번에 한 항목씩 접근한다. 생산자가 <code>pthread_cond_broadcast()</code> 함수를 호출하여 대기 중일 수 있는 모든 소비자에게 알림을 보낼 수 있으며, 그러면 다중 프로세서 상에서 응용이 높은 스루풋을 얻게 된다. 또한 <code>pthread_cond_broadcast()</code>는 읽기-쓰기 락 구현을 쉽게 만들어 준다. 쓰기 쪽에서 락을 놓을 때 대기 중인 읽기 쪽 모두를 깨우려면 <code>pthread_cond_broadcast()</code> 함수가 필요하다. 마지막으로 2단계 커밋 알고리즘에서 이 동보 함수를 사용해서 임박한 트랜잭션 커밋의 모든 클라이언트에게 알림을 보낼 수 있다.</p>
 <p>비동기적으로 호출되는 시그널 핸들러에서 <code>pthread_cond_signal()</code> 함수를 사용하는 것은 안전하지 않다. 설령 안전하더라도 <code>pthread_cond_wait()</code>의 불리언 검사와의 사이에 효율적으로 제거할 수 없는 경쟁이 있을 것이다.</p>
 <p>따라서 뮤텍스와 조건 변수는 시그널 핸들러에서 도는 코드에서 신호를 주어 대기 중인 스레드를 해제하기에 적합하지 않다.</p>
 <h2 id="rationale">RATIONALE</h2>

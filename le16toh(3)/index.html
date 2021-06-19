@@ -150,7 +150,7 @@
         <div class="col-md-9" role="main">
 
 <h2 id="name">NAME</h2>
-<p>htobe16, htole16, be16toh, le16toh, htobe32, htole32, be32toh, le32toh, htobe64, htole64, be64toh, le64toh - 호스트 바이트 순서와 빅/리틀 엔디언 바이트 순서 간에 값 변환하기</p>
+<p>htobe16, htole16, be16toh, le16toh, htobe32, htole32, be32toh, le32toh, htobe64, htole64, be64toh, le64toh - 호스트 바이트 순서와 빅/리틀 엔디언 바이트 순서 간에 변환하기</p>
 <h2 id="synopsis">SYNOPSIS</h2>
 <pre><code class="language-c">#include &lt;endian.h&gt;
 
@@ -183,7 +183,7 @@ uint64_t le64toh(uint64_t little_endian_64bits);
 </dl>
 <h2 id="description">DESCRIPTION</h2>
 <p>이 함수들은 현재 CPU("호스트")에서 쓰는 바이트 순서와 리틀 엔디언 및 빅 엔디언 바이트 순서 사이에서 정수 값의 바이트 인코딩을 변환한다.</p>
-<p>함수 이름의 숫자 <em>nn</em>은 함수에서 다루는 정수의 크기를 나타내며, 16, 32, 64비트 중 하나이다.</p>
+<p>함수 이름의 숫자 <em>nn</em>은 함수에서 다루는 정수의 크기를 나타내며, 16, 32, 64비트 중 하나다.</p>
 <p>이름이 "htobe<em>nn</em>" 형태인 함수는 호스트 바이트 순서에서 빅 엔디언 순서로 변환한다.</p>
 <p>이름이 "htole<em>nn</em>" 형태인 함수는 호스트 바이트 순서에서 리틀 엔디언 순서로 변환한다.</p>
 <p>이름이 "be<em>nn</em>toh" 형태인 함수는 빅 엔디언 순서에서 호스트 바이트 순서로 변환한다.</p>
@@ -191,10 +191,10 @@ uint64_t le64toh(uint64_t little_endian_64bits);
 <h2 id="versions">VERSIONS</h2>
 <p>glibc 버전 2.9에서 이 함수들이 추가되었다.</p>
 <h2 id="conforming-to">CONFORMING TO</h2>
-<p>이 함수들은 비표준이다. 비슷한 함수들이 BSD들에 존재하는데 거기서 필요한 헤더 파일은 <code>&lt;endian.h&gt;</code>가 아니라 <code>&lt;sys/endian.h&gt;</code>이다. 안타깝게도 NetBSD, FreeBSD, glibc에서는 <em>nn</em> 부분이 항상 함수 이름 끝에 오는 OpenBSD의 원래 명명 관행을 따르지 않는다. (그래서 예를 들어 OpenBSD "betoh32"의 등가물이 NetBSD, FreeBSD, glibc에서는 "be32toh"이다.)</p>
+<p>이 함수들은 비표준이다. 비슷한 함수들이 BSD에 존재하는데, 필요한 헤더 파일이 <code>&lt;endian.h&gt;</code>가 아니라 <code>&lt;sys/endian.h&gt;</code>이다. 불행히도 NetBSD, FreeBSD, glibc에서는 <em>nn</em> 부분이 항상 함수 이름 끝에 오는 OpenBSD의 원래 명명 관행을 따르지 않는다. (그래서 예를 들어 OpenBSD의 "betoh32"가 NetBSD, FreeBSD, glibc에서는 "be32toh"이다.)</p>
 <h2 id="notes">NOTES</h2>
 <p>이 함수들은 더 오래된 <tt><a class="wikilink" href="/man-pages-ko/byteorder(3)/">byteorder(3)</a></tt> 계열 함수들과 비슷하다. 예를 들어 <code>be32toh()</code>는 <code>ntohl()</code>과 같다.</p>
-<p><tt><a class="wikilink" href="/man-pages-ko/byteorder(3)/">byteorder(3)</a></tt> 함수들의 장점은 표준 함수라서 모든 유닉스 시스템에서 사용 가능하다는 점이다. 하지만 TCP/IP 맥락에서 쓰려고 설계한 것이기 때문에 이 페이지에 기술된 64비트 형태와 리틀 엔디언 형태가 빠져 있다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/byteorder(3)/">byteorder(3)</a></tt> 함수들의 장점은 표준 함수여서 모든 유닉스 시스템에서 이용 가능하다는 점이다. 하지만 TCP/IP 맥락에서 쓰려고 설계한 것이기 때문에 이 페이지에 기술된 64비트 형태와 리틀 엔디언 형태가 빠져 있다.</p>
 <h2 id="examples">EXAMPLES</h2>
 <p>아래 프로그램에서는 정수를 호스트 바이트 순서에서 리틀 엔디언 및 빅 엔디언 바이트 순서로 변환한 결과를 보여 준다. 호스트 바이트 순서가 리틀 엔디언 아니면 빅 엔디언이므로 변환 중 한쪽만 효과가 있게 된다. 이 프로그램을 x86-32 같은 리틀 엔디언 시스템에서 돌리면 다음을 보게 된다.</p>
 <pre><code class="language-text">$ ./a.out

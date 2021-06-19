@@ -149,8 +149,7 @@
         <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#bugs">BUGS</a></li>
-            <li class="second-level"><a href="#_5">단일 연결 리스트 예시</a></li>
-                
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
@@ -188,7 +187,7 @@ void SLIST_REMOVE_HEAD(SLIST_HEAD *head,
 <p>이 매크로들은 단일 연결 리스트를 정의하고 조작한다.</p>
 <p>매크로 정의에서 <code>TYPE</code>은 사용자 정의 구조체의 이름이며, 그 구조체에는 타입이 <code>SLIST_ENTRY</code>이고 이름이 <code>NAME</code>인 필드가 있어야 한다. <code>HEADNAME</code> 인자는 <code>SLIST_HEAD()</code> 매크로를 써서 선언해야 하는 사용자 정의 구조체의 이름이다.</p>
 <h3 id="_1">생성</h3>
-<p>단일 연결 리스트의 머리는 <code>SLIST_HEAD()</code> 매크로로 정의한 구조체이다. 이 구조체에는 리스트 첫 번째 항목에 대한 포인터 하나가 들어 있다. 공간 및 포인터 조작 오버헤드를 최소화하기 위해 단일 연결로 되어 있으며, 대신 임의 항목 제거에 O(n) 비용이 든다. 기존 항목 뒤나 리스트 머리에 새 항목을 추가할 수 있다. <code>SLIST_HEAD</code> 구조체를 다음처럼 선언한다.</p>
+<p>단일 연결 리스트의 머리는 <code>SLIST_HEAD()</code> 매크로로 정의한 구조체다. 이 구조체에는 리스트 첫 번째 항목에 대한 포인터 하나가 들어 있다. 공간 및 포인터 조작 오버헤드를 최소화하기 위해 단일 연결로 되어 있으며, 대신 임의 항목 제거에 O(n) 비용이 든다. 기존 항목 뒤나 리스트 머리에 새 항목을 추가할 수 있다. <code>SLIST_HEAD</code> 구조체를 다음처럼 선언한다.</p>
 <pre><code class="language-c">SLIST_HEAD(HEADNAME, TYPE) head;
 </code></pre>
 <p><code>struct HEADNAME</code>이 정의하려는 구조체의 이름이고 <code>struct TYPE</code>이 리스트로 연결할 항목들의 타입이다. 이후 다음처럼 리스트 머리의 포인터를 선언할 수 있다.</p>
@@ -197,14 +196,14 @@ void SLIST_REMOVE_HEAD(SLIST_HEAD *head,
 <p>(이름 <code>head</code>와 <code>headp</code>는 사용자가 정할 수 있다.)</p>
 <p><code>SLIST_ENTRY()</code>는 리스트에서 항목들을 연결하는 구조체를 선언한다.</p>
 <p><code>SLIST_HEAD_INITIALIZER()</code>는 리스트 <code>head</code>를 위한 초기화 값으로 평가된다.</p>
-<p><code>SLIST_INIT()</code>은 <code>head</code>가 가리키는 리스트를 초기화 한다.</p>
+<p><code>SLIST_INIT()</code>은 <code>head</code>가 가리키는 리스트를 초기화한다.</p>
 <p><code>SLIST_EMPTY()</code>는 리스트에 아무 항목도 없으면 참으로 평가된다.</p>
 <h3 id="_2">삽입</h3>
 <p><code>SLIST_INSERT_HEAD()</code>는 새 항목 <code>elm</code>을 리스트의 머리에 삽입한다.</p>
 <p><code>SLIST_INSERT_AFTER()</code>는 새 항목 <code>elm</code>을 항목 <code>listelm</code> 뒤에 삽입한다.</p>
 <h3 id="_3">순회</h3>
 <p><code>SLIST_FIRST()</code>는 리스트의 첫 번째 항목을 반환하며 리스트가 비어 있으면 NULL을 반환한다.</p>
-<p><code>SLIST_NEXT()</code>는 리스트 내의 다음 항목을 반환한다.</p>
+<p><code>SLIST_NEXT()</code>는 리스트에서 다음 항목을 반환한다.</p>
 <p><code>SLIST_FOREACH()</code>는 <code>head</code>가 가리키는 리스트를 순방향으로 순회하면서 각 항목을 차례로 <code>var</code>에 할당한다.</p>
 <h3 id="_4">제거</h3>
 <p><code>SLIST_REMOVE()</code>는 항목 <code>elm</code>을 리스트에서 제거한다.</p>
@@ -216,8 +215,8 @@ void SLIST_REMOVE_HEAD(SLIST_HEAD *head,
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1, POSIX.1-2001, POSIX.1-2008에 없다. BSD들에 있다. (4.4BSD에서 SLIST 매크로들이 처음 등장했다.)</p>
 <h2 id="bugs">BUGS</h2>
-<p><code>SLIST_FOREACH()</code>에서 <code>var</code>를 루프 안에서 제거하거나 해제하는 것이 허용되지 않는다. 순회를 방해하게 되기 때문이다. BSD들에 있지만 glibc에는 없는 <code>SLIST_FOREACH_SAFE()</code>에서 이 제약을 수정해서, 순회를 방해하지 않고 루프 안에서 <code>var</code>를 안전하게 리스트에서 제거하고 해제하는 것이 허용된다.</p>
-<h3 id="_5">단일 연결 리스트 예시</h3>
+<p><code>SLIST_FOREACH()</code>에서 <code>var</code>를 루프 안에서 제거하거나 해제하는 것이 허용되지 않는다. 순회를 방해하게 되기 때문이다. BSD들에 있지만 glibc에는 없는 <code>SLIST_FOREACH_SAFE()</code>에서 이 제약을 수정해서, 순회를 방해하지 않고 루프 안에서 <code>var</code>를 안전하게 리스트에서 제거하고 해제하는 것이 가능하다.</p>
+<h2 id="examples">EXAMPLES</h2>
 <pre><code class="language-c">#include &lt;stddef.h&gt;
 #include &lt;stdio.h&gt;
 #include &lt;stdlib.h&gt;

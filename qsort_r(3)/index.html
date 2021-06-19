@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/qsort_r%283%29/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>qsort_r(3) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
+        <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>qsort, qsort_r - 배열 정렬하기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="language-c">#include &lt;stdlib.h&gt;
+
+void qsort(void *base, size_t nmemb, size_t size,
+           int (*compar)(const void *, const void *));
+void qsort_r(void *base, size_t nmemb, size_t size,
+           int (*compar)(const void *, const void *, void *),
+           void *arg);
+</code></pre>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
+<dl>
+<dt><code>qsort_r()</code>:</dt>
+<dd><code>_GNU_SOURCE</code></dd>
+</dl>
+<h2 id="description">DESCRIPTION</h2>
+<p><code>qsort()</code> 함수는 크기가 <code>size</code>인 항목이 <code>nmemb</code> 개 있는 배열을 정렬한다. <code>base</code> 인자가 배열 시작점을 가리킨다.</p>
+<p><code>compar</code>가 가리키는 비교 함수에 따라서 배열 내용물이 오름차순으로 정렬된다. 비교할 객체들을 가리키는 두 인자를 가지고 비교 함수가 호출된다.</p>
+<p>비교 함수는 첫 번째 인자가 두 번째 인자보다 작거나 같거나 크다고 볼 때 각각 0보다 작거나 같거나 큰 정수를 반환해야 한다. 두 항목이 같게 비교되는 경우 정렬된 배열에서의 순서는 규정돼 있지 않다.</p>
+<p><code>qsort_r()</code> 함수는 비교 함수 <code>compar</code>가 세 번째 인자를 받는다는 점을 빼면 <code>qsort()</code>와 똑같다. <code>arg</code>를 통해 포인터를 비교 함수로 전달할 수 있다. 이렇게 하면 원하는 인자를 전달하기 위해 비교 함수에서 전역 변수를 쓸 필요가 없으며, 그래서 재진입 가능이고 스레드에서 안전하게 쓸 수 있다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p><code>qsort()</code>와 <code>qsort_r()</code> 함수는 아무 값도 반환하지 않는다.</p>
+<h2 id="versions">VERSIONS</h2>
+<p>glibc 버전 2.8에서 <code>qsort_r()</code>이 추가되었다.</p>
+<h2 id="attributes">ATTRIBUTES</h2>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
+<table>
+<thead>
+<tr>
+<th>인터페이스</th>
+<th>속성</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>qsort()</code>, <code>qsort_r()</code></td>
+<td>스레드 안전성</td>
+<td>MT-Safe</td>
+</tr>
+</tbody>
+</table>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p><code>qsort()</code>: POSIX.1-2001, POSIX.1-2008, C89, C99, SVr4, 4.3BSD.</p>
+<h2 id="notes">NOTES</h2>
+<p>C 문자열을 비교하려면 아래 예처럼 비교 함수에서 <code>strcmp(3)</code>를 호출할 수 있다.</p>
+<h2 id="examples">EXAMPLES</h2>
+<p><tt><a class="wikilink" href="/man-pages-ko/bsearch(3)/">bsearch(3)</a></tt>에서 사용례를 볼 수 있다.</p>
+<p>또 다른 예가 다음 프로그램인데, 명령행 인자로 받은 문자열들을 정렬한다.</p>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+static int
+cmpstringp(const void *p1, const void *p2)
+{
+    /* 이 함수의 실제 인자는 &quot;char 포인터에 대한 포인터&quot;지만
+       strcmp(3)의 인자는 &quot;char 포인터&quot;다. 따라서 다음처럼
+       캐스팅 및 따라가기를 한다. */
+
+    return strcmp(*(const char **) p1, *(const char **) p2);
+}
+
+int
+main(int argc, char *argv[])
+{
+    if (argc &lt; 2) {
+        fprintf(stderr, &quot;Usage: %s &lt;string&gt;...\n&quot;, argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    qsort(&amp;argv[1], argc - 1, sizeof(char *), cmpstringp);
+
+    for (int j = 1; j &lt; argc; j++)
+        puts(argv[j]);
+    exit(EXIT_SUCCESS);
+}
+</code></pre>
+<h2 id="see-also">SEE ALSO</h2>
+<p><code>sort(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/alphasort(3)/">alphasort(3)</a></tt>, <code>strcmp(3)</code>, <tt><a class="wikilink" href="/man-pages-ko/versionsort(3)/">versionsort(3)</a></tt></p>
+<hr />
+<p>2021-03-22</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

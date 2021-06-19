@@ -176,7 +176,7 @@ void twalk_r(const void *root,
 void tdestroy(void *root, void (*free_node)(void *nodep));
 </code></pre>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>tsearch()</code>, <code>tfind()</code>, <code>twalk()</code>, <code>tdelete()</code>는 이진 탐색 트리를 관리한다. Knuth의 (6.2.2) 알고리듬 T를 일반화 한 것이다. 각 트리 노드의 첫 필드가 대응하는 데이터 항목에 대한 포인터이다. (실제 데이터는 호출 프로그램에서 저장해야 한다.) <code>compar</code>는 비교 루틴을 가리키며 두 항목의 포인터를 받는다. 첫 번째 항목이 두 번째 항목보다 작거나 같거나 크면 음수이거나 0이거나 양수인 정수를 반환해야 한다.</p>
+<p><code>tsearch()</code>, <code>tfind()</code>, <code>twalk()</code>, <code>tdelete()</code>는 이진 탐색 트리를 관리한다. Knuth의 (6.2.2) 알고리즘 T를 일반화 한 것이다. 각 트리 노드의 첫 필드가 대응하는 데이터 항목에 대한 포인터이다. (실제 데이터는 호출 프로그램에서 저장해야 한다.) <code>compar</code>는 비교 루틴을 가리키며 두 항목의 포인터를 받는다. 첫 번째 항목이 두 번째 항목보다 작거나 같거나 크면 음수이거나 0이거나 양수인 정수를 반환해야 한다.</p>
 <p><code>tsearch()</code>는 트리에서 항목을 탐색한다. <code>key</code>는 찾을 항목을 가리킨다. <code>rootp</code>는 트리 루트를 가리키는 변수를 가리킨다. 트리가 비어 있으면 <code>rootp</code>가 가리키는 변수가 NULL로 설정돼 있어야 한다. 트리에서 항목을 찾은 경우에 <code>tsearch()</code>는 대응하는 트리 노드의 포인터를 반환한다. (달리 말해 데이터 항목에 대한 포인터의 포인터를 반환한다.) 항목을 찾지 못하면 항목을 추가하고서 대응하는 트리 노드의 포인터를 반환한다.</p>
 <p><code>tfind()</code>는 <code>tsearch()</code>와 비슷하되 항목을 찾지 못한 경우에 NULL을 반환한다.</p>
 <p><code>tdelete()</code>는 트리에서 항목을 삭제한다. 인자들은 <code>tsearch()</code>와 동일하다.</p>
@@ -303,7 +303,7 @@ main(void)
 }
 </code></pre>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt><a class="wikilink" href="/man-pages-ko/bsearch(3)/">bsearch(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/hsearch(3)/">hsearch(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/lsearch(3)/">lsearch(3)</a></tt>, <code>qsort(3)</code></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/bsearch(3)/">bsearch(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/hsearch(3)/">hsearch(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/lsearch(3)/">lsearch(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/qsort(3)/">qsort(3)</a></tt></p>
 <hr />
 <p>2021-03-22</p></div>
         
