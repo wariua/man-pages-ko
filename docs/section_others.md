@@ -17,7 +17,7 @@
 * [[elf(5)]], [[nm(1)]], [[objdump(1)]], [[objcopy(1)]], [[readelf(1)]], [[elfedit(1)]]
 * [[random(7)]], [[getrandom(2)]], [[random(4)]], [[getentropy(3)]], [[rand(3)]], [[random(3)]], [[random_r(3)]], [[drand48(3)]], [[drand48_r(3)]]
 * [[complex(7)]], [[fenv(3)]], [[math_error(7)]], [[abs(3)]], [[div(3)]]
-* [[stdio(3)]], [[stdio_ext(3)]], [[unlocked_stdio(3)]], [[stdin(3)]], [[fopen(3)]], [[fclose(3)]], [[fcloseall(3)]], [[fileno(3)]], [[ferror(3)]], [[fflush(3)]], [[setbuf(3)]], [[flockfile(3)]], [[fpurge(3)]]
+* [[stdio(3)]], [[stdio_ext(3)]], [[unlocked_stdio(3)]], [[stdin(3)]], [[fopen(3)]], [[fclose(3)]], [[fcloseall(3)]], [[fileno(3)]], [[ferror(3)]], [[fflush(3)]], [[setbuf(3)]], [[flockfile(3)]], [[fpurge(3)]], [[fread(3)]]
 * [[scanf(3)]], [[printf(3)]], [[asprintf(3)]]
 * [[getline(3)]], [[fgets(3)]], [[readline(3)]], [[getpass(3)]], [[rpmatch(3)]]
 * [[strtol(3)]], [[strtoul(3)]], [[strtoimax(3)]], [[strfromd(3)]], [[strtod(3)]], [[atoi(3)]], [[atof(3)]]

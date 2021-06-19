@@ -9,7 +9,7 @@
 * [[symlink(7)]], [[symlink(2)]], [[readlink(2)]], [[link(2)]], [[unlink(2)]]
 * [[remove(3)]], [[rename(2)]]
 * [[umask(2)]], [[getumask(3)]], [[access(2)]], [[euidaccess(3)]], [[chown(2)]], [[chmod(2)]]
-* [[pread(2)]], [[readv(2)]]
+* [[read(2)]], [[write(2)]], [[pread(2)]], [[readv(2)]]
 * [[sync(2)]], [[fsync(2)]], [[sync_file_range(2)]], [[bdflush(2)]]
 * [[fallocate(2)]], [[posix_fallocate(3)]], [[truncate(2)]]
 * [[lseek(2)]], [[_llseek(2)]], [[lseek64(3)]]
