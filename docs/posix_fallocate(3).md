@@ -71,7 +71,7 @@ POSIX.1-2008에 따르면 `len`이 0이거나 `offset`이 0보다 작은 경우 
 
 ## NOTES
 
-glibc 구현에서 `posix_fallocate()`는 <tt>[[fallocate(2)]]</tt> 시스템 호출을 써서 구현돼 있으며 그 시스템 호출은 MT-safe이다. 하위 파일 시스템에서 <tt>[[fallocate(2)]]</tt>를 지원하지 않는 경우에는 동작을 에뮬레이션 하는데, 몇 가지 유의 사항이 있다.
+glibc 구현에서 `posix_fallocate()`는 <tt>[[fallocate(2)]]</tt> 시스템 호출을 써서 구현돼 있으며 그 시스템 호출은 MT-safe이다. 하위 파일 시스템에서 <tt>[[fallocate(2)]]</tt>를 지원하지 않는 경우에는 동작을 에뮬레이션하는데, 몇 가지 유의 사항이 있다.
 
 * 에뮬레이션이 비효율적이다.
 

@@ -1,6 +1,6 @@
 ## NAME
 
-fanotify_init - fanotify 그룹 만들어서 초기화 하기
+fanotify_init - fanotify 그룹 만들어서 초기화하기
 
 ## SYNOPSIS
 
@@ -15,7 +15,7 @@ int fanotify_init(unsigned int flags, unsigned int event_f_flags);
 
 fanotify API에 대한 소개는 <tt>[[fanotify(7)]]</tt>를 보라.
 
-`fanotify_init()`은 새 fanotify 그룹을 초기화 하고 그룹에 연계된 이벤트 큐에 대한 파일 디스크립터를 반환한다.
+`fanotify_init()`은 새 fanotify 그룹을 초기화하고 그룹에 연계된 이벤트 큐에 대한 파일 디스크립터를 반환한다.
 
 그 파일 디스크립터를 <tt>[[fanotify_mark(2)]]</tt> 호출에 사용해서 fanotify 이벤트가 발생할 파일, 디렉터리, 마운트, 파일 시스템을 지정한다. 그리고 파일 디스크립터에 읽기를 해서 그 이벤트를 읽는다. 어떤 이벤트는 정보를 주기만 하며 파일에 접근이 이뤄졌음을 나타낸다. 다른 이벤트는 다른 응용이 파일이나 디렉터리에 접근할 수 있는지 결정하는 데 쓸 수 있다. 파일 디스크립터에 쓰기를 해서 그 파일 시스템 객체에 대한 접근을 인가한다.
 
@@ -48,7 +48,7 @@ fanotify API에 대한 소개는 <tt>[[fanotify(7)]]</tt>를 보라.
 :   새 파일 디스크립터에 exec에서 닫기 플래그(`FD_CLOEXEC`)를 설정한다. <tt>[[open(2)]]</tt>의 `O_CLOEXEC` 플래그 설명을 보라.
 
 `FAN_NONBLOCK`
-:   파일 디스크립터에 논블로킹 플래그(`O_NONBLOCK`)를 켠다. 파일 디스크립터에서 읽기가 블록 하지 않게 된다. 읽을 수 있는 데이터가 없으면 대신 <tt>[[read(2)]]</tt>가 `EAGAIN` 오류로 실패한다.
+:   파일 디스크립터에 논블로킹 플래그(`O_NONBLOCK`)를 켠다. 파일 디스크립터에서 읽기가 블록하지 않게 된다. 읽을 수 있는 데이터가 없으면 대신 <tt>[[read(2)]]</tt>가 `EAGAIN` 오류로 실패한다.
 
 `FAN_UNLIMITED_QUEUE`
 :   이벤트 큐에서 16384개 이벤트 제한을 없앤다. 이 플래그를 사용하려면 `CAP_SYS_ADMIN` 역능이 필요하다.
