@@ -4,7 +4,7 @@
 * [[posix_spawn(3)]], [[posix_spawn_file_actions_destroy(3p)]], [[posix_spawn_file_actions_addclose(3p)]], [[posix_spawn_file_actions_adddup2(3p)]], [[posix_spawnattr_destroy(3p)]], [[posix_spawnattr_getflags(3p)]], [[posix_spawnattr_getpgroup(3p)]], [[posix_spawnattr_getschedpolicy(3p)]], [[posix_spawnattr_getschedparam(3p)]], [[posix_spawnattr_getsigdefault(3p)]], [[posix_spawnattr_getsigmask(3p)]]
 * [[exit(3)]], [[_exit(2)]], [[exit_group(2)]], [[atexit(3)]], [[on_exit(3)]], [[abort(3)]]
 * [[wait(2)]], [[wait4(2)]]
-* [[credentials(7)]], [[getuid(2)]], [[setuid(2)]], [[seteuid(2)]], [[setreuid(2)]], [[setresuid(2)]], [[getgid(2)]], [[setgid(2)]], [[initgroups(3)]], [[getgroups(2)]], [[group_member(3)]], [[setfsuid(2)]], [[setfsgid(2)]], [[getpid(2)]], [[setpgid(2)]], [[getsid(2)]], [[setsid(2)]], [[tcgetpgrp(3)]], [[pid_namespaces(7)]], [[user_namespaces(7)]]
+* [[credentials(7)]], [[getuid(2)]], [[setuid(2)]], [[seteuid(2)]], [[setreuid(2)]], [[setresuid(2)]], [[getgid(2)]], [[setgid(2)]], [[initgroups(3)]], [[getgroups(2)]], [[group_member(3)]], [[setfsuid(2)]], [[setfsgid(2)]], [[getpid(2)]], [[setpgid(2)]], [[getsid(2)]], [[setsid(2)]], [[tcgetsid(3)]], [[tcgetpgrp(3)]], [[pid_namespaces(7)]], [[user_namespaces(7)]]
 * [[capabilities(7)]], [[capget(2)]], [[prctl(2)]]
 * [[chroot(2)]], [[pivot_root(2)]]
 * [[environ(7)]], [[clearenv(3)]], [[getenv(3)]], [[putenv(3)]], [[setenv(3)]], [[program_invocation_name(3)]]
