@@ -234,7 +234,7 @@ struct statx_timestamp {
 ## ERRORS
 
 `EACCES`
-:   `pathname`의 경로 선두부의 한 디렉터리에 대해 탐색 권한이 거부되었다. (<tt>[[path_resolution(7)]]</tt> 참고.)
+:   `pathname`의 경로 선두부의 한 디렉터리에 대해 탐색 권한이 거부되었다. (<tt>[[path_resolution(7)]]</tt>도 참고.)
 
 `EBADF`
 :   `dirfd`가 유효한 열린 파일 디스크립터가 아니다.

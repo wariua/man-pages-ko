@@ -54,7 +54,7 @@ struct timeval {
 ## ERRORS
 
 `EACCES`
-:   `path`의 경로 선두부의 한 디렉터리에 대해 탐색 권한이 거부되었다. (<tt>[[path_resolution(7)]]</tt> 참고.)
+:   `path`의 경로 선두부의 한 디렉터리에 대해 탐색 권한이 거부되었다. (<tt>[[path_resolution(7)]]</tt>도 참고.)
 
 `EACCES`
 :   `times`가 NULL이고, 호출자의 실효 사용자 ID가 파일의 소유자와 일치하지 않고, 호출자가 파일에 쓰기 접근권을 가지고 있지 않고, 호출자에게 특권이 없다 (리눅스: `CAP_DAC_OVERRIDE` 역능과 `CAP_FOWNER` 역능 어느 쪽도 없다).

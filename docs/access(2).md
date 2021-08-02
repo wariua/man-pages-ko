@@ -72,7 +72,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 다음 경우에 `access()`와 `faccessat()`이 실패한다.
 
 `EACCES`
-:   요청한 접근이 파일에 대해서 거부될 것이다. 또는 `pathname`의 경로 선두부의 한 디렉터리에 대해 탐색 권한이 거부되었다. (<tt>[[path_resolution(7)]]</tt> 참고.)
+:   요청한 접근이 파일에 대해서 거부될 것이다. 또는 `pathname`의 경로 선두부의 한 디렉터리에 대해 탐색 권한이 거부되었다. (<tt>[[path_resolution(7)]]</tt>도 참고.)
 
 `ELOOP`
 :   `pathname`을 해석하는 동안 너무 많은 심볼릭 링크를 만났다.

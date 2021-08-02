@@ -33,7 +33,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 ## ERRORS
 
 `EACCES`
-:   지정한 파일에 대해 쓰기 권한이 거부되었거나, `filename`의 경로 선두부의 한 디렉터리에 대해 탐색 권한이 거부되었거나 (<tt>[[path_resolution(7)]]</tt> 참고), `filename`이 정규 파일이 아니다.
+:   지정한 파일에 대해 쓰기 권한이 거부되었거나, `filename`의 경로 선두부의 한 디렉터리에 대해 탐색 권한이 거부되었거나 (<tt>[[path_resolution(7)]]</tt>도 참고), `filename`이 정규 파일이 아니다.
 
 `EFAULT`
 :   `filename`이 접근 가능한 주소 공간 밖을 가리키고 있다.
