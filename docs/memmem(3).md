@@ -38,7 +38,7 @@ glibc 2.0에서는 `needle`이 비어 있으면 `memmem()`이 `haystack`의 마�
 
 ## SEE ALSO
 
-<tt>[[bstring(3)]]</tt>, `strstr(3)`
+<tt>[[bstring(3)]]</tt>, <tt>[[strstr(3)]]</tt>
 
 ----
 

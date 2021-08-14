@@ -55,7 +55,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## SEE ALSO
 
-`index(3)`, <tt>[[memchr(3)]]</tt>, `rindex(3)`, `strchr(3)`, <tt>[[string(3)]]</tt>, `strpbrk(3)`, `strspn(3)`, `strstr(3)`, <tt>[[strtok(3)]]</tt>
+<tt>[[index(3)]]</tt>, <tt>[[memchr(3)]]</tt>, <tt>[[rindex(3)]]</tt>, <tt>[[strchr(3)]]</tt>, <tt>[[string(3)]]</tt>, `strpbrk(3)`, `strspn(3)`, <tt>[[strstr(3)]]</tt>, <tt>[[strtok(3)]]</tt>
 
 ----
 
