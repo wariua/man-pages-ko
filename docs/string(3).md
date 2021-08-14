@@ -95,7 +95,7 @@ size_t strxfrm(char *restrict dest, const char *restrict src, size_t n);
 
 ## SEE ALSO
 
-<tt>[[bstring(3)]]</tt>, `index(3)`, `rindex(3)`, <tt>[[stpcpy(3)]]</tt>, <tt>[[strcasecmp(3)]]</tt>, `strcat(3)`, `strchr(3)`, <tt>[[strcmp(3)]]</tt>, <tt>[[strcoll(3)]]</tt>, `strcpy(3)`, `strcspn(3)`, `strdup(3)`, <tt>[[strfry(3)]]</tt>, `strlen(3)`, <tt>[[strncasecmp(3)]]</tt>, `strncat(3)`, <tt>[[strncmp(3)]]</tt>, `strncpy(3)`, `strpbrk(3)`, `strrchr(3)`, <tt>[[strsep(3)]]</tt>, `strspn(3)`, `strstr(3)`, <tt>[[strtok(3)]]</tt>, <tt>[[strxfrm(3)]]</tt>
+<tt>[[bstring(3)]]</tt>, `index(3)`, `rindex(3)`, <tt>[[stpcpy(3)]]</tt>, <tt>[[strcasecmp(3)]]</tt>, `strcat(3)`, `strchr(3)`, <tt>[[strcmp(3)]]</tt>, <tt>[[strcoll(3)]]</tt>, `strcpy(3)`, `strcspn(3)`, `strdup(3)`, <tt>[[strfry(3)]]</tt>, <tt>[[strlen(3)]]</tt>, <tt>[[strncasecmp(3)]]</tt>, `strncat(3)`, <tt>[[strncmp(3)]]</tt>, `strncpy(3)`, `strpbrk(3)`, `strrchr(3)`, <tt>[[strsep(3)]]</tt>, `strspn(3)`, `strstr(3)`, <tt>[[strtok(3)]]</tt>, <tt>[[strxfrm(3)]]</tt>
 
 ----
 

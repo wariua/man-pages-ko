@@ -58,7 +58,7 @@ void regfree(regex_t *preg);
 :   행 종료 일치 연산자가 항상 일치에 실패한다. (하지만 위의 컴파일 플래그 `REG_NEWLINE` 참고.)
 
 `REG_STARTEND`
-:   입력 문자열에서 `pmatch[0]`에 해당하는 부분, 즉 `pmatch[0].rm_so` 번째 바이트부터 `pmatch[0].rm_eo` 번째 바이트 전까지를 사용한다. 이를 이용하면 문자열에 내장된 널 바이트를 맞춰 볼 수 있으며 긴 문자열에 대한 `strlen(3)`을 피하게 된다. `nmatch`를 입력으로 쓰지 않으며, `REG_NOTBOL`이나 `REG_NEWLINE` 처리 방식을 바꾸지 않는다. 이 플래그는 BSD 확장이며 POSIX에는 없다.
+:   입력 문자열에서 `pmatch[0]`에 해당하는 부분, 즉 `pmatch[0].rm_so` 번째 바이트부터 `pmatch[0].rm_eo` 번째 바이트 전까지를 사용한다. 이를 이용하면 문자열에 내장된 널 바이트를 맞춰 볼 수 있으며 긴 문자열에 대한 <tt>[[strlen(3)]]</tt>을 피하게 된다. `nmatch`를 입력으로 쓰지 않으며, `REG_NOTBOL`이나 `REG_NEWLINE` 처리 방식을 바꾸지 않는다. 이 플래그는 BSD 확장이며 POSIX에는 없다.
 
 ### 바이트 위치
 

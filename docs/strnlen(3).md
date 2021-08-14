@@ -41,7 +41,7 @@ POSIX.1-2008.
 
 ## SEE ALSO
 
-`strlen(3)`
+<tt>[[strlen(3)]]</tt>
 
 ----
 
