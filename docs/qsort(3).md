@@ -51,7 +51,7 @@ glibc 버전 2.8에서 `qsort_r()`이 추가되었다.
 
 ## NOTES
 
-C 문자열을 비교하려면 아래 예처럼 비교 함수에서 `strcmp(3)`를 호출할 수 있다.
+C 문자열을 비교하려면 아래 예처럼 비교 함수에서 <tt>[[strcmp(3)]]</tt>를 호출할 수 있다.
 
 ## EXAMPLES
 
@@ -92,7 +92,7 @@ main(int argc, char *argv[])
 
 ## SEE ALSO
 
-`sort(1)`, <tt>[[alphasort(3)]]</tt>, `strcmp(3)`, <tt>[[versionsort(3)]]</tt>
+`sort(1)`, <tt>[[alphasort(3)]]</tt>, <tt>[[strcmp(3)]]</tt>, <tt>[[versionsort(3)]]</tt>
 
 ----
 

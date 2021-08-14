@@ -91,7 +91,7 @@ POSIX.1에서 비동기 시그널 안전이기를 요구하는 함수들이 아�
 | <tt>[[lstat(2)]]</tt>            | |
 | <tt>[[memccpy(3)]]</tt>          | POSIX.1-2008 TC2에서 추가 |
 | <tt>[[memchr(3)]]</tt>           | POSIX.1-2008 TC2에서 추가 |
-| `memcmp(3)`                      | POSIX.1-2008 TC2에서 추가 |
+| <tt>[[memcmp(3)]]</tt>           | POSIX.1-2008 TC2에서 추가 |
 | `memcpy(3)`                      | POSIX.1-2008 TC2에서 추가 |
 | `memmove(3)`                     | POSIX.1-2008 TC2에서 추가 |
 | `memset(3)`                      | POSIX.1-2008 TC2에서 추가 |
@@ -157,12 +157,12 @@ POSIX.1에서 비동기 시그널 안전이기를 요구하는 함수들이 아�
 | <tt>[[stpncpy(3)]]</tt>          | POSIX.1-2008 TC2에서 추가 |
 | `strcat(3)`                      | POSIX.1-2008 TC2에서 추가 |
 | `strchr(3)`                      | POSIX.1-2008 TC2에서 추가 |
-| `strcmp(3)`                      | POSIX.1-2008 TC2에서 추가 |
+| <tt>[[strcmp(3)]]</tt>           | POSIX.1-2008 TC2에서 추가 |
 | `strcpy(3)`                      | POSIX.1-2008 TC2에서 추가 |
 | `strcspn(3)`                     | POSIX.1-2008 TC2에서 추가 |
 | `strlen(3)`                      | POSIX.1-2008 TC2에서 추가 |
 | `strncat(3)`                     | POSIX.1-2008 TC2에서 추가 |
-| `strncmp(3)`                     | POSIX.1-2008 TC2에서 추가 |
+| <tt>[[strncmp(3)]]</tt>          | POSIX.1-2008 TC2에서 추가 |
 | `strncpy(3)`                     | POSIX.1-2008 TC2에서 추가 |
 | <tt>[[strnlen(3)]]</tt>          | POSIX.1-2008 TC2에서 추가 |
 | `strpbrk(3)`                     | POSIX.1-2008 TC2에서 추가 |

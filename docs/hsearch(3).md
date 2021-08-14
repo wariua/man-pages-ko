@@ -34,7 +34,7 @@ int hsearch_r(ENTRY item, ACTION action, ENTRY **retval,
 
 `hdestroy()` 함수는 `hcreate()`로 만든 해시 테이블이 차지하는 메모리를 해제한다. `hdestroy()` 호출 후에 `hcreate()`로 새 해시 테이블을 만들 수 있다. `hdestroy_r()`은 유사한 일을 수행하되 앞서 `hcreate_r()`로 생성한 `*htab`로 기술한 해시 테이블에 대해 그렇게 한다.
 
-`hsearch()` 함수는 해시 테이블에서 `item`과 같은 키를 가진 항목을 탐색한다. ("같은" 키인지 `strcmp(3)`로 판단한다.) 성공하면 그 항목의 포인터를 반환한다.
+`hsearch()` 함수는 해시 테이블에서 `item`과 같은 키를 가진 항목을 탐색한다. ("같은" 키인지 <tt>[[strcmp(3)]]</tt>로 판단한다.) 성공하면 그 항목의 포인터를 반환한다.
 
 `item` 인자는 `ENTRY` 타입인데, `<search.h>`에 다음처럼 정의돼 있다.
 
