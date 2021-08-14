@@ -11,7 +11,7 @@
 * [[set_thread_area(2)]], [[modify_ldt(2)]]
 * [[userfaultfd(2)]], [[ioctl_userfaultfd(2)]]
 * [[string(3)]], [[stpcpy(3)]], [[stpncpy(3)]], [[strcasecmp(3)]], [[strchr(3)]], [[strcmp(3)]], [[strfry(3)]], [[strlen(3)]], [[strnlen(3)]], [[strsep(3)]], [[strstr(3)]], [[strtok(3)]], [[strverscmp(3)]]
-* [[memchr(3)]], [[memccpy(3)]], [[memfrob(3)]], [[memmem(3)]]
+* [[memchr(3)]], [[memccpy(3)]], [[memfrob(3)]], [[memmem(3)]], [[memset(3)]]
 * [[bstring(3)]], [[bzero(3)]], [[index(3)]]
 * [[ffs(3)]]
 * [[argz_add(3)]], [[envz_add(3)]]

@@ -38,7 +38,7 @@ glibc 2.25에서 `explicit_bzero()`가 처음 등장했다.
 
 ## CONFORMING TO
 
-`bzero()` 함수는 제거 예정이다. (POSIX.1-2001에서 LEGACY로 표시됨.) 새 프로그램에서는 `memset(3)`을 사용하라. POSIX.1-2008에서 `bzero()` 명세를 제거하였다. 4.3BSD에서 `bzero()` 함수가 처음 등장했다.
+`bzero()` 함수는 제거 예정이다. (POSIX.1-2001에서 LEGACY로 표시됨.) 새 프로그램에서는 <tt>[[memset(3)]]</tt>을 사용하라. POSIX.1-2008에서 `bzero()` 명세를 제거하였다. 4.3BSD에서 `bzero()` 함수가 처음 등장했다.
 
 `explicit_bzero()` 함수는 일부 BSD들에도 있는 비표준 확장이다. 몇몇 다른 구현에는 `memset_explicit()`이나 `memset_s()` 같은 비슷한 함수가 있다.
 
@@ -58,7 +58,7 @@ glibc 2.25에서 `explicit_bzero()`가 처음 등장했다.
 
 ## SEE ALSO
 
-<tt>[[bstring(3)]]</tt>, `memset(3)`, <tt>[[swab(3)]]</tt>
+<tt>[[bstring(3)]]</tt>, <tt>[[memset(3)]]</tt>, <tt>[[swab(3)]]</tt>
 
 ----
 

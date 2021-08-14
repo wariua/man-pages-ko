@@ -491,7 +491,7 @@ union sigval {
 
 *CONFORMING TO*: C99 및 이후. POSIX.1-2001 및 이후.
 
-*SEE ALSO*: <tt>[[read(2)]]</tt>, <tt>[[write(2)]]</tt>, <tt>[[fread(3)]]</tt>, <tt>[[fwrite(3)]]</tt>, <tt>[[memcmp(3)]]</tt>, `memcpy(3)`, `memset(3)`, <tt>[[offsetof(3)]]</tt>
+*SEE ALSO*: <tt>[[read(2)]]</tt>, <tt>[[write(2)]]</tt>, <tt>[[fread(3)]]</tt>, <tt>[[fwrite(3)]]</tt>, <tt>[[memcmp(3)]]</tt>, `memcpy(3)`, <tt>[[memset(3)]]</tt>, <tt>[[offsetof(3)]]</tt>
 
 이 페이지의 `ptrdiff_t` 및 `ssize_t` 타입도 참고.
 
@@ -655,7 +655,7 @@ C 언어 표준에 따르면 모든 객체의 포인터와 `void` 포인터를 �
 
 *CONFORMING TO*: C99 및 이후. POSIX.1-2001 및 이후.
 
-*SEE ALSO*: <tt>[[malloc(3)]]</tt>, <tt>[[memcmp(3)]]</tt>, `memcpy(3)`, `memset(3)`
+*SEE ALSO*: <tt>[[malloc(3)]]</tt>, <tt>[[memcmp(3)]]</tt>, `memcpy(3)`, <tt>[[memset(3)]]</tt>
 
 이 페이지의 `intptr_t` 및 `uintptr_t` 타입도 참고.
 

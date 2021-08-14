@@ -94,7 +94,7 @@ POSIX.1에서 비동기 시그널 안전이기를 요구하는 함수들이 아�
 | <tt>[[memcmp(3)]]</tt>           | POSIX.1-2008 TC2에서 추가 |
 | `memcpy(3)`                      | POSIX.1-2008 TC2에서 추가 |
 | `memmove(3)`                     | POSIX.1-2008 TC2에서 추가 |
-| `memset(3)`                      | POSIX.1-2008 TC2에서 추가 |
+| <tt>[[memset(3)]]</tt>           | POSIX.1-2008 TC2에서 추가 |
 | <tt>[[mkdir(2)]]</tt>            | |
 | <tt>[[mkdirat(2)]]</tt>          | POSIX.1-2008에서 추가 |
 | <tt>[[mkfifo(3)]]</tt>           | |
