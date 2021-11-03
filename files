@@ -1,7 +1,9 @@
 ./fallocate(2).md
+./posix_fallocate(3).md
 ./fanotify(7).md
 ./fanotify_init(2).md
 ./fanotify_mark(2).md
+
 ./fcloseall(3).md
 ./feature_test_macros(7).md
 ./ffs(3).md
@@ -119,7 +121,6 @@
 ./pkeys(7).md
 ./poll(2).md
 ./posix_fadvise(2).md
-./posix_fallocate(3).md
 ./posix_madvise(3).md
 ./posix_memalign(3).md
 ./pread(2).md

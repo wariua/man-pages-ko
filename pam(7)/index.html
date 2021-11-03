@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pam%287%29/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>pam(7) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#files">FILES</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>PAM, pam - 리눅스용 장착형 인증 모듈</p>
+<h2 id="description">DESCRIPTION</h2>
+<p>이 매뉴얼은 <strong>Linux-PAM</strong>을 간단히 소개하기 위한 것이다. 더 많은 정보를 원하는 독자는 <strong>Linux-PAM 시스템 관리자 안내서</strong>를 보면 된다.</p>
+<p><strong>Linux-PAM</strong>은 시스템에 있는 응용(서비스)의 인증 작업들을 다루는 라이브러리 체계다. 라이브러리에서 제공하는 안정적인 범용 인터페이스(응용 프로그래밍 인터페이스, API)를 (<code>login(1)</code>이나 <code>su(1)</code> 같은) 특권 부여 프로그램에서 이용해 표준 인증 작업들을 수행한다.</p>
+<p>PAM 방식의 주된 특징은 인증의 성격을 동적으로 설정 가능하다는 점이다. 달리 말해 각 서비스 제공 응용에서 사용자를 인증하는 방식을 시스템 관리자가 마음대로 선택할 수 있다. 이러한 동적 설정은 <strong>Linux-PAM</strong> 설정 파일 /etc/pam.conf의 내용에 의해 정해진다. 또는 /etc/pam.d/ 디렉터리에 위치한 개별 설정 파일들로 설정할 수도 있다. 이 디렉터리가 있으면 <strong>Linux-PAM</strong>에서 /etc/pam.conf를 <em>무시</em>하게 된다.</p>
+<p>머신 설정 디렉터리 /etc/pam.d/ 외에 시스템 디렉터리 /usr/lib/pam.d/에 벤더 제공 PAM 설정 파일들이 설치돼 있을 수도 있다. 머신 설정 파일이 없으면 벤더 제공 파일을 쓴다. /etc/pam.d/에 있는 파일이 /usr/lib/pam.d/에 있는 같은 이름의 파일보다 우선한다.</p>
+<p>이 매뉴얼을 읽게 될 시스템 관리자 입장에서 <strong>Linux-PAM</strong> 라이브러리의 내부 동작을 이해하는 건 그리 중요치 않다. 꼭 알아야 할 건 응용(<strong>서비스</strong>)과 실제 인증 작업을 수행하는 장착형 인증 모듈(<strong>PAM</strong>)들 사이 연결을 설정 파일이 <em>규정</em>한다는 점이다.</p>
+<p><strong>Linux-PAM</strong>에선 <em>인증</em> 작업들을 네 가지 독립적 관리 그룹들로 나누는데, 계정(<strong>account</strong>) 관리, 인증(<strong>auth</strong>) 관리, 패스워드(<strong>password</strong>) 관리, 세션(<strong>session</strong>) 관리가 그것이다. (설정 파일에서 쓰는 키워드를 강조해서 표시했다.)</p>
+<p>간단히 말해 이 그룹들은 접근이 제한된 서비스에 대한 일반적 사용자 요청의 여러 측면들을 다룬다.</p>
+<p><strong>account</strong> - 계정 검사 유형 서비스 제공. 사용자 패스워드가 만료되었는가? 이 사용자가 요청한 서비스에 접근하는 게 허용돼 있는가?</p>
+<p><strong>auth</strong> - 사용자를 인증하고 사용자 크리덴셜을 확정한다. 보통 어떤 시도-응답 요청을 통해 이뤄지며, 사용자가 그 요청을 만족시켜야 한다. 스스로 주장하는 그 사용자라면 패스워드를 입력하라는 식이다. 모든 인증이 이 방식은 아니고 (스마트 카드나 생체 측정 장치 사용 같은) 하드웨어 기반 인증도 있으며, 적절한 모듈을 쓰면 더 일반적인 인증 방식을 매끄럽게 대체할 수 있다. 이게 바로 <strong>Linux-PAM</strong>의 유연함이다.</p>
+<p><strong>password</strong> - 이 그룹은 인증 메커니즘 갱신 작업을 맡는다. 보통 그 서비스는 <strong>auth</strong> 그룹의 서비스와 밀접하게 연관돼 있다. 어떤 인증 메커니즘은 이 기능으로 갱신하는 게 잘 맞는다. 표준 유닉스 패스워드 기반 접근 방식이 좋은 예인데, 새 패스워드를 입력받으면 된다.</p>
+<p><strong>session</strong> - 이 작업 그룹은 서비스를 제공하기 전과 중단한 후에 해야 할 일들을 담당한다. 감사 기록 관리나 사용자 홈 디렉터리 마운트 등이 여기 포함된다. 모듈에서 사용자 이용 서비스에 영향을 주기 위한 여는 훅과 닫는 훅을 함께 제공한다는 점에서 <strong>session</strong> 관리 그룹이 중요하다.</p>
+<h2 id="files">FILES</h2>
+<dl>
+<dt>/etc/pam.conf</dt>
+<dd>설정 파일</dd>
+<dt>/etc/pam.d</dt>
+<dd><strong>Linux-PAM</strong> 설정 디렉터리. 일반적으로 이 디렉터리가 있으면 /etc/pam.conf 파일을 무시한다.</dd>
+<dt>/usr/lib/pam.d</dt>
+<dd><strong>Linux-PAM</strong> 벤더 설정 디렉터리. /etc/pam.d의 파일이 이 디렉터리에 있는 같은 이름의 파일보다 우선한다.</dd>
+</dl>
+<h2 id="errors">ERRORS</h2>
+<p><strong>Linux-PAM</strong> 라이브러리 체계에서 발생한 오류들은 보통 <code>syslog(3)</code>로 기록된다.</p>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>DCE-RFC 86.0, 1995년 10월. 추가 기능들이 있되, 이 RFC와 하위 호환 유지.</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><code>pam(3)</code>, <code>pam_authenticate(3)</code>, <code>pam_sm_setcred(3)</code>, <code>pam_strerror(3)</code>, <code>PAM(7)</code></p>
+<hr />
+<p>2018년 5월 18일</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

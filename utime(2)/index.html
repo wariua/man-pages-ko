@@ -183,7 +183,7 @@ int utimes(const char *filename, const struct timeval times[2]);
 <h2 id="errors">ERRORS</h2>
 <dl>
 <dt><code>EACCES</code></dt>
-<dd><code>path</code>의 경로 선두부의 한 디렉터리에 대해 탐색 권한이 거부되었다. (<tt><a class="wikilink" href="/man-pages-ko/path_resolution(7)/">path_resolution(7)</a></tt> 참고.)</dd>
+<dd><code>path</code>의 경로 선두부의 한 디렉터리에 대해 탐색 권한이 거부되었다. (<tt><a class="wikilink" href="/man-pages-ko/path_resolution(7)/">path_resolution(7)</a></tt>도 참고.)</dd>
 <dt><code>EACCES</code></dt>
 <dd><code>times</code>가 NULL이고, 호출자의 실효 사용자 ID가 파일의 소유자와 일치하지 않고, 호출자가 파일에 쓰기 접근권을 가지고 있지 않고, 호출자에게 특권이 없다 (리눅스: <code>CAP_DAC_OVERRIDE</code> 역능과 <code>CAP_FOWNER</code> 역능 어느 쪽도 없다).</dd>
 <dt><code>ENOENT</code></dt>

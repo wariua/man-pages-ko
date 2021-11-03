@@ -169,8 +169,8 @@ int userfaultfd(int flags);
 </code></pre>
 <p><em>주의</em>: 이 시스템 호출들에 대한 glibc 래퍼가 없다. NOTES 참고.</p>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>userfaultfd()</code>는 페이지 폴트 처리를 사용자 공간 응용에게 위임하는 데 쓸 수 있는 userfaultfd 객체를 새로 생성하고 그 새 객체를 가리키는 파일 디스크립터를 반환한다. <code>ioctl(2)</code>을 이용해 새 userfaultfd 객체를 설정한다.</p>
-<p>userfaultfd를 설정하고 나면 응용에서 <code>read(2)</code>를 사용해 userfaultfd 알림을 수신할 수 있다. userfaultfd 읽기는 userfaultfd 생성이나 이어진 <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt> 호출에 사용한 <code>flags</code> 값에 따라 블로킹일 수도 있고 논블로킹일 수도 있다.</p>
+<p><code>userfaultfd()</code>는 페이지 폴트 처리를 사용자 공간 응용에게 위임하는 데 쓸 수 있는 userfaultfd 객체를 새로 생성하고 그 새 객체를 가리키는 파일 디스크립터를 반환한다. <tt><a class="wikilink" href="/man-pages-ko/ioctl(2)/">ioctl(2)</a></tt>을 이용해 새 userfaultfd 객체를 설정한다.</p>
+<p>userfaultfd를 설정하고 나면 응용에서 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>를 사용해 userfaultfd 알림을 수신할 수 있다. userfaultfd 읽기는 userfaultfd 생성이나 이어진 <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt> 호출에 사용한 <code>flags</code> 값에 따라 블로킹일 수도 있고 논블로킹일 수도 있다.</p>
 <p><code>flags</code>에 다음 값들을 비트 OR 해서 <code>userfaultfd()</code>의 동작 방식을 바꿀 수 있다.</p>
 <dl>
 <dt><code>O_CLOEXEC</code></dt>
@@ -533,7 +533,7 @@ main(int argc, char *argv[])
 }
 </code></pre>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt>, <code>ioctl(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/ioctl_userfaultfd(2)/">ioctl_userfaultfd(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/madvise(2)/">madvise(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ioctl(2)/">ioctl(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ioctl_userfaultfd(2)/">ioctl_userfaultfd(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/madvise(2)/">madvise(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt></p>
 <p>리눅스 커널 소스 트리의 <code>Documentation/admin-guide/mm/userfaultfd.rst</code></p>
 <hr />
 <p>2021-03-22</p></div>

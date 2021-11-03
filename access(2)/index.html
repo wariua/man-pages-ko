@@ -211,7 +211,7 @@ int faccessat2(int dirfd, const char *pathname, int mode, int flags);
 <p>다음 경우에 <code>access()</code>와 <code>faccessat()</code>이 실패한다.</p>
 <dl>
 <dt><code>EACCES</code></dt>
-<dd>요청한 접근이 파일에 대해서 거부될 것이다. 또는 <code>pathname</code>의 경로 선두부의 한 디렉터리에 대해 탐색 권한이 거부되었다. (<tt><a class="wikilink" href="/man-pages-ko/path_resolution(7)/">path_resolution(7)</a></tt> 참고.)</dd>
+<dd>요청한 접근이 파일에 대해서 거부될 것이다. 또는 <code>pathname</code>의 경로 선두부의 한 디렉터리에 대해 탐색 권한이 거부되었다. (<tt><a class="wikilink" href="/man-pages-ko/path_resolution(7)/">path_resolution(7)</a></tt>도 참고.)</dd>
 <dt><code>ELOOP</code></dt>
 <dd><code>pathname</code>을 해석하는 동안 너무 많은 심볼릭 링크를 만났다.</dd>
 <dt><code>ENAMETOOLONG</code></dt>

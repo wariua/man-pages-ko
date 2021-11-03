@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pam.d%285%29/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>pam.d(5) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>pam.conf, pam.d - PAM 설정 파일</p>
+<h2 id="description">DESCRIPTION</h2>
+<p><em>PAM</em>을 이용하는 권한 부여 응용이 동작을 시작하면서 PAM API와 연결된 코드를 작동시킨다. 거기서 여러 작업을 수행하는데, 가장 중요한 게 설정 파일 /etc/pam.conf를 읽는 것이다. 또는 /etc/pam.d/ 디렉터리의 내용물을 읽을 수도 있다. 그 디렉터리가 존재하면 Linux-PAM에서 /etc/pam.conf를 무시하게 된다.</p>
+<p>그 파일들에는 서비스에 필요한 인증 작업을 해 줄 <em>PAM</em>들과 개별 <em>PAM</em>이 실패한 경우의 적절한 PAM API 동작 방식이 나열돼 있다.</p>
+<p>/etc/pam.conf 설정 파일의 문법은 이렇다. 파일은 규칙들의 목록으로 이뤄져 있다. 각 규칙은 보통 한 행으로 돼 있지만 이스케이프 개행 <code>\&lt;LF&gt;</code>으로 연장할 수도 있다. 주석은 <code>#</code> 기호로 시작해서 행 끝까지 이어진다.</p>
+<p>각 행은 공백으로 구분된 토큰들의 집합 형식으로 돼 있으며, 그 중 처음 세 개는 대소문자를 구별하지 않는다.</p>
+<p><strong>service type control module-path module-arguments</strong></p>
+<p>/etc/pam.d/ 디렉터리에 담긴 파일의 문법은 <em>service</em> 필드가 빠져 있다는 점을 빼면 동일하다. 이 경우 /etc/pam.d/ 디렉터리 내의 파일 이름이 <em>service</em>가 된다. 이 파일 이름은 소문자여야 한다.</p>
+<p><em>PAM</em>의 중요한 특징은 여러 규칙들을 <em>스택처럼 쌓아서</em> 해당 인증 작업에 여러 PAM 서비스들을 조합할 수 있다는 점이다.</p>
+<p><em>service</em>는 보통 해당 응용의 익숙한 이름이다. <em>login</em>과 <em>su</em>가 좋은 예다. <em>service</em> 이름 <em>other</em>는 <em>기본</em> 규칙들을 위해 예약돼 있다. 어떤 서비스 응용이 주어지면 그 서비스가 명시된 행들만 (그런 행이 없는 경우엔 <em>other</em> 항목들을) 이용한다.</p>
+<p><em>type</em>은 그 규칙이 해당하는 관리 그룹이다. 이를 이용해 이어지는 모듈이 어느 관리 그룹에 연계돼야 하는지 지정한다. 유효한 항목은 다음과 같다.</p>
+<dl>
+<dt>account</dt>
+<dd>이 모듈 타입은 인증을 기반으로 하지 않는 계정 관리를 수행한다. 보통 현재 시간이나 현재 가용 시스템 자원 (최대 사용자 수), 신청 사용자의 위치에 따라 ('root' 루그인을 콘솔에서만) 서비스 접근 제한/허용하는 데 쓴다.</dd>
+<dt>auth</dt>
+<dd>이 모듈 타입은 사용자 인증의 두 가지 측면을 제공한다. 첫째, 응용에서 사용자에게 암호나 기타 식별 수단을 입력받도록 해서 사용자가 스스로 주장하는 그 사람인지 확인한다. 둘째, 크리덴셜 승인 속성을 통해 그룹 소속이나 기타 권한을 승인할 수 있다.</dd>
+<dt>password</dt>
+<dd>이 모듈 타입은 사용자와 연계된 인증 토큰을 갱신하는 데 필요하다. 보통 '시험/응답' 기반 인증(auth) 타입마다 모듈이 하나씩 있다.</dd>
+<dt>session</dt>
+<dd>이 모듈 타입은 사용자가 서비스를 받기 전이나 받은 후에 해야 할 일과 연관돼 있다. 사용자와의 어떤 데이터 교환 개시/종료 관련 정보를 로그로 기록하기, 디렉터리 마운트 등이 포함된다.</dd>
+</dl>
+<p>위 목록에 있는 <em>type</em> 값 앞에 <code>-</code> 문자가 붙어 있으면 그 모듈이 시스템 내에 없어서 적재할 수 없는 경우에도 PAM 라이브러리가 시스템 로그에 기록을 남기지 않는다. 시스템에 늘 설치돼 있는 건 아니어서 로그인 세션을 올바로 인증하고 인가하는 데 꼭 필요하진 않은 모듈에 특히 유용할 수 있다.</p>
+<p>세 번째 필드인 <em>control</em>은 모듈에서 인증 작업을 성공하지 못했을 때 PAM API의 동작을 나타낸다. 이 control 필드에는 두 가지 문법이 있는데, 단순 문법은 간단한 키워드를 쓰는 것이고, 복잡한 문법은 <em>value=action</em> 짝들을 꺽쇠괄호로 감싸는 방식이다.</p>
+<p>(전통적인) 단순 문법에서 요효한 <em>control</em> 값은 다음과 같다.</p>
+<dl>
+<dt>required</dt>
+<dd>이 PAM 모듈의 실패가 궁극적으로 PAM API의 실패 반환을 일으키되, <em>쌓여 있는</em> (이 <em>service</em> 및 <em>type</em>에 대한) 나머지 모듈들을 호출한 후에 그렇게 된다.</dd>
+<dt>requisite</dt>
+<dd><em>required</em>와 비슷하되, 모듈이 실패를 반환하는 경우 바로 응용이나 상위 PAM 스택으로 제어가 반환된다. 실패한 첫 번째 required 내지 requisite 모듈의 반환 값이 반환된다. 참고로 사용자가 안전하지 않은 매체로 패스워드를 입력하게 될 가능성을 막기 위해 이 플래그를 사용할 수 있다. 그런데 이런 동작이 공격자에게 시스템의 유효 계정에 대해 알려 줄 수 있다는 것도 가능한 일이다. 적대적 환경에서 민감한 패스워드 노출에 대한 염려가 무시할 만한 수준이 아닌 경우에 두 가능성의 경중을 따져 볼 필요가 있다.</dd>
+<dt>sufficient</dt>
+<dd>이 모듈이 성공하고 앞서 실패한 <em>required</em> 모듈이 없으면 PAM 프레임워크가 스택의 이후 모듈을 호출하지 않고 즉시 응용이나 상위 PAM 스택으로 성공을 반환한다. <em>sufficient</em> 모듈의 실패는 무시되며 PAM 모듈 스택 처리가 영향 없이 계속 진행된다.</dd>
+<dt>optional</dt>
+<dd>스택에서 이 <em>service</em>+<em>type</em>에 연계된 유일한 모듈인 경우에만 이 모듈의 성공 내지 실패가 영향을 준다.</dd>
+<dt>include</dt>
+<dd>인자로 지정한 설정 파일에서 해당 타입의 행을 모두 가져다 포함시킨다.</dd>
+<dt>substack</dt>
+<dd>인자로 지정한 설정 파일에서 해당 타입의 행을 모두 가져다 포함시킨다. <em>include</em>와의 차이는 하위 스택에서의 <em>done</em> 및 <em>die</em> 동작이 모듈 스택 전체가 아니라 그 하위 스택의 나머지 부분만 건너뛰게 한다는 점이다. 하위 스택에서의 점프 역시 그 밖으로 평가 위치를 점프하지 못하며, 부모 스택에서 점프가 이뤄질 때는 하위 스택 전체를 모듈 한 개로 센다. <em>reset</em> 동작은 모듈 스택의 상태를 하위 스택 평가를 시작할 때의 상태로 재설정한다.</dd>
+</dl>
+<p>복잡한 문법에서 유효한 <em>control</em> 값은 다음 형식이다.</p>
+<pre><code class="language-text">[value1=action1 value2=action2 ...]
+</code></pre>
+<p>여기서 <em>valueN</em>은 그 행에 지정된 모듈의 호출 함수가 반환한 코드에 해당한다. 다음 중 하나를 선택한다: <em>success</em>, <em>open_err</em>, <em>symbol_err</em>, <em>service_err</em>, <em>system_err</em>, <em>buf_err</em>, <em>perm_denied</em>, <em>auth_err</em>, <em>cred_insufficient</em>, <em>authinfo_unavail</em>, <em>user_unknown</em>, <em>maxtries</em>, <em>new_authtok_reqd</em>, <em>acct_expired</em>, <em>session_err</em>, <em>cred_unavail</em>, <em>cred_expired</em>, <em>cred_err</em>, <em>no_module_data</em>, <em>conv_err</em>, <em>authtok_err</em>, <em>authtok_recover_err</em>, <em>authtok_lock_busy</em>, <em>authtok_disable_aging</em>, <em>try_again</em>, <em>ignore</em>, <em>abort</em>, <em>authtok_expired</em>, <em>module_unknown</em>, <em>bad_item</em>, <em>conv_again</em>, <em>incomplete</em>, <em>default</em>.</p>
+<p>이 중 마지막의 <em>default</em>는 명시적으로 언급되지 않은 '모든 <em>valueN</em>'을 뜻한다. 참고로 전체 PAM 오류 목록을 /usr/include/security/_pam_types.h에서 볼 수 있다. <em>actionN</em>은 다음 중 한 형태일 수 있다.</p>
+<dl>
+<dt>ignore</dt>
+<dd>모듈 스택에서 사용 시 모듈의 반환 상태가 응용이 얻을 반환 코드에 영향을 주지 않게 된다.</dd>
+<dt>bad</dt>
+<dd>이 동작은 반환 코드를 모듈 실패를 나타내는 것으로 봐야 한다는 뜻이다. 이 모듈이 스택에서 실패한 첫 모듈이면 그 상태 값을 전체 스택의 값으로 쓰게 된다.</dd>
+<dt>die</dt>
+<dd>bad와 같되, 모듈 스택 처리를 종료하고 즉시 PAM에서 응용으로 반환한다.</dd>
+<dt>ok</dt>
+<dd>관리자가 보기에 이 반환 코드가 그대로 전체 모듈 스택의 반환 코드가 돼야 한다는 뜻이다. 달리 말해 스택의 이전 상태가 <em>PAM_SUCCESS</em> 반환으로 이어질 상태였던 경우에 모듈 반환 코드가 그 값을 오버라이드하게 된다. 참고로 스택의 이전 상태가 모듈 실패를 나타내는 어떤 값이었던 경우에는 이 'ok' 값으로 그 값을 오버라이드하지 않는다.</dd>
+<dt>done</dt>
+<dd>ok와 같되, 앞서 무시되지 않은 모듈 실패가 없었다면 모듈 스택 처리를 종료하고 즉시 PAM에서 응용으로 반환한다.</dd>
+<dt>N (부호 없는 정수)</dt>
+<dd>ok와 같되, 스택의 다음 N개 모듈을 건너뛴다. N을 0으로 하는 건 허용되지 않으며, 그 경우 ok와 동일하게 된다.</dd>
+<dt>reset</dt>
+<dd>메모리에서 모듈 스택의 상태를 모두 비우고 스택의 다음 모듈부터 새로 시작한다.</dd>
+</dl>
+<p>네 가지 키워드(required, requisite, sufficient, optional)를 [...] 문법으로 동등하게 표현할 수 있다. 다음과 같다.</p>
+<dl>
+<dt>required</dt>
+<dd><code>[success=ok new_authtok_reqd=ok ignore=ignore default=bad]</code></dd>
+<dt>requisite</dt>
+<dd><code>[success=ok new_authtok_reqd=ok ignore=ignore default=die]</code></dd>
+<dt>sufficient</dt>
+<dd><code>[success=done new_authtok_reqd=done default=ignore]</code></dd>
+<dt>optional</dt>
+<dd><code>[success=ok new_authtok_reqd=ok default=ignore]</code></dd>
+</dl>
+<p><em>module-path</em>는 응용에서 이용할 PAM의 전체 파일 이름('/'로 시작)이거나 기본 모듈 위치 기준의 상대 경로명이다. 기본 모듈 위치는 아키텍처에 따라 /lib/security/ 또는 /lib64/security/다.</p>
+<p><em>module-arguments</em>는 해당 PAM의 구체적 동작 방식을 바꾸는 데 쓸 수 있는 공백 구분 토큰 목록이다. 개별 모듈별로 그런 인자들이 문서화돼 있다. 참고로 인자에 공백을 포함시키고 싶다면 그 인자를 꺽쇠괄호로 감싸야 한다.</p>
+<pre><code class="language-text">squid auth required pam_mysql.so user=passwd_query passwd=mada \
+      db=eminence [query=select user_name from internet_service \
+      where user_name='%u' and password=PASSWORD('%p') and \
+    service='web_proxy']
+</code></pre>
+<p>이 방식 사용 시에 문자열 안에 <code>[</code> 문자를 포함시킬 수 있다. 문자열 안에 <code>]</code> 문자를 포함시키면서 인자의 일부로 파싱되게 하고 싶으면 <code>\]</code>를 써야 한다. 즉 다음처럼 파싱된다.</p>
+<pre><code class="language-text">[..[..\]..]    --&gt;   ..[..]..
+</code></pre>
+<p>설정 파일(들 중 하나)의 어느 행이라도 올바른 형식이 아니면 일반적으로 (과잉으로 조심하는 쪽을 택해서) 인증 과정이 실패하게 된다. <code>syslog(3)</code> 호출을 이용해 해당 오류를 시스템 로그 파일로 기록한다.</p>
+<p>설정 파일 하나를 쓰는 것보다 유연하게 libpam을 구성하는 방식으로 /etc/pam.d/ 디렉터리 내용물을 통해 설정하는 방식이 있다. 이 경우 그 디렉터리를 채운 파일들의 이름이 (소문자) 서비스 이름과 같다. 즉, 그 이름의 서비스에 대한 개별 설정 파일이 된다.</p>
+<p>/etc/pam.d/ 내 파일의 문법은 /etc/pam.conf 파일과 비슷하며 다음 형식의 행들로 이뤄진다.</p>
+<pre><code class="language-text">type  control  module-path  module-arguments
+</code></pre>
+<p>유일한 차이는 서비스 이름이 없다는 점이다. 물론 해당 설정 파일의 이름이 서비스 이름이다. 예를 들어 /etc/pam.d/login이 <strong>login</strong> 서비스에 대한 설정을 담고 있다.</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><code>pam(3)</code>, <code>PAM(8)</code>, <code>pam_start(3)</code></p>
+<hr />
+<p>2017년 5월 18일</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>
