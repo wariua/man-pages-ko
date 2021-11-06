@@ -214,7 +214,7 @@
 <p>논블로킹 파일 디스크립터를 사용한다.</p>
 </li>
 <li>
-<p><code>read(2)</code>나 <code>write(2)</code>가 <code>EAGAIN</code>을 반환한 후에 이벤트를 기다린다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>나 <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt>가 <code>EAGAIN</code>을 반환한 후에 이벤트를 기다린다.</p>
 </li>
 </ol>
 <p>반면 레벨 트리거 인터페이스(<code>EPOLLET</code>를 지정할지 않았을 때의 기본 방식)로 쓸 때 <strong>epoll</strong>은 그냥 더 빠른 <tt><a class="wikilink" href="/man-pages-ko/poll(2)/">poll(2)</a></tt>이며, 같은 동작 방식을 공유하기에 <tt><a class="wikilink" href="/man-pages-ko/poll(2)/">poll(2)</a></tt>을 쓰는 곳 어디에든 쓸 수 있다.</p>
@@ -230,7 +230,7 @@
 <dd>시스템의 모든 epoll 인스턴스들에 사용자가 등록할 수 있는 파일 디스크립터 총개수의 한계를 지정한다. 실제 사용자 ID별로 제한한다. 등록된 파일 디스크립터마다 32비트 커널에선 약 90바이트, 64비트 커널에선 약 160바이트가 든다. 현재 <code>max_user_watches</code>의 기본값은 사용 가능한 로우 메모리의 1/25(4%)를 등록당 드는 바이트 수로 나눈 것이다.</dd>
 </dl>
 <h3 id="_2">사용 예시</h3>
-<p>레벨 트리거 인터페이스로 쓸 때는 <strong>epoll</strong> 사용 방식이 <tt><a class="wikilink" href="/man-pages-ko/poll(2)/">poll(2)</a></tt>과 같지만 에지 트리거로 쓸 때는 응용의 이벤트 루프에서 멈추는 걸 막기 위해 더 명확한 처리가 필요하다. 이 예에서 연결을 받아들이는 소켓은 논블로킹 소켓에 <code>listen(2)</code>을 호출한 것이다. <code>do_use_fd()</code> 함수에서는 새로 준비된 파일 디스크립터를 <code>EAGAIN</code>이 반환될 때까지 <code>read(2)</code>나 <code>write(2)</code>로 사용한다. 이벤트 주도 상태 머신 응용에서는 <code>EAGAIN</code> 수신 후에 현재 상태를 기록해 둬서 다음 <code>do_use_fd()</code> 호출 때 중지 지점부터 <code>read(2)</code>나 <code>write(2)</code>를 계속할 수 있도록 해야 할 것이다.</p>
+<p>레벨 트리거 인터페이스로 쓸 때는 <strong>epoll</strong> 사용 방식이 <tt><a class="wikilink" href="/man-pages-ko/poll(2)/">poll(2)</a></tt>과 같지만 에지 트리거로 쓸 때는 응용의 이벤트 루프에서 멈추는 걸 막기 위해 더 명확한 처리가 필요하다. 이 예에서 연결을 받아들이는 소켓은 논블로킹 소켓에 <code>listen(2)</code>을 호출한 것이다. <code>do_use_fd()</code> 함수에서는 새로 준비된 파일 디스크립터를 <code>EAGAIN</code>이 반환될 때까지 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>나 <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt>로 사용한다. 이벤트 주도 상태 머신 응용에서는 <code>EAGAIN</code> 수신 후에 현재 상태를 기록해 둬서 다음 <code>do_use_fd()</code> 호출 때 중지 지점부터 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>나 <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt>를 계속할 수 있도록 해야 할 것이다.</p>
 <pre><code class="language-c">#define MAX_EVENTS 10
 struct epoll_event ev, events[MAX_EVENTS];
 int listen_sock, conn_sock, nfds, epollfd;
@@ -324,7 +324,7 @@ for (;;) {
 <p><code>EPOLLET</code> 플래그(에지 트리거 동작)를 쓸 때 <code>EAGAIN</code>이 나올 때까지 계속해서 파일 디스크립터에 읽기/쓰기를 해야만 하는가?</p>
 <p><tt><a class="wikilink" href="/man-pages-ko/epoll_wait(2)/">epoll_wait(2)</a></tt>으로 이벤트를 받았다는 건 요청한 I/O 동작에 대해 그 파일 디스크립터가 준비 상태라는 뜻일 것이다. 다음 번 (논블로킹) 읽기/쓰기가 <code>EAGAIN</code>을 내놓을 때까지 준비 상태라는 것으로 봐야 한다. 그 파일 디스크립터를 언제 어떻게 쓸지는 전적으로 프로그래머에게 달려 있다.</p>
 <p>패킷/토큰 지향 파일(가령 데이터그램 소켓, 정규 모드 터미널)에서 읽기/쓰기 I/O 공간의 끝을 알아내는 유일한 방법은 <code>EAGAIN</code>이 나올 때까지 읽기/쓰기를 계속하는 것이다.</p>
-<p>스트림 지향 파일(가령 파이프, FIFO, 스트림 소켓)에서는 대상 파일 디스크립터에 읽기/쓰기 된 데이터의 양을 확인하는 것으로 읽기/쓰기 I/O 공간이 고갈되었는지 알아낼 수도 있다. 예를 들어 <code>read(2)</code>를 호출해서 어떤 양의 데이터를 읽으라고 했는데 <code>read(2)</code>가 그보다 적은 바이트 수를 반환한다면 그 파일 디스크립터의 읽기 I/O 공간이 고갈됐다고 확신할 수 있다. <code>write(2)</code>로 쓰기를 할 때도 마찬가지다. (감시하는 파일 디스크립터가 항상 스트림 지향 파일을 가리킨다고 보장할 수 없다면 이 기법을 쓰지 말아야 한다.)</p>
+<p>스트림 지향 파일(가령 파이프, FIFO, 스트림 소켓)에서는 대상 파일 디스크립터에 읽기/쓰기 된 데이터의 양을 확인하는 것으로 읽기/쓰기 I/O 공간이 고갈되었는지 알아낼 수도 있다. 예를 들어 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>를 호출해서 어떤 양의 데이터를 읽으라고 했는데 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>가 그보다 적은 바이트 수를 반환한다면 그 파일 디스크립터의 읽기 I/O 공간이 고갈됐다고 확신할 수 있다. <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt>로 쓰기를 할 때도 마찬가지다. (감시하는 파일 디스크립터가 항상 스트림 지향 파일을 가리킨다고 보장할 수 없다면 이 기법을 쓰지 말아야 한다.)</p>
 </li>
 </ol>
 <h3 id="_4">가능한 문제들과 회피 방법</h3>

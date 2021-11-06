@@ -156,7 +156,7 @@
 ssize_t sendfile(int out_fd, int in_fd, off_t *offset, size_t count);
 </code></pre>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>sendfile()</code>은 한 파일 디스크립터와 다른 디스크립터 간에 데이터를 복사한다. 커널 내에서 복사가 이뤄지기 때문에 <code>sendfile()</code>은 사용자 공간과 데이터를 주고받아야 하는 <code>read(2)</code> 및 <code>write(2)</code> 조합보다 효율적이다.</p>
+<p><code>sendfile()</code>은 한 파일 디스크립터와 다른 디스크립터 간에 데이터를 복사한다. 커널 내에서 복사가 이뤄지기 때문에 <code>sendfile()</code>은 사용자 공간과 데이터를 주고받아야 하는 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt> 조합보다 효율적이다.</p>
 <p><code>in_fd</code>는 읽기 가능하게 열린 파일 디스크립터여야 하고 <code>out_fd</code>는 쓰기 가능하게 열린 디스크립터여야 한다.</p>
 <p><code>offset</code>이 NULL이 아닌 경우에는 <code>sendfile()</code>이 <code>in_fd</code>에서 데이터를 읽기 시작할 파일 오프셋을 담은 변수를 가리킨다. <code>sendfile()</code> 반환 시에 그 변수는 읽어 들인 마지막 바이트 다음 바이트의 오프셋으로 설정된다. <code>offset</code>이 NULL이 아니면 <code>sendfile()</code>에서 <code>in_fd</code>의 파일 오프셋을 변경하지 않는다. NULL이면 <code>in_fd</code>에서 읽은 바이트 수를 반영하도록 파일 오프셋을 조정한다.</p>
 <p><code>offset</code>이 NULL인 경우에는 파일 오프셋부터 시작해서 <code>in_fd</code>를 읽게 되며 호출 내에서 파일 오프셋을 갱신한다.</p>
@@ -197,7 +197,7 @@ ssize_t sendfile(int out_fd, int in_fd, off_t *offset, size_t count);
 <p><code>sendfile()</code>을 사용해서 TCP 소켓으로 파일을 보내려 하는데 파일 내용 앞에 어떤 헤더 데이터를 보내야 한다면 <tt><a class="wikilink" href="/man-pages-ko/tcp(7)/">tcp(7)</a></tt>에 설명된 <code>TCP_CORK</code> 옵션을 쓰는 게 유용할 것이다. 패킷 수를 줄여서 성능을 최적화할 수 있다.</p>
 <p>리눅스 2.4 및 이전에서는 <code>out_fd</code>가 정규 파일을 가리킬 수도 있었다. 리눅스 2.6.x 커널 시리즈에서 가능하지 않게 되었다가 리눅스 2.6.33에서 다시 가능해졌다.</p>
 <p>원래의 리눅스 <code>sendfile()</code> 시스템 호출은 큰 파일 오프셋을 다룰 수 있도록 설계되지 않았다. 그래서 리눅스 2.4에서 <code>offset</code> 인자에 더 큰 타입을 쓰는 <code>sendfile64()</code>를 추가했다. glibc의 <code>sendfile()</code> 래퍼 함수에서 커널 차이를 투명하게 처리해 준다.</p>
-<p><code>sendfile()</code>이 <code>EINVAL</code>이나 <code>ENOSYS</code>로 실패하는 경우에 응용에서 <code>read(2)</code>/<code>write(2)</code> 방식으로 되돌아갈 수도 있다.</p>
+<p><code>sendfile()</code>이 <code>EINVAL</code>이나 <code>ENOSYS</code>로 실패하는 경우에 응용에서 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>/<tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt> 방식으로 되돌아갈 수도 있다.</p>
 <p><code>out_fd</code>가 제로 카피를 지원하는 소켓이나 파이프를 가리키는 경우 호출자는 <code>out_fd</code>의 반대편에서 데이터를 모두 읽어서 소모할 때까지 <code>in_fd</code>가 가리키는 파일의 복사할 부분이 바뀌지 않고 유지되도록 해야 한다.</p>
 <p>리눅스 전용 <tt><a class="wikilink" href="/man-pages-ko/splice(2)/">splice(2)</a></tt> 호출은 한쪽이 (또는 양쪽 모두) 파이프라면 임의 파일 디스크립터 간에 데이터 복사를 지원한다.</p>
 <h2 id="see-also">SEE ALSO</h2>

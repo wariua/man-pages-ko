@@ -200,7 +200,7 @@ int sockatmark(int sockfd);
 <p><code>sockatmark()</code>가 1을 반환하는 경우에는 <tt><a class="wikilink" href="/man-pages-ko/recv(2)/">recv(2)</a></tt>의 <code>MSG_OOB</code> 플래그를 사용해 대역외 데이터를 읽을 수 있다.</p>
 <p>일부 스트림 소켓 프로토콜들에서만 대역외 데이터를 지원한다.</p>
 <p><code>SIGURG</code> 시그널 핸들러에서 안전하게 <code>sockatmark()</code>를 호출할 수 있다.</p>
-<p><code>sockatmark()</code>는 <code>SIOCATMARK</code> <code>ioctl(2)</code> 동작을 이용해 구현되어 있다.</p>
+<p><code>sockatmark()</code>는 <code>SIOCATMARK</code> <tt><a class="wikilink" href="/man-pages-ko/ioctl(2)/">ioctl(2)</a></tt> 동작을 이용해 구현되어 있다.</p>
 <h2 id="bugs">BUGS</h2>
 <p>glibc 2.4 전에서는 <code>sockatmark()</code>가 제대로 동작하지 않았다.</p>
 <h2 id="examples">EXAMPLES</h2>

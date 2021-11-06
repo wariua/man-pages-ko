@@ -157,7 +157,7 @@
 <p>ioctl_ns - 리눅스 네임스페이스를 위한 ioctl() 동작들</p>
 <h2 id="description">DESCRIPTION</h2>
 <h3 id="_1">네임스페이스 관계 알아내기</h3>
-<p>네임스페이스 관계(<tt><a class="wikilink" href="/man-pages-ko/user_namespaces(7)/">user_namespaces(7)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/pid_namespaces(7)/">pid_namespaces(7)</a></tt> 참고)를 알아낼 수 있도록 다음 <code>ioctl(2)</code> 동작을 제공한다. 호출 형태는 이렇다.</p>
+<p>네임스페이스 관계(<tt><a class="wikilink" href="/man-pages-ko/user_namespaces(7)/">user_namespaces(7)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/pid_namespaces(7)/">pid_namespaces(7)</a></tt> 참고)를 알아낼 수 있도록 다음 <tt><a class="wikilink" href="/man-pages-ko/ioctl(2)/">ioctl(2)</a></tt> 동작을 제공한다. 호출 형태는 이렇다.</p>
 <pre><code class="language-c">new_fd = ioctl(fd, request);
 </code></pre>
 <p>각 경우에서 <code>fd</code>는 <code>/proc/[pid]/ns/*</code> 파일을 가리킨다. 성공 시 두 동작 모두 새 파일 디스크립터를 반환한다.</p>
@@ -169,7 +169,7 @@
 </dl>
 <p>이 동작들이 반환하는 새 파일 디스크립터는 <code>O_RDONLY</code> 및 <code>O_CLOEXEC</code>(exec에서 닫기, <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt> 참고) 플래그로 열려 있다.</p>
 <p>반환된 파일 디스크립터에 <tt><a class="wikilink" href="/man-pages-ko/fstat(2)/">fstat(2)</a></tt> 하면 얻는 <code>stat</code> 구조체의 <code>st_dev</code>(거주 장치) 및 <code>st_ino</code>(아이노드 번호) 필드로 소유/부모 네임스페이스를 식별한다. 그 아이노드 번호를 다른 <code>/proc/[pid]/ns/{pid,user}</code> 파일의 아이노드 번호와 맞춰 봐서 소유/부모 네임스페이스인지를 알아낼 수 있다.</p>
-<p>어느 쪽 <code>ioctl(2)</code> 동작이든 다음 오류로 실패할 수 있다.</p>
+<p>어느 쪽 <tt><a class="wikilink" href="/man-pages-ko/ioctl(2)/">ioctl(2)</a></tt> 동작이든 다음 오류로 실패할 수 있다.</p>
 <dl>
 <dt><code>EPERM</code></dt>
 <dd>요청한 네임스페이스가 호출자의 네임스페이스 범위 밖에 있다. 예를 들어 소유 사용자 네임스페이스가 호출자의 현재 사용자 네임스페이스의 조상이면 이 오류가 발생할 수 있다. 최초 사용자 내지 PID 네임스페이스의 부모를 얻으려고 할 때에도 발생할 수 있다.</dd>
@@ -209,7 +209,7 @@ ioctl(fd, NS_GET_OWNER_UID, &amp;uid);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>이 페이지에서 설명하는 네임스페이스 및 동작들은 리눅스 전용이다.</p>
 <h2 id="examples">EXAMPLES</h2>
-<p>아래 있는 예시 프로그램에서는 위에 설명한 <code>ioctl(2)</code> 동작들을 사용해 간단한 네임스페이스 관계 탐색을 수행한다. 다음 셸 세션들은 이 프로그램의 다양한 사용 방식을 보여 준다.</p>
+<p>아래 있는 예시 프로그램에서는 위에 설명한 <tt><a class="wikilink" href="/man-pages-ko/ioctl(2)/">ioctl(2)</a></tt> 동작들을 사용해 간단한 네임스페이스 관계 탐색을 수행한다. 다음 셸 세션들은 이 프로그램의 다양한 사용 방식을 보여 준다.</p>
 <p>최초 사용자 네임스페이스의 부모를 얻으려고 시도하면 부모가 없으므로 실패한다.</p>
 <pre><code class="language-text">$ ./ns_show /proc/self/ns/user p
 The parent namespace is outside your namespace scope
@@ -344,7 +344,7 @@ main(int argc, char *argv[])
 }
 </code></pre>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt><a class="wikilink" href="/man-pages-ko/fstat(2)/">fstat(2)</a></tt>, <code>ioctl(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/proc(5)/">proc(5)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/namespaces(7)/">namespaces(7)</a></tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/fstat(2)/">fstat(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ioctl(2)/">ioctl(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/proc(5)/">proc(5)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/namespaces(7)/">namespaces(7)</a></tt></p>
 <hr />
 <p>2021-03-22</p></div>
         

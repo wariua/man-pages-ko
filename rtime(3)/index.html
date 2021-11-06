@@ -164,7 +164,7 @@ int rtime(struct sockaddr_in *addrp, struct rpc_timeval *timep,
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 0을 반환하며 얻은 32비트 시간 값을 <code>timep-&gt;tv_sec</code>에 저장한다. 오류인 경우 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
-<p>기반 함수들(<tt><a class="wikilink" href="/man-pages-ko/sendto(2)/">sendto(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/poll(2)/">poll(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/recvfrom(2)/">recvfrom(2)</a></tt>, <code>connect(2)</code>, <code>read(2)</code>)의 모든 오류들이 발생할 수 있다. 추가로,</p>
+<p>기반 함수들(<tt><a class="wikilink" href="/man-pages-ko/sendto(2)/">sendto(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/poll(2)/">poll(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/recvfrom(2)/">recvfrom(2)</a></tt>, <code>connect(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>)의 모든 오류들이 발생할 수 있다. 추가로,</p>
 <dl>
 <dt><code>EIO</code></dt>
 <dd>반환된 바이트 수가 4가 아니다.</dd>

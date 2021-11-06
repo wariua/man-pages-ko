@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/fread%283%29/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>fread(3) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
+            <li class="second-level"><a href="#_1">프로그램 소스</a></li>
+                
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>fread, fwrite - 이진 스트림 입출력</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+
+size_t fread(void *restrict ptr, size_t size, size_t nmemb,
+             FILE *restrict stream);
+size_t fwrite(const void *restrict ptr, size_t size, size_t nmemb,
+             FILE *restrict stream);
+</code></pre>
+<h2 id="description">DESCRIPTION</h2>
+<p><code>fread()</code> 함수는 <code>stream</code>이 가리키는 스트림에서 각기 <code>size</code> 바이트 길이인 데이터 항목 <code>nmemb</code> 개를 읽어서 <code>ptr</code>로 지정한 위치에 저장한다.</p>
+<p><code>fwrite()</code> 함수는 <code>ptr</code>로 지정한 위치에서 얻은 각기 <code>size</code> 바이트 길이인 데이터 항목 <code>nmemb</code> 개를 <code>stream</code>이 가리키는 스트림에 써 넣는다.</p>
+<p>대응하는 논블로킹 버전은 <tt><a class="wikilink" href="/man-pages-ko/unlocked_stdio(3)/">unlocked_stdio(3)</a></tt> 참고.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>성공 시 <code>fread()</code>와 <code>fwrite()</code>는 읽거나 쓴 항목 개수를 반환한다. <code>size</code>가 1인 경우에만 그 수가 이동된 바이트 수와 같다. 오류가 발생했거나 파일 끝에 도달했으면 지정한 항목 개수에 모자란 값을 (또는 0을) 반환한다.</p>
+<p>성공적으로 읽거나 쓴 바이트 수만큼 스트림의 파일 위치 표시가 전진한다.</p>
+<p><code>fread()</code>에서 파일 끝과 오류를 구별하지 않으므로 호출자가 <tt><a class="wikilink" href="/man-pages-ko/feof(3)/">feof(3)</a></tt>와 <tt><a class="wikilink" href="/man-pages-ko/ferror(3)/">ferror(3)</a></tt>를 써서 어느 경우인지 알아내야 한다.</p>
+<h2 id="attributes">ATTRIBUTES</h2>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
+<table>
+<thead>
+<tr>
+<th>인터페이스</th>
+<th>속성</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fread()</code>, <code>fwrite()</code></td>
+<td>스레드 안전성</td>
+<td>MT-Safe</td>
+</tr>
+</tbody>
+</table>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>POSIX.1-2001, POSIX.1-2008, C89.</p>
+<h2 id="examples">EXAMPLES</h2>
+<p>아래 프로그램은 <code>fread()</code> 사용 방식을 보여 주는데, ELF 실행 파일 /bin/sh을 바이너리 모드로 파싱해서 매직 값과 유형을 찍는다.</p>
+<pre><code class="language-text">$ ./a.out
+ELF magic: 0x7f454c46
+Class: 0x02
+</code></pre>
+<h3 id="_1">프로그램 소스</h3>
+<pre><code class="language-c">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+#define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]))
+
+int
+main(void)
+{
+    FILE *fp = fopen(&quot;/bin/sh&quot;, &quot;rb&quot;);
+    if (!fp) {
+        perror(&quot;fopen&quot;);
+        return EXIT_FAILURE;
+    }
+
+    unsigned char buffer[4];
+
+    size_t ret = fread(buffer, sizeof(*buffer), ARRAY_SIZE(buffer), fp);
+    if (ret != ARRAY_SIZE(buffer)) {
+        fprintf(stderr, &quot;fread() failed: %zu\n&quot;, ret);
+        exit(EXIT_FAILURE);
+    }
+
+    printf(&quot;ELF magic: %#04x%02x%02x%02x\n&quot;, buffer[0], buffer[1],
+           buffer[2], buffer[3]);
+
+    ret = fread(buffer, 1, 1, fp);
+    if (ret != 1) {
+        fprintf(stderr, &quot;fread() failed: %zu\n&quot;, ret);
+        exit(EXIT_FAILURE);
+    }
+
+    printf(&quot;Class: %#04x\n&quot;, buffer[0]);
+
+    fclose(fp);
+
+    exit(EXIT_SUCCESS);
+}
+</code></pre>
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/feof(3)/">feof(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ferror(3)/">ferror(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/unlocked_stdio(3)/">unlocked_stdio(3)</a></tt></p>
+<hr />
+<p>2021-03-22</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

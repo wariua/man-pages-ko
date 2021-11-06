@@ -194,7 +194,7 @@ int prlimit(pid_t pid, int resource, const struct rlimit *new_limit,
 <dt><code>RLIMIT_DATA</code></dt>
 <dd>프로세스 데이터 세그먼트(초기화 된 데이터, 초기화 안 된 데이터, 힙)의 최대 크기이다. 바이트 단위로 제한을 지정하며 시스템 페이지 크기 배수로 내림 한다. 이 제한이 <tt><a class="wikilink" href="/man-pages-ko/brk(2)/">brk(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sbrk(2)/">sbrk(2)</a></tt>, (리눅스 4.7부터) <tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt>에 영향을 주며 이 자원의 연성 제한을 만나면 <code>ENOMEM</code> 오류로 실패하게 된다.</dd>
 <dt><code>RLIMIT_FSIZE</code></dt>
-<dd>프로세스가 생성할 수 있는 파일의 바이트 단위 최대 크기이다. 이 제한을 넘겨서 파일을 확장하려고 하면 <code>SIGXFSZ</code> 시그널을 받는다. 기본적으로 이 시그널은 프로세스를 종료시킨다. 하지만 프로세스에서 시그널을 잡을 수 있으며 그 경우 해당 시스템 호출(가령 <code>write(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/truncate(2)/">truncate(2)</a></tt>)이 <code>EFBIG</code> 오류로 실패하게 된다.</dd>
+<dd>프로세스가 생성할 수 있는 파일의 바이트 단위 최대 크기이다. 이 제한을 넘겨서 파일을 확장하려고 하면 <code>SIGXFSZ</code> 시그널을 받는다. 기본적으로 이 시그널은 프로세스를 종료시킨다. 하지만 프로세스에서 시그널을 잡을 수 있으며 그 경우 해당 시스템 호출(가령 <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/truncate(2)/">truncate(2)</a></tt>)이 <code>EFBIG</code> 오류로 실패하게 된다.</dd>
 <dt><code>RLIMIT_LOCKS</code> (리눅스 2.4.0에서 2.4.24까지)</dt>
 <dd>프로세스에서 설정할 수 있는 <tt><a class="wikilink" href="/man-pages-ko/flock(2)/">flock(2)</a></tt> 락 개수와 <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt> 리스 수를 합친 것에 대한 제한이다.</dd>
 <dt><code>RLIMIT_MEMLOCK</code></dt>

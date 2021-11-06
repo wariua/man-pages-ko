@@ -196,8 +196,8 @@ ssize_t pwritev2(int fd, const struct iovec *iov, int iovcnt,
     size_t iov_len;     /* 이동할 바이트 수 */
 };
 </code></pre>
-<p><code>readv()</code> 시스템 호출은 여러 버퍼를 채운다는 점을 빼면 <code>read(2)</code>와 마찬가지로 동작한다.</p>
-<p><code>writev()</code> 시스템 호출은 여러 버퍼를 써넣는다는 점을 빼면 <code>write(2)</code>와 마찬가지로 동작한다.</p>
+<p><code>readv()</code> 시스템 호출은 여러 버퍼를 채운다는 점을 빼면 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>와 마찬가지로 동작한다.</p>
+<p><code>writev()</code> 시스템 호출은 여러 버퍼를 써넣는다는 점을 빼면 <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt>와 마찬가지로 동작한다.</p>
 <p>버퍼들은 배열 내 순서에 따라 처리된다. 즉 <code>readv()</code>에서 <code>iov[0]</code>를 완전히 채운 다음 <code>iov[1]</code>로 진행하는 식이다. (데이터가 충분히 없으면 <code>iov</code>가 가리키는 버퍼들이 모두 채워지지 않을 수도 있다.) 마찬가지로 <code>writev()</code>에서는 <code>iov[0]</code>의 내용 전체를 써넣은 다음 <code>iov[1]</code>로 진행하는 식이다.</p>
 <p><code>readv()</code>와 <code>writev()</code>가 수행하는 데이터 이동은 원자적이다. 즉 <code>writev()</code>가 써넣는 데이터는 한 덩어리로 기록되며 다른 프로세스의 쓰기 출력과 섞이지 않는다. (하지만 <tt><a class="wikilink" href="/man-pages-ko/pipe(7)/">pipe(7)</a></tt>의 예외 참고.) 유사하게 <code>readv()</code>는 같은 열린 파일 기술 항목(<tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt> 참고)을 가리키는 파일 디스크립터를 가진 다른 스레드 내지 프로세스에서의 읽기 동작과 상관없이 파일로부터 연속인 덩어리를 읽는다고 보장된다.</p>
 <h3 id="preadv-pwritev"><code>preadv()</code>와 <code>pwritev()</code></h3>
@@ -222,10 +222,10 @@ ssize_t pwritev2(int fd, const struct iovec *iov, int iovcnt,
 </dl>
 <h2 id="return-value">RETURN VALUE</h2>
 <p>성공 시 <code>readv()</code>, <code>preadv()</code>, <code>preadv2()</code>는 읽어 들인 바이트 수를 반환한다. <code>writev()</code>, <code>pwritev()</code>, <code>pwritev2()</code>는 기록한 바이트 수를 반환한다.</p>
-<p>성공한 호출에서 요청보다 적은 바이트를 이동한 것이 오류가 아니라는 점에 유의하라. (<code>read(2)</code> 및 <code>write(2)</code> 참고.)</p>
+<p>성공한 호출에서 요청보다 적은 바이트를 이동한 것이 오류가 아니라는 점에 유의하라. (<tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt> 참고.)</p>
 <p>오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <h2 id="errors">ERRORS</h2>
-<p>오류는 <code>read(2)</code> 및 <code>write(2)</code>에서와 같다. 더불어 <code>preadv()</code>, <code>preadv2()</code>, <code>pwritev()</code>, <code>pwritev2()</code>가 <tt><a class="wikilink" href="/man-pages-ko/lseek(2)/">lseek(2)</a></tt>과 같은 이유로 실패할 수도 있다. 추가로 다음 오류들이 정의돼 있다.</p>
+<p>오류는 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt>에서와 같다. 더불어 <code>preadv()</code>, <code>preadv2()</code>, <code>pwritev()</code>, <code>pwritev2()</code>가 <tt><a class="wikilink" href="/man-pages-ko/lseek(2)/">lseek(2)</a></tt>과 같은 이유로 실패할 수도 있다. 추가로 다음 오류들이 정의돼 있다.</p>
 <dl>
 <dt><code>EINVAL</code></dt>
 <dd><code>iov_len</code> 값들의 합이 <code>ssize_t</code> 값을 넘치게 한다.</dd>
@@ -249,7 +249,7 @@ ssize_t pwritev2(int fd, const struct iovec *iov, int iovcnt,
 </code></pre>
 <p>이 인자들은 각각 <code>offset</code>의 하위 32비트와 상위 32비트를 담는다.</p>
 <h3 id="c_1">과거의 C 라이브러리/커널 차이</h3>
-<p>리눅스 초기 버전에서 <code>IOV_MAX</code>가 아주 낮았던 것에 대처하기 위해 glibc의 <code>readv()</code> 및 <code>writev()</code> 래퍼 함수에서는 기반 커널 시스템 호출이 그 제한 초과 때문에 실패했음을 감지한 경우 어떤 추가 작업을 해 주었다. <code>readv()</code>의 경우 래퍼 함수에서 <code>iov</code>의 항목들을 모두 담을 만큼 큰 임시 버퍼를 할당해서 그 버퍼로 <code>read(2)</code> 호출을 한 다음 버퍼의 데이터를 <code>iov</code> 항목들의 <code>iov_base</code> 필드에 지정된 위치로 복사하고서 버퍼를 해제했다. <code>writev()</code>의 래퍼 함수도 임시 버퍼와 <code>write(2)</code> 호출로 비슷한 작업을 수행했다.</p>
+<p>리눅스 초기 버전에서 <code>IOV_MAX</code>가 아주 낮았던 것에 대처하기 위해 glibc의 <code>readv()</code> 및 <code>writev()</code> 래퍼 함수에서는 기반 커널 시스템 호출이 그 제한 초과 때문에 실패했음을 감지한 경우 어떤 추가 작업을 해 주었다. <code>readv()</code>의 경우 래퍼 함수에서 <code>iov</code>의 항목들을 모두 담을 만큼 큰 임시 버퍼를 할당해서 그 버퍼로 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt> 호출을 한 다음 버퍼의 데이터를 <code>iov</code> 항목들의 <code>iov_base</code> 필드에 지정된 위치로 복사하고서 버퍼를 해제했다. <code>writev()</code>의 래퍼 함수도 임시 버퍼와 <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt> 호출로 비슷한 작업을 수행했다.</p>
 <p>리눅스 2.2 및 이후부터는 glibc 래퍼 함수에서 이런 추가 작업이 필요 없게 되었다. 하지만 glibc는 버전 2.10까지 이 동작을 계속 제공했다. glibc 버전 2.9부터는 시스템이 리눅스 커널 2.6.18(임의로 선정한 커널 버전)보다 오래 된 버전에서 동작 중임을 라이브러리에서 탐지한 경우에만 래퍼 함수가 이 동작을 제공한다. (최소로 요구하는 리눅스 커널 버전이 2.6.32인) glibc 2.20부터는 언제나 glibc 래퍼 함수에서 시스템 호출을 바로 부른다.</p>
 <h2 id="examples">EXAMPLES</h2>
 <p>다음 코드 샘플이 <code>writev()</code> 사용 방식을 보여 준다.</p>
@@ -266,7 +266,7 @@ iov[1].iov_len = strlen(str1);
 nwritten = writev(STDOUT_FILENO, iov, 2);
 </code></pre>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt><a class="wikilink" href="/man-pages-ko/pread(2)/">pread(2)</a></tt>, <code>read(2)</code>, <code>write(2)</code></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/pread(2)/">pread(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt></p>
 <hr />
 <p>2018-04-30</p></div>
         

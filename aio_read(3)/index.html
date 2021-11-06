@@ -159,7 +159,7 @@ int aio_read(struct aiocb *aiocbp);
 </code></pre>
 <p><code>-lrt</code>로 링크.</p>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>aio_read()</code> 함수는 <code>aiocbp</code>가 가리키는 버퍼에 기술된 I/O 요청을 큐에 넣는다. 이 함수는 <code>read(2)</code>의 비동기 형태다. 다음 호출에서</p>
+<p><code>aio_read()</code> 함수는 <code>aiocbp</code>가 가리키는 버퍼에 기술된 I/O 요청을 큐에 넣는다. 이 함수는 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>의 비동기 형태다. 다음 호출에서</p>
 <pre><code class="language-c">read(fd, buf, count)
 </code></pre>
 <p>인자들이 각각 <code>aiocbp</code>가 가리키는 구조체의 <code>aio_fildes</code>, <code>aio_buf</code>, <code>aio_nbytes</code> 필드에 (순서대로) 대응한다. (<code>aiocb</code> 구조체에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/aio(7)/">aio(7)</a></tt> 참고.)</p>

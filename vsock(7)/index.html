@@ -170,7 +170,7 @@ datagram_socket = socket(AF_VSOCK, SOCK_DGRAM, 0);
 </code></pre>
 <p>프로세스에서 연결을 수립하고 싶으면 어떤 목적 소켓 주소로 <code>connect(2)</code>를 호출한다. 소켓이 포트에 결속되어 있지 않으면 자동으로 빈 포트에 결속된다.</p>
 <p>프로세스에서 <code>bind(2)</code>로 소켓 주소에 결속하고서 <code>listen(2)</code>을 호출하여 들어오는 연결에 귀를 기울일 수 있다.</p>
-<p><tt><a class="wikilink" href="/man-pages-ko/send(2)/">send(2)</a></tt> 내지 <code>write(2)</code> 계열 시스템 호출을 이용해 데이터를 송신하고 <tt><a class="wikilink" href="/man-pages-ko/recv(2)/">recv(2)</a></tt> 내지 <code>read(2)</code> 계열 시스템 호출을 이용해 데이터를 수신한다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/send(2)/">send(2)</a></tt> 내지 <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt> 계열 시스템 호출을 이용해 데이터를 송신하고 <tt><a class="wikilink" href="/man-pages-ko/recv(2)/">recv(2)</a></tt> 내지 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt> 계열 시스템 호출을 이용해 데이터를 수신한다.</p>
 <h3 id="_1">주소 형식</h3>
 <p>32비트 문맥 식별자(Context Identifier, CID)와 32비트 포트 번호의 조합으로 소켓 주소를 정의한다. CID는 출발지나 목적지를 나타내는데, 가상 머신이나 호스트 중 한쪽이다. 포트 번호는 동일 머신 상에서 돌고 있는 여러 서비스들을 구별해 준다.</p>
 <pre><code class="language-c">struct sockaddr_vm {

@@ -184,9 +184,9 @@ struct epoll_event {
 <p><code>epoll_event</code> 구조체의 <code>events</code> 멤버는 다음 이벤트 종류들을 0개 이상 OR 해서 구성한 비트 마스크다.</p>
 <dl>
 <dt><code>EPOLLIN</code></dt>
-<dd>연계 파일을 <code>read(2)</code> 동작에 사용할 수 있다.</dd>
+<dd>연계 파일을 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt> 동작에 사용할 수 있다.</dd>
 <dt><code>EPOLLOUT</code></dt>
-<dd>연계 파일을 <code>write(2)</code> 동작에 사용할 수 있다.</dd>
+<dd>연계 파일을 <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt> 동작에 사용할 수 있다.</dd>
 <dt><code>EPOLLRDHUP</code> (리눅스 2.6.17부터)</dt>
 <dd>스트림 소켓의 상대가 연결을 닫았거나 연결의 쓰기 쪽을 닫았다. (이 플래그는 특히 에지 트리거 사용 시 간단한 코드 작성으로 상대의 shutdown을 탐지하는 데 유용하다.)</dd>
 <dt><code>EPOLLPRI</code></dt>

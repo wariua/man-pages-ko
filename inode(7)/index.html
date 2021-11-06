@@ -206,7 +206,7 @@
 <dt>최근 접근 타임스탬프 (atime)</dt>
 <dd>
 <p><code>stat.st_atime</code>. <code>statx.stx_atime</code>.</p>
-<p>파일의 최근 접근 타임스탬프다. <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mknod(2)/">mknod(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pipe(2)/">pipe(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/utime(2)/">utime(2)</a></tt>, (0 바이트보다 큰) <code>read(2)</code> 등의 파일 접근에 의해 바뀐다. <tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt> 같은 다른 인터페이스는 atime 타임스탬프를 갱신할 수도 있고 하지 않을 수도 있다.</p>
+<p>파일의 최근 접근 타임스탬프다. <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mknod(2)/">mknod(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pipe(2)/">pipe(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/utime(2)/">utime(2)</a></tt>, (0 바이트보다 큰) <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt> 등의 파일 접근에 의해 바뀐다. <tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt> 같은 다른 인터페이스는 atime 타임스탬프를 갱신할 수도 있고 하지 않을 수도 있다.</p>
 <p>일부 파일 시스템 타입에서는 파일 및/또는 디렉터리 접근이 atime 타임스탬프 갱신을 일으키지 않도록 마운트 하는 게 가능하다. (<tt><a class="wikilink" href="/man-pages-ko/mount(8)/">mount(8)</a></tt>의 <code>noatime</code>, <code>nodiratime</code>, <code>relatime</code>, 그리고 <tt><a class="wikilink" href="/man-pages-ko/mount(2)/">mount(2)</a></tt>의 관련 정보 참고.) 더불어 <code>O_NOATIME</code> 플래그를 써서 파일을 열면 atime 타임스탬프가 갱신되지 않는다. <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt> 참고.</p>
 </dd>
 <dt>파일 생성 (탄생) 타임스탬프 (btime)</dt>

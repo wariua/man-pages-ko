@@ -167,7 +167,7 @@ int ioctl(fd, RTC_request, param);
 <p>RTC와 시스템 클럭을 혼동해선 안 된다. 시스템 클럭은 커널에서 유지하는 소프트웨어 클럭으로 <tt><a class="wikilink" href="/man-pages-ko/gettimeofday(2)/">gettimeofday(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/time(2)/">time(2)</a></tt>, 그리고 파일 타임스탬프 설정 등에 사용한다. 시스템 클럭은 어떤 시작 시점, 즉 1970-01-01 00:00:00 +0000 (UTC)으로 정의된 POSIX 에포크 이후 지난 초와 마이크로초를 알려준다. (흔히 볼 수 있는 구현 방식은 100Hz나 250Hz, 1000Hz 빈도로 "지피(jiffy)"당 한 번씩 타이머 인터럽트를 세는 것이다.) 즉 벽시계 시간을 알려주기 위한 것이고, 그게 RTC의 역할이기도 하다.</p>
 <p>RTC와 시스템 클럭의 핵심 차이는 시스템이 저전력 상태(꺼진 상태 포함)일 때도 RTC는 돌지만 시스템 클럭은 그럴 수 없다는 점이다. 초기화 전까지 시스템 클럭은 POSIX 에포크 이후가 아니라 시스템 부팅 이후의 시간을 알려줄 수 있을 뿐이다. 그래서 부팅 때, 그리고 시스템 저전력 상태에서 돌아온 후에 RTC를 써서 시스템 클럭을 현재 벽시계 시간으로 맞추는 경우가 많다. RTC가 없는 시스템은 다른 클럭을 이용해 시스템 클럭을 맞춰야 하는데, 네트워크를 통해서일 수도 있고 데이터를 직접 입력해 주는 방식일 수도 있다.</p>
 <h3 id="rtc_1">RTC의 기능</h3>
-<p><code>hwclock(8)</code>을 통해서, 또는 아래 나열하는 <code>ioctl(2)</code> 요청으로 직접 RTC에 읽고 쓸 수 있다.</p>
+<p><code>hwclock(8)</code>을 통해서, 또는 아래 나열하는 <tt><a class="wikilink" href="/man-pages-ko/ioctl(2)/">ioctl(2)</a></tt> 요청으로 직접 RTC에 읽고 쓸 수 있다.</p>
 <p>날짜와 시간을 따라가는 것 외에 여러 RTC들은 다음과 같이 인터럽트를 생성할 수 있다.</p>
 <ul>
 <li>
@@ -181,9 +181,9 @@ int ioctl(fd, RTC_request, param);
 </li>
 </ul>
 <p>이런 인터럽트 원천 각각을 따로 켜거나 끌 수 있다. 여러 시스템에서는 알람 인터럽트를 시스템 깨우기 이벤트로 설정할 수 있어서 Suspend-to-RAM(SRT, ACPI 시스템에서 S3)나 하이버네이션(ACPI 시스템에서 S4), 심지어 "꺼짐"(ACPI 시스템에서 S5) 같은 저전력 상태의 시스템을 복원시킬 수 있다. 어떤 시스템에서는 전지 기반 RTC가 인터럽트를 생성할 수 없지만 다른 시스템에서는 가능하다.</p>
-<p><code>/dev/rtc</code> (또는 <code>/dev/rtc0</code>, <code>/dev/rtc1</code> 등) 장치는 동시에 한 프로세스에서만 열 수 있다. <code>read(2)</code>나 <tt><a class="wikilink" href="/man-pages-ko/select(2)/">select(2)</a></tt>를 호출한 프로세스는 그 RTC에서 다음 번 인터럽트를 수신할 때까지 블록 된다. 인터럽트 이후 프로세스에서 long 정수 하나를 읽을 수 있는데, 최하위 바이트는 발생 인터럽트 종류를 나타내는 비트 마스크를 담고 있고 나머지 3바이트는 마지막 <code>read(2)</code> 이후 인터럽트 횟수를 담고 있다.</p>
-<h3 id="ioctl2"><code>ioctl(2)</code> 인터페이스</h3>
-<p>RTC 장치에 연결된 파일 디스크립터에서 다음 <code>ioctl(2)</code> 요청들이 정의돼 있다.</p>
+<p><code>/dev/rtc</code> (또는 <code>/dev/rtc0</code>, <code>/dev/rtc1</code> 등) 장치는 동시에 한 프로세스에서만 열 수 있다. <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>나 <tt><a class="wikilink" href="/man-pages-ko/select(2)/">select(2)</a></tt>를 호출한 프로세스는 그 RTC에서 다음 번 인터럽트를 수신할 때까지 블록 된다. 인터럽트 이후 프로세스에서 long 정수 하나를 읽을 수 있는데, 최하위 바이트는 발생 인터럽트 종류를 나타내는 비트 마스크를 담고 있고 나머지 3바이트는 마지막 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt> 이후 인터럽트 횟수를 담고 있다.</p>
+<h3 id="ioctl2"><tt><a class="wikilink" href="/man-pages-ko/ioctl(2)/">ioctl(2)</a></tt> 인터페이스</h3>
+<p>RTC 장치에 연결된 파일 디스크립터에서 다음 <tt><a class="wikilink" href="/man-pages-ko/ioctl(2)/">ioctl(2)</a></tt> 요청들이 정의돼 있다.</p>
 <dl>
 <dt><code>RTC_RD_TIME</code></dt>
 <dd>
@@ -200,22 +200,22 @@ int ioctl(fd, RTC_request, param);
     int tm_isdst;    /* 사용 안 함 */
 };
 </code></pre>
-<p>이 구조체 필드들의 의미와 범위는 <tt><a class="wikilink" href="/man-pages-ko/gmtime(3)/">gmtime(3)</a></tt>에 설명된 <code>tm</code> 구조체와 같다. <code>ioctl(2)</code> 세 번째 인자로 이 구조체의 포인터를 전달해야 한다.</p>
+<p>이 구조체 필드들의 의미와 범위는 <tt><a class="wikilink" href="/man-pages-ko/gmtime(3)/">gmtime(3)</a></tt>에 설명된 <code>tm</code> 구조체와 같다. <tt><a class="wikilink" href="/man-pages-ko/ioctl(2)/">ioctl(2)</a></tt> 세 번째 인자로 이 구조체의 포인터를 전달해야 한다.</p>
 </dd>
 <dt><code>RTC_SET_TIME</code></dt>
-<dd>이 RTC의 시간을 <code>ioctl(2)</code> 세 번째 인자가 가리키는 <code>rtc_time</code> 구조체가 나타내는 시간으로 설정한다. RTC 시간을 설정하려면 프로세스에게 특권이 있어야 한다. (즉 <code>CAP_SYS_TIME</code> 역능이 있어야 한다.)</dd>
+<dd>이 RTC의 시간을 <tt><a class="wikilink" href="/man-pages-ko/ioctl(2)/">ioctl(2)</a></tt> 세 번째 인자가 가리키는 <code>rtc_time</code> 구조체가 나타내는 시간으로 설정한다. RTC 시간을 설정하려면 프로세스에게 특권이 있어야 한다. (즉 <code>CAP_SYS_TIME</code> 역능이 있어야 한다.)</dd>
 <dt><code>RTC_ALM_READ</code>, <code>RTC_ALM_SET</code></dt>
-<dd>알람을 지원하는 RTC에 대해서 알람 시간을 읽거나 설정한다. 알람 인터럽트를 켜거나 끄는 건 <code>RTC_AIE_ON</code> 및 <code>RTC_AIE_OFF</code> 요청을 써서 따로 해야 한다. <code>ioctl(2)</code> 세 번째 인자는 <code>rtc_time</code> 구조체 포인터이다. 그 구조체의 <code>tm_sec</code>, <code>tm_min</code>, <code>tm_hour</code> 필드만 쓴다.</dd>
+<dd>알람을 지원하는 RTC에 대해서 알람 시간을 읽거나 설정한다. 알람 인터럽트를 켜거나 끄는 건 <code>RTC_AIE_ON</code> 및 <code>RTC_AIE_OFF</code> 요청을 써서 따로 해야 한다. <tt><a class="wikilink" href="/man-pages-ko/ioctl(2)/">ioctl(2)</a></tt> 세 번째 인자는 <code>rtc_time</code> 구조체 포인터이다. 그 구조체의 <code>tm_sec</code>, <code>tm_min</code>, <code>tm_hour</code> 필드만 쓴다.</dd>
 <dt><code>RTC_IRQP_READ</code>, <code>RTC_IRQP_SET</code></dt>
-<dd>주기적 인터럽트를 지원하는 RTC에 대해서 주기적 인터럽트의 빈도를 읽거나 설정한다. 주기적 인터럽트를 켜거나 끄는 건 <code>RTC_PIE_ON</code> 및 <code>RTC_PIE_OFF</code> 요청을 써서 따로 해야 한다. <code>ioctl(2)</code> 세 번째 인자는 각각 <code>unsigned long *</code>와 <code>unsigned long</code>이다. 그 값이 초당 인터럽트 빈도이다. 허용 가능한 빈도는 2에서 8192까지 범위 내의 2의 배수들이다. 특권 프로세스만 (즉 <code>CAP_SYS_RESOURCE</code> 역능을 가진 프로세스만) <code>/proc/sys/dev/rtc/max-user-freq</code>에 지정된 값보다 높게 빈도를 설정할 수 있다. (이 파일에 기본으로 들어 있는 값은 64이다.)</dd>
+<dd>주기적 인터럽트를 지원하는 RTC에 대해서 주기적 인터럽트의 빈도를 읽거나 설정한다. 주기적 인터럽트를 켜거나 끄는 건 <code>RTC_PIE_ON</code> 및 <code>RTC_PIE_OFF</code> 요청을 써서 따로 해야 한다. <tt><a class="wikilink" href="/man-pages-ko/ioctl(2)/">ioctl(2)</a></tt> 세 번째 인자는 각각 <code>unsigned long *</code>와 <code>unsigned long</code>이다. 그 값이 초당 인터럽트 빈도이다. 허용 가능한 빈도는 2에서 8192까지 범위 내의 2의 배수들이다. 특권 프로세스만 (즉 <code>CAP_SYS_RESOURCE</code> 역능을 가진 프로세스만) <code>/proc/sys/dev/rtc/max-user-freq</code>에 지정된 값보다 높게 빈도를 설정할 수 있다. (이 파일에 기본으로 들어 있는 값은 64이다.)</dd>
 <dt><code>RTC_AIE_ON</code>, <code>RTC_AIE_OFF</code></dt>
-<dd>알람을 지원하는 RTC에 대해서 알람 인터럽트를 켜거나 끈다. <code>ioctl(2)</code> 세 번째 인자는 무시한다.</dd>
+<dd>알람을 지원하는 RTC에 대해서 알람 인터럽트를 켜거나 끈다. <tt><a class="wikilink" href="/man-pages-ko/ioctl(2)/">ioctl(2)</a></tt> 세 번째 인자는 무시한다.</dd>
 <dt><code>RTC_UIE_ON</code>, <code>RTC_UIE_OFF</code></dt>
-<dd>초당 일회 방식 인터럽트를 지원하는 RTC에 대해서 모든 클럭 갱신 인터럽트를 켜거나 끈다. <code>ioctl(2)</code> 세 번째 인자는 무시한다.</dd>
+<dd>초당 일회 방식 인터럽트를 지원하는 RTC에 대해서 모든 클럭 갱신 인터럽트를 켜거나 끈다. <tt><a class="wikilink" href="/man-pages-ko/ioctl(2)/">ioctl(2)</a></tt> 세 번째 인자는 무시한다.</dd>
 <dt><code>RTC_PIE_ON</code>, <code>RTC_PIE_OFF</code></dt>
-<dd>주기적 인터럽트를 지원하는 RTC에 대해서 주기적 인터럽트를 켜거나 끈다. <code>ioctl(2)</code> 세 번째 인자는 무시한다. 현재 빈도가 <code>/proc/sys/dev/rtc/max-user-freq</code>에 지정된 값보다 높게 설정돼 있는 경우 특권 프로세스만 (즉 <code>CAP_SYS_RESOURCE</code> 역능을 가진 프로세스만) 주기적 인터럽트를 켤 수 있다.</dd>
+<dd>주기적 인터럽트를 지원하는 RTC에 대해서 주기적 인터럽트를 켜거나 끈다. <tt><a class="wikilink" href="/man-pages-ko/ioctl(2)/">ioctl(2)</a></tt> 세 번째 인자는 무시한다. 현재 빈도가 <code>/proc/sys/dev/rtc/max-user-freq</code>에 지정된 값보다 높게 설정돼 있는 경우 특권 프로세스만 (즉 <code>CAP_SYS_RESOURCE</code> 역능을 가진 프로세스만) 주기적 인터럽트를 켤 수 있다.</dd>
 <dt><code>RTC_EPOCH_READ</code>, <code>RTC_EPOCH_SET</code></dt>
-<dd>여러 RTC들에선 8비트 레지스터로 연도를 나타내고 8비트 이진 값으로 또는 BCD 값으로 해석한다. 어느 경우든 이 RTC의 에포크를 기준으로 그 값을 해석한다. 많은 시스템에선 RTC의 에포크가 1900으로 초기화 돼 있지만 Alpha나 MIPS에서는 RTC의 연도 레지스터 값에 따라 1952나 1980, 2000으로 초기화 돼 있을 수도 있다. 일부 RTC들에선 이 동작들을 사용해 RTC의 에포크를 읽거나 설정할 수 있다. <code>ioctl(2)</code> 세 번째 인자는 각각 <code>unsigned long *</code>와 <code>unsigned long</code>이며 반환(할당) 값이 에포크이다. RTC의 에포크를 설정하려면 프로세스에게 특권이 있어야 (즉 <code>CAP_SYS_TIME</code> 역능이 있어야) 한다.</dd>
+<dd>여러 RTC들에선 8비트 레지스터로 연도를 나타내고 8비트 이진 값으로 또는 BCD 값으로 해석한다. 어느 경우든 이 RTC의 에포크를 기준으로 그 값을 해석한다. 많은 시스템에선 RTC의 에포크가 1900으로 초기화 돼 있지만 Alpha나 MIPS에서는 RTC의 연도 레지스터 값에 따라 1952나 1980, 2000으로 초기화 돼 있을 수도 있다. 일부 RTC들에선 이 동작들을 사용해 RTC의 에포크를 읽거나 설정할 수 있다. <tt><a class="wikilink" href="/man-pages-ko/ioctl(2)/">ioctl(2)</a></tt> 세 번째 인자는 각각 <code>unsigned long *</code>와 <code>unsigned long</code>이며 반환(할당) 값이 에포크이다. RTC의 에포크를 설정하려면 프로세스에게 특권이 있어야 (즉 <code>CAP_SYS_TIME</code> 역능이 있어야) 한다.</dd>
 <dt><code>RTC_WKALM_RD</code>, <code>RTC_WKALM_SET</code></dt>
 <dd>
 <p>일부 RTC들은 더 강력한 알람 인터페이스를 제공하며, 이 ioctl을 이용해 그 RTC의 알람 시간을 다음 구조체로 읽거나 쓸 수 있다.</p>
@@ -225,7 +225,7 @@ int ioctl(fd, RTC_request, param);
     struct rtc_time time;
 };
 </code></pre>
-<p><code>enabled</code> 플래그는 알람 인터럽트를 켜고 끄거나 현재 상태를 읽는 데 쓴다. 이 호출 사용 시 <code>RTC_AIE_ON</code> 및 <code>RTC_AIE_OFF</code>는 쓰지 않는다. <code>pending</code> 플래그는 <code>RTC_WKALM_RD</code>에서 미처리 인터럽트를 알려 주기 위한 것이다. (그래서 EFI 펌웨어가 관리하는 RTC를 다룰 때를 빼면 리눅스에서는 쓸 일이 거의 없다.) <code>time</code> 필드는 <code>RTC_ALM_READ</code> 및 <code>RTC_ALM_SET</code>에서와 마찬가지이되 <code>tm_mday</code>, <code>tm_mon</code>, <code>tm_year</code> 필드도 유효하다. 이 구조체의 포인터를 <code>ioctl(2)</code> 세 번째 인자로 전달해야 한다.</p>
+<p><code>enabled</code> 플래그는 알람 인터럽트를 켜고 끄거나 현재 상태를 읽는 데 쓴다. 이 호출 사용 시 <code>RTC_AIE_ON</code> 및 <code>RTC_AIE_OFF</code>는 쓰지 않는다. <code>pending</code> 플래그는 <code>RTC_WKALM_RD</code>에서 미처리 인터럽트를 알려 주기 위한 것이다. (그래서 EFI 펌웨어가 관리하는 RTC를 다룰 때를 빼면 리눅스에서는 쓸 일이 거의 없다.) <code>time</code> 필드는 <code>RTC_ALM_READ</code> 및 <code>RTC_ALM_SET</code>에서와 마찬가지이되 <code>tm_mday</code>, <code>tm_mon</code>, <code>tm_year</code> 필드도 유효하다. 이 구조체의 포인터를 <tt><a class="wikilink" href="/man-pages-ko/ioctl(2)/">ioctl(2)</a></tt> 세 번째 인자로 전달해야 한다.</p>
 </dd>
 </dl>
 <h2 id="files">FILES</h2>

@@ -195,7 +195,7 @@ int pselect(int nfds, fd_set *restrict readfds,
 <dd><code>_POSIX_C_SOURCE &gt;= 200112L</code></dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>select()</code>를 이용해 프로그램에서 여러 파일 디스크립터들을 감시하고 그 중 하나 이상이 어떤 유형의 I/O 동작에 "준비" 상태(가령, 입력 가능)가 될 때까지 대기할 수 있다. 해당 I/O 동작(가령 <code>read(2)</code>나 충분히 작은 <code>write(2)</code>)을 블록킹 없이 수행하는 게 가능하면 파일 디스크립터가 준비 상태라고 본다.</p>
+<p><code>select()</code>를 이용해 프로그램에서 여러 파일 디스크립터들을 감시하고 그 중 하나 이상이 어떤 유형의 I/O 동작에 "준비" 상태(가령, 입력 가능)가 될 때까지 대기할 수 있다. 해당 I/O 동작(가령 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>나 충분히 작은 <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt>)을 블록킹 없이 수행하는 게 가능하면 파일 디스크립터가 준비 상태라고 본다.</p>
 <p><code>select()</code>에서는 <code>FD_SETSIZE</code>보다 작은 파일 디스크립터 번호만 감시할 수 있다. <tt><a class="wikilink" href="/man-pages-ko/poll(2)/">poll(2)</a></tt>과 <tt><a class="wikilink" href="/man-pages-ko/epoll(7)/">epoll(7)</a></tt>에는 그런 제한이 없다. BUGS 참고.</p>
 <h3 id="_1">파일 디스크립터 집합</h3>
 <p><code>select()</code>의 핵심 인자는 (<code>fd_set</code> 타입으로 선언된) 파일 디스크립터 "집합" 세 가지다. 이를 이용해 지정한 파일 디스크립터 집합에 대해 세 가지 종류의 이벤트를 기다릴 수 있다. 해당 이벤트 종류에 대해 감시할 파일 디스크립터가 없으면 각 <code>fd_set</code> 인자를 NULL로 지정할 수도 있다.</p>
@@ -391,7 +391,7 @@ main(void)
 }
 </code></pre>
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>accept(2)</code>, <code>connect(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/poll(2)/">poll(2)</a></tt>, <code>read(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/recv(2)/">recv(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/restart_syscall(2)/">restart_syscall(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/send(2)/">send(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigprocmask(2)/">sigprocmask(2)</a></tt>, <code>write(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/epoll(7)/">epoll(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/time(7)/">time(7)</a></tt></p>
+<p><code>accept(2)</code>, <code>connect(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/poll(2)/">poll(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/recv(2)/">recv(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/restart_syscall(2)/">restart_syscall(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/send(2)/">send(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigprocmask(2)/">sigprocmask(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/epoll(7)/">epoll(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/time(7)/">time(7)</a></tt></p>
 <p>설명과 예시가 있는 자습서인 <tt><a class="wikilink" href="/man-pages-ko/select_tut(2)/">select_tut(2)</a></tt> 참고.</p>
 <hr />
 <p>2021-03-22</p></div>

@@ -177,7 +177,7 @@
 <h2 id="description">DESCRIPTION</h2>
 <p>fanotify API를 통해 파일 시스템 이벤트 알림을 받고 이벤트를 가로챌 수 있다. 사용례로는 바이러스 검사나 계층적 저장소 관리가 있을 수 있다. 최초의 fanotify API에서는 제한된 종류의 이벤트들만 지원했다. 특히 생성, 삭제, 이동 이벤트를 지원하지 않았다. 리눅스 5.1에서 그 이벤트들에 대한 지원이 추가되었다. (리눅스 5.1 전에서 이 이벤트들을 알려 주던 API에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/inotify(7)/">inotify(7)</a></tt>를 보라.)</p>
 <p><tt><a class="wikilink" href="/man-pages-ko/inotify(7)/">inotify(7)</a></tt> API와 비교하자면 마운트 한 파일 시스템 내의 모든 객체들을 감시할 수 있고, 접근 허용 여부를 결정할 수 있으며, 다른 응용에서 접근하기 전에 파일을 읽거나 변경하는 게 가능하다.</p>
-<p>이 API에서 쓰는 시스템 호출은 <tt><a class="wikilink" href="/man-pages-ko/fanotify_init(2)/">fanotify_init(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fanotify_mark(2)/">fanotify_mark(2)</a></tt>, <code>read(2)</code>, <code>write(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/close(2)/">close(2)</a></tt>이다.</p>
+<p>이 API에서 쓰는 시스템 호출은 <tt><a class="wikilink" href="/man-pages-ko/fanotify_init(2)/">fanotify_init(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fanotify_mark(2)/">fanotify_mark(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/close(2)/">close(2)</a></tt>이다.</p>
 <h3 id="fanotify_init-fanotify_mark"><code>fanotify_init()</code>, <code>fanotify_mark()</code>, 알림 그룹</h3>
 <p><tt><a class="wikilink" href="/man-pages-ko/fanotify_init(2)/">fanotify_init(2)</a></tt> 시스템 호출은 fanotify 알림 그룹을 만들어서 초기화 하며 그 알림 그룹을 가리키는 파일 디스크립터를 반환한다.</p>
 <p>fanotify 알림 그룹이란 커널 내부 객체로서 이벤트가 생성될 파일, 디렉터리, 파일 시스템, 마운트 지점들의 목록을 가지고 있다.</p>
@@ -186,13 +186,13 @@
 <p>무시 마스크를 쓸 수 있는 경우로 파일 캐시가 있다. 파일 캐시에서 관심 있는 이벤트는 파일이 변경되고 닫히는 것이다. 따라서 캐싱 대상 디렉터리 내지 마운트 지점에 그 이벤트들을 받겠다고 표시한다. 파일이 변경됐음을 알리는 첫 번째 이벤트를 수신하면 대응하는 캐시 항목을 무효화하게 된다. 그런데 그 파일이 닫힐 때까지 이후의 변경 이벤트는 중요치 않다. 따라서 무시 마스크에 변경 이벤트를 추가할 수 있다. 닫힘 이벤트를 수신하면 무시 마스크에서 변경 이벤트를 제거하고서 파일 캐시 항목을 갱신할 수 있다.</p>
 <p>fanotify 알림 그룹 안의 항목들은 아이노드를 통해 파일과 디렉터리를 가리키고 마운트 ID를 통해 마운트를 가리킨다. 파일이나 디렉터리가 동일 마운트 내에서 이름이 바뀌거나 이동하는 경우에는 대응 항목이 유지된다. 파일이나 디렉터리가 삭제되거나 다른 마운트로 이동하는 경우, 또는 파일 시스템이나 마운트가 언마운트 되는 경우에는 대응 항목이 삭제된다.</p>
 <h3 id="_1">이벤트 큐</h3>
-<p>알림 그룹으로 감시하는 파일 시스템 객체들에서 이벤트가 생기면 fanotify 시스템에서 이벤트를 만들어서 큐에 모아 둔다. 그러면 <tt><a class="wikilink" href="/man-pages-ko/fanotify_init(2)/">fanotify_init(2)</a></tt>이 반환한 fanotify 파일 디스크립터에서 (<code>read(2)</code> 등으로) 그 이벤트들을 읽을 수 있다.</p>
+<p>알림 그룹으로 감시하는 파일 시스템 객체들에서 이벤트가 생기면 fanotify 시스템에서 이벤트를 만들어서 큐에 모아 둔다. 그러면 <tt><a class="wikilink" href="/man-pages-ko/fanotify_init(2)/">fanotify_init(2)</a></tt>이 반환한 fanotify 파일 디스크립터에서 (<tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt> 등으로) 그 이벤트들을 읽을 수 있다.</p>
 <p>생성되는 이벤트에는 두 가지 종류가 있는데 <em>알림</em> 이벤트와 <em>허가</em> 이벤트이다. 알림 이벤트는 정보를 줄 뿐이므로 수신 측 응용에서 어떤 행동도 취할 필요가 없다. 단, 범용 이벤트로 유효한 파일 디스크립터가 전달된 경우 그 파일 디스크립터를 닫아 줘야 한다. 이벤트마다 파일 디스크립터를 닫는 건 <code>FAN_REPORT_FID</code>(아래 참고)를 쓰지 않고 fanotify를 초기화 한 응용에만 해당된다. 허가 이벤트는 어떤 파일 접근을 승인할지 여부를 수신 측 응용에서 판단해 달라는 요청이다. 이 이벤트를 수신한 쪽에선 접근을 승인할지 여부를 결정하는 응답을 줘야 한다.</p>
 <p>이벤트를 읽어 들이면 fanotify 그룹의 이벤트 큐에서 그 이벤트가 제거된다. 읽기가 이뤄진 허가 이벤트는 fanotify 파일 디스크립터로 쓰기를 해서 허가 판단을 내리거나 fanotify 파일 디스크립터가 닫힐 때까지 fanotify 그룹의 내부 목록에 유지된다.</p>
 <h3 id="fanotify">fanotify 이벤트 읽기</h3>
-<p><tt><a class="wikilink" href="/man-pages-ko/fanotify_init(2)/">fanotify_init(2)</a></tt>이 반환한 파일 디스크립터에 <code>read(2)</code>를 호출하면 (<tt><a class="wikilink" href="/man-pages-ko/fanotify_init(2)/">fanotify_init(2)</a></tt> 호출에서 <code>FAN_NONBLOCK</code> 플래그를 지정하지 않았다면) 파일 이벤트가 일어나거나 시그널에 의해 호출이 중단(<tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt> 참고)될 때까지 블록 한다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/fanotify_init(2)/">fanotify_init(2)</a></tt>이 반환한 파일 디스크립터에 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>를 호출하면 (<tt><a class="wikilink" href="/man-pages-ko/fanotify_init(2)/">fanotify_init(2)</a></tt> 호출에서 <code>FAN_NONBLOCK</code> 플래그를 지정하지 않았다면) 파일 이벤트가 일어나거나 시그널에 의해 호출이 중단(<tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt> 참고)될 때까지 블록 한다.</p>
 <p><tt><a class="wikilink" href="/man-pages-ko/fanotify_init(2)/">fanotify_init(2)</a></tt>에 <code>FAN_REPORT_FID</code>나 <code>FAN_REPORT_DIR_FID</code> 플래그를 사용했는지 여부가 이벤트마다 이벤트 리스너로 반환되는 자료 구조에 영향을 준다. 그 플래그들 중 하나로 초기화한 그룹으로 보고되는 이벤트에선 파일 시스템 객체를 식별하는 데 파일 디스크립터 대신 파일 핸들을 쓰게 된다.</p>
-<p><code>read(2)</code> 성공 후에 읽기 버퍼에는 다음 구조체가 한 개 이상 담긴다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt> 성공 후에 읽기 버퍼에는 다음 구조체가 한 개 이상 담긴다.</p>
 <pre><code class="language-c">struct fanotify_event_metadata {
     __u32 event_len;
     __u8 vers;
@@ -216,8 +216,8 @@ struct fanotify_event_info_fid {
     unsigned char file_handle[0];
 };
 </code></pre>
-<p>성능을 고려하면 큰 버퍼(가령 4096바이트)를 써서 <code>read(2)</code> 한 번에 여러 이벤트를 가져올 수 있게 하는 걸 권장한다.</p>
-<p><code>read(2)</code>의 반환 값은 버퍼로 들어간 바이트 수이며 오류 시에는 -1이다. (하지만 BUGS 참고.)</p>
+<p>성능을 고려하면 큰 버퍼(가령 4096바이트)를 써서 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt> 한 번에 여러 이벤트를 가져올 수 있게 하는 걸 권장한다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>의 반환 값은 버퍼로 들어간 바이트 수이며 오류 시에는 -1이다. (하지만 BUGS 참고.)</p>
 <p><code>fanotify_event_metadata</code> 구조체의 필드들은 다음과 같다.</p>
 <dl>
 <dt><code>event_len</code></dt>
@@ -273,7 +273,7 @@ struct fanotify_event_info_fid {
 <dt><code>FAN_Q_OVERFLOW</code></dt>
 <dd>이벤트 큐가 제한치인 16384개 항목을 초과했다. <tt><a class="wikilink" href="/man-pages-ko/fanotify_init(2)/">fanotify_init(2)</a></tt>을 호출할 때 <code>FAN_UNLIMITED_QUEUE</code> 플래그를 지정하면 그 제한을 무시할 수 있다.</dd>
 <dt><code>FAN_ACCESS_PERM</code></dt>
-<dd>어느 응용에서 가령 <code>read(2)</code>나 <tt><a class="wikilink" href="/man-pages-ko/readdir(2)/">readdir(2)</a></tt>을 이용해 파일이나 디렉터리를 읽고 싶어 한다. 그 파일 시스템 객체 접근을 인가해야 할지 결정하는 응답을 (아래 설명하는 대로) 줘야 한다.</dd>
+<dd>어느 응용에서 가령 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>나 <tt><a class="wikilink" href="/man-pages-ko/readdir(2)/">readdir(2)</a></tt>을 이용해 파일이나 디렉터리를 읽고 싶어 한다. 그 파일 시스템 객체 접근을 인가해야 할지 결정하는 응답을 (아래 설명하는 대로) 줘야 한다.</dd>
 <dt><code>FAN_OPEN_PERM</code></dt>
 <dd>어느 응용에서 파일이나 디렉터리를 열고 싶어 한다. 그 파일 시스템 객체 열기를 인가해야 할지 결정하는 응답을 줘야 한다.</dd>
 <dt><code>FAN_OPEN_EXEC_PERM</code></dt>
@@ -307,7 +307,7 @@ struct fanotify_event_info_fid {
 <dt><code>file_handle</code></dt>
 <dd><code>struct file_handle</code> 타입의 가변 길이 구조체다. 파일 시스템 상의 특정 객체에 대응하는 불투명한 핸들이며 <tt><a class="wikilink" href="/man-pages-ko/name_to_handle_at(2)/">name_to_handle_at(2)</a></tt>이 반환하는 것과 같은 것이다. 이를 이용해 파일 시스템 상의 파일을 유일하게 식별할 수 있으며 <tt><a class="wikilink" href="/man-pages-ko/open_by_handle_at(2)/">open_by_handle_at(2)</a></tt>에 인자로 줄 수 있다. 참고로 <code>FAN_CREATE</code>, <code>FAN_DELETE</code>, <code>FAN_MOVE</code> 같은 디렉터리 항목 변경 이벤트에서 <code>file_handle</code>은 생성/삭제/이동된 자식 객체가 아니라 변경된 디렉터리를 나타낸다. <code>info_type</code> 필드 값이 <code>FAN_EVENT_INFO_TYPE_DFID_NAME</code>인 경우 파일 핸들 다음에 생성/삭제/이동된 디렉터리 항목 이름을 나타내는 널 종료 문자열이 따라온다. <code>FAN_OPEN</code>, <code>FAN_ATTRIB</code>, <code>FAN_DELETE_SELF</code>, <code>FAN_MOVE_SELF</code> 같은 다른 이벤트에서 <code>info_type</code> 필드 값이 <code>FAN_EVENT_INFO_TYPE_FID</code>인 경우 <code>file_handle</code>은 그 이벤트와 연관된 객체를 나타낸다. <code>info_type</code> 필드 값이 <code>FAN_EVENT_INFO_TYPE_DFID</code>인 경우 <code>file_handle</code>은 그 이벤트와 연관된 디렉터리 객체를, 또는 그 이벤트와 연관된 디렉터리 아닌 객체의 부모 디렉터리를 나타낸다. <code>info_type</code> 필드 값이 <code>FAN_EVENT_INFO_TYPE_DFID_NAME</code>인 경우 <code>file_handle</code>은 <code>FAN_EVENT_INFO_TYPE_DFID</code>에서와 같은 디렉터리 객체를 나타내며, 그 파일 핸들 다음에 그 디렉터리 안의 디렉터리 항목 이름 또는 디렉터리 객체 자체를 나타내는 '.'이 따라온다.</dd>
 </dl>
-<p>fanotify 파일 디스크립터에 대해 <code>read(2)</code>가 반환한 fanotify 이벤트 메타데이터들이 담긴 버퍼를 순회하기 위한 다음 매크로들이 있다.</p>
+<p>fanotify 파일 디스크립터에 대해 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>가 반환한 fanotify 이벤트 메타데이터들이 담긴 버퍼를 순회하기 위한 다음 매크로들이 있다.</p>
 <dl>
 <dt><code>FAN_EVENT_OK(meta, len)</code></dt>
 <dd>이 매크로는 버퍼의 남은 길이 <code>len</code>을 메타데이터 구조체의 길이 및 <code>meta</code>가 가리키는 메타데이터 구조체의 <code>event_len</code> 필드와 비교해 본다.</dd>
@@ -322,7 +322,7 @@ struct fanotify_event_info_fid {
 <h3 id="fanotify_1">fanotify 파일 디스크립터에서 이벤트 감시하기</h3>
 <p>fanotify 이벤트가 일어날 때 fanotify 파일 디스크립터를 <tt><a class="wikilink" href="/man-pages-ko/epoll(7)/">epoll(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/poll(2)/">poll(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/select(2)/">select(2)</a></tt>에 주면 읽기 가능으로 표시된다.</p>
 <h3 id="_2">권한 이벤트 처리하기</h3>
-<p>허가 이벤트의 경우 응용에서 fanotify 파일 디스크립터로 다음 형태의 구조체를 <code>write(2)</code> 해 주어야 한다.</p>
+<p>허가 이벤트의 경우 응용에서 fanotify 파일 디스크립터로 다음 형태의 구조체를 <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt> 해 주어야 한다.</p>
 <pre><code class="language-c">struct fanotify_response {
     __s32 fd;
     __u32 response;
@@ -341,7 +341,7 @@ struct fanotify_event_info_fid {
 <h3 id="procpidfdinfo"><code>/proc/[pid]/fdinfo</code></h3>
 <p><code>/proc/[pid]/fdinfo/[fd]</code> 파일이 프로세스 <code>pid</code>의 파일 디스크립터 <code>fd</code>에 대한 fanotify 표시 정보를 담고 있다. 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/proc(5)/">proc(5)</a></tt> 참고.</p>
 <h2 id="errors">ERRORS</h2>
-<p>fanotify 파일 디스크립터에서 읽기를 할 때 일반적인 <code>read(2)</code> 오류에 더해서 다음 오류가 발생할 수 있다.</p>
+<p>fanotify 파일 디스크립터에서 읽기를 할 때 일반적인 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt> 오류에 더해서 다음 오류가 발생할 수 있다.</p>
 <dl>
 <dt><code>EINVAL</code></dt>
 <dd>버퍼가 이벤트를 담기에 너무 작다.</dd>
@@ -350,9 +350,9 @@ struct fanotify_event_info_fid {
 <dt><code>ENFILE</code></dt>
 <dd>열린 파일 총개수에 대한 시스템 전역 제한에 도달했다. <tt><a class="wikilink" href="/man-pages-ko/proc(5)/">proc(5)</a></tt>의 <code>/proc/sys/fs/file-max</code> 참고.</dd>
 <dt><code>ETXTBSY</code></dt>
-<dd><tt><a class="wikilink" href="/man-pages-ko/fanotify_init(2)/">fanotify_init(2)</a></tt> 호출 시 <code>event_f_flags</code> 인자에 <code>O_RDWR</code>나 <code>O_WRONLY</code>를 지정했으며 현재 실행 중인 감시 대상 파일에 이벤트가 발생한 경우 <code>read(2)</code>가 이 오류를 반환한다.</dd>
+<dd><tt><a class="wikilink" href="/man-pages-ko/fanotify_init(2)/">fanotify_init(2)</a></tt> 호출 시 <code>event_f_flags</code> 인자에 <code>O_RDWR</code>나 <code>O_WRONLY</code>를 지정했으며 현재 실행 중인 감시 대상 파일에 이벤트가 발생한 경우 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>가 이 오류를 반환한다.</dd>
 </dl>
-<p>fanotify 파일 디스크립터에 쓰기를 할 때 일반적인 <code>write(2)</code> 오류에 더해서 다음 오류가 발생할 수 있다.</p>
+<p>fanotify 파일 디스크립터에 쓰기를 할 때 일반적인 <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt> 오류에 더해서 다음 오류가 발생할 수 있다.</p>
 <dl>
 <dt><code>EINVAL</code></dt>
 <dd>커널 구성에서 fanotify 접근 허가가 켜져 있지 않거나 응답 구조체의 <code>response</code> 값이 유효하지 않다.</dd>
@@ -382,7 +382,7 @@ struct fanotify_event_info_fid {
 <p>이벤트가 생길 때 파일에 대한 파일 디스크립터를 전달해 주기 전에 수신 측 프로세스의 사용자 ID가 파일에 읽기 내지 쓰기 권한이 있는지 확인하지 않는다. 비특권 사용자가 실행한 프로그램에 <code>CAP_SYS_ADMIN</code> 역능이 설정돼 있는 경우 보안 위험이 된다.</p>
 </li>
 <li>
-<p><code>read(2)</code> 호출 내에서 fanotify 큐의 여러 이벤트를 꺼내 처리한 다음 오류가 발생한 경우에 반환 값은 오류 발생 전까지 사용자 공간 버퍼로 성공적으로 복사한 이벤트들의 총 길이가 된다. 즉 반환 값이 -1이 아니고 <code>errno</code>가 설정되지 않는다. 그래서 읽는 쪽 응용에서 오류를 탐지할 방법이 없다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt> 호출 내에서 fanotify 큐의 여러 이벤트를 꺼내 처리한 다음 오류가 발생한 경우에 반환 값은 오류 발생 전까지 사용자 공간 버퍼로 성공적으로 복사한 이벤트들의 총 길이가 된다. 즉 반환 값이 -1이 아니고 <code>errno</code>가 설정되지 않는다. 그래서 읽는 쪽 응용에서 오류를 탐지할 방법이 없다.</p>
 </li>
 </ul>
 <h2 id="examples">EXAMPLES</h2>

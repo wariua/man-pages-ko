@@ -178,7 +178,7 @@ ssize_t readahead(int fd, off64_t offset, size_t count);
 <h2 id="bugs">BUGS</h2>
 <p><code>readahead()</code>는 배경 읽기 스케줄링을 시도하고서 즉시 반환한다. 하지만 요청 블록들의 위치를 알기 위해 필요한 파일 시스템 메타데이터를 읽는 동안 블록 될 수도 있다. ext[234] 사용 시 익스텐트 대신 간접 블록을 쓰는 큰 파일에서 이런 경우가 자주 일어나며, 그래서 요청 데이터를 읽어 들일 때까지 호출이 블록 되는 것처럼 보인다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt><a class="wikilink" href="/man-pages-ko/lseek(2)/">lseek(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/madvise(2)/">madvise(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/posix_fadvise(2)/">posix_fadvise(2)</a></tt>, <code>read(2)</code></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/lseek(2)/">lseek(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/madvise(2)/">madvise(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/posix_fadvise(2)/">posix_fadvise(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt></p>
 <hr />
 <p>2021-03-22</p></div>
         

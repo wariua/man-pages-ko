@@ -172,7 +172,7 @@ int close(int fd);
 <dt><code>EIO</code></dt>
 <dd>I/O 오류가 발생했다.</dd>
 <dt><code>ENOSPC</code>, <code>EDQUOT</code></dt>
-<dd>NFS에서는 이 오류들이 가용 저장 공간을 초과하는 첫 쓰기에서 정상적으로 보고되지 않고 이후의 <code>write(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/fsync(2)/">fsync(2)</a></tt>, <code>close()</code>에서 보고된다.</dd>
+<dd>NFS에서는 이 오류들이 가용 저장 공간을 초과하는 첫 쓰기에서 정상적으로 보고되지 않고 이후의 <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fsync(2)/">fsync(2)</a></tt>, <code>close()</code>에서 보고된다.</dd>
 </dl>
 <p>오류 시 <code>close()</code>를 재시도하지 말아야 하는 이유에 대한 NOTES의 설명을 보라.</p>
 <h2 id="conforming-to">CONFORMING TO</h2>
@@ -185,7 +185,7 @@ int close(int fd);
 <p>그리고 한 파일 디스크립터에 두 스레드가 동작을 수행하는 다음 시나리오를 생각해 보자.</p>
 <ol>
 <li>
-<p>한 스레드가 파일 디스크립터에 대한 I/O 시스템 호출 안에서 블록돼 있다. 예를 들면 이미 가득 찬 파이프에 <code>write(2)</code>를 시도하거나, 현재 가용 데이터가 없는 스트림 소켓에 <code>read(2)</code>를 시도하고 있다.</p>
+<p>한 스레드가 파일 디스크립터에 대한 I/O 시스템 호출 안에서 블록돼 있다. 예를 들면 이미 가득 찬 파이프에 <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt>를 시도하거나, 현재 가용 데이터가 없는 스트림 소켓에 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>를 시도하고 있다.</p>
 </li>
 <li>
 <p>다른 스레드에서 그 파일 디스크립터를 닫는다.</p>
@@ -194,7 +194,7 @@ int close(int fd);
 <p>이 상황에서의 동작 방식은 시스템에 따라 다르다. 어떤 시스템에선 파일 디스크립터가 닫힐 때 블로킹 시스템 호출이 즉시 오류와 함께 반환한다.</p>
 <p>리눅스에선 (그리고 아마도 몇몇 다른 시스템에선) 동작 방식이 다르다. 블로킹 상태의 I/O 시스템 호출이 기반 열린 파일 기술 항목에 대한 참조를 잡고 있으며, 그래서 그 I/O 시스템 호출이 완료될 때까지 기술 항목이 열린 상태로 유지된다. (열린 파일 기술 항목에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt> 참고.) 따라서 두 번째 스레드의 <code>close()</code> 후에 첫 번째 스레드의 블로킹 시스템 호출이 성공적으로 완료될 수도 있다.</p>
 <h3 id="close_1"><code>close()</code>의 오류 반환 다루기</h3>
-<p>세심한 프로그래머라면 <code>close()</code>의 반환 값을 확인할 것이다. 앞선 <code>write(2)</code> 동작에서의 오류가 열린 파일 기술 항목을 해제하는 마지막 <code>close()</code>에서야 보고되는 일도 충분히 가능하기 때문이다. 파일을 닫을 때 반환 값 검사를 하지 않으면 <em>조용한</em> 데이터 유실로 이어질 수도 있다. 특히 NFS와 디스크 쿼터에서 이런 경우를 볼 수 있다.</p>
+<p>세심한 프로그래머라면 <code>close()</code>의 반환 값을 확인할 것이다. 앞선 <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt> 동작에서의 오류가 열린 파일 기술 항목을 해제하는 마지막 <code>close()</code>에서야 보고되는 일도 충분히 가능하기 때문이다. 파일을 닫을 때 반환 값 검사를 하지 않으면 <em>조용한</em> 데이터 유실로 이어질 수도 있다. 특히 NFS와 디스크 쿼터에서 이런 경우를 볼 수 있다.</p>
 <p>단, 실패 반환 값은 진단 용도(즉 미처리 I/O가 아직 있거나 실패한 I/O가 있었을 수도 있음을 응용에게 알려주기)나 보완 용도(가령 파일에 한 번 더 쓰거나 백업 만들기)로만 쓰는 게 좋다.</p>
 <p>실패 반환 후에 <code>close()</code>를 재시도하는 건 바람직하지 않은 처리 방식이다. 다른 스레드에서 재사용된 파일 디스크립터를 닫게 될 수도 있기 때문이다. 리눅스 커널에서 닫기 동작 초반에 <em>항상</em> 파일 디스크립터를 해제하여 재사용될 수 있게 만들기 때문에 그런 일이 생길 수 있다. 파일 시스템이나 장치로 데이터 플러시하기 같이 오류를 반환할 수 있는 단계들은 닫기 동작 후반에 이뤄진다.</p>
 <p>여러 다른 구현들에서도 마찬가지로 이후 <code>close()</code> 반환에서 오류를 보고하더라도 (파일 디스크립터가 유효하지 않다는 뜻인 <code>EBADF</code> 경우를 제외하고) 파일 디스크립터를 항상 닫는다. POSIX.1에서 현재는 이 점에 대해 아무 언급이 없지만 표준의 다음 주요 릴리스 때 이 동작을 강제화할 계획이 있다.</p>

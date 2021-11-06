@@ -161,7 +161,7 @@ ssize_t aio_return(struct aiocb *aiocbp);
 <p><code>aio_return()</code> 함수는 <code>aiocbp</code>가 가리키는 제어 블록의 비동기 I/O 요청에 대해 최종 반환 상태를 반환한다. (<code>aiocb</code> 구조체에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/aio(7)/">aio(7)</a></tt> 참고.)</p>
 <p>한 요청에 대해 이 함수를 한 번만, <tt><a class="wikilink" href="/man-pages-ko/aio_error(3)/">aio_error(3)</a></tt>가 <code>EINPROGRESS</code> 아닌 뭔가를 반환했을 때만 호출해야 한다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
-<p>비동기 I/O 동작이 완료된 경우에 이 함수는 동기적인 <code>read(2)</code>, <code>write(2)</code>, <code>fsync(2)</code>, <code>fdatasync(2)</code> 호출이 반환했을 값을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
+<p>비동기 I/O 동작이 완료된 경우에 이 함수는 동기적인 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt>, <code>fsync(2)</code>, <code>fdatasync(2)</code> 호출이 반환했을 값을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
 <p>비동기 I/O 동작이 아직 완료되지 않은 경우에 <code>aio_return()</code>의 반환 값과 영향은 규정돼 있지 않다.</p>
 <h2 id="errors">ERRORS</h2>
 <dl>

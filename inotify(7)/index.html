@@ -175,7 +175,7 @@
 <p><tt><a class="wikilink" href="/man-pages-ko/inotify_add_watch(2)/">inotify_add_watch(2)</a></tt>는 inotify 인스턴스에 연계된 "감시 목록(watch list)"을 조작한다. 감시 목록 내의 각 항목은 파일이나 디렉터리의 경로명과 함께 그 경로명이 가리키는 파일에 대해 커널에서 감시해야 할 어떤 이벤트 집합을 나타낸다. <tt><a class="wikilink" href="/man-pages-ko/inotify_add_watch(2)/">inotify_add_watch(2)</a></tt>는 새 감시 항목을 만들거나 기존 감시 항목을 변경한다. 각 감시 항목에는 고유한 "감시 디스크립터"가 있는데, 그 감시 항목을 생성할 때 <tt><a class="wikilink" href="/man-pages-ko/inotify_add_watch(2)/">inotify_add_watch(2)</a></tt>가 그 정수를 반환한다.</p>
 </li>
 <li>
-<p>감시 대상 파일 및 디렉터리에 대한 이벤트가 발생할 때 inotify 파일 디스크립터에서 <code>read(2)</code>로 그 이벤트를 나타내는 구조화된 데이터를 읽어 들일 수 있다. (아래 참고.)</p>
+<p>감시 대상 파일 및 디렉터리에 대한 이벤트가 발생할 때 inotify 파일 디스크립터에서 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>로 그 이벤트를 나타내는 구조화된 데이터를 읽어 들일 수 있다. (아래 참고.)</p>
 </li>
 <li>
 <p><tt><a class="wikilink" href="/man-pages-ko/inotify_rm_watch(2)/">inotify_rm_watch(2)</a></tt>는 inotify 감시 목록에서 항목을 제거한다.</p>
@@ -186,8 +186,8 @@
 </ul>
 <p>조심스럽게 프로그래밍 한다면 응용에서 inotify를 이용해 파일 시스템 객체들의 상태를 효율적으로 감시하고 캐싱 할 수 있다. 하지만 견고한 응용이라면 감시 로직의 버그나 아래에서 설명할 종류의 경쟁 때문에 캐시가 파일 시스템 상태와 일치하지 않게 될 수도 있다는 점을 감안해야 한다. 아마 어떤 일관성 검사를 해서 불일치 탐지 시 캐시를 재구축하는 게 바람직할 것이다.</p>
 <h2 id="inotify">inotify 파일 디스크립터에서 이벤트 읽기</h2>
-<p>어떤 이벤트가 발생했는지 알아내기 위해 응용에서는 inotify 파일 디스크립터에 <code>read(2)</code>를 한다. 아직 어떤 이벤트도 일어나지 않은 경우 블로킹 파일 디스크립터라고 하면 적어도 한 개 이벤트가 발생할 때까지 <code>read(2)</code>가 블록 하게 된다. (단 시그널에 의해 중단되는 경우에는 호출이 <code>EINTR</code> 오류로 실패한다. <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt> 참고.)</p>
-<p><code>read(2)</code>가 성공하면 다음 구조체를 한 개 이상 담은 버퍼를 반환한다.</p>
+<p>어떤 이벤트가 발생했는지 알아내기 위해 응용에서는 inotify 파일 디스크립터에 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>를 한다. 아직 어떤 이벤트도 일어나지 않은 경우 블로킹 파일 디스크립터라고 하면 적어도 한 개 이벤트가 발생할 때까지 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>가 블록 하게 된다. (단 시그널에 의해 중단되는 경우에는 호출이 <code>EINTR</code> 오류로 실패한다. <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt> 참고.)</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>가 성공하면 다음 구조체를 한 개 이상 담은 버퍼를 반환한다.</p>
 <pre><code class="language-c">struct inotify_event {
     int      wd;       /* 감시 디스크립터 */
     uint32_t mask;     /* 이벤트 기술 마스크 */
@@ -202,14 +202,14 @@
 <p><code>cookie</code>는 관련 이벤트들을 연결해 주는 유일 정수이다. 현재는 rename 이벤트에서만 쓰는데 발생한 <code>IN_MOVED_FROM</code>와 <code>IN_MOVED_TO</code> 이벤트 쌍을 응용에서 연관 지을 수 있게 해 준다. 다른 모든 이벤트들에서는 <code>cookie</code>가 0으로 설정돼 있다.</p>
 <p><code>name</code> 필드는 감시 대상 디렉터리 내 파일에 대한 이벤트가 반환될 때만 존재하다. 즉 감시 대상 디렉터리 내의 파일명을 나타낸다. 이 파일명은 널로 끝나며 후속 항목을 적절한 주소 경계로 정렬시키기 위해 추가로 널 바이트('\0')들이 있을 수도 있다.</p>
 <p><code>len</code> 필드는 널 바이트를 포함해 <code>name</code>의 바이트 모두의 개수이다. 따라서 각 <code>inotify_event</code> 구조체의 길이는 <code>sizeof(struct inotify_event)+len</code>이다.</p>
-<p><code>read(2)</code>에 준 버퍼가 너무 작아서 다음 이벤트에 대한 정보를 담을 수 없는 경우의 동작 방식은 커널 버전에 따라 다르다. 2.6.21 전의 커널에서는 <code>read(2)</code>가 0을 반환하며 커널 2.6.21부터는 <code>read(2)</code>가 <code>EINVAL</code> 오류로 실패한다. 다음 크기의 버퍼를 지정하면 적어도 이벤트 한 개는 확실히 읽을 수 있다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>에 준 버퍼가 너무 작아서 다음 이벤트에 대한 정보를 담을 수 없는 경우의 동작 방식은 커널 버전에 따라 다르다. 2.6.21 전의 커널에서는 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>가 0을 반환하며 커널 2.6.21부터는 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>가 <code>EINVAL</code> 오류로 실패한다. 다음 크기의 버퍼를 지정하면 적어도 이벤트 한 개는 확실히 읽을 수 있다.</p>
 <pre><code class="language-c">sizeof(struct inotify_event) + NAME_MAX + 1
 </code></pre>
 <h3 id="inotify_1">inotify 이벤트</h3>
-<p><tt><a class="wikilink" href="/man-pages-ko/inotify_add_watch(2)/">inotify_add_watch(2)</a></tt>의 <code>mask</code> 인자와 inotify 파일 디스크립터에서 <code>read(2)</code> 할 때 반환되는 <code>inotify_event</code> 구조체의 <code>mask</code> 필드는 inotify 이벤트들을 나타내는 비트 마스크이다. <tt><a class="wikilink" href="/man-pages-ko/inotify_add_watch(2)/">inotify_add_watch(2)</a></tt> 호출 시 <code>mask</code> 마스크에 다음 비트들을 지정할 수 있으며 <code>read(2)</code>에서 반환하는 <code>mask</code> 필드로 반환될 수 있다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/inotify_add_watch(2)/">inotify_add_watch(2)</a></tt>의 <code>mask</code> 인자와 inotify 파일 디스크립터에서 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt> 할 때 반환되는 <code>inotify_event</code> 구조체의 <code>mask</code> 필드는 inotify 이벤트들을 나타내는 비트 마스크이다. <tt><a class="wikilink" href="/man-pages-ko/inotify_add_watch(2)/">inotify_add_watch(2)</a></tt> 호출 시 <code>mask</code> 마스크에 다음 비트들을 지정할 수 있으며 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>에서 반환하는 <code>mask</code> 필드로 반환될 수 있다.</p>
 <dl>
 <dt><code>IN_ACCESS</code> (+)</dt>
-<dd>파일에 접근했음. (가령 <code>read(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>.)</dd>
+<dd>파일에 접근했음. (가령 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>.)</dd>
 <dt><code>IN_ATTRIB</code> (*)</dt>
 <dd>타데이터 변경됐음. 예를 들어 권한(<tt><a class="wikilink" href="/man-pages-ko/chmod(2)/">chmod(2)</a></tt>), 타임스탬프(<tt><a class="wikilink" href="/man-pages-ko/utimensat(2)/">utimensat(2)</a></tt>), 확장 속성(<tt><a class="wikilink" href="/man-pages-ko/setxattr(2)/">setxattr(2)</a></tt>), 링크 카운트(리눅스 2.6.25부터, <tt><a class="wikilink" href="/man-pages-ko/link(2)/">link(2)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/unlink(2)/">unlink(2)</a></tt> 대상에 대해), 사용자/그룹 ID(<tt><a class="wikilink" href="/man-pages-ko/chown(2)/">chown(2)</a></tt>).</dd>
 <dt><code>IN_CLOSE_WRITE</code> (+)</dt>
@@ -223,7 +223,7 @@
 <dt><code>IN_DELETE_SELF</code></dt>
 <dd>감시 대상 파일/디렉터리 자체가 삭제됐음. (다른 파일 시스템으로 객체를 옮기는 경우에도 이 이벤트가 발생한다. 그 경우 <code>mv(1)</code>는 실질적으로는 다른 파일 시스템으로 파일을 복사한 다음 원래 파일 시스템에서 파일을 삭제하기 때문이다.) 더불어 그 감시 디스크립터로 이어서 <code>IN_IGNORED</code> 이벤트가 생성될 것이다.</dd>
 <dt><code>IN_MODIFY</code> (+)</dt>
-<dd>파일이 변경됐음. (가령 <code>write(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/truncate(2)/">truncate(2)</a></tt>.)</dd>
+<dd>파일이 변경됐음. (가령 <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/truncate(2)/">truncate(2)</a></tt>.)</dd>
 <dt><code>IN_MOVE_SELF</code></dt>
 <dd>감시 대상 파일/디렉터리 자체가 이동됐음.</dd>
 <dt><code>IN_MOVED_FROM</code> (+)</dt>
@@ -271,7 +271,7 @@
 <p>이 플래그를 이용하면 응용에서 새 감시 항목이 기존 항목을 변경하지 않게 할 수 있다. 그게 유용한 건 여러 경로가 같은 아이노드를 가리키고 있을 수도 있기 때문이다. 이 플래그 없이 <tt><a class="wikilink" href="/man-pages-ko/inotify_add_watch(2)/">inotify_add_watch(2)</a></tt>를 여러 번 호출하면 기존 감시 마스크를 망가뜨릴 수 있다.</p>
 </dd>
 </dl>
-<p><code>read(2)</code>로 받는 <code>mask</code> 필드에 다음 비트들이 설정돼 있을 수 있다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>로 받는 <code>mask</code> 필드에 다음 비트들이 설정돼 있을 수 있다.</p>
 <dl>
 <dt><code>IN_IGNORED</code></dt>
 <dd>감시 대상이 명시적으로(<tt><a class="wikilink" href="/man-pages-ko/inotify_rm_watch(2)/">inotify_rm_watch(2)</a></tt>) 또는 자동으로(파일이 삭제되거나 파일 시스템이 마운트 해제됐음) 제거되었다. BUGS도 참고.</dd>
@@ -336,7 +336,7 @@
 <p>리눅스 2.6.25부터 inotify 파일 디스크립터에 시그널 주도 I/O 알림을 사용할 수 있다. <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt>의 <code>F_SETFL</code>(<code>O_ASYNC</code> 플래그 설정), <code>F_SETOWN</code>, <code>F_SETSIG</code> 설명을 보라. 시그널 핸들러에게 전달되는 <code>siginfo_t</code> 구조체(<tt><a class="wikilink" href="/man-pages-ko/sigaction(2)/">sigaction(2)</a></tt>에서 설명)에서 <code>si_fd</code>가 inotify 파일 디스크립터 번호로 설정돼 있고, <code>si_signo</code>가 시그널 번호로 설정돼 있고, <code>si_code</code>가 <code>POLL_IN</code>으로 설정돼 있고, <code>si_band</code>에 <code>POLLIN</code>이 설정돼 있다.</p>
 <p>inotify 파일 디스크립터에서 연달아 생겨난 inotify 이벤트들이 동일한 (<code>wd</code>, <code>mask</code>, <code>cookie</code>, <code>name</code>이 같은) 경우 이전 이벤트가 아직 읽히지 않았으면 한 이벤트로 병합한다. (하지만 BUGS 참고.) 이렇게 하면 이벤트 큐에 필요한 커널 메모리 양이 줄기는 하지만 응용에서 inotify를 이용해 파일 이벤트 수를 정확히 셀 수 없다는 뜻이기도 하다.</p>
 <p>inotify 파일 디스크립터에서 읽어서 반환되는 이벤트들은 순서 있는 큐를 형성한다. 그래서 예를 들어 한 디렉터리에서 다른 디렉터리로 이름을 바꿀 때 이벤트들이 inotify 파일 디스크립터 상에서 정확한 순서로 생겨난다고 보장된다.</p>
-<p>inotify 파일 디스크립터를 통해 감시 중인 감시 디스크립터들의 목록을 프로세스의 <code>/proc/[pid]/fdinfo</code> 디렉터리 내 inotify 파일 디스크립터에 대한 항목을 통해 볼 수 있다. 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/proc(5)/">proc(5)</a></tt> 참고. <code>FIONREAD</code> <code>ioctl(2)</code>은 inotify 파일 디스크립터에서 읽을 수 있는 바이트 수를 반환한다.</p>
+<p>inotify 파일 디스크립터를 통해 감시 중인 감시 디스크립터들의 목록을 프로세스의 <code>/proc/[pid]/fdinfo</code> 디렉터리 내 inotify 파일 디스크립터에 대한 항목을 통해 볼 수 있다. 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/proc(5)/">proc(5)</a></tt> 참고. <code>FIONREAD</code> <tt><a class="wikilink" href="/man-pages-ko/ioctl(2)/">ioctl(2)</a></tt>은 inotify 파일 디스크립터에서 읽을 수 있는 바이트 수를 반환한다.</p>
 <h3 id="_2">한계과 주의점</h3>
 <p>inotify API는 inotify 이벤트를 유발한 사용자나 프로세스에 대해선 어떤 정보도 제공하지 않는다. 특히 inotify를 통해 이벤트를 감시하고 있는 프로세스 자체에서 유발한 이벤트와 다른 프로세스가 유발한 이벤트를 구별할 손쉬운 방법이 없다.</p>
 <p>inotify는 사용자 공간 프로그램이 파일 시스템 API를 통해 유발한 이벤트만을 보고한다. 따라서 네트워크 파일 시스템 상에서 일어나는 원격 이벤트는 잡지 못한다. (그런 이벤트를 잡으려면 파일 시스템 폴링으로 되돌아가야 한다.) 또한 <code>/proc</code>, <code>/sys</code>, <code>/dev/pts</code> 같은 여러 가상 파일 시스템들은 inotify로 감시할 수 없다.</p>
@@ -351,7 +351,7 @@
 <p>위에서 언급한 것처럼 <tt><a class="wikilink" href="/man-pages-ko/rename(2)/">rename(2)</a></tt>이 생성하는 <code>IN_MOVED_FROM</code> 및 <code>IN_MOVED_TO</code> 이벤트를 공유 쿠키 값을 통해 짝을 맞출 수 있다. 하지만 짝을 맞추는 작업에 몇 가지 어려운 점이 있다.</p>
 <p>inotify 파일 디스크립터에서 이벤트 스트림을 읽어 들일 때 이 두 이벤트는 일반적으로 연속으로 나온다. 하지만 그게 보장돼 있는 건 아니다. 어떤 감시 대상 객체에 여러 프로세스가 이벤트를 유발하는 경우에는 (드물지만) <code>IN_MOVED_FROM</code> 및 <code>IN_MOVED_TO</code> 이벤트 사이에 임의의 다른 이벤트들이 등장할 수 있다. 또한 그 이벤트 쌍이 큐에 원자적으로 삽입된다고 보장되지 않는다. 즉 <code>IN_MOVED_FROM</code>은 등장했지만 <code>IN_MOVED_TO</code>는 없는 짧은 기간이 있을 수 있다.</p>
 <p>그래서 <tt><a class="wikilink" href="/man-pages-ko/rename(2)/">rename(2)</a></tt>으로 생성되는 <code>IN_MOVED_FROM</code> 및 <code>IN_MOVED_TO</code> 이벤트의 짝을 맞추는 데는 기본적으로 경쟁 요소가 있다. (게다가 객체의 이름이 감시 대상 디렉터리 밖으로 바뀌면 <code>IN_MOVED_TO</code> 이벤트가 없을 수도 있다.) 경험적 접근 방식(가령 이벤트가 항상 연속돼 있다고 가정하기)을 쓰면 대부분 경우에서 짝을 맞출 수 있지만 불가피하게 일부 경우를 놓치게 되어 응용에서 어떤 <code>IN_MOVED_FROM</code> 및 <code>IN_MOVED_TO</code> 이벤트 쌍이 서로 무관하다고 인식하게 된다. 그래서 감시 디스크립터를 파기하고 다시 만들면 그 감시 디스크립터가 미처리 이벤트의 감시 디스크립터와 일치하지 않게 된다. (이런 경우에는 inotify 파일 디스크립터를 다시 만들고 캐시를 재구축하는 게 도움이 될 수 있다.)</p>
-<p>또한 응용에서는 이번 <code>read(2)</code> 호출이 반환하는 버퍼에 <code>IN_MOVED_FROM</code> 이벤트까지만 들어갈 수 있어서 딸린 <code>IN_MOVED_TO</code> 이벤트를 다음 <code>read(2)</code>로만 읽을 수 있을 가능성을 감안해야 한다. 이때 (작은) 타임아웃을 주는 게 좋은데, <code>IN_MOVED_FROM</code>+<code>IN_MOVED_TO</code> 이벤트 쌍 삽입이 원자적이지 않으며 <code>IN_MOVED_TO</code> 이벤트가 없을 가능성도 있기 때문이다.</p>
+<p>또한 응용에서는 이번 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt> 호출이 반환하는 버퍼에 <code>IN_MOVED_FROM</code> 이벤트까지만 들어갈 수 있어서 딸린 <code>IN_MOVED_TO</code> 이벤트를 다음 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>로만 읽을 수 있을 가능성을 감안해야 한다. 이때 (작은) 타임아웃을 주는 게 좋은데, <code>IN_MOVED_FROM</code>+<code>IN_MOVED_TO</code> 이벤트 쌍 삽입이 원자적이지 않으며 <code>IN_MOVED_TO</code> 이벤트가 없을 가능성도 있기 때문이다.</p>
 <h2 id="bugs">BUGS</h2>
 <p>리눅스 3.19 전에서 <tt><a class="wikilink" href="/man-pages-ko/fallocate(2)/">fallocate(2)</a></tt>가 inotify 이벤트를 생성하지 않았다. 리눅스 3.19부터 <tt><a class="wikilink" href="/man-pages-ko/fallocate(2)/">fallocate(2)</a></tt> 호출이 <code>IN_MODIFY</code> 이벤트를 생성한다.</p>
 <p>커널 2.6.16 전에서 <code>mask</code> 플래그 <code>IN_ONESHOT</code>이 동작하지 않는다.</p>
@@ -557,7 +557,7 @@ main(int argc, char *argv[])
 }
 </code></pre>
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>inotifywait(1)</code>, <code>inotifywatch(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/inotify_add_watch(2)/">inotify_add_watch(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/inotify_init(2)/">inotify_init(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/inotify_init1(2)/">inotify_init1(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/inotify_rm_watch(2)/">inotify_rm_watch(2)</a></tt>, <code>read(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/stat(2)/">stat(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fanotify(7)/">fanotify(7)</a></tt></p>
+<p><code>inotifywait(1)</code>, <code>inotifywatch(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/inotify_add_watch(2)/">inotify_add_watch(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/inotify_init(2)/">inotify_init(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/inotify_init1(2)/">inotify_init1(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/inotify_rm_watch(2)/">inotify_rm_watch(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/stat(2)/">stat(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fanotify(7)/">fanotify(7)</a></tt></p>
 <p>리눅스 커널 소스 트리의 <code>Documentation/filesystems/inotify.txt</code></p>
 <hr />
 <p>2021-03-22</p></div>

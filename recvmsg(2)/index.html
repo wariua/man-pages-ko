@@ -169,7 +169,7 @@ ssize_t recvmsg(int sockfd, struct msghdr *msg, int flags);
 </code></pre>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>recv()</code>, <code>recvfrom()</code>, <code>recvmsg()</code> 호출을 이용해 소켓에서 메시지를 받는다. 무연결 소켓과 연결 지향 소켓 모두에서 데이터를 받을 수 있다. 이 페이지에서는 먼저 세 가지 시스템 호출의 공통 기능을 기술한 다음 호출들 간의 차이점을 기술한다.</p>
-<p><code>recv()</code>와 <code>read(2)</code>의 유일한 차이는 <code>flags</code>의 존재 여부다. <code>flags</code> 인자가 0이면 <code>recv()</code>는 일반적으로 <code>read(2)</code>와 동등하다. (하지만 NOTES 참고.) 또한 다음 호출은</p>
+<p><code>recv()</code>와 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>의 유일한 차이는 <code>flags</code>의 존재 여부다. <code>flags</code> 인자가 0이면 <code>recv()</code>는 일반적으로 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>와 동등하다. (하지만 NOTES 참고.) 또한 다음 호출은</p>
 <pre><code class="language-c">recv(sockfd, buf, len, flags);
 </code></pre>
 <p>다음과 동등하다.</p>
@@ -307,14 +307,14 @@ struct msghdr {
 <p>POSIX.1-2001, POSIX.1-2008, 4.4BSD (4.2BSD에서 이 인터페이스들이 처음 등장).</p>
 <p>POSIX.1에서는 <code>MSG_OOB</code>, <code>MSG_PEEK</code>, <code>MSG_WAITALL</code> 플래그만 기술한다.</p>
 <h2 id="notes">NOTES</h2>
-<p>길이가 0인 데이터그램이 대기 중인 경우 <code>read(2)</code>와 <code>flags</code> 인자 0인 <code>recv()</code>의 동작이 다르다. 이 경우에 <code>read(2)</code>는 효력이 없지만 (데이터그램이 대기 중으로 남는다) <code>recv()</code>는 대기 중인 데이터그램을 소모한다.</p>
+<p>길이가 0인 데이터그램이 대기 중인 경우 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>와 <code>flags</code> 인자 0인 <code>recv()</code>의 동작이 다르다. 이 경우에 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>는 효력이 없지만 (데이터그램이 대기 중으로 남는다) <code>recv()</code>는 대기 중인 데이터그램을 소모한다.</p>
 <p><code>socklen_t</code> 타입은 POSIX에서 고안한 것이다. <code>accept(2)</code>도 참고.</p>
 <p>POSIX.1에 따르면 <code>msghdr</code> 구조체의 <code>msg_controllen</code> 필드가 <code>socklen_t</code> 타입이어야 하고 <code>msg_iovlen</code> 필드가 <code>int</code> 타입이어야 하지만 glibc에서는 현재 둘 모두 <code>size_t</code> 타입으로 하고 있다.</p>
 <p>호출 한 번에 여러 데이터그램을 수신할 수 있는 리눅스 전용 시스템 호출에 대한 내용은 <tt><a class="wikilink" href="/man-pages-ko/recvmmsg(2)/">recvmmsg(2)</a></tt>를 보라.</p>
 <h2 id="examples">EXAMPLES</h2>
 <p><tt><a class="wikilink" href="/man-pages-ko/getaddrinfo(3)/">getaddrinfo(3)</a></tt>에서 <code>recvfrom()</code> 사용례를 볼 수 있다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt>, <code>getsockopt(2)</code>, <code>read(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/recvmmsg(2)/">recvmmsg(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/select(2)/">select(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/shutdown(2)/">shutdown(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/socket(2)/">socket(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/cmsg(3)/">cmsg(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sockatmark(3)/">sockatmark(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ip(7)/">ip(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ipv6(7)/">ipv6(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/socket(7)/">socket(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/tcp(7)/">tcp(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/udp(7)/">udp(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/unix(7)/">unix(7)</a></tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt>, <code>getsockopt(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/recvmmsg(2)/">recvmmsg(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/select(2)/">select(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/shutdown(2)/">shutdown(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/socket(2)/">socket(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/cmsg(3)/">cmsg(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sockatmark(3)/">sockatmark(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ip(7)/">ip(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ipv6(7)/">ipv6(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/socket(7)/">socket(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/tcp(7)/">tcp(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/udp(7)/">udp(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/unix(7)/">unix(7)</a></tt></p>
 <hr />
 <p>2021-03-22</p></div>
         

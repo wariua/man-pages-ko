@@ -168,9 +168,9 @@ int ioctl(fd, RNDrequest, param);
 <p><code>/dev/urandom</code> 장치를 읽어들이면 엔트로피 풀을 시드로 쓰는 유사 난수 생성기를 이용하여 난수 바이트를 반환한다. 이 장치를 읽는 것은 블록 하지 않는다. (즉, CPU를 양보하지 않는다.) 하지만 많은 양의 데이터를 요청할 때에는 주목할 만한 지연이 발생할 수 있다.</p>
 <p>부팅 초반에는 엔트로피 풀이 초기화 되기 전에 <code>/dev/urandom</code>이 데이터를 반환할 수도 있다. 응용에서 이 점이 염려된다면 대신 <tt><a class="wikilink" href="/man-pages-ko/getrandom(2)/">getrandom(2)</a></tt>이나 <code>/dev/random</code>을 사용하라.</p>
 <p><code>/dev/random</code> 장치는 <code>/dev/urandom</code> 구현에 쓰는 암호학적 요소를 널리 신뢰하지 않던 시기까지 거슬러 올라가는 구식 인터페이스이다. 엔트로피 풀 내의 신선한 잡음 비트 추정량 내에서만 난수 바이트를 반환하게 되며 필요하면 블록 한다. <code>/dev/random</code>은 품질 높은 난수성이 필요하면서 불확정한 지연을 감수할 수 있는 응용들에 적합하다.</p>
-<p>엔트로피 풀이 비어 있을 때 <code>/dev/random</code>을 읽으면 추가로 환경 잡음을 수집할 때까지 블록 하게 된다. <code>/dev/random</code>에 대한 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>을 <code>O_NONBLOCK</code> 플래그와 함께 호출하면 후속 <code>read(2)</code>에서 요청한 수만큼의 바이트가 사용 가능하지 않은 경우에 블록 하지 않게 된다. 대신 사용 가능한 바이트들을 반환한다. 사용 가능한 바이트가 없으면 <code>read(2)</code>가 -1을 반환하며 <code>errno</code>를 <code>EAGAIN</code>으로 설정하게 된다.</p>
-<p><code>/dev/urandom</code>을 열 때는 <code>O_NONBLOCK</code> 플래그의 효과가 없다. <code>/dev/urandom</code> 장치에 <code>read(2)</code>를 호출할 때 256개까지의 바이트를 읽으면 요청한 만큼의 바이트들을 반환하며 시그널 핸들러에 의해 중단되지 않게 된다. 이 제한을 넘는 버퍼로 읽기를 하면 시그널 핸들러에 의해 중단되는 경우 요청한 바이트 수보다 적게 반환하거나 <code>EINTR</code> 오류로 실패할 수도 있다.</p>
-<p>리눅스 3.16부터는 <code>/dev/urandom</code>에서 <code>read(2)</code> 하는 것이 최대 32MB를 반환하게 된다. <code>/dev/random</code>에서 <code>read(2)</code> 하는 것은 최대 512바이트를 (리눅스 커널 버전 2.6.12 전에서는 340바이트를) 반환하게 된다.</p>
+<p>엔트로피 풀이 비어 있을 때 <code>/dev/random</code>을 읽으면 추가로 환경 잡음을 수집할 때까지 블록 하게 된다. <code>/dev/random</code>에 대한 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>을 <code>O_NONBLOCK</code> 플래그와 함께 호출하면 후속 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>에서 요청한 수만큼의 바이트가 사용 가능하지 않은 경우에 블록 하지 않게 된다. 대신 사용 가능한 바이트들을 반환한다. 사용 가능한 바이트가 없으면 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>가 -1을 반환하며 <code>errno</code>를 <code>EAGAIN</code>으로 설정하게 된다.</p>
+<p><code>/dev/urandom</code>을 열 때는 <code>O_NONBLOCK</code> 플래그의 효과가 없다. <code>/dev/urandom</code> 장치에 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>를 호출할 때 256개까지의 바이트를 읽으면 요청한 만큼의 바이트들을 반환하며 시그널 핸들러에 의해 중단되지 않게 된다. 이 제한을 넘는 버퍼로 읽기를 하면 시그널 핸들러에 의해 중단되는 경우 요청한 바이트 수보다 적게 반환하거나 <code>EINTR</code> 오류로 실패할 수도 있다.</p>
+<p>리눅스 3.16부터는 <code>/dev/urandom</code>에서 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt> 하는 것이 최대 32MB를 반환하게 된다. <code>/dev/random</code>에서 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt> 하는 것은 최대 512바이트를 (리눅스 커널 버전 2.6.12 전에서는 340바이트를) 반환하게 된다.</p>
 <p><code>/dev/random</code>이나 <code>/dev/urandom</code>에 쓰기를 하면 써넣은 데이터로 엔트로피 풀을 갱신하게 되지만 엔트로피 양이 올라가지는 않는다. 즉, 두 파일에서 읽게 되는 내용물에는 영향을 주지만 <code>/dev/random</code>에서 읽는 것이 더 빨라지지는 않는다.</p>
 <h3 id="_1">사용법</h3>
 <p><code>/dev/random</code> 인터페이스는 구식 인터페이스로 본다. 모든 용도에 <code>/dev/urandom</code>이 좋고 또 충분하다. 이에 대한 예외가 부팅 초기 동안 난수성이 필요한 응용들인데, 그런 응용들에서는 대신 <tt><a class="wikilink" href="/man-pages-ko/getrandom(2)/">getrandom(2)</a></tt>을 사용해야 한다. 그 함수는 엔트로피 풀이 초기화 될 때까지 블록 하게 된다.</p>
@@ -232,8 +232,8 @@ dd if=/dev/urandom of=$random_seed count=1 bs=$bytes
 <dt><code>uuid</code> 및 <code>boot_id</code></dt>
 <dd>이 읽기 전용 파일들은 6fd5a44b-35f4-4ad4-a9b9-6b9be13e1fe9 같은 난수열을 담고 있다. 전자는 읽을 때마다 새로 생성하며 후자는 한 번만 생성한다.</dd>
 </dl>
-<h3 id="ioctl2"><code>ioctl(2)</code> 인터페이스</h3>
-<p><code>/dev/random</code> 내지 <code>/dev/urandom</code>에 연결된 파일 디스크립터에서 다음 <code>ioctl(2)</code> 요청들이 정의되어 있다. 모든 수행 요청들은 <code>/dev/random</code>과 <code>/dev/urandom</code> 모두에 영향을 주는 입력 엔트로피 풀과 상호작용 하게 된다. <code>RNDGETENTCNT</code>를 제외한 모든 요청에는 <code>CAP_SYS_ADMIN</code> 역능이 필요하다.</p>
+<h3 id="ioctl2"><tt><a class="wikilink" href="/man-pages-ko/ioctl(2)/">ioctl(2)</a></tt> 인터페이스</h3>
+<p><code>/dev/random</code> 내지 <code>/dev/urandom</code>에 연결된 파일 디스크립터에서 다음 <tt><a class="wikilink" href="/man-pages-ko/ioctl(2)/">ioctl(2)</a></tt> 요청들이 정의되어 있다. 모든 수행 요청들은 <code>/dev/random</code>과 <code>/dev/urandom</code> 모두에 영향을 주는 입력 엔트로피 풀과 상호작용 하게 된다. <code>RNDGETENTCNT</code>를 제외한 모든 요청에는 <code>CAP_SYS_ADMIN</code> 역능이 필요하다.</p>
 <dl>
 <dt><code>RNDGETENTCNT</code></dt>
 <dd>입력 풀의 엔트로피 양을 가져온다. 그 내용물은 proc 아래의 <code>entropy_avail</code>과 같게 된다. 인자가 가리키는 int에 결과가 저장된다.</dd>

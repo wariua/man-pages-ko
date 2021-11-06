@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/write%282%29/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>write(2) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#bugs">BUGS</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>write - 파일 디스크립터에 쓰기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="language-c">#include &lt;unistd.h&gt;
+
+ssize_t write(int fd, const void *buf, size_t count);
+</code></pre>
+<h2 id="description">DESCRIPTION</h2>
+<p><code>write()</code>는 <code>buf</code>가 가리키는 버퍼에서 최대 <code>count</code> 바이트를 파일 디스크립터 <code>fd</code>가 나타내는 파일로 기록한다.</p>
+<p>기록한 바이트 수가 <code>count</code> 수보다 작을 수도 있다. 예를 들어 기반 물리 매체에 공간이 불충분하거나, <code>RLIMIT_FSIZE</code> 자원 제한에 걸리거나 (<tt><a class="wikilink" href="/man-pages-ko/setrlimit(2)/">setrlimit(2)</a></tt> 참고), <code>count</code> 바이트보다 적게 기록한 후에 시그널 핸들러에 의해 호출이 중단된 경우에 그럴 수 있다. (<tt><a class="wikilink" href="/man-pages-ko/pipe(7)/">pipe(7)</a></tt>도 참고.)</p>
+<p>위치 탐색이 가능한 파일에선 (<tt><a class="wikilink" href="/man-pages-ko/lseek(2)/">lseek(2)</a></tt>을 적용할 수 있는 파일, 예를 들어 정규 파일에선) 파일 오프셋에서 쓰기가 일어나며 실제로 기록한 바이트 수만큼 파일 오프셋이 증가한다. <code>O_APPEND</code>를 써서 파일을 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt> 했다면 먼저 파일 오프셋을 파일 끝으로 설정한 다음 쓰기를 한다. 파일 오프셋 조정과 쓰기 동작이 원자적인 한 단계로 수행된다.</p>
+<p>POSIX에서는 <code>write()</code>가 반환한 후에 이뤄진다고 입증할 수 있는 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>는 새 데이터를 반환하기를 요구한다. 모든 파일 시스템이 POSIX를 준수하는 것은 아니다.</p>
+<p>POSIX.1에 따르면 <code>count</code>가 <code>SSIZE_MAX</code>보다 큰 경우의 결과는 구현에서 규정한다. 리눅스에서의 상한에 대해선 NOTES 참고.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>성공 시 쓴 바이트 수를 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
+<p><code>write()</code>가 성공한 경우에도 <code>count</code> 바이트보다 적은 바이트를 이동시켰을 수 있다. 다양한 이유로 그런 불완전한 쓰기가 일어날 수 있는데, 예를 들어 요청한 바이트 전체를 기록하기엔 디스크 장치 공간이 불충분했을 수도 있고, 소켓이나 파이프 등에 대한 <code>write()</code>가 일부만 이동시키고 요청한 바이트 전체를 이동시키진 못한 채 블록돼 있다가 시그널 핸들러에 의해 중단돼서일 수도 있다. 불완전한 쓰기가 발생했을 때 호출자는 남은 바이트들을 이동시키기 위해 또 다른 <code>write()</code> 호출을 할 수 있다. 그 호출은 바이트들을 더 이동시킬 수도 있고 (가령 이제 디스크가 가득 찼다면) 오류를 일으킬 수도 있다.</p>
+<p><code>count</code>가 0이고 <code>fd</code>가 정규 파일을 가리키는 경우에는 아래 오류들 중 하나를 탐지했을 때 <code>write()</code>가 실패 상태를 반환할 수도 있다. 어떤 오류도 탐지하지 못한 경우에는, 또는 오류 탐지를 수행하지 않는 경우에는 0을 반환하며 달리 아무 영향도 끼치지 않는다. <code>count</code>가 0이고 <code>fd</code>가 정규 파일 아닌 파일을 가리키는 경우에는 그 결과가 명세돼 있지 않다.</p>
+<h2 id="errors">ERRORS</h2>
+<dl>
+<dt><code>EAGAIN</code></dt>
+<dd>파일 디스크립터 <code>fd</code>가 소켓 아닌 파일을 가리키고 있고 논블로킹 표시(<code>O_NONBLOCK</code>)가 되어 있는데 쓰기가 블록하려 했다. <code>O_NONBLOCK</code> 플래그에 대한 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt> 참고.</dd>
+<dt><code>EAGAIN</code> 또는 <code>EWOULDBLOCK</code></dt>
+<dd>파일 디스크립터 <code>fd</code>가 소켓을 가리키고 있고 논블로킹 표시(<code>O_NONBLOCK</code>)가 되어 있는데 쓰기가 블록하려 했다. POSIX.1-2001에서는 이 경우 어느 쪽이 반환되는 것도 허용하며 두 상수가 같은 값이어야 한다고 요구하지 않는다. 따라서 이식 가능한 응용에서는 두 가능성을 모두 확인하는 게 좋다.</dd>
+<dt><code>EBADF</code></dt>
+<dd><code>fd</code>가 유효한 파일 디스크립터가 아니거나 쓰기용으로 열려 있지 않다.</dd>
+<dt><code>EDESTADDRREQ</code></dt>
+<dd><code>fd</code>가 데이터그램 소켓을 가리키는데 <code>connect(2)</code>로 상대의 주소를 설정하지 않았다.</dd>
+<dt><code>EDQUOT</code></dt>
+<dd><code>fd</code>가 가리키는 파일을 담은 파일 시스템에서 사용자의 디스크 블록 쿼터가 고갈되었다.</dd>
+<dt><code>EFAULT</code></dt>
+<dd><code>buf</code>가 접근 가능한 주소 공간 밖에 있다.</dd>
+<dt><code>EFBIG</code></dt>
+<dd>구현체에서 정의한 최대 파일 크기나 프로세스의 파일 크기 제한을 초과하는 쓰기 시도가 이뤄졌다. 또는 허용하는 최대 오프셋 너머 위치에 쓰기 시도가 이뤄졌다.</dd>
+<dt><code>EINTR</code></dt>
+<dd>데이터를 쓰기 전에 시그널에 의해 호출이 중단되었다. <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt> 참고.</dd>
+<dt><code>EINVAL</code></dt>
+<dd><code>fd</code>가 쓰기에 적합하지 않은 객체에 연결돼 있다. 또는 <code>O_DIRECT</code> 플래그를 써서 파일을 열었는데 <code>buf</code>에 지정한 주소나 <code>count</code>에 지정한 값, 또는 파일 오프셋이 올바로 정렬돼 있지 않다.</dd>
+<dt><code>EIO</code></dt>
+<dd>아이노드를 변경하는 도중에 저수준 I/O 오류가 발생했다. 이 오류는 앞선 <code>write()</code>에서 쓴 데이터의 write-back과 관련돼 있을 수도 있으며, 그 <code>write()</code> 동작이 같은 파일에 대한 다른 파일 디스크립터에서 이뤄졌을 수도 있다. 리눅스 4.13부터는 write-back에 의한 오류가 후속 <code>write()</code> 요청에 의해 <em>보고될 수도 있으며</em>, 후속 <tt><a class="wikilink" href="/man-pages-ko/fsync(2)/">fsync(2)</a></tt>에 의해 (<code>write()</code>로 보고됐는지와 상관없이) <em>보고된다</em>는 약속이 있다. 네트워크 파일 시스템에서 <code>EIO</code>가 발생할 수 있는 또 다른 경우는 파일 디스크립터에서 권고형 락을 가져갔는데 그 락이 사라졌을 때다. 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt>의 <em>락 상실</em> 절 참고.</dd>
+<dt><code>ENOSPC</code></dt>
+<dd><code>fd</code>가 가리키는 파일을 담은 장치에 데이터를 넣을 여유 공간이 없다.</dd>
+<dt><code>EPERM</code></dt>
+<dd>파일 봉인 때문에 동작이 막혔다. <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt> 참고.</dd>
+<dt><code>EPIPE</code></dt>
+<dd><code>fd</code>가 파이프나 소켓에 연결돼 있는데 읽는 쪽이 닫혀 있다. 이 경우엔 또 쓰기를 하는 프로세스가 <code>SIGPIPE</code> 시그널을 받게 된다. (따라서 프로그램이 그 시그널을 잡거나 막거나 무시하는 경우에만 쓰기 반환 값을 보게 된다.)</dd>
+</dl>
+<p><code>fd</code>에 연결된 객체에 따라서 다른 오류가 발생할 수도 있다.</p>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>SVr4, 4.3BSD, POSIX.1-2001.</p>
+<p>SVr4에선 데이터를 쓰기 전뿐 아니라 언제든 쓰기가 중단되어 <code>EINTR</code>를 반환할 수 있다.</p>
+<h2 id="notes">NOTES</h2>
+<p><code>size_t</code>와 <code>ssize_t</code> 타입은 각각 부호가 없거나 있는 정수 데이터 타입이며 POSIX.1에 명세돼 있다.</p>
+<p><code>write()</code>가 성공적으로 반환하더라도 데이터가 디스크로 확실히 들어갔다는 어떤 보장도 없다. NFS를 포함한 어떤 파일 시스템들에선 데이터를 저장할 공간을 성공적으로 확보했다는 보장도 해 주지 않는다. 그 경우 어떤 오류가 이후의 <code>write()</code>나 <tt><a class="wikilink" href="/man-pages-ko/fsync(2)/">fsync(2)</a></tt>, 심지어 <tt><a class="wikilink" href="/man-pages-ko/close(2)/">close(2)</a></tt>까지 연기될 수도 있다. 안심할 수 있는 유일한 방법은 데이터를 모두 쓴 다음에 <tt><a class="wikilink" href="/man-pages-ko/fsync(2)/">fsync(2)</a></tt>를 호출하는 것이다.</p>
+<p>한 바이트도 기록하지 못하고 시그널 핸들러에 의해 <code>write()</code>가 중단된 경우에는 호출이 <code>EINTR</code> 오류로 실패한다. 적어도 한 바이트는 기록한 다음에 중단된 경우에는 호출이 성공하며 기록한 바이트 수를 반환한다.</p>
+<p>리눅스에서 <code>write()</code>는 (그리고 유사한 시스템 호출들은) 최대 0x7ffff000 (2,147,479,552) 바이트까지 이동시키며 실제 이동된 바이트 수를 반환한다. (32비트 시스템과 64비트 시스템 모두에서 그렇다.)</p>
+<p>직접 I/O를 이용하는 <code>write()</code> 수행 중의 오류 반환 값이 쓰기 전체가 실패했다는 뜻은 아니다. 일부 데이터가 기록되었을 수도 있으므로 <code>write()</code>를 시도한 그 파일 오프셋의 데이터는 무결성이 깨져 있다고 보아야 한다.</p>
+<h2 id="bugs">BUGS</h2>
+<p>POSIX.1-2008/SUSv4의 XSI 2.9.7절("Thread Interactions with Regular File Operations")에 따르면:</p>
+<blockquote>
+<p>다음 함수들 모두는 정규 파일이나 심볼릭 링크에 동작할 때 POSIX.1-2008에 명세된 효력들에 있어서 서로에게 원자적이다.</p>
+</blockquote>
+<p>이어서 나오는 API들 중에는 <code>write()</code>와 <tt><a class="wikilink" href="/man-pages-ko/writev(2)/">writev(2)</a></tt>가 있다. 그리고 스레드 (및 프로세스) 간에 원자적이어야 하는 효력들 중에는 파일 오프셋 갱신이 있다. 하지만 리눅스 버전 3.14 전에선 그렇지 않았다. 열린 파일 기술 항목(<tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt> 참고)을 공유하는 두 프로세스가 동시에 <code>write()</code>를 (또는 <tt><a class="wikilink" href="/man-pages-ko/writev(2)/">writev(2)</a></tt>를) 수행하면 그 I/O 동작들이 파일 오프셋 갱신 측면에서 원자적이지 않아서 두 프로세스가 출력한 데이터 블록들이 겹칠 수도 있었다. 리눅스 3.14에서 이 문제가 고쳐졌다.</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt><a class="wikilink" href="/man-pages-ko/close(2)/">close(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fsync(2)/">fsync(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ioctl(2)/">ioctl(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/lseek(2)/">lseek(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pwrite(2)/">pwrite(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/select(2)/">select(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/writev(2)/">writev(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fwrite(3)/">fwrite(3)</a></tt></p>
+<hr />
+<p>2021-03-22</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

@@ -217,7 +217,7 @@ main(int argc, char *argv[])
 }
 </code></pre>
 <h3 id="_2">실용성</h3>
-<p>근데 <code>select()</code>가 왜 있는 걸까? 그냥 하고 싶을 때 파일 디스크립터에서 읽기와 쓰기를 하면 안 될까? <code>select()</code>의 핵심은 동시에 여러 파일 디스크립터를 감시하고 아무 활동이 없으면 올바로 프로세스를 잠들게 한다는 점이다. 유닉스 프로그래머들은 종종 데이터 흐름이 간헐적인 여러 파일 디스크립터들에서 I/O 처리를 해야 할 때가 있다. 단순히 <code>read(2)</code>와 <code>write(2)</code>를 차례로 호출하기만 한다면 어떤 파일 디스크립터에 대기하며 호출이 블록하고 있는 동안 다른 파일 디스크립터가 I/O 준비 상태인데도 사용하지 못하는 경우를 보게 될 것이다. <code>select()</code>로 그런 상황에 효율적으로 대처할 수 있다.</p>
+<p>근데 <code>select()</code>가 왜 있는 걸까? 그냥 하고 싶을 때 파일 디스크립터에서 읽기와 쓰기를 하면 안 될까? <code>select()</code>의 핵심은 동시에 여러 파일 디스크립터를 감시하고 아무 활동이 없으면 올바로 프로세스를 잠들게 한다는 점이다. 유닉스 프로그래머들은 종종 데이터 흐름이 간헐적인 여러 파일 디스크립터들에서 I/O 처리를 해야 할 때가 있다. 단순히 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>와 <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt>를 차례로 호출하기만 한다면 어떤 파일 디스크립터에 대기하며 호출이 블록하고 있는 동안 다른 파일 디스크립터가 I/O 준비 상태인데도 사용하지 못하는 경우를 보게 될 것이다. <code>select()</code>로 그런 상황에 효율적으로 대처할 수 있다.</p>
 <h3 id="_3">선택 규칙</h3>
 <p><code>select()</code>를 써 보려는 많은 이들은 이해하기 어려우며 이식성이 없거나 오락가락하는 결과를 내놓는 동작 방식에 부닥친다. 예를 들어 위 프로그램은 파일 디스크립터를 논블로킹 모드로 설정하지 않았지만 어느 지점에서도 블록 하지 않도록 조심스럽게 작성된 것이다. 자칫하면 <code>select()</code>를 쓰는 장점을 없애 버리는 미묘한 오류를 만들게 되기 쉬우므로 <code>select()</code> 사용 시 주의해야 할 핵심 사항들을 여기 나열한다.</p>
 <ol>
@@ -234,19 +234,19 @@ main(int argc, char *argv[])
 <p><code>select()</code> 반환 후에 모든 집합의 모든 파일 디스크립터들을 확인하는 게 좋다.</p>
 </li>
 <li>
-<p><code>read(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/recv(2)/">recv(2)</a></tt>, <code>write(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/send(2)/">send(2)</a></tt> 함수가 꼭 요청 데이터 모두를 읽는/쓰는 것은 <em>아니다</em>. 전체를 읽는다면/쓴다면 그건 트래픽 부하가 작고 스트림이 빠르기 때문이다. 그런데 항상 그렇지는 않다. 함수에서 한 바이트만 겨우 보내거나 받는 경우에 대처해야 한다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/recv(2)/">recv(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/send(2)/">send(2)</a></tt> 함수가 꼭 요청 데이터 모두를 읽는/쓰는 것은 <em>아니다</em>. 전체를 읽는다면/쓴다면 그건 트래픽 부하가 작고 스트림이 빠르기 때문이다. 그런데 항상 그렇지는 않다. 함수에서 한 바이트만 겨우 보내거나 받는 경우에 대처해야 한다.</p>
 </li>
 <li>
 <p>처리할 데이터가 정말 조금만 있는 경우가 아니면 절대 한번에 한 바이트씩 읽지/쓰지 마라. 버퍼를 최대한 채워서 데이터를 읽지/쓰지 않으면 매우 비효율적으로 된다. 아래 예의 버퍼들은 1024바이트지만 손쉽게 크기를 키울 수 있다.</p>
 </li>
 <li>
-<p><code>read(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/recv(2)/">recv(2)</a></tt>, <code>write(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/send(2)/">send(2)</a></tt>, <code>select()</code> 호출이 <code>EINTR</code> 오류로 실패할 수 있으며 <code>read(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/recv(2)/">recv(2)</a></tt>, <code>write(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/send(2)/">send(2)</a></tt> 호출이 실패해서 <code>errno</code>에 <code>EAGAIN</code>(<code>EWOULDBLOCK</code>)이 설정될 수 있다. 그런 경우들을 제대로 처리해야 한다. (위에서는 그러지 않았다.) 프로그램이 어떤 시그널도 받지 않는다면 아마 <code>EINTR</code>가 나오지 않을 것이다. 프로그램에서 논블로킹 I/O를 설정하지 않으면 <code>EAGAIN</code>이 나오지 않을 것이다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/recv(2)/">recv(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/send(2)/">send(2)</a></tt>, <code>select()</code> 호출이 <code>EINTR</code> 오류로 실패할 수 있으며 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/recv(2)/">recv(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/send(2)/">send(2)</a></tt> 호출이 실패해서 <code>errno</code>에 <code>EAGAIN</code>(<code>EWOULDBLOCK</code>)이 설정될 수 있다. 그런 경우들을 제대로 처리해야 한다. (위에서는 그러지 않았다.) 프로그램이 어떤 시그널도 받지 않는다면 아마 <code>EINTR</code>가 나오지 않을 것이다. 프로그램에서 논블로킹 I/O를 설정하지 않으면 <code>EAGAIN</code>이 나오지 않을 것이다.</p>
 </li>
 <li>
-<p>절대로 버퍼 길이를 0으로 해서 <code>read(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/recv(2)/">recv(2)</a></tt>, <code>write(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/send(2)/">send(2)</a></tt>를 호출하지 마라.</p>
+<p>절대로 버퍼 길이를 0으로 해서 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/recv(2)/">recv(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/send(2)/">send(2)</a></tt>를 호출하지 마라.</p>
 </li>
 <li>
-<p>함수 <code>read(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/recv(2)/">recv(2)</a></tt>, <code>write(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/send(2)/">send(2)</a></tt>가 7번에 나열한 것 외의 오류로 실패하거나 입력 함수들이 파일 끝을 나타내는 0을 반환하는 경우에는 그 파일 디스크립터를 <code>select()</code>로 다시 전달하지 <em>않아야 한다</em>. 위 예에서는 파일 디스크립터를 즉시 닫고서 -1로 설정해서 집합에 포함되는 걸 방지한다.</p>
+<p>함수 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/recv(2)/">recv(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/send(2)/">send(2)</a></tt>가 7번에 나열한 것 외의 오류로 실패하거나 입력 함수들이 파일 끝을 나타내는 0을 반환하는 경우에는 그 파일 디스크립터를 <code>select()</code>로 다시 전달하지 <em>않아야 한다</em>. 위 예에서는 파일 디스크립터를 즉시 닫고서 -1로 설정해서 집합에 포함되는 걸 방지한다.</p>
 </li>
 <li>
 <p><code>select()</code>를 호출할 때마다 타임아웃 값을 설정해야 한다. 일부 운영 체제에서 그 구조체를 변경하기 때문이다. 하지만 <code>pselect()</code>에서는 타임아웃 구조체를 변경하지 않는다.</p>
@@ -530,7 +530,7 @@ main(int argc, char *argv[])
 <p>위 프로그램은 <code>telnet</code> 서버가 전송하는 OOB 신호 데이터를 포함해 대부분의 TCP 연결을 제대로 전달한다. 양방향 모두로 데이터 흐름이 있는 까다로운 문제를 잘 처리한다. <tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt> 호출을 해서 각 스트림에 스레드를 하나씩 쓰는 게 더 효율적이라 생각할 수도 있을 것이다. 하지만 실제 해 보면 생각보다 까다롭다. 또 <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt>을 써서 논블로킹 I/O를 설정하는 걸 생각할 수 있다. 하지만 비효율적인 타임아웃 방식을 쓰게 되므로 역시 문제가 있다.</p>
 <p>이 프로그램에서는 동시 연결 한 개만 처리하고 있지만 버퍼들의 연결 리스트를 두고 연결마다 하나씩 쓰게 하면 손쉽게 확장할 수 있다. 현재는 새 연결이 들어오면 현재 연결을 버리게 된다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>accept(2)</code>, <code>connect(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/poll(2)/">poll(2)</a></tt>, <code>read(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/recv(2)/">recv(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/select(2)/">select(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/send(2)/">send(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigprocmask(2)/">sigprocmask(2)</a></tt>, <code>write(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/epoll(7)/">epoll(7)</a></tt></p>
+<p><code>accept(2)</code>, <code>connect(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/poll(2)/">poll(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/recv(2)/">recv(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/select(2)/">select(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/send(2)/">send(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sigprocmask(2)/">sigprocmask(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/epoll(7)/">epoll(7)</a></tt></p>
 <hr />
 <p>2021-03-22</p></div>
         

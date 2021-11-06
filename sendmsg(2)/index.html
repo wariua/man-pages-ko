@@ -165,7 +165,7 @@ ssize_t sendmsg(int sockfd, const struct msghdr *msg, int flags);
 </code></pre>
 <h2 id="description">DESCRIPTION</h2>
 <p>시스템 호출 <code>send()</code>, <code>sendto()</code>, <code>sendmsg()</code>를 이용해 다른 소켓으로 메시지를 전송한다.</p>
-<p><code>send()</code> 호출은 소켓이 <em>연결</em> 상태일 때만 (그래서 대상 수신자가 알려진 경우에만) 쓸 수 있다. <code>send()</code>와 <code>write(2)</code>의 유일한 차이는 <code>flags</code>의 존재 여부다. <code>flags</code> 인자가 0이면 <code>send()</code>는 <code>write(2)</code>와 동등하다. 또한 다음 호출은</p>
+<p><code>send()</code> 호출은 소켓이 <em>연결</em> 상태일 때만 (그래서 대상 수신자가 알려진 경우에만) 쓸 수 있다. <code>send()</code>와 <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt>의 유일한 차이는 <code>flags</code>의 존재 여부다. <code>flags</code> 인자가 0이면 <code>send()</code>는 <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt>와 동등하다. 또한 다음 호출은</p>
 <pre><code class="language-c">send(sockfd, buf, len, flags);
 </code></pre>
 <p>다음과 동등하다.</p>
@@ -270,7 +270,7 @@ ssize_t sendmsg(int sockfd, const struct msghdr *msg, int flags);
 <h2 id="examples">EXAMPLES</h2>
 <p><tt><a class="wikilink" href="/man-pages-ko/getaddrinfo(3)/">getaddrinfo(3)</a></tt>에서 <code>sendto()</code> 사용례를 볼 수 있다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt>, <code>getsockopt(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/recv(2)/">recv(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/select(2)/">select(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sendfile(2)/">sendfile(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sendmmsg(2)/">sendmmsg(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/shutdown(2)/">shutdown(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/socket(2)/">socket(2)</a></tt>, <code>write(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/cmsg(3)/">cmsg(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ip(7)/">ip(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ipv6(7)/">ipv6(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/socket(7)/">socket(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/tcp(7)/">tcp(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/udp(7)/">udp(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/unix(7)/">unix(7)</a></tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt>, <code>getsockopt(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/recv(2)/">recv(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/select(2)/">select(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sendfile(2)/">sendfile(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sendmmsg(2)/">sendmmsg(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/shutdown(2)/">shutdown(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/socket(2)/">socket(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/cmsg(3)/">cmsg(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ip(7)/">ip(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ipv6(7)/">ipv6(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/socket(7)/">socket(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/tcp(7)/">tcp(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/udp(7)/">udp(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/unix(7)/">unix(7)</a></tt></p>
 <hr />
 <p>2021-03-22</p></div>
         

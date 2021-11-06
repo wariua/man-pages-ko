@@ -204,7 +204,7 @@ int openat2(int dirfd, const char *pathname,
 </dl>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>open()</code> 시스템 호출은 <code>pathname</code>에 지정한 파일을 연다. 지정한 파일이 존재하지 않는 경우 선택적으로 (<code>flags</code>에 <code>O_CREAT</code>을 지정한 경우) <code>open()</code>에서 생성할 수도 있다.</p>
-<p><code>open()</code>의 반환 값은 파일 디스크립터이다. 이는 작은 음수 아닌 정수이며 이후의 시스템 호출들(<code>read(2)</code>, <code>write(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/lseek(2)/">lseek(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt> 등)에서 그 열린 파일을 가리키는 데 쓴다. 호출이 성공하면 프로세스에서 현재 열려 있지 않은 가장 낮은 번호의 파일 디스크립터를 반환하게 된다.</p>
+<p><code>open()</code>의 반환 값은 파일 디스크립터이다. 이는 작은 음수 아닌 정수이며 이후의 시스템 호출들(<tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/lseek(2)/">lseek(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt> 등)에서 그 열린 파일을 가리키는 데 쓴다. 호출이 성공하면 프로세스에서 현재 열려 있지 않은 가장 낮은 번호의 파일 디스크립터를 반환하게 된다.</p>
 <p>기본적으로 새 파일 디스크립터는 <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>를 거칠 때 계속 열려 있도록 설정돼 있다. (즉 <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt>에서 설명하는 파일 디스크립터 플래그 <code>FD_CLOEXEC</code>가 처음에는 비활성화돼 있다.) 아래에서 설명하는 <code>O_CLOEXEC</code> 플래그를 써서 이 기본 설정을 바꿀 수 있다. 파일 오프셋은 파일 시작점으로 설정돼 있다. (<tt><a class="wikilink" href="/man-pages-ko/lseek(2)/">lseek(2)</a></tt> 참고.)</p>
 <p><code>open()</code> 호출은 새로운 <em>열린 파일 기술 항목(open file description)</em>을 만든다. 이는 시스템 전역 열린 파일 테이블의 항목이다. 열린 파일 기술 항목에서는 파일 오프셋과 파일 상태 플래그(아래 참고)를 기록한다. 파일 디스크립터(file descriptor)는 열린 파일 기술 항목에 대한 참조이다. 이 참조는 <code>pathname</code>이 이후 제거되거나 다른 파일을 가리키게 바뀌더라도 영향을 받지 않는다. 열린 파일 기술 항목에 대한 더 자세한 내용은 NOTES를 보라.</p>
 <p>인자 <code>flags</code>에는 <em>접근 모드</em> <code>O_RDONLY</code>, <code>O_WRONLY</code>, <code>O_RDWR</code> 중 하나가 포함돼야 한다. 각각 파일을 읽기 전용, 쓰기 전용, 읽기/쓰기로 열도록 요청한다.</p>
@@ -213,7 +213,7 @@ int openat2(int dirfd, const char *pathname,
 <dl>
 <dt><code>O_APPEND</code></dt>
 <dd>
-<p>파일을 덧붙이기 모드로 연다. <code>write(2)</code> 전마다 파일 오프셋을 <tt><a class="wikilink" href="/man-pages-ko/lseek(2)/">lseek(2)</a></tt>으로 하듯 파일 끝으로 옮긴다. 그 파일 오프셋 변경과 쓰기 동작은 한 개의 원자적 단계로 수행된다.</p>
+<p>파일을 덧붙이기 모드로 연다. <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt> 전마다 파일 오프셋을 <tt><a class="wikilink" href="/man-pages-ko/lseek(2)/">lseek(2)</a></tt>으로 하듯 파일 끝으로 옮긴다. 그 파일 오프셋 변경과 쓰기 동작은 한 개의 원자적 단계로 수행된다.</p>
 <p>여러 프로세스가 동시에 파일에 데이터를 덧붙이는 경우 NFS 파일 시스템 상에선 <code>O_APPEND</code>를 해도 파일 내용에 오류가 생길 수 있다. 파일에 덧붙이기 동작을 NFS에서 지원하지 않아서 클라이언트 커널에서 그걸 모사해야 하는데, 경쟁 조건 없이 하기가 불가능하기 때문이다.</p>
 </dd>
 <dt><code>O_ASYNC</code></dt>
@@ -341,7 +341,7 @@ int openat2(int dirfd, const char *pathname,
 <dt><code>O_DSYNC</code></dt>
 <dd>
 <p>파일에서의 쓰기 동작이 동기 I/O <em>데이터</em> 무결성 완료 요건에 따라 완료되게 한다.</p>
-<p><code>write(2)</code>(또는 비슷한 함수)가 반환하는 시점에 출력 데이터가, 그리고 그 데이터를 가져오는 데 필요할 파일 메타데이터가 있으면 그것까지 기반 하드웨어로 전송돼 있다. (즉 각 <code>write(2)</code> 뒤에 <tt><a class="wikilink" href="/man-pages-ko/fdatasync(2)/">fdatasync(2)</a></tt> 호출을 붙인 것과 같다.) <em>아래 NOTES를 보라</em>.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt>(또는 비슷한 함수)가 반환하는 시점에 출력 데이터가, 그리고 그 데이터를 가져오는 데 필요할 파일 메타데이터가 있으면 그것까지 기반 하드웨어로 전송돼 있다. (즉 각 <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt> 뒤에 <tt><a class="wikilink" href="/man-pages-ko/fdatasync(2)/">fdatasync(2)</a></tt> 호출을 붙인 것과 같다.) <em>아래 NOTES를 보라</em>.</p>
 </dd>
 <dt><code>O_EXCL</code></dt>
 <dd>
@@ -354,7 +354,7 @@ int openat2(int dirfd, const char *pathname,
 <dd>(LFS) <code>off_t</code>로 크기를 표현할 수 없는 (하지만 <code>off64_t</code>로는 할 수 있는) 파일을 여는 것을 허용한다. 이 정의를 쓸 수 있으려면 (<em>어떤</em> 헤더 파일도 포함시키기 전에) <code>_LARGEFILE64_SOURCE</code> 매크로가 정의돼 있어야 한다. 하지만 32비트 시스템에서 큰 파일에 접근하는 바람직한 방법은 (<code>O_LARGEFILE</code>을 쓰는 게 아니라) 기능 확인 매크로 <code>_FILE_OFFSET_BITS</code>를 64로 설정하는 것이다. (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고.)</dd>
 <dt><code>O_NOATIME</code> (리눅스 2.6.8부터)</dt>
 <dd>
-<p>파일을 <code>read(2)</code> 할 때 파일 최근 접근 시간(아이노드의 <code>st_atime</code>)을 갱신하지 않는다.</p>
+<p>파일을 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt> 할 때 파일 최근 접근 시간(아이노드의 <code>st_atime</code>)을 갱신하지 않는다.</p>
 <p>다음 중 한 조건이라도 참인 경우에만 이 플래그를 쓸 수 있다.</p>
 <ul>
 <li>
@@ -383,7 +383,7 @@ int openat2(int dirfd, const char *pathname,
 </dd>
 <dt><code>O_PATH</code> (리눅스 2.6.39부터)</dt>
 <dd>
-<p>파일 시스템 트리 내 위치를 나타내는 것과 순수하게 파일 디스크립터 수준에서만 이뤄지는 동작을 수행하는 두 용도에 쓸 수 있는 파일 디스크립터를 얻는다. 파일 자체를 열지 않으며 다른 파일 동작들(가령 <code>read(2)</code>, <code>write(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/fchmod(2)/">fchmod(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fchown(2)/">fchown(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fgetxattr(2)/">fgetxattr(2)</a></tt>, <code>ioctl(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt>)은 <code>EBADF</code> 오류로 실패한다.</p>
+<p>파일 시스템 트리 내 위치를 나타내는 것과 순수하게 파일 디스크립터 수준에서만 이뤄지는 동작을 수행하는 두 용도에 쓸 수 있는 파일 디스크립터를 얻는다. 파일 자체를 열지 않으며 다른 파일 동작들(가령 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fchmod(2)/">fchmod(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fchown(2)/">fchown(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fgetxattr(2)/">fgetxattr(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ioctl(2)/">ioctl(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt>)은 <code>EBADF</code> 오류로 실패한다.</p>
 <p>결과 파일 디스크립터에 다음 동작을 수행할 <em>수 있다</em>.</p>
 <ul>
 <li>
@@ -429,7 +429,7 @@ execl(buf, "some_prog", (char *) NULL);
 <dt><code>O_SYNC</code></dt>
 <dd>
 <p>파일에서의 쓰기 동작이 (<code>O_DSYNC</code>에서 제공하는 동기 I/O <em>데이터</em> 무결성 완료가 아니라) 동기 I/O <em>파일</em> 무결성 완료 요건에 따라 완료되게 한다.</p>
-<p><code>write(2)</code>(또는 비슷한 함수)가 반환하는 시점에 출력 데이터와 관련 파일 메타데이터가 기반 하드웨어로 전송돼 있다. (즉 각 <code>write(2)</code> 뒤에 <tt><a class="wikilink" href="/man-pages-ko/fsync(2)/">fsync(2)</a></tt> 호출을 붙인 것과 같다.) <em>아래 NOTES를 보라</em>.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt>(또는 비슷한 함수)가 반환하는 시점에 출력 데이터와 관련 파일 메타데이터가 기반 하드웨어로 전송돼 있다. (즉 각 <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt> 뒤에 <tt><a class="wikilink" href="/man-pages-ko/fsync(2)/">fsync(2)</a></tt> 호출을 붙인 것과 같다.) <em>아래 NOTES를 보라</em>.</p>
 </dd>
 <dt><code>O_TMPFILE</code> (리눅스 3.11부터)</dt>
 <dd>
@@ -581,7 +581,7 @@ linkat(AT_FDCWD, path, AT_FDCWD, "/path/for/file",
 <p><code>O_CLOEXEC</code>, <code>O_DIRECTORY</code>, <code>O_NOFOLLOW</code> 플래그는 POSIX.1-2001에는 명세돼 있지 않고 POSIX-1.2008에는 명세돼 있다. glibc 2.12부터 200809L과 같거나 그보다 큰 값으로 <code>_POSIX_C_SOURCE</code>를 정의하거나 700과 같거나 그보다 큰 값으로 <code>_XOPEN_SOURCE</code>를 정의하면 그 정의들을 이용할 수 있다.</p>
 <p><tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt>에서 지적하듯 <code>_POSIX_C_SOURCE</code>, <code>_XOPEN_SOURCE</code>, <code>_GNU_SOURCE</code> 같은 기능 확인 매크로는 <em>어떤</em> 헤더 파일도 포함시키기 전에 정의돼 있어야 한다.</p>
 <h2 id="notes">NOTES</h2>
-<p>리눅스에서는 파일을 열고 싶지만 꼭 읽기나 쓰기를 하려는 건 아닌 경우에 <code>O_NONBLOCK</code> 플래그를 쓸 때가 있다. 예를 들어 장치를 열어서 <code>ioctl(2)</code>에 쓸 파일 디스크립터를 얻는 데 쓸 수 있다.</p>
+<p>리눅스에서는 파일을 열고 싶지만 꼭 읽기나 쓰기를 하려는 건 아닌 경우에 <code>O_NONBLOCK</code> 플래그를 쓸 때가 있다. 예를 들어 장치를 열어서 <tt><a class="wikilink" href="/man-pages-ko/ioctl(2)/">ioctl(2)</a></tt>에 쓸 파일 디스크립터를 얻는 데 쓸 수 있다.</p>
 <p><code>O_RDONLY | O_TRUNC</code>의 (규정돼 있지 않은) 효과는 구현에 따라 다르다. 많은 시스템에서는 파일이 실제 잘린다.</p>
 <p>참고로 <code>open()</code>으로 장치 특수 파일을 열 수는 있지만 <code>creat()</code>으로 만들 수는 없다. <tt><a class="wikilink" href="/man-pages-ko/mknod(2)/">mknod(2)</a></tt>를 써야 한다.</p>
 <p>파일이 새로 생성되는 경우 그 <code>st_atime</code>, <code>st_ctime</code>, <code>st_mtime</code> 필드(각기 최근 접근 시간, 최근 상태 변경, 최근 수정 시간. <tt><a class="wikilink" href="/man-pages-ko/stat(2)/">stat(2)</a></tt> 참고)가 현재 시간으로 설정되고 부모 디렉터리의 <code>st_ctime</code> 및 <code>st_mtime</code> 필드도 그렇게 설정된다. 그렇지 않은 경우에 <code>O_TRUNC</code> 플래그 때문에 파일이 수정되면 그 <code>st_ctime</code> 및 <code>st_mtime</code> 필드가 현재 시간으로 설정된다.</p>
@@ -603,12 +603,12 @@ linkat(AT_FDCWD, path, AT_FDCWD, "/path/for/file",
 <p>버전 2.26부터 glibc의 <code>open()</code> 래퍼 함수가 커널의 <code>open()</code> 시스템 호출 대신 <code>openat()</code> 시스템 호출을 이용한다. 어떤 아키텍처에서는 glibc 버전 2.26 전에서도 그렇다.</p>
 <h3 id="nfs">NFS</h3>
 <p>NFS의 기반이 되는 프로토콜에 여러 부적절한 부분이 있어서 특히 <code>O_SYNC</code>와 <code>O_NDELAY</code>에 영향을 준다.</p>
-<p>UID 매핑을 켠 NFS 파일 시스템에서 <code>open()</code>이 파일 디스크립터를 반환하고서도 가령 <code>read(2)</code> 요청이 <code>EACCES</code>로 거부될 수도 있다. 이는 클라이언트에서 <code>open()</code>을 수행할 때 권한 검사는 하지만 UID 매핑은 읽기 및 쓰기 요청 때 서버에서 수행하기 때문이다.</p>
+<p>UID 매핑을 켠 NFS 파일 시스템에서 <code>open()</code>이 파일 디스크립터를 반환하고서도 가령 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt> 요청이 <code>EACCES</code>로 거부될 수도 있다. 이는 클라이언트에서 <code>open()</code>을 수행할 때 권한 검사는 하지만 UID 매핑은 읽기 및 쓰기 요청 때 서버에서 수행하기 때문이다.</p>
 <h3 id="fifo">FIFO</h3>
 <p>FIFO의 읽기 쪽 내지 쓰기 쪽을 여는 동작은 (다른 프로세스나 스레드가) 반대편도 열 때까지 블록 한다. 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/fifo(7)/">fifo(7)</a></tt> 참고.</p>
 <h3 id="_2">파일 접근 모드</h3>
 <p><code>flags</code>에 지정할 수 있는 다른 값들과 달리 <em>접근 모드</em> 값인 <code>O_RDONLY</code>, <code>O_WRONLY</code>, <code>O_RDWR</code>은 개별 비트를 나타내는 게 아니다. 대신 함께 <code>flags</code>의 하위 두 비트를 규정하며, 각기 0, 1, 2로 정의돼 있다. 달리 말해 <code>O_RDONLY | O_WRONLY</code>는 논리적 오류이며 전혀 <code>O_RDWR</code>와 같은 의미가 아니다.</p>
-<p>리눅스에서는 <code>flags</code>에 비표준 접근 모드 3(이진수로 11)을 따로 두고 있는데, 파일에서 읽기 및 쓰기 권한을 검사하되 읽기 및 쓰기에 사용할 수 없는 파일 디스크립터를 반환하는 걸 뜻한다. 일부 리눅스 드라이버에서 장치별 <code>ioctl(2)</code> 동작에만 사용해야 하는 파일 디스크립터를 반환하게 하는 데 이 비표준 접근 모드를 쓴다.</p>
+<p>리눅스에서는 <code>flags</code>에 비표준 접근 모드 3(이진수로 11)을 따로 두고 있는데, 파일에서 읽기 및 쓰기 권한을 검사하되 읽기 및 쓰기에 사용할 수 없는 파일 디스크립터를 반환하는 걸 뜻한다. 일부 리눅스 드라이버에서 장치별 <tt><a class="wikilink" href="/man-pages-ko/ioctl(2)/">ioctl(2)</a></tt> 동작에만 사용해야 하는 파일 디스크립터를 반환하게 하는 데 이 비표준 접근 모드를 쓴다.</p>
 <h3 id="openat-api"><code>openat()</code> 및 기타 디렉터리 파일 디스크립터 API의 배경</h3>
 <p><code>openat()</code>과 디렉터리 파일 디스크립터 인자를 받는 여타 시스템 호출 및 라이브러리 함수들(즉 <tt><a class="wikilink" href="/man-pages-ko/fexecveat(2)/">fexecveat(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/faccessat(2)/">faccessat(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fanotify_mark(2)/">fanotify_mark(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fchmodat(2)/">fchmodat(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fchownat(2)/">fchownat(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fspick(2)/">fspick(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fstatat(2)/">fstatat(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/futimesat(2)/">futimesat(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/linkat(2)/">linkat(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mkdirat(2)/">mkdirat(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/move_mount(2)/">move_mount(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mknodat(2)/">mknodat(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/name_to_handle_at(2)/">name_to_handle_at(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/open_tree(2)/">open_tree(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/openat2(2)/">openat2(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/readlinkat(2)/">readlinkat(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/renameat(2)/">renameat(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/statx(2)/">statx(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/symlinkat(2)/">symlinkat(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/unlinkat(2)/">unlinkat(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/utimensat(2)/">utimensat(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mkfifoat(3)/">mkfifoat(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/scandirat(3)/">scandirat(3)</a></tt>)은 선행 인터페이스에 있는 두 가지 문제를 다룬다. 여기선 <code>openat()</code> 호출을 가지고 설명하지만 다른 인터페이스들의 근거도 비슷하다.</p>
 <p>첫째로, 응용에서 <code>openat()</code>을 쓰면 현재 작업 디렉터리 아닌 디렉터리의 파일을 <code>open()</code>으로 열 때 발생할 수 있는 경쟁 조건을 피할 수 있다. 그 경쟁 조건은 <code>open()</code>에 준 디렉터리 선두부의 어느 구성 요소가 <code>open()</code> 호출과 동시에 바뀔 수도 있다는 사실에서 온다. 예를 들어 <code>dir1/dir2/xxx</code>라는 파일이 존재한다면 <code>dir1/dir2/xxx.dep</code>라는 파일을 만들고 싶다고 해 보자. 문제는 존재 여부 검사 단계와 파일 생성 단계 사이에 (심볼릭 링크일 수도 있을) <code>dir1</code>이나 <code>dir2</code>가 다른 위치를 가리키게 변경될 수도 있다는 것이다. 대상 디렉터리에 대한 파일 디스크립터를 연 다음 그 파일 디스크립터를 (가령) <tt><a class="wikilink" href="/man-pages-ko/fstatat(2)/">fstatat(2)</a></tt>과 <code>openat()</code>의 <code>dirfd</code> 인자로 지정한다면 그런 경쟁을 피할 수 있다. <code>dirfd</code> 파일 디스크립터 사용에는 다른 이득도 있다.</p>
@@ -625,7 +625,7 @@ linkat(AT_FDCWD, path, AT_FDCWD, "/path/for/file",
 <p>이 API들에 <code>dirfd</code> 인자로 <code>AT_FDCWD</code>를 주거나 경로명이 절대 경로이면 대응하는 전통적 API와 같은 방식으로 경로명 인자를 다룬다. 하지만 이 경우에도 여러 API에는 <code>flags</code> 인자가 있어서 대응하는 전통적 API에서 이용할 수 없는 기능들에 접근할 수 있다.</p>
 <h3 id="o_direct"><code>O_DIRECT</code></h3>
 <p><code>O_DIRECT</code> 플래그 사용 시 사용자 공간 버퍼의 길이와 주소, 그리고 I/O의 파일 오프셋에 정렬 제약이 있을 수 있다. 리눅스의 정렬 제약은 파일 시스템과 커널 버전에 따라 다르며 아예 없을 수도 있다. 하지만 응용에서 어떤 파일이나 파일 시스템에 대해 그런 제약을 알아낼 수 있는 파일 시스템 독립적 인터페이스는 현재 없다. 어떤 파일 시스템에서는 이를 위한 자체 인터페이스를 제공하기도 하는데, 예를 들어 <code>xfsctl(3)</code>의 <code>XFS_IOC_DIOINFO</code>가 있다.</p>
-<p>리눅스 2.4에서는 전송 크기, 사용자 버퍼의 정렬, 파일 오프셋이 모두 파일 시스템의 논리적 블록 크기의 배수여야 한다. 리눅스 2.6.0부터는 기반 저장소의 논리적 블록 크기(보통 512바이트)에 정렬된 것으로 충분하다. <code>ioctl(2)</code> <code>BLKSSZGET</code> 동작을 이용하거나 셸에서 다음 명령을 사용해 그 논리적 블록 크기를 알아낼 수 있다.</p>
+<p>리눅스 2.4에서는 전송 크기, 사용자 버퍼의 정렬, 파일 오프셋이 모두 파일 시스템의 논리적 블록 크기의 배수여야 한다. 리눅스 2.6.0부터는 기반 저장소의 논리적 블록 크기(보통 512바이트)에 정렬된 것으로 충분하다. <tt><a class="wikilink" href="/man-pages-ko/ioctl(2)/">ioctl(2)</a></tt> <code>BLKSSZGET</code> 동작을 이용하거나 셸에서 다음 명령을 사용해 그 논리적 블록 크기를 알아낼 수 있다.</p>
 <pre><code class="language-c">blockdev --getss
 </code></pre>
 <p>메모리 버퍼가 비공유 매핑(즉 <tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt> <code>MAP_PRIVATE</code> 플래그로 만든 매핑. 힙과 정적 할당 버퍼에 할당된 메모리 포함)이라면 절대 <code>O_DIRECT</code> I/O를 <tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt> 시스템 호출과 동시에 실행하지 말아야 한다. 그런 I/O가 있으면 비동기 I/O 인터페이스를 통해 제출된 것이든 프로세스의 다른 스레드에서 이뤄지는 것이든 <tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt> 호출 전에 완료돼야 한다. 그렇게 하지 않으면 부모 프로세스와 자식 프로세스에서 데이터 오염과 규정 안 된 동작이 발생할 수 있다. <code>O_DIRECT</code> I/O를 위한 메모리 버퍼를 <tt><a class="wikilink" href="/man-pages-ko/shmat(2)/">shmat(2)</a></tt>이나 <code>MAP_SHARED</code> 플래그를 쓴 <tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt>으로 만든 경우에는 이 제약이 적용되지 않는다. 또는 메모리 버퍼에 <tt><a class="wikilink" href="/man-pages-ko/madvise(2)/">madvise(2)</a></tt>로 <code>MADV_DONTFORK</code> 조언을 줘서 <tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt> 후 자식에서 사용 가능하지 않게 만든 경우에도 이 제약이 적용되지 않는다.</p>
@@ -639,7 +639,7 @@ linkat(AT_FDCWD, path, AT_FDCWD, "/path/for/file",
 <p>커널에서 <code>O_TMPFILE</code> 기능을 지원하는지 여부를 알아내려 할 때 두 가지 다른 오류 코드 <code>EISDIR</code>과 <code>ENOENT</code>를 확인해야 한다.</p>
 <p><code>flags</code>에 <code>O_CREAT</code>과 <code>O_DIRECTORY</code>가 같이 지정돼 있고 <code>pathname</code>으로 지정한 파일이 존재하지 않을 때 <code>open()</code>이 정규 파일을 만들게 된다. (즉 <code>O_DIRECTORY</code>를 무시한다.)</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt><a class="wikilink" href="/man-pages-ko/chmod(2)/">chmod(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/chown(2)/">chown(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/close(2)/">close(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/dup(2)/">dup(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/link(2)/">link(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/lseek(2)/">lseek(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mknod(2)/">mknod(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mount(2)/">mount(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/open_by_handle_at(2)/">open_by_handle_at(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/openat2(2)/">openat2(2)</a></tt>, <code>read(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/socket(2)/">socket(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/stat(2)/">stat(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/umask(2)/">umask(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/unlink(2)/">unlink(2)</a></tt>, <code>write(2)</code>, <tt><a class="wikilink" href="/man-pages-ko/fopen(3)/">fopen(3)</a></tt>, <code>acl(5)</code>, <tt><a class="wikilink" href="/man-pages-ko/fifo(7)/">fifo(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/inode(7)/">inode(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/path_resolution(7)/">path_resolution(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/symlink(7)/">symlink(7)</a></tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/chmod(2)/">chmod(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/chown(2)/">chown(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/close(2)/">close(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/dup(2)/">dup(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/link(2)/">link(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/lseek(2)/">lseek(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mknod(2)/">mknod(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mount(2)/">mount(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/open_by_handle_at(2)/">open_by_handle_at(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/openat2(2)/">openat2(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/socket(2)/">socket(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/stat(2)/">stat(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/umask(2)/">umask(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/unlink(2)/">unlink(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fopen(3)/">fopen(3)</a></tt>, <code>acl(5)</code>, <tt><a class="wikilink" href="/man-pages-ko/fifo(7)/">fifo(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/inode(7)/">inode(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/path_resolution(7)/">path_resolution(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/symlink(7)/">symlink(7)</a></tt></p>
 <hr />
 <p>2021-03-22</p></div>
         
