@@ -29,7 +29,7 @@
 * [[group(5)]], [[getgrnam(3)]], [[getgrent(3)]], [[fgetgrent(3)]], [[getgrent_r(3)]], [[getgrouplist(3)]]
 * [[shadow(5)]], [[getspnam(3)]]
 * [[utmp(5)]], [[getutent(3)]], [[getutmp(3)]]
-* [[pam(7)]], [[pam.conf(5)]], [[pam_tally(8)]], [[pam_tally2(8)]]
+* [[pam(7)]], [[pam.conf(5)]], [[pam_tally(8)]], [[pam_tally2(8)]], [[pam_pwquality(8)]], [[pwquality.conf(5)]]
 * [[crypt(3)]], [[encrypt(3)]], [[des_crypt(3)]], [[xcrypt(3)]]
 * [[keyrings(7)]], [[keyctl(2)]], [[add_key(2)]], [[request_key(2)]]
 * [[bsearch(3)]], [[hsearch(3)]], [[lsearch(3)]], [[tsearch(3)]], [[qsort(3)]]
