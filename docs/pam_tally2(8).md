@@ -82,7 +82,7 @@ account 단계에서는 사용자가 magic root가 **아니면** 시도 횟수�
 
 **auth** 및 **account** 모듈 타입을 제공한다.
 
-## 반환 값
+## RETURN VALUES
 
 `PAM_AUTH_ERR`
 :   유효하지 않은 옵션을 줬거나, 모듈에서 사용자 이름을 얻을 수 없거나, 유효한 카운터 파일을 찾을 수 없거나, 너무 많은 로그인 실패.
@@ -99,7 +99,7 @@ pam_tally2는 이전 pam_tally의 faillog 파일 형식과 호환되지 않는�
 
 xscreensaver에서 `pam_tally2.so` 모듈을 호출하는 등의 경우를 위한 데이터 파일 접근용 setuid 래퍼가 없다. 그 때문에 PAM 설정을 그런 서비스들과 공유하는 게 불가능해질 수 있으므로 이에 대한 처리가 있다. 즉 권한이 불충분해서 (`EACCES`) 데이터 파일을 열 수 없는 경우에는 모듈이 `PAM_IGNORE`를 반환한다.
 
-## 예시
+## EXAMPLES
 
 /etc/pam.d/login에 다음 행을 추가해서 로그인에 4번 실패했을 때 계정을 잠글 수 있다. root 계정도 잠긴다. 20분 후에는 자동으로 계정 잠금이 풀리게 된다. `login`에서 `pam_setcred(3)`를 올바로 호출하므로 account 단계에서 이 모듈을 호출할 필요가 없다.
 

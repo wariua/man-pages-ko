@@ -89,7 +89,7 @@ account 단계에서는 사용자가 magic root가 아니면 시도 횟수를 �
 
 **auth** 및 **account** 모듈 타입을 제공한다.
 
-## 반환 값
+## RETURN VALUE
 
 `PAM_AUTH_ERR`
 :   유효하지 않은 옵션을 줬거나, 모듈에서 사용자 이름을 얻을 수 없거나, 유효한 카운터 파일을 찾을 수 없거나, 너무 많은 로그인 실패.
@@ -100,7 +100,7 @@ account 단계에서는 사용자가 magic root가 아니면 시도 횟수를 �
 `PAM_USER_UNKNOWN`
 :   알 수 없는 사용자.
 
-## 예시
+## EXAMPLES
 
 /etc/pam.d/login에 다음 행을 추가해서 로그인에 너무 많이 실패했을 때 계정을 잠글 수 있다. 허용 실패 횟수를 /var/log/faillog로 지정하며 pam_tally나 `faillog(8)`로 미리 설정해 둬야 한다.
 
