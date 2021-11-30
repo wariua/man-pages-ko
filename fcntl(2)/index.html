@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/fcntl%282%29/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>fcntl(2) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+            <li class="second-level"><a href="#_1">파일 디스크립터 복제</a></li>
+                
+            <li class="second-level"><a href="#_2">파일 디스크립터 플래그</a></li>
+                
+            <li class="second-level"><a href="#_3">파일 상태 플래그</a></li>
+                
+            <li class="second-level"><a href="#_4">권고형 레코드 락</a></li>
+                
+            <li class="second-level"><a href="#posix">열린 파일 기술 항목 락 (비 POSIX)</a></li>
+                
+            <li class="second-level"><a href="#_5">강제형 락</a></li>
+                
+            <li class="second-level"><a href="#_6">락 상실</a></li>
+                
+            <li class="second-level"><a href="#_7">시그널 관리</a></li>
+                
+            <li class="second-level"><a href="#_8">임차권</a></li>
+                
+            <li class="second-level"><a href="#dnotify">파일 및 디렉터리 변경 알림 (dnotify)</a></li>
+                
+            <li class="second-level"><a href="#_9">파이프의 용량 바꾸기</a></li>
+                
+            <li class="second-level"><a href="#_10">파일 봉인</a></li>
+                
+            <li class="second-level"><a href="#_11">파일 읽기/쓰기 힌트</a></li>
+                
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+            <li class="second-level"><a href="#_12">파일 락</a></li>
+                
+            <li class="second-level"><a href="#_13">레코드 락</a></li>
+                
+            <li class="second-level"><a href="#nfs">레코드 락과 NFS</a></li>
+                
+        <li class="first-level "><a href="#bugs">BUGS</a></li>
+            <li class="second-level"><a href="#f_setfl">F_SETFL</a></li>
+                
+            <li class="second-level"><a href="#f_getown">F_GETOWN</a></li>
+                
+            <li class="second-level"><a href="#f_setown">F_SETOWN</a></li>
+                
+            <li class="second-level"><a href="#_14">교착 탐지</a></li>
+                
+            <li class="second-level"><a href="#_15">강제형 락</a></li>
+                
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>fcntl - 파일 디스크립터 조작하기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="language-c">#include &lt;unistd.h&gt;
+#include &lt;fcntl.h&gt;
+
+int fcntl(int fd, int cmd, ... /* arg */ );
+</code></pre>
+<h2 id="description">DESCRIPTION</h2>
+<p><code>fcntl()</code>은 열린 파일 디스크립터 <code>fd</code>에서 아래 설명하는 동작들 중 하나를 수행한다. <code>cmd</code>에 따라 동작이 정해진다.</p>
+<p><code>fcntl()</code>은 선택적인 세 번째 인자를 받을 수 있다. 그 인자가 필요한지 여부는 <code>cmd</code>에 따라 정해진다. 각 <code>cmd</code> 이름 뒤의 괄호 안에 필요한 인자 타입이 나와 있으며 (대부분의 경우 필요한 타입이 <code>int</code>이며, <code>arg</code>라는 이름으로 그 인자를 부른다.) 인자가 필요치 않으면 <code>void</code>라고 되어 있다.</p>
+<p>아래 동작들 중 일부는 리눅스 커널 특정 버전부터 지원된다. 호스트의 커널이 어떤 동작을 지원하는지 확인하는 바람직한 방법은 원하는 <code>cmd</code> 값으로 <code>fcntl()</code>을 호출해서 커널이 그 값을 모른다는 뜻인 <code>EINVAL</code>로 실패하는지 확인하는 것이다.</p>
+<h3 id="_1">파일 디스크립터 복제</h3>
+<dl>
+<dt><code>F_DUPFD</code> (<code>int</code>)</dt>
+<dd>
+<p><code>arg</code> 이상인 가장 낮은 가용 파일 디스크립터를 사용해 파일 디스크립터 <code>fd</code>를 복제한다. 정확히 지정한 파일 디스크립터를 사용하는 <tt><a class="wikilink" href="/man-pages-ko/dup(2)/">dup(2)</a></tt>과 차이가 있다.</p>
+<p>성공 시 새 파일 디스크립터가 반환된다.</p>
+<p>자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/dup(2)/">dup(2)</a></tt> 참고.</p>
+</dd>
+<dt><code>F_DUPFD_CLOEXEC</code> (<code>int</code>, 리눅스 2.6.24부터)</dt>
+<dd><code>F_DUPFD</code> 동작에 더해서 복제된 파일 디스크립터에 exec에서 닫기 플래그를 설정한다. 이 플래그를 지정하면 <code>FD_CLOEXEC</code> 플래그를 설정하기 위해 프로그램에서 추가로 <code>fcntl()</code> <code>F_SETFD</code> 동작을 할 필요가 없게 된다. 그 플래그가 유용한 이유에 대해선 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>의 <code>O_CLOEXEC</code> 설명을 보라.</dd>
+</dl>
+<h3 id="_2">파일 디스크립터 플래그</h3>
+<p>다음 명령들은 파일 디스크립터에 연계된 플래그들을 조작한다. 현재는 한 가지 플래그만 정의돼 있는데, exec에서 닫기 플래그인 <code>FD_CLOEXEC</code>다. <code>FD_CLOEXEC</code> 비트가 설정돼 있으면 <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt> 성공 실행 과정에서 파일 디스크립터가 자동으로 닫히게 된다. (<tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>가 실패하면 파일 디스크립터가 그대로 열려 있다.) <code>FD_CLOEXEC</code> 비트가 설정돼 있지 않으면 <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>를 거치면서 파일 디스크립터가 계속 열려 있게 된다.</p>
+<dl>
+<dt><code>F_GETFD</code> (<code>void</code>)</dt>
+<dd>파일 디스크립터 플래그들을 (함수 결과로) 반환한다. <code>arg</code>는 무시한다.</dd>
+<dt><code>F_SETFD</code> (<code>int</code>)</dt>
+<dd>파일 디스크립터 플래그들을 <code>arg</code>에 지정된 값으로 설정한다.</dd>
+</dl>
+<p>다중 스레드 프로그램에서 다른 스레드가 <tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>를 수행할 때 동시에 <code>fcntl()</code> <code>F_SETFD</code>로 exec에서 닫기 플래그를 설정하는 것은 경쟁 조건에 취약하며, 그래서 자식 프로세스에서 실행되는 프로그램으로 파일 디스크립터가 의도치 않게 누출될 수 있다. 자세한 내용과 해결책은 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>의 <code>O_CLOEXEC</code> 설명을 보라.</p>
+<h3 id="_3">파일 상태 플래그</h3>
+<p>각 열린 파일 기술 항목에는 어떤 상태 플래그들이 연계돼 있어서 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>에서 초기화되고 <code>fcntl()</code>로 변경할 수 있다. (<tt><a class="wikilink" href="/man-pages-ko/dup(2)/">dup(2)</a></tt>, <code>fcntl(F_DUPFD)</code>, <tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt> 등에 의해) 복제된 파일 디스크립터들은 같은 열린 파일 기술 항목을 가리키며, 따라서 같은 파일 상태 플래그들을 공유한다.</p>
+<p>파일 상태 플래그들과 그 의미를 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>에서 설명한다.</p>
+<dl>
+<dt><code>F_GETFL</code> (<code>void</code>)</dt>
+<dd>파일 접근 모드 및 파일 상태 플래그들을 (함수 결과로) 반환한다. <code>arg</code>는 무시한다.</dd>
+<dt><code>F_SETFL</code> (<code>int</code>)</dt>
+<dd>파일 상태 플래그들을 <code>arg</code>에 지정된 값으로 설정한다. <code>arg</code>에서 파일 접근 모드(<code>O_RDONLY</code>, <code>O_WRONLY</code>, <code>O_RDWR</code>)와 파일 생성 플래그들(<code>O_CREAT</code>, <code>O_EXCL</code>, <code>O_NOCTTY</code>, <code>O_TRUNC</code>)은 무시한다. 리눅스에서 이 명령은 <code>O_APPEND</code>, <code>O_ASYNC</code>, <code>O_DIRECT</code>, <code>O_NOATIME</code>, <code>O_NONBLOCK</code> 플래그만 바꿀 수 있다. <code>O_DSYNC</code>와 <code>O_SYNC</code> 플래그는 바꾸는 게 불가능하다. 아래의 BUGS 참고.</dd>
+</dl>
+<h3 id="_4">권고형 레코드 락</h3>
+<p>리눅스는 전통적인 ("프로세스 연계") 유닉스 레코드 락을 POSIX 표준대로 구현하고 있다. 더 나은 동작 방식의 리눅스 전용 대안에 대해선 아래의 열린 파일 기술 항목 락 설명을 보라.</p>
+<p><code>F_SETLK</code>와 <code>F_SETLKW</code>, <code>F_GETLK</code>를 이용해 레코드 락(바이트 범위 락, 파일 구간 락, 파일 영역 락이라고도 함)을 획득하고, 해제하고, 존재 여부를 확인한다. 세 번째 인자 <code>lock</code>은 적어도 (순서가 명세되지 않은) 다음 필드들을 담은 구조체의 포인터다.</p>
+<pre><code class="language-c">struct flock {
+    ...
+    short l_type;    /* 락 종류:
+                        F_RDLCK, F_WRLCK, F_UNLCK */
+    short l_whence;  /* l_start 해석 방법:
+                        SEEK_SET, SEEK_CUR, SEEK_END */
+    off_t l_start;   /* 락의 시작 오프셋 */
+    off_t l_len;     /* 잠글 바이트 수 */
+    pid_t l_pid;     /* 우리 락에 블록 중인 프로세스의 PID
+                        (F_GETLK 및 F_OFD_GETLK에서 설정) */
+    ...
+};
+</code></pre>
+<p>이 구조체의 <code>l_whence</code>, <code>l_start</code>, <code>l_len</code> 필드는 잠그고 싶은 바이트 범위를 지정한다. 파일 끝 너머의 바이트들을 잠글 수도 있지만 파일 시작 앞의 바이트들은 불가능하다.</p>
+<p><code>l_start</code>는 락의 시작 오프셋이며, (<code>l_whence</code>가 <code>SEEK_SET</code>이면) 파일 시작이나 (<code>l_whence</code>가 <code>SEEK_CUR</code>이면) 현재 파일 오프셋, (<code>l_whence</code>가 <code>SEEK_END</code>이면) 파일 끝을 기준으로 해석한다. 뒤의 두 경우에서 오프셋이 파일 시작점 앞에 위치하지만 않는다면 <code>l_start</code>가 음수일 수도 있다.</p>
+<p><code>l_len</code>은 잠글 바이트 수를 나타낸다. <code>l_len</code>이 양수면 <code>l_start</code> 번째부터 <code>l_start+l_len-1</code> 번째까지의 바이트들을이 잠글 범위가 된다. <code>l_len</code>에 0을 지정하는 건 특별한 의미가 있는데, <code>l_whence</code>와 <code>l_start</code>로 지정한 위치부터 파일이 얼마나 자라든 파일 끝까지의 모든 바이트를 잠근다.</p>
+<p>POSIX.1-2001에서는 구현체에서 음수 <code>l_len</code> 값을 지원하는 걸 허용한다. (요구하진 않는다.) <code>l_len</code>이 음수인 경우 <code>lock</code>이 기술하는 구간은 <code>l_start+l_len</code> 번째부터 <code>l_start-1</code> 번째까지의 바이트들이다. 리눅스에서는 커널 버전 2.4.21 및 2.5.49부터 지원한다.</p>
+<p><code>l_type</code> 필드를 이용해 파일에 읽기 락(<code>F_RDLCK</code>)이나 쓰기 락(<code>F_WRLCK</code>)을 둘 수 있다. 어떤 파일 영역에서 읽기 락(공유형 락)은 얼마든지 많은 프로세스가 잡을 수 있지만 쓰기 락(배타형 락)은 한 프로세스만 잡을 수 있다. 한 프로세스는 어떤 파일 영역에 대해 한 가지 락만 잡을 수 있다. 이미 잠근 영역에 새 락을 적용하는 경우에는 기존 락이 새 락 종류로 바뀐다. (새 락의 바이트 범위가 우연히 기존 락의 범위와 정확히 일치하는 경우가 아니라면 그 과정에서 기존 락이 분할되거나 축소되거나 병합될 수 있다.)</p>
+<dl>
+<dt><code>F_SETLK</code> (<code>struct flock *</code>)</dt>
+<dd><code>lock</code>의 <code>l_whence</code>, <code>l_start</code>, <code>l_len</code> 필드가 나타내는 바이트들에 대해 (<code>l_type</code>이 <code>F_RDLCK</code>이나 <code>F_WRLCK</code>이면) 락을 잡거나 (<code>l_type</code>이 <code>F_UNLCK</code>이면) 락을 놓는다. 다른 프로세스가 충돌하는 락을 잡고 있으면 호출이 -1을 반환하며 <code>errno</code>를 <code>EACCES</code>나 <code>EAGAIN</code>으로 설정한다. (이 경우에 반환되는 오류가 구현체에 따라 다르므로 POSIX에서는 이식성 있는 응용에서 두 오류를 모두 확인하기를 요구한다.)</dd>
+<dt><code>F_SETLKW</code> (<code>struct flock *</code>)</dt>
+<dd><code>F_SETLK</code>과 같되, 파일에 충돌하는 락이 잡혀 있으면 그 락이 해제될 때까지 기다린다. 대기 중에 시그널을 잡으면 호출이 중단되어 (시그널 핸들러가 반환한 후에) 즉시 반환한다. (반환 값이 -1이고 <code>errno</code>를 <code>EINTR</code>로 설정한다. <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt> 참고.)</dd>
+<dt><code>F_GETLK</code> (<code>struct flock *</code>)</dt>
+<dd>
+<p>이 호출의 입력에서 <code>lock</code>은 파일에 두고 싶은 락을 기술한다. 락을 둘 수 있을 경우에 <code>fcntl()</code>은 실제로 락을 두지는 않고 <code>lock</code>의 <code>l_type</code> 필드로 <code>F_UNLCK</code>을 반환하며 구조체의 나머지 필드들은 그대로 둔다.</p>
+<p>하나 이상의 호환 안 되는 락 때문에 그 락을 둘 수 없을 경우에는 <code>fcntl()</code>이 <code>lock</code>의 <code>l_type</code>, <code>l_whence</code>, <code>l_start</code>, <code>l_len</code> 필드로 그 락들 중 하나에 대한 세부 정보를 반환한다. 충돌하는 락이 전통적인 (프로세스 연계) 레코드 락인 경우에는 <code>l_pid</code> 필드가 그 락을 잡고 있는 프로세스의 PID로 설정된다. 충돌하는 락이 열린 파일 기술 항목 락인 경우에는 <code>l_pid</code>가 -1로 설정된다. 반환된 정보를 호출자가 들여다보는 시점에는 그 정보가 더이상 유효하지 않을 수도 있다는 점에 유의하자.</p>
+</dd>
+</dl>
+<p>읽기 락을 두려면 <code>fd</code>가 읽기 가능하게 열려 있어야 한다. 쓰기 락을 두려면 <code>fd</code>가 쓰기 가능하게 열려 있어야 한다. 두 종류의 락을 모두 두려면 읽기-쓰기로 파일을 열면 된다.</p>
+<p><code>F_SETLKW</code>로 락을 둘 때 커널에선 둘 이상 프로세스의 락 요청이 다른 프로세스가 잡고 있는 락에 의해 서로 막혀 있는 상태인 <em>교착</em>을 탐지한다. 예를 들어 프로세스 A가 어느 파일의 100번 바이트에 쓰기 락을 잡고 있고 프로세스 B가 200번 바이트에 쓰기 락을 잡고 있다고 하자. 각 프로세스가 상대 프로세스가 이미 잽고 있는 바이트를 <code>F_SETLKW</code>로 잠그려고 하는 경우, 교착 탐지가 없다면 두 프로세스가 무한정 블록된 상태로 있게 된다. 커널에서 그런 교착을 탐지하면 블록 중인 락 요청들 중 하나를 즉시 <code>EDEADLK</code>으로 실패하게 만든다. 그 오류를 받은 응용에선 자기 락 일부를 해제해서 다른 응용이 진행을 할 수 있게 한 다음에 필요한 락을 다시 획득하려 시도해야 한다. 셋 이상의 프로세스가 수반된 순환 교착도 탐지한다. 하지만 커널의 교착 탐지 알고리즘에 한계가 있다는 점에 유의해야 한다. BUGS 참고.</p>
+<p>레코드 락은 명시적인 <code>F_UNCLK</code>에 의해서도 제거되고, 프로세스가 종료할 때도 자동으로 해제된다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt>를 통해 생성된 자식이 레코드 락을 물려받지 않는다. 하지만 <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>를 거치면서 유지된다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/stdio(3)/">stdio(3)</a></tt> 라이브러리에서 수행하는 버퍼링 때문에 그 패키지의 루틴과 레코드 락을 함께 쓰는 걸 피하는 게 좋다. 대신 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>와 <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt>를 사용하라.</p>
+<p>위에서 설명한 레코드 락은 (아래에서 설명하는 열린 파일 기술 항목 락과 달리) 프로세스에 연계된다. 그로 인해 몇 가지 안 좋은 상황이 발생한다.</p>
+<ul>
+<li>
+<p>프로세스에서 어느 파일을 가리키는 <em>아무</em> 파일 디스크립터라도 닫으면 어느 파일 디스크립터에서 어느 락을 획득했는지와 상관없이 그 파일에 있는 프로세스의 락 모두가 해제된다. 안 좋은 동작이다. 어떤 이유로 어느 라이브러리 함수에서 같은 파일을 열어서 읽고 닫기로 한다면 <code>/etc/passwd</code>나 <code>/etc/mtab</code> 같은 파일에 대한 락을 잃을 수 있다는 뜻이다.</p>
+</li>
+<li>
+<p>프로세스의 스레드들이 락을 공유한다. 달리 말해 다중 스레드 프로그램에서 스레드들이 파일의 같은 영역에 동시에 접근하지 못하게 하는 데 레코드 락을 쓸 수 없다.</p>
+</li>
+</ul>
+<p>열린 파일 기술 항목 락에서 두 문제가 모두 해결된다.</p>
+<h3 id="posix">열린 파일 기술 항목 락 (비 POSIX)</h3>
+<p>열린 파일 기술 항목 락은 권고형 바이트 범위 락이며 그 동작이 위에서 설명한 전통적 레코드 락과 거의 동일하다. 이 락 유형은 리눅스 전용이며 리눅스 3.15부터 이용 가능하다. (이 락 유형을 POSIX.1 다음 판에 포함시키자는 제안이 Austin Group에 제출돼 있다.) 열린 파일 기술 항목에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>을 보라.</p>
+<p>두 락 유형의 주된 차이는 전통적 레코드 락이 프로세스에 연계되는데 반해 열린 파일 기술 항목 락은 <tt><a class="wikilink" href="/man-pages-ko/flock(2)/">flock(2)</a></tt>으로 얻은 락과 마찬가지로 그 락을 획득한 열린 파일 기술 항목에 연계된다는 점이다. 그래서 (전통적 권고형 레코드 락과 달리) 열린 파일 기술 항목 락은 <tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt>를 (그리고 <code>CLONE_FILES</code>를 쓴 <tt><a class="wikilink" href="/man-pages-ko/clone(2)/">clone(2)</a></tt>을) 거치면서 상속되며, 파일 중 하나라도 닫을 때 해제되는 게 아니라 열린 파일 기술 항목에 마지막 닫기가 이뤄질 때만 자동으로 해제된다.</p>
+<p>충돌하는 락 조합(읽기 락과 쓰기 락, 또는 두 개의 쓰기 락)에서 하나는 열린 파일 기술 항목 락이고 다른 하나는 전통적 레코드 락일 때, 한 프로세스가 같은 파일 디스크립터에서 획득한 경우라도 두 락이 충돌한다.</p>
+<p>같은 열린 파일 기술 항목을 통해 (같은 파일 디스크립터를 통해, 또는 <tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/dup(2)/">dup(2)</a></tt>, <code>fcntl()</code> <code>F_DUPFD</code> 등으로 생성된 파일 디스크립터 복제본을 통해) 두는 열린 파일 기술 항목 락은 항상 호환된다. 즉, 이미 잠겨 있는 영역에 새 락을 두면 기존 락이 새 락 유형으로 바뀐다. (그 변환으로 인해 위에서 설명한 것처럼 기존 락이 분할되거나 축소되거나 병합될 수 있다.)</p>
+<p>한편으로 다른 열린 파일 기술 항목을 통해 획득한 경우에는 열린 파일 기술 항목 락이 서로 충돌할 수 있다. 따라서 다중 스레드 프로그램의 각 스레드에서 같은 파일에 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>을 수행해 얻은 파일 디스크립터를 통해 락을 적용하면 열린 파일 기술 항목 락을 이용해 파일 영역에 대한 접근을 동기화할 수 있다.</p>
+<p>전통적 권고형 락에서처럼 <code>fcntl()</code>의 세 번째 인자인 <code>lock</code>은 <code>flock</code> 구조체의 포인터다. 전통적 레코드 락에서와 달리 아래 설명하는 명령들을 사용할 때 그 구조체의 <code>l_pid</code> 필드가 0으로 설정돼 있어야 한다.</p>
+<p>열린 파일 기술 항목 락을 다루기 위한 명령들은 전통적 락과 비슷하다.</p>
+<dl>
+<dt><code>F_OFD_SETLK</code> (<code>struct flock *</code>)</dt>
+<dd><code>lock</code>의 <code>l_whence</code>, <code>l_start</code>, <code>l_len</code> 필드가 나타내는 바이트들에 대해 (<code>l_type</code>이 <code>F_RDLCK</code>이나 <code>F_WRLCK</code>이면) 열린 파일 기술 항목 락을 잡거나 (<code>l_type</code>이 <code>F_UNLCK</code>이면) 열린 파일 기술 항목 락을 놓는다. 다른 프로세스가 충돌하는 락을 잡고 있으면 호출이 -1을 반환하며 <code>errno</code>를 <code>EAGAIN</code>으로 설정한다.</dd>
+<dt><code>F_OFD_SETLKW</code> (<code>struct flock *</code>)</dt>
+<dd><code>F_OFD_SETLK</code>과 같되, 파일에 충돌하는 락이 잡혀 있으면 그 락이 해제될 때까지 기다린다. 대기 중에 시그널을 잡으면 호출이 중단되어 (시그널 핸들러가 반환한 후에) 즉시 반환한다. (반환 값이 -1이고 <code>errno</code>를 <code>EINTR</code>로 설정한다. <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt> 참고.)</dd>
+<dt><code>F_OFD_GETLK</code> (<code>struct flock *</code>)</dt>
+<dd>이 호출의 입력에서 <code>lock</code>은 파일에 두고 싶은 락을 기술한다. 락을 둘 수 있을 경우에 <code>fcntl()</code>은 실제로 락을 두지는 않고 <code>lock</code>의 <code>l_type</code> 필드로 <code>F_UNLCK</code>을 반환하며 구조체의 나머지 필드들은 그대로 둔다. 하나 이상의 호환 안 되는 락 때문에 그 락을 둘 수 없을 경우에는 위의 <code>F_GETLK</code> 설명처럼 <code>fcntl()</code>이 <code>lock</code>을 통해 그 락들 중 하나에 대한 세부 정보를 반환한다.</dd>
+</dl>
+<p>현재 구현에서는 열린 파일 기술 항목 락에 대해 교착 탐지를 수행하지 않는다. (반면 프로세스 연계 레코드 락에 대해선 커널에서 교착 탐지를 수행한다.)</p>
+<h3 id="_5">강제형 락</h3>
+<p><em>경고</em>: 리눅스의 강제형 락 구현은 믿을 만하지 않다. 아래 BUGS 참고. 그 버그들 때문에, 그리고 이 기능이 거의 쓰이지 않는 것 같다는 점 때문에 리눅스 4.5부터 강제형 락이 구성 항목(<code>CONFIG_MANDATORY_FILE_LOCKING</code>)에 의해 제어되는 선택적 기능이 되었다. 이는 완전한 기능 제거로 가는 첫 단계다.</p>
+<p>기본적으로 전통적 (프로세스 연계) 레코드 락과 열린 파일 기술 항목 레코드 락은 모두 권고형이다. 권고형 락은 강제가 아니므로 협력하는 프로세스들 사이에서 유용하다.</p>
+<p>두 락 유형 모두 강제형이 될 수 있다. 강제형 락은 모든 프로세스에 강제된다. 호환되지 않는 강제형 락이 있는 파일 영역에 어떤 프로세스가 호환되지 않는 접근(가령 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>나 <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt>)을 수행하려 하는 경우 열린 파일 기술 항목에 <code>O_NONBLOCK</code> 플래그가 켜져 있는지에 따라 결과가 달라진다. <code>O_NONBLOCK</code> 플래그가 켜져 있지 않으면 그 락이 제거되거나 접근 동작과 호환되는 모드로 바뀔 때까지 시스템 호출이 블록한다. <code>O_NONBLOCK</code> 플래그가 켜져 있으면 시스템 호출이 <code>EAGAIN</code> 오류로 실패한다.</p>
+<p>강제형 락을 이용하려면 잠글 파일을 담은 파일 시스템과 그 파일 모두에서 강제형 락킹이 켜져 있어야 한다. 파일 시스템에서는 <code>mount(8)</code>의 "-o mand" 옵션이나 <tt><a class="wikilink" href="/man-pages-ko/mount(2)/">mount(2)</a></tt>의 <code>MS_MANDLOCK</code> 플래그로 강제형 락킹을 켠다. 파일에서는 그룹 실행 권한을 끄고 set-group-ID 권한 비트를 켜서 (<code>chmod(1)</code> 및 <tt><a class="wikilink" href="/man-pages-ko/chmod(2)/">chmod(2)</a></tt> 참고) 강제형 락킹을 켠다.</p>
+<p>강제형 락은 POSIX에 명세돼 있지 않다. 일부 다른 시스템에서도 강제형 락을 지원하지만 자세한 사용 방식은 시스템에 따라 다르다.</p>
+<h3 id="_6">락 상실</h3>
+<p>NFS 같은 네트워크 파일 시스템에서 권고형 락을 얻었을 때 그 락이 상실될 수도 있다. 서버에서의 관리 행위로 인해서, 또는 클라이언트가 더는 동작하지 않는다고 서버에서 간주할 만큼 오래 지속된 네트워크 분할(즉 서버와의 네트워크 연결 상실)로 인해 발생할 수 있다.</p>
+<p>파일 시스템에서 락이 상실됐다고 판단하면 이후의 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt> 내지 <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt> 요청이 <code>EIO</code> 오류로 실패할 수 있다. 락을 제거하거나 파일 디스크립터를 닫을 때까지 그 오류가 지속된다. 리눅스 3.12부터 적어도 (모든 하위 버전을 포함한) NFSv4에선 그렇게 동작한다.</p>
+<p>일부 유닉스 버전들에선 이 경우에 시그널(<code>SIGLOST</code>)을 보낸다. 리눅스에선 이 시그널을 정의하고 있지 않으며 비동기 락 상실 알림을 제공하지 않는다.</p>
+<h3 id="_7">시그널 관리</h3>
+<p><code>F_GETOWN</code>, <code>F_SETOWN</code>, <code>F_GETOWN_EX</code>, <code>F_SETOWN_EX</code>, <code>F_GETSIG</code>, <code>F_SETSIG</code>를 이용해 I/O 가용 시그널을 관리한다.</p>
+<dl>
+<dt><code>F_GETOWN</code> (<code>void</code>)</dt>
+<dd>파일 디스크립터 <code>fd</code>의 이벤트에 대해 현재 <code>SIGIO</code> 및 <code>SIGURG</code> 시그널을 받을 프로세스 ID나 프로세스 그룹 ID를 (함수 결과로) 반환한다. 프로세스 ID는 양수 값으로 반환되고 프로세스 그룹 ID는 음수 값으로 반환된다. (하지만 아래 BUGS 참고.) <code>arg</code>는 무시한다.</dd>
+<dt><code>F_SETOWN</code> (<code>int</code>)</dt>
+<dd>
+<p>파일 디스크립터 <code>fd</code>의 이벤트에 대해 <code>SIGIO</code> 및 <code>SIGURG</code> 시그널을 받을 프로세스 ID나 프로세스 그룹 ID를 설정한다. <code>arg</code>로 대상 프로세스 ID 내지 프로세스 그룹 ID를 지정한다. 프로세스 ID는 양수 값으로 지정하고 프로세스 그룹 ID는 음수 값으로 지정한다. 대부분은 호출 프로세스가 자신을 소유자로 지정한다. (즉, <tt><a class="wikilink" href="/man-pages-ko/getpid(2)/">getpid(2)</a></tt>로 <code>arg</code>를 지정한다.)</p>
+<p>파일 디스크립터 소유자 설정만 하면 되는 게 아니라 파일 디스크립터에서 시그널 생성을 켜야 한다. <code>fcntl()</code> <code>F_SETFL</code> 명령으로 파일 디스크립터에 <code>O_ASYNC</code> 파일 상태 플래그를 설정하면 된다. 그러면 그 파일 디스크립터에서 입력이나 출력이 가능해질 때마다 <code>SIGIO</code> 시그널이 전송된다. <code>fcntl()</code> <code>F_SETSIG</code> 명령을 이용해 <code>SIGIO</code> 외의 시그널을 전달받을 수 있다.</p>
+<p><code>F_SETOWN</code>으로 지정한 소유자 프로세스 (그룹)으로 시그널을 보내는 동작에는 <tt><a class="wikilink" href="/man-pages-ko/kill(2)/">kill(2)</a></tt>에서 설명하는 것과 같은 권한 검사가 이뤄지는데, <code>F_SETOWN</code> 사용 프로세스가 송신 프로세스가 된다. (하지만 아래 BUGS 참고.) 이 권한 검사가 실패하면 시그널이 조용히 폐기된다. <em>주의</em>: <code>F_SETOWN</code> 동작은 <code>fcntl()</code> 호출 시점에 호출자의 크리덴셜을 기록하며, 그렇게 저장해 둔 크리덴셜을 권한 검사에 쓴다.</p>
+<p>파일 디스크립터 <code>fd</code>가 소켓을 가리키는 경우 <code>F_SETOWN</code>은 그 소켓으로 대역외 데이터가 왔을 때 전달되는 <code>SIGURG</code> 시그널의 수신자도 함께 정한다. (<tt><a class="wikilink" href="/man-pages-ko/select(2)/">select(2)</a></tt>에서 소켓이 "예외적 상태"라고 보고하게 될 모든 경우에 <code>SIGURG</code>가 전송된다.)</p>
+<p>커널 2.6.11까지를 포함한 2.6.x 커널에서 다음이 참이었다.</p>
+<blockquote>
+<p>스레드 그룹을 지원하는 스레드 라이브러리(가령 NPTL)를 사용해 동작하는 다중 스레드 프로세스에서 <code>F_SETSIG</code>에 0 아닌 값을 준 경우에 <code>F_SETOWN</code>에 주는 양수 값의 의미가 다른데, 전체 프로세스를 나타내는 프로세스 ID가 아니라 프로세스의 특정 스레드를 나타내는 스레드 ID다. 그래서 <code>F_SETSIG</code>를 쓸 때 적절한 결과를 얻으려면 <code>F_SETOWN</code>에 <tt><a class="wikilink" href="/man-pages-ko/getpid(2)/">getpid(2)</a></tt>가 아니라 <tt><a class="wikilink" href="/man-pages-ko/gettid(2)/">gettid(2)</a></tt>의 결과를 줘야 할 수 있다. (현재의 리눅스 스레드 구현에선 주 스레드의 스레드 ID가 프로세스 ID와 같다. 따라서 단일 스레드 프로그램에선 이 경우에 <tt><a class="wikilink" href="/man-pages-ko/gettid(2)/">gettid(2)</a></tt>와 <tt><a class="wikilink" href="/man-pages-ko/getpid(2)/">getpid(2)</a></tt> 어느쪽을 써도 같다.) 단, 이 문단의 내용은 소켓의 대역외 데이터에 대해 생성되는 <code>SIGURG</code> 시그널에는 적용되지 않는다. 그 시그널은 항상 <code>F_SETOWN</code>에 준 값에 따라 프로세스 아니면 프로세스 그룹에게 간다.</p>
+</blockquote>
+<p>리눅스 2.6.12에서 위 동작이 우연히 없어졌으며, 앞으로 복원되지 않을 것이다. 리눅스 2.6.32부터는 <code>SIGIO</code>와 <code>SIGURG</code> 시그널의 대상을 특정 스레드를 하려면 <code>F_SETOWN_EX</code>를 쓰면 된다.</p>
+</dd>
+<dt><code>F_GETOWN_EX</code> (<code>struct f_owner_ex *</code>) (리눅스 2.6.32부터)</dt>
+<dd>
+<p>앞선 <code>F_SETOWN_EX</code> 동작에 의한 현재 파일 디스크립터 소유자 설정을 반환한다. <code>arg</code>가 가리키는 다음 형태의 구조체로 정보를 반환한다.</p>
+<pre><code>struct f_owner_ex {
+    int   type;
+    pid_t pid;
+};
+</code></pre>
+<p><code>type</code> 필드는 <code>F_OWNER_TID</code>, <code>F_OWNER_PID</code>, <code>F_OWNER_PGRP</code> 중 하나다. <code>pid</code> 필드는 스레드 ID, 프로세스 ID, 프로세스 그룹 ID를 나타내는 양의 정수다. 자세한 내용은 <code>F_SETOWN_EX</code>를 보라.</p>
+</dd>
+<dt><code>F_SETOWN_EX</code> (<code>struct f_owner_ex *</code>) (리눅스 2.6.32부터)</dt>
+<dd>
+<p><code>F_SETOWN</code>과 비슷한 작업을 수행한다. 호출자가 이 동작을 이용해 I/O 가용 시그널을 특정 스레드나 프로세스, 프로세스 그룹으로 가도록 할 수 있다. 호출자가 <code>f_owner_ex</code> 구조체의 포인터인 <code>arg</code>를 통해 시그널 수신자를 지정한다. <code>type</code> 필드는 다음 값들 중 하나이며, 그에 따라 <code>pid</code>를 해석하는 방식이 정해진다.</p>
+<dl>
+<dt><code>F_OWNER_TID</code></dt>
+<dd><code>pid</code>에 지정한 스레드 ID(<tt><a class="wikilink" href="/man-pages-ko/clone(2)/">clone(2)</a></tt>이나 <tt><a class="wikilink" href="/man-pages-ko/gettid(2)/">gettid(2)</a></tt>의 반환 값)의 스레드로 시그널을 보낸다.</dd>
+<dt><code>F_OWNER_PID</code></dt>
+<dd><code>pid</code>에 지정한 ID의 프로세스로 시그널을 보낸다.</dd>
+<dt><code>F_OWNER_PGRP</code></dt>
+<dd><code>pid</code>에 지정한 ID의 프로세스 그룹으로 시그널을 보낸다. (<code>F_SETOWN</code>과 달리 여기선 양수 값으로 프로세스 그룹 ID를 지정한다.)</dd>
+</dl>
+</dd>
+<dt><code>F_GETSIG</code> (<code>void</code>)</dt>
+<dd>입력이나 출력이 가능해질 때 보내는 시그널을 (함수 결과로) 반환한다. 0 값은 <code>SIGIO</code>를 보낸다는 뜻이다. 다른 값(<code>SIGIO</code> 포함)은 그 시그널을 대신 보낸다는 뜻이며, 그 경우에 <code>SA_SIGINFO</code>를 써서 시그널 핸들러를 설치하면 추가 정보를 얻을 수 있다. <code>arg</code>는 무시한다.</dd>
+<dt><code>F_SETSIG</code> (<code>int</code>)</dt>
+<dd>
+<p>입력이나 출력이 가능해질 때 보내는 시그널을 <code>arg</code>에 준 값으로 설정한다. 0 값은 기본인 <code>SIGIO</code> 시그널을 보낸다는 뜻이다. 다른 값(<code>SIGIO</code> 포함)은 그 시그널을 대신 보낸다는 뜻이며, 그 경우에 <code>SA_SIGINFO</code>를 써서 시그널 핸들러를 설치하면 추가 정보를 얻을 수 있다.</p>
+<p>0 아닌 값으로 <code>F_SETSIG</code>를 하고 시그널 핸들러에 <code>SA_SIGINFO</code>를 설정하면 (<tt><a class="wikilink" href="/man-pages-ko/sigaction(2)/">sigaction(2)</a></tt> 참고) I/O 이벤트에 대한 추가 정보가 핸들러에게 <code>siginfo_t</code> 구조체로 전달된다. <code>si_code</code> 필드에서 출처가 <code>SI_SIGIO</code>로 돼 있으면 <code>si_fd</code> 필드로 그 이벤트에 연계된 파일 디스크립터를 알 수 있다. 그렇지 않으면 어떤 파일 디스크립터가 미처리 상태인지 알 방법이 없으며, 따라서 어느 파일 디스크립터에 I/O가 가능한지 알아내기 위해 일반적 메커니즘(<tt><a class="wikilink" href="/man-pages-ko/select(2)/">select(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/poll(2)/">poll(2)</a></tt>, <code>O_NONBLOCK</code> 설정한 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt> 등)을 이용해야 한다.</p>
+<p><code>si_fd</code>에 들어가는 파일 디스크립터는 <code>F_SETSIG</code> 동작 때 지정한 값이다. 이 때문에 가끔 특이한 상황이 발생할 수 있다. 파일 디스크립터를 (<tt><a class="wikilink" href="/man-pages-ko/dup(2)/">dup(2)</a></tt> 등으로) 복제하고서 원래 파일 디스크립터를 닫은 경우에 I/O 이벤트는 계속 생성되지만 <code>si_fd</code> 필드에 이젠 닫힌 파일 디스크립터 번호가 들어가게 된다.</p>
+<p>실시간 시그널(값 &gt;= <code>SIGRTMIN</code>)을 택하면 같은 시그널 번호로 여러 I/O 이벤트가 큐에 저장될 수 있다. (가용 메모리에 따라 큐 저장 여부가 달라진다.) 마찬가지로 시그널 핸들러에 <code>SA_SIGINFO</code>를 설정하면 추가 정보를 얻을 수 있다.</p>
+<p>리눅스에선 한 프로세스에서 큐에 저장되는 실시간 시그널 수에 제한을 두고 있다. (<tt><a class="wikilink" href="/man-pages-ko/getrlimit(2)/">getrlimit(2)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt> 참고.) 그 한도에 도달하면 커널에선 다시 <code>SIGIO</code> 전달로 되돌아가며, 그 시그널은 특정 스레드가 아니라 프로세스 전체로 전달된다.</p>
+</dd>
+</dl>
+<p>이 메커니즘들을 이용하면 대부분 경우에 <tt><a class="wikilink" href="/man-pages-ko/select(2)/">select(2)</a></tt>나 <tt><a class="wikilink" href="/man-pages-ko/poll(2)/">poll(2)</a></tt>을 쓰지 않고도 완전한 비동기 I/O를 구현할 수 있다.</p>
+<p><code>O_ASYNC</code> 사용은 BSD와 리눅스 전용이다. POSIX.1에서 <code>F_GETOWN</code> 및 <code>F_SETOWN</code> 사용에 대해 명세하는 것은 소켓의 <code>SIGURG</code> 시그널과 함께 쓰는 것뿐이다. (POSIX에선 <code>SIGIO</code> 시그널을 명세하고 있지 않다.) <code>F_GETOWN_EX</code>, <code>F_SETOWN_EX</code>, <code>F_GETSIG</code>, <code>F_SETSIG</code>는 리눅스 전용이다. POSIX에도 비슷한 결과를 얻을 수 있는 비동기 I/O 동작과 <code>aio_sigevent</code> 구조체가 있다. 리눅스에선 그 역시도 GNU C 라이브러리(Glibc)에 포함되어 이용할 수 있다.</p>
+<h3 id="_8">임차권</h3>
+<p>(리눅스 2.4부터) <code>F_SETLEASE</code>와 <code>F_GETLEASE</code>를 사용해 파일 디스크립터 <code>fd</code>가 가리키는 열린 파일 기술 항목에 새 임차권을 설정하고 현재 임차권을 확인한다. 파일 임차를 통해 임차권을 가진 프로세스("임차권 소유자")는 그 파일 디스크립터가 가리키는 파일에 다른 프로세스("임차 종료자")가 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>이나 <tt><a class="wikilink" href="/man-pages-ko/truncate(2)/">truncate(2)</a></tt>를 시도할 때 (시그널 전달을 통해) 알림을 받게 된다.</p>
+<dl>
+<dt><code>F_SETLEASE</code> (<code>int</code>)</dt>
+<dd>
+<p>정수 <code>arg</code>로 지정한 다음 값들 중 하나에 따라 파일 임차권을 설정하거나 제거한다.</p>
+<dl>
+<dt><code>F_RDLCK</code></dt>
+<dd>읽기 임차권을 얻는다. 파일이 쓰기용으로 열리거나 절단될 때 호출자가 알림을 받게 된다. 읽기용으로 연 파일 디스크립터에서만 읽기 임차권을 둘 수 있다.</dd>
+<dt><code>F_WRLCK</code></dt>
+<dd>쓰기 임차권을 얻는다. 파일이 읽기용 또는 쓰기용으로 열리거나 절단될 때 호출자가 알림을 받게 된다. 그 파일에 대해 열린 다른 파일 디스크립터가 없는 경우에만 쓰기 임차권을 둘 수 있다.</dd>
+<dt><code>F_UNLCK</code></dt>
+<dd>파일에서 임차권을 제거한다.</dd>
+</dl>
+</dd>
+</dl>
+<p>임차권은 열린 파일 기술 항목(<tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt> 참고)에 연계된다. 그래서 (예를 들어 <tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt>나 <tt><a class="wikilink" href="/man-pages-ko/dup(2)/">dup(2)</a></tt>으로 만든) 복제 파일 디스크립터들이 같은 임차를 가리키며, 그래서 디스크립터들 중 어느 것으로도 임차를 조작하거나 해제할 수 있다. 임의의 파일 디스크립터에서 이뤄지는 명시적 <code>F_UNLCK</code> 동작에 의해서, 또는 그 파일 디스크립터들이 모두 닫힐 때 임차가 해제된다.</p>
+<p>정규 파일에서만 임차권을 얻을 수 있다. 비특권 프로세스는 파일 UID(소유자)가 프로세스의 파일 시스템 UID와 일치하는 경우에만 임차권을 얻을 수 있다. <code>CAP_LEASE</code> 역능을 가진 프로세스는 아무 파일에서나 임차권을 얻을 수 있다.</p>
+<dl>
+<dt><code>F_GETLEASE</code> (<code>void</code>)</dt>
+<dd>파일 디스크립터 <code>fd</code>에 어떤 종류의 임차권이 연계돼 있는지 알려 준다. <code>F_RDLCK</code>, <code>F_WRLCK</code>, <code>F_UNLCK</code> 중 하나를 반환하며, 각각 읽기 임차권, 쓰기 임차권, 임차권 없음을 나타낸다. <code>arg</code>는 무시한다.</dd>
+</dl>
+<p>어느 프로세스("임차 종료자")가 <code>F_SETLEASE</code>를 통해 수립된 임차와 충돌하는 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt> 내지 <tt><a class="wikilink" href="/man-pages-ko/truncate(2)/">truncate(2)</a></tt>를 수행하면 그 시스템 호출이 블록되고 커널에서 임차권 소유자에게 시그널(기본은 <code>SIGIO</code>)을 보내서 알린다. 그 시그널을 수신한 임차권 소유자는 다른 프로세스가 파일에 접근하기 위해 필요한 준비(가령 캐싱된 버퍼 플러시하기)를 한 다음 임차를 제거하거나 격하시키는 방식으로 대응해야 한다. 임차 제거를 위해선 <code>arg</code>를 <code>F_UNLCK</code>으로 지정해서 <code>F_SETLEASE</code> 명령을 수행하면 된다. 임차권 소유자가 현재 파일에 쓰기 임차권을 가지고 있고 임차 종료자가 읽기용으로 파일을 열려는 경우에는 임차권 소유자가 임차권을 읽기로 격하시키는 것으로도 충분하다. 이를 위해선 <code>arg</code>를 <code>R_RDLCK</code>으로 지정해서 <code>F_SETLEASE</code> 명령을 수행하면 된다.</p>
+<p><code>/proc/sys/fs/lease-break-time</code>에 지정된 초 안에 임차권 소유자가 임차를 격하 내지 제거하지 못하면 커널에서 강제로 임차권 소유자의 임차를 제거하거나 격하시킨다.</p>
+<p>임차 종료가 개시되고 나면 임차권 소유자가 자발적으로 임차를 격하 내지 제거하거나 종료 타이머가 만료된 후 커널에서 강제로 그렇게 할 때까지는 <code>F_GETLEASE</code>가 목표 임차 종류(<code>F_RDLCK</code>과 <code>F_UNLCK</code> 가운데 임차 종료자와 호환될 종류)를 반환한다.</p>
+<p>임차가 자발적으로 또는 강제적으로 제거 내지 격하되고 나면 임차 종료자의 시스템 호출이 블록에서 해제된 경우가 아니면 커널에서 임차 종료자의 시스템 호출이 계속 진행시킨다.</p>
+<p>임차 종료자가 블록돼 있던 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt> 내지 <tt><a class="wikilink" href="/man-pages-ko/truncate(2)/">truncate(2)</a></tt> 호출이 시그널 핸들러에 의해 중단되는 경우에는 시스템 호출이 <code>EINTR</code> 오류로 실패하되, 나머지 단계들이 위에서 설명한 대로 이뤄진다. <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt> 내지 <tt><a class="wikilink" href="/man-pages-ko/truncate(2)/">truncate(2)</a></tt>에서 블록돼 있는 중에 임차 종료자가 시그널에 의해 죽는 경우에는 나머지 단계들이 위에서 설명한 대로 이뤄진다. 임차 종료자가 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt> 호출 시 <code>O_NONBLOCK</code> 플래그를 지정한 경우에는 호출이 <code>EWOULDBLOCK</code> 오류로 즉시 실패하되, 나머지 단계들이 위에서 설명한 대로 이뤄진다.</p>
+<p>임차권 소유자에게 알리는 데 쓰는 기본 시그널은 <code>SIGIO</code>지만 <code>fcntl()</code>의 <code>F_SETSIG</code> 명령으로 바꿀 수 있다. <code>F_SETSIG</code> 명령을 (<code>SIGIO</code>를 지정해서라도) 수행하고 <code>SA_SIGINFO</code>를 써서 시그널 핸들러를 설정한 경우에는 핸들러에서 두 번째 인자로 <code>siginfo_t</code> 구조체를 받게 되며 그 인자의 <code>si_fd</code> 필드에 다른 프로세스가 접근한 임차 파일의 파일 디스크립터가 들어간다. (호출자가 여러 파일에 임차권을 가지고 있을 때 쓸모가 있다.)</p>
+<h3 id="dnotify">파일 및 디렉터리 변경 알림 (dnotify)</h3>
+<dl>
+<dt><code>F_NOTIFY</code> (<code>int</code>)</dt>
+<dd>
+<p>(리눅스 2.4부터) <code>fd</code>가 가리키는 디렉터리나 그 안의 파일이 바뀔 때 알려 준다. 알릴 이벤트를 <code>arg</code>에 지정하는데, 다음 비트를 0개 이상 OR 한 비트 마스크다.</p>
+<dl>
+<dt><code>DN_ACCESS</code></dt>
+<dd>파일에 접근했음. (<tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pread(2)/">pread(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/readv(2)/">readv(2)</a></tt> 등)</dd>
+<dt><code>DN_MODIFY</code></dt>
+<dd>파일을 변경했음. (<tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pwrite(2)/">pwrite(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/writev(2)/">writev(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/truncate(2)/">truncate(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ftruncate(2)/">ftruncate(2)</a></tt> 등)</dd>
+<dt><code>DN_CREATE</code></dt>
+<dd>파일을 생성했음. (<tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/creat(2)/">creat(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mknod(2)/">mknod(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/mkdir(2)/">mkdir(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/link(2)/">link(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/symlink(2)/">symlink(2)</a></tt>, 이 디렉터리로 <tt><a class="wikilink" href="/man-pages-ko/rename(2)/">rename(2)</a></tt>)</dd>
+<dt><code>DN_DELETE</code></dt>
+<dd>파일 링크를 끊었음. (<tt><a class="wikilink" href="/man-pages-ko/unlink(2)/">unlink(2)</a></tt>, 다른 디렉터리로 <tt><a class="wikilink" href="/man-pages-ko/rename(2)/">rename(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/rmdir(2)/">rmdir(2)</a></tt>)</dd>
+<dt><code>DN_RENAME</code></dt>
+<dd>이 디렉터리 안에서 파일 이름을 바꿨음. (<tt><a class="wikilink" href="/man-pages-ko/rename(2)/">rename(2)</a></tt>)</dd>
+<dt><code>DN_ATTRIB</code></dt>
+<dd>파일 속성을 바꿨음. (<tt><a class="wikilink" href="/man-pages-ko/chown(2)/">chown(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/chmod(2)/">chmod(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/utime(2)/">utime(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/utimensat(2)/">utimensat(2)</a></tt> 등)</dd>
+</dl>
+<p>(이 정의들을 얻으려면 헤더 파일을 포함시키기 전에 기능 검사 매크로 <code>_GNU_SOURCE</code>가 정의돼 있어야 한다.)</p>
+<p>디렉터리 알림은 기본적으로 "단발성"이며 추가 알림을 받으려면 응용에서 재등록을 해야 한다. 아니면 <code>arg</code>에 <code>DN_MULTISHOT</code>을 포함시키면 명시적으로 제거하기 전까지 알림 효력이 유지된다.</p>
+<p><code>F_NOTIFY</code> 요청을 연달아 하면 누적된다. 즉, <code>arg</code>의 이벤트들이 이미 감시 중인 이벤트 세트에 추가된다. 모든 이벤트 알림을 끄려면 <code>arg</code>를 0으로 해서 <code>F_NOTIFY</code> 호출을 하면 된다.</p>
+<p>시그널 전달을 통해 알림이 이뤄진다. 기본 시그널은 <code>SIGIO</code>지만 <code>fcntl()</code>의 <code>F_SETSIG</code> 명령으로 바꿀 수 있다. (참고로 <code>SIGIO</code>는 큐 처리가 없는 표준 시그널이다. 실시간 시그널을 쓰게 바꾸면 여러 알림이 큐처럼 처리되게 할 수 있다.) 바꾸는 경우 시그널 핸들러에서는 (<code>SA_SIGINFO</code>를 써서 핸들러를 설정했다면) 두 번째 인자로 <code>siginfo_t</code> 구조체를 받게 되며 그 구조체의 <code>si_fd</code> 필드에 알림을 발생시킨 파일 디스크립터가 들어간다. (여러 디렉터리에 알림을 설정할 때 쓸모가 있다.)</p>
+<p>특히 <code>DN_MULTISHOT</code>을 쓸 때는 알림에 실시간 시그널을 사용해서 여러 알림이 큐처럼 처리되게 하는 게 좋다.</p>
+<p><strong>참고</strong>: 신규 응용에서는 훨씬 우수한 파일 시스템 이벤트 알림 인터페이스를 제공하는 <em>inotify</em> 인터페이스(커널 2.6.13부터 이용 가능)를 쓰는 게 좋다. <tt><a class="wikilink" href="/man-pages-ko/inotify(7)/">inotify(7)</a></tt> 참고.)</p>
+</dd>
+</dl>
+<h3 id="_9">파이프의 용량 바꾸기</h3>
+<dl>
+<dt><code>F_SETPIPE_SZ</code> (<code>int</code>, 리눅스 2.6.35부터)</dt>
+<dd>
+<p><code>fd</code>가 가리키는 파이프의 용량을 최소 <code>arg</code> 바이트가 되도록 바꾼다. 비특권 프로세스는 시스템 페이지 크기와 <code>/proc/sys/fs/pipe-max-size</code>(<tt><a class="wikilink" href="/man-pages-ko/proc(5)/">proc(5)</a></tt> 참고)에 규정된 제한치 사이 아무 값으로나 파이프 용량을 조정할 수 있다. 페이지 크기보다 작게 파이프 용량을 설정하려 하면 조용히 페이지 크기로 올림된다. 비특권 프로세스가 <code>/proc/sys/fs/pipe-max-size</code>의 제한치보다 크게 파이프 용량을 설정하려 하면 <code>EPERM</code> 오류가 난다. 특권 프로세스(<code>CAP_SYS_RESOURCE</code>)는 그 제한을 넘을 수 있다.</p>
+<p>커널에서 파이프에 버퍼를 할당할 때 구현 편의를 위해 <code>arg</code>보다 큰 용량을 쓸 수도 있다. (현재 구현에선 요청 크기에 가장 가까운 2의 거듭제곱으로 올려서 할당한다.) 설정한 실제 (바이트 단위) 용량이 함수 결과로 반환된다.</p>
+<p>파이프 용량을 현재 파이프에서 데이터 저장에 쓰고 있는 버퍼 공간보다 작게 설정하려고 하면 <code>EBUSY</code> 오류가 발생한다.</p>
+<p>파이프에 데이터를 쓸 때 파이프 버퍼의 페이지들을 이용하는 방식 때문에 기록 크기에 따라선 기록할 수 있는 바이트 수가 명목 크기보다 작을 수도 있다.</p>
+</dd>
+<dt><code>F_GETPIPE_SZ</code> (<code>void</code>, 리눅스 2.6.35부터)</dt>
+<dd><code>fd</code>가 가리키는 파이프의 용량을 (함수 결과로) 반환한다.</dd>
+</dl>
+<h3 id="_10">파일 봉인</h3>
+<p>파일 봉인은 어떤 파일에 허용되는 동작들을 제한한다. 파일에 어떤 봉인을 설정하면 이후 그 파일에 대한 특정 동작들이 <code>EPERM</code>으로 실패하게 되며, 그 파일은 봉인되었다고 한다. 기본 봉인 세트는 기반 파일과 파일 시스템 종류에 따라 정해진다. 파일 봉인 소개와 그 용도 설명, 약간의 예시 코드를 <tt><a class="wikilink" href="/man-pages-ko/memfd_create(2)/">memfd_create(2)</a></tt>에서 볼 수 있다.</p>
+<p>현재는 (<code>MFD_ALLOW_SEALING</code>을 사용한) <tt><a class="wikilink" href="/man-pages-ko/memfd_create(2)/">memfd_create(2)</a></tt>가 반환한 파일 디스크립터에만 파일 봉인을 적용할 수 있다. 다른 파일 시스템에선 봉인에 대한 모든 <code>fcntl()</code> 동작이 <code>EINVAL</code>을 반환한다.</p>
+<p>봉인은 아이노드의 속성이다. 따라서 같은 아이노드를 가리키는 모든 열린 파일 디스크립터들이 같은 봉인 세트를 공유한다. 그리고 봉인은 추가만 되고 절대 제거할 수 없다.</p>
+<dl>
+<dt><code>F_ADD_SEALS</code> (<code>int</code>, 리눅스 3.17부터)</dt>
+<dd>비트 마스크 인자 <code>arg</code>에 준 봉인들을 파일 디스크립터 <code>fd</code>가 가리키는 아이노드의 봉인 세트에 추가한다. 봉인을 다시 제거할 수 없다. 이 호출이 성공하면 커널에서 즉시 그 봉인들을 강제한다. 현재 봉인 세트에 <code>F_SEAL_SEAL</code>(아래 참고)이 들어 있으면 이 호출이 <code>EPERM</code>으로 거부된다. <code>F_SEAL_SEAL</code>이 설정돼 있지 않을 때 이미 설정된 봉인을 추가하면 아무 일도 일어나지 않는다. 봉인을 추가하려면 파일 디스크립터 <code>fd</code>가 쓰기 가능해야 한다.</dd>
+<dt><code>F_GET_SEALS</code> (<code>void</code>, 리눅스 3.17부터)</dt>
+<dd><code>fd</code>가 가리키는 아이노드의 현재 봉인 세트를 (함수 결과로) 반환한다. 설정된 봉인이 없으면 0을 반환한다. 파일에서 봉인을 지원하지 않으면 -1을 반환하며 <code>errno</code>를 <code>EINVAL</code>로 설정한다.</dd>
+</dl>
+<p>다음 봉인들이 있다.</p>
+<dl>
+<dt><code>F_SEAL_SEAL</code></dt>
+<dd>이 봉인이 설정돼 있으면 이후 <code>F_ADD_SEALS</code>를 쓴 <code>fcntl()</code> 호출이 <code>EPERM</code> 오류로 실패한다. 그래서 이 봉인은 봉인 세트 자체의 변경을 막는다. 파일의 최초 봉인 세트에 <code>F_SEAL_SEAL</code>이 포함돼 있으면 실질적으로 봉인 세트가 고정돼서 잠겨지게 된다.</dd>
+<dt><code>F_SEAL_SHRINK</code></dt>
+<dd>이 봉인이 설정돼 있으면 해당 파일의 크기를 줄일 수 없다. <code>O_TRUNC</code> 플래그를 쓴 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>, 그리고 <tt><a class="wikilink" href="/man-pages-ko/truncate(2)/">truncate(2)</a></tt>와 <tt><a class="wikilink" href="/man-pages-ko/ftruncate(2)/">ftruncate(2)</a></tt>에 영향을 준다. 해당 파일을 줄이려고 하면 그 호출이 <code>EPERM</code>으로 실패한다. 파일 크기를 늘이는 건 가능하다.</dd>
+<dt><code>F_SEAL_GROW</code></dt>
+<dd>이 봉인이 설정돼 있으면 해당 파일의 크기를 늘일 수 없다. 파일 끝 너머 <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/truncate(2)/">truncate(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ftruncate(2)/">ftruncate(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fallocate(2)/">fallocate(2)</a></tt>에 영향을 준다. 이를 이용해 파일 크기를 늘이려고 하면 그 호출이 <code>EPERM</code>으로 실패한다. 크기를 유지하거나 줄이는 경우에는 기대하는 대로 동작한다.</dd>
+<dt><code>F_SEAL_WRITE</code></dt>
+<dd>
+<p>이 봉인이 설정돼 있으면 파일 내용물을 변경할 수 없다. 하지만 파일 크기를 줄이거나 늘이는 게 여전히 가능하고 허용된다. 그래서 보통 이 봉인은 다른 봉인과 조합해서 쓴다. <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt>와 (<code>FALLOC_FL_PUNCH_HOLE</code> 플래그를 쓴 경우에 한해) <tt><a class="wikilink" href="/man-pages-ko/fallocate(2)/">fallocate(2)</a></tt>에 영향을 준다. 이 봉인이 설정돼 있으면 그 호출이 <code>EPERM</code>으로 실패한다. 또한 <tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt>을 통해 쓰기 가능 공유 메모리 매핑을 새로 만들려고 하면 <code>EPERM</code>으로 실패하게 된다.</p>
+<p>쓰기 가능 공유 메모리 매핑이 존재하는 경우 <code>F_SEAL_WRITE</code>를 <code>F_ADD_SEALS</code> 동작으로 설정하려 하면 <code>EBUSY</code>로 실패한다. 이 봉인을 추가하려면 먼저 그런 매핑을 해제해야 한다. 또한 파일에 대기 중인 비동기 I/O 동작(<tt><a class="wikilink" href="/man-pages-ko/io_submit(2)/">io_submit(2)</a></tt>)이 있으면 미완료 쓰기 동작이 모두 파기된다.</p>
+</dd>
+<dt><code>F_SEAL_FUTURE_WRITE</code> (리눅스 5.1부터)</dt>
+<dd>
+<p>이 봉인의 효과는 <code>F_SEAL_WRITE</code>와 비슷하되, 봉인 설정 전에 만들어진 쓰기 가능 공유 매핑을 통해선 파일 내용물을 변경할 수 있다. <tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt>을 통해 쓰기 가능 공유 매핑을 새로 만들려고 하면 <code>EPERM</code>으로 실패하게 된다. 마찬가지로 <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt>를 통해 파일에 쓰기를 하려고 하면 <code>EPERM</code>으로 실패하게 된다.</p>
+<p>이 봉인을 이용하면 한 프로세스에서 메모리 버퍼를 만들어 계속해서 변경을 하면서도 그 버퍼를 다른 프로세스들과 "읽기 전용" 방식으로 공유할 수 있다.</p>
+</dd>
+</dl>
+<h3 id="_11">파일 읽기/쓰기 힌트</h3>
+<p>쓰기 수명 힌트를 사용하면 지정한 아이노드에서의, 또는 특정 열린 파일 기술 항목을 통한 쓰기의 상대적 예상 수명에 대해 커널에게 알려 줄 수 있다. (열린 파일 기술 항목에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt> 참고.) 이 맥락에서 "쓰기의 수명"이란 매체 상에서 그 데이터가 덮어 써지거나 삭제되기까지 예상 시간을 뜻한다.</p>
+<p>아래 명세된 다양한 힌트 값들을 사용해 응용에서 쓰기 요청들을 다양한 클래스로 나눠서 한 저장 백엔드 상에서 도는 여러 사용자 내지 응용들의 I/O 패턴을 일관적 방식으로 종합할 수 있다. 하지만 이 플래그들에는 어떤 기능적 의미도 함의돼 있지 않으며, 다양한 I/O 클래스들에선 일관적이기만 하다면 쓰기 수명 힌트를 각자의 방식으로 이용할 수 있다.</p>
+<p>파일 디스크립터 <code>fd</code>에 다음 동작들을 적용할 수 있다.</p>
+<dl>
+<dt><code>F_GET_RW_HINT</code> (<code>uint64_t *</code>, 리눅스 4.13부터)</dt>
+<dd><code>fd</code>가 가리키는 기반 아이노드에 연계된 읽기/쓰기 힌트 값을 반환한다.</dd>
+<dt><code>F_SET_RW_HINT</code> (<code>uint64_t *</code>, 리눅스 4.13부터)</dt>
+<dd><code>fd</code>가 가리키는 기반 아이노드에 연계된 읽기/쓰기 힌트 값을 설정한다. 명시적으로 바꾸거나 기반 파일 시스템이 언마운트될 때까지 힌트가 지속된다.</dd>
+<dt><code>F_GET_FILE_RW_HINT</code> (<code>uint64_t *</code>, 리눅스 4.13부터)</dt>
+<dd><code>fd</code>가 가리키는 열린 파일 기술 항목에 연계된 읽기/쓰기 힌트 값을 반환한다.</dd>
+<dt><code>F_SET_FILE_RW_HINT</code> (<code>uint64_t *</code>, 리눅스 4.13부터)</dt>
+<dd><code>fd</code>가 가리키는 열린 파일 기술 항목에 연계된 읽기/쓰기 힌트 값을 설정한다.</dd>
+</dl>
+<p>열린 파일 기술 항목에 읽기/쓰기 힌트를 지정하지 않으면 아이노드에 지정된 값을 쓴다.</p>
+<p>리눅스 4.13부터 다음 읽기/쓰기 힌트들이 유효하다.</p>
+<dl>
+<dt><code>RWH_WRITE_LIFE_NOT_SET</code></dt>
+<dd>어떤 힌트도 설정돼 있지 않다. 기본값이다.</dd>
+<dt><code>RWH_WRITE_LIFE_NONE</code></dt>
+<dd>이 파일 내지 아이노드에 어떤 구체적 쓰기 수명도 연계돼 있지 않다.</dd>
+<dt><code>RWH_WRITE_LIFE_SHORT</code></dt>
+<dd>이 아이노드에 또는 이 열린 파일 기술 항목을 통해 기록한 데이터가 수명이 짧을 것으로 예상된다.</dd>
+<dt><code>RWH_WRITE_LIFE_MEDIUM</code></dt>
+<dd>이 아이노드에 또는 이 열린 파일 기술 항목을 통해 기록한 데이터가 <code>RWH_WRITE_LIFE_SHORT</code>으로 기록한 데이터보다 수명이 길 것으로 예상된다.</dd>
+<dt><code>RWH_WRITE_LIFE_LONG</code></dt>
+<dd>이 아이노드에 또는 이 열린 파일 기술 항목을 통해 기록한 데이터가 <code>RWH_WRITE_LIFE_MEDIUM</code>으로 기록한 데이터보다 수명이 길 것으로 예상된다.</dd>
+<dt><code>RWH_WRITE_LIFE_EXTREME</code></dt>
+<dd>이 아이노드에 또는 이 열린 파일 기술 항목을 통해 기록한 데이터가 <code>RWH_WRITE_LIFE_LONG</code>으로 기록한 데이터보다 수명이 길 것으로 예상된다.</dd>
+</dl>
+<p>쓰기용 힌트들은 서로에 대해 상대적인 값일 뿐이며 개별적으로 절대적 의미를 부여해선 안 된다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>호출 성공 시 반환 값은 동작에 따라 정해진다.</p>
+<dl>
+<dt><code>F_DUPFD</code></dt>
+<dd>새 파일 디스크립터.</dd>
+<dt><code>F_GETFD</code></dt>
+<dd>파일 디스크립터 플래그 값.</dd>
+<dt><code>F_GETFL</code></dt>
+<dd>파일 상태 플래그 값.</dd>
+<dt><code>F_GETLEASE</code></dt>
+<dd>파일 디스크립터에 잡아 둔 임차권 종류.</dd>
+<dt><code>F_GETOWN</code></dt>
+<dd>파일 디스크립터 소유자 값.</dd>
+<dt><code>F_GETSIG</code></dt>
+<dd>읽기나 쓰기가 가능해질 때 전송되는 시그널 값. 전통적인 <code>SIGIO</code> 동작이면 0.</dd>
+<dt><code>F_GETPIPE_SZ</code>, <code>F_SETPIPE_SZ</code></dt>
+<dd>파이프 용량.</dd>
+<dt><code>F_GET_SEALS</code></dt>
+<dd><code>fd</code>가 가리키는 아이노드에 설정된 봉인들을 나타내는 비트 마스크.</dd>
+<dt>다른 모든 명령</dt>
+<dd>0.</dd>
+</dl>
+<p>오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
+<h2 id="errors">ERRORS</h2>
+<dl>
+<dt><code>EACCES</code> 또는 <code>EAGAIN</code></dt>
+<dd>다른 프로세스가 잡은 락 때문에 동작을 수행할 수 없다.</dd>
+<dt><code>EAGAIN</code></dt>
+<dd>파일을 다른 프로세스가 메모리 매핑했기 때문에 동작을 수행할 수 없다.</dd>
+<dt><code>EBADF</code></dt>
+<dd><code>fd</code>가 열린 파일 디스크립터가 아니다.</dd>
+<dt><code>EBADF</code></dt>
+<dd><code>cmd</code>가 <code>F_SETLK</code>나 <code>F_SETLKW</code>이고 파일 디스크립터 열기 모드가 요청한 락 종류와 맞지 않는다.</dd>
+<dt><code>EBUSY</code></dt>
+<dd><code>cmd</code>가 <code>F_SETPIPE_SZ</code>이고 <code>arg</code>에 지정한 새 파이프 용량이 현재 파이프에서 데이터 저장에 쓰고 있는 버퍼 공간보다 작다.</dd>
+<dt><code>EBUSY</code></dt>
+<dd><code>cmd</code>가 <code>F_ADD_SEALS</code>이고 <code>arg</code>에 <code>F_SEAL_WRITE</code>가 포함돼 있는데 <code>fd</code>가 가리키는 파일에 쓰기 가능 공유 매핑이 존재한다.</dd>
+<dt><code>EDEADLK</code></dt>
+<dd>지정한 <code>F_SETLKW</code> 명령이 교착을 유발하게 됨을 탐지했다.</dd>
+<dt><code>EFAULT</code></dt>
+<dd><code>lock</code>이 접근 가능한 주소 공간 밖에 있다.</dd>
+<dt><code>EINTR</code></dt>
+<dd><code>cmd</code>가 <code>F_SETLKW</code>나 <code>F_OFD_SETLKW</code>이고 동작이 시그널에 의해 중단됐다. <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt> 참고.</dd>
+<dt><code>EINTR</code></dt>
+<dd><code>cmd</code>가 <code>F_GETLK</code>나 <code>F_SETLK</code>, <code>F_OFD_GETLK</code>, <code>F_OFD_SETLK</code>이고 락을 확인 내지 획득하기 전에 동작이 시그널에 의해 중단됐다. 주로 원격 파일을 잠글 때 (가령 NFS 상에서 잠글 때) 발생하지만 때로는 지역적으로도 발생할 수 있다.</dd>
+<dt><code>EINVAL</code></dt>
+<dd><code>cmd</code>에 지정한 값을 이 커널에서 알지 못한다.</dd>
+<dt><code>EINVAL</code></dt>
+<dd><code>cmd</code>가 <code>F_ADD_SEALS</code>이고 <code>arg</code>에 알 수 없는 봉인 비트가 포함돼 있다.</dd>
+<dt><code>EINVAL</code></dt>
+<dd><code>cmd</code>가 <code>F_ADD_SEALS</code>나 <code>F_GET_SEALS</code>이고 <code>fd</code>가 가리키는 아이노드를 담은 파일 시스템에서 봉인을 지원하지 않는다.</dd>
+<dt><code>EINVAL</code></dt>
+<dd><code>cmd</code>가 <code>F_DUPFD</code>이고 <code>arg</code>가 음수거나 최대 허용 값보다 크다. (<tt><a class="wikilink" href="/man-pages-ko/getrlimit(2)/">getrlimit(2)</a></tt>의 <code>RLIMIT_NOFILE</code> 설명 참고.)</dd>
+<dt><code>EINVAL</code></dt>
+<dd><code>cmd</code>가 <code>F_SETSIG</code>이고 <code>arg</code>가 허용되는 시그널 번호가 아니다.</dd>
+<dt><code>EINVAL</code></dt>
+<dd><code>cmd</code>가 <code>F_OFD_SETLK</code>나 <code>F_OFD_SETLKW</code>, <code>F_OFD_GETLK</code>이고 <code>l_pid</code>를 0으로 지정하지 않았다.</dd>
+<dt><code>EMFILE</code></dt>
+<dd><code>cmd</code>가 <code>F_DUPFD</code>이고 열린 파일 디스크립터 개수에 대한 프로세스별 제한에 도달했다.</dd>
+<dt><code>ENOLCK</code></dt>
+<dd>열린 파일 구간 락이 너무 많다. 또는 락 테이블이 가득 찼다. 또는 (가령 NFS를 통한 락킹에서) 원격 락킹 프로토콜이 실패했다.</dd>
+<dt><code>ENOTDIR</code></dt>
+<dd><code>cmd</code>에 <code>F_NOTIFY</code>를 지정했는데 <code>fd</code>가 디렉터리를 가리키지 않는다.</dd>
+<dt><code>EPERM</code></dt>
+<dd><code>cmd</code>가 <code>F_SETPIPE_SZ</code>이고 사용자 파이프에 대한 연성 또는 경성 제한에 도달했다. <tt><a class="wikilink" href="/man-pages-ko/pipe(7)/">pipe(7)</a></tt> 참고.</dd>
+<dt><code>EPERM</code></dt>
+<dd>덧붙이기 전용 속성이 설정된 파일에서 <code>O_APPEND</code> 플래그를 없애려고 시도했다.</dd>
+<dt><code>EPERM</code></dt>
+<dd><code>cmd</code>가 <code>F_ADD_SEALS</code>인데 <code>fd</code>가 쓰기용으로 열리지 않았거나 파일의 현재 봉인 세트에 <code>F_SEAL_SEAL</code>이 이미 포함돼 있다.</dd>
+</dl>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>SVr4, 4.3BSD, POSIX.1-2001. POSIX.1-2001에서는 <code>F_DUPFD</code>, <code>F_GETFD</code>, <code>F_SETFD</code>, <code>F_GETFL</code>, <code>F_SETFL</code>, <code>F_GETLK</code>, <code>F_SETLK</code>, <code>F_SETLKW</code> 동작만 명세하고 있다.</p>
+<p><code>F_GETOWN</code>과 <code>F_SETOWN</code>을 POSIX.1-2001에서 명세하고 있다. (그 정의를 얻으려면 <code>_XOPEN_SOURCE</code>를 500 이상 값으로 정의하거나 <code>_POSIX_C_SOURCE</code>를 200809L 이상 값으로 정의해야 한다.)</p>
+<p><code>F_DUPFD_CLOEXEC</code>는 POSIX.1-2008에 정의되어 있다. (그 정의를 얻으려면 <code>_POSIX_C_SOURCE</code>를 200809L 이상 값으로 정의하거나 <code>_XOPEN_SOURCE</code>를 700 이상 값으로 정의해야 한다.)</p>
+<p><code>F_GETOWN_EX</code>, <code>F_SETOWN_EX</code>, <code>F_SETPIPE_SZ</code>, <code>F_GETPIPE_SZ</code>, <code>F_GETSIG</code>, <code>F_SETSIG</code>, <code>F_NOTIFY</code>, <code>F_GETLEASE</code>, <code>F_SETLEASE</code>는 리눅스 전용이다. (그 정의를 얻으려면 <code>_GNU_SOURCE</code> 매크로를 정의해야 한다.)</p>
+<p><code>F_OFD_SETLK</code>, <code>F_OFD_SETLKW</code>, <code>F_OFD_GETLK</code>는 리눅스 전용이다. (그리고 그 정의를 얻으려면 <code>_GNU_SOURCE</code>를 정의해야 한다.) 하지만 POSIX.1 다음 버전에 포함시키려는 작업이 진행 중이다.</p>
+<p><code>F_ADD_SEALS</code>와 <code>F_GET_SEALS</code>는 리눅스 전용이다.</p>
+<h2 id="notes">NOTES</h2>
+<p><tt><a class="wikilink" href="/man-pages-ko/dup2(2)/">dup2(2)</a></tt>가 반환하는 오류가 <code>F_DUPFD</code>가 반환하는 오류와 다르다.</p>
+<h3 id="_12">파일 락</h3>
+<p>리눅스의 원래 <code>fcntl()</code> 시스템 호출은 (<code>flock</code> 구조체에서) 큰 파일 오프셋을 다룰 수 있도록 설계되지 않았다. 그래서 리눅스 2.4에서 <code>fcntl64()</code> 시스템 호출이 추가됐다. 새 시스템 호출에선 파일 락킹에 <code>flock64</code>라는 다른 구조체를 사용하며, 대응하는 <code>F_GETLK64</code>, <code>F_SETLK64</code>, <code>F_SETLKW64</code> 명령을 사용한다. 하지만 glibc를 쓰는 응용에서는 이런 세부 사항을 무시할 수 있다. glibc의 <code>fcntl()</code> 래퍼에서 이용 가능한 경우에 투명하게 최신 시스템 호출을 이용하기 때문이다.</p>
+<h3 id="_13">레코드 락</h3>
+<p>커널 2.0부터 <tt><a class="wikilink" href="/man-pages-ko/flock(2)/">flock(2)</a></tt>으로 두는 락과 <code>fcntl()</code>로 두는 락 사이에 어떤 상호작용도 없다.</p>
+<p>여러 시스템에는 <code>struct flock</code>에 <code>l_sysid</code>(락을 잡은 머신 식별) 같은 추가 필드들이 있다. 락을 잡은 프로세스가 다른 머신에 있다면 분명 <code>l_pid</code>만으로는 별 쓸모가 없을 것이다. 리눅스에선 이 필드가 없다. 다만 (MIPS32 같은) 일부 아키텍처에는 있다.</p>
+<p>리눅스의 원래 <code>fcntl()</code> 시스템 호출은 (<code>flock</code> 구조체에서) 큰 파일 오프셋을 다룰 수 있도록 설계되지 않았다. 그래서 리눅스 2.4에서 <code>fcntl64()</code> 시스템 호출이 추가됐다. 새 시스템 호출에선 파일 락킹에 <code>flock64</code>라는 다른 구조체를 사용하며, 대응하는 <code>F_GETLK64</code>, <code>F_SETLK64</code>, <code>F_SETLKW64</code> 명령을 사용한다. 하지만 glibc를 쓰는 응용에서는 이런 세부 사항을 무시할 수 있다. glibc의 <code>fcntl()</code> 래퍼에서 이용 가능한 경우에 투명하게 최신 시스템 호출을 이용하기 때문이다.</p>
+<h3 id="nfs">레코드 락과 NFS</h3>
+<p>리눅스 3.12 전에선 NFSv4 클라이언트가 일정 시간 동안 서버와 접속이 끊기면 (90초 넘게 통신이 없으면) 알아채지도 못하게 락을 잃었다가 다시 획득하게 될 수도 있었다. (접속이 끊겼다고 보는 그 시간을 NFSv4 임대 시간이라고 한다. 리눅스 NFS 서버에선 <code>/proc/fs/nfsd/nfsv4leasetime</code>을 보면 그 시간을 알 수 있다. 그 파일의 기본값은 90이다.) 그 사이 시간에 다른 프로세스가 락을 획득해서 파일 I/O를 수행할 수도 있으므로 이 시나리오에는 데이터 오염 위험이 있다.</p>
+<p>리눅스 3.12부터는 NFSv4 클라이언트가 서버와 접속이 끊기면 프로세스가 파일을 닫고 다시 열기 전까지는 그 프로세스가 락을 가지고 있다고 "알고 있는" 파일에 대한 I/O가 모두 실패하게 된다. 커널 매개변수 <code>nfs.recover_lost_locks</code>를 1로 설정하면 3.12 전의 동작 방식을 살릴 수 있고, 그러면 서버와 접속이 재수립될 때 클라이언트가 잃었던 락을 복구하려 시도하게 된다. 수반되는 데이터 오염 위험 때문에 이 매개변수 기본값은 0(꺼짐)이다.</p>
+<h2 id="bugs">BUGS</h2>
+<h3 id="f_setfl"><code>F_SETFL</code></h3>
+<p><code>F_SETFL</code>로 <code>O_DSYNC</code>나 <code>O_SYNC</code> 플래그의 상태를 바꾸는 게 불가능하다. 그 플래그들의 상태를 바꾸려고 하면 조용히 무시된다.</p>
+<h3 id="f_getown"><code>F_GETOWN</code></h3>
+<p>리눅스 시스템 호출 규약의 제한 때문에 일부 아키텍처(특히 i386)에서는 <code>F_GETOWN</code>이 반환할 (음수) 프로세스 그룹 ID가 -1에서 -4095 범위에 있는 경우 glibc에서 그 반환 값을 시스템 호출 오류로 잘못 해석한다. 즉, <code>fcntl()</code>의 반환 값이 -1이 되고 <code>errno</code>가 (양수) 프로세스 그룹 ID를 담게 된다. 리눅스 전용인 <code>F_GETOWN_EX</code> 동작으로 이 문제를 피할 수 있다. glibc 버전 2.11부터는 <code>F_GETOWN_EX</code>로 <code>F_GETOWN</code>을 구현하기 때문에 <code>F_GETOWN</code> 문제가 드러나지 않는다.</p>
+<h3 id="f_setown"><code>F_SETOWN</code></h3>
+<p>리눅스 2.4까지에는 비특권 프로세스가 <code>F_SETOWN</code>으로 소켓 파일 디스크립터의 소유자를 호출자 외의 프로세스 (그룹)으로 지정할 때 발생할 수 있는 버그가 있다. 그 경우에 소유자 프로세스 (그룹)에게 호출자가 시그널을 보낼 권한이 있는 경우에도 <code>fcntl()</code>이 -1을 반환하고 <code>errno</code>를 <code>EPERM</code>으로 설정할 수 있다. 그 오류가 반환되더라도 파일 디스크립터 소유자는 설정이 돼서 그 소유자에게 시그널이 전송된다.</p>
+<h3 id="_14">교착 탐지</h3>
+<p><code>F_SETLKW</code> 요청을 다룰 때 커널에서 쓰는 교착 탐지 알고리즘에서 위음성 결과(교착 탐지에 실패해서 교착된 프로세스들이 무한정 블록)와 위양성 결과(교착이 없는데 <code>EDEADLK</code> 오류)가 나올 수 있다. 예를 들어 커널에서 락 의존성 탐색 깊이를 10단계로 제한하고 있는데, 그래서 그 크기를 넘는 순환 교착 고리를 탐지하게 못하게 된다. 그리고 <tt><a class="wikilink" href="/man-pages-ko/clone(2)/">clone(2)</a></tt>의 <code>CLONE_FILES</code> 플래그를 써서 생성된 둘 이상의 프로세스에서 (커널 관점에서) 충돌하는 것처럼 보이는 락을 두는 경우에 커널이 교착이라고 잘못 판단할 수 있다.</p>
+<h3 id="_15">강제형 락</h3>
+<p>리눅스의 강제형 락 구현에는 경쟁 조건이 있기 때문에 믿을 만하지 않다. 락과 범위가 겹치는 <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt> 호출이 락 획득 후에 데이터를 변경할 수 있으며, 락과 범위가 겹치는 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt> 호출이 쓰기 락 획득 후에만 이뤄질 수 있을 데이터 변경을 탐지하게 될 수 있다. 강제형 락과 <tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt> 사이에도 비슷한 경쟁이 존재한다. 따라서 강제형 락킹에 의지하지 않는 게 좋다.</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt><a class="wikilink" href="/man-pages-ko/dup2(2)/">dup2(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/flock(2)/">flock(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/socket(2)/">socket(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/lockf(3)/">lockf(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/capabilities(7)/">capabilities(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/lslocks(8)/">lslocks(8)</a></tt></p>
+<p>리눅스 커널 소스 디렉터리 <code>Documentation/filesystems/</code>의 <code>locks.txt</code>, <code>mandatory-locking.txt</code>, <code>dnotify.txt</code> (옛날 커널에선 이 파일들이 <code>Documentation/</code> 디렉터리에 있으며 <code>mandatory-locking.txt</code>가 <code>mandatory.txt</code>다.)</p>
+<hr />
+<p>2021-03-22</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/pam_faillock%288%29/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>pam_faillock(8) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#options">OPTIONS</a></li>
+        <li class="first-level "><a href="#_1">제공하는 모듈 종류</a></li>
+        <li class="first-level "><a href="#return-values">RETURN VALUES</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
+        <li class="first-level "><a href="#files">FILES</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+        <li class="first-level "><a href="#author">AUTHOR</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>pam_faillock - 지정한 기간 동안 인증 실패 횟수를 세는 모듈</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre>
+<strong>auth ... pam_faillock.so</strong> {preauth|authfail|authsucc}
+                         [conf=<em>/path/to/config-file</em>]
+                         [dir=<em>/path/to/tally-directory</em>] [even_deny_root]
+                         [deny=<em>n</em>] [fail_interval=<em>n</em>] [unlock_time=<em>n</em>]
+                         [root_unlock_time=<em>n</em>] [admin_group=<em>name</em>] [audit]
+                         [silent] [no_log_info]
+
+<strong>account ... pam_faillock.so</strong> [dir=<em>/path/to/tally-directory</em>] [no_log_info]
+</pre>
+
+<h2 id="description">DESCRIPTION</h2>
+<p>이 모듈은 실패한 인증 시도 목록을 지정한 시간 동안 사용자별로 유지해서 연속으로 <em>deny</em> 번 넘게 인증이 실패한 경우 계정을 잠근다.</p>
+<p>서비스 거부를 방지하기 위해 기본적으로 <em>root</em>는 인증 시도가 실패해도 계정을 차단하지 <strong>않는다</strong>. 사용자들에게 셸 계정을 주지 않으며 <code>su</code>나 (telnet/rsh 등이 아닌) 장비 콘솔을 통해서만 root가 로그인할 수 있다면 이렇게 해도 안전하다.</p>
+<h2 id="options">OPTIONS</h2>
+<dl>
+<dt><code>{preauth|authfail|authsucc}</code></dt>
+<dd>
+<p>PAM 스택에서 모듈 인스턴스의 위치에 따라 이 인자를 설정해야 한다.</p>
+<p>패스워드 같은 사용자 크리덴셜을 묻는 모듈 앞에서 이 모듈을 호출할 때 <code>preauth</code> 인자를 써야 한다. 그러면 최근에 비정상적으로 많이 연속으로 인증이 실패해서 사용자가 서비스에 접근하지 못하게 차단해야 하는지 여부만 검사한다. <code>authsucc</code>를 쓴다면 이 호출을 하지 않아도 된다.</p>
+<p>인증 결과가 실패라고 판단하는 모듈 다음에서 이 모듈을 호출할 때 <code>authfail</code> 인자를 써야 한다. 앞선 인증 실패로 인해 사용자가 이미 차단돼 있는 경우가 아니면 적절한 사용자별 기록 파일에 실패를 기록한다.</p>
+<p>인증 결과가 성공이라고 판단하는 모듈 다음에서 이 모듈을 호출할 때 <code>authsucc</code> 인자를 써야 한다. 앞선 인증 실패로 인해 사용자가 이미 차단돼 있는 경우가 아니면 사용자별 기록 파일에서 실패 기록을 모두 지운다. 이미 차단돼 있는 경우라면 인증 오류를 반환한다. 이 호출을 하지 않으면 pam_faillock에서 연속 인증 실패와 불연속 실패를 구별할 수 없게 된다. 그 경우에는 <code>preauth</code> 호출을 해 줘야 한다. PAM 스택 구성의 어떤 이유 때문에 <em>pam_faillock</em>을 account 모듈로 호출하는 것도 가능하다. 그 구성에선 <code>preauth</code> 단계에서도 모듈을 호출해야 한다.</p>
+</dd>
+<dt><code>conf=/path/to/config-file</code></dt>
+<dd>기본 설정 파일 /etc/security/faillock.conf 대신 다른 파일을 쓴다.</dd>
+</dl>
+<p>모듈 동작을 설정하는 옵션들을 <tt><a class="wikilink" href="/man-pages-ko/faillock.conf(5)/">faillock.conf(5)</a></tt> 맨 페이지에서 설명한다. 설정 파일의 값보다 모듈 명령행에 지정한 옵션이 우선한다.</p>
+<h2 id="_1">제공하는 모듈 종류</h2>
+<p><strong>auth</strong> 및 <strong>account</strong> 모듈 타입을 제공한다.</p>
+<h2 id="return-values">RETURN VALUES</h2>
+<dl>
+<dt><code>PAM_AUTH_ERR</code></dt>
+<dd>유효하지 않은 옵션을 줬거나, 모듈에서 사용자 이름을 얻을 수 없거나, 유효한 카운터 파일을 찾을 수 없거나, 너무 많은 로그인 실패.</dd>
+<dt><code>PAM_BUF_ERR</code></dt>
+<dd>메모리 버퍼 오류.</dd>
+<dt><code>PAM_CONV_ERR</code></dt>
+<dd>응용에서 제공한 대화 함수에서 사용자명을 얻는 데 실패했다.</dd>
+<dt><code>PAM_INCOMPLETE</code></dt>
+<dd>응용에서 제공한 대화 함수에서 PAM_CONV_AGAIN을 반환했다.</dd>
+<dt><code>PAM_SUCCESS</code></dt>
+<dd>성공적으로 동작했음.</dd>
+<dt><code>PAM_IGNORE</code></dt>
+<dd>passwd 데이터베이스에 사용자가 없음.</dd>
+</dl>
+<h2 id="notes">NOTES</h2>
+<p>모듈 명령행에 옵션을 지정하는 걸 권하지 않는다. 대신 /etc/security/faillock.conf를 이용하는 게 좋다.</p>
+<p>PAM 스택에서 <em>pam_faillock</em>의 동작 구조가 <em>pam_tally</em> 모듈과 다르다.</p>
+<p>사용자별로 실패 기록을 담은 파일이 그 사용자를 소유자로 해서 따로 만들어진다. 그래서 스크린세이버에서 호출할 때도 <code>pam_faillock.so</code> 모듈이 잘 동작하게 된다.</p>
+<p>모르는 사용자에 대해선 실패를 기록하지 않기 때문에 /etc/security/faillock.conf에 <code>silent</code> 옵션을 지정하지 않고서, 또는 control 필드를 <code>requisite</code>로 해서 <code>preauth</code>로 이 모듈을 사용하면 시스템에 어떤 사용자 계정이 존재하는지 여부에 대한 정보가 누출된다. 존재하지 않는 사용자 계정에 대해선 사용자 계정이 잠긴다는 메시지가 절대 표시되지 않으므로 특정 계정이 시스템에 존재하지 않는다는 걸 공격자가 추론할 수 있게 된다.</p>
+<h2 id="examples">EXAMPLES</h2>
+<p>다음은 /etc/pam.d/login에 가능한 두 가지 예시 설정이다. 기본 시간인 15분 동안 4번 연속으로 로그인이 실패한 다음에 <em>pam_faillock</em>에서 계정을 잠그게 한다. root 계정은 잠기지 않는다. 20분 후에 자동으로 계정 잠금이 풀린다.</p>
+<p>첫 번째 예에선 <em>auth</em> 단계에서만 모듈을 호출하며 <em>pam_faillock</em>에 의해 잠기는 계정에 대한 정보를 찍지 않는다. 계정이 잠겼을 때 사용자에게 로그인이 차단돼 있다는 걸 알려 주고 인증을 중단해서 패스워드를 묻지도 않게 하고 싶다면 <code>preauth</code> 호출을 추가하면 된다.</p>
+<p><code>/etc/security/faillock.conf</code> 파일 예시:</p>
+<pre><code class="language-config">deny=4
+unlock_time=1200
+silent
+</code></pre>
+<p><code>/etc/pam.d/login</code> 파일 예시:</p>
+<pre><code class="language-text">auth     required       pam_securetty.so
+auth     required       pam_env.so
+auth     required       pam_nologin.so
+# 계정 잠금에 대한 메시지를 표시하려면:
+# auth requisite pam_faillock.so preauth
+auth     [success=1 default=bad] pam_unix.so
+auth     [default=die]  pam_faillock.so authfail
+auth     sufficient     pam_faillock.so authsucc
+auth     required       pam_deny.so
+account  required       pam_unix.so
+password required       pam_unix.so shadow
+session  required       pam_selinux.so close
+session  required       pam_loginuid.so
+session  required       pam_unix.so
+session  required       pam_selinux.so open
+</code></pre>
+<p>두 번째 예에선 <em>auth</em> 단계와 <em>account</em> 단계 모두에서 모듈을 호출한다. faillock.conf에 <code>silent</code> 옵션이 지정돼 있지 않으면 계정이 잠겨 있다는 걸 인증 시도 사용자에게 알려 준다.</p>
+<pre><code class="language-text">auth     required       pam_securetty.so
+auth     required       pam_env.so
+auth     required       pam_nologin.so
+auth     required       pam_faillock.so preauth
+# 잠긴 계정에 패스워드를 묻지 않고 싶다면 위 행을 requisite로
+auth     sufficient     pam_unix.so
+auth     [default=die]  pam_faillock.so authfail
+auth     required       pam_deny.so
+account  required       pam_faillock.so
+# 위의 pam_faillock.so 호출이 빠지면 연속이 아닌 인증 실패에
+# 대해서도 잠금이 이뤄진다.
+account  required       pam_unix.so
+password required       pam_unix.so shadow
+session  required       pam_selinux.so close
+session  required       pam_loginuid.so
+session  required       pam_unix.so
+session  required       pam_selinux.so open
+</code></pre>
+<h2 id="files">FILES</h2>
+<dl>
+<dt><code>/var/run/faillock/*</code></dt>
+<dd>사용자 인증 실패를 기록하는 파일들</dd>
+<dt><code>/etc/security/faillock.conf</code></dt>
+<dd>pam_faillock 옵션 설정 파일</dd>
+</dl>
+<h2 id="see-also">SEE ALSO</h2>
+<p><code>faillock(8)</code>, <tt><a class="wikilink" href="/man-pages-ko/faillock.conf(5)/">faillock.conf(5)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pam.conf(5)/">pam.conf(5)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/pam.d(5)/">pam.d(5)</a></tt>, <code>pam(8)</code></p>
+<h2 id="author">AUTHOR</h2>
+<p>Tomas Mraz가 pam_faillock을 작성했다.</p>
+<hr />
+<p>2020-06-08</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

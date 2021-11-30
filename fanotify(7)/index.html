@@ -176,21 +176,21 @@
 <p>fanotify - 파일 시스템 이벤트 감시하기</p>
 <h2 id="description">DESCRIPTION</h2>
 <p>fanotify API를 통해 파일 시스템 이벤트 알림을 받고 이벤트를 가로챌 수 있다. 사용례로는 바이러스 검사나 계층적 저장소 관리가 있을 수 있다. 최초의 fanotify API에서는 제한된 종류의 이벤트들만 지원했다. 특히 생성, 삭제, 이동 이벤트를 지원하지 않았다. 리눅스 5.1에서 그 이벤트들에 대한 지원이 추가되었다. (리눅스 5.1 전에서 이 이벤트들을 알려 주던 API에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/inotify(7)/">inotify(7)</a></tt>를 보라.)</p>
-<p><tt><a class="wikilink" href="/man-pages-ko/inotify(7)/">inotify(7)</a></tt> API와 비교하자면 마운트 한 파일 시스템 내의 모든 객체들을 감시할 수 있고, 접근 허용 여부를 결정할 수 있으며, 다른 응용에서 접근하기 전에 파일을 읽거나 변경하는 게 가능하다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/inotify(7)/">inotify(7)</a></tt> API와 비교하자면 마운트한 파일 시스템 내의 모든 객체들을 감시할 수 있고, 접근 허용 여부를 결정할 수 있으며, 다른 응용에서 접근하기 전에 파일을 읽거나 변경하는 게 가능하다.</p>
 <p>이 API에서 쓰는 시스템 호출은 <tt><a class="wikilink" href="/man-pages-ko/fanotify_init(2)/">fanotify_init(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fanotify_mark(2)/">fanotify_mark(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/write(2)/">write(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/close(2)/">close(2)</a></tt>이다.</p>
 <h3 id="fanotify_init-fanotify_mark"><code>fanotify_init()</code>, <code>fanotify_mark()</code>, 알림 그룹</h3>
-<p><tt><a class="wikilink" href="/man-pages-ko/fanotify_init(2)/">fanotify_init(2)</a></tt> 시스템 호출은 fanotify 알림 그룹을 만들어서 초기화 하며 그 알림 그룹을 가리키는 파일 디스크립터를 반환한다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/fanotify_init(2)/">fanotify_init(2)</a></tt> 시스템 호출은 fanotify 알림 그룹을 만들어서 초기화하며 그 알림 그룹을 가리키는 파일 디스크립터를 반환한다.</p>
 <p>fanotify 알림 그룹이란 커널 내부 객체로서 이벤트가 생성될 파일, 디렉터리, 파일 시스템, 마운트 지점들의 목록을 가지고 있다.</p>
 <p>fanotify 알림 그룹 내의 각 항목마다 <em>표시(mark)</em> 마스크와 <em>무시(ignore)</em> 마스크라는 두 가지 비트 마스크가 있다. 표시 마스크는 이벤트가 생성될 파일 활동들을 규정한다. 무시 마스크는 이벤트가 생성되지 않을 활동들을 규정한다. 이렇게 두 가지 마스크가 있어서 어떤 파일 시스템이나 마운트 지점, 디렉터리에 이벤트를 받는다고 표시하면서 동시에 어떤 마운트 지점 내지 디렉터리 아래의 특정 객체들에 대한 이벤트를 무시할 수 있다.</p>
 <p><tt><a class="wikilink" href="/man-pages-ko/fanotify_mark(2)/">fanotify_mark(2)</a></tt> 시스템 호출은 알림 그룹에 파일이나 디렉터리, 파일 시스템, 마운트를 추가하면서 어떤 이벤트를 보고해야 (또는 무시해야) 하는지 지정한다. 또는 그런 항목을 제거하거나 변경한다.</p>
 <p>무시 마스크를 쓸 수 있는 경우로 파일 캐시가 있다. 파일 캐시에서 관심 있는 이벤트는 파일이 변경되고 닫히는 것이다. 따라서 캐싱 대상 디렉터리 내지 마운트 지점에 그 이벤트들을 받겠다고 표시한다. 파일이 변경됐음을 알리는 첫 번째 이벤트를 수신하면 대응하는 캐시 항목을 무효화하게 된다. 그런데 그 파일이 닫힐 때까지 이후의 변경 이벤트는 중요치 않다. 따라서 무시 마스크에 변경 이벤트를 추가할 수 있다. 닫힘 이벤트를 수신하면 무시 마스크에서 변경 이벤트를 제거하고서 파일 캐시 항목을 갱신할 수 있다.</p>
-<p>fanotify 알림 그룹 안의 항목들은 아이노드를 통해 파일과 디렉터리를 가리키고 마운트 ID를 통해 마운트를 가리킨다. 파일이나 디렉터리가 동일 마운트 내에서 이름이 바뀌거나 이동하는 경우에는 대응 항목이 유지된다. 파일이나 디렉터리가 삭제되거나 다른 마운트로 이동하는 경우, 또는 파일 시스템이나 마운트가 언마운트 되는 경우에는 대응 항목이 삭제된다.</p>
+<p>fanotify 알림 그룹 안의 항목들은 아이노드를 통해 파일과 디렉터리를 가리키고 마운트 ID를 통해 마운트를 가리킨다. 파일이나 디렉터리가 동일 마운트 내에서 이름이 바뀌거나 이동하는 경우에는 대응 항목이 유지된다. 파일이나 디렉터리가 삭제되거나 다른 마운트로 이동하는 경우, 또는 파일 시스템이나 마운트가 언마운트되는 경우에는 대응 항목이 삭제된다.</p>
 <h3 id="_1">이벤트 큐</h3>
 <p>알림 그룹으로 감시하는 파일 시스템 객체들에서 이벤트가 생기면 fanotify 시스템에서 이벤트를 만들어서 큐에 모아 둔다. 그러면 <tt><a class="wikilink" href="/man-pages-ko/fanotify_init(2)/">fanotify_init(2)</a></tt>이 반환한 fanotify 파일 디스크립터에서 (<tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt> 등으로) 그 이벤트들을 읽을 수 있다.</p>
 <p>생성되는 이벤트에는 두 가지 종류가 있는데 <em>알림</em> 이벤트와 <em>허가</em> 이벤트이다. 알림 이벤트는 정보를 줄 뿐이므로 수신 측 응용에서 어떤 행동도 취할 필요가 없다. 단, 범용 이벤트로 유효한 파일 디스크립터가 전달된 경우 그 파일 디스크립터를 닫아 줘야 한다. 이벤트마다 파일 디스크립터를 닫는 건 <code>FAN_REPORT_FID</code>(아래 참고)를 쓰지 않고 fanotify를 초기화 한 응용에만 해당된다. 허가 이벤트는 어떤 파일 접근을 승인할지 여부를 수신 측 응용에서 판단해 달라는 요청이다. 이 이벤트를 수신한 쪽에선 접근을 승인할지 여부를 결정하는 응답을 줘야 한다.</p>
 <p>이벤트를 읽어 들이면 fanotify 그룹의 이벤트 큐에서 그 이벤트가 제거된다. 읽기가 이뤄진 허가 이벤트는 fanotify 파일 디스크립터로 쓰기를 해서 허가 판단을 내리거나 fanotify 파일 디스크립터가 닫힐 때까지 fanotify 그룹의 내부 목록에 유지된다.</p>
 <h3 id="fanotify">fanotify 이벤트 읽기</h3>
-<p><tt><a class="wikilink" href="/man-pages-ko/fanotify_init(2)/">fanotify_init(2)</a></tt>이 반환한 파일 디스크립터에 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>를 호출하면 (<tt><a class="wikilink" href="/man-pages-ko/fanotify_init(2)/">fanotify_init(2)</a></tt> 호출에서 <code>FAN_NONBLOCK</code> 플래그를 지정하지 않았다면) 파일 이벤트가 일어나거나 시그널에 의해 호출이 중단(<tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt> 참고)될 때까지 블록 한다.</p>
+<p><tt><a class="wikilink" href="/man-pages-ko/fanotify_init(2)/">fanotify_init(2)</a></tt>이 반환한 파일 디스크립터에 <tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt>를 호출하면 (<tt><a class="wikilink" href="/man-pages-ko/fanotify_init(2)/">fanotify_init(2)</a></tt> 호출에서 <code>FAN_NONBLOCK</code> 플래그를 지정하지 않았다면) 파일 이벤트가 일어나거나 시그널에 의해 호출이 중단(<tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt> 참고)될 때까지 블록한다.</p>
 <p><tt><a class="wikilink" href="/man-pages-ko/fanotify_init(2)/">fanotify_init(2)</a></tt>에 <code>FAN_REPORT_FID</code>나 <code>FAN_REPORT_DIR_FID</code> 플래그를 사용했는지 여부가 이벤트마다 이벤트 리스너로 반환되는 자료 구조에 영향을 준다. 그 플래그들 중 하나로 초기화한 그룹으로 보고되는 이벤트에선 파일 시스템 객체를 식별하는 데 파일 디스크립터 대신 파일 핸들을 쓰게 된다.</p>
 <p><tt><a class="wikilink" href="/man-pages-ko/read(2)/">read(2)</a></tt> 성공 후에 읽기 버퍼에는 다음 구조체가 한 개 이상 담긴다.</p>
 <pre><code class="language-c">struct fanotify_event_metadata {
@@ -364,7 +364,7 @@ struct fanotify_event_info_fid {
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>fanotify API는 리눅스 전용이다.</p>
 <h2 id="notes">NOTES</h2>
-<p>fanotify API는 <code>CONFIG_FANOTIFY</code> 구성 옵션을 켜서 커널을 빌드 한 경우에만 사용 가능하다. 더불어 fanotify 권한 처리는 <code>CONFIG_FANOTIFY_ACCESS_PERMISSIONS</code> 구성 옵션이 켜진 경우에만 사용 가능하다.</p>
+<p>fanotify API는 <code>CONFIG_FANOTIFY</code> 구성 옵션을 켜서 커널을 빌드한 경우에만 사용 가능하다. 더불어 fanotify 권한 처리는 <code>CONFIG_FANOTIFY_ACCESS_PERMISSIONS</code> 구성 옵션이 켜진 경우에만 사용 가능하다.</p>
 <h3 id="_3">한계과 주의점</h3>
 <p>fanotify는 사용자 공간 프로그램이 파일 시스템 API를 통해 유발한 이벤트만을 보고한다. 따라서 네트워크 파일 시스템 상에서 일어나는 원격 이벤트는 잡지 못한다.</p>
 <p>fanotify API는 <tt><a class="wikilink" href="/man-pages-ko/mmap(2)/">mmap(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/msync(2)/">msync(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/munmap(2)/">munmap(2)</a></tt> 때문에 일어날 수 있는 파일 접근 및 변경에 대해 알려 주지 않는다.</p>
@@ -376,7 +376,7 @@ struct fanotify_event_info_fid {
 <p>리눅스 3.17 현재 다음 버그들이 존재한다.</p>
 <ul>
 <li>
-<p>리눅스에서 어떤 파일 시스템 객체가 여러 경로로 접근 가능할 수 있다. 예를 들어 파일 시스템 일부를 <tt><a class="wikilink" href="/man-pages-ko/mount(8)/">mount(8)</a></tt>의 <code>--bind</code> 옵션으로 다시 마운트 할 수도 있다. 마운트에 표시를 한 리스너는 해당 마운트를 쓰는 파일 시스템 객체에 유발된 이벤트에 대해서만 알림을 받게 된다. 다른 이벤트는 알림이 이뤄지지 않는다.</p>
+<p>리눅스에서 어떤 파일 시스템 객체가 여러 경로로 접근 가능할 수 있다. 예를 들어 파일 시스템 일부를 <tt><a class="wikilink" href="/man-pages-ko/mount(8)/">mount(8)</a></tt>의 <code>--bind</code> 옵션으로 다시 마운트할 수도 있다. 마운트에 표시를 한 리스너는 해당 마운트를 쓰는 파일 시스템 객체에 유발된 이벤트에 대해서만 알림을 받게 된다. 다른 이벤트는 알림이 이뤄지지 않는다.</p>
 </li>
 <li>
 <p>이벤트가 생길 때 파일에 대한 파일 디스크립터를 전달해 주기 전에 수신 측 프로세스의 사용자 ID가 파일에 읽기 내지 쓰기 권한이 있는지 확인하지 않는다. 비특권 사용자가 실행한 프로그램에 <code>CAP_SYS_ADMIN</code> 역능이 설정돼 있는 경우 보안 위험이 된다.</p>

@@ -226,7 +226,7 @@ enum { LIO_READ, LIO_WRITE, LIO_NOP };
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>POSIX.1-2001, POSIX.1-2008.</p>
 <h2 id="notes">NOTES</h2>
-<p>제어 블록 버퍼를 사용하기 전에 0으로 채우는 게 좋다. (<code>memset(3)</code> 참고.) I/O 동작이 진행 중인 동안 제어 블록 버퍼와 <code>aio_buf</code>가 가리키는 버퍼가 변경되어선 안 된다. I/O 동작이 완료될 때까지 그 버퍼들이 유효한 상태로 유지돼야 한다.</p>
+<p>제어 블록 버퍼를 사용하기 전에 0으로 채우는 게 좋다. (<tt><a class="wikilink" href="/man-pages-ko/memset(3)/">memset(3)</a></tt> 참고.) I/O 동작이 진행 중인 동안 제어 블록 버퍼와 <code>aio_buf</code>가 가리키는 버퍼가 변경되어선 안 된다. I/O 동작이 완료될 때까지 그 버퍼들이 유효한 상태로 유지돼야 한다.</p>
 <p>같은 <code>aiocb</code> 구조체를 써서 비동기 읽기 내지 쓰기 동작들을 동시에 할 때의 결과는 규정돼 있지 않다.</p>
 <p>현재 리눅스의 POSIX AIO 구현은 사용자 공간에서 glibc가 제공한다. 그래서 여러 제약이 있는데, 가장 눈에 띄는 건 I/O 동작을 수행하기 위해 여러 스레드를 유지하는 게 비용이 크고 확장성이 떨어진다는 점이다. 얼마 전부터 커널에서 상태 머신 기반으로 비동기 I/O를 구현하는 작업이 진행 중이긴 한데 (<tt><a class="wikilink" href="/man-pages-ko/io_submit(2)/">io_submit(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/io_setup(2)/">io_setup(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/io_cancel(2)/">io_cancel(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/io_destroy(2)/">io_destroy(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/io_getevents(2)/">io_getevents(2)</a></tt> 참고) 그 커널 시스템 호출들을 이용해 POSIX AIO 구현을 완전히 재구현할 수 있는 수준까지는 아직 오지 못했다.</p>
 <h2 id="examples">EXAMPLES</h2>

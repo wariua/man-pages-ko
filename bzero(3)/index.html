@@ -185,7 +185,7 @@ void explicit_bzero(void *s, size_t n);
 </tbody>
 </table>
 <h2 id="conforming-to">CONFORMING TO</h2>
-<p><code>bzero()</code> 함수는 제거 예정이다. (POSIX.1-2001에서 LEGACY로 표시됨.) 새 프로그램에서는 <code>memset(3)</code>을 사용하라. POSIX.1-2008에서 <code>bzero()</code> 명세를 제거하였다. 4.3BSD에서 <code>bzero()</code> 함수가 처음 등장했다.</p>
+<p><code>bzero()</code> 함수는 제거 예정이다. (POSIX.1-2001에서 LEGACY로 표시됨.) 새 프로그램에서는 <tt><a class="wikilink" href="/man-pages-ko/memset(3)/">memset(3)</a></tt>을 사용하라. POSIX.1-2008에서 <code>bzero()</code> 명세를 제거하였다. 4.3BSD에서 <code>bzero()</code> 함수가 처음 등장했다.</p>
 <p><code>explicit_bzero()</code> 함수는 일부 BSD들에도 있는 비표준 확장이다. 몇몇 다른 구현에는 <code>memset_explicit()</code>이나 <code>memset_s()</code> 같은 비슷한 함수가 있다.</p>
 <h2 id="notes">NOTES</h2>
 <p><code>explicit_bzero()</code> 함수는 보안에 신경쓰는 응용에서 <code>bzero()</code> 사용 시 맞닥뜨릴 수 있는 문제를 해결하기 위한 것이다. 0으로 채운 위치를 <em>올바른</em> 프로그램에서 절대 다시 건드리지 않는다고 컴파일러에서 추론하면 <code>bzero()</code> 호출을 아예 없앨 수도 있다. 그런데 그 <code>bzero()</code> 호출의 의도가 민감한 데이터(가령 암호)를 지워서 오동작하거나 취약해진 프로그램에 의해 데이터가 누출될 가능성을 막는 것이었다면 문제가 된다. <code>explicit_bzero()</code> 호출은 절대 컴파일러가 최적화하지 않는다.</p>
@@ -201,7 +201,7 @@ void explicit_bzero(void *s, size_t n);
 <p>참고로 민감한 변수를 <code>volatile</code> 한정자로 선언해도 위 문제가 제거되지 <em>않는다</em>. 사실은 더 악화되는데, 예를 들어 레지스터에 저장하게 최적화될 수도 있었을 변수를 전체 수명 동안 (더 취약한) RAM에 유지하게 만들 수 있기 때문이다.</p>
 <p>위의 세부 내용들에도 불구하고 보안에 신경쓰는 응용에서는 일반적으로 <code>explicit_bzero()</code>를 쓰는 게 안 쓰는 것보다 낫다. <code>explicit_bzero()</code>의 개발자들은 미래의 컴파일러가 <code>explicit_bzero()</code> 호출을 인식해서 레지스터와 "작업용" 스택 영역의 사본을 포함한 민감한 데이터의 모든 사본들이 지워지게 하는 조치를 취할 것으로 예상한다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><tt><a class="wikilink" href="/man-pages-ko/bstring(3)/">bstring(3)</a></tt>, <code>memset(3)</code>, <tt><a class="wikilink" href="/man-pages-ko/swab(3)/">swab(3)</a></tt></p>
+<p><tt><a class="wikilink" href="/man-pages-ko/bstring(3)/">bstring(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/memset(3)/">memset(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/swab(3)/">swab(3)</a></tt></p>
 <hr />
 <p>2021-03-22</p></div>
         

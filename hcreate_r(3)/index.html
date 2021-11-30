@@ -175,7 +175,7 @@ int hsearch_r(ENTRY item, ACTION action, ENTRY **retval,
 <p>먼저 <code>hcreate()</code>로 해시 테이블을 만들어야 한다. 인자 <code>nel</code>은 테이블 내의 항목 최대 개수를 지정한다. (이후에 이 최댓값을 바꿀 수 없으므로 잘 선택해야 한다.) 결과 해시 테이블의 성능을 개선하기 위해 구현에서 이 값을 위로 조정할 수도 있다.</p>
 <p><code>hcreate_r()</code> 함수는 <code>hcreate()</code>와 같은 일을 수행하되 구조체 <code>*htab</code>로 기술한 테이블에 대해 그렇게 한다. 처음에 <code>hcreate_r()</code>을 호출하기 전에 <code>htab</code>가 가리키는 구조체를 0으로 채워야 한다.</p>
 <p><code>hdestroy()</code> 함수는 <code>hcreate()</code>로 만든 해시 테이블이 차지하는 메모리를 해제한다. <code>hdestroy()</code> 호출 후에 <code>hcreate()</code>로 새 해시 테이블을 만들 수 있다. <code>hdestroy_r()</code>은 유사한 일을 수행하되 앞서 <code>hcreate_r()</code>로 생성한 <code>*htab</code>로 기술한 해시 테이블에 대해 그렇게 한다.</p>
-<p><code>hsearch()</code> 함수는 해시 테이블에서 <code>item</code>과 같은 키를 가진 항목을 탐색한다. ("같은" 키인지 <code>strcmp(3)</code>로 판단한다.) 성공하면 그 항목의 포인터를 반환한다.</p>
+<p><code>hsearch()</code> 함수는 해시 테이블에서 <code>item</code>과 같은 키를 가진 항목을 탐색한다. ("같은" 키인지 <tt><a class="wikilink" href="/man-pages-ko/strcmp(3)/">strcmp(3)</a></tt>로 판단한다.) 성공하면 그 항목의 포인터를 반환한다.</p>
 <p><code>item</code> 인자는 <code>ENTRY</code> 타입인데, <code>&lt;search.h&gt;</code>에 다음처럼 정의돼 있다.</p>
 <pre><code class="language-c">typedef struct entry {
     char *key;

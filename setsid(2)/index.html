@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/setsid%282%29/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>setsid(2) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>setsid - 세션 만들고 프로세스 그룹 ID 설정하기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="language-c">#include &lt;unistd.h&gt;
+
+pid_t setsid(void);
+</code></pre>
+<h2 id="description">DESCRIPTION</h2>
+<p><code>setsid()</code>는 호출 프로세스가 프로세스 그룹 리더가 아니면 새 세션을 만든다. 호출 프로세스가 새 세션의 리더가 된다. (즉, 세션 ID가 프로세스 ID와 같게 된다.) 또한 호출 프로세스가 세션의 새 프로세스 그룹의 프로세스 그룹 리더가 된다. (즉 프로세스 그룹 ID가 프로세스 ID와 같게 된다.)</p>
+<p>호출 프로세스가 새 프로세스 그룹과 새 세션의 유일한 프로세스가 된다.</p>
+<p>처음에는 새 세션에 제어 터미널이 없다. 세션의 제어 터미널을 얻는 방법에 대해선 <tt><a class="wikilink" href="/man-pages-ko/credentials(7)/">credentials(7)</a></tt>를 보라.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>성공 시 호출 프로세스의 (새로운) 세션 ID를 반환한다. 오류 시 <code>(pid_t) -1</code>을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
+<h2 id="errors">ERRORS</h2>
+<dl>
+<dt><code>EPERM</code></dt>
+<dd>어느 프로세스의 프로세스 그룹 ID가 호출 프로세스의 PID와 같다. 그러므로 호출 프로세스가 이미 프로세스 그룹 리더이면 <code>setsid()</code>가 실패한다.</dd>
+</dl>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>POSIX.1-2001, POSIX.1-2008, SVr4.</p>
+<h2 id="notes">NOTES</h2>
+<p><tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt>를 통해 생성된 자식이 부모의 세션 ID를 물려받는다. <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>를 거치면서 세션 ID가 유지된다.</p>
+<p>프로세스 그룹 리더는 프로세스 그룹 ID가 PID와 같은 프로세스다. 프로세스 그룹 리더의 <code>setsid()</code> 호출을 허용하지 않는 건 어떤 프로세스 그룹 리더가 새 세션으로 이동하면서 같은 프로세스 그룹의 다른 프로세스는 원래 세션에 남게 될 가능성을 막기 위해서다. 만약 그렇게 되면 세션과 프로세스 그룹의 엄격한 2단계 계층 구조가 깨지게 된다. <code>setsid()</code>가 꼭 성공하게 하려면 <tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt>를 호출하고서 부모는 <tt><a class="wikilink" href="/man-pages-ko/_exit(2)/">_exit(2)</a></tt> 시키고 (정의상 프로세스 그룹 리더일 수 없는) 자식에서 <code>setsid()</code>를 호출하면 된다.</p>
+<p>세션에 제어 터미널이 있는데 그 터미널에 <code>CLOCAL</code> 플래그가 설정돼 있지 않으면 터미널이 끊길 때 세션 리더에게 <code>SIGHUP</code> 시그널이 전송된다.</p>
+<p>세션 리더인 프로세스가 종료하면 제어 터미널의 전경 프로세스 그룹의 각 프로세스로 <code>SIGHUP</code> 시그널이 전송된다.</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><code>setsid(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/getsid(2)/">getsid(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/setpgid(2)/">setpgid(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/setpgrp(2)/">setpgrp(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/tcgetsid(3)/">tcgetsid(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/credentials(7)/">credentials(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/sched(7)/">sched(7)</a></tt></p>
+<hr />
+<p>2021-03-22</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

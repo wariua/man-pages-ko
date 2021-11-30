@@ -159,8 +159,8 @@ int strverscmp(const char *s1, const char *s2);
 </code></pre>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>jan1</code>, <code>jan2</code>, ..., <code>jan9</code>, <code>jan10</code>, ... 이런 파일들이 있는데 <code>ls(1)</code> 하면 순서가 <code>jan1</code>, <code>jan10</code>, ..., <code>jan2</code>, ..., <code>jan9</code> 식으로 나오는 게 이상해 보일 때가 종종 있다. 이걸 바로잡기 위해 GNU에서 <code>ls(1)</code>에 <code>-v</code> 옵션을 도입했는데, 그 구현에서 <tt><a class="wikilink" href="/man-pages-ko/versionsort(3)/">versionsort(3)</a></tt>를 사용하며 다시 거기서 <code>strverscmp()</code>를 사용한다.</p>
-<p>인즉 <code>strcmp(3)</code>가 사전적 순서만 찾는 반면 <code>strverscmp()</code>가 하는 일은 두 문자열을 비교하여 "올바른" 순서를 찾는 것이다. 이 함수는 로캘 범주 <code>LC_COLLATE</code>를 사용하지 않는다. 따라서 기본적으로 문자열이 ASCII일 것으로 예상되는 상황들을 위한 것이다.</p>
-<p>이 함수가 하는 일은 이렇다. 두 문자열이 같으면 0을 반환한다. 그렇지 않으면 앞에서는 두 문자열이 같고 거기부터는 다른 위치를 찾는다. 그리고 그 위치를 포함하는 (거기서 시작하거나 끝날 수도 있는) 가장 긴 연속된 숫자 열을 찾는다. 양쪽 모두나 어느 한쪽에서 이 열이 비어 있으면 <code>strcmp(3)</code>가 반환할 결과를 반환한다 (바이트 값의 크기에 따라 정렬). 그렇지 않으면 두 숫자 열을 수로서 비교한다. 이때 선두에 0이 한 개 이상 있으면 그 앞에 소수점이 있는 것처럼 해석한다. (그래서 특히 선두에 0이 더 많은 숫자 열이 선두에 0이 더 적은 숫자 열 앞에 오도록 한다.) 그리하여 <code>000</code>, <code>00</code>, <code>01</code>, <code>010</code>, <code>09</code>, <code>0</code>, <code>1</code>, <code>9</code>, <code>10</code> 순서가 된다.</p>
+<p>인즉 <tt><a class="wikilink" href="/man-pages-ko/strcmp(3)/">strcmp(3)</a></tt>가 사전적 순서만 찾는 반면 <code>strverscmp()</code>가 하는 일은 두 문자열을 비교하여 "올바른" 순서를 찾는 것이다. 이 함수는 로캘 범주 <code>LC_COLLATE</code>를 사용하지 않는다. 따라서 기본적으로 문자열이 ASCII일 것으로 예상되는 상황들을 위한 것이다.</p>
+<p>이 함수가 하는 일은 이렇다. 두 문자열이 같으면 0을 반환한다. 그렇지 않으면 앞에서는 두 문자열이 같고 거기부터는 다른 위치를 찾는다. 그리고 그 위치를 포함하는 (거기서 시작하거나 끝날 수도 있는) 가장 긴 연속된 숫자 열을 찾는다. 양쪽 모두나 어느 한쪽에서 이 열이 비어 있으면 <tt><a class="wikilink" href="/man-pages-ko/strcmp(3)/">strcmp(3)</a></tt>가 반환할 결과를 반환한다 (바이트 값의 크기에 따라 정렬). 그렇지 않으면 두 숫자 열을 수로서 비교한다. 이때 선두에 0이 한 개 이상 있으면 그 앞에 소수점이 있는 것처럼 해석한다. (그래서 특히 선두에 0이 더 많은 숫자 열이 선두에 0이 더 적은 숫자 열 앞에 오도록 한다.) 그리하여 <code>000</code>, <code>00</code>, <code>01</code>, <code>010</code>, <code>09</code>, <code>0</code>, <code>1</code>, <code>9</code>, <code>10</code> 순서가 된다.</p>
 <h2 id="return-value">RETURN VALUE</h2>
 <p><code>strverscmp()</code> 함수는 <code>s1</code>이 <code>s2</code>보다 앞이거나, 같거나, 뒤인 경우에 각각 0보다 작거나, 같거나, 큰 정수를 반환한다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
@@ -213,7 +213,7 @@ main(int argc, char *argv[])
 }
 </code></pre>
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>rename(1)</code>, <code>strcasecmp(3)</code>, <code>strcmp(3)</code>, <tt><a class="wikilink" href="/man-pages-ko/strcoll(3)/">strcoll(3)</a></tt></p>
+<p><code>rename(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/strcasecmp(3)/">strcasecmp(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/strcmp(3)/">strcmp(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/strcoll(3)/">strcoll(3)</a></tt></p>
 <hr />
 <p>2021-03-22</p></div>
         

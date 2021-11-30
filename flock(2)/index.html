@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/flock%282%29/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>flock(2) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+            <li class="second-level"><a href="#nfs">NFS 세부 사항</a></li>
+                
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>flock - 열린 파일에 권고형 락 적용하고 제거하기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="language-c">#include &lt;sys/file.h&gt;
+
+int flock(int fd, int operation);
+</code></pre>
+<h2 id="description">DESCRIPTION</h2>
+<p><code>fd</code>로 지정한 열린 파일 디스크립터에 권고형 락을 적용하거나 제거한다. <code>opeartion</code> 인자는 다음 중 하나다.</p>
+<dl>
+<dt><code>LOCK_SH</code></dt>
+<dd>공유형 락을 둔다. 어떤 파일에 대해 어느 시점에 여러 프로세스가 공유형 락을 잡을 수 있다.</dd>
+<dt><code>LOCK_EX</code></dt>
+<dd>배타형 락을 둔다. 어떤 파일에 대해 어느 시점에 한 프로세스만 배타형 락을 잡을 수 있다.</dd>
+<dt><code>LOCK_UN</code></dt>
+<dd>이 프로세스가 잡은 기존 락을 제거한다.</dd>
+</dl>
+<p>호환되지 않는 락을 다른 프로세스에서 잡고 있으면 <code>flock()</code> 호출이 블록할 수 있다. 논블로킹 요청을 하려면 위 동작에 <code>LOCK_NB</code>를 (OR 해서) 포함시키면 된다.</p>
+<p>한 파일에 공유형 락과 배타형 락이 동시에 있을 수 없다.</p>
+<p><code>flock()</code>으로 만든 락은 열린 파일 기술 항목(<tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt> 참고)에 연계돼 있다. 따라서 (예를 들어 <tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt>나 <tt><a class="wikilink" href="/man-pages-ko/dup(2)/">dup(2)</a></tt>으로 만들어진) 복제 파일 디스크립터들이 같은 락을 가리키며, 그 파일 디스크립터들 어느 것으로도 락을 변경하거나 놓을 수 있다. 그리고 그 복제 파일 디스크립터들 중 하나에서 명시적으로 <code>LOCK_UN</code> 동작을 하거나 그 파일 디스크립터들이 모두 닫힐 때 락이 해제된다.</p>
+<p>한 프로세스에서 <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>을 (또는 비슷한 함수를) 이용해 같은 파일에 대한 파일 디스크립터를 여러 개 얻은 경우에는 <code>flock()</code>에서 그 파일 디스크립터들을 별개로 다룬다. 호출 프로세스에서 그 중 하나로 이미 잡은 락을 다른 파일 디스크립터로 잠그려고 시도하면 거부될 수 있다.</p>
+<p>프로세스가 한 파일에 대해 (공유 또는 배타) 한 종류의 락만 잡을 수 있다. 이미 잠근 파일에 <code>flock()</code> 호출을 하면 기존 락이 새로운 락 모드로 바뀌게 된다.</p>
+<p><code>flock()</code>으로 생성된 락이 <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>를 거치면서 유지된다.</p>
+<p>파일을 연 모드와 상관없이 공유형 락이나 배타형 락을 둘 수 있다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>성공 시 0을 반환한다. 오류 시 -1을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
+<h2 id="errors">ERRORS</h2>
+<dl>
+<dt><code>EBADF</code></dt>
+<dd><code>fd</code>가 열린 파일 디스크립터가 아니다.</dd>
+<dt><code>EINTR</code></dt>
+<dd>락 획득을 기다리는 동안 핸들러에 잡힌 시그널 전달에 의해 호출이 중단됐다. <tt><a class="wikilink" href="/man-pages-ko/signal(7)/">signal(7)</a></tt> 참고.</dd>
+<dt><code>EINVAL</code></dt>
+<dd><code>operation</code>이 유효하지 않다.</dd>
+<dt><code>ENOLCK</code></dt>
+<dd>커널에서 락 레코드를 할당할 메모리가 부족하다.</dd>
+<dt><code>EWOULDBLOCK</code></dt>
+<dd>파일이 잠겨 있으며 <code>LOCK_NB</code> 플래그를 사용했다.</dd>
+</dl>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>4.4BSD (4.2BSD에서 <code>flock()</code> 호출이 처음 등장). 대부분의 유닉스 시스템에 <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt>을 이용해 구현된 듯한 <code>flock()</code> 버전이 있다.</p>
+<h2 id="notes">NOTES</h2>
+<p>커널 2.0부터 GNU C 라이브러리에서 <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt> 호출로 에뮬레이션하지 않고 자체 시스템 호출로 <code>flock()</code>을 구현한다. 이 구현 방식에선 <code>flock()</code>과 <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt>로 두는 락 사이에 상호작용이 없으며 <code>flock()</code>에서 교착을 탐지하지 않는다. (다만 최근 BSD 계열들 같은 일부 시스템에선 <code>flock()</code>과 <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt> 락이 상호작용한다.)</p>
+<p><code>flock()</code>에서 두는 락은 권고형일 뿐이다. 파일에 대한 적절한 권한이 있으면 프로세스에서 얼마든 <code>flock()</code> 사용을 무시하고 파일에 I/O를 수행할 수 있다.</p>
+<p><code>flock()</code>의 락과 <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt>의 락은 프로세스 포크와 <tt><a class="wikilink" href="/man-pages-ko/dup(2)/">dup(2)</a></tt> 측면에서 동작 방식이 다르다. <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt>로 <code>flock()</code>을 구현하고 있는 시스템에서는 <code>flock()</code>의 동작 방식이 이 매뉴얼 페이지의 설명과 달라진다.</p>
+<p>락 변환(공유를 배타로, 또는 반대로)이 원자적이라고 보장되지 않는다. 즉, 먼저 기존 락을 제거하고서 새 락을 수립한다. 이 두 단계 사이에서 다른 프로세스의 락 요청이 수락될 수 있으며, 그러면 변환 동작이 블록하게 된다. <code>LOCK_NB</code>를 지정했으면 실패한다. (이는 원본 BSD의 동작 방식이며 다른 여러 구현체에서도 볼 수 있다.)</p>
+<h3 id="nfs">NFS 세부 사항</h3>
+<p>리눅스 커널 2.6.11까지에서 <code>flock()</code>은 NFS 상의 파일을 잠그지 않는다. (즉, 락의 유효 범위가 로컬 시스템으로 국한되었다.) 충분히 최신 버전의 리눅스를 쓰고 서버에서 지원하는 경우에는 NFS 상에서 동작하는 <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt>의 바이트 범위 락킹을 대신 이용할 수 있었다.</p>
+<p>리눅스 2.6.12부터는 NFS 클라이언트에서 전체 파일에 대한 <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt> 바이트 범위 락인 것처럼 에뮬레이션하는 방식으로 <code>flock()</code> 락을 지원한다. 따라서 NFS 상에서 <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt>과 <code>flock()</code>이 상호작용한다. 그리고 배타적 락을 두려면 파일을 쓰기용으로 열어야 한다.</p>
+<p>리눅스 2.6.37부터는 <code>flock()</code>락을 (그리고 <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt> 바이트 범위 락도) 로컬로 다룰 수 있는 호환 모드를 지원한다. <code>nfs(5)</code>의 <code>local_lock</code> 옵션 설명 참고.</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><code>flock(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/close(2)/">close(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/dup(2)/">dup(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/execve(2)/">execve(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/fork(2)/">fork(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/open(2)/">open(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/lockf(3)/">lockf(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/lslocks(8)/">lslocks(8)</a></tt></p>
+<p>리눅스 커널 소스 트리의 <code>Documentation/filesystems/locks.txt</code> (옛날 커널에선 <code>Documentation/locks.txt</code>)</p>
+<hr />
+<p>2021-03-22</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/strncmp%283%29/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>strncmp(3) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
+            <li class="second-level"><a href="#_1">프로그램 소스</a></li>
+                
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>strcmp, strncmp - 두 문자열 비교하기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="language-c">#include &lt;string.h&gt;
+
+int strcmp(const char *s1, const char *s2);
+int strncmp(const char *s1, const char *s2, size_t n);
+</code></pre>
+<h2 id="description">DESCRIPTION</h2>
+<p><code>strcmp()</code> 함수는 두 문자열 <code>s1</code>과 <code>s2</code>를 비교한다. 로캘을 고려하지 않는다. (로캘에 근거한 비교는 <tt><a class="wikilink" href="/man-pages-ko/strcoll(3)/">strcoll(3)</a></tt>을 보라.) 부호 없는 문자로 비교를 한다.</p>
+<p><code>strcmp()</code>는 비교 결과를 나타내는 정수를 반환한다.</p>
+<ul>
+<li><code>s1</code>과 <code>s2</code>가 같으면 0</li>
+<li><code>s1</code>이 <code>s2</code>보다 작으면 음수 값</li>
+<li><code>s1</code>이 <code>s2</code>보다 크면 양수 값</li>
+</ul>
+<p><code>strncmp()</code>는 이와 비슷하되, <code>s1</code>과 <code>s2</code>의 처음 (최대) <code>n</code> 바이트만 비교한다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p><code>strcmp()</code>와 <code>strncmp()</code> 함수는 <code>s1</code>이 (또는 그 처음 <code>n</code> 바이트가) <code>s2</code>보다 작거나, 일치하거나, 큰 경우에 0보다 작거나, 같거나, 큰 정수를 반환한다.</p>
+<h2 id="attributes">ATTRIBUTES</h2>
+<p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
+<table>
+<thead>
+<tr>
+<th>인터페이스</th>
+<th>속성</th>
+<th>값</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>strcmp()</code>, <code>strncmp()</code></td>
+<td>스레드 안전성</td>
+<td>MT-Safe</td>
+</tr>
+</tbody>
+</table>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>POSIX.1-2001, POSIX.1-2008, C89, C99, SVr4, 4.3BSD.</p>
+<h2 id="notes">NOTES</h2>
+<p>POSIX.1에서는 다음처럼만 명세하고 있다.</p>
+<blockquote>
+<p>0 아닌 반환 값의 부호는 비교 대상 문자열들에서 첫 번째로 다른 (<code>unsigned char</code> 타입으로 해석한) 바이트 쌍의 값 차이의 부호에 의해 정해진다.</p>
+</blockquote>
+<p>glibc에서는 다른 여러 구현체들과 마찬가지로 마지막으로 비교한 <code>s1</code>의 바이트에서 마지막으로 비교한 <code>s2</code>의 바이트를 뺀 산술 결과 값이 반환 값이다. (두 문자가 같은 경우에는 차이가 0이다.)</p>
+<h2 id="examples">EXAMPLES</h2>
+<p>아래 프로그램을 사용해 (인자가 2개일 때) <code>strcmp()</code>와 (인자가 3개일 때) <code>strncmp()</code>의 동작을 볼 수 있다. 다음은 <code>strcmp()</code>를 쓰는 예시다.</p>
+<pre><code class="language-text">$ ./string_comp ABC ABC
+&lt;str1&gt; and &lt;str2&gt; are equal
+$ ./string_comp ABC AB      # 'C'는 ASCII 67, 'C' - ' ' = 67
+&lt;str1&gt; is greater than &lt;str2&gt; (67)
+$ ./string_comp ABA ABZ     # 'A'는 ASCII 65, 'Z'는 ASCII 90
+&lt;str1&gt; is less than &lt;str2&gt; (-25)
+$ ./string_comp ABJ ABC
+&lt;str1&gt; is greater than &lt;str2&gt; (7)
+$ ./string_comp $'\201' A   # 0201 - 0101 = 0100 (십진수 64)
+&lt;str1&gt; is greater than &lt;str2&gt; (64)
+</code></pre>
+<p>위 예에서 8비트 ASCII 코드를 담은 문자열을 만들어 내기 위해 <code>bash(1)</code> 전용 문법을 쓴다. 결과를 보면 문자열 비교에 부호 없는 문자를 쓰는 걸 알 수 있다.</p>
+<p>다음은 <code>strncmp()</code>를 쓰는 예시다.</p>
+<pre><code class="language-text">$ ./string_comp ABC AB 3
+&lt;str1&gt; is greater than &lt;str2&gt; (67)
+$ ./string_comp ABC AB 2
+&lt;str1&gt; and &lt;str2&gt; are equal in the first 2 bytes
+</code></pre>
+<h3 id="_1">프로그램 소스</h3>
+<pre><code class="language-c">/* string_comp.c
+
+   Licensed under GNU General Public License v2 or later.
+*/
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;string.h&gt;
+
+int
+main(int argc, char *argv[])
+{
+    int res;
+
+    if (argc &lt; 3) {
+        fprintf(stderr, &quot;Usage: %s &lt;str1&gt; &lt;str2&gt; [&lt;len&gt;]\n&quot;, argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    if (argc == 3)
+        res = strcmp(argv[1], argv[2]);
+    else
+        res = strncmp(argv[1], argv[2], atoi(argv[3]));
+
+    if (res == 0) {
+        printf(&quot;&lt;str1&gt; and &lt;str2&gt; are equal&quot;);
+        if (argc &gt; 3)
+            printf(&quot; in the first %d bytes\n&quot;, atoi(argv[3]));
+        printf(&quot;\n&quot;);
+    } else if (res &lt; 0) {
+        printf(&quot;&lt;str1&gt; is less than &lt;str2&gt; (%d)\n&quot;, res);
+    } else {
+        printf(&quot;&lt;str1&gt; is greater than &lt;str2&gt; (%d)\n&quot;, res);
+    }
+
+    exit(EXIT_SUCCESS);
+}
+</code></pre>
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt><a class="wikilink" href="/man-pages-ko/bcmp(3)/">bcmp(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/memcmp(3)/">memcmp(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/strcasecmp(3)/">strcasecmp(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/strcoll(3)/">strcoll(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/string(3)/">string(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/strncasecmp(3)/">strncasecmp(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/strverscmp(3)/">strverscmp(3)</a></tt>, <code>wcscmp(3)</code>, <code>wcsncmp(3)</code>, <code>ascii(7)</code></p>
+<hr />
+<p>2021-03-22</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

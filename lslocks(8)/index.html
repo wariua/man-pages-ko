@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/lslocks%288%29/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>lslocks(8) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#options">OPTIONS</a></li>
+        <li class="first-level "><a href="#output">OUTPUT</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#authors">AUTHORS</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+        <li class="first-level "><a href="#availability">AVAILABILITY</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>lslocks - 로컬 시스템의 락 나열</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre>
+<strong>lslocks</strong> [options]
+</pre>
+
+<h2 id="description">DESCRIPTION</h2>
+<p><code>lslocks</code>는 리눅스 시스템에서 현재 잡혀 있는 모든 파일 락에 대한 정보를 나열한다.</p>
+<p>lslocks에서 OFD(열린 파일 기술 항목) 락도 나열하는데, 그 락은 프로세스에 연계돼 있지 않고 (PID가 -1) 열린 파일 기술 항목에 연계돼 있다. 리눅스 3.15부터 OFD 락을 사용할 수 있는데, 자세한 내용은 <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt>을 보라.</p>
+<h2 id="options">OPTIONS</h2>
+<dl>
+<dt><code>-b</code>, <code>--bytes</code></dt>
+<dd>SIZE 열을 사람이 읽기 좋은 형식 대신 바이트 단위로 찍기.</dd>
+<dt><code>-i</code>, <code>--noinaccessible</code></dt>
+<dd>현재 사용자에게 접근 불가능한 락 파일 무시.</dd>
+<dt><code>-J</code>, <code>--json</code></dt>
+<dd>JSON 출력 형식 사용.</dd>
+<dt><code>-n</code>, <code>--noheadings</code></dt>
+<dd>헤더 행 찍지 않기.</dd>
+<dt><code>-o</code>, <code>--output list</code></dt>
+<dd>
+<p>어떤 출력 열을 찍을지 지정한다. 지원하는 열들의 전체 목록을 <code>--help</code>로 볼 수 있다.</p>
+<p><code>list</code>를 <code>+list</code> 형식으로 지정하면 (예: <code>lslocks -o +BLOCKER</code>) 기본 열 목록에서 확장할 수 있다.</p>
+</dd>
+<dt><code>--output-all</code></dt>
+<dd>가능한 모든 열 출력하기.</dd>
+<dt><code>-p</code>, <code>--pid pid</code></dt>
+<dd>이 <code>pid</code>의 프로세스가 잡은 락만 표시하기.</dd>
+<dt><code>-r</code>, <code>--raw</code></dt>
+<dd>무가공 출력 형식 사용.</dd>
+<dt><code>-u</code>, <code>--notruncate</code></dt>
+<dd>열의 텍스트 잘라내지 않기.</dd>
+<dt><code>-V</code>, <code>-version</code></dt>
+<dd>버전 정보 찍고 끝내기.</dd>
+<dt><code>-h</code>, <code>--help</code></dt>
+<dd>도움말 찍고 끝내기.</dd>
+</dl>
+<h2 id="output">OUTPUT</h2>
+<dl>
+<dt>COMMAND</dt>
+<dd>락을 잡고 있는 프로세스의 명령 이름.</dd>
+<dt>PID</dt>
+<dd>락을 잡고 있는 프로세스의 프로세스 ID. OFDLCK에선 -1.</dd>
+<dt>TYPE</dt>
+<dd>락 종류. FLOCK (<tt><a class="wikilink" href="/man-pages-ko/flock(2)/">flock(2)</a></tt>으로 생성)이나 POSIX (<tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt>이나 <tt><a class="wikilink" href="/man-pages-ko/lockf(3)/">lockf(3)</a></tt>로 생성), 또는 OFDLCK (<tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt>로 생성).</dd>
+<dt>SIZE</dt>
+<dd>잠긴 파일의 크기.</dd>
+<dt>MODE</dt>
+<dd>락 접근 권한 (읽기, 쓰기). 프로세스가 블록돼서 그 락을 기다리고 있으면 모드 뒤에 '*'(별표)가 붙는다.</dd>
+<dt>M</dt>
+<dd>락이 강제형인지 여부. 아니면 (락이 권고형이면) 0, 맞으면 1. (<tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt> 참고.)</dd>
+<dt>START</dt>
+<dd>락의 상대적 바이트 오프셋.</dd>
+<dt>END</dt>
+<dd>락의 끝 오프셋.</dd>
+<dt>PATH</dt>
+<dd>락의 전체 경로. 경로가 없거나 경로를 읽을 권한이 없으면 장치 마운트 지점 경로에 "..."를 덧붙여서 찍는다. 경로가 잘려 있을 수도 있다. <code>--notruncate</code>로 전체 경로를 볼 수 있다.</dd>
+<dt>BLOCKER</dt>
+<dd>락을 막고 있는 프로세스의 PID.</dd>
+</dl>
+<h2 id="notes">NOTES</h2>
+<p><code>lslocks</code> 명령은 <code>lslk(8)</code> 명령을 대체하기 위한 것이다. Victor A. Abell <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#97;&#98;&#101;&#64;&#112;&#117;&#114;&#100;&#117;&#101;&#46;&#101;&#100;&#117;">&#97;&#98;&#101;&#64;&#112;&#117;&#114;&#100;&#117;&#101;&#46;&#101;&#100;&#117;</a>이 처음 작성했으며 2001년부터 유지 보수가 이뤄지지 않고 있다.</p>
+<h2 id="authors">AUTHORS</h2>
+<p>Davidlohr Bueso <a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#100;&#97;&#118;&#101;&#64;&#103;&#110;&#117;&#46;&#111;&#114;&#103;">&#100;&#97;&#118;&#101;&#64;&#103;&#110;&#117;&#46;&#111;&#114;&#103;</a></p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><code>flock(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/fcntl(2)/">fcntl(2)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/lockf(3)/">lockf(3)</a></tt></p>
+<h2 id="availability">AVAILABILITY</h2>
+<p>lslocks 명령은 util-linux 패키지의 일부이며 <a href="https://www.kernel.org/pub/linux/utils/util-linux/">https://www.kernel.org/pub/linux/utils/util-linux/</a>에서 구할 수 있다.</p>
+<hr />
+<p>2014년 12월</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

@@ -209,7 +209,7 @@ int posix_fallocate(int fd, off_t offset, off_t len);
 <p>POSIX.1-2001.</p>
 <p>POSIX.1-2008에 따르면 <code>len</code>이 0이거나 <code>offset</code>이 0보다 작은 경우 구현체에서 <code>EINVAL</code> 오류를 <em>내놓아야 한다</em>. POSIX.1-2001에 따르면 <code>len</code>이 0보다 작거나 <code>offset</code>이 0보다 작은 경우 구현체에서 <code>EINVAL</code> 오류를 <em>내놓아야 하며</em>, <code>len</code>이 0과 같은 경우 오류를 <em>내놓을 수 있다</em>.</p>
 <h2 id="notes">NOTES</h2>
-<p>glibc 구현에서 <code>posix_fallocate()</code>는 <tt><a class="wikilink" href="/man-pages-ko/fallocate(2)/">fallocate(2)</a></tt> 시스템 호출을 써서 구현돼 있으며 그 시스템 호출은 MT-safe이다. 하위 파일 시스템에서 <tt><a class="wikilink" href="/man-pages-ko/fallocate(2)/">fallocate(2)</a></tt>를 지원하지 않는 경우에는 동작을 에뮬레이션 하는데, 몇 가지 유의 사항이 있다.</p>
+<p>glibc 구현에서 <code>posix_fallocate()</code>는 <tt><a class="wikilink" href="/man-pages-ko/fallocate(2)/">fallocate(2)</a></tt> 시스템 호출을 써서 구현돼 있으며 그 시스템 호출은 MT-safe이다. 하위 파일 시스템에서 <tt><a class="wikilink" href="/man-pages-ko/fallocate(2)/">fallocate(2)</a></tt>를 지원하지 않는 경우에는 동작을 에뮬레이션하는데, 몇 가지 유의 사항이 있다.</p>
 <ul>
 <li>
 <p>에뮬레이션이 비효율적이다.</p>

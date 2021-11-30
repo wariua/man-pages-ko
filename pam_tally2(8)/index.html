@@ -146,9 +146,9 @@
             <li class="second-level"><a href="#account">ACCOUNT 옵션</a></li>
                 
         <li class="first-level "><a href="#_2">제공하는 모듈 종류</a></li>
-        <li class="first-level "><a href="#_3">반환 값</a></li>
+        <li class="first-level "><a href="#return-values">RETURN VALUES</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-        <li class="first-level "><a href="#_4">예시</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
         <li class="first-level "><a href="#files">FILES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
         <li class="first-level "><a href="#author">AUTHOR</a></li>
@@ -172,7 +172,7 @@
 <h2 id="description">DESCRIPTION</h2>
 <p>이 모듈은 접근 시도 횟수를 유지한다. 성공 시 카운트를 초기화할 수 있으며 시도가 너무 많이 실패한 경우 접근을 거부할 수 있다.</p>
 <p>pam_tally2는 <code>pam_tally2.so</code>와 <code>pam_tally2</code> 두 요소로 돼 있다. 앞쪽은 PAM 모듈이고 뒤쪽은 단독 프로그램이다. <code>pam_tally2</code>는 카운터 파일을 조회하고 조작하는 데 쓸 수 있는 (선택적) 응용이다. 사용자 카운트를 표시하거나, 개별 카운트를 설정하거나, 모든 카운트를 초기화할 수 있다. 카운트를 인위적으로 높게 설정하는 것으로 패스워드를 바꾸지 않고 사용자를 차단할 수도 있다. 그리고 예를 들어 cron 작업으로 자정마다 모든 카운트를 초기화하는 게 유용할 수도 있다.</p>
-<p>서비스 거부를 방지하기 위해 보통은 <em>root</em> 접근 시도가 실패해도 root 계정을 차단시키지 <strong>않는다</strong>. 사용자들에게 셸 계정을 주지 않으며 <code>su</code>나 (telnet/rsh 등이 아닌) 장비 콘솔을 통해서만 root가 로그인할 수 있다면 이렇게 해도 안전하다.</p>
+<p>서비스 거부를 방지하기 위해 기본적으로 <em>root</em>는 접근 시도가 실패해도 계정을 차단하지 <strong>않는다</strong>. 사용자들에게 셸 계정을 주지 않으며 <code>su</code>나 (telnet/rsh 등이 아닌) 장비 콘솔을 통해서만 root가 로그인할 수 있다면 이렇게 해도 안전하다.</p>
 <h2 id="options">OPTIONS</h2>
 <h3 id="_1">전역 옵션</h3>
 <p><em>auth</em> 및 <em>account</em> 모듈 타입에 쓸 수 있다.</p>
@@ -216,7 +216,7 @@
 </dl>
 <h2 id="_2">제공하는 모듈 종류</h2>
 <p><strong>auth</strong> 및 <strong>account</strong> 모듈 타입을 제공한다.</p>
-<h2 id="_3">반환 값</h2>
+<h2 id="return-values">RETURN VALUES</h2>
 <dl>
 <dt><code>PAM_AUTH_ERR</code></dt>
 <dd>유효하지 않은 옵션을 줬거나, 모듈에서 사용자 이름을 얻을 수 없거나, 유효한 카운터 파일을 찾을 수 없거나, 너무 많은 로그인 실패.</dd>
@@ -228,7 +228,7 @@
 <h2 id="notes">NOTES</h2>
 <p>pam_tally2는 이전 pam_tally의 faillog 파일 형식과 호환되지 않는다. 다중 아키텍처 시스템에서 32비트와 64비트의 tallylog 파일 형식이 호환돼야 한다는 요구 사항 때문에 그렇게 되었다.</p>
 <p>xscreensaver에서 <code>pam_tally2.so</code> 모듈을 호출하는 등의 경우를 위한 데이터 파일 접근용 setuid 래퍼가 없다. 그 때문에 PAM 설정을 그런 서비스들과 공유하는 게 불가능해질 수 있으므로 이에 대한 처리가 있다. 즉 권한이 불충분해서 (<code>EACCES</code>) 데이터 파일을 열 수 없는 경우에는 모듈이 <code>PAM_IGNORE</code>를 반환한다.</p>
-<h2 id="_4">예시</h2>
+<h2 id="examples">EXAMPLES</h2>
 <p>/etc/pam.d/login에 다음 행을 추가해서 로그인에 4번 실패했을 때 계정을 잠글 수 있다. root 계정도 잠긴다. 20분 후에는 자동으로 계정 잠금이 풀리게 된다. <code>login</code>에서 <code>pam_setcred(3)</code>를 올바로 호출하므로 account 단계에서 이 모듈을 호출할 필요가 없다.</p>
 <pre><code class="language-text">auth     required       pam_securetty.so
 auth     required       pam_tally2.so deny=4 even_deny_root unlock_time=1200

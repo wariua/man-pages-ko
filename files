@@ -3,10 +3,10 @@
 ./fanotify(7).md
 ./fanotify_init(2).md
 ./fanotify_mark(2).md
-
 ./fcloseall(3).md
 ./feature_test_macros(7).md
 ./ffs(3).md
+
 ./fmemopen(3).md
 ./fmtmsg(3).md
 ./fopencookie(3).md
