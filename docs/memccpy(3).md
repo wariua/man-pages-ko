@@ -35,7 +35,7 @@ POSIX.1-2001, POSIX.1-2008, SVr4, 4.3BSD.
 
 ## SEE ALSO
 
-`bcopy(3)`, <tt>[[bstring(3)]]</tt>, `memcpy(3)`, `memmove(3)`, `strcpy(3)`, `strncpy(3)`
+<tt>[[bcopy(3)]]</tt>, <tt>[[bstring(3)]]</tt>, <tt>[[memcpy(3)]]</tt>, <tt>[[memmove(3)]]</tt>, <tt>[[strcpy(3)]]</tt>, <tt>[[strncpy(3)]]</tt>
 
 ----
 

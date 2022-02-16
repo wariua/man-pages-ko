@@ -66,7 +66,7 @@ main(void)
 
 ## SEE ALSO
 
-`bcopy(3)`, <tt>[[memccpy(3)]]</tt>, `memcpy(3)`, `memmove(3)`, <tt>[[stpncpy(3)]]</tt>, `strcpy(3)`, <tt>[[string(3)]]</tt>, `wcpcpy(3)`
+<tt>[[bcopy(3)]]</tt>, <tt>[[memccpy(3)]]</tt>, <tt>[[memcpy(3)]]</tt>, <tt>[[memmove(3)]]</tt>, <tt>[[stpncpy(3)]]</tt>, <tt>[[strcpy(3)]]</tt>, <tt>[[string(3)]]</tt>, `wcpcpy(3)`
 
 ----
 

@@ -133,7 +133,7 @@ glibc 2.7에서 `CPU_AND()`, `CPU_OR()`, `CPU_XOR()`, `CPU_EQUAL()`, `CPU_ALLOC(
 
 ## NOTES
 
-CPU 세트를 복제하려면 `memcpy(3)`를 쓰면 된다.
+CPU 세트를 복제하려면 <tt>[[memcpy(3)]]</tt>를 쓰면 된다.
 
 CPU 세트는 긴 워드 단위로 할당된 비트 마스크이다. 그래서 동적 할당 CPU 세트의 실제 CPU 수는 가장 가까운 `sizeof(unsigned long)`의 배수로 올림한 것이 된다. 응용에서 나머지 비트들의 내용물은 정의되어 있지 않은 것으로 보아야 한다.
 

@@ -45,7 +45,7 @@ glibc 기능 확인 매크로 요건 (<tt>[[feature_test_macros(7)]]</tt> 참고
 
 ## SEE ALSO
 
-`strncpy(3)`, `wcpncpy(3)`
+<tt>[[strncpy(3)]]</tt>, `wcpncpy(3)`
 
 ----
 
