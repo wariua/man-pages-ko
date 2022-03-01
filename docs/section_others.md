@@ -37,6 +37,7 @@
 * [[stdarg(3)]]
 * [[gdbm(3)]]
 * [[cpuid(4)]]
+* [[isalpha(3)]]
 * [[charsets(7)]], [[iso_8859-1(7)]], [[unicode(7)]], [[utf-8(8)]]
 * [[locale(7)]], [[setlocale(3)]], [[newlocale(3)]], [[duplocale(3)]], [[uselocale(3)]], [[nl_langinfo(3)]], [[localeconv(3)]],  [[catopen(3)]], [[catgets(3)]], [[strfmon(3)]], [[strcoll(3)]], [[strxfrm(3)]]
 * [[gettext(3)]], [[ngettext(3)]], [[textdomain(3)]], [[bind_text_domain_codeset(3)]], [[bindtextdomain(3)]]
