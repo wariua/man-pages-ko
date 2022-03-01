@@ -155,7 +155,7 @@ res = toupper((unsigned char) c);
 
 ## SEE ALSO
 
-`iswalnum(3)`, `iswalpha(3)`, `iswblank(3)`, `iswcntrl(3)`, `iswdigit(3)`, `iswgraph(3)`, `iswlower(3)`, `iswprint(3)`, `iswpunct(3)`, `iswspace(3)`, `iswupper(3)`, `iswxdigit(3)`, <tt>[[newlocale(3)]]</tt>, <tt>[[setlocale(3)]]</tt>, `toascii(3)`, <tt>[[tolower(3)]]</tt>, <tt>[[toupper(3)]]</tt>, <tt>[[uselocale(3)]]</tt>, `ascii(7)`, <tt>[[locale(7)]]</tt>
+`iswalnum(3)`, `iswalpha(3)`, `iswblank(3)`, `iswcntrl(3)`, `iswdigit(3)`, `iswgraph(3)`, `iswlower(3)`, `iswprint(3)`, `iswpunct(3)`, `iswspace(3)`, `iswupper(3)`, `iswxdigit(3)`, <tt>[[newlocale(3)]]</tt>, <tt>[[setlocale(3)]]</tt>, <tt>[[toascii(3)]]</tt>, <tt>[[tolower(3)]]</tt>, <tt>[[toupper(3)]]</tt>, <tt>[[uselocale(3)]]</tt>, `ascii(7)`, <tt>[[locale(7)]]</tt>
 
 ----
 
