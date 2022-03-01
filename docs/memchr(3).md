@@ -59,7 +59,7 @@ glibc 버전 2.2에서 `memrchr()`이 처음 등장했다.
 
 ## SEE ALSO
 
-<tt>[[bstring(3)]]</tt>, <tt>[[ffs(3)]]</tt>, <tt>[[index(3)]]</tt>, <tt>[[memmem(3)]]</tt>, <tt>[[rindex(3)]]</tt>, <tt>[[strchr(3)]]</tt>, `strpbrk(3)`, <tt>[[strrchr(3)]]</tt>, <tt>[[strsep(3)]]</tt>, `strspn(3)`, <tt>[[strstr(3)]]</tt>, `wmemchr(3)`
+<tt>[[bstring(3)]]</tt>, <tt>[[ffs(3)]]</tt>, <tt>[[index(3)]]</tt>, <tt>[[memmem(3)]]</tt>, <tt>[[rindex(3)]]</tt>, <tt>[[strchr(3)]]</tt>, `strpbrk(3)`, <tt>[[strrchr(3)]]</tt>, <tt>[[strsep(3)]]</tt>, <tt>[[strspn(3)]]</tt>, <tt>[[strstr(3)]]</tt>, `wmemchr(3)`
 
 ----
 

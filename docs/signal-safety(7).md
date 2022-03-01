@@ -159,7 +159,7 @@ POSIX.1에서 비동기 시그널 안전이기를 요구하는 함수들이 아�
 | <tt>[[strchr(3)]]</tt>           | POSIX.1-2008 TC2에서 추가 |
 | <tt>[[strcmp(3)]]</tt>           | POSIX.1-2008 TC2에서 추가 |
 | <tt>[[strcpy(3)]]</tt>           | POSIX.1-2008 TC2에서 추가 |
-| `strcspn(3)`                     | POSIX.1-2008 TC2에서 추가 |
+| <tt>[[strcspn(3)]]</tt>          | POSIX.1-2008 TC2에서 추가 |
 | <tt>[[strlen(3)]]</tt>           | POSIX.1-2008 TC2에서 추가 |
 | <tt>[[strncat(3)]]</tt>          | POSIX.1-2008 TC2에서 추가 |
 | <tt>[[strncmp(3)]]</tt>          | POSIX.1-2008 TC2에서 추가 |
@@ -167,7 +167,7 @@ POSIX.1에서 비동기 시그널 안전이기를 요구하는 함수들이 아�
 | <tt>[[strnlen(3)]]</tt>          | POSIX.1-2008 TC2에서 추가 |
 | `strpbrk(3)`                     | POSIX.1-2008 TC2에서 추가 |
 | <tt>[[strrchr(3)]]</tt>          | POSIX.1-2008 TC2에서 추가 |
-| `strspn(3)`                      | POSIX.1-2008 TC2에서 추가 |
+| <tt>[[strspn(3)]]</tt>           | POSIX.1-2008 TC2에서 추가 |
 | <tt>[[strstr(3)]]</tt>           | POSIX.1-2008 TC2에서 추가 |
 | <tt>[[strtok_r(3)]]</tt>         | POSIX.1-2008 TC2에서 추가 |
 | <tt>[[symlink(2)]]</tt>          | |
