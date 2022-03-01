@@ -37,7 +37,7 @@ POSIX.1-2001, POSIX.1-2008, C89, C99, SVr4, 4.3BSD.
 
 ## SEE ALSO
 
-<tt>[[index(3)]]</tt>, <tt>[[memchr(3)]]</tt>, <tt>[[rindex(3)]]</tt>, <tt>[[strchr(3)]]</tt>, <tt>[[string(3)]]</tt>, `strpbrk(3)`, <tt>[[strsep(3)]]</tt>, <tt>[[strstr(3)]]</tt>, <tt>[[strtok(3)]]</tt>, `wcscspn(3)`, `wcspn(3)`
+<tt>[[index(3)]]</tt>, <tt>[[memchr(3)]]</tt>, <tt>[[rindex(3)]]</tt>, <tt>[[strchr(3)]]</tt>, <tt>[[string(3)]]</tt>, <tt>[[strpbrk(3)]]</tt>, <tt>[[strsep(3)]]</tt>, <tt>[[strstr(3)]]</tt>, <tt>[[strtok(3)]]</tt>, `wcscspn(3)`, `wcspn(3)`
 
 ----
 

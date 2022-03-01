@@ -134,7 +134,7 @@ main(int argc, char *argv[])
 
 ## SEE ALSO
 
-<tt>[[index(3)]]</tt>, <tt>[[memchr(3)]]</tt>, <tt>[[rindex(3)]]</tt>, <tt>[[strchr(3)]]</tt>, <tt>[[string(3)]]</tt>, `strpbrk(3)`, <tt>[[strsep(3)]]</tt>, <tt>[[strspn(3)]]</tt>, <tt>[[strstr(3)]]</tt>, `wcstok(3)`
+<tt>[[index(3)]]</tt>, <tt>[[memchr(3)]]</tt>, <tt>[[rindex(3)]]</tt>, <tt>[[strchr(3)]]</tt>, <tt>[[string(3)]]</tt>, <tt>[[strpbrk(3)]]</tt>, <tt>[[strsep(3)]]</tt>, <tt>[[strspn(3)]]</tt>, <tt>[[strstr(3)]]</tt>, `wcstok(3)`
 
 ----
 
