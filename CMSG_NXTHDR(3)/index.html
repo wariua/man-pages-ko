@@ -190,7 +190,7 @@ unsigned char *CMSG_DATA(struct cmsghdr *cmsg);
 <p><code>CMSG_SPACE()</code>는 받은 데이터 길이의 페이로드를 가진 보조 항목이 차지하는 바이트 수를 반환한다. 상수 식이다.</p>
 </li>
 <li>
-<p><code>CMSG_DATA()</code>는 <code>cmsghdr</code>의 데이터 부분에 대한 포인터를 반환한다. 반환되는 포인터가 어떤 페이로드 데이터 타입이든 접근하기 적합하도록 정렬돼 있다고 상정할 수 없다. 응용에서 이를 페이로드에 맞는 포인터 타입으로 캐스팅하지 말아야 한다. 그보단 적절한 객체를 선언해서 <code>memcpy(3)</code>로 데이터를 복사하는 게 좋다.</p>
+<p><code>CMSG_DATA()</code>는 <code>cmsghdr</code>의 데이터 부분에 대한 포인터를 반환한다. 반환되는 포인터가 어떤 페이로드 데이터 타입이든 접근하기 적합하도록 정렬돼 있다고 상정할 수 없다. 응용에서 이를 페이로드에 맞는 포인터 타입으로 캐스팅하지 말아야 한다. 그보단 적절한 객체를 선언해서 <tt><a class="wikilink" href="/man-pages-ko/memcpy(3)/">memcpy(3)</a></tt>로 데이터를 복사하는 게 좋다.</p>
 </li>
 <li>
 <p><code>CMSG_LEN()</code>은 <code>cmsghdr</code> 구조체의 <code>cmsg_len</code> 멤버에 저장할 값을 반환하는데, 필요한 정렬을 포함한 값이다. 데이터 길이를 인자로 받는다. 상수 식이다.</p>

@@ -250,7 +250,7 @@ int  CPU_EQUAL_S(size_t setsize, cpu_set_t *set1, cpu_set_t *set2);
 <h2 id="conforming-to">CONFORMING TO</h2>
 <p>이 인터페이스들은 리눅스 전용이다.</p>
 <h2 id="notes">NOTES</h2>
-<p>CPU 세트를 복제하려면 <code>memcpy(3)</code>를 쓰면 된다.</p>
+<p>CPU 세트를 복제하려면 <tt><a class="wikilink" href="/man-pages-ko/memcpy(3)/">memcpy(3)</a></tt>를 쓰면 된다.</p>
 <p>CPU 세트는 긴 워드 단위로 할당된 비트 마스크이다. 그래서 동적 할당 CPU 세트의 실제 CPU 수는 가장 가까운 <code>sizeof(unsigned long)</code>의 배수로 올림한 것이 된다. 응용에서 나머지 비트들의 내용물은 정의되어 있지 않은 것으로 보아야 한다.</p>
 <p>이름의 유사성에도 불구하고 상수 <code>CPU_SETSIZE</code>는 <code>cpu_set_t</code> 데이터 타입 내의 CPU 수를 나타내는 것이고 (그래서 실질적으로 비트 마스크의 비트 개수이고) <code>CPU_*_S()</code> 매크로의 <code>setsize</code> 인자는 바이트 단위 크기이다.</p>
 <p>SYNOPSIS에 나와 있는 인자와 반환 값의 데이터 타입은 각 경우에 무엇을 예상하는지에 대한 힌트이다. 하지만 이 인터페이스들이 매크로로 구현되어 있기 때문에 그 제안을 어긴 경우에 컴파일러가 반드시 모든 타입 오류를 잡아 주지는 않을 것이다.</p>
