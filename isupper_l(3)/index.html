@@ -7,11 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
     
-    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/strtouq%283%29/">
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/isupper_l%283%29/">
     <link rel="shortcut icon" href="../img/favicon.ico">
 
     
-    <title>strtouq(3) - man-pages-ko</title>
+    <title>isupper_l(3) - man-pages-ko</title>
     
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
@@ -139,48 +139,116 @@
         <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
         <li class="first-level "><a href="#description">DESCRIPTION</a></li>
         <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
-        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
         <li class="first-level "><a href="#attributes">ATTRIBUTES</a></li>
         <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
         <li class="first-level "><a href="#notes">NOTES</a></li>
-        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
         <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
     </ul>
 </div></div>
         <div class="col-md-9" role="main">
 
 <h2 id="name">NAME</h2>
-<p>strtoul, strtoull, strtouq - 문자열을 부호 없는 long 정수로 변환하기</p>
+<p>isalnum, isalpha, isascii, isblank, iscntrl, isdigit, isgraph, islower, isprint, ispunct, isspace, isupper, isxdigit, isalnum_l, isalpha_l, isascii_l, isblank_l, is_cntrl_l, isdigit_l, isgraph_l, islower_l, isprint_l, ispunct_l, isspace_l, isupper_l, isxdigit_l - 문자 분류 함수들</p>
 <h2 id="synopsis">SYNOPSIS</h2>
-<pre><code class="language-c">#include &lt;stdlib.h&gt;
+<pre><code class="language-c">#include &lt;ctype.h&gt;
 
-unsigned long strtoul(const char *restrict nptr,
-                      char **restrict endptr, int base);
-unsigned long long strtoull(const char *restrict nptr,
-                      char **restrict endptr, int base);
+int isalnum(int c);
+int isalpha(int c);
+int iscntrl(int c);
+int isdigit(int c);
+int isgraph(int c);
+int islower(int c);
+int isprint(int c);
+int ispunct(int c);
+int isspace(int c);
+int isupper(int c);
+int isxdigit(int c);
+
+int isascii(int c);
+int isblank(int c);
+
+int isalnum_l(int c, locale_t locale);
+int isalpha_l(int c, locale_t locale);
+int isblank_l(int c, locale_t locale);
+int iscntrl_l(int c, locale_t locale);
+int isdigit_l(int c, locale_t locale);
+int isgraph_l(int c, locale_t locale);
+int islower_l(int c, locale_t locale);
+int isprint_l(int c, locale_t locale);
+int ispunct_l(int c, locale_t locale);
+int isspace_l(int c, locale_t locale);
+int isupper_l(int c, locale_t locale);
+int isxdigit_l(int c, locale_t locale);
+
+int isascii_l(int c, locale_t locale);
 </code></pre>
 <p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
 <dl>
-<dt><code>strtoull()</code>:</dt>
-<dd><code>_ISOC99_SOURCE</code><br>
-<code>|| /* glibc &lt;= 2.19: */ _SVID_SOURCE || _BSD_SOURCE</code></dd>
+<dt><code>isascii()</code>:</dt>
+<dd><code>_XOPEN_SOURCE</code><br>
+<code>|| /* glibc 2.19부터: */ _DEFAULT_SOURCE</code><br>
+<code>|| /* glibc &lt;= 2.19 */ _SVID_SOURCE</code></dd>
+<dt><code>isblank()</code>:</dt>
+<dd><code>ISOC99_SOURCE || _POSIX_C_SOURCE &gt;= 200112L</code></dd>
+<dt><code>isalnum_l()</code>, <code>isalpha_l()</code>, <code>isblank_l()</code>, <code>iscntrl_l()</code>, <code>isdigit_l()</code>, <code>isgraph_l()</code>, <code>islower_l()</code>, <code>isprint_l()</code>, <code>ispunct_l()</code>, <code>isspace_l()</code>, <code>isupper_l()</code>, <code>isxdigit_l()</code>:</dt>
+<dd>
+<dl>
+<dt>glibc 2.10부터:</dt>
+<dd><code>_XOPEN_SOURCE &gt;= 700</code></dd>
+<dt>glibc 2.10 전:</dt>
+<dd><code>_GNU_SOURCE</code></dd>
+</dl>
+</dd>
+<dt><code>isascii_l()</code>:</dt>
+<dd>
+<dl>
+<dt>glibc 2.10부터:</dt>
+<dd><code>_XOPEN_SOURCE &gt;= 700 &amp;&amp; (_SVID_SOURCE || _BSD_SOURCE)</code></dd>
+<dt>glibc 2.10 전:</dt>
+<dd><code>_GNU_SOURCE</code></dd>
+</dl>
+</dd>
 </dl>
 <h2 id="description">DESCRIPTION</h2>
-<p><code>strtoul()</code> 함수는 <code>nptr</code>에 있는 문자열의 처음 부분을 지정한 <code>base</code>에 따라 <code>unsigned long</code> 값으로 변환한다. 기수는 2와 36 사이이거나 특수한 값 0이어야 한다.</p>
-<p>문자열이 임의 개수의 공백(<tt><a class="wikilink" href="/man-pages-ko/isspace(3)/">isspace(3)</a></tt>으로 판단)으로 시작할 수 있으며 그 다음에 선택적으로 '+' 내지 '-' 부호 한 개가 올 수 있다. <code>base</code>가 0이나 16이면 문자열에서 다음에 "0x" 접두부가 있을 수 있으며, 그러면 수를 16진수로 읽어 들인다. 그렇지 않고 다음 문자가 '0'이면 <code>base</code> 0을 8로 (8진수로) 받아들이며, 아니면 10으로 (10진수로) 받아들인다.</p>
-<p>문자열 나머지를 명백한 방식으로 <code>unsigned long</code> 값으로 변환하며 해당 기수에서 유효 숫자가 아닌 첫 번째 문자에서 멈춘다. (기수가 10보다 큰 경우 대소문자 글자 'A'가 10을, 'B'가 11을 나타내며, 그런 식으로 'Z'가 35를 나타낸다.)</p>
-<p><code>endptr</code>이 NULL이 아니면 <code>strtoul()</code>은 첫 번째 비유효 문자의 주소를 <code>*endptr</code>에 저장한다. 숫자가 전혀 없었으면 <code>strtoul()</code>은 <code>nptr</code>의 원래 값을 <code>*endptr</code>에 저장한다. (그리고 0을 반환한다.) 특히 <code>*nptr</code>이 '\0'이 아닌데 반환 시 <code>**endptr</code>이 '\0'이면 문자열 전체가 유효한 것이다.</p>
-<p><code>strtoull()</code> 함수는 <code>strtoul()</code> 함수처럼 동작하되 <code>unsigned long long</code> 값을 반환한다.</p>
-<h2 id="return-value">RETURN VALUE</h2>
-<p>원래 값이 오버플로 되지 않으면 <code>strtoul()</code> 함수는 변환 결과를, 또는 앞에 음수 부호가 있었으면 부호 없는 값으로 표현한 변환 결과의 반수를 반환한다. 오버플로가 일어나면 <code>strtoul()</code>은 <code>ULONG_MAX</code>를 반환하며 <code>errno</code>를 <code>ERANGE</code>로 설정한다. 같은 내용이 <code>strtoull()</code>에 (<code>ULONG_MAX</code> 대신 <code>ULLONG_MAX</code>로) 적용된다.</p>
-<h2 id="errors">ERRORS</h2>
+<p>이 함수들은 지정한 로캘에서 (<code>unsigned char</code> 값이거나 <code>EOF</code>여야 하는) <code>c</code>가 특정 문자 유형에 속하는지 확인한다. 뒤에 "_l"이 붙지 않은 함수들은 현재 로캘을 가지고 확인한다.</p>
+<p>뒤에 "_l"이 붙은 함수들은 로캘 객체 <code>locale</code>이 나타내는 로캘에 따라 검사를 수행한다. <code>locale</code>이 특수 로캘 객체 <code>LC_GLOBAL_LOCALE</code>(<tt><a class="wikilink" href="/man-pages-ko/duplocale(3)/">duplocale(3)</a></tt> 참고)이거나 유효한 로캘 객체 핸들이 아닌 경우에 이 함수들의 동작은 규정돼 있지 않다.</p>
+<p>아래 목록에선 뒤에 "_l"이 붙지 않은 함수들의 동작을 설명한다. 뒤에 "_l"이 붙은 함수들은 현재 로캘 대신 로캘 객체 <code>locale</code>을 쓴다는 점만 다르다.</p>
 <dl>
-<dt><code>EINVAL</code></dt>
-<dd>(C99에는 없음) 지정한 <code>base</code>가 지원하지 않는 값을 담고 있다.</dd>
-<dt><code>ERANGE</code></dt>
-<dd>결과 값이 범위를 벗어났다.</dd>
+<dt><code>isalnum()</code></dt>
+<dd>영문자 또는 숫자 문자인지 확인. <code>(isalpha(c) || isdigit(c))</code>와 동등하다.</dd>
+<dt><code>isalpha()</code></dt>
+<dd>영문자인지 확인. 표준 "C" 로캘에선 <code>(isupper(c) || islower(c))</code>와 동등하다. 일부 로캘에선 대문자도 아니고 소문자도 아니면서 <code>isalpha()</code>가 참인 문자가 추가로 있을 수 있다.</dd>
+<dt><code>isascii()</code></dt>
+<dd><code>c</code>가 ASCII 문자 집합에 들어가는 7비트 <code>unsigned char</code> 값인지 확인.</dd>
+<dt><code>isblank()</code></dt>
+<dd>빈칸 문자인지 (공백이나 탭인지) 확인.</dd>
+<dt><code>iscntrl()</code></dt>
+<dd>제어 문자인지 확인.</dd>
+<dt><code>isdigit()</code></dt>
+<dd>(0에서 9까지) 숫자인지 확인.</dd>
+<dt><code>isgraph()</code></dt>
+<dd>공백을 제외한 출력 가능 문자인지 확인.</dd>
+<dt><code>islower()</code></dt>
+<dd>소문자인지 확인.</dd>
+<dt><code>isprint()</code></dt>
+<dd>공백을 포함한 출력 가능 문자인지 확인.</dd>
+<dt><code>ispunct()</code></dt>
+<dd>공백, 대소문자, 숫자 문자가 아닌 출력 가능 문자인지 확인.</dd>
+<dt><code>isspace()</code></dt>
+<dd>여백 문자인지 확인. "C" 및 "POSIX" 로캘에서 공백, 폼 피드(<code>'\f'</code>), 개행(<code>'\n'</code>), 캐리지 리턴(<code>`\r'</code>), 수평 탭(<code>'\t'</code>), 수직 탭(<code>'\v'</code>)이다.</dd>
+<dt><code>isupper()</code></dt>
+<dd>대문자인지 확인.</dd>
+<dt><code>isxdigit()</code></dt>
+<dd>
+<p>16진수 숫자인지 확인. 즉 다음 중 하나인지 확인.</p>
+<p><code>0 1 2 3 4 5 6 7 8 9 a b c d e f A B C D E F</code></p>
+</dd>
 </dl>
-<p>구현에서 변환을 전혀 수행하지 않은 경우에 (숫자 없음, 0 반환) <code>errno</code>를 <code>EINVAL</code>로 설정할 수도 있다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>문자 <code>c</code>가 검사 대상 유형에 속하면 0 아닌 값을 반환한다. 아니면 0을 반환한다.</p>
+<h2 id="versions">VERSIONS</h2>
+<p>glibc 2.3부터 <code>isalnum_l()</code>, <code>isalpha_l()</code>, <code>isblank_l()</code>, <code>iscntrl_l()</code>, <code>isdigit_l()</code>, <code>isgraph_l()</code>, <code>islower_l()</code>, <code>isprint_l()</code>, <code>ispunct_l()</code>, <code>isspace_l()</code>, <code>isupper_l()</code>, <code>isxdigit_l()</code>, <code>isascii_l()</code>을 이용할 수 있다.</p>
 <h2 id="attributes">ATTRIBUTES</h2>
 <p>이 절에서 사용하는 용어들에 대한 설명은 <tt><a class="wikilink" href="/man-pages-ko/attributes(7)/">attributes(7)</a></tt>를 보라.</p>
 <table>
@@ -193,27 +261,27 @@ unsigned long long strtoull(const char *restrict nptr,
 </thead>
 <tbody>
 <tr>
-<td><code>strtoul()</code>, <code>strtoull()</code>, <code>strtouq()</code></td>
+<td><code>isalnum()</code>, <code>isalpha()</code>, <code>isascii()</code>, <code>isblank()</code>,<br><code>iscntrl()</code>, <code>isdigit()</code>, <code>isgraph()</code>, <code>islower()</code>,<br><code>isprint()</code>, <code>ispunct()</code>, <code>isspace()</code>, <code>isupper()</code>,<br><code>isxdigit()</code></td>
 <td>스레드 안전성</td>
-<td>MT-Safe locale</td>
+<td>MT-Safe</td>
 </tr>
 </tbody>
 </table>
 <h2 id="conforming-to">CONFORMING TO</h2>
-<p><code>strtoul()</code>: POSIX.1-2001, POSIX.1-2008, C89, C99, SVr4.</p>
-<p><code>strtoull()</code>: POSIX.1-2001, POSIX.1-2008, C99.</p>
+<p>C89에서 <code>isalnum()</code>, <code>isalpha()</code>, <code>iscntrl()</code>, <code>isdigit()</code>, <code>isgraph()</code>, <code>islower()</code>, <code>isprint()</code>, <code>ispunct()</code>, <code>isspace()</code>, <code>isupper()</code>, <code>isxdigit()</code>를 명세하고 있으며 <code>isascii()</code>와 <code>isblank()</code>는 명세하고 있지 않다. POSIX.1-2001에선 그 함수들뿐 아니라 <code>isascii()</code>(XSI 확장)와 <code>isblank()</code>도 명세하고 있다. C99에선 <code>isascii()</code>를 제외하고 앞선 함수들 모두를 명세하고 있다.</p>
+<p>POSIX.1-2008에서 <code>isascii()</code>를 구식으로 표시하면서 지역화된 응용에 이식성 있게 사용할 수 없다고 언급하고 있다.</p>
+<p>POSIX.1-2008에서 <code>isalnum_l()</code>, <code>isalpha_l()</code>, <code>isblank_l()</code>, <code>iscntrl_l()</code>, <code>isdigit_l()</code>, <code>isgraph_l()</code>, <code>islower_l()</code>, <code>isprint_l()</code>, <code>ispunct_l()</code>, <code>isspace_l()</code>, <code>isupper_l()</code>, <code>isxdigit_l()</code>를 명세하고 있다.</p>
+<p><code>isascii_l()</code>은 GNU 확장이다.</p>
 <h2 id="notes">NOTES</h2>
-<p><code>strtoul()</code>이 성공과 실패 어느 쪽에서도 적법하게 0이나 <code>ULONG_MAX</code>를 (<code>strtoull()</code>에선 <code>ULLONG_MAX</code>) 반환할 수 있으므로 호출 프로그램에서는 호출 전에 <code>errno</code>를 0으로 설정하고서 호출 후에 <code>errno</code>가 0 아닌 값인지 검사해서 오류가 발생했는지 확인해야 한다.</p>
-<p>"C" 외의 로캘에서 다른 숫자 문자열들을 받아들일 수도 있다. (예를 들어 현재 로캘의 천 단위 구분자를 지원할 수도 있다.)</p>
-<p>BSD에는 완전히 유사하게 정의된 다음 함수가 있다.</p>
-<pre><code class="language-c">u_quad_t strtouq(const char *nptr, char **endptr, int base);
+<p>표준들에선 이 함수들의 <code>c</code> 인자가 <code>EOF</code>이거나 <code>unsigned char</code> 타입으로 표현 가능한 값이기를 요구한다. <code>c</code> 인자가 <code>char</code> 타입이라면 다음 예처럼 <code>unsigned char</code>로 변환해야 한다.</p>
+<pre><code class="language-c">char c;
+...
+res = toupper((unsigned char) c);
 </code></pre>
-<p>현재 아키텍처의 워드 크기에 따라 <code>strtoull()</code>이나 <code>strtoul()</code>과 동등할 수 있다.</p>
-<p>음수 값을 유효한 것으로 보아 조용히 동등한 <code>unsigned long</code> 값으로 변환한다.</p>
-<h2 id="examples">EXAMPLES</h2>
-<p><tt><a class="wikilink" href="/man-pages-ko/strtol(3)/">strtol(3)</a></tt> 매뉴얼 페이지의 예를 참고하라. 이 매뉴얼 페이지에서 기술하는 함수들과 사용 방식이 비슷하다.</p>
+<p>이렇게 해야 하는 이유는 <code>char</code>이 <code>signed char</code>와 동등할 수 있고, 그 경우 최상위 비트가 설정된 바이트를 <code>int</code>로 변환할 때 부호 확장이 이뤄져서 <code>unsigned char</code> 범위 밖의 값이 나오기 때문이다.</p>
+<p>어느 문자가 어떤 유형에 속하는지는 로캘에 따라 정해진다. 예를 들어 기본 <code>C</code> 로캘에선 <code>isupper()</code>가 A-움라우트(Ä)를 대문자로 인식하지 않는다.</p>
 <h2 id="see-also">SEE ALSO</h2>
-<p><code>a64l(3)</code>, <tt><a class="wikilink" href="/man-pages-ko/atof(3)/">atof(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/atoi(3)/">atoi(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/atol(3)/">atol(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/strtod(3)/">strtod(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/strtol(3)/">strtol(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/strtoumax(3)/">strtoumax(3)</a></tt></p>
+<p><code>iswalnum(3)</code>, <code>iswalpha(3)</code>, <code>iswblank(3)</code>, <code>iswcntrl(3)</code>, <code>iswdigit(3)</code>, <code>iswgraph(3)</code>, <code>iswlower(3)</code>, <code>iswprint(3)</code>, <code>iswpunct(3)</code>, <code>iswspace(3)</code>, <code>iswupper(3)</code>, <code>iswxdigit(3)</code>, <tt><a class="wikilink" href="/man-pages-ko/newlocale(3)/">newlocale(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/setlocale(3)/">setlocale(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/toascii(3)/">toascii(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/tolower(3)/">tolower(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/toupper(3)/">toupper(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/uselocale(3)/">uselocale(3)</a></tt>, <code>ascii(7)</code>, <tt><a class="wikilink" href="/man-pages-ko/locale(7)/">locale(7)</a></tt></p>
 <hr />
 <p>2021-03-22</p></div>
         

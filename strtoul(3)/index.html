@@ -167,7 +167,7 @@ unsigned long long strtoull(const char *restrict nptr,
 </dl>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>strtoul()</code> 함수는 <code>nptr</code>에 있는 문자열의 처음 부분을 지정한 <code>base</code>에 따라 <code>unsigned long</code> 값으로 변환한다. 기수는 2와 36 사이이거나 특수한 값 0이어야 한다.</p>
-<p>문자열이 임의 개수의 공백(<code>isspace(3)</code>으로 판단)으로 시작할 수 있으며 그 다음에 선택적으로 '+' 내지 '-' 부호 한 개가 올 수 있다. <code>base</code>가 0이나 16이면 문자열에서 다음에 "0x" 접두부가 있을 수 있으며, 그러면 수를 16진수로 읽어 들인다. 그렇지 않고 다음 문자가 '0'이면 <code>base</code> 0을 8로 (8진수로) 받아들이며, 아니면 10으로 (10진수로) 받아들인다.</p>
+<p>문자열이 임의 개수의 공백(<tt><a class="wikilink" href="/man-pages-ko/isspace(3)/">isspace(3)</a></tt>으로 판단)으로 시작할 수 있으며 그 다음에 선택적으로 '+' 내지 '-' 부호 한 개가 올 수 있다. <code>base</code>가 0이나 16이면 문자열에서 다음에 "0x" 접두부가 있을 수 있으며, 그러면 수를 16진수로 읽어 들인다. 그렇지 않고 다음 문자가 '0'이면 <code>base</code> 0을 8로 (8진수로) 받아들이며, 아니면 10으로 (10진수로) 받아들인다.</p>
 <p>문자열 나머지를 명백한 방식으로 <code>unsigned long</code> 값으로 변환하며 해당 기수에서 유효 숫자가 아닌 첫 번째 문자에서 멈춘다. (기수가 10보다 큰 경우 대소문자 글자 'A'가 10을, 'B'가 11을 나타내며, 그런 식으로 'Z'가 35를 나타낸다.)</p>
 <p><code>endptr</code>이 NULL이 아니면 <code>strtoul()</code>은 첫 번째 비유효 문자의 주소를 <code>*endptr</code>에 저장한다. 숫자가 전혀 없었으면 <code>strtoul()</code>은 <code>nptr</code>의 원래 값을 <code>*endptr</code>에 저장한다. (그리고 0을 반환한다.) 특히 <code>*nptr</code>이 '\0'이 아닌데 반환 시 <code>**endptr</code>이 '\0'이면 문자열 전체가 유효한 것이다.</p>
 <p><code>strtoull()</code> 함수는 <code>strtoul()</code> 함수처럼 동작하되 <code>unsigned long long</code> 값을 반환한다.</p>

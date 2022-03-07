@@ -165,7 +165,7 @@ long double strtold(const char *restrict nptr, char **restrict endptr);
 </dl>
 <h2 id="description">DESCRIPTION</h2>
 <p><code>strtod()</code>, <code>strtof()</code>, <code>strtold()</code> 함수는 <code>nptr</code>이 가리키는 문자열의 처음 부분을 각각 <code>double</code>, <code>float</code>, <code>long double</code> 표현으로 변환한다.</p>
-<p>기대하는 문자열 (시작 부분의) 형식은 선두의 선택적인 공백(<code>isspace(3)</code>로 인식), 선택적인 양수('+') 또는 음수('-') 부호, 그리고 (i) 10진수, (ii) 16진수, (iii) 무한대, (iv) NAN (not-a-number) 중 하나가 오는 것이다.</p>
+<p>기대하는 문자열 (시작 부분의) 형식은 선두의 선택적인 공백(<tt><a class="wikilink" href="/man-pages-ko/isspace(3)/">isspace(3)</a></tt>로 인식), 선택적인 양수('+') 또는 음수('-') 부호, 그리고 (i) 10진수, (ii) 16진수, (iii) 무한대, (iv) NAN (not-a-number) 중 하나가 오는 것이다.</p>
 <p><em>10진수</em>는 소수점(로캘에 따라 다르지만 보통 '.')을 포함할 수도 있는 10진수 숫자로 된 비어 있지 않은 열이며, 선택적으로 10진 지수가 따라온다. 10진 지수는 'E' 또는 'e'에 이어 선택적으로 양수 또는 음수 부호가 오고 이어서 10진법 숫자로 된 비어 있지 않은 열이 오며, 10의 거듭제곱으로 곱한다는 뜻이다.</p>
 <p><em>16진수</em>는 "0x" 또는 "0X"에 이어 소수점을 포함할 수도 있는 16진수 숫자로 된 비어 있지 않은 열이 오고, 선택적으로 2진 지수가 따라온다. 2진 지수는 'P' 또는 'p'에 이어 선택적으로 양수 또는 음수 부호가 오고 이어서 10진법 숫자로 된 비어 있지 않은 열이 오며, 2의 거듭제곱으로 곱한다는 뜻이다. 소수점과 2진 지수 중 하나는 있어야 한다.</p>
 <p><em>무한대</em>는 "INF" 또는 "INFINITY"이며 대소문자 구별이 없다.</p>
