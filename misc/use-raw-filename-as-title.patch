@@ -1,7 +1,6 @@
-Binary files mkdocs.orig/structure/__pycache__/pages.cpython-38.pyc and mkdocs/structure/__pycache__/pages.cpython-38.pyc differ
-diff -urp mkdocs.orig/structure/pages.py mkdocs/structure/pages.py
---- mkdocs.orig/structure/pages.py	2021-04-07 22:32:52.681249618 +0900
-+++ mkdocs/structure/pages.py	2021-04-12 16:10:19.480009724 +0900
+diff -urp a/mkdocs/structure/pages.py b/mkdocs/structure/pages.py
+--- a/mkdocs/structure/pages.py	2021-04-07 22:32:52.681249618 +0900
++++ b/mkdocs/structure/pages.py	2021-04-12 16:10:19.480009724 +0900
 @@ -152,10 +152,7 @@ class Page:
              if self.is_homepage:
                  title = 'Home'

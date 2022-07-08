@@ -1,7 +1,6 @@
-Binary files markdown.orig/extensions/__pycache__/wikilinks.cpython-38.pyc and markdown/extensions/__pycache__/wikilinks.cpython-38.pyc differ
-diff -urp markdown.orig/extensions/wikilinks.py markdown/extensions/wikilinks.py
---- markdown.orig/extensions/wikilinks.py	2021-04-10 10:13:16.076909532 +0900
-+++ markdown/extensions/wikilinks.py	2021-04-10 15:45:15.656921356 +0900
+diff -urp a/markdown/extensions/wikilinks.py b/markdown/extensions/wikilinks.py
+--- a/markdown/extensions/wikilinks.py	2021-04-10 10:13:16.076909532 +0900
++++ b/markdown/extensions/wikilinks.py	2021-04-10 15:45:15.656921356 +0900
 @@ -43,7 +43,7 @@ class WikiLinkExtension(Extension):
          self.md = md
  
