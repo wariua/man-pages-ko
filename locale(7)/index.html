@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/locale%287%29/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>locale(7) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+            <li class="second-level"><a href="#posix1-2008-api">POSIX.1-2008의 로캘 API 확장</a></li>
+                
+        <li class="first-level "><a href="#environment">ENVIRONMENT</a></li>
+        <li class="first-level "><a href="#files">FILES</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>locale - 다언어 지원 설명</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="language-c">#include &lt;locale.h&gt;
+</code></pre>
+<h2 id="description">DESCRIPTION</h2>
+<p>로캘이란 언어와 문화적 규칙들의 집합이다. 메시지에 쓸 언어, 여러 문자 집합, 사전 순서 관행 같은 면들을 포함한다. 프로그램이 다양한 문화에 이식 가능하려면 자기 로캘을 알아내서 그에 맞게 동작할 수 있어야 한다.</p>
+<p><code>&lt;locale.h&gt;</code> 헤더에 그에 필요한 데이터 타입, 함수, 매크로 등이 선언돼 있다.</p>
+<p>선언돼 있는 함수는 현재 로캘을 설정하는 <tt><a class="wikilink" href="/man-pages-ko/setlocale(3)/">setlocale(3)</a></tt>과 수 형식에 대한 정보를 얻는 <tt><a class="wikilink" href="/man-pages-ko/localeconv(3)/">localeconv(3)</a></tt>다.</p>
+<p>프로그램에서 필요할 만한 다양한 로캘 정보 범주가 매크로로 선언돼 있다. 이를 <tt><a class="wikilink" href="/man-pages-ko/setlocale(3)/">setlocale(3)</a></tt> 함수 첫 번째 인자로 써서 다음 중 하나를 원하는 로캘로 설정할 수 있다.</p>
+<dl>
+<dt><code>LC_ADDRESS</code> (GNU 확장, glibc 2.2부터)</dt>
+<dd>위치와 지리 관련 사항을 기술하는 데 쓰는 (가령 우편 주소의) 형식을 기술하는 설정들을 바꾼다. 응용에서 이 정보가 필요하면 <tt><a class="wikilink" href="/man-pages-ko/nl_langinfo(3)/">nl_langinfo(3)</a></tt>를 이용해 <code>_NL_ADDRESS_COUNTRY_NAME</code>(로캘 언어로 된 국가 이름)이나 <code>_NL_ADDRESS_LANG_NAME</code>(로캘 언어로 된 언어 이름) 같은 비표준 항목들을 얻을 수 있다. 예를 들어 (독일어 로캘이라면) "Deutschland"와 "Deutsch" 같은 문자열이 반환된다. (<code>&lt;langinfo.h&gt;</code>에서 그 외 항목들을 볼 수 있다.)</dd>
+<dt><code>LC_COLLATE</code></dt>
+<dd>이 범주는 정렬과 정규표현식에서 쓰는 순서 규칙들을 다룬다. 문자 동치류와 다문자 조합 요소 등이 포함된다. 이 로캘 범주는 지역별 알파벳으로 문자열을 비교하는 데 쓰는 <tt><a class="wikilink" href="/man-pages-ko/strcoll(3)/">strcoll(3)</a></tt> 및 <tt><a class="wikilink" href="/man-pages-ko/strxfrm(3)/">strxfrm(3)</a></tt> 함수의 동작을 바꾼다. 예를 들어, 독일어의 에스체트가 "ss"인 것처럼 정렬되게 한다.</dd>
+<dt><code>LC_CTYPE</code></dt>
+<dd>이 범주는 바이트열을 (단일 또는 다중 바이트) 문자로 해석하는 동작, (알파벳 또는 숫자 같은) 문자 분류, 문자 유형들의 동작에 영향을 준다. glibc 시스템에선 이 분류가 <code>iconv(1)</code> 및 <code>iconv(3)</code>의 문자 변환 규칙에도 영향을 준다. <tt><a class="wikilink" href="/man-pages-ko/isupper(3)/">isupper(3)</a></tt>나 <tt><a class="wikilink" href="/man-pages-ko/toupper(3)/">toupper(3)</a></tt> 같은 문자 처리 및 분류 함수, 그리고 <code>mblen(3)</code>이나 <code>wctomb(3)</code> 같은 다중 바이트 문자 함수들의 동작 방식을 바꾼다.</dd>
+<dt><code>LC_IDENTIFICATION</code> (GNU 확장, glibc 2.2부터)</dt>
+<dd>로캘 메타데이터와 관련된 설정들을 바꾼다. 응용에서 이 정보가 필요하면 <tt><a class="wikilink" href="/man-pages-ko/nl_langinfo(3)/">nl_langinfo(3)</a></tt>를 이용해 <code>_NL_IDENTIFICATION_TITLE</code>(이 로캘 문서의 제목)이나 <code>_NL_IDENTIFICATION_TERRITORY</code>(이 로캘 문서가 적용되는 지리적 영역) 같은 비표준 항목들을 얻을 수 있다. 예를 들어 "English locale for USA"와 "USA" 같은 문자열이 반환된다. (<code>&lt;langinfo.h&gt;</code>에서 그 외 항목들을 볼 수 있다.)</dd>
+<dt><code>LC_MONETARY</code></dt>
+<dd>이 범주는 통화 관련 수치에 쓰는 형식을 정한다. ....</dd>
+<dt><code>LC_MESSAGES</code></dt>
+<dd>....</dd>
+<dt><code>LC_MEASUREMENT</code> (GNU 확장, glibc 2.2부터)</dt>
+<dd>로캘 내의 (미터법이나 미국 단위계 같은) 측정 체계와 관련된 설정들을 바꾼다. 응용에서 이 정보가 필요하면 <tt><a class="wikilink" href="/man-pages-ko/nl_langinfo(3)/">nl_langinfo(3)</a></tt>를 이용해 비표준 항목 <code>_NL_MEASUREMENT_MEASUREMENT</code>를 얻을 수 있다. 1(미터법) 또는 2(미국 단위계) 값인 문자에 대한 포인터가 반환된다.</dd>
+<dt><code>LC_NAME</code> (GNU 확장, glibc 2.2부터)</dt>
+<dd>사람을 지칭하는 형식을 기술하는 설정들을 바꾼다. 응용에서 이 정보가 필요하면 <tt><a class="wikilink" href="/man-pages-ko/nl_langinfo(3)/">nl_langinfo(3)</a></tt>를 이용해 <code>_NL_NAME_NAME_MR</code>(남성에 대한 일반적 호칭)나 <code>_NL_NAME_NAME_MS</code>(여성에 대한 일반적 호칭) 같은 비표준 항목들을 얻을 수 있다. 예를 들어 (독일 로캘이라면) "Herr"나 "Frau" 같은 문자열이 반환된다. (<code>&lt;langinfo.h&gt;</code>에서 그 외 항목들을 볼 수 있다.)</dd>
+<dt><code>LC_NUMERIC</code></dt>
+<dd>....</dd>
+<dt><code>LC_PAPER</code> (GNU 확장, glibc 2.2부터)</dt>
+<dd>(미국 레터지나 A4 같은) 종이 표준 크기와 관련된 설정을 바꾼다. 응용에서 이 정보가 필요하면 <tt><a class="wikilink" href="/man-pages-ko/nl_langinfo(3)/">nl_langinfo(3)</a></tt>를 이용해 비표준인 <code>_NL_PAPER_WIDTH</code> 및 <code>_NL_PAPER_HEIGHT</code> 항목을 얻을 수 있다. 치수를 밀리미터 단위로 나타낸 <code>int</code> 값이 반환된다.</dd>
+<dt><code>LC_TELEPHONE</code> (GNU 확장, glibc 2.2부터)</dt>
+<dd>전화 서비스에서 쓰는 형식을 기술하는 설정들을 바꾼다. 응용에서 이 정보가 필요하면 <tt><a class="wikilink" href="/man-pages-ko/nl_langinfo(3)/">nl_langinfo(3)</a></tt>를 이용해 <code>NL_TELEPHONE_INT_PREFIX</code>(이 로캘의 번호를 호출하는 데 쓰는 나라 번호) 같은 비표준 항목들을 얻을 수 있다. 예를 들어 (독일이라면) "49" 같은 문자열이 반환된다. (<code>&lt;langinfo.h&gt;</code>에서 다른 항목들을 볼 수 있다.)</dd>
+<dt><code>LC_TIME</code></dt>
+<dd>....</dd>
+<dt><code>LC_ALL</code></dt>
+<dd>위 모두.</dd>
+</dl>
+<p><tt><a class="wikilink" href="/man-pages-ko/setlocale(3)/">setlocale(3)</a></tt>의 두 번째 인자가 자동 지정 로캘을 나타내는 빈 문자열 <code>""</code>이라면 다음 단계를 거쳐 결정한다.</p>
+<ol>
+<li>
+<p>널 아닌 환경 변수 <code>LC_ALL</code>이 있으면 <code>LC_ALL</code>의 값을 쓴다.</p>
+</li>
+<li>
+<p>위 범주들 중 하나와 같은 이름의 환경 변수가 존재하고 널이 아니면 그 범주에 그 값을 쓴다.</p>
+</li>
+<li>
+<p>널 아닌 환경 변수 <code>LANG</code>이 있으면 <code>LANG</code>의 값을 쓴다.</p>
+</li>
+</ol>
+<p>....</p>
+<pre><code class="language-c">struct lconv {
+
+    /* Numeric (nonmonetary) information */
+
+    char *decimal_point;     /* Radix character */
+    char *thousands_sep;     /* Separator for digit groups to left
+                                of radix character */
+    char *grouping;     /* Each element is the number of digits in
+                           a group; elements with higher indices
+                           are further left.  An element with value
+                           CHAR_MAX means that no further grouping
+                           is done.  An element with value 0 means
+                           that the previous element is used for
+                           all groups further left. */
+
+    /* Remaining fields are for monetary information */
+
+    char *int_curr_symbol;   /* First three chars are a currency
+                                symbol from ISO 4217.  Fourth char
+                                is the separator.  Fifth char
+                                is '\0'. */
+    char *currency_symbol;   /* Local currency symbol */
+    char *mon_decimal_point; /* Radix character */
+    char *mon_thousands_sep; /* Like thousands_sep above */
+    char *mon_grouping;      /* Like grouping above */
+    char *positive_sign;     /* Sign for positive values */
+    char *negative_sign;     /* Sign for negative values */
+    char  int_frac_digits;   /* International fractional digits */
+    char  frac_digits;       /* Local fractional digits */
+    char  p_cs_precedes;     /* 1 if currency_symbol precedes a
+                                positive value, 0 if succeeds */
+    char  p_sep_by_space;    /* 1 if a space separates
+                                currency_symbol from a positive
+                                value */
+    char  n_cs_precedes;     /* 1 if currency_symbol precedes a
+                                negative value, 0 if succeeds */
+    char  n_sep_by_space;    /* 1 if a space separates
+                                currency_symbol from a negative
+                                value */
+    /* Positive and negative sign positions:
+       0 Parentheses surround the quantity and currency_symbol.
+       1 The sign string precedes the quantity and currency_symbol.
+       2 The sign string succeeds the quantity and currency_symbol.
+       3 The sign string immediately precedes the currency_symbol.
+       4 The sign string immediately succeeds the currency_symbol. */
+    char  p_sign_posn;
+    char  n_sign_posn;
+};
+</code></pre>
+<h3 id="posix1-2008-api">POSIX.1-2008의 로캘 API 확장</h3>
+<p>....</p>
+<p>....</p>
+<h2 id="environment">ENVIRONMENT</h2>
+<p>....</p>
+<dl>
+<dt><code>LOCPATH</code></dt>
+<dd>....</dd>
+</dl>
+<h2 id="files">FILES</h2>
+<dl>
+<dt><code>/usr/lib/locale/locale-archive</code></dt>
+<dd>로캘 아카이브의 일반적인 기본 경로.</dd>
+<dt><code>/usr/lib/locale</code></dt>
+<dd>컴파일된 로캘 파일들의 일반적인 기본 경로.</dd>
+</dl>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>POSIX.1-2001.</p>
+<h2 id="see-also">SEE ALSO</h2>
+<p><code>iconv(1)</code>, <code>locale(1)</code>, <code>localedef(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/catopen(3)/">catopen(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/gettext(3)/">gettext(3)</a></tt>, <code>iconv(3)</code>, <tt><a class="wikilink" href="/man-pages-ko/localeconv(3)/">localeconv(3)</a></tt>, <code>mbstowcs(3)</code>, <tt><a class="wikilink" href="/man-pages-ko/newlocale(3)/">newlocale(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/ngettext(3)/">ngettext(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/nl_langinfo(3)/">nl_langinfo(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/rpmatch(3)/">rpmatch(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/setlocale(3)/">setlocale(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/strcoll(3)/">strcoll(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/strfmon(3)/">strfmon(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/strftime(3)/">strftime(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/strxfrm(3)/">strxfrm(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/uselocale(3)/">uselocale(3)</a></tt>, <code>wcstombs(3)</code>, <tt><a class="wikilink" href="/man-pages-ko/locale(5)/">locale(5)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/charsets(7)/">charsets(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/unicode(7)/">unicode(7)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/utf-8(7)/">utf-8(7)</a></tt></p>
+<hr />
+<p>2021-03-22</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

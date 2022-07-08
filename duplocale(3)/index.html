@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/duplocale%283%29/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>duplocale(3) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
+            <li class="second-level"><a href="#_1">프로그램 소스</a></li>
+                
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>duplocale - 로캘 객체 복제하기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="language-c">#include &lt;locale.h&gt;
+
+locale_t duplocale(locale_t locobj);
+</code></pre>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
+<dl>
+<dt><code>duplocale()</code>:</dt>
+<dd>
+<dl>
+<dt>glibc 2.10부터:</dt>
+<dd><code>_XOPEN_SOURCE &gt;= 700</code></dd>
+<dt>glibc 2.10 전:</dt>
+<dd><code>_GNU_SOURCE</code></dd>
+</dl>
+</dd>
+</dl>
+<h2 id="description">DESCRIPTION</h2>
+<p><code>duplocale()</code> 함수는 <code>locobj</code>가 가리키는 로캘 객체의 복제본을 만든다.</p>
+<p><code>locobj</code>가 <code>LC_GLOBAL_LOCALE</code>이면 <tt><a class="wikilink" href="/man-pages-ko/setlocale(3)/">setlocale(3)</a></tt>로 정한 전역 로캘의 사본을 담은 로캘 객체를 만든다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>성공 시 <code>duplocale()</code>은 새 로캘 객체의 핸들을 반환한다. 오류 발생 시 <code>(locale_t) 0</code>을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
+<h2 id="errors">ERRORS</h2>
+<dl>
+<dt><code>ENOMEM</code></dt>
+<dd>로캘 객체 복제본을 만들 메모리가 충분치 않음.</dd>
+</dl>
+<h2 id="versions">VERSIONS</h2>
+<p>GNU C 라이브러리 2.3에서 <code>duplocale()</code> 함수가 처음 등장했다.</p>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>POSIX.1-2008.</p>
+<h2 id="notes">NOTES</h2>
+<p>다음 용도로 로캘을 복제하게 될 수 있다.</p>
+<ul>
+<li>
+<p>한 가지 이상 범주를 변경할 로캘 객체 사본 만들기. (<tt><a class="wikilink" href="/man-pages-ko/newlocale(3)/">newlocale(3)</a></tt> 사용.)</p>
+</li>
+<li>
+<p>현재 로캘 핸들을 얻어서 <tt><a class="wikilink" href="/man-pages-ko/toupper_l(3)/">toupper_l(3)</a></tt>처럼 로캘 핸들을 이용하는 다른 함수에 사용하기. 이를 위해 다음 호출이 반환한 값에 <code>duplocale()</code>을 적용한다.</p>
+<pre><code>loc = uselocale((locale_t) 0);
+</code></pre>
+<p>이런 기법이 필요한 이유는 위의 <tt><a class="wikilink" href="/man-pages-ko/uselocale(3)/">uselocale(3)</a></tt> 호출이 <code>LC_GLOBAL_LOCALE</code> 값을 반환할 수도 있기 때문이다. 그 값을 <tt><a class="wikilink" href="/man-pages-ko/toupper_l(3)/">toupper_l(3)</a></tt> 같은 함수에 주면 규정 안 된 동작을 유발하게 된다. <code>duplocale()</code> 호출을 통해 <code>LC_GLOBAL_LOCALE</code> 값이 사용 가능한 로캘 객체로 바뀌게 할 수 있다. 아래 EXAMPLES 절 참고.</p>
+</li>
+</ul>
+<p><code>duplocale()</code>로 만든 로캘 객체 각각을 <tt><a class="wikilink" href="/man-pages-ko/freelocale()/">freelocale()</a></tt>로 해제해 줘야 한다.</p>
+<h2 id="examples">EXAMPLES</h2>
+<p>아래 프로그램에선 <tt><a class="wikilink" href="/man-pages-ko/uselocale(3)/">uselocale(3)</a></tt>과 <code>duplocale()</code>로 현재 로캘 핸들을 얻어서 <tt><a class="wikilink" href="/man-pages-ko/toupper_l(3)/">toupper_l(3)</a></tt>에게 준다. 프로그램에서 명령행 인자 하나를 받는데, 그 문자열을 대문자로 변환해서 표준 출력으로 찍는다. 사용 예시는 다음과 같다.</p>
+<pre><code class="language-text">$ ./a.out abc
+ABC
+</code></pre>
+<h3 id="_1">프로그램 소스</h3>
+<pre><code class="language-c">#define _XOPEN_SOURCE 700
+#include &lt;ctype.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;locale.h&gt;
+
+#define errExit(msg)    do { perror(msg); exit(EXIT_FAILURE); \
+                        } while (0)
+
+int
+main(int argc, char *argv[])
+{
+    locale_t loc, nloc;
+
+    if (argc != 2) {
+        fprintf(stderr, &quot;Usage: %s string\n&quot;, argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    /* 다음 과정이 필요한 이유는 uselocale()이 LC_GLOBAL_LOCALE을
+       반환할 수도 있기 때문이다. 그 값은 toupper_l() 인자로
+       줄 수 없다. */
+
+    loc = uselocale((locale_t) 0);
+    if (loc == (locale_t) 0)
+        errExit(&quot;uselocale&quot;);
+
+    nloc = duplocale(loc);
+    if (nloc == (locale_t) 0)
+        errExit(&quot;duplocale&quot;);
+
+    for (char *p = argv[1]; *p; p++)
+        putchar(toupper_l(*p, nloc));
+
+    printf(&quot;\n&quot;);
+
+    freelocale(nloc);
+
+    exit(EXIT_SUCCESS);
+}
+</code></pre>
+<h2 id="see-also">SEE ALSO</h2>
+<p><tt><a class="wikilink" href="/man-pages-ko/freelocale(3)/">freelocale(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/newlocale(3)/">newlocale(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/setlocale(3)/">setlocale(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/uselocale(3)/">uselocale(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/locale(5)/">locale(5)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/locale(7)/">locale(7)</a></tt></p>
+<hr />
+<p>2021-03-22</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>

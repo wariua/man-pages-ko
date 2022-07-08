@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="리눅스 매뉴얼 페이지 일부 한글 번역">
+    
+    <link rel="canonical" href="https://wariua.github.io/man-pages-ko/newlocale%283%29/">
+    <link rel="shortcut icon" href="../img/favicon.ico">
+
+    
+    <title>newlocale(3) - man-pages-ko</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="../css/base.min.css" rel="stylesheet">
+    <link href="../css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/idea.min.css">
+        
+    
+    <link href="../css/style.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href="..">man-pages-ko</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                
+                
+                    <li >
+                        <a href="../section_file/">File</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_ipc/">IPC</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_memory/">Memory</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_network/">Network</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_process/">Process</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_thread/">Thread</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_trouble_shooting/">Trouble Shooting</a>
+                    </li>
+                
+                
+                
+                    <li >
+                        <a href="../section_others/">Others</a>
+                    </li>
+                
+                
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#name">NAME</a></li>
+        <li class="first-level "><a href="#synopsis">SYNOPSIS</a></li>
+        <li class="first-level "><a href="#description">DESCRIPTION</a></li>
+            <li class="second-level"><a href="#freelocale">freelocale()</a></li>
+                
+        <li class="first-level "><a href="#return-value">RETURN VALUE</a></li>
+        <li class="first-level "><a href="#errors">ERRORS</a></li>
+        <li class="first-level "><a href="#versions">VERSIONS</a></li>
+        <li class="first-level "><a href="#conforming-to">CONFORMING TO</a></li>
+        <li class="first-level "><a href="#notes">NOTES</a></li>
+        <li class="first-level "><a href="#examples">EXAMPLES</a></li>
+            <li class="second-level"><a href="#_1">프로그램 소스</a></li>
+                
+        <li class="first-level "><a href="#see-also">SEE ALSO</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h2 id="name">NAME</h2>
+<p>newlocale, freelocale - 로캘 객체 생성, 변경, 해제하기</p>
+<h2 id="synopsis">SYNOPSIS</h2>
+<pre><code class="language-c">#include &lt;locale.h&gt;
+
+locale_t newlocale(int category_mask, const char *locale,
+                   locale_t base);
+void freelocale(locale_t locobj);
+</code></pre>
+<p>glibc 기능 확인 매크로 요건 (<tt><a class="wikilink" href="/man-pages-ko/feature_test_macros(7)/">feature_test_macros(7)</a></tt> 참고):</p>
+<dl>
+<dt><code>newlocale()</code>, <code>freelocale()</code>:</dt>
+<dd>
+<dl>
+<dt>glibc 2.10부터:</dt>
+<dd><code>_XOPEN_SOURCE &gt;= 700</code></dd>
+<dt>glibc 2.10 전:</dt>
+<dd><code>_GNU_SOURCE</code></dd>
+</dl>
+</dd>
+</dl>
+<h2 id="description">DESCRIPTION</h2>
+<p><code>newlocale()</code> 함수는 새 로캘 객체를 만들거나 기존 객체를 변경한 다음 그 새 객체 내지 변경된 객체에 대한 참조를 함수 결과로 반환한다. 새 객체를 만들지 기존 객체를 변경할지는 <code>base</code>의 값에 따라 정해진다.</p>
+<ul>
+<li>
+<p><code>base</code>가 <code>(locale_t) 0</code>이면 새 객체를 만든다.</p>
+</li>
+<li>
+<p><code>base</code>가 유효한 기존 객체(앞선 <code>newlocale()</code> 내지 <tt><a class="wikilink" href="/man-pages-ko/duplocale(3)/">duplocale(3)</a></tt> 호출이 반환한 객체)를 가리키는 경우엔 그 객체를 변경한다. 호출 성공 시 <code>base</code>의 내용물에 대해선 명세돼 있지 않다. (특히 <code>base</code>가 가리키는 객체가 해제되고 새 객체가 만들어졌을 수도 있다.) 따라서 호출자는 <code>newlocale()</code>를 호출하기 전에 <code>base</code> 사용을 중단해야 하며, 이후로는 함수 결과로 반환된 참조가 가리키는 변경된 객체를 이용해야 한다. 호출이 실패한 경우에는 <code>base</code>의 내용물이 유효하게 유지되며 바뀌지 않는다.</p>
+</li>
+</ul>
+<p><code>base</code>가 특수 로캘 객체 <code>LC_GLOBAL_LOCALE</code>(<tt><a class="wikilink" href="/man-pages-ko/duplocale(3)/">duplocale(3)</a></tt> 참고)인 경우, 또는 <code>(locale_t) 0</code>이 아니면서 유효한 로캘 객체 핸들도 아닌 경우의 동작은 규정돼 있지 않다.</p>
+<p><code>category_mask</code> 인자는 새로 만드는 로캘 객체에 설정하거나 기존 객체에서 변경할 로캘 범주들을 나타내는 비트 마스크다. 상수 <code>LC_ADDRESS_MASK</code>, <code>LC_CTYPE_MASK</code>, <code>LC_COLLATE_MASK</code>, <code>LC_IDENTIFICATION_MASK</code>, <code>LC_MEASUREMENT_MASK</code>, <code>LC_MESSAGES_MASK</code>, <code>LC_MONETARY_MASK</code>, <code>LC_NUMERIC_MASK</code>, <code>LC_NAME_MASK</code>, <code>LC_PAPER_MASK</code>, <code>LC_TELEPHONE_MASK</code>, <code>LC_TIME_MASK</code>를 비트 OR 해서 마스크를 만든다. 또는 <code>LC_ALL_MASK</code>를 지정할 수도 있는데, 앞선 상수들 모두를 OR 한 것과 동등하다.</p>
+<p><code>newlocale()</code>이 반환하는 객체에서는 <code>category_mask</code>에 지정한 범주 각각에 <code>locale</code>에서 온 로캘 데이터가 쓰이게 된다. 로캘 객체가 새로 만들어지는 경우에 <code>category_mask</code>에 지정하지 않는 범주들은 기본("POSIX") 로캘에서 데이터를 가져온다.</p>
+<p><code>category_mask</code>에 지정할 수 있는 모든 범주들에 대해 다음 <code>locale</code> 값들이 기본적으로 정의돼 있다.</p>
+<dl>
+<dt>"POSIX"</dt>
+<dd>C 언어 프로그램용 최소 로캘 환경.</dd>
+<dt>"C"</dt>
+<dd>"POSIX"와 동등.</dd>
+<dt>""</dt>
+<dd><code>LC_*</code> 및 <code>LANG</code> 환경 변수 값에 따라 정해지는 구현체별 기본 환경. (<tt><a class="wikilink" href="/man-pages-ko/locale(7)/">locale(7)</a></tt> 참고.)</dd>
+</dl>
+<h3 id="freelocale"><code>freelocale()</code></h3>
+<p><code>freelocale()</code> 함수는 앞선 <code>newlocale()</code> 내지 <tt><a class="wikilink" href="/man-pages-ko/duplocale(3)/">duplocale(3)</a></tt> 호출이 반환한 로캘 객체인 <code>locobj</code>에 연계된 자원들을 해제한다. <code>locobj</code>가 <code>LC_GLOBAL_LOCALE</code>이거나 유효한 로캘 객체가 아닌 경우의 결과는 규정돼 있지 않다.</p>
+<p>로캘 객체가 해제된 후에는 프로그램에서 더 이상 그 객체를 사용하지 말아야 한다.</p>
+<h2 id="return-value">RETURN VALUE</h2>
+<p>성공 시 <code>newlocale()</code>은 핸들을 반환하며, 이를 <tt><a class="wikilink" href="/man-pages-ko/duplocale(3)/">duplocale(3)</a></tt>이나 <code>freelocale()</code>, <code>locale_t</code> 인자를 받는 기타 함수들에 사용할 수 있다. 오류 발생 시 <code>newlocale()</code>은 <code>(locale_t) 0</code>을 반환하며 오류를 나타내도록 <code>errno</code>를 설정한다.</p>
+<h2 id="errors">ERRORS</h2>
+<dl>
+<dt><code>EINVAL</code></dt>
+<dd><code>category_mask</code>의 비트 중 하나 이상이 유효한 로캘 범주에 대응하지 않는다.</dd>
+<dt><code>EINVAL</code></dt>
+<dd><code>locale</code>이 NULL이다.</dd>
+<dt><code>ENOENT</code></dt>
+<dd><code>locale</code>이 유효한 로캘을 가리키는 문자열 포인터가 아니다.</dd>
+<dt><code>ENOMEM</code></dt>
+<dd>로캘 객체를 만들 메모리가 충분치 않다.</dd>
+</dl>
+<h2 id="versions">VERSIONS</h2>
+<p>GNU C 라이브러리 버전 2.3에서 <code>newlocale()</code> 및 <code>freelocale()</code> 함수가 처음 등장했다.</p>
+<h2 id="conforming-to">CONFORMING TO</h2>
+<p>POSIX.1-2008.</p>
+<h2 id="notes">NOTES</h2>
+<p><code>newlocale()</code>로 만든 로캘 객체 각각을 <code>freelocale()</code>로 해제해 줘야 한다.</p>
+<h2 id="examples">EXAMPLES</h2>
+<p>아래 프로그램은 로캘을 나타내는 명령행 인자를 최대 2개 받는다. 첫 번째 인자는 필수이며, <code>newlocale()</code>로 만든 로캘 객체의 <code>LC_NUMERIC</code> 범주를 설정하는 데 쓰인다. 두 번째 명령행 인자는 선택적이며, 제공 시 로캘 객체의 <code>LC_TIME</code> 범주를 설정하는 데 쓰인다.</p>
+<p>프로그램에서 로캘 객체를 만들어서 초기화한 다음 <tt><a class="wikilink" href="/man-pages-ko/uselocale(3)/">uselocale(3)</a></tt>로 적용하고, 다음 방식으로 로캘 변경 효과를 확인한다.</p>
+<ol>
+<li>
+<p>소수부 있는 부동소수점 수 찍기. <code>LC_NUMERIC</code> 설정이 출력에 영향을 주게 된다. 여러 유럽어 로캘들에선 점이 아니라 쉼표로 정수부와 소수부를 구분한다.</p>
+</li>
+<li>
+<p>날짜 찍기. <code>LC_DATE</code> 설정이 출력 형식과 언어에 영향을 주게 된다.</p>
+</li>
+</ol>
+<p>다음 셸 세션들은 프로그램 실행 예를 보여 준다.</p>
+<p><code>LC_NUMERIC</code> 범주를 <code>fr_FR</code>(프랑스)로 설정하기:</p>
+<pre><code class="language-text">$ ./a.out fr_FR
+123456,789
+Fri Mar  7 00:25:08 2014
+</code></pre>
+<p><code>LC_NUMERIC</code> 범주를 <code>fr_FR</code>(프랑스)로 설정하고 <code>LC_TIME</code> 범주를 <code>it_IT</code>(이탈리아)로 설정하기:</p>
+<pre><code class="language-text">$ ./a.out fr_FR it_IT
+123456,789
+ven 07 mar 2014 00:26:01 CET
+</code></pre>
+<p><code>LC_TIME</code> 설정을 빈 문자열로 지정해서 환경 변수 설정 값(이 경우 뉴질랜드 마오리를 나타내는 <code>mi_NZ</code>)을 가져오게 하기:</p>
+<pre><code class="language-text">$ LC_ALL=mi_NZ ./a.out fr_FR &quot;&quot;
+123456,789
+Te Paraire, te 07 o Poutū-te-rangi, 2014 00:38:44 CET
+</code></pre>
+<h3 id="_1">프로그램 소스</h3>
+<pre><code class="language-c">#define _XOPEN_SOURCE 700
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;locale.h&gt;
+#include &lt;time.h&gt;
+
+#define errExit(msg)    do { perror(msg); exit(EXIT_FAILURE); \
+                        } while (0)
+
+int
+main(int argc, char *argv[])
+{
+    char buf[100];
+    time_t t;
+    size_t s;
+    struct tm *tm;
+    locale_t loc, nloc;
+
+    if (argc &lt; 2) {
+        fprintf(stderr, &quot;Usage: %s locale1 [locale2]\n&quot;, argv[0]);
+        exit(EXIT_FAILURE);
+    }
+
+    /* 새 로캘 객체 만들기. argv[1]에 지정된 로캘에서
+       LC_NUMERIC 설정을 가져온다. */
+
+    loc = newlocale(LC_NUMERIC_MASK, argv[1], (locale_t) 0);
+    if (loc == (locale_t) 0)
+        errExit(&quot;newlocale&quot;);
+
+    /* 두 번째 명령행 인자가 있으면 argv[2]에 지정된 로캘에서
+       LC_TIME 설정을 가져오도록 로캘 객체를 변경한다. 이 호출이
+       실패한 경우 'loc'을 유지하고 싶을 수도 있을 테니까
+       newlocale() 호출 결과를 'loc'이 아닌 'nloc'에 할당한다. */
+
+    if (argc &gt; 2) {
+        nloc = newlocale(LC_TIME_MASK, argv[2], loc);
+        if (nloc == (locale_t) 0)
+            errExit(&quot;newlocale&quot;);
+        loc = nloc;
+    }
+
+    /* 새로 만든 로캘을 현재 스레드에 적용하기. */
+
+    uselocale(loc);
+
+    /* LC_NUMERIC의 효과 확인하기. */
+
+    printf(&quot;%8.3f\n&quot;, 123456.789);
+
+    /* LC_TIME의 효과 확인하기. */
+
+    t = time(NULL);
+    tm = localtime(&amp;t);
+    if (tm == NULL)
+        errExit(&quot;time&quot;);
+
+    s = strftime(buf, sizeof(buf), &quot;%c&quot;, tm);
+    if (s == 0)
+        errExit(&quot;strftime&quot;);
+
+    printf(&quot;%s\n&quot;, buf);
+
+    /* 로캘 객체 해제하기. */
+
+    uselocale(LC_GLOBAL_HANDLE);    /* 이제 'loc' 쓰는 곳 없음 */
+    freelocale(loc);
+
+    exit(EXIT_SUCCESS);
+}
+</code></pre>
+<h2 id="see-also">SEE ALSO</h2>
+<p><code>locale(1)</code>, <tt><a class="wikilink" href="/man-pages-ko/duplocale(3)/">duplocale(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/setlocale(3)/">setlocale(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/uselocale(3)/">uselocale(3)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/locale(5)/">locale(5)</a></tt>, <tt><a class="wikilink" href="/man-pages-ko/locale(7)/">locale(7)</a></tt></p>
+<hr />
+<p>2021-03-22</p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="../js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = ".."</script>
+    
+    <script src="../js/base.js"></script>
+    <script src="../search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>
